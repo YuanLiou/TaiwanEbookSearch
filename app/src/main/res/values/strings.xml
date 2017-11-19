@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TaiwanEbookSearcher</string>
+    <string name="button_search">Search</string>
+    <string name="main_search_hint">What you want to find?</string>
+</resources>

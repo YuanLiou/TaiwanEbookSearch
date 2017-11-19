@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">台灣電子書搜尋</string>
+    <string name="button_search">搜尋</string>
+    <string name="main_search_hint">想找什麼關鍵字？</string>
+</resources>
