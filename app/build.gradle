@@ -13,10 +13,17 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            debuggable true
+            minifyEnabled false
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    buildTypes.all {
+        buildConfigField 'String', 'HOST_URL', HOST
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
