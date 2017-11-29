@@ -9,6 +9,8 @@ import liou.rayyuan.ebooksearchtaiwan.model.ConnectionType.GET
 import liou.rayyuan.ebooksearchtaiwan.model.EbookSearchService
 import liou.rayyuan.ebooksearchtaiwan.model.NetworkConnectionListener
 import liou.rayyuan.ebooksearchtaiwan.model.NetworkConnector
+import liou.rayyuan.ebooksearchtaiwan.model.entity.BookStores
+import liou.rayyuan.ebooksearchtaiwan.model.utils.BookStoresUtils
 
 class MainActivity : AppCompatActivity(), NetworkConnectionListener {
 
@@ -29,6 +31,8 @@ class MainActivity : AppCompatActivity(), NetworkConnectionListener {
     }
 
     override fun onNetworkConnectionSucceed(result: String?) {
-        main_result_text.text = result
+//        main_result_text.text = result
+        val bookStores: BookStores? = result?.let { BookStoresUtils.convertJsonToBookStores(it) }
+        main_result_text.text = bookStores!!.booksCompany!![0].title
     }
 }

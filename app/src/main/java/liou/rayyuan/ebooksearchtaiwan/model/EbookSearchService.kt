@@ -56,6 +56,7 @@ class EbookSearchService {
                 if (buffer.isEmpty()) {
                     return null
                 }
+                reader.close()
                 return buffer.toString()
             } else if (responseCode >= 400) {
                 if (errorStream == null) {
@@ -67,6 +68,7 @@ class EbookSearchService {
                 if (buffer.isEmpty()) {
                     return null
                 }
+                reader.close()
                 return buffer.toString()
             }
 
