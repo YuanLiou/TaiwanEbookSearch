@@ -1,10 +1,13 @@
 package liou.rayyuan.ebooksearchtaiwan
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.main_result_text
 import kotlinx.android.synthetic.main.activity_main.main_search_button
+import kotlinx.android.synthetic.main.activity_main.main_search_debug_go
 import kotlinx.android.synthetic.main.activity_main.main_search_edittext
+import liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchActivity
 import liou.rayyuan.ebooksearchtaiwan.model.ConnectionType.GET
 import liou.rayyuan.ebooksearchtaiwan.model.EbookSearchService
 import liou.rayyuan.ebooksearchtaiwan.model.NetworkConnectionListener
@@ -27,6 +30,10 @@ class MainActivity : AppCompatActivity(), NetworkConnectionListener {
             val targetURL: String? = ebookSearchService.buildQueryStringURL("search", queryStrings)
             val connector = NetworkConnector(ebookSearchService, GET, this)
             connector.execute(targetURL)
+        })
+        main_search_debug_go.setOnClickListener({
+            val intent = Intent(this, BookSearchActivity::class.java)
+            startActivity(intent)
         })
     }
 
