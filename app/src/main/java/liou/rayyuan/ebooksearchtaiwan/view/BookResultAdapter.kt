@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.facebook.drawee.view.SimpleDraweeView
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
 import liou.rayyuan.ebooksearchtaiwan.view.BookResultAdapter.BookResultViewHolder
@@ -36,6 +37,7 @@ class BookResultAdapter(hideTitleBar: Boolean) : RecyclerView.Adapter<BookResult
             holder.bookTitle.text = book.title
             holder.bookDescription.text = book.about
             holder.bookPrice.text = "$" + book.price.toString()
+            holder.bookImage.setImageURI(book.thumbnail)
         }
     }
 
@@ -59,7 +61,7 @@ class BookResultAdapter(hideTitleBar: Boolean) : RecyclerView.Adapter<BookResult
         internal val bookDescription: TextView = itemView.findViewById(R.id.book_card_description)
         internal val bookPrice: TextView = itemView.findViewById(R.id.book_card_price)
         internal val moreIcon: ImageView = itemView.findViewById(R.id.book_card_more_icon)
-        internal val bookImage: ImageView = itemView.findViewById(R.id.book_card_image)
+        internal val bookImage: SimpleDraweeView = itemView.findViewById(R.id.book_card_image)
 
         init {
             if (hideTitleBar) {

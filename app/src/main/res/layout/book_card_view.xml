@@ -45,14 +45,17 @@
             />
 
         <!-- replace this section to other one -->
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/book_card_image"
             android:layout_width="96dp"
             android:layout_height="133dp"
             android:layout_marginTop="8dp"
             android:layout_below="@id/book_card_more_icon"
             android:layout_alignWithParentIfMissing="true"
-            tools:background="#EC7C2A"
+            app:placeholderImage="@drawable/book_image_placeholder"
+            app:placeholderImageScaleType="fitXY"
+            app:fadeDuration="300"
+            app:actualImageScaleType="fitXY"
             />
 
         <TextView
@@ -97,8 +100,8 @@
             android:layout_alignParentEnd="true"
             android:includeFontPadding="false"
             android:paddingEnd="8dp"
-            android:textSize="26sp"
-            android:textStyle="bold"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif-medium"
             android:textColor="?attr/colorAccent"
             tools:text="$210"
             />

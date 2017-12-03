@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="gray">#929292</color>
+
     <!-- light theme -->
     <color name="pure_white">#FFFFFF</color>
     <color name="google_app_white_color">#F2F2F2</color>
