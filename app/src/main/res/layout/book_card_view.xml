@@ -27,6 +27,7 @@
             android:layout_alignParentEnd="true"
             android:visibility="invisible"
             android:src="@drawable/ic_more_vert_black_24dp"
+            android:background="?selectableItemBackgroundBorderless"
             tools:visibility="visible"
             />
 
@@ -50,6 +51,7 @@
             android:layout_height="133dp"
             android:layout_marginTop="8dp"
             android:layout_below="@id/book_card_more_icon"
+            android:layout_alignWithParentIfMissing="true"
             tools:background="#EC7C2A"
             />
 

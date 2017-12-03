@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(), NetworkConnectionListener {
             val queryStrings: HashMap<String, String> = HashMap()
             queryStrings.put("q", keywords)
 
-            val targetURL: String? = ebookSearchService.buildQueryStringURL("search", queryStrings)
+            val targetURL: String? = ebookSearchService.getBooksInfo(queryStrings)
             val connector = NetworkConnector(ebookSearchService, GET, this)
             connector.execute(targetURL)
         })
@@ -41,5 +41,11 @@ class MainActivity : AppCompatActivity(), NetworkConnectionListener {
 //        main_result_text.text = result
         val bookStores: BookStores? = result?.let { BookStoresUtils.convertJsonToBookStores(it) }
         main_result_text.text = bookStores!!.booksCompany!![0].title
+    }
+
+    override fun onNetworkConnectionError(result: String?) {
+    }
+
+    override fun onNetworkTimeout() {
     }
 }

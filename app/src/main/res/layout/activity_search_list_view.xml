@@ -1,45 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
     android:orientation="vertical"
     >
 
-    <include layout="@layout/search_result" android:id="@+id/search_list_best" />
+    <!-- best result -->
+    <View
+        android:id="@+id/search_result_divider_top"
+        android:layout_width="70dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center"
+        android:background="?attr/colorPrimary"
+        />
+
+    <TextView
+        android:id="@+id/search_result_subtitle_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:gravity="center_horizontal"
+        tools:text="最佳結果"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/search_result_list_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="LinearLayoutManager"
+        tools:listitem="@layout/book_card_view"
+        />
+
     <View
         android:id="@+id/search_result_space_top"
         android:layout_width="match_parent"
         android:layout_height="8dp"
         />
 
-    <include layout="@layout/search_result" android:id="@+id/search_list_store1" />
+    <!-- End best result -->
+    <!-- Store01 -->
+
+    <View
+        android:id="@+id/search_result_divider_store1"
+        android:layout_width="70dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center"
+        android:background="?attr/colorPrimary"
+        />
+
+    <TextView
+        android:id="@+id/search_result_subtitle_store1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:gravity="center_horizontal"
+        tools:text="最佳結果"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/search_result_list_store1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="LinearLayoutManager"
+        tools:listitem="@layout/book_card_view"
+        />
+
     <View
         android:id="@+id/search_result_space_store1"
         android:layout_width="match_parent"
         android:layout_height="8dp"
         />
 
-    <include layout="@layout/search_result" android:id="@+id/search_list_store2" />
+    <!-- End Store01 -->
+    <!-- Store02 -->
+
+    <View
+        android:id="@+id/search_result_divider_store2"
+        android:layout_width="70dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center"
+        android:background="?attr/colorPrimary"
+        />
+
+    <TextView
+        android:id="@+id/search_result_subtitle_store2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:gravity="center_horizontal"
+        tools:text="最佳結果"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/search_result_list_store2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="LinearLayoutManager"
+        tools:listitem="@layout/book_card_view"
+        />
+
     <View
         android:id="@+id/search_result_space_store2"
         android:layout_width="match_parent"
         android:layout_height="8dp"
         />
 
-    <include layout="@layout/search_result" android:id="@+id/search_list_store3" />
+    <!-- End Store02 -->
+    <!-- Store03 -->
+
+    <View
+        android:id="@+id/search_result_divider_store3"
+        android:layout_width="70dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center"
+        android:background="?attr/colorPrimary"
+        />
+
+    <TextView
+        android:id="@+id/search_result_subtitle_store3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:gravity="center_horizontal"
+        tools:text="最佳結果"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/search_result_list_store3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="LinearLayoutManager"
+        tools:listitem="@layout/book_card_view"
+        />
+
     <View
         android:id="@+id/search_result_space_store3"
         android:layout_width="match_parent"
         android:layout_height="8dp"
         />
 
-    <include layout="@layout/search_result" android:id="@+id/search_list_store4" />
+    <!-- End Store03 -->
+    <!-- Store04 -->
+
+    <View
+        android:id="@+id/search_result_divider_store4"
+        android:layout_width="70dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center"
+        android:background="?attr/colorPrimary"
+        />
+
+    <TextView
+        android:id="@+id/search_result_subtitle_store4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:gravity="center_horizontal"
+        tools:text="最佳結果"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/search_result_list_store4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="LinearLayoutManager"
+        tools:listitem="@layout/book_card_view"
+        />
+
     <View
         android:id="@+id/search_result_space_store4"
         android:layout_width="match_parent"
         android:layout_height="8dp"
         />
 
+    <!-- End Store04 -->
 </LinearLayout>

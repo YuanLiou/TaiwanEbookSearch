@@ -3,4 +3,9 @@
     <string name="app_name">台灣電子書搜尋</string>
     <string name="button_search">搜尋</string>
     <string name="main_search_hint">想找什麼關鍵字？</string>
+    <string name="best_result_title">最佳結果</string>
+    <string name="booksCompanytTitle">博客來</string>
+    <string name="readmooTitle">Readmoo</string>
+    <string name="koboTitle">Kobo</string>
+    <string name="taazeTitle">TAAZE 讀冊生活</string>
 </resources>
