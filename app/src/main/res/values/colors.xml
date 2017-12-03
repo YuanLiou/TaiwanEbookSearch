@@ -5,6 +5,8 @@
     <color name="colorAccent">#FF4081</color>
 
     <!-- light theme -->
+    <color name="pure_white">#FFFFFF</color>
     <color name="google_app_white_color">#F2F2F2</color>
-    <color name="prue_white">#FFFFFF</color>
+    <color name="dark_gray">#646464</color>
+    <color name="pure_dark">#000000</color>
 </resources>

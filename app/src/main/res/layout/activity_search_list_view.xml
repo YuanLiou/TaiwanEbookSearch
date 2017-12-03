@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:orientation="vertical"
+    >
+
+    <include layout="@layout/search_result" android:id="@+id/search_list_best" />
+    <View
+        android:id="@+id/search_result_space_top"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        />
+
+    <include layout="@layout/search_result" android:id="@+id/search_list_store1" />
+    <View
+        android:id="@+id/search_result_space_store1"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        />
+
+    <include layout="@layout/search_result" android:id="@+id/search_list_store2" />
+    <View
+        android:id="@+id/search_result_space_store2"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        />
+
+    <include layout="@layout/search_result" android:id="@+id/search_list_store3" />
+    <View
+        android:id="@+id/search_result_space_store3"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        />
+
+    <include layout="@layout/search_result" android:id="@+id/search_list_store4" />
+    <View
+        android:id="@+id/search_result_space_store4"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        />
+
+</LinearLayout>

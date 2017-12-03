@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="AppBackgroundColor" format="color" />
+    <attr name="appBackgroundColor" format="color" />
+    <attr name="titleTextColor" format="color" />
+    <attr name="descriptionTextColor" format="color" />
     <attr name="searchBoxColor" format="color" />
 </resources>

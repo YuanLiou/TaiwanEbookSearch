@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="3dp"
+    app:cardUseCompatPadding="true"
+    app:cardElevation="2dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        >
+
+        <ImageView
+            android:id="@+id/book_card_more_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:layout_alignParentEnd="true"
+            android:visibility="invisible"
+            android:src="@drawable/ic_more_vert_black_24dp"
+            tools:visibility="visible"
+            />
+
+        <TextView
+            android:id="@+id/book_card_shop_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_alignTop="@id/book_card_more_icon"
+            android:layout_alignBottom="@id/book_card_more_icon"
+            android:layout_alignParentStart="true"
+            android:textColor="?attr/descriptionTextColor"
+            android:fontFamily="sans-serif-light"
+            tools:text="Readmoo"
+            />
+
+        <!-- replace this section to other one -->
+        <ImageView
+            android:id="@+id/book_card_image"
+            android:layout_width="96dp"
+            android:layout_height="133dp"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/book_card_more_icon"
+            tools:background="#EC7C2A"
+            />
+
+        <TextView
+            android:id="@+id/book_card_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/book_card_image"
+            android:layout_toEndOf="@id/book_card_image"
+            android:layout_marginStart="8dp"
+            android:textSize="18sp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif"
+            android:textStyle="bold"
+            android:textColor="?attr/titleTextColor"
+            tools:text="被討厭的勇氣 二部曲完結篇：人生幸福的行動指南 (電子書)"
+            />
+
+        <TextView
+            android:id="@+id/book_card_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_alignStart="@id/book_card_title"
+            android:layout_below="@id/book_card_title"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:textSize="14sp"
+            android:lineSpacingMultiplier="1.2"
+            android:fontFamily="sans-serif-light"
+            android:textColor="?attr/descriptionTextColor"
+            tools:text="我們勇於面對當下每一決定的嚴師(原來是我把自己害得那麼慘)。讀完《被討厭的勇氣》，身為佛洛伊德忠實信徒的我也不得不承認，阿德勒的理論，讓人燃起想好好活在當下、不為宿命捆綁束縛的信念與熱情。「只有自己能夠改變自己」，我會永遠這樣勉勵自己，不再"
+            />
+
+        <TextView
+            android:id="@+id/book_card_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:layout_below="@id/book_card_image"
+            android:layout_toEndOf="@id/book_card_image"
+            android:layout_alignParentEnd="true"
+            android:includeFontPadding="false"
+            android:paddingEnd="8dp"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorAccent"
+            tools:text="$210"
+            />
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

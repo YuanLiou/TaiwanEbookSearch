@@ -6,8 +6,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="searchBoxColor">@color/prue_white</item>
-        <item name="AppBackgroundColor">@color/google_app_white_color</item>
+        <item name="searchBoxColor">@color/pure_white</item>
+        <item name="appBackgroundColor">@color/google_app_white_color</item>
+        <item name="titleTextColor">@color/pure_dark</item>
+        <item name="descriptionTextColor">@color/dark_gray</item>
     </style>
 
 </resources>
