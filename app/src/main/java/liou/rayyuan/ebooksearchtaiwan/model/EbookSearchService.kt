@@ -23,6 +23,7 @@ class EbookSearchService {
     }
 
     private val hostURL = BuildConfig.HOST_URL
+    private val connectionTimeout = 20 * 1000    // 20 Sec
 
     fun getBooksInfo(queryStrings: HashMap<String, String>): String? {
         return buildQueryStringURL("search", queryStrings)
@@ -56,9 +57,11 @@ class EbookSearchService {
                 } else if (type.equals(ConnectionType.POST)) {
                     requestMethod = "POST"
                 }
+                connectTimeout = connectionTimeout
+                readTimeout = connectTimeout
                 connect()
                 Log.i("Send to URL: ", targetUrl.toString())
-                Log.i("Response Code", responseCode.toString())
+//                Log.i("Response Code", responseCode.toString())
 
                 if (responseCode == 200) {
                     if (inputStream == null) {
@@ -88,7 +91,7 @@ class EbookSearchService {
             }
         } catch (exception: SocketTimeoutException) {
             Log.e("EbookSearchService", "SocketTimeoutException")
-            Log.e("EbookSearchService", Log.getStackTraceString(exception))
+            Log.w("EbookSearchService", Log.getStackTraceString(exception))
             return Pair(null, timeout)
         } catch (exception: TimeoutException) {
             Log.e("EbookSearchService", "SocketTimeoutException")

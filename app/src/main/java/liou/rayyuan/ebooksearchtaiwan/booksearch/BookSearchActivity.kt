@@ -1,18 +1,24 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import android.app.Activity
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.net.Uri
 import android.os.Bundle
 import android.support.annotation.IdRes
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import liou.rayyuan.chromecustomtabhelper.ChromeCustomTabsHelper
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
@@ -68,6 +74,7 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
         chromeCustomTabHelper.unbindCustomTabsServices(this)
     }
 
+    //region BookSearchView
     override fun setupInterface() {
         bestResultTitle.text = resources.getString(R.string.best_result_title)
         bookCompanyTitle.text = resources.getString(R.string.booksCompanytTitle)
@@ -83,6 +90,24 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
         ChromeCustomTabsHelper.openCustomTab(this, chromeCustomTabIntent, uri, this)
     }
 
+    override fun isInternetConnectionAvailable(): Boolean {
+        val connectionManager: ConnectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo: NetworkInfo? = connectionManager.activeNetworkInfo
+        return networkInfo != null && networkInfo.isConnected && networkInfo.isAvailable
+    }
+
+    override fun showInternetRequestDialog() {
+        val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
+        dialogBuilder.setTitle(R.string.network_alert_dialog_title)
+        dialogBuilder.setMessage(R.string.network_alert_message)
+        dialogBuilder.setPositiveButton(R.string.dialog_ok, { _: DialogInterface, _: Int -> })
+        dialogBuilder.create().show()
+    }
+
+    override fun showInternetConnectionTimeout() {
+        Toast.makeText(this, R.string.state_timeout, Toast.LENGTH_LONG).show()
+    }
+
     override fun bookCompanyIsEmpty() {
     }
 
@@ -94,6 +119,7 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
 
     override fun taazeIsEmpty() {
     }
+    //endregion
 
     override fun onClick(view: View?) {
         when (view?.id) {

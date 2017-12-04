@@ -3,6 +3,7 @@ package liou.rayyuan.ebooksearchtaiwan
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.main_result_text
 import kotlinx.android.synthetic.main.activity_main.main_search_button
 import kotlinx.android.synthetic.main.activity_main.main_search_debug_go
@@ -47,5 +48,6 @@ class MainActivity : AppCompatActivity(), NetworkConnectionListener {
     }
 
     override fun onNetworkTimeout() {
+        Toast.makeText(this, R.string.state_timeout, Toast.LENGTH_LONG).show()
     }
 }

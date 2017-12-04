@@ -3,6 +3,7 @@
     package="liou.rayyuan.ebooksearchtaiwan">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -20,6 +21,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".booksearch.BookSearchActivity" />
+        <activity android:name=".booksearch.BookSearchActivity" android:screenOrientation="portrait" />
     </application>
 </manifest>

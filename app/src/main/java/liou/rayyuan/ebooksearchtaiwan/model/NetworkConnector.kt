@@ -14,11 +14,11 @@ class NetworkConnector(private val ebookSearchService: EbookSearchService, priva
 
     override fun onPostExecute(result: Pair<String?, Int>?) {
         super.onPostExecute(result)
-
-        when (result?.second) {
+        val responseCode: Int? = result?.second
+        when (responseCode) {
             EbookSearchService.timeout -> listener.onNetworkTimeout()
             EbookSearchService.succeed -> listener.onNetworkConnectionSucceed(result.first)
-            EbookSearchService.error   -> listener.onNetworkConnectionError(result.first)
+            in EbookSearchService.error .. Int.MAX_VALUE -> listener.onNetworkConnectionError(result?.first)
         }
     }
 }

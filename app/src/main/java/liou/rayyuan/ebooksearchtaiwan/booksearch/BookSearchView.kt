@@ -13,4 +13,7 @@ interface BookSearchView {
     fun koboIsEmpty()
     fun taazeIsEmpty()
     fun openBookLink(uri: Uri)
+    fun isInternetConnectionAvailable(): Boolean
+    fun showInternetRequestDialog()
+    fun showInternetConnectionTimeout()
 }

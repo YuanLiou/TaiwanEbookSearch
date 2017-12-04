@@ -7,4 +7,8 @@
     <string name="readmooTitle">Readmoo</string>
     <string name="koboTitle">Kobo</string>
     <string name="taazeTitle">TAAZE</string>
+    <string name="network_alert_dialog_title">Internet Connection</string>
+    <string name="network_alert_message">This app needs Internet connection to search books.</string>
+    <string name="dialog_ok">OK</string>
+    <string name="state_timeout">Network not respond. Please try again.</string>
 </resources>

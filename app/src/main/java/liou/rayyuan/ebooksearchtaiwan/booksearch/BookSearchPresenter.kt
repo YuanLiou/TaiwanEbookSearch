@@ -64,13 +64,16 @@ class BookSearchPresenter : Presenter<BookSearchView>, NetworkConnectionListener
     }
 
     fun searchBook(keyword: String) {
-        val queryString: HashMap<String, String> = HashMap()
-        queryString.put("q", keyword)
+        if (view!!.isInternetConnectionAvailable()) {
+            val queryString: HashMap<String, String> = HashMap()
+            queryString.put("q", keyword)
 
-        val connector = NetworkConnector(ebookSearchService, GET, this)
-        val targetURL: String? = ebookSearchService.getBooksInfo(queryString)
-        connector.execute(targetURL)
-//        Log.i("BookSearchPresenter", "Search Button clicked!")
+            val connector = NetworkConnector(ebookSearchService, GET, this)
+            val targetURL: String? = ebookSearchService.getBooksInfo(queryString)
+            connector.execute(targetURL)
+        } else {
+            view?.showInternetRequestDialog()
+        }
     }
 
     override fun onNetworkConnectionSucceed(result: String?) {
@@ -112,7 +115,9 @@ class BookSearchPresenter : Presenter<BookSearchView>, NetworkConnectionListener
 
     override fun onNetworkConnectionError(result: String?) {}
 
-    override fun onNetworkTimeout() {}
+    override fun onNetworkTimeout() {
+        view?.showInternetConnectionTimeout()
+    }
 
     override fun onBookCardClicked(book: Book) {
         view?.openBookLink(Uri.parse(book.link))
