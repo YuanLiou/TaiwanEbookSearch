@@ -1,20 +1,26 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.annotation.IdRes
+import android.support.customtabs.CustomTabsIntent
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import liou.rayyuan.chromecustomtabhelper.ChromeCustomTabsHelper
+import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 
 /**
  * Created by louis383 on 2017/12/2.
  */
-class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickListener {
+class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickListener, ChromeCustomTabsHelper.Fallback {
 
     private val searchButton: ImageView by bindView(R.id.search_view_search_icon)
     private val searchEditText: EditText by bindView(R.id.search_view_edittext)
@@ -34,7 +40,8 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
     private val taazeTitle: TextView by bindView(R.id.search_result_subtitle_store4)
     private val taazeRecyclerView: RecyclerView by bindView(R.id.search_result_list_store4)
 
-    lateinit var presenter : BookSearchPresenter
+    lateinit var presenter: BookSearchPresenter
+    lateinit var chromeCustomTabHelper: ChromeCustomTabsHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +54,18 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
         presenter.setKoboRecyclerView(koboRecyclerView)
         presenter.setTaazeRecyclerView(taazeRecyclerView)
 
+        chromeCustomTabHelper = ChromeCustomTabsHelper()
         searchButton.setOnClickListener(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        chromeCustomTabHelper.bindCustomTabsServices(this, BuildConfig.HOST_URL)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        chromeCustomTabHelper.unbindCustomTabsServices(this)
     }
 
     override fun setupInterface() {
@@ -56,6 +74,13 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
         readmooTitle.text = resources.getString(R.string.readmooTitle)
         koboTitle.text = resources.getString(R.string.koboTitle)
         taazeTitle.text = resources.getString(R.string.taazeTitle)
+    }
+
+    override fun openBookLink(uri: Uri) {
+        val builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder()
+        builder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+        val chromeCustomTabIntent: CustomTabsIntent = builder.build()
+        ChromeCustomTabsHelper.openCustomTab(this, chromeCustomTabIntent, uri, this)
     }
 
     override fun bookCompanyIsEmpty() {
@@ -78,6 +103,14 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
             }
         }
     }
+
+    //region ChromeCustomTabsHelper.Fallback
+    override fun openWithWebView(activity: Activity?, uri: Uri?) {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = uri
+        startActivity(intent)
+    }
+    //endregion
 
     private fun <T: View> Activity.bindView(@IdRes resId: Int): Lazy<T> {
         return lazy { findViewById<T>(resId) }

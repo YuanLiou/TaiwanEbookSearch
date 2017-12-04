@@ -11,12 +11,14 @@
     >
 
     <RelativeLayout
+        android:id="@+id/book_card_item_body"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
+        android:background="?selectableItemBackground"
         >
 
         <ImageView
@@ -100,7 +102,7 @@
             android:layout_alignParentEnd="true"
             android:includeFontPadding="false"
             android:paddingEnd="8dp"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:fontFamily="sans-serif-medium"
             android:textColor="?attr/colorAccent"
             tools:text="$210"

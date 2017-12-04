@@ -1,19 +1,23 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
+import android.net.Uri
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import liou.rayyuan.ebooksearchtaiwan.Presenter
 import liou.rayyuan.ebooksearchtaiwan.model.ConnectionType.GET
 import liou.rayyuan.ebooksearchtaiwan.model.EbookSearchService
 import liou.rayyuan.ebooksearchtaiwan.model.NetworkConnectionListener
 import liou.rayyuan.ebooksearchtaiwan.model.NetworkConnector
+import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
 import liou.rayyuan.ebooksearchtaiwan.model.entity.BookStores
 import liou.rayyuan.ebooksearchtaiwan.model.utils.BookStoresUtils
 import liou.rayyuan.ebooksearchtaiwan.view.BookResultAdapter
+import liou.rayyuan.ebooksearchtaiwan.view.BookResultClickHandler
 
 /**
  * Created by louis383 on 2017/12/2.
  */
-class BookSearchPresenter : Presenter<BookSearchView>, NetworkConnectionListener {
+class BookSearchPresenter : Presenter<BookSearchView>, NetworkConnectionListener, BookResultClickHandler {
 
     private var view: BookSearchView? = null
 
@@ -35,27 +39,27 @@ class BookSearchPresenter : Presenter<BookSearchView>, NetworkConnectionListener
     }
 
     fun setBestResultRecyclerView(recyclerView: RecyclerView) {
-        bestResultAdapter = BookResultAdapter(false)
+        bestResultAdapter = BookResultAdapter(false, this)
         recyclerView.adapter = bestResultAdapter
     }
 
     fun setBookCompanyRecyclerView(recyclerView: RecyclerView) {
-        bookCompanyAdapter = BookResultAdapter(true)
+        bookCompanyAdapter = BookResultAdapter(true, this)
         recyclerView.adapter = bookCompanyAdapter
     }
 
     fun setReadmooRecyclerView(recyclerView: RecyclerView) {
-        readmooAdapter = BookResultAdapter(true)
+        readmooAdapter = BookResultAdapter(true, this)
         recyclerView.adapter = readmooAdapter
     }
 
     fun setKoboRecyclerView(recyclerView: RecyclerView) {
-        koboAdapter = BookResultAdapter(true)
+        koboAdapter = BookResultAdapter(true, this)
         recyclerView.adapter = koboAdapter
     }
 
     fun setTaazeRecyclerView(recyclerView: RecyclerView) {
-        taazeAdapter = BookResultAdapter(true)
+        taazeAdapter = BookResultAdapter(true, this)
         recyclerView.adapter = taazeAdapter
     }
 
@@ -66,7 +70,6 @@ class BookSearchPresenter : Presenter<BookSearchView>, NetworkConnectionListener
         val connector = NetworkConnector(ebookSearchService, GET, this)
         val targetURL: String? = ebookSearchService.getBooksInfo(queryString)
         connector.execute(targetURL)
-
 //        Log.i("BookSearchPresenter", "Search Button clicked!")
     }
 
@@ -107,9 +110,12 @@ class BookSearchPresenter : Presenter<BookSearchView>, NetworkConnectionListener
         }
     }
 
-    override fun onNetworkConnectionError(result: String?) {
-    }
+    override fun onNetworkConnectionError(result: String?) {}
 
-    override fun onNetworkTimeout() {
+    override fun onNetworkTimeout() {}
+
+    override fun onBookCardClicked(book: Book) {
+        view?.openBookLink(Uri.parse(book.link))
+        Log.e("BookSearchPresenter", "Book Name: " + book.title)
     }
 }

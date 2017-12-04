@@ -15,14 +15,16 @@ import liou.rayyuan.ebooksearchtaiwan.view.BookResultAdapter.BookResultViewHolde
  * Created by louis383 on 2017/12/3.
  */
 
-class BookResultAdapter(hideTitleBar: Boolean) : RecyclerView.Adapter<BookResultViewHolder>() {
+class BookResultAdapter(hideTitleBar: Boolean, clickHandler: BookResultClickHandler) : RecyclerView.Adapter<BookResultViewHolder>() {
 
     private var books: List<Book>? = null
     private var hideTitleBar: Boolean = false
+    var bookResultClickHandler: BookResultClickHandler
 
     init {
         books = ArrayList()
         this.hideTitleBar = hideTitleBar
+        this.bookResultClickHandler = clickHandler
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookResultViewHolder? {
@@ -38,6 +40,7 @@ class BookResultAdapter(hideTitleBar: Boolean) : RecyclerView.Adapter<BookResult
             holder.bookDescription.text = book.about
             holder.bookPrice.text = "$" + book.price.toString()
             holder.bookImage.setImageURI(book.thumbnail)
+            holder.bookResultBody.setOnClickListener({ bookResultClickHandler.onBookCardClicked(book) })
         }
     }
 
@@ -62,6 +65,7 @@ class BookResultAdapter(hideTitleBar: Boolean) : RecyclerView.Adapter<BookResult
         internal val bookPrice: TextView = itemView.findViewById(R.id.book_card_price)
         internal val moreIcon: ImageView = itemView.findViewById(R.id.book_card_more_icon)
         internal val bookImage: SimpleDraweeView = itemView.findViewById(R.id.book_card_image)
+        internal val bookResultBody: View = itemView.findViewById(R.id.book_card_item_body)
 
         init {
             if (hideTitleBar) {

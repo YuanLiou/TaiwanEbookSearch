@@ -48,16 +48,16 @@ class EbookSearchService {
     }
 
     fun connect(url: String, type: ConnectionType) : Pair<String?, Int>? {
-        val url = URL(url)
+        val targetUrl = URL(url)
         try {
-            with(url.openConnection() as HttpsURLConnection) {
+            with(targetUrl.openConnection() as HttpsURLConnection) {
                 if (type.equals(ConnectionType.GET)) {
                     requestMethod = "GET"
                 } else if (type.equals(ConnectionType.POST)) {
                     requestMethod = "POST"
                 }
                 connect()
-                Log.i("Send to URL: ", url.toString())
+                Log.i("Send to URL: ", targetUrl.toString())
                 Log.i("Response Code", responseCode.toString())
 
                 if (responseCode == 200) {
