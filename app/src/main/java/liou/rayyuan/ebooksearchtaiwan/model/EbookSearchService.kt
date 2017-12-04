@@ -6,6 +6,7 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.SocketTimeoutException
 import java.net.URL
+import java.net.URLEncoder
 import java.util.HashMap
 import java.util.concurrent.TimeoutException
 import javax.net.ssl.HttpsURLConnection
@@ -34,12 +35,13 @@ class EbookSearchService {
             var endpointURL: String = hostURL
             endpointURL += endpoint + '?'
 
-            var index = 0;
+            var index = 0
             for (entry in queryStrings.entries) {
                 if (index != 0) {
                     endpointURL += '&'
                 }
-                endpointURL += entry.key + "=" + entry.value
+                val value = URLEncoder.encode(entry.value, "UTF-8")
+                endpointURL += entry.key + "=" + value
                 index++
             }
             Log.i("URL is = ", endpointURL)
@@ -58,7 +60,7 @@ class EbookSearchService {
                     requestMethod = "POST"
                 }
                 connectTimeout = connectionTimeout
-                readTimeout = connectTimeout
+                readTimeout = connectionTimeout
                 connect()
                 Log.i("Send to URL: ", targetUrl.toString())
 //                Log.i("Response Code", responseCode.toString())
