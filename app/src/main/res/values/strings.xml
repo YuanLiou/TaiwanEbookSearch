@@ -3,13 +3,14 @@
     <string name="button_search">Search</string>
     <string name="main_search_hint">What you want to find?</string>
     <string name="best_result_title">Best Results</string>
-    <string name="booksCompanytTitle">Books.com</string>
-    <string name="readmooTitle">Readmoo</string>
-    <string name="koboTitle">Kobo</string>
-    <string name="taazeTitle">TAAZE</string>
+    <string name="books_companyt_title">Books.com</string>
+    <string name="readmoo_title">Readmoo</string>
+    <string name="kobo_title">Kobo</string>
+    <string name="taaze_title">TAAZE</string>
     <string name="network_alert_dialog_title">Internet Connection</string>
     <string name="network_alert_message">This app needs Internet connection to search books.</string>
     <string name="dialog_ok">OK</string>
     <string name="state_timeout">Network not respond. Please try again.</string>
     <string name="search_bar_hint">Search with book name or ISBN</string>
+    <string name="book_walker_title">BOOKWALKER</string>
 </resources>

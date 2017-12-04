@@ -35,6 +35,8 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:ellipsize="end"
+                android:inputType="text"
+                android:imeOptions="actionSearch"
                 android:hint="@string/search_bar_hint"
                 android:background="@android:color/transparent"
                 />

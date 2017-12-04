@@ -14,7 +14,7 @@
         android:id="@+id/search_result_divider_top"
         android:layout_width="70dp"
         android:layout_height="3dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_gravity="center"
         android:background="?attr/colorPrimary"
         />
@@ -33,6 +33,7 @@
         android:id="@+id/search_result_list_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false"
         app:layoutManager="LinearLayoutManager"
         tools:listitem="@layout/book_card_view"
         />
@@ -192,4 +193,41 @@
         />
 
     <!-- End Store04 -->
+    <!-- Store05 -->
+
+    <View
+        android:id="@+id/search_result_divider_store5"
+        android:layout_width="70dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center"
+        android:background="?attr/colorPrimary"
+        />
+
+    <TextView
+        android:id="@+id/search_result_subtitle_store5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:gravity="center_horizontal"
+        tools:text="最佳結果"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/search_result_list_store5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false"
+        app:layoutManager="LinearLayoutManager"
+        tools:listitem="@layout/book_card_view"
+        />
+
+    <View
+        android:id="@+id/search_result_space_store5"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        />
+
+    <!-- End Store05 -->
 </LinearLayout>

@@ -29,4 +29,11 @@ class BookViewModel(book: Book) {
 
         return "$" + book.price + " " + book.priceCurrency
     }
+
+    fun getShopName(): String {
+        if (book.bookStore != null) {
+            return book.bookStore!!
+        }
+        return ""
+    }
 }

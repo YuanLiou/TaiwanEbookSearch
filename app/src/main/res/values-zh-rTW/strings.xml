@@ -4,13 +4,14 @@
     <string name="button_search">搜尋</string>
     <string name="main_search_hint">想找什麼關鍵字？</string>
     <string name="best_result_title">最佳結果</string>
-    <string name="booksCompanytTitle">博客來</string>
-    <string name="readmooTitle">Readmoo</string>
-    <string name="koboTitle">Kobo</string>
-    <string name="taazeTitle">TAAZE 讀冊生活</string>
+    <string name="books_companyt_title">博客來</string>
+    <string name="readmoo_title">Readmoo</string>
+    <string name="kobo_title">Kobo</string>
+    <string name="taaze_title">TAAZE 讀冊生活</string>
     <string name="network_alert_dialog_title">網路連線</string>
     <string name="network_alert_message">本程式需要使用網路連線來進行搜尋</string>
     <string name="dialog_ok">確定</string>
     <string name="state_timeout">連線逾時，請再試一次</string>
     <string name="search_bar_hint">搜尋書名或 ISBN</string>
+    <string name="book_walker_title">BOOKWALKER</string>
 </resources>

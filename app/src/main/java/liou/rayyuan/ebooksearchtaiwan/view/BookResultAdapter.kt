@@ -16,16 +16,18 @@ import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
  * Created by louis383 on 2017/12/3.
  */
 
-class BookResultAdapter(hideTitleBar: Boolean, clickHandler: BookResultClickHandler) : RecyclerView.Adapter<BookResultViewHolder>() {
+class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int, clickHandler: BookResultClickHandler) : RecyclerView.Adapter<BookResultViewHolder>() {
 
-    private var books: List<Book>? = null
+    private var books: ArrayList<Book>? = null
     private var hideTitleBar: Boolean = false
+    val maxDisplayNumber: Int
     var bookResultClickHandler: BookResultClickHandler
 
     init {
         books = ArrayList()
         this.hideTitleBar = hideTitleBar
         this.bookResultClickHandler = clickHandler
+        this.maxDisplayNumber = maxDisplayNumber
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookResultViewHolder? {
@@ -38,6 +40,7 @@ class BookResultAdapter(hideTitleBar: Boolean, clickHandler: BookResultClickHand
         if (books!!.isNotEmpty() && index < books!!.size) {
             val book: Book = books!![index]
             val bookViewModel = BookViewModel(book)
+            holder.bookShopName.text = bookViewModel.getShopName()
             holder.bookTitle.text = bookViewModel.getTitle()
             holder.bookDescription.text = bookViewModel.getDescription()
             holder.bookPrice.text = bookViewModel.getPrice()
@@ -47,17 +50,31 @@ class BookResultAdapter(hideTitleBar: Boolean, clickHandler: BookResultClickHand
     }
 
     override fun getItemCount(): Int {
+        if (maxDisplayNumber > 0 && books!!.size > maxDisplayNumber) {
+            return maxDisplayNumber
+        }
         return books!!.size
     }
 
     fun setBooks(books: List<Book>) {
-        this.books = books
+        this.books = books as ArrayList<Book>
+        this.books?.removeAt(0)
+        notifyDataSetChanged()
+    }
+
+    fun addBook(book: Book, bookStoreName: String) {
+        book.bookStore = bookStoreName
+        this.books?.add(book)
         notifyDataSetChanged()
     }
 
     fun resetBooks() {
-        this.books = ArrayList()
+        this.books?.clear()
         notifyDataSetChanged()
+    }
+
+    fun sortByMoney() {
+        this.books?.sortWith(compareBy { it.price })
     }
 
     class BookResultViewHolder(itemView: View, hideTitleBar: Boolean) : RecyclerView.ViewHolder(itemView) {

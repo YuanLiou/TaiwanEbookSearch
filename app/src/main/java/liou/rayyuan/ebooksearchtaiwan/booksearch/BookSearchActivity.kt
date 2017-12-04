@@ -16,18 +16,14 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.*
 import liou.rayyuan.chromecustomtabhelper.ChromeCustomTabsHelper
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.view.ViewState
-import liou.rayyuan.ebooksearchtaiwan.view.ViewState.ERROR
-import liou.rayyuan.ebooksearchtaiwan.view.ViewState.PREPARE
-import liou.rayyuan.ebooksearchtaiwan.view.ViewState.READY
+import liou.rayyuan.ebooksearchtaiwan.view.ViewState.*
 
 /**
  * Created by louis383 on 2017/12/2.
@@ -52,6 +48,9 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
     private val taazeTitle: TextView by bindView(R.id.search_result_subtitle_store4)
     private val taazeRecyclerView: RecyclerView by bindView(R.id.search_result_list_store4)
 
+    private val bookWalkerTitle: TextView by bindView(R.id.search_result_subtitle_store5)
+    private val bookWalkerRecyclerView: RecyclerView by bindView(R.id.search_result_list_store5)
+
     private val scrollView: NestedScrollView by bindView(R.id.search_view_scrollview)
     private val progressBar: ProgressBar by bindView(R.id.search_view_progressbar)
 
@@ -63,14 +62,26 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
         setContentView(R.layout.activity_search)
         presenter = BookSearchPresenter()
         presenter.attachView(this)
+        setRecyclerViews()
+
+        chromeCustomTabHelper = ChromeCustomTabsHelper()
+        searchButton.setOnClickListener(this)
+        searchEditText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                val keyword: String = searchEditText.text.toString()
+                presenter.searchBook(keyword)
+            }
+            false
+        }
+    }
+
+    private fun setRecyclerViews() {
         presenter.setBestResultRecyclerView(bestResultRecyclerView)
         presenter.setBookCompanyRecyclerView(bookCompanyRecyclerView)
         presenter.setReadmooRecyclerView(readmooRecyclerView)
         presenter.setKoboRecyclerView(koboRecyclerView)
         presenter.setTaazeRecyclerView(taazeRecyclerView)
-
-        chromeCustomTabHelper = ChromeCustomTabsHelper()
-        searchButton.setOnClickListener(this)
+        presenter.setBookWalkerRecyclerView(bookWalkerRecyclerView)
     }
 
     override fun onResume() {
@@ -86,10 +97,11 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
     //region BookSearchView
     override fun setupInterface() {
         bestResultTitle.text = resources.getString(R.string.best_result_title)
-        bookCompanyTitle.text = resources.getString(R.string.booksCompanytTitle)
-        readmooTitle.text = resources.getString(R.string.readmooTitle)
-        koboTitle.text = resources.getString(R.string.koboTitle)
-        taazeTitle.text = resources.getString(R.string.taazeTitle)
+        bookCompanyTitle.text = resources.getString(R.string.books_companyt_title)
+        readmooTitle.text = resources.getString(R.string.readmoo_title)
+        koboTitle.text = resources.getString(R.string.kobo_title)
+        taazeTitle.text = resources.getString(R.string.taaze_title)
+        bookWalkerTitle.text = resources.getString(R.string.book_walker_title)
     }
 
     override fun openBookLink(uri: Uri) {
@@ -138,17 +150,25 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
         }
     }
 
-    override fun bookCompanyIsEmpty() {
+    override fun hideVirtualKeyboard() {
+        val inputManager: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(searchEditText.windowToken, 0)
     }
 
-    override fun readmooIsEmpty() {
+    override fun getApplicationString(stringId: Int): String {
+        return resources.getString(stringId)
     }
 
-    override fun koboIsEmpty() {
-    }
+    override fun bookCompanyIsEmpty() {}
 
-    override fun taazeIsEmpty() {
-    }
+    override fun readmooIsEmpty() {}
+
+    override fun koboIsEmpty() {}
+
+    override fun taazeIsEmpty() {}
+
+    override fun bookWalkerIsEmpty() {}
+
     //endregion
 
     override fun onClick(view: View?) {
