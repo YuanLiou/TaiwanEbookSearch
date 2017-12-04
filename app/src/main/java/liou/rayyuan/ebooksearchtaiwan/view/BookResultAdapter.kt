@@ -10,6 +10,7 @@ import com.facebook.drawee.view.SimpleDraweeView
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
 import liou.rayyuan.ebooksearchtaiwan.view.BookResultAdapter.BookResultViewHolder
+import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
 
 /**
  * Created by louis383 on 2017/12/3.
@@ -36,10 +37,11 @@ class BookResultAdapter(hideTitleBar: Boolean, clickHandler: BookResultClickHand
         val index: Int = holder.adapterPosition
         if (books!!.isNotEmpty() && index < books!!.size) {
             val book: Book = books!![index]
-            holder.bookTitle.text = book.title
-            holder.bookDescription.text = book.about
-            holder.bookPrice.text = "$" + book.price.toString()
-            holder.bookImage.setImageURI(book.thumbnail)
+            val bookViewModel = BookViewModel(book)
+            holder.bookTitle.text = bookViewModel.getTitle()
+            holder.bookDescription.text = bookViewModel.getDescription()
+            holder.bookPrice.text = bookViewModel.getPrice()
+            holder.bookImage.setImageURI(bookViewModel.getImage())
             holder.bookResultBody.setOnClickListener({ bookResultClickHandler.onBookCardClicked(book) })
         }
     }

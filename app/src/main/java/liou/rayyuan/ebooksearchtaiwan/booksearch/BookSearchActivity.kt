@@ -18,11 +18,16 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import liou.rayyuan.chromecustomtabhelper.ChromeCustomTabsHelper
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
+import liou.rayyuan.ebooksearchtaiwan.view.ViewState
+import liou.rayyuan.ebooksearchtaiwan.view.ViewState.ERROR
+import liou.rayyuan.ebooksearchtaiwan.view.ViewState.PREPARE
+import liou.rayyuan.ebooksearchtaiwan.view.ViewState.READY
 
 /**
  * Created by louis383 on 2017/12/2.
@@ -48,6 +53,7 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
     private val taazeRecyclerView: RecyclerView by bindView(R.id.search_result_list_store4)
 
     private val scrollView: NestedScrollView by bindView(R.id.search_view_scrollview)
+    private val progressBar: ProgressBar by bindView(R.id.search_view_progressbar)
 
     lateinit var presenter: BookSearchPresenter
     lateinit var chromeCustomTabHelper: ChromeCustomTabsHelper
@@ -113,6 +119,23 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
 
     override fun scrollToTop() {
         scrollView.smoothScrollTo(0, 0)
+    }
+
+    override fun setMainResultView(viewState: ViewState) {
+        when (viewState) {
+            PREPARE -> {
+                progressBar.visibility = View.VISIBLE
+                scrollView.visibility = View.INVISIBLE
+            }
+            READY -> {
+                progressBar.visibility = View.GONE
+                scrollView.visibility = View.VISIBLE
+            }
+            ERROR -> {
+                progressBar.visibility = View.GONE
+                scrollView.visibility = View.INVISIBLE
+            }
+        }
     }
 
     override fun bookCompanyIsEmpty() {

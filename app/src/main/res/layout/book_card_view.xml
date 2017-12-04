@@ -102,10 +102,10 @@
             android:layout_alignParentEnd="true"
             android:includeFontPadding="false"
             android:paddingEnd="8dp"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:fontFamily="sans-serif-medium"
             android:textColor="?attr/colorAccent"
-            tools:text="$210"
+            tools:text="$210 TWD"
             />
 
     </RelativeLayout>

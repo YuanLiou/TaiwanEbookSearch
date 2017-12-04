@@ -13,6 +13,9 @@ import liou.rayyuan.ebooksearchtaiwan.model.entity.BookStores
 import liou.rayyuan.ebooksearchtaiwan.model.utils.BookStoresUtils
 import liou.rayyuan.ebooksearchtaiwan.view.BookResultAdapter
 import liou.rayyuan.ebooksearchtaiwan.view.BookResultClickHandler
+import liou.rayyuan.ebooksearchtaiwan.view.ViewState.ERROR
+import liou.rayyuan.ebooksearchtaiwan.view.ViewState.PREPARE
+import liou.rayyuan.ebooksearchtaiwan.view.ViewState.READY
 
 /**
  * Created by louis383 on 2017/12/2.
@@ -71,6 +74,7 @@ class BookSearchPresenter : Presenter<BookSearchView>, NetworkConnectionListener
             val connector = NetworkConnector(ebookSearchService, GET, this)
             val targetURL: String? = ebookSearchService.getBooksInfo(queryString)
             connector.execute(targetURL)
+            view?.setMainResultView(PREPARE)
             resetCurrentResults()
         } else {
             view?.showInternetRequestDialog()
@@ -88,6 +92,8 @@ class BookSearchPresenter : Presenter<BookSearchView>, NetworkConnectionListener
     override fun onNetworkConnectionSucceed(result: String?) {
         val bookStores: BookStores? = result?.let { BookStoresUtils.convertJsonToBookStores(it) }
         if (bookStores != null) {
+            view?.scrollToTop()
+
             bookStores.booksCompany?.let {
                 if (it.isNotEmpty()) {
                     bookCompanyAdapter.setBooks(it)
@@ -119,10 +125,14 @@ class BookSearchPresenter : Presenter<BookSearchView>, NetworkConnectionListener
                     view?.taazeIsEmpty()
                 }
             }
+
+            view?.setMainResultView(READY)
         }
     }
 
-    override fun onNetworkConnectionError(result: String?) {}
+    override fun onNetworkConnectionError(result: String?) {
+        view?.setMainResultView(ERROR)
+    }
 
     override fun onNetworkTimeout() {
         view?.showInternetConnectionTimeout()
