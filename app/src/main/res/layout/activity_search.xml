@@ -35,9 +35,8 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:ellipsize="end"
+                android:hint="@string/search_bar_hint"
                 android:background="@android:color/transparent"
-                tools:background="#000000"
-                tools:text="Search Books"
                 />
 
             <ImageView
@@ -54,7 +53,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
-        android:id="@+id/search_view_search_scrollview"
+        android:id="@+id/search_view_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"

@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.support.annotation.IdRes
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.content.ContextCompat
+import android.support.v4.widget.NestedScrollView
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
@@ -45,6 +46,8 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
 
     private val taazeTitle: TextView by bindView(R.id.search_result_subtitle_store4)
     private val taazeRecyclerView: RecyclerView by bindView(R.id.search_result_list_store4)
+
+    private val scrollView: NestedScrollView by bindView(R.id.search_view_scrollview)
 
     lateinit var presenter: BookSearchPresenter
     lateinit var chromeCustomTabHelper: ChromeCustomTabsHelper
@@ -106,6 +109,10 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
 
     override fun showInternetConnectionTimeout() {
         Toast.makeText(this, R.string.state_timeout, Toast.LENGTH_LONG).show()
+    }
+
+    override fun scrollToTop() {
+        scrollView.smoothScrollTo(0, 0)
     }
 
     override fun bookCompanyIsEmpty() {

@@ -71,9 +71,18 @@ class BookSearchPresenter : Presenter<BookSearchView>, NetworkConnectionListener
             val connector = NetworkConnector(ebookSearchService, GET, this)
             val targetURL: String? = ebookSearchService.getBooksInfo(queryString)
             connector.execute(targetURL)
+            resetCurrentResults()
         } else {
             view?.showInternetRequestDialog()
         }
+    }
+
+    private fun resetCurrentResults() {
+        bestResultAdapter.resetBooks()
+        bookCompanyAdapter.resetBooks()
+        readmooAdapter.resetBooks()
+        koboAdapter.resetBooks()
+        taazeAdapter.resetBooks()
     }
 
     override fun onNetworkConnectionSucceed(result: String?) {

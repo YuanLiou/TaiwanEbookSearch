@@ -12,4 +12,5 @@
     <string name="network_alert_message">本程式需要使用網路連線來進行搜尋</string>
     <string name="dialog_ok">確定</string>
     <string name="state_timeout">連線逾時，請再試一次</string>
+    <string name="search_bar_hint">搜尋書名或 ISBN</string>
 </resources>
