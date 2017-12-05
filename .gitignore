@@ -199,3 +199,4 @@ Temporary Items
 .idea/
 gradle.properties
 keystore.jks
+*.Keystore
