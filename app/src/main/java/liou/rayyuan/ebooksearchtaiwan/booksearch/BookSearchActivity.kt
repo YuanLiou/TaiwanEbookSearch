@@ -9,6 +9,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
 import android.os.Bundle
+import android.support.annotation.ColorInt
 import android.support.annotation.IdRes
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.content.ContextCompat
@@ -17,6 +18,7 @@ import android.support.v4.widget.NestedScrollView
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
+import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -116,7 +118,7 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
 
     override fun openBookLink(uri: Uri) {
         val builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder()
-        builder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+        builder.setToolbarColor(getThemePrimaryColor())
         val chromeCustomTabIntent: CustomTabsIntent = builder.build()
         ChromeCustomTabsHelper.openCustomTab(this, chromeCustomTabIntent, uri, this)
     }
@@ -228,5 +230,12 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
 
     private fun <T: View> Activity.bindView(@IdRes resId: Int): Lazy<T> {
         return lazy { findViewById<T>(resId) }
+    }
+
+    private fun getThemePrimaryColor(): Int {
+        val typedValue: TypedValue = TypedValue()
+        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
+        @ColorInt val colorId: Int = typedValue.data
+        return colorId
     }
 }
