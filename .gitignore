@@ -198,3 +198,4 @@ Temporary Items
 # Custom
 .idea/
 gradle.properties
+keystore.jks

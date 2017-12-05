@@ -8,18 +8,34 @@ android {
         applicationId "liou.rayyuan.ebooksearchtaiwan"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 1
+        versionCode getVersionCodeTimeStamps()
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        release {
+            storeFile file(keystorePath)
+            keyAlias keystoreAlias
+            storePassword storePass
+            keyPassword keyPass
+        }
+    }
+
     buildTypes {
         debug {
             debuggable true
             minifyEnabled false
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
         }
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     buildTypes.all {
@@ -29,6 +45,13 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+}
+
+static def getVersionCodeTimeStamps() {
+    def date = new Date()
+    def formattedDate = date.format('yyMMddHHmm')
+    def result = formattedDate.toInteger()
+    return result
 }
 
 dependencies {
