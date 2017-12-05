@@ -20,6 +20,10 @@ interface BookSearchView {
     fun isInternetConnectionAvailable(): Boolean
     fun showInternetRequestDialog()
     fun showInternetConnectionTimeout()
+    fun showKeywordIsEmpty()
     fun hideVirtualKeyboard()
+    fun showVirtualKeyboard()
+    fun showEasterEgg01()
+    fun showErrorMessage(message: String)
     fun getApplicationString(stringId: Int): String
 }

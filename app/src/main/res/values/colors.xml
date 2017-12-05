@@ -7,6 +7,8 @@
     <color name="gray">#929292</color>
 
     <!-- light theme -->
+    <color name="blue_green">#0EB29B</color>
+    <color name="blue_green_dark">#00826D</color>
     <color name="pure_white">#FFFFFF</color>
     <color name="google_app_white_color">#F2F2F2</color>
     <color name="dark_gray">#646464</color>

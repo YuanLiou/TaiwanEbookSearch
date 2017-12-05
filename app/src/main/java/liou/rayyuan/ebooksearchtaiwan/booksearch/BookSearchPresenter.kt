@@ -32,6 +32,7 @@ class BookSearchPresenter : Presenter<BookSearchView>, NetworkConnectionListener
     lateinit var bookWalkerAdapter: BookResultAdapter
 
     private val maxListNumber: Int = 10
+    private var eggCount: Int = 0
 
     override fun attachView(view: BookSearchView) {
         this.view = view
@@ -73,6 +74,15 @@ class BookSearchPresenter : Presenter<BookSearchView>, NetworkConnectionListener
         recyclerView.adapter = bookWalkerAdapter
     }
 
+    fun hintPressed() {
+        view?.showVirtualKeyboard()
+
+        eggCount++
+        if (eggCount == 10) {
+            view?.showEasterEgg01()
+        }
+    }
+
     fun searchBook(keyword: String) {
         if (keyword.trim().isNotBlank()) {
             view?.hideVirtualKeyboard()
@@ -88,6 +98,8 @@ class BookSearchPresenter : Presenter<BookSearchView>, NetworkConnectionListener
             } else {
                 view?.showInternetRequestDialog()
             }
+        } else {
+            view?.showKeywordIsEmpty()
         }
     }
 
@@ -159,8 +171,10 @@ class BookSearchPresenter : Presenter<BookSearchView>, NetworkConnectionListener
         }
     }
 
-    override fun onNetworkConnectionError(result: String?) {
+    override fun onNetworkConnectionError(result: String?, responseCode: Int?) {
         view?.setMainResultView(ERROR)
+        val message = "An error occurred\n $result\n Code: $responseCode"
+        view?.showErrorMessage(message)
     }
 
     override fun onNetworkTimeout() {

@@ -63,6 +63,20 @@
         style="?android:attr/progressBarStyle"
         />
 
+    <TextView
+        android:id="@+id/search_view_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:drawableTop="@drawable/ic_touch_app_black_24dp"
+        android:drawablePadding="8dp"
+        android:textColor="@color/gray"
+        android:textSize="16sp"
+        android:text="@string/welcome_words"
+        android:background="?selectableItemBackgroundBorderless"
+        />
+
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/search_view_scrollview"
         android:layout_width="match_parent"
@@ -73,7 +87,7 @@
         android:scrollbarStyle="outsideOverlay"
         android:visibility="invisible"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:visibility="visible"
+        tools:visibility="invisible"
         >
 
         <include android:id="@+id/search_view_list_layout" layout="@layout/activity_search_list_view" />

@@ -3,8 +3,8 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/blue_green</item>
+        <item name="colorPrimaryDark">@color/blue_green_dark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="searchBoxColor">@color/pure_white</item>
         <item name="appBackgroundColor">@color/google_app_white_color</item>

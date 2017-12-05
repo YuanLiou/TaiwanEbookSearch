@@ -5,6 +5,6 @@ package liou.rayyuan.ebooksearchtaiwan.model
  */
 interface NetworkConnectionListener {
     fun onNetworkConnectionSucceed(result: String?)
-    fun onNetworkConnectionError(result: String?)
+    fun onNetworkConnectionError(result: String?, responseCode: Int?)
     fun onNetworkTimeout()
 }

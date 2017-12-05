@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
@@ -11,6 +12,7 @@ import android.os.Bundle
 import android.support.annotation.IdRes
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.content.ContextCompat
+import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v4.widget.NestedScrollView
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -54,6 +56,8 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
     private val scrollView: NestedScrollView by bindView(R.id.search_view_scrollview)
     private val progressBar: ProgressBar by bindView(R.id.search_view_progressbar)
 
+    private val hintText: TextView by bindView(R.id.search_view_hint)
+
     lateinit var presenter: BookSearchPresenter
     lateinit var chromeCustomTabHelper: ChromeCustomTabsHelper
 
@@ -72,6 +76,12 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
                 presenter.searchBook(keyword)
             }
             false
+        }
+        hintText.setOnClickListener(this)
+        for (drawable in hintText.compoundDrawables) {
+            if (drawable != null) {
+                DrawableCompat.setTint(drawable, ContextCompat.getColor(this, R.color.gray))
+            }
         }
     }
 
@@ -138,16 +148,27 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
             PREPARE -> {
                 progressBar.visibility = View.VISIBLE
                 scrollView.visibility = View.INVISIBLE
+                hintText.visibility = View.GONE
             }
             READY -> {
                 progressBar.visibility = View.GONE
                 scrollView.visibility = View.VISIBLE
+                hintText.visibility = View.GONE
             }
             ERROR -> {
                 progressBar.visibility = View.GONE
                 scrollView.visibility = View.INVISIBLE
+                hintText.visibility = View.VISIBLE
             }
         }
+    }
+
+    override fun showErrorMessage(message: String) {
+        val errorDrawable: Drawable = ContextCompat.getDrawable(this, R.drawable.ic_sentiment_very_dissatisfied_black_24dp)
+        DrawableCompat.setTint(errorDrawable, ContextCompat.getColor(this, R.color.gray))
+        hintText.setOnClickListener(null)
+        hintText.setCompoundDrawablesRelativeWithIntrinsicBounds(null, errorDrawable, null, null)
+        hintText.text = message
     }
 
     override fun hideVirtualKeyboard() {
@@ -155,8 +176,22 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
         inputManager.hideSoftInputFromWindow(searchEditText.windowToken, 0)
     }
 
+    override fun showVirtualKeyboard() {
+        searchEditText.requestFocus()
+        val inputManager: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.showSoftInput(searchEditText, 0)
+    }
+
     override fun getApplicationString(stringId: Int): String {
         return resources.getString(stringId)
+    }
+
+    override fun showKeywordIsEmpty() {
+        Toast.makeText(this, R.string.search_keyword_empty, Toast.LENGTH_LONG).show()
+    }
+
+    override fun showEasterEgg01() {
+        Toast.makeText(this, R.string.easter_egg_01, Toast.LENGTH_LONG).show()
     }
 
     override fun bookCompanyIsEmpty() {}
@@ -171,14 +206,17 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
 
     //endregion
 
+    //region View.OnClickListener
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.search_view_search_icon -> {
                 val keyword: String = searchEditText.text.toString()
                 presenter.searchBook(keyword)
             }
+            R.id.search_view_hint -> { presenter.hintPressed() }
         }
     }
+    //endregion
 
     //region ChromeCustomTabsHelper.Fallback
     override fun openWithWebView(activity: Activity?, uri: Uri?) {

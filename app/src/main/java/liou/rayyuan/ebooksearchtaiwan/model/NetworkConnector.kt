@@ -18,7 +18,7 @@ class NetworkConnector(private val ebookSearchService: EbookSearchService, priva
         when (responseCode) {
             EbookSearchService.timeout -> listener.onNetworkTimeout()
             EbookSearchService.succeed -> listener.onNetworkConnectionSucceed(result.first)
-            in EbookSearchService.error .. Int.MAX_VALUE -> listener.onNetworkConnectionError(result?.first)
+            in EbookSearchService.error .. Int.MAX_VALUE -> listener.onNetworkConnectionError(result?.first, result?.second)
         }
     }
 }
