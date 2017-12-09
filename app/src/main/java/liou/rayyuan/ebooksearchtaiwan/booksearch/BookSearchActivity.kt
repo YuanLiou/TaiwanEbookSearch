@@ -55,6 +55,9 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
     private val bookWalkerTitle: TextView by bindView(R.id.search_result_subtitle_store5)
     private val bookWalkerRecyclerView: RecyclerView by bindView(R.id.search_result_list_store5)
 
+    private val playBooksTitle: TextView by bindView(R.id.search_result_subtitle_store6)
+    private val playBooksRecyclerView: RecyclerView by bindView(R.id.search_result_list_store6)
+
     private val scrollView: NestedScrollView by bindView(R.id.search_view_scrollview)
     private val progressBar: ProgressBar by bindView(R.id.search_view_progressbar)
 
@@ -94,6 +97,7 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
         presenter.setKoboRecyclerView(koboRecyclerView)
         presenter.setTaazeRecyclerView(taazeRecyclerView)
         presenter.setBookWalkerRecyclerView(bookWalkerRecyclerView)
+        presenter.setPlayBooksRecycylerView(playBooksRecyclerView)
     }
 
     override fun onResume() {
@@ -114,6 +118,7 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
         koboTitle.text = resources.getString(R.string.kobo_title)
         taazeTitle.text = resources.getString(R.string.taaze_title)
         bookWalkerTitle.text = resources.getString(R.string.book_walker_title)
+        playBooksTitle.text = resources.getString(R.string.playbook_title)
     }
 
     override fun openBookLink(uri: Uri) {
@@ -205,6 +210,8 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
     override fun taazeIsEmpty() {}
 
     override fun bookWalkerIsEmpty() {}
+
+    override fun playBookIsEmpty() {}
 
     //endregion
 

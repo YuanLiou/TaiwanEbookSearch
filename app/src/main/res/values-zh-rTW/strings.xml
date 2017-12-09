@@ -17,4 +17,5 @@
     <string name="search_keyword_empty">未輸入任何關鍵字</string>
     <string name="welcome_words">按下搜尋列來開始</string>
     <string name="easter_egg_01">是要按幾次？</string>
+    <string name="playbook_title">Google Play 圖書</string>
 </resources>

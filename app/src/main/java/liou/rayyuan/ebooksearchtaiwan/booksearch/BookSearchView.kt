@@ -13,6 +13,7 @@ interface BookSearchView {
     fun readmooIsEmpty()
     fun koboIsEmpty()
     fun taazeIsEmpty()
+    fun playBookIsEmpty()
     fun bookWalkerIsEmpty()
     fun setMainResultView(viewState: ViewState)
     fun scrollToTop()

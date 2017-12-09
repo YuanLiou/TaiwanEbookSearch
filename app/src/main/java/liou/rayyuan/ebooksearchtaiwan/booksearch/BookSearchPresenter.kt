@@ -30,6 +30,7 @@ class BookSearchPresenter : Presenter<BookSearchView>, NetworkConnectionListener
     lateinit var koboAdapter: BookResultAdapter
     lateinit var taazeAdapter: BookResultAdapter
     lateinit var bookWalkerAdapter: BookResultAdapter
+    lateinit var playBooksAdapter: BookResultAdapter
 
     private val maxListNumber: Int = 10
     private var eggCount: Int = 0
@@ -72,6 +73,11 @@ class BookSearchPresenter : Presenter<BookSearchView>, NetworkConnectionListener
     fun setBookWalkerRecyclerView(recyclerView: RecyclerView) {
         bookWalkerAdapter = BookResultAdapter(true, maxListNumber, this)
         recyclerView.adapter = bookWalkerAdapter
+    }
+
+    fun setPlayBooksRecycylerView(recyclerView: RecyclerView) {
+        playBooksAdapter = BookResultAdapter(true, maxListNumber, this)
+        recyclerView.adapter = playBooksAdapter
     }
 
     fun hintPressed() {
@@ -166,6 +172,17 @@ class BookSearchPresenter : Presenter<BookSearchView>, NetworkConnectionListener
                     view?.bookWalkerIsEmpty()
                 }
             }
+
+            bookStores.playStore?.let {
+                if (it.isNotEmpty()) {
+                    val bookStoreName = view?.getApplicationString(R.string.playbook_title)
+                    bestResultAdapter.addBook(it.first(), bookStoreName!!)
+                    playBooksAdapter.setBooks(it)
+                } else {
+                    view?.playBookIsEmpty()
+                }
+            }
+
             bestResultAdapter.sortByMoney()
             view?.setMainResultView(READY)
         }
