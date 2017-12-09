@@ -18,4 +18,5 @@
     <string name="welcome_words">按下搜尋列來開始</string>
     <string name="easter_egg_01">是要按幾次？</string>
     <string name="playbook_title">Google Play 圖書</string>
+    <string name="app_version">版本：%1$s</string>
 </resources>

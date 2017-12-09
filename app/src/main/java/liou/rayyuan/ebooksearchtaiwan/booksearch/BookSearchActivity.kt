@@ -119,6 +119,9 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
         taazeTitle.text = resources.getString(R.string.taaze_title)
         bookWalkerTitle.text = resources.getString(R.string.book_walker_title)
         playBooksTitle.text = resources.getString(R.string.playbook_title)
+
+        val hintWithAppVersion = hintText.text.toString() + "\n" + resources.getString(R.string.app_version, BuildConfig.VERSION_NAME)
+        hintText.text = hintWithAppVersion
     }
 
     override fun openBookLink(uri: Uri) {
@@ -147,7 +150,7 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
     }
 
     override fun scrollToTop() {
-        scrollView.smoothScrollTo(0, 0)
+        scrollView.scrollTo(0, 0)
     }
 
     override fun setMainResultView(viewState: ViewState) {

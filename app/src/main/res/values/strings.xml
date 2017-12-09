@@ -17,4 +17,5 @@
     <string name="welcome_words">Press search bar to get start.</string>
     <string name="easter_egg_01">Don\'t hit the button over 100!</string>
     <string name="playbook_title">Google Play Books</string>
+    <string name="app_version">App Version: %1$s</string>
 </resources>
