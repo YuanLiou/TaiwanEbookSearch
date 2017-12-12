@@ -16,7 +16,7 @@ buildscript {
 }
 
 ext {
-    app_version = '1.0.1'
+    app_version = '1.0.2'
     support_library = '26.1.0'
 }
 
