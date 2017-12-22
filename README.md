@@ -15,5 +15,6 @@ eBook search tool mainly for Taiwan.
 ### Special Thanks
  - [@denkeni](https://twitter.com/denkeni): Come up with this idea and make it real. An [iOS App](https://goo.gl/qDGLsQ) is available too.
  - [@passerbyid](https://twitter.com/passerbyid): A brilliant back-end and full-stack developer. The API he built make multi-platforms works like a charm.
+API is opensourced! Check [TaiwanEbookSearch-API](https://github.com/passerbyid/TaiwanEbookSearch-API) repo!
  
 
