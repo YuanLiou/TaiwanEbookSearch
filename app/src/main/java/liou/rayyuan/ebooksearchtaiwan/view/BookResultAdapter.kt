@@ -16,17 +16,17 @@ import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
  * Created by louis383 on 2017/12/3.
  */
 
-class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int, clickHandler: BookResultClickHandler) : RecyclerView.Adapter<BookResultViewHolder>() {
+class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int) : RecyclerView.Adapter<BookResultViewHolder>() {
 
     private var books: ArrayList<Book>? = null
     private var hideTitleBar: Boolean = false
     private val maxDisplayNumber: Int
-    var bookResultClickHandler: BookResultClickHandler
+
+    var bookResultClickHandler: BookResultClickHandler? = null
 
     init {
         books = ArrayList()
         this.hideTitleBar = hideTitleBar
-        this.bookResultClickHandler = clickHandler
         this.maxDisplayNumber = maxDisplayNumber
     }
 
@@ -45,7 +45,7 @@ class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int, clickHandl
             holder.bookDescription.text = bookViewModel.getDescription()
             holder.bookPrice.text = bookViewModel.getPrice()
             holder.bookImage.setImageURI(bookViewModel.getImage())
-            holder.bookResultBody.setOnClickListener({ bookResultClickHandler.onBookCardClicked(book) })
+            holder.bookResultBody.setOnClickListener({ bookResultClickHandler?.onBookCardClicked(book) })
         }
     }
 
@@ -58,7 +58,11 @@ class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int, clickHandl
 
     fun setBooks(books: List<Book>) {
         this.books = books as ArrayList<Book>
+
+        // DIRTY WORK::
+        // To remove first result(it meant to be best price result) from the list.
         this.books?.removeAt(0)
+
         notifyDataSetChanged()
     }
 
@@ -71,6 +75,10 @@ class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int, clickHandl
     fun resetBooks() {
         this.books?.clear()
         notifyDataSetChanged()
+    }
+
+    fun getBooksCount(): Int {
+        return books!!.size
     }
 
     fun sortByMoney() {

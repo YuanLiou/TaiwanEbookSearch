@@ -84,8 +84,8 @@
         android:background="?selectableItemBackgroundBorderless"
         />
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/search_view_scrollview"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/search_view_result"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
@@ -94,11 +94,9 @@
         android:scrollbarStyle="outsideOverlay"
         android:descendantFocusability="beforeDescendants"
         android:visibility="invisible"
+        app:layoutManager="LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:visibility="invisible"
-        >
+        tools:listitem="@layout/adapter_bookstore_result"
+        />
 
-        <include android:id="@+id/search_view_list_layout" layout="@layout/activity_search_list_view" />
-
-    </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

@@ -5,9 +5,7 @@ import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
 /**
  * Created by louis383 on 2017/12/4.
  */
-class BookViewModel(book: Book) {
-
-    val book: Book = book
+class BookViewModel(val book: Book) {
 
     fun getTitle(): String {
         return book.title

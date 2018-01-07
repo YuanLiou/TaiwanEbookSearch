@@ -14,6 +14,8 @@ import liou.rayyuan.ebooksearchtaiwan.model.entity.BookStores
 import liou.rayyuan.ebooksearchtaiwan.model.utils.BookStoresUtils
 import liou.rayyuan.ebooksearchtaiwan.view.BookResultAdapter
 import liou.rayyuan.ebooksearchtaiwan.view.BookResultClickHandler
+import liou.rayyuan.ebooksearchtaiwan.view.BookResultView
+import liou.rayyuan.ebooksearchtaiwan.view.FullBookStoreResultAdapter
 import liou.rayyuan.ebooksearchtaiwan.view.ViewState.*
 
 /**
@@ -24,14 +26,7 @@ class BookSearchPresenter : Presenter<BookSearchView>, NetworkConnectionListener
     private var view: BookSearchView? = null
 
     lateinit var ebookSearchService: EbookSearchService
-    lateinit var bestResultAdapter: BookResultAdapter
-    lateinit var bookCompanyAdapter: BookResultAdapter
-    lateinit var readmooAdapter: BookResultAdapter
-    lateinit var koboAdapter: BookResultAdapter
-    lateinit var taazeAdapter: BookResultAdapter
-    lateinit var bookWalkerAdapter: BookResultAdapter
-    lateinit var playBooksAdapter: BookResultAdapter
-
+    lateinit var fullBookStoreResultsAdapter: FullBookStoreResultAdapter
     private val maxListNumber: Int = 10
     private var eggCount: Int = 0
 
@@ -43,41 +38,6 @@ class BookSearchPresenter : Presenter<BookSearchView>, NetworkConnectionListener
 
     override fun detachView() {
         this.view = null
-    }
-
-    fun setBestResultRecyclerView(recyclerView: RecyclerView) {
-        bestResultAdapter = BookResultAdapter(false, -1, this)
-        recyclerView.adapter = bestResultAdapter
-    }
-
-    fun setBookCompanyRecyclerView(recyclerView: RecyclerView) {
-        bookCompanyAdapter = BookResultAdapter(true, maxListNumber, this)
-        recyclerView.adapter = bookCompanyAdapter
-    }
-
-    fun setReadmooRecyclerView(recyclerView: RecyclerView) {
-        readmooAdapter = BookResultAdapter(true, maxListNumber, this)
-        recyclerView.adapter = readmooAdapter
-    }
-
-    fun setKoboRecyclerView(recyclerView: RecyclerView) {
-        koboAdapter = BookResultAdapter(true, maxListNumber, this)
-        recyclerView.adapter = koboAdapter
-    }
-
-    fun setTaazeRecyclerView(recyclerView: RecyclerView) {
-        taazeAdapter = BookResultAdapter(true, maxListNumber, this)
-        recyclerView.adapter = taazeAdapter
-    }
-
-    fun setBookWalkerRecyclerView(recyclerView: RecyclerView) {
-        bookWalkerAdapter = BookResultAdapter(true, maxListNumber, this)
-        recyclerView.adapter = bookWalkerAdapter
-    }
-
-    fun setPlayBooksRecycylerView(recyclerView: RecyclerView) {
-        playBooksAdapter = BookResultAdapter(true, maxListNumber, this)
-        recyclerView.adapter = playBooksAdapter
     }
 
     fun hintPressed() {
@@ -110,82 +70,95 @@ class BookSearchPresenter : Presenter<BookSearchView>, NetworkConnectionListener
     }
 
     private fun resetCurrentResults() {
-        bestResultAdapter.resetBooks()
-        bookCompanyAdapter.resetBooks()
-        readmooAdapter.resetBooks()
-        koboAdapter.resetBooks()
-        taazeAdapter.resetBooks()
-        bookWalkerAdapter.resetBooks()
+        fullBookStoreResultsAdapter.clean()
+    }
+
+    fun setResultRecyclerView(recyclerView: RecyclerView) {
+        fullBookStoreResultsAdapter = FullBookStoreResultAdapter(this)
+        recyclerView.adapter = fullBookStoreResultsAdapter
     }
 
     override fun onNetworkConnectionSucceed(result: String?) {
         val bookStores: BookStores? = result?.let { BookStoresUtils.convertJsonToBookStores(it) }
         if (bookStores != null) {
             view?.scrollToTop()
+            val bestResultsAdapter = BookResultAdapter(false, -1)
 
             bookStores.booksCompany?.let {
+                val bookStoreName = view?.getApplicationString(R.string.books_companyt_title)
                 if (it.isNotEmpty()) {
-                    val bookStoreName = view?.getApplicationString(R.string.books_companyt_title)
-                    bestResultAdapter.addBook(it.first(), bookStoreName!!)
-                    bookCompanyAdapter.setBooks(it)
+                    bestResultsAdapter.addBook(it.first(), bookStoreName!!)
+                    fullBookStoreResultsAdapter.addResult(generateBookResultView(bookStoreName, maxListNumber, it))
                 } else {
-                    view?.bookCompanyIsEmpty()
+                    fullBookStoreResultsAdapter.addResult(generateBookResultView(bookStoreName!!, maxListNumber, null))
                 }
             }
 
             bookStores.readmoo?.let {
+                val bookStoreName = view?.getApplicationString(R.string.readmoo_title)
                 if (it.isNotEmpty()) {
-                    val bookStoreName = view?.getApplicationString(R.string.readmoo_title)
-                    bestResultAdapter.addBook(it.first(), bookStoreName!!)
-                    readmooAdapter.setBooks(it)
+                    bestResultsAdapter.addBook(it.first(), bookStoreName!!)
+                    fullBookStoreResultsAdapter.addResult(generateBookResultView(bookStoreName, maxListNumber, it))
                 } else {
-                    view?.readmooIsEmpty()
+                    fullBookStoreResultsAdapter.addResult(generateBookResultView(bookStoreName!!, maxListNumber, null))
                 }
             }
 
             bookStores.kobo?.let {
+                val bookStoreName = view?.getApplicationString(R.string.kobo_title)
                 if (it.isNotEmpty()) {
-                    val bookStoreName = view?.getApplicationString(R.string.kobo_title)
-                    bestResultAdapter.addBook(it.first(), bookStoreName!!)
-                    koboAdapter.setBooks(it)
+                    bestResultsAdapter.addBook(it.first(), bookStoreName!!)
+                    fullBookStoreResultsAdapter.addResult(generateBookResultView(bookStoreName, maxListNumber, it))
                 } else {
-                    view?.koboIsEmpty()
+                    fullBookStoreResultsAdapter.addResult(generateBookResultView(bookStoreName!!, maxListNumber, null))
                 }
             }
 
             bookStores.taaze?.let {
+                val bookStoreName = view?.getApplicationString(R.string.taaze_title)
                 if (it.isNotEmpty()) {
-                    val bookStoreName = view?.getApplicationString(R.string.taaze_title)
-                    bestResultAdapter.addBook(it.first(), bookStoreName!!)
-                    taazeAdapter.setBooks(it)
+                    bestResultsAdapter.addBook(it.first(), bookStoreName!!)
+                    fullBookStoreResultsAdapter.addResult(generateBookResultView(bookStoreName, maxListNumber, it))
                 } else {
-                    view?.taazeIsEmpty()
+                    fullBookStoreResultsAdapter.addResult(generateBookResultView(bookStoreName!!, maxListNumber, null))
                 }
             }
 
             bookStores.bookWalker?.let {
+                val bookStoreName = view?.getApplicationString(R.string.book_walker_title)
                 if (it.isNotEmpty()) {
-                    val bookStoreName = view?.getApplicationString(R.string.book_walker_title)
-                    bestResultAdapter.addBook(it.first(), bookStoreName!!)
-                    bookWalkerAdapter.setBooks(it)
+                    bestResultsAdapter.addBook(it.first(), bookStoreName!!)
+                    fullBookStoreResultsAdapter.addResult(generateBookResultView(bookStoreName, maxListNumber, it))
                 } else {
-                    view?.bookWalkerIsEmpty()
+                    fullBookStoreResultsAdapter.addResult(generateBookResultView(bookStoreName!!, maxListNumber, null))
                 }
             }
 
             bookStores.playStore?.let {
+                val bookStoreName = view?.getApplicationString(R.string.playbook_title)
                 if (it.isNotEmpty()) {
-                    val bookStoreName = view?.getApplicationString(R.string.playbook_title)
-                    bestResultAdapter.addBook(it.first(), bookStoreName!!)
-                    playBooksAdapter.setBooks(it)
+                    bestResultsAdapter.addBook(it.first(), bookStoreName!!)
+                    fullBookStoreResultsAdapter.addResult(generateBookResultView(bookStoreName, maxListNumber, it))
                 } else {
-                    view?.playBookIsEmpty()
+                    fullBookStoreResultsAdapter.addResult(generateBookResultView(bookStoreName!!, maxListNumber, null))
                 }
             }
+            bestResultsAdapter.sortByMoney()
 
-            bestResultAdapter.sortByMoney()
+            val bestResultTitle = view?.getApplicationString(R.string.best_result_title)
+            val bestResultView = BookResultView(bestResultTitle!!, bestResultsAdapter)
+            fullBookStoreResultsAdapter.addResultToBeginning(bestResultView)
+
             view?.setMainResultView(READY)
         }
+    }
+
+    private fun generateBookResultView(storeName: String, maxListNumber: Int, books: List<Book>?): BookResultView {
+        val bookResultAdapter = BookResultAdapter(true, maxListNumber)
+        if (books != null) {
+            bookResultAdapter.setBooks(books)
+        }
+        return BookResultView(storeName, bookResultAdapter)
     }
 
     override fun onNetworkConnectionError(result: String?, responseCode: Int?) {

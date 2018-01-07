@@ -14,7 +14,6 @@ import android.support.annotation.IdRes
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
-import android.support.v4.widget.NestedScrollView
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
@@ -37,28 +36,7 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
     private val searchButton: ImageView by bindView(R.id.search_view_search_icon)
     private val searchEditText: EditText by bindView(R.id.search_view_edittext)
 
-    private val bestResultTitle: TextView by bindView(R.id.search_result_subtitle_top)
-    private val bestResultRecyclerView: RecyclerView by bindView(R.id.search_result_list_top)
-
-    private val bookCompanyTitle: TextView by bindView(R.id.search_result_subtitle_store1)
-    private val bookCompanyRecyclerView: RecyclerView by bindView(R.id.search_result_list_store1)
-
-    private val readmooTitle: TextView by bindView(R.id.search_result_subtitle_store2)
-    private val readmooRecyclerView: RecyclerView by bindView(R.id.search_result_list_store2)
-
-    private val koboTitle: TextView by bindView(R.id.search_result_subtitle_store3)
-    private val koboRecyclerView: RecyclerView by bindView(R.id.search_result_list_store3)
-
-    private val taazeTitle: TextView by bindView(R.id.search_result_subtitle_store4)
-    private val taazeRecyclerView: RecyclerView by bindView(R.id.search_result_list_store4)
-
-    private val bookWalkerTitle: TextView by bindView(R.id.search_result_subtitle_store5)
-    private val bookWalkerRecyclerView: RecyclerView by bindView(R.id.search_result_list_store5)
-
-    private val playBooksTitle: TextView by bindView(R.id.search_result_subtitle_store6)
-    private val playBooksRecyclerView: RecyclerView by bindView(R.id.search_result_list_store6)
-
-    private val scrollView: NestedScrollView by bindView(R.id.search_view_scrollview)
+    private val resultsRecyclerView: RecyclerView by bindView(R.id.search_view_result)
     private val progressBar: ProgressBar by bindView(R.id.search_view_progressbar)
 
     private val hintText: TextView by bindView(R.id.search_view_hint)
@@ -71,7 +49,6 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
         setContentView(R.layout.activity_search)
         presenter = BookSearchPresenter()
         presenter.attachView(this)
-        setRecyclerViews()
 
         chromeCustomTabHelper = ChromeCustomTabsHelper()
         searchButton.setOnClickListener(this)
@@ -83,21 +60,11 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
             false
         }
         hintText.setOnClickListener(this)
-        for (drawable in hintText.compoundDrawables) {
-            if (drawable != null) {
-                DrawableCompat.setTint(drawable, ContextCompat.getColor(this, R.color.gray))
-            }
-        }
-    }
+        hintText.compoundDrawables
+                .filterNotNull()
+                .forEach { DrawableCompat.setTint(it, ContextCompat.getColor(this, R.color.gray)) }
 
-    private fun setRecyclerViews() {
-        presenter.setBestResultRecyclerView(bestResultRecyclerView)
-        presenter.setBookCompanyRecyclerView(bookCompanyRecyclerView)
-        presenter.setReadmooRecyclerView(readmooRecyclerView)
-        presenter.setKoboRecyclerView(koboRecyclerView)
-        presenter.setTaazeRecyclerView(taazeRecyclerView)
-        presenter.setBookWalkerRecyclerView(bookWalkerRecyclerView)
-        presenter.setPlayBooksRecycylerView(playBooksRecyclerView)
+        presenter.setResultRecyclerView(resultsRecyclerView)
     }
 
     override fun onResume() {
@@ -112,14 +79,6 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
 
     //region BookSearchView
     override fun setupInterface() {
-        bestResultTitle.text = resources.getString(R.string.best_result_title)
-        bookCompanyTitle.text = resources.getString(R.string.books_companyt_title)
-        readmooTitle.text = resources.getString(R.string.readmoo_title)
-        koboTitle.text = resources.getString(R.string.kobo_title)
-        taazeTitle.text = resources.getString(R.string.taaze_title)
-        bookWalkerTitle.text = resources.getString(R.string.book_walker_title)
-        playBooksTitle.text = resources.getString(R.string.playbook_title)
-
         val hintWithAppVersion = hintText.text.toString() + "\n" + resources.getString(R.string.app_version, BuildConfig.VERSION_NAME)
         hintText.text = hintWithAppVersion
     }
@@ -150,24 +109,24 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
     }
 
     override fun scrollToTop() {
-        scrollView.scrollTo(0, 0)
+        resultsRecyclerView.scrollToPosition(0)
     }
 
     override fun setMainResultView(viewState: ViewState) {
         when (viewState) {
             PREPARE -> {
                 progressBar.visibility = View.VISIBLE
-                scrollView.visibility = View.INVISIBLE
+                resultsRecyclerView.visibility = View.GONE
                 hintText.visibility = View.GONE
             }
             READY -> {
                 progressBar.visibility = View.GONE
-                scrollView.visibility = View.VISIBLE
+                resultsRecyclerView.visibility = View.VISIBLE
                 hintText.visibility = View.GONE
             }
             ERROR -> {
                 progressBar.visibility = View.GONE
-                scrollView.visibility = View.INVISIBLE
+                resultsRecyclerView.visibility = View.GONE
                 hintText.visibility = View.VISIBLE
             }
         }
@@ -204,18 +163,6 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
         Toast.makeText(this, R.string.easter_egg_01, Toast.LENGTH_LONG).show()
     }
 
-    override fun bookCompanyIsEmpty() {}
-
-    override fun readmooIsEmpty() {}
-
-    override fun koboIsEmpty() {}
-
-    override fun taazeIsEmpty() {}
-
-    override fun bookWalkerIsEmpty() {}
-
-    override fun playBookIsEmpty() {}
-
     //endregion
 
     //region View.OnClickListener
@@ -238,9 +185,8 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
     }
     //endregion
 
-    private fun <T: View> Activity.bindView(@IdRes resId: Int): Lazy<T> {
-        return lazy { findViewById<T>(resId) }
-    }
+    private fun <T: View> Activity.bindView(@IdRes resId: Int): Lazy<T> =
+            lazy { findViewById<T>(resId) }
 
     private fun getThemePrimaryColor(): Int {
         val typedValue: TypedValue = TypedValue()
