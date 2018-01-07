@@ -20,7 +20,7 @@ class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int, clickHandl
 
     private var books: ArrayList<Book>? = null
     private var hideTitleBar: Boolean = false
-    val maxDisplayNumber: Int
+    private val maxDisplayNumber: Int
     var bookResultClickHandler: BookResultClickHandler
 
     init {
