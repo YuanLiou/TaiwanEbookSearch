@@ -6,7 +6,8 @@ package liou.rayyuan.ebooksearchtaiwan.model.entity
    "readmoo":[ ],
    "kobo":[ ],
    "taaze":[ ]
-   "bookWalker": []
+   "bookWalker": [],
+   "pubu": []
 * }
  */
 data class BookStores(val booksCompany: List<Book>?,
@@ -14,4 +15,5 @@ data class BookStores(val booksCompany: List<Book>?,
                       val kobo: List<Book>?,
                       val taaze: List<Book>?,
                       val bookWalker: List<Book>?,
-                      val playStore: List<Book>? )
+                      val playStore: List<Book>?,
+                      val pubu: List<Book>?)

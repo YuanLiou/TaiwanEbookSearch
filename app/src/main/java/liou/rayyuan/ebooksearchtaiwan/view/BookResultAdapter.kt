@@ -58,11 +58,11 @@ class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int) : Recycler
 
     fun setBooks(books: List<Book>) {
         this.books = books as ArrayList<Book>
-
-        // DIRTY WORK::
+        // FIXME:: DIRTY WORK
         // To remove first result(it meant to be best price result) from the list.
-        this.books?.removeAt(0)
-
+        if (this.books!!.isNotEmpty()) {
+            this.books?.removeAt(0)
+        }
         notifyDataSetChanged()
     }
 
