@@ -86,37 +86,38 @@ class BookSearchPresenter : Presenter<BookSearchView>, NetworkConnectionListener
 
             bookStores.booksCompany?.let {
                 val bookStoreName = view?.getApplicationString(R.string.books_companyt_title)
-                setupResult(bestResultsAdapter, bookStoreName!!, it)
+                addResult(bestResultsAdapter, bookStoreName!!, it)
             }
 
             bookStores.readmoo?.let {
                 val bookStoreName = view?.getApplicationString(R.string.readmoo_title)
-                setupResult(bestResultsAdapter, bookStoreName!!, it)
+                addResult(bestResultsAdapter, bookStoreName!!, it)
             }
 
             bookStores.kobo?.let {
                 val bookStoreName = view?.getApplicationString(R.string.kobo_title)
-                setupResult(bestResultsAdapter, bookStoreName!!, it)
+                addResult(bestResultsAdapter, bookStoreName!!, it)
             }
 
             bookStores.taaze?.let {
                 val bookStoreName = view?.getApplicationString(R.string.taaze_title)
-                setupResult(bestResultsAdapter, bookStoreName!!, it)
+                addResult(bestResultsAdapter, bookStoreName!!, it)
             }
 
             bookStores.bookWalker?.let {
                 val bookStoreName = view?.getApplicationString(R.string.book_walker_title)
-                setupResult(bestResultsAdapter, bookStoreName!!, it)
+                addResult(bestResultsAdapter, bookStoreName!!, it)
             }
 
             bookStores.playStore?.let {
                 val bookStoreName = view?.getApplicationString(R.string.playbook_title)
-                setupResult(bestResultsAdapter, bookStoreName!!, it)
+                addResult(bestResultsAdapter, bookStoreName!!, it)
             }
 
-//            bookStores.pubu?.let {
-//                val bookStoreName = view?.getApplicationString(R.string.pubu_title)
-//            }
+            bookStores.pubu?.let {
+                val bookStoreName = view?.getApplicationString(R.string.pubu_title)
+                addResult(bestResultsAdapter, bookStoreName!!, it)
+            }
 
             bestResultsAdapter.sortByMoney()
 
@@ -128,7 +129,7 @@ class BookSearchPresenter : Presenter<BookSearchView>, NetworkConnectionListener
         }
     }
 
-    private fun setupResult(bestAdapter: BookResultAdapter, bookStoreName: String, books: List<Book>) {
+    private fun addResult(bestAdapter: BookResultAdapter, bookStoreName: String, books: List<Book>) {
         if (books.isNotEmpty()) {
             bestAdapter.addBook(books.first(), bookStoreName)
         }
