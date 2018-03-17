@@ -1,6 +1,9 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import android.app.Activity
+import android.arch.lifecycle.LifecycleOwner
+import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -161,6 +164,18 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
 
     override fun showEasterEgg01() {
         Toast.makeText(this, R.string.easter_egg_01, Toast.LENGTH_LONG).show()
+    }
+
+    override fun getViewModelProvider(): ViewModelProvider {
+        return ViewModelProviders.of(this)
+    }
+
+    override fun getLifeCycleOwner(): LifecycleOwner {
+        return this
+    }
+
+    override fun showNetworkErrorMessage() {
+        Toast.makeText(this, getString(R.string.network_error_message), Toast.LENGTH_LONG).show()
     }
 
     //endregion

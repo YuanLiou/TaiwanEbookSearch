@@ -18,14 +18,13 @@ import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
 
 class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int) : RecyclerView.Adapter<BookResultViewHolder>() {
 
-    private var books: ArrayList<Book>? = null
+    private var books: ArrayList<Book>? = ArrayList()
     private var hideTitleBar: Boolean = false
     private val maxDisplayNumber: Int
 
     var bookResultClickHandler: BookResultClickHandler? = null
 
     init {
-        books = ArrayList()
         this.hideTitleBar = hideTitleBar
         this.maxDisplayNumber = maxDisplayNumber
     }
@@ -57,19 +56,21 @@ class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int) : Recycler
     }
 
     fun setBooks(books: List<Book>) {
-        this.books = books as ArrayList<Book>
+        val originalIndex: Int = this.books?.size ?: 0
+        this.books?.addAll(books)
         // FIXME:: DIRTY WORK
         // To remove first result(it meant to be best price result) from the list.
         if (this.books!!.isNotEmpty()) {
             this.books?.removeAt(0)
         }
-        notifyDataSetChanged()
+        notifyItemRangeInserted(originalIndex, books.size)
     }
 
     fun addBook(book: Book, bookStoreName: String) {
         book.bookStore = bookStoreName
+        val originalIndex: Int = this.books?.size ?: 0
         this.books?.add(book)
-        notifyDataSetChanged()
+        notifyItemInserted(originalIndex)
     }
 
     fun resetBooks() {

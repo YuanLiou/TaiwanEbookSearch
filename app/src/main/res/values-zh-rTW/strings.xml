@@ -21,4 +21,5 @@
     <string name="pubu_title">Pubu</string>
     <string name="app_version">版本：%1$s</string>
     <string name="result_nothing">完全沒有畫面</string>
+    <string name="network_error_message">連線發生錯誤，請稍後再嘗試一次</string>
 </resources>
