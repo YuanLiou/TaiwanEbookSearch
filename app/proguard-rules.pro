@@ -27,6 +27,7 @@
 
 # Model
 -keep class liou.rayyuan.ebooksearchtaiwan.model.entity.** { *; }
+-keep class liou.rayyuan.ebooksearchtaiwan.model.BookSearchService { *; }
 
 # Remove log code
 -assumenosideeffects class android.util.Log {

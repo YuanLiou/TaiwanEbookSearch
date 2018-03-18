@@ -26,4 +26,8 @@ class BookListViewModel: ViewModel() {
     override fun onCleared() {
         liveData?.cancel()
     }
+
+    fun isRequestingData(): Boolean {
+        return liveData?.isConnecting() ?: false
+    }
 }

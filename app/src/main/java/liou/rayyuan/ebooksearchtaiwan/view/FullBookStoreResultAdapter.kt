@@ -14,6 +14,7 @@ import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
 class FullBookStoreResultAdapter(val clickHandler: BookResultClickHandler): RecyclerView.Adapter<FullBookStoreResultAdapter.BookStoreResultViewHolder>(), BookResultClickHandler {
 
     private val results: ArrayList<BookResultView> = ArrayList()
+    private var pool: RecyclerView.RecycledViewPool? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookStoreResultViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.adapter_bookstore_result, parent, false)
@@ -32,6 +33,11 @@ class FullBookStoreResultAdapter(val clickHandler: BookResultClickHandler): Recy
                 holder.bookStoreResult.visibility = View.VISIBLE
                 holder.bookStoreResultIsEmpty.visibility = View.GONE
 
+                if (pool == null) {
+                    pool = holder.bookStoreResult.recycledViewPool
+                }
+
+                holder.bookStoreResult.recycledViewPool = pool
                 holder.bookStoreResult.adapter = adapter
             } else {
                 holder.bookStoreResult.visibility = View.GONE
@@ -54,6 +60,7 @@ class FullBookStoreResultAdapter(val clickHandler: BookResultClickHandler): Recy
 
     fun clean() {
         results.clear()
+        pool = null
         notifyDataSetChanged()
     }
 

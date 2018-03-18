@@ -7,8 +7,7 @@ import android.support.v7.widget.RecyclerView
 import liou.rayyuan.ebooksearchtaiwan.Presenter
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.model.APIManager
-import liou.rayyuan.ebooksearchtaiwan.model.EbookSearchService
-import liou.rayyuan.ebooksearchtaiwan.model.NetworkLiveData
+import liou.rayyuan.ebooksearchtaiwan.model.OnNetworkConnectionListener
 import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
 import liou.rayyuan.ebooksearchtaiwan.model.entity.BookStores
 import liou.rayyuan.ebooksearchtaiwan.view.BookResultAdapter
@@ -23,12 +22,11 @@ import okhttp3.ResponseBody
  * Created by louis383 on 2017/12/2.
  */
 class BookSearchPresenter : Presenter<BookSearchView>, LifecycleObserver,
-    NetworkLiveData.OnNetworkErrorListener, BookResultClickHandler {
+    OnNetworkConnectionListener, BookResultClickHandler {
 
     private var view: BookSearchView? = null
     private var bookListViewModel: BookListViewModel? = null
 
-    lateinit var ebookSearchService: EbookSearchService
     lateinit var fullBookStoreResultsAdapter: FullBookStoreResultAdapter
     private val maxListNumber: Int = 10
     private var eggCount: Int = 0
@@ -37,11 +35,15 @@ class BookSearchPresenter : Presenter<BookSearchView>, LifecycleObserver,
 
     override fun attachView(view: BookSearchView) {
         this.view = view
-        ebookSearchService = EbookSearchService()
         view.setupInterface()
 
         bookListViewModel = view.getViewModelProvider().get(BookListViewModel::class.java)
         bookListViewModel?.apiManager = apiManager
+
+        val isRequestingData: Boolean = bookListViewModel?.isRequestingData() ?: false
+        if (isRequestingData) {
+            view?.setMainResultView(PREPARE)
+        }
 
         val bookLiveData = bookListViewModel?.getBookList("", false)
         bookLiveData?.listener = this

@@ -19,6 +19,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.TypedValue
 import android.view.View
@@ -66,6 +67,9 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
         hintText.compoundDrawables
                 .filterNotNull()
                 .forEach { DrawableCompat.setTint(it, ContextCompat.getColor(this, R.color.gray)) }
+
+        val linearLayoutManager: LinearLayoutManager = resultsRecyclerView.layoutManager as LinearLayoutManager
+        linearLayoutManager.initialPrefetchItemCount = 6
 
         presenter.setResultRecyclerView(resultsRecyclerView)
     }

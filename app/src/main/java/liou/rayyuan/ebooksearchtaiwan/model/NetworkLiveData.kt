@@ -2,7 +2,6 @@ package liou.rayyuan.ebooksearchtaiwan.model
 
 import android.arch.lifecycle.LiveData
 import android.util.Log
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -12,7 +11,7 @@ import java.util.concurrent.TimeoutException
 class NetworkLiveData<T>(private val call: Call<T>): LiveData<T>(), Callback<T> {
 
     private val tag: String = "NetworkLiveData"
-    var listener: OnNetworkErrorListener? = null
+    var listener: OnNetworkConnectionListener? = null
 
     //region Retrofit.Callback<T>
     override fun onFailure(call: Call<T>?, t: Throwable?) {
@@ -44,8 +43,7 @@ class NetworkLiveData<T>(private val call: Call<T>): LiveData<T>(), Callback<T> 
         }
     }
 
-    interface OnNetworkErrorListener {
-        fun onNetworkErrorOccurred(errorBody: ResponseBody?)
-        fun onNetworkTimeout()
+    fun isConnecting(): Boolean {
+        return call.isExecuted
     }
 }
