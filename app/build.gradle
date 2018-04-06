@@ -49,7 +49,7 @@ android {
 
 static def getVersionCodeTimeStamps() {
     def date = new Date()
-    def formattedDate = date.format('yyMMddHHmm')
+    def formattedDate = '19' + date.format('yyMMddHH')
     def result = formattedDate.toInteger()
     return result
 }
