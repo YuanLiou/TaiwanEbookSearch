@@ -26,6 +26,9 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import liou.rayyuan.chromecustomtabhelper.ChromeCustomTabsHelper
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
@@ -44,6 +47,8 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
     private val progressBar: ProgressBar by bindView(R.id.search_view_progressbar)
 
     private val hintText: TextView by bindView(R.id.search_view_hint)
+    private val shadow: View by bindView(R.id.search_view_shadow)
+    private val adView: AdView by bindView(R.id.search_view_ad)
 
     lateinit var presenter: BookSearchPresenter
     lateinit var chromeCustomTabHelper: ChromeCustomTabsHelper
@@ -53,6 +58,8 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
         setContentView(R.layout.activity_search)
         presenter = BookSearchPresenter()
         presenter.attachView(this)
+
+        MobileAds.initialize(this, BuildConfig.AD_MOB_ID)
 
         chromeCustomTabHelper = ChromeCustomTabsHelper()
         searchButton.setOnClickListener(this)
@@ -85,9 +92,13 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
     }
 
     //region BookSearchView
-    override fun setupInterface() {
+    override fun setupUI() {
         val hintWithAppVersion = hintText.text.toString() + "\n" + resources.getString(R.string.app_version, BuildConfig.VERSION_NAME)
         hintText.text = hintWithAppVersion
+
+        val adRequestBuilder = AdRequest.Builder()
+        val adRequest = adRequestBuilder.build()
+        adView.loadAd(adRequest)
     }
 
     override fun openBookLink(uri: Uri) {
@@ -125,16 +136,22 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
                 progressBar.visibility = View.VISIBLE
                 resultsRecyclerView.visibility = View.GONE
                 hintText.visibility = View.GONE
+                shadow.visibility = View.GONE
+                adView.visibility = View.INVISIBLE
             }
             READY -> {
                 progressBar.visibility = View.GONE
                 resultsRecyclerView.visibility = View.VISIBLE
                 hintText.visibility = View.GONE
+                shadow.visibility = View.VISIBLE
+                adView.visibility = View.VISIBLE
             }
             ERROR -> {
                 progressBar.visibility = View.GONE
                 resultsRecyclerView.visibility = View.GONE
                 hintText.visibility = View.VISIBLE
+                shadow.visibility = View.GONE
+                adView.visibility = View.INVISIBLE
             }
         }
     }
@@ -181,7 +198,6 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
     override fun showNetworkErrorMessage() {
         Toast.makeText(this, getString(R.string.network_error_message), Toast.LENGTH_LONG).show()
     }
-
     //endregion
 
     //region View.OnClickListener

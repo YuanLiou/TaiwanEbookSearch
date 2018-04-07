@@ -10,7 +10,7 @@ import liou.rayyuan.ebooksearchtaiwan.view.ViewState
  */
 
 interface BookSearchView {
-    fun setupInterface()
+    fun setupUI()
     fun setMainResultView(viewState: ViewState)
     fun scrollToTop()
     fun openBookLink(uri: Uri)

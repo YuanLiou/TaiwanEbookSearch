@@ -63,6 +63,9 @@
     native <methods>;
 }
 
+# Keep Google Play Services
+-keep class com.google.android.gms.internal.** { *; }
+
 -dontwarn okio.**
 -dontwarn com.squareup.okhttp.**
 -dontwarn okhttp3.**

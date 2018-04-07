@@ -40,6 +40,8 @@ android {
     }
     buildTypes.all {
         buildConfigField 'String', 'HOST_URL', HOST
+        buildConfigField 'String', 'AD_MOB_ID', ADMOB_ID
+        resValue 'string', 'AD_MOB_UNIT_ID', ADMOB_UNIT_ID
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -70,6 +72,10 @@ dependencies {
     // Java8 support for Lifecycles
     implementation "android.arch.lifecycle:common-java8:1.1.0"
 
+    // Firebase
+    implementation "com.google.firebase:firebase-core:${firebase_version}"
+    implementation "com.google.firebase:firebase-ads:${firebase_version}"
+
     // retrofit
     implementation "com.squareup.retrofit2:retrofit:${retrofit_version}"
     implementation "com.squareup.retrofit2:converter-gson:${retrofit_version}"
@@ -80,3 +86,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 }
+
+// Firebase config needs to put on bottom
+apply plugin: 'com.google.gms.google-services'

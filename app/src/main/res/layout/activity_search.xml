@@ -90,12 +90,34 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:clipChildren="false"
+        android:paddingBottom="80dp"
         android:scrollbars="none"
         android:descendantFocusability="beforeDescendants"
         android:visibility="invisible"
         app:layoutManager="LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/adapter_bookstore_result"
+        />
+
+    <View
+        android:id="@+id/search_view_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="@drawable/shadow_vertical"
+        android:visibility="gone"
+        tools:visibility="visible"
+        />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/search_view_ad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:visibility="invisible"
+        app:adSize="BANNER"
+        app:adUnitId="@string/AD_MOB_UNIT_ID"
+        tools:visibility="visible"
         />
 
 </android.support.design.widget.CoordinatorLayout>

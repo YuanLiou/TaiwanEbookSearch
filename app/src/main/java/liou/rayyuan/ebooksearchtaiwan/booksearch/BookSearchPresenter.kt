@@ -27,7 +27,7 @@ class BookSearchPresenter : Presenter<BookSearchView>, LifecycleObserver,
     private var view: BookSearchView? = null
     private var bookListViewModel: BookListViewModel? = null
 
-    lateinit var fullBookStoreResultsAdapter: FullBookStoreResultAdapter
+    private lateinit var fullBookStoreResultsAdapter: FullBookStoreResultAdapter
     private val maxListNumber: Int = 10
     private var eggCount: Int = 0
     private val apiManager: APIManager = APIManager()
@@ -35,14 +35,14 @@ class BookSearchPresenter : Presenter<BookSearchView>, LifecycleObserver,
 
     override fun attachView(view: BookSearchView) {
         this.view = view
-        view.setupInterface()
+        view.setupUI()
 
         bookListViewModel = view.getViewModelProvider().get(BookListViewModel::class.java)
         bookListViewModel?.apiManager = apiManager
 
         val isRequestingData: Boolean = bookListViewModel?.isRequestingData() ?: false
         if (isRequestingData) {
-            view?.setMainResultView(PREPARE)
+            view.setMainResultView(PREPARE)
         }
 
         val bookLiveData = bookListViewModel?.getBookList("", false)
