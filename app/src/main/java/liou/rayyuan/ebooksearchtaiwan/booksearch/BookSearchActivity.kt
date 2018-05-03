@@ -12,7 +12,6 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
 import android.os.Bundle
-import android.support.annotation.ColorInt
 import android.support.annotation.IdRes
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.content.ContextCompat
@@ -50,8 +49,8 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
     private val shadow: View by bindView(R.id.search_view_shadow)
     private val adView: AdView by bindView(R.id.search_view_ad)
 
-    lateinit var presenter: BookSearchPresenter
-    lateinit var chromeCustomTabHelper: ChromeCustomTabsHelper
+    private lateinit var presenter: BookSearchPresenter
+    private lateinit var chromeCustomTabHelper: ChromeCustomTabsHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -224,9 +223,8 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
             lazy { findViewById<T>(resId) }
 
     private fun getThemePrimaryColor(): Int {
-        val typedValue: TypedValue = TypedValue()
+        val typedValue = TypedValue()
         theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
-        @ColorInt val colorId: Int = typedValue.data
-        return colorId
+        return typedValue.data
     }
 }

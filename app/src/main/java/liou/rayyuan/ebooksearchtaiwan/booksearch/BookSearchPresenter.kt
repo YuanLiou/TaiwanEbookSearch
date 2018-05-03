@@ -95,7 +95,7 @@ class BookSearchPresenter : Presenter<BookSearchView>, LifecycleObserver,
         recyclerView.adapter = fullBookStoreResultsAdapter
     }
 
-    fun onBookSearchSucceed(bookStores: BookStores?) {
+    private fun onBookSearchSucceed(bookStores: BookStores?) {
         this.bookStores = bookStores
 
         view?.scrollToTop()

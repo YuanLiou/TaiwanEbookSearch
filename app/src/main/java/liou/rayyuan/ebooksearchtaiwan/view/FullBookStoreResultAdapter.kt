@@ -11,9 +11,11 @@ import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
 /**
  * Created by louis383 on 2018/1/7.
  */
-class FullBookStoreResultAdapter(val clickHandler: BookResultClickHandler): RecyclerView.Adapter<FullBookStoreResultAdapter.BookStoreResultViewHolder>(), BookResultClickHandler {
+class FullBookStoreResultAdapter(private val clickHandler: BookResultClickHandler):
+        RecyclerView.Adapter<FullBookStoreResultAdapter.BookStoreResultViewHolder>(),
+        BookResultClickHandler {
 
-    private val results: ArrayList<BookResultView> = ArrayList()
+    private val results = mutableListOf<BookResultView>()
     private var pool: RecyclerView.RecycledViewPool? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookStoreResultViewHolder {

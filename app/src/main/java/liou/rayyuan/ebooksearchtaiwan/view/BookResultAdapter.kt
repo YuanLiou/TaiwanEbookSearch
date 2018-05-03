@@ -17,8 +17,7 @@ import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
  */
 
 class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int) : RecyclerView.Adapter<BookResultViewHolder>() {
-
-    private var books: ArrayList<Book>? = ArrayList()
+    private val books = mutableListOf<Book>()
     private var hideTitleBar: Boolean = false
     private val maxDisplayNumber: Int
 
@@ -36,8 +35,8 @@ class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int) : Recycler
 
     override fun onBindViewHolder(holder: BookResultViewHolder, position: Int) {
         val index: Int = holder.adapterPosition
-        if (books!!.isNotEmpty() && index < books!!.size) {
-            val book: Book = books!![index]
+        if (books.isNotEmpty() && index < books.size) {
+            val book: Book = books[index]
             val bookViewModel = BookViewModel(book)
             holder.bookShopName.text = bookViewModel.getShopName()
             holder.bookTitle.text = bookViewModel.getTitle()
@@ -49,41 +48,41 @@ class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int) : Recycler
     }
 
     override fun getItemCount(): Int {
-        if (maxDisplayNumber > 0 && books!!.size > maxDisplayNumber) {
+        if (maxDisplayNumber > 0 && books.size > maxDisplayNumber) {
             return maxDisplayNumber
         }
-        return books!!.size
+        return books.size
     }
 
     fun setBooks(books: List<Book>) {
-        val originalIndex: Int = this.books?.size ?: 0
-        this.books?.addAll(books)
+        val originalIndex: Int = this.books.size
+        this.books.addAll(books)
         // FIXME:: DIRTY WORK
         // To remove first result(it meant to be best price result) from the list.
-        if (this.books!!.isNotEmpty()) {
-            this.books?.removeAt(0)
+        if (this.books.isNotEmpty()) {
+            this.books.removeAt(0)
         }
         notifyItemRangeInserted(originalIndex, books.size)
     }
 
     fun addBook(book: Book, bookStoreName: String) {
         book.bookStore = bookStoreName
-        val originalIndex: Int = this.books?.size ?: 0
-        this.books?.add(book)
+        val originalIndex: Int = this.books.size
+        this.books.add(book)
         notifyItemInserted(originalIndex)
     }
 
     fun resetBooks() {
-        this.books?.clear()
+        this.books.clear()
         notifyDataSetChanged()
     }
 
     fun getBooksCount(): Int {
-        return books!!.size
+        return books.size
     }
 
     fun sortByMoney() {
-        this.books?.sortWith(compareBy { it.price })
+        this.books.sortWith(compareBy { it.price })
     }
 
     class BookResultViewHolder(itemView: View, hideTitleBar: Boolean) : RecyclerView.ViewHolder(itemView) {

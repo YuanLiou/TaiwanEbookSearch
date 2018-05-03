@@ -5,7 +5,7 @@ import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
 /**
  * Created by louis383 on 2017/12/4.
  */
-class BookViewModel(val book: Book) {
+class BookViewModel(private val book: Book) {
 
     fun getTitle(): String {
         return book.title
@@ -20,7 +20,7 @@ class BookViewModel(val book: Book) {
     }
 
     fun getPrice(): String {
-        if (book.priceCurrency.equals("TWD")) {
+        if (book.priceCurrency == "TWD") {
             val price:Int = book.price.toInt()
             return "$" + price + " " + book.priceCurrency
         }
@@ -29,9 +29,6 @@ class BookViewModel(val book: Book) {
     }
 
     fun getShopName(): String {
-        if (book.bookStore != null) {
-            return book.bookStore!!
-        }
-        return ""
+        return book.bookStore ?: ""
     }
 }
