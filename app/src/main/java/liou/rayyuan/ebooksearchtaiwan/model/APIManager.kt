@@ -14,13 +14,22 @@ class APIManager {
     private val timeout: Long = 60
 
     init {
+        var userAgent = SystemInfoCollector.getUserAgent()
+
         val logInterceptor = HttpLoggingInterceptor()
         logInterceptor.level = HttpLoggingInterceptor.Level.HEADERS
         if (BuildConfig.DEBUG) {
             logInterceptor.level = HttpLoggingInterceptor.Level.BODY
+            userAgent += " Debug App"
         }
 
         val httpClient = OkHttpClient.Builder()
+            .addInterceptor { chain ->
+                val request = chain.request().newBuilder()
+                        .header("User-Agent", userAgent)
+                        .build()
+                chain.proceed(request)
+            }
             .addInterceptor(logInterceptor)
             .connectTimeout(timeout, TimeUnit.SECONDS)
             .readTimeout(timeout, TimeUnit.SECONDS)
