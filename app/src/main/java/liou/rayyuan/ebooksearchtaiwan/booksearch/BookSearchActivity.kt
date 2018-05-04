@@ -143,7 +143,7 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
                 resultsRecyclerView.visibility = View.VISIBLE
                 hintText.visibility = View.GONE
                 shadow.visibility = View.VISIBLE
-                adView.visibility = View.VISIBLE
+//                adView.visibility = View.VISIBLE
             }
             ERROR -> {
                 progressBar.visibility = View.GONE

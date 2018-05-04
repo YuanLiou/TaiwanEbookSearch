@@ -30,7 +30,7 @@ class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int) : Recycler
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookResultViewHolder? {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.book_card_view, parent,false)
-        return BookResultViewHolder(view, hideTitleBar)
+        return BookResultViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: BookResultViewHolder, position: Int) {
@@ -38,12 +38,23 @@ class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int) : Recycler
         if (books.isNotEmpty() && index < books.size) {
             val book: Book = books[index]
             val bookViewModel = BookViewModel(book)
-            holder.bookShopName.text = bookViewModel.getShopName()
-            holder.bookTitle.text = bookViewModel.getTitle()
-            holder.bookDescription.text = bookViewModel.getDescription()
-            holder.bookPrice.text = bookViewModel.getPrice()
-            holder.bookImage.setImageURI(bookViewModel.getImage())
-            holder.bookResultBody.setOnClickListener({ bookResultClickHandler?.onBookCardClicked(book) })
+
+            with(holder) {
+                bookShopName.text = bookViewModel.getShopName()
+                bookTitle.text = bookViewModel.getTitle()
+                bookDescription.text = bookViewModel.getDescription()
+                bookPrice.text = bookViewModel.getPrice()
+                bookImage.setImageURI(bookViewModel.getImage())
+                bookResultBody.setOnClickListener({ bookResultClickHandler?.onBookCardClicked(book) })
+
+                if (hideTitleBar) {
+                    bookShopName.visibility = View.GONE
+                    moreIcon.visibility = View.GONE
+                } else {
+                    bookShopName.visibility = View.VISIBLE
+                    moreIcon.visibility = View.INVISIBLE
+                }
+            }
         }
     }
 
@@ -85,7 +96,7 @@ class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int) : Recycler
         this.books.sortWith(compareBy { it.price })
     }
 
-    class BookResultViewHolder(itemView: View, hideTitleBar: Boolean) : RecyclerView.ViewHolder(itemView) {
+    class BookResultViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         internal val bookShopName: TextView = itemView.findViewById(R.id.book_card_shop_name)
         internal val bookTitle: TextView = itemView.findViewById(R.id.book_card_title)
         internal val bookDescription: TextView = itemView.findViewById(R.id.book_card_description)
@@ -93,12 +104,5 @@ class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int) : Recycler
         internal val moreIcon: ImageView = itemView.findViewById(R.id.book_card_more_icon)
         internal val bookImage: SimpleDraweeView = itemView.findViewById(R.id.book_card_image)
         internal val bookResultBody: View = itemView.findViewById(R.id.book_card_item_body)
-
-        init {
-            if (hideTitleBar) {
-                bookShopName.visibility = View.GONE
-                moreIcon.visibility = View.GONE
-            }
-        }
     }
 }

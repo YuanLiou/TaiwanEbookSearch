@@ -53,7 +53,6 @@
         tools:visibility="invisible"
         />
 
-
     <View
         android:id="@+id/search_result_space_top"
         android:layout_width="match_parent"

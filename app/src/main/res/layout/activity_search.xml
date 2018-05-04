@@ -93,6 +93,7 @@
         android:paddingBottom="80dp"
         android:scrollbars="none"
         android:descendantFocusability="beforeDescendants"
+        android:overScrollMode="always"
         android:visibility="invisible"
         app:layoutManager="LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"

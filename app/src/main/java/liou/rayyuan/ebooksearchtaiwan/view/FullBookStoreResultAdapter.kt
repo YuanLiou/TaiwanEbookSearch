@@ -1,5 +1,6 @@
 package liou.rayyuan.ebooksearchtaiwan.view
 
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -32,15 +33,19 @@ class FullBookStoreResultAdapter(private val clickHandler: BookResultClickHandle
 
             if (result.adapter.getBooksCount() > 0) {
                 adapter.bookResultClickHandler = this
-                holder.bookStoreResult.visibility = View.VISIBLE
-                holder.bookStoreResultIsEmpty.visibility = View.GONE
+                with(holder) {
+                    bookStoreResult.visibility = View.VISIBLE
+                    bookStoreResultIsEmpty.visibility = View.GONE
 
-                if (pool == null) {
-                    pool = holder.bookStoreResult.recycledViewPool
+                    if (pool == null) {
+                        pool = bookStoreResult.recycledViewPool
+                    }
+
+                    bookStoreResult.recycledViewPool = pool
+                    (bookStoreResult.layoutManager as LinearLayoutManager).recycleChildrenOnDetach = true
+                    bookStoreResult.adapter = adapter
                 }
 
-                holder.bookStoreResult.recycledViewPool = pool
-                holder.bookStoreResult.adapter = adapter
             } else {
                 holder.bookStoreResult.visibility = View.GONE
                 holder.bookStoreResultIsEmpty.visibility = View.VISIBLE
@@ -52,17 +57,16 @@ class FullBookStoreResultAdapter(private val clickHandler: BookResultClickHandle
 
     fun addResult(result: BookResultView) {
         results.add(result)
-        notifyDataSetChanged()
+        notifyItemInserted(results.size)
     }
 
     fun addResultToBeginning(result: BookResultView) {
         results.add(0, result)
-        notifyDataSetChanged()
+        notifyItemInserted(0)
     }
 
     fun clean() {
         results.clear()
-        pool = null
         notifyDataSetChanged()
     }
 

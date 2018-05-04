@@ -46,7 +46,6 @@
             tools:text="Readmoo"
             />
 
-        <!-- replace this section to other one -->
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/book_card_image"
             android:layout_width="96dp"
