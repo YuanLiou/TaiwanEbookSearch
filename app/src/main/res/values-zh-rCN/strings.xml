@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">台湾电子书搜索</string>
+    <string name="button_search">搜索</string>
+    <string name="main_search_hint">想找什幺书？</string>
+    <string name="best_result_title">最佳结果</string>
+    <string name="books_companyt_title">博客來</string>
+    <string name="readmoo_title">Readmoo 读墨</string>
+    <string name="kobo_title">乐天 Kobo</string>
+    <string name="taaze_title">TAAZE 读册生活</string>
+    <string name="playbook_title">Google Play 图书</string>
+    <string name="pubu_title">Pubu</string>
+    <string name="book_walker_title">BOOKWALKER</string>
+    <string name="network_alert_dialog_title">网络连接</string>
+    <string name="network_alert_message">本程序需要使用连接上网络来进行搜索</string>
+    <string name="dialog_ok">确定</string>
+    <string name="state_timeout">连接逾时，请再试一次</string>
+    <string name="search_bar_hint">搜索书名或 ISBN</string>
+    <string name="search_keyword_empty">未输入任何关键词</string>
+    <string name="welcome_words">按下搜索列开始</string>
+    <string name="easter_egg_01">6 起来！</string>
+    <string name="app_version">版本：%1$s</string>
+    <string name="result_nothing">战队里面没人</string>
+    <string name="network_error_message">连接发生错误，请稍后再尝试一次</string>
+</resources>
