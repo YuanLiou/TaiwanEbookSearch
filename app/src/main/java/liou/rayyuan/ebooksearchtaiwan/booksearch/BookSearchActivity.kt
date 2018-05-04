@@ -156,8 +156,8 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
     }
 
     override fun showErrorMessage(message: String) {
-        val errorDrawable: Drawable = ContextCompat.getDrawable(this, R.drawable.ic_sentiment_very_dissatisfied_black_24dp)
-        DrawableCompat.setTint(errorDrawable, ContextCompat.getColor(this, R.color.gray))
+        val errorDrawable: Drawable? = ContextCompat.getDrawable(this, R.drawable.ic_sentiment_very_dissatisfied_black_24dp)
+        errorDrawable?.let { DrawableCompat.setTint(it, ContextCompat.getColor(this, R.color.gray)) }
         hintText.setOnClickListener(null)
         hintText.setCompoundDrawablesRelativeWithIntrinsicBounds(null, errorDrawable, null, null)
         hintText.text = message

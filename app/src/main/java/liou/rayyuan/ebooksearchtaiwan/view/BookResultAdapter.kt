@@ -28,7 +28,7 @@ class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int) : Recycler
         this.maxDisplayNumber = maxDisplayNumber
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookResultViewHolder? {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookResultViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.book_card_view, parent,false)
         return BookResultViewHolder(view)
     }

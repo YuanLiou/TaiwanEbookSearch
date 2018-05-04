@@ -55,6 +55,12 @@
             android:layout_alignWithParentIfMissing="true"
             app:placeholderImage="@drawable/book_image_placeholder"
             app:placeholderImageScaleType="fitXY"
+            app:progressBarImage="@drawable/ic_loading"
+            app:progressBarImageScaleType="centerInside"
+            app:progressBarAutoRotateInterval="1000"
+            app:roundingBorderWidth="0.5dp"
+            app:roundingBorderPadding="0.5dp"
+            app:roundingBorderColor="@color/dark_gray"
             app:fadeDuration="300"
             app:actualImageScaleType="fitXY"
             />
