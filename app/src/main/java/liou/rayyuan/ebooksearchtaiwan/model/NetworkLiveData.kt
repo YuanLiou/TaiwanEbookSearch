@@ -40,6 +40,7 @@ class NetworkLiveData<T>(private val call: Call<T>): LiveData<T>(), Callback<T> 
     fun cancel() {
         if (!call.isCanceled) {
             call.cancel()
+            Log.i("NetworkLiveData", "request is canceled.")
         }
     }
 

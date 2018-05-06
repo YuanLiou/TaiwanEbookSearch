@@ -17,7 +17,13 @@ buildscript {
 
 ext {
     app_version = '1.3'
-    support_library = '27.1.1'
+
+    // Note that:: support_library 27.1.0 and above will
+    // break ViewModel preserve after rotating screen in another Activity then go back.
+    // It will call `onCleared()` first. So the data are gone.
+    // Check this behavior before upgrade support library version.
+    // (or needs to change new implementation etc...)
+    support_library = '27.0.2'
     retrofit_version = '2.4.0'
     firebase_version = '12.0.1'
 }

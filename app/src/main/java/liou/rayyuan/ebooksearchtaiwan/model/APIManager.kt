@@ -15,12 +15,13 @@ class APIManager {
 
     init {
         var userAgent = SystemInfoCollector.getUserAgent()
-
         val logInterceptor = HttpLoggingInterceptor()
-        logInterceptor.level = HttpLoggingInterceptor.Level.HEADERS
         if (BuildConfig.DEBUG) {
+            logInterceptor.level = HttpLoggingInterceptor.Level.HEADERS
             logInterceptor.level = HttpLoggingInterceptor.Level.BODY
             userAgent += " Debug App"
+        } else {
+            logInterceptor.level = HttpLoggingInterceptor.Level.NONE
         }
 
         val httpClient = OkHttpClient.Builder()

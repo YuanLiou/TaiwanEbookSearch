@@ -6,6 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
+import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
 
@@ -13,20 +17,32 @@ import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
  * Created by louis383 on 2018/1/7.
  */
 class FullBookStoreResultAdapter(private val clickHandler: BookResultClickHandler):
-        RecyclerView.Adapter<FullBookStoreResultAdapter.BookStoreResultViewHolder>(),
+        RecyclerView.Adapter<RecyclerView.ViewHolder>(),
         BookResultClickHandler {
+
+    private val header = 1001
 
     private val results = mutableListOf<BookResultView>()
     private var pool: RecyclerView.RecycledViewPool? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookStoreResultViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        if (viewType == header) {
+            MobileAds.initialize(parent.context, BuildConfig.AD_MOB_ID)
+            val headerView: View = LayoutInflater.from(parent.context).inflate(R.layout.adapter_bookstore_result_header, parent, false)
+            return BookStoreResultHeaderViewHolder(headerView)
+        }
+
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.adapter_bookstore_result, parent, false)
         return BookStoreResultViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: BookStoreResultViewHolder, position: Int) {
-        val index: Int = holder.adapterPosition
-        if (results.isNotEmpty() && index < results.size) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder is BookStoreResultHeaderViewHolder) {
+            return
+        }
+
+        val index: Int = holder.adapterPosition - 1    // minor a position for header
+        if (holder is BookStoreResultViewHolder && results.isNotEmpty() && index < results.size) {
             val result: BookResultView = results[index]
             val adapter: BookResultAdapter = result.adapter
             holder.bookStoreTitle.text = result.title
@@ -53,7 +69,21 @@ class FullBookStoreResultAdapter(private val clickHandler: BookResultClickHandle
         }
     }
 
-    override fun getItemCount(): Int = results.size
+    override fun getItemCount(): Int {
+        if (results.isEmpty()) {
+            return 0
+        }
+
+        return results.size + 1    // plus a position for header
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        if (position == 0) {
+            return header
+        }
+
+        return super.getItemViewType(position)
+    }
 
     fun addResult(result: BookResultView) {
         results.add(result)
@@ -78,5 +108,15 @@ class FullBookStoreResultAdapter(private val clickHandler: BookResultClickHandle
         internal val bookStoreTitle: TextView = itemView.findViewById(R.id.search_result_subtitle_top)
         internal val bookStoreResult: RecyclerView = itemView.findViewById(R.id.search_result_list_top)
         internal val bookStoreResultIsEmpty: TextView = itemView.findViewById(R.id.search_result_list_empty)
+    }
+
+    class BookStoreResultHeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        internal val bookResultAdView: AdView = itemView.findViewById(R.id.adapter_bookstore_header_adview)
+
+        init {
+            val adRequestBuilder = AdRequest.Builder()
+            val adRequest = adRequestBuilder.build()
+            bookResultAdView.loadAd(adRequest)
+        }
     }
 }

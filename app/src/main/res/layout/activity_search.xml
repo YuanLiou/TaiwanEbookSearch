@@ -110,15 +110,4 @@
         tools:visibility="visible"
         />
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/search_view_ad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:visibility="invisible"
-        app:adSize="BANNER"
-        app:adUnitId="@string/AD_MOB_UNIT_ID"
-        tools:visibility="visible"
-        />
-
 </android.support.design.widget.CoordinatorLayout>

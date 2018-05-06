@@ -1,7 +1,9 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
+import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.Observer
+import android.arch.lifecycle.OnLifecycleEvent
 import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import liou.rayyuan.ebooksearchtaiwan.Presenter
@@ -25,7 +27,7 @@ class BookSearchPresenter : Presenter<BookSearchView>, LifecycleObserver,
     OnNetworkConnectionListener, BookResultClickHandler {
 
     private var view: BookSearchView? = null
-    private var bookListViewModel: BookListViewModel? = null
+    private lateinit var bookListViewModel: BookListViewModel
 
     private lateinit var fullBookStoreResultsAdapter: FullBookStoreResultAdapter
     private val maxListNumber: Int = 10
@@ -38,14 +40,12 @@ class BookSearchPresenter : Presenter<BookSearchView>, LifecycleObserver,
         view.setupUI()
 
         bookListViewModel = view.getViewModelProvider().get(BookListViewModel::class.java)
-        bookListViewModel?.apiManager = apiManager
-
-        val isRequestingData: Boolean = bookListViewModel?.isRequestingData() ?: false
-        if (isRequestingData) {
+        bookListViewModel.apiManager = apiManager
+        if (bookListViewModel.isRequestingData()) {
             view.setMainResultView(PREPARE)
         }
 
-        val bookLiveData = bookListViewModel?.getBookList("", false)
+        val bookLiveData = bookListViewModel.getBookList("", false)
         bookLiveData?.listener = this
         // Restore ViewModels
         bookLiveData?.observe(view.getLifeCycleOwner(), Observer {
@@ -55,6 +55,7 @@ class BookSearchPresenter : Presenter<BookSearchView>, LifecycleObserver,
         view.getLifeCycleOwner().lifecycle.addObserver(this)
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     override fun detachView() {
         this.view = null
     }
@@ -69,13 +70,23 @@ class BookSearchPresenter : Presenter<BookSearchView>, LifecycleObserver,
     }
 
     fun searchBook(keyword: String) {
+        if (!this::bookListViewModel.isInitialized) {
+            return
+        }
+
         if (keyword.trim().isNotBlank()) {
             view?.hideVirtualKeyboard()
             if (view!!.isInternetConnectionAvailable()) {
-                bookListViewModel?.getBookList(keyword, true)
+
+                if (bookListViewModel.isRequestingData()) {
+                    bookListViewModel.forceStop()
+                }
+
+                bookListViewModel.getBookList(keyword, true)
                     ?.observe(view!!.getLifeCycleOwner() , Observer {
                     onBookSearchSucceed(it)
                 })
+
                 view?.setMainResultView(PREPARE)
                 resetCurrentResults()
             } else {
