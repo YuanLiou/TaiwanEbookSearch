@@ -1,1 +1,1 @@
-include ':app', ':chromecustomtabhelper'
+include ':app'
