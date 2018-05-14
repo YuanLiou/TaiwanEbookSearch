@@ -23,4 +23,5 @@
     <string name="result_nothing">完全沒有畫面</string>
     <string name="network_error_message">連線發生錯誤，請稍後再嘗試一次</string>
     <string name="advertisement_title">廣告內容</string>
+    <string name="barcode_scanner_title">條碼掃描器</string>
 </resources>

@@ -28,6 +28,7 @@ import android.widget.*
 import liou.rayyuan.chromecustomtabhelper.ChromeCustomTabsHelper
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
+import liou.rayyuan.ebooksearchtaiwan.camerapreview.BarcodeScannerActivity
 import liou.rayyuan.ebooksearchtaiwan.view.ViewState
 import liou.rayyuan.ebooksearchtaiwan.view.ViewState.*
 
@@ -37,6 +38,7 @@ import liou.rayyuan.ebooksearchtaiwan.view.ViewState.*
 class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickListener, ChromeCustomTabsHelper.Fallback {
 
     private val searchButton: ImageView by bindView(R.id.search_view_search_icon)
+    private val cameraButton: ImageView by bindView(R.id.search_view_camera_icon)
     private val searchEditText: EditText by bindView(R.id.search_view_edittext)
 
     private val resultsRecyclerView: RecyclerView by bindView(R.id.search_view_result)
@@ -56,6 +58,7 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
 
         chromeCustomTabHelper = ChromeCustomTabsHelper()
         searchButton.setOnClickListener(this)
+        cameraButton.setOnClickListener(this)
         searchEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val keyword: String = searchEditText.text.toString()
@@ -194,6 +197,11 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
                 presenter.searchBook(keyword)
             }
             R.id.search_view_hint -> { presenter.hintPressed() }
+            R.id.search_view_camera_icon -> {
+                // TODO:: Start Barcode scanner
+                val intent = Intent(this, BarcodeScannerActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
     //endregion

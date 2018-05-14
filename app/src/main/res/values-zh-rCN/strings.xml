@@ -23,4 +23,5 @@
     <string name="result_nothing">战队里面没人</string>
     <string name="network_error_message">连接发生错误，请稍后再尝试一次</string>
     <string name="advertisement_title">广告内容</string>
+    <string name="barcode_scanner_title">条码扫描</string>
 </resources>

@@ -22,4 +22,5 @@
     <string name="result_nothing">Nothing found!</string>
     <string name="network_error_message">A network error happened. Please try again later.</string>
     <string name="advertisement_title">Advertisement</string>
+    <string name="barcode_scanner_title">Barcode Scanner</string>
 </resources>

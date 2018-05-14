@@ -22,5 +22,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- other components -->
+        <activity
+            android:name=".camerapreview.BarcodeScannerActivity"
+            android:label="@string/barcode_scanner_title"
+            />
+
     </application>
 </manifest>
