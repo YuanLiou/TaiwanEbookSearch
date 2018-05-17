@@ -7,6 +7,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
@@ -28,7 +29,7 @@ import android.widget.*
 import liou.rayyuan.chromecustomtabhelper.ChromeCustomTabsHelper
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
-import liou.rayyuan.ebooksearchtaiwan.camerapreview.BarcodeScannerActivity
+import liou.rayyuan.ebooksearchtaiwan.camerapreview.CameraPreviewActivity
 import liou.rayyuan.ebooksearchtaiwan.view.ViewState
 import liou.rayyuan.ebooksearchtaiwan.view.ViewState.*
 
@@ -58,7 +59,12 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
 
         chromeCustomTabHelper = ChromeCustomTabsHelper()
         searchButton.setOnClickListener(this)
-        cameraButton.setOnClickListener(this)
+        if (isCameraAvailable()) {
+            cameraButton.setOnClickListener(this)
+        } else {
+            cameraButton.visibility = View.GONE
+        }
+
         searchEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val keyword: String = searchEditText.text.toString()
@@ -199,7 +205,7 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
             R.id.search_view_hint -> { presenter.hintPressed() }
             R.id.search_view_camera_icon -> {
                 // TODO:: Start Barcode scanner
-                val intent = Intent(this, BarcodeScannerActivity::class.java)
+                val intent = Intent(this, CameraPreviewActivity::class.java)
                 startActivity(intent)
             }
         }
@@ -221,5 +227,9 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
         val typedValue = TypedValue()
         theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
         return typedValue.data
+    }
+
+    private fun Activity.isCameraAvailable(): Boolean {
+        return this.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)
     }
 }

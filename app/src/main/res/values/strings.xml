@@ -23,4 +23,10 @@
     <string name="network_error_message">A network error happened. Please try again later.</string>
     <string name="advertisement_title">Advertisement</string>
     <string name="barcode_scanner_title">Barcode Scanner</string>
+    <string name="permission_required_camera">Camera permission is required to capture barcode image.</string>
+    <string name="permission_request_title">Permission Request</string>
+    <string name="dialog_auth">Auth</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="permission_camera_name">Camera</string>
+    <string name="auth_yourself">You can authorize manually. Simply go to Setting -> Apps -> %1$s -> Permissions -> Enable %2$s.</string>
 </resources>

@@ -24,4 +24,10 @@
     <string name="network_error_message">连接发生错误，请稍后再尝试一次</string>
     <string name="advertisement_title">广告内容</string>
     <string name="barcode_scanner_title">条码扫描</string>
+    <string name="permission_required_camera">需要相机权限来辨识条码</string>
+    <string name="permission_request_title">需要权限</string>
+    <string name="dialog_auth">授权</string>
+    <string name="dialog_cancel">取消</string>
+    <string name="permission_camera_name">相机</string>
+    <string name="auth_yourself">你可以至 设置 -> 应用 -> %1$S -> 权限 -> %2$s 来授权</string>
 </resources>

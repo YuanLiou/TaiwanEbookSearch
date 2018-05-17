@@ -24,4 +24,10 @@
     <string name="network_error_message">連線發生錯誤，請稍後再嘗試一次</string>
     <string name="advertisement_title">廣告內容</string>
     <string name="barcode_scanner_title">條碼掃描器</string>
+    <string name="permission_required_camera">需要相機權限來辨識條碼</string>
+    <string name="permission_request_title">需要權限</string>
+    <string name="dialog_auth">授權</string>
+    <string name="dialog_cancel">取消</string>
+    <string name="permission_camera_name">相機</string>
+    <string name="auth_yourself">你可以至 設定 -> 應用程式 -> %1$S -> 權限 -> %2$s 來授權</string>
 </resources>

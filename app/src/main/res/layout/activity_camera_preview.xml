@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <liou.rayyuan.ebooksearchtaiwan.view.widget.CameraPreview
+        android:id="@+id/activity_camera_preview_mainview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:background="@color/dark_gray"
+        />
+
+    <TextView
+        android:id="@+id/activity_camera_preview_status_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="96dp"
+        android:textSize="20sp"
+        android:text="@string/permission_required_camera"
+        android:visibility="gone"
+        tools:visibility="visible"
+        />
+
+</FrameLayout>
