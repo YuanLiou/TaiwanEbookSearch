@@ -13,46 +13,50 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.TextView
 import liou.rayyuan.ebooksearchtaiwan.R
-import liou.rayyuan.ebooksearchtaiwan.view.widget.CameraPreview
+import liou.rayyuan.ebooksearchtaiwan.view.widget.AutoFitTextureView
+import liou.rayyuan.ebooksearchtaiwan.view.widget.CameraPreviewManager
 
-class CameraPreviewActivity : AppCompatActivity(), CameraPreview.OnCameraPreviewFailureCallback,
-        CameraPreview.OnDisplaySizeRequireHandler {
+class CameraPreviewActivity : AppCompatActivity(), CameraPreviewManager.OnCameraPreviewFailureCallback,
+        CameraPreviewManager.OnDisplaySizeRequireHandler {
     private val statusText: TextView by bindView(R.id.activity_camera_preview_status_text)
-    private val cameraPreview: CameraPreview by bindView(R.id.activity_camera_preview_mainview)
+    private val cameraView: AutoFitTextureView by bindView(R.id.activity_camera_preview_mainview)
+
+    private lateinit var cameraPreviewManager: CameraPreviewManager
 
     private val cameraPermissionRequestCode = 1001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera_preview)
-        cameraPreview.setupLifeCycleOwner(this)
-        cameraPreview.failureCallback = this
-        cameraPreview.displaySizeRequireHandler = this
-        cameraPreview.displayOrientation = windowManager.defaultDisplay.rotation
+
+        cameraPreviewManager = CameraPreviewManager(applicationContext, cameraView)
+        cameraPreviewManager.setupLifeCycleOwner(this)
+        cameraPreviewManager.failureCallback = this
+        cameraPreviewManager.displaySizeRequireHandler = this
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestCameraPermission()
         }
     }
 
-    //region CameraPreview.OnCameraPreviewFailureCallback
+    //region CameraPreviewManager.OnCameraPreviewFailureCallback
     override fun shouldRequestPermission() {
-        cameraPreview.visibility = View.GONE
+        cameraView.visibility = View.GONE
         statusText.visibility = View.VISIBLE
         statusText.text = getString(R.string.permission_required_camera)
     }
 
     override fun onError(message: String) {
-        cameraPreview.visibility = View.GONE
+        cameraView.visibility = View.GONE
         statusText.visibility = View.VISIBLE
         statusText.text = message
     }
     //endregion
 
-    //region CameraPreview.OnDisplaySizeRequireHandler
-    override fun getDisplaySize(point: Point) {
-        windowManager.defaultDisplay.getSize(point)
-    }
+    //region CameraPreviewManager.OnDisplaySizeRequireHandler
+    override fun getDisplaySize(point: Point) = windowManager.defaultDisplay.getSize(point)
+
+    override fun getDisplayOrientation(): Int = windowManager.defaultDisplay.rotation
     //endregion
 
     private fun requestCameraPermission() {
@@ -63,8 +67,7 @@ class CameraPreviewActivity : AppCompatActivity(), CameraPreview.OnCameraPreview
         when (requestCode) {
             cameraPermissionRequestCode -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // TODO:: Permission Granted
-                    cameraPreview.visibility = View.VISIBLE
+                    cameraView.visibility = View.VISIBLE
                     statusText.visibility = View.GONE
                 } else {
                     if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {

@@ -30,6 +30,7 @@
         <!-- other components -->
         <activity
             android:name=".camerapreview.CameraPreviewActivity"
+            android:theme="@style/FullScreenTheme"
             android:label="@string/barcode_scanner_title"
             />
 

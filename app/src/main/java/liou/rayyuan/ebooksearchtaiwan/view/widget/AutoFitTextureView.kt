@@ -22,7 +22,7 @@ class AutoFitTextureView(context: Context, attrs: AttributeSet): TextureView(con
         val width = MeasureSpec.getSize(widthMeasureSpec)
         val height = MeasureSpec.getSize(heightMeasureSpec)
 
-        if (width == 0 || height == 0) {
+        if (retroWidth == 0 || retroHeight == 0) {
             setMeasuredDimension(width, height)
             return
         }

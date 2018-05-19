@@ -31,4 +31,6 @@
     <string name="permission_camera_name">相机</string>
     <string name="auth_yourself">你可以至 设置 -> 应用 -> %1$S -> 权限 -> %2$s 来授权</string>
     <string name="camera_is_opening">正在启动相机</string>
+    <string name="camera_opening_failed">相机加载失败，请再尝试一次</string>
+    <string name="camera_opening_timeout">相机加载逾时，请再尝试一次</string>
 </resources>

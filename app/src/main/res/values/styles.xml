@@ -12,4 +12,8 @@
         <item name="descriptionTextColor">@color/dark_gray</item>
     </style>
 
+    <style name="FullScreenTheme" parent="AppTheme" >
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
 </resources>

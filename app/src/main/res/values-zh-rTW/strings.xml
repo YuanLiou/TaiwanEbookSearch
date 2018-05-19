@@ -31,4 +31,6 @@
     <string name="permission_camera_name">相機</string>
     <string name="auth_yourself">你可以至 設定 -> 應用程式 -> %1$S -> 權限 -> %2$s 來授權</string>
     <string name="camera_is_opening">正在啟動相機</string>
+    <string name="camera_opening_failed">相機載入失敗，請再嘗試一次</string>
+    <string name="camera_opening_timeout">相機載入逾時，請再嘗試一次</string>
 </resources>
