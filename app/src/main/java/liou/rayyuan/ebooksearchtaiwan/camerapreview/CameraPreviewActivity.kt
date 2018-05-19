@@ -39,6 +39,7 @@ class CameraPreviewActivity : AppCompatActivity(), CameraPreview.OnCameraPreview
     override fun shouldRequestPermission() {
         cameraPreview.visibility = View.GONE
         statusText.visibility = View.VISIBLE
+        statusText.text = getString(R.string.permission_required_camera)
     }
 
     override fun onError(message: String) {

@@ -1,27 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/darker_gray_3B"
+    android:keepScreenOn="true"
     >
 
-    <liou.rayyuan.ebooksearchtaiwan.view.widget.CameraPreview
-        android:id="@+id/activity_camera_preview_mainview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:background="@color/dark_gray"
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/activity_camera_preview_icons"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginBottom="50dp"
+        android:layout_gravity="center"
+        android:alpha="0.9"
+        app:tint="@color/white_EB"
+        app:srcCompat="@drawable/ic_outline_photo_camera_24px"
         />
 
     <TextView
         android:id="@+id/activity_camera_preview_status_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="96dp"
-        android:textSize="20sp"
-        android:text="@string/permission_required_camera"
-        android:visibility="gone"
-        tools:visibility="visible"
+        android:layout_gravity="center"
+        android:textSize="18sp"
+        android:textColor="@color/google_app_white_color"
+        android:text="@string/camera_is_opening"
+        />
+
+    <liou.rayyuan.ebooksearchtaiwan.view.widget.CameraPreview
+        android:id="@+id/activity_camera_preview_mainview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:background="@color/dark_gray"
+        tools:visibility="gone"
         />
 
 </FrameLayout>

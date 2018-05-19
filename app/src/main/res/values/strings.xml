@@ -29,4 +29,5 @@
     <string name="dialog_cancel">Cancel</string>
     <string name="permission_camera_name">Camera</string>
     <string name="auth_yourself">You can authorize manually. Simply go to Setting -> Apps -> %1$s -> Permissions -> Enable %2$s.</string>
+    <string name="camera_is_opening">Camera is opening...</string>
 </resources>

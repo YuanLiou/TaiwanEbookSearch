@@ -14,6 +14,8 @@ import android.hardware.camera2.*
 import android.media.ImageReader
 import android.os.Handler
 import android.os.HandlerThread
+import android.os.Looper
+import android.os.Message
 import android.support.v4.app.ActivityCompat
 import android.util.AttributeSet
 import android.util.Log
@@ -44,10 +46,12 @@ class CameraPreview(context: Context, attrs: AttributeSet): ViewGroup(context, a
 
     private val textureView: AutoFitTextureView = AutoFitTextureView(context, attrs)
 
+    private var uiHandler: UIHandler? = null
     private var backgroundThread: HandlerThread? = null
     private var backgroundHandler: Handler? = null
     private var previewSize: Size? = null
     private var imageReader: ImageReader? = null
+    private var cameraCaptureSession: CameraCaptureSession? = null
     private var cameraId: String? = null
     private var camera: CameraDevice? = null
 
@@ -61,7 +65,6 @@ class CameraPreview(context: Context, attrs: AttributeSet): ViewGroup(context, a
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         for (index in 0 until childCount) {
             getChildAt(index).layout(0, 0, width, height)
-            Log.i("CameraPreview", "Assigned view = $index")
         }
     }
 
@@ -72,11 +75,10 @@ class CameraPreview(context: Context, attrs: AttributeSet): ViewGroup(context, a
     fun start() {
         doWithCameraPermission {
             if (textureView.isAvailable) {
-                startBackgroundThread()
+                startThread()
                 initCamera()
                 Log.i("CameraPreview", "start")
             }
-            Log.i("CameraPreview", "start isSurfaceAvailable = " + textureView.isAvailable)
         }
     }
 
@@ -86,11 +88,13 @@ class CameraPreview(context: Context, attrs: AttributeSet): ViewGroup(context, a
             return
         }
 
+        cameraCaptureSession?.close()
+        cameraCaptureSession = null
         camera?.close()
         camera = null
         imageReader?.close()
         imageReader = null
-        stopBackgroundThread()
+        stopThread()
         Log.i("CameraPreview", "released")
     }
 
@@ -118,16 +122,16 @@ class CameraPreview(context: Context, attrs: AttributeSet): ViewGroup(context, a
             val configurationMap = characteristic.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
                     ?: continue
 
+            val hardwareSupportLevel = characteristic.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL)
+            when (hardwareSupportLevel) {
+                CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LIMITED -> { Log.i("CameraPreview", "HW accelerated LIMITED")}
+                CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL -> { Log.i("CameraPreview", "HW accelerated FULL")}
+                CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_3 -> { Log.i("CameraPreview", "HW accelerated LEVEL3 (Best)")}
+                CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY -> { Log.i("CameraPreview", "HW accelerated LEGACY")}
+            }
+
             // Get all available size for camera image capturing. because it differs in different models
             val largestSize = configurationMap.getOutputSizes(ImageFormat.JPEG).maxWith(CompareAreaSize())
-            Log.i("CameraPreview", "largest size of previewing, height = " + largestSize?.height
-                    + " , width = " + largestSize?.width)
-            imageReader = ImageReader.newInstance(
-                    largestSize?.width ?: 1280,
-                    largestSize?.height ?: 720,
-                    ImageFormat.JPEG, 1)
-
-            // TODO:: Capture Image Related Actions
 
             // Handler Device Orientations
             val cameraSensorOrientation = characteristic.get(CameraCharacteristics.SENSOR_ORIENTATION)
@@ -145,9 +149,7 @@ class CameraPreview(context: Context, attrs: AttributeSet): ViewGroup(context, a
                 }
                 else -> { Log.e("CameraPreview", "Camera orientation is not supported.")}
             }
-            Log.i("CameraPreview", "display orientation = $displayOrientation, camera orientation = $cameraSensorOrientation")
 
-            // If can not get the display size. Give up rotation handling.
             val displaySize = Point()
             displaySizeRequireHandler?.getDisplaySize(displaySize)
             var rotatedPreviewWidth = textureView.width
@@ -161,7 +163,6 @@ class CameraPreview(context: Context, attrs: AttributeSet): ViewGroup(context, a
                 maxPreviewWidth = displaySize.y
                 maxPreviewHeight = displaySize.x
             }
-            Log.i("CameraPreview", "should swap dimension = $shouldSwapDimension")
 
             if (maxPreviewWidth > rotatedPreviewWidth) {
                 maxPreviewWidth = if (shouldSwapDimension) rotatedPreviewHeight else rotatedPreviewWidth
@@ -170,9 +171,6 @@ class CameraPreview(context: Context, attrs: AttributeSet): ViewGroup(context, a
             if (maxPreviewHeight > rotatedPreviewHeight) {
                 maxPreviewHeight = if (shouldSwapDimension) rotatedPreviewWidth else rotatedPreviewHeight
             }
-
-            Log.i("CameraPreview", "rotatedWidth = $rotatedPreviewWidth, rotatedHeight = $rotatedPreviewHeight")
-            Log.i("CameraPreview", "maxPreviewWidth = $maxPreviewWidth, maxPreviewHeight = $maxPreviewHeight")
 
             previewSize = chooseOptimalSize(configurationMap.getOutputSizes(SurfaceTexture::class.java),
                     rotatedPreviewWidth, rotatedPreviewHeight, maxPreviewWidth, maxPreviewHeight,
@@ -188,6 +186,19 @@ class CameraPreview(context: Context, attrs: AttributeSet): ViewGroup(context, a
                     textureView.setAspectRatio(it.height, it.width)
                 }
             }
+
+            imageReader = ImageReader.newInstance(
+                    previewSize?.width ?: 1280,
+                    previewSize?.height ?: 720,
+                    ImageFormat.JPEG, 2)
+
+            imageReader?.setOnImageAvailableListener({ reader ->
+                // Here is the key location to get camera byteBuffer
+                backgroundHandler?.post({
+                    val image = reader?.acquireLatestImage()
+                    image?.close()
+                })
+            }, backgroundHandler)
 
             this.cameraId = cameraId
         }
@@ -264,7 +275,6 @@ class CameraPreview(context: Context, attrs: AttributeSet): ViewGroup(context, a
         if (notBigEnoughSizes.isNotEmpty()) {
             return notBigEnoughSizes.maxWith(CompareAreaSize())
         }
-
         // No proper size
         return sizes[0]
     }
@@ -287,15 +297,22 @@ class CameraPreview(context: Context, attrs: AttributeSet): ViewGroup(context, a
     }
 
     private fun startPreviewing() {
+        // TextureView surface
         val surfaceTexture = textureView.surfaceTexture ?: return
-
         surfaceTexture.setDefaultBufferSize(previewSize?.width ?: 1280, previewSize?.height ?: 720)
         val surface = Surface(surfaceTexture)
 
+        // ImageReader surface
+        val imageReaderSurface = imageReader?.surface
+
         val captureRequestBuilder = camera?.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
         captureRequestBuilder?.addTarget(surface)
-        camera?.createCaptureSession(listOf(surface, imageReader?.surface), object : CameraCaptureSession.StateCallback() {
+        captureRequestBuilder?.addTarget(imageReaderSurface)
+
+        camera?.createCaptureSession(listOf(surface, imageReaderSurface), object : CameraCaptureSession.StateCallback() {
             override fun onConfigured(cameraCaptureSession: CameraCaptureSession?) {
+                this@CameraPreview.cameraCaptureSession = cameraCaptureSession
+
                 captureRequestBuilder?.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE)
                 val previewRequest = captureRequestBuilder?.build()
                 cameraCaptureSession?.setRepeatingRequest(previewRequest, null, backgroundHandler)
@@ -303,25 +320,27 @@ class CameraPreview(context: Context, attrs: AttributeSet): ViewGroup(context, a
 
             override fun onConfigureFailed(p0: CameraCaptureSession?) {
                 val message = "trying to start camera previewing failed."
-                // Thread issue
-//                this@CameraPreview.failureCallback?.onError(message)
+                uiHandler?.obtainMessage(UIHandler.sendMessage, message)?.sendToTarget()
                 Log.e("CameraPreview", message)
             }
         }, backgroundHandler)
     }
 
-    private fun startBackgroundThread() {
+    private fun startThread() {
         backgroundThread = HandlerThread("CameraBackground")
         backgroundThread?.start()
         backgroundHandler = Handler(backgroundThread?.looper)
+
+        uiHandler = UIHandler(failureCallback)
     }
 
-    private fun stopBackgroundThread() {
+    private fun stopThread() {
         backgroundThread?.quitSafely()
         try {
             backgroundThread?.join()
             backgroundThread = null
             backgroundHandler = null
+            uiHandler = null
         } catch (e: InterruptedException) {
             Log.e("CameraPreview", Log.getStackTraceString(e))
         }
@@ -351,8 +370,26 @@ class CameraPreview(context: Context, attrs: AttributeSet): ViewGroup(context, a
         }
 
         override fun onSurfaceTextureAvailable(p0: SurfaceTexture?, p1: Int, p2: Int) {
-            start()
             Log.i("CameraPreview", "surfaceCreated")
+            start()
+        }
+    }
+
+    class UIHandler(failureCallback: OnCameraPreviewFailureCallback?): Handler(Looper.getMainLooper()) {
+        companion object {
+            const val sendMessage: Int = 1001
+        }
+
+        private var failedCallback: OnCameraPreviewFailureCallback? = failureCallback
+
+        override fun handleMessage(message: Message?) {
+            when (message?.what) {
+                sendMessage -> {
+                    val errorMessage: String = message.obj as String
+                    failedCallback?.onError(errorMessage)
+                }
+                else -> super.handleMessage(message)
+            }
         }
     }
 
