@@ -1,4 +1,4 @@
-package liou.rayyuan.ebooksearchtaiwan.view.widget
+package liou.rayyuan.ebooksearchtaiwan.camerapreview
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -21,6 +21,8 @@ import android.util.Size
 import android.view.Surface
 import android.view.TextureView
 import liou.rayyuan.ebooksearchtaiwan.R
+import liou.rayyuan.ebooksearchtaiwan.view.widget.AutoFitTextureView
+import java.nio.ByteBuffer
 import java.util.concurrent.Semaphore
 import java.util.concurrent.TimeUnit
 import kotlin.math.sign
@@ -39,15 +41,14 @@ import kotlin.math.sign
  *    - needs to get orientation of the device and the camera sensor
  *    - check [setupCameraParams(cameraManager: CameraManager)] and [configureTransform()] methods for more infos.
  */
-class CameraPreviewManager(private val context: Context, private val textureView: AutoFitTextureView): LifecycleObserver {
+class CameraPreviewManager(private val context: Context, private val textureView: AutoFitTextureView,
+                           private val cameraCallback: OnCameraPreviewCallback,
+                           private val displaySizeRequireHandler: OnDisplaySizeRequireHandler): LifecycleObserver {
     enum class CameraState {
         CLOSED,
         OPENED,
         PREVIEW
     }
-
-    var failureCallback: OnCameraPreviewFailureCallback? = null
-    var displaySizeRequireHandler: OnDisplaySizeRequireHandler? = null
     var cameraState = CameraState.CLOSED
 
     private var uiHandler: UIHandler? = null
@@ -122,13 +123,13 @@ class CameraPreviewManager(private val context: Context, private val textureView
             val cameraManager = context.getSystemService(Context.CAMERA_SERVICE) as CameraManager
             if (!setupCameraParams(cameraManager)) {
                 val message = context.getString(R.string.camera_opening_failed)
-                failureCallback?.onError(message)
+                cameraCallback.onError(message)
                 return
             }
 
             if (!cameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
                 val message = context.getString(R.string.camera_opening_timeout)
-                failureCallback?.onError(message)
+                cameraCallback.onError(message)
             }
             cameraManager.openCamera(cameraId, cameraDeviceCallback(), backgroundHandler)
         }
@@ -152,8 +153,15 @@ class CameraPreviewManager(private val context: Context, private val textureView
                 imageReader = ImageReader.newInstance(it.width, it.height, ImageFormat.JPEG, imageBufferCounts)
                 imageReader?.setOnImageAvailableListener({ reader ->
                     backgroundHandler?.post({
-                        // TODO:: Implementing here to acquire bytebuffer
                         val image = reader?.acquireLatestImage()
+
+                        image?.planes?.get(0)?.buffer?.let {
+                            val data = ByteArray(it.remaining())
+                            it.get(data)
+                        }?.run {
+                            cameraCallback.onByteBufferGenerated(this)
+                        }
+
                         image?.close()
                     })
                 }, backgroundHandler)
@@ -179,12 +187,12 @@ class CameraPreviewManager(private val context: Context, private val textureView
             val largestSize = map.getOutputSizes(ImageFormat.JPEG).maxWith(CompareAreaSize())
 
             // find the rotation of the device relative to the native device orientation
-            val deviceOrientation = displaySizeRequireHandler?.getDisplayOrientation()
+            val deviceOrientation = displaySizeRequireHandler.getDisplayOrientation()
             val displaySize = Point()
-            displaySizeRequireHandler?.getDisplaySize(displaySize)
+            displaySizeRequireHandler.getDisplaySize(displaySize)
 
             // find the rotation of the device relative to the camera sensor
-            val totalRotation = sensorToDeviceRotation(deviceOrientation!!)
+            val totalRotation = sensorToDeviceRotation(deviceOrientation)
 
             // swap the dimension if needed
             val swappedDimension = totalRotation == 90 || totalRotation == 270
@@ -329,7 +337,7 @@ class CameraPreviewManager(private val context: Context, private val textureView
             cameraState = CameraState.CLOSED
             cameraOpenCloseLock.release()
             val message = context.getString(R.string.camera_opening_failed)
-            failureCallback?.onError(message)
+            cameraCallback.onError(message)
             release()
             Log.e("CameraPreviewManager", "Camera Open Error, Code is =$error")
         }
@@ -371,7 +379,7 @@ class CameraPreviewManager(private val context: Context, private val textureView
         backgroundThread?.start()
         backgroundHandler = Handler(backgroundThread?.looper)
 
-        uiHandler = UIHandler(failureCallback)
+        uiHandler = UIHandler(cameraCallback)
     }
 
     private fun stopThread() {
@@ -392,7 +400,7 @@ class CameraPreviewManager(private val context: Context, private val textureView
             action()
         } else {
             isAborted = true
-            failureCallback?.shouldRequestPermission()
+            cameraCallback.shouldRequestPermission()
         }
     }
 
@@ -417,27 +425,28 @@ class CameraPreviewManager(private val context: Context, private val textureView
         }
     }
 
-    class UIHandler(failureCallback: OnCameraPreviewFailureCallback?): Handler(Looper.getMainLooper()) {
+    class UIHandler(failureCallback: OnCameraPreviewCallback): Handler(Looper.getMainLooper()) {
         companion object {
             const val sendMessage: Int = 1001
         }
 
-        private var failedCallback: OnCameraPreviewFailureCallback? = failureCallback
+        private var failedCallback: OnCameraPreviewCallback = failureCallback
 
         override fun handleMessage(message: Message?) {
             when (message?.what) {
                 sendMessage -> {
                     val errorMessage: String = message.obj as String
-                    failedCallback?.onError(errorMessage)
+                    failedCallback.onError(errorMessage)
                 }
                 else -> super.handleMessage(message)
             }
         }
     }
 
-    interface OnCameraPreviewFailureCallback {
+    interface OnCameraPreviewCallback {
         fun shouldRequestPermission()
         fun onError(message: String)
+        fun onByteBufferGenerated(buffer: ByteBuffer?)
     }
 
     interface OnDisplaySizeRequireHandler {

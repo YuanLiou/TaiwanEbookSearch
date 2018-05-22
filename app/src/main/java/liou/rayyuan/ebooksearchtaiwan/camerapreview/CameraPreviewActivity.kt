@@ -14,9 +14,9 @@ import android.view.View
 import android.widget.TextView
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.view.widget.AutoFitTextureView
-import liou.rayyuan.ebooksearchtaiwan.view.widget.CameraPreviewManager
+import java.nio.ByteBuffer
 
-class CameraPreviewActivity : AppCompatActivity(), CameraPreviewManager.OnCameraPreviewFailureCallback,
+class CameraPreviewActivity : AppCompatActivity(), CameraPreviewManager.OnCameraPreviewCallback,
         CameraPreviewManager.OnDisplaySizeRequireHandler {
     private val statusText: TextView by bindView(R.id.activity_camera_preview_status_text)
     private val cameraView: AutoFitTextureView by bindView(R.id.activity_camera_preview_mainview)
@@ -29,10 +29,8 @@ class CameraPreviewActivity : AppCompatActivity(), CameraPreviewManager.OnCamera
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera_preview)
 
-        cameraPreviewManager = CameraPreviewManager(applicationContext, cameraView)
+        cameraPreviewManager = CameraPreviewManager(applicationContext, cameraView, this, this)
         cameraPreviewManager.setupLifeCycleOwner(this)
-        cameraPreviewManager.failureCallback = this
-        cameraPreviewManager.displaySizeRequireHandler = this
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestCameraPermission()
@@ -57,6 +55,9 @@ class CameraPreviewActivity : AppCompatActivity(), CameraPreviewManager.OnCamera
     override fun getDisplaySize(point: Point) = windowManager.defaultDisplay.getSize(point)
 
     override fun getDisplayOrientation(): Int = windowManager.defaultDisplay.rotation
+
+    override fun onByteBufferGenerated(buffer: ByteBuffer?) {
+    }
     //endregion
 
     private fun requestCameraPermission() {
