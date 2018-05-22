@@ -50,11 +50,16 @@ class CameraPreviewManager(private val context: Context, private val textureView
         PREVIEW
     }
     var cameraState = CameraState.CLOSED
+    var previewSize: Size? = null
+    var facing: Int? = null
+    var rotationConstraintNum: Int = 0
+        get() {
+            return field / 90
+        }
 
     private var uiHandler: UIHandler? = null
     private var backgroundThread: HandlerThread? = null
     private var backgroundHandler: Handler? = null
-    private var previewSize: Size? = null
     private var imageReader: ImageReader? = null
     private var cameraCaptureSession: CameraCaptureSession? = null
     private var cameraId: String? = null
@@ -169,6 +174,7 @@ class CameraPreviewManager(private val context: Context, private val textureView
 
             this.cameraCharacteristics = characteristic
             this.cameraId = cameraId
+            this.facing = facing
             return true
         }
 
@@ -193,6 +199,7 @@ class CameraPreviewManager(private val context: Context, private val textureView
 
             // find the rotation of the device relative to the camera sensor
             val totalRotation = sensorToDeviceRotation(deviceOrientation)
+            rotationConstraintNum = totalRotation
 
             // swap the dimension if needed
             val swappedDimension = totalRotation == 90 || totalRotation == 270
