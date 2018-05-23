@@ -32,7 +32,14 @@
             android:name=".camerapreview.CameraPreviewActivity"
             android:theme="@style/FullScreenTheme"
             android:label="@string/barcode_scanner_title"
-            />
+            >
+
+            <meta-data
+                android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+                android:value="barcode"
+                />
+
+        </activity>
 
     </application>
 </manifest>

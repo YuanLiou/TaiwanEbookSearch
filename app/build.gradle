@@ -75,6 +75,7 @@ dependencies {
     // Firebase
     implementation "com.google.firebase:firebase-core:${firebase_version}"
     implementation "com.google.firebase:firebase-ads:${firebase_version}"
+    implementation "com.google.firebase:firebase-ml-vision:${firebase_version}"
 
     // retrofit
     implementation "com.squareup.retrofit2:retrofit:${retrofit_version}"
