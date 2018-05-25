@@ -152,10 +152,11 @@ class CameraPreviewManager(private val context: Context, private val textureView
 
             // Build imageReader
             val configurationMap = characteristic.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
-            val largestSize = configurationMap.getOutputSizes(ImageFormat.JPEG).maxWith(CompareAreaSize())
+            val largestSize = configurationMap.getOutputSizes(ImageFormat.YUV_420_888).maxWith(CompareAreaSize())
 
             largestSize?.let {
-                imageReader = ImageReader.newInstance(it.width, it.height, ImageFormat.JPEG, imageBufferCounts)
+                // Try to improve legacy device camera speed, change ImageFormat from JPEG to YUV_420_888
+                imageReader = ImageReader.newInstance(it.width, it.height, ImageFormat.YUV_420_888, imageBufferCounts)
                 imageReader?.setOnImageAvailableListener({ reader ->
                     backgroundHandler?.post({
                         val image = reader?.acquireLatestImage()
