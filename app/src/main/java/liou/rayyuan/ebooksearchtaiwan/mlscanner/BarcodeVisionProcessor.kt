@@ -10,6 +10,7 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage
 
 class BarcodeVisionProcessor: BaseVisionProcessor<List<FirebaseVisionBarcode>>() {
     private val detector: FirebaseVisionBarcodeDetector
+    var visionProcessListener: VisionProcessListener? = null
 
     init {
         val options = FirebaseVisionBarcodeDetectorOptions.Builder()
@@ -25,11 +26,15 @@ class BarcodeVisionProcessor: BaseVisionProcessor<List<FirebaseVisionBarcode>>()
     override fun detectInImage(image: FirebaseVisionImage): Task<List<FirebaseVisionBarcode>> =
             detector.detectInImage(image)
 
-    override fun onDetectionSucceed(results: List<FirebaseVisionBarcode>, frameMetaData: FrameMetaData) {
-        if (results.isNotEmpty()) {
-            for (barcode in results) {
-                // TODO:: get a callback from here
-                Log.i("BarcodeVisionProcessor", """Barcode result: ${barcode.rawValue}""")
+    override fun onDetectionSucceed(result: List<FirebaseVisionBarcode>, frameMetaData: FrameMetaData) {
+        if (result.isNotEmpty()) {
+            for (barcode in result) {
+                barcode.rawValue?.let {
+                    if (it.isNotBlank()) {
+                        visionProcessListener?.onVisionProcessSucceed(it)
+                    }
+                }
+//                Log.i("BarcodeVisionProcessor", """Barcode result: ${barcode.rawValue}""")
             }
         }
     }

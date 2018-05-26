@@ -10,18 +10,26 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import android.util.Size
 import android.view.View
 import android.widget.TextView
 import liou.rayyuan.ebooksearchtaiwan.R
+import liou.rayyuan.ebooksearchtaiwan.mlscanner.BarcodeVisionProcessor
+import liou.rayyuan.ebooksearchtaiwan.mlscanner.FrameVisionProcessor
+import liou.rayyuan.ebooksearchtaiwan.mlscanner.VisionProcessListener
 import liou.rayyuan.ebooksearchtaiwan.view.widget.AutoFitTextureView
 import java.nio.ByteBuffer
 
 class CameraPreviewActivity : AppCompatActivity(), CameraPreviewManager.OnCameraPreviewCallback,
-        CameraPreviewManager.OnDisplaySizeRequireHandler {
+        CameraPreviewManager.OnDisplaySizeRequireHandler, FrameVisionProcessor.CameraInformationCollector,
+        VisionProcessListener {
+
     private val statusText: TextView by bindView(R.id.activity_camera_preview_status_text)
     private val cameraView: AutoFitTextureView by bindView(R.id.activity_camera_preview_mainview)
 
     private lateinit var cameraPreviewManager: CameraPreviewManager
+    private lateinit var frameVisionProcessor: FrameVisionProcessor
 
     private val cameraPermissionRequestCode = 1001
 
@@ -32,8 +40,17 @@ class CameraPreviewActivity : AppCompatActivity(), CameraPreviewManager.OnCamera
         cameraPreviewManager = CameraPreviewManager(applicationContext, cameraView, this, this)
         cameraPreviewManager.setupLifeCycleOwner(this)
 
+        val barcodeVisionProcessor = BarcodeVisionProcessor().also {
+            it.visionProcessListener = this
+        }
+
+        frameVisionProcessor = FrameVisionProcessor(barcodeVisionProcessor, this)
+        frameVisionProcessor.setupLifecycleOwner(this)
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestCameraPermission()
+        } else {
+            frameVisionProcessor.start()
         }
     }
 
@@ -57,6 +74,23 @@ class CameraPreviewActivity : AppCompatActivity(), CameraPreviewManager.OnCamera
     override fun getDisplayOrientation(): Int = windowManager.defaultDisplay.rotation
 
     override fun onByteBufferGenerated(buffer: ByteBuffer?) {
+        buffer?.run {
+            frameVisionProcessor.setNextFrame(this)
+        }
+    }
+    //endregion
+
+    //region FrameVisionProcessor.CameraInformationCollector
+    override fun getCameraPreviewSize(): Size = cameraPreviewManager.previewSize ?: Size(1280, 720)
+
+    override fun getCameraOrientation(): Int = cameraPreviewManager.rotationConstraintNum
+
+    override fun getCameraFacingDirection(): Int = cameraPreviewManager.facing ?: 0
+    //endregion
+
+    //region VisionProcessListener
+    override fun onVisionProcessSucceed(result: String) {
+        Log.i("CameraPreviewActivity", "the barcode result is = $result")
     }
     //endregion
 
