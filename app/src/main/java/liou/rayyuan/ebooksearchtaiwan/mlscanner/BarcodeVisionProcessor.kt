@@ -23,8 +23,10 @@ class BarcodeVisionProcessor: BaseVisionProcessor<List<FirebaseVisionBarcode>>()
         detector.close()
     }
 
-    override fun detectInImage(image: FirebaseVisionImage): Task<List<FirebaseVisionBarcode>> =
-            detector.detectInImage(image)
+    override fun detectInImage(image: FirebaseVisionImage): Task<List<FirebaseVisionBarcode>> {
+//        visionProcessListener?.onVisionProcessDebugUse(image.bitmapForDebugging)
+        return detector.detectInImage(image)
+    }
 
     override fun onDetectionSucceed(result: List<FirebaseVisionBarcode>, frameMetadata: FrameMetadata) {
         if (result.isNotEmpty()) {
@@ -34,7 +36,7 @@ class BarcodeVisionProcessor: BaseVisionProcessor<List<FirebaseVisionBarcode>>()
                         visionProcessListener?.onVisionProcessSucceed(it)
                     }
                 }
-//                Log.i("BarcodeVisionProcessor", """Barcode result: ${barcode.rawValue}""")
+                Log.i("BarcodeVisionProcessor", """Barcode result: ${barcode.rawValue}""")
             }
         }
     }

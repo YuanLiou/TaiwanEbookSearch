@@ -10,6 +10,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.hardware.camera2.*
+import android.media.Image
 import android.media.ImageReader
 import android.os.Handler
 import android.os.HandlerThread
@@ -22,7 +23,6 @@ import android.view.Surface
 import android.view.TextureView
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.view.widget.AutoFitTextureView
-import java.nio.ByteBuffer
 import java.util.concurrent.Semaphore
 import java.util.concurrent.TimeUnit
 import kotlin.math.sign
@@ -49,16 +49,20 @@ class CameraPreviewManager(private val context: Context, private val textureView
         OPENED,
         PREVIEW
     }
-    var cameraState = CameraState.CLOSED
-    var previewSize: Size? = null
     var facing: Int? = null
-    var rotationConstraintNum: Int = 0
+    /**
+     * such as 0 degree = 0, 90 degree = 1, 180 degree = 2, 270 degree = 3
+     */
+    var rotationConstraintDigit: Int = 0
         get() {
             return field / 90
         }
 
     private var uiHandler: UIHandler? = null
     private var backgroundThread: HandlerThread? = null
+
+    private val cameraStateLock = Object()
+    // needs to be protected
     private var backgroundHandler: Handler? = null
     private var imageReader: ImageReader? = null
     private var cameraCaptureSession: CameraCaptureSession? = null
@@ -66,9 +70,21 @@ class CameraPreviewManager(private val context: Context, private val textureView
     private var cameraCharacteristics: CameraCharacteristics? = null
     private var camera: CameraDevice? = null
     private val cameraOpenCloseLock: Semaphore = Semaphore(1)
+    var cameraState = CameraState.CLOSED
+        set(value) {
+            field = value
+            Log.i("CameraPreviewManager", "camera state set to $field")
+        }
+    var previewSize: Size? = null
+        get() {
+            synchronized(cameraStateLock) {
+                return field
+            }
+        }
+    // end needs to be protected
 
     private var isAborted: Boolean = false
-    private val imageBufferCounts = 4
+    private val imageBufferCounts = 2
     private val aspectRatioTolerance = 0.005
 
     private val orientationMap = mapOf(
@@ -104,14 +120,16 @@ class CameraPreviewManager(private val context: Context, private val textureView
         }
 
         try {
-            cameraState = CameraState.CLOSED
             cameraOpenCloseLock.acquire()
-            cameraCaptureSession?.close()
-            cameraCaptureSession = null
-            camera?.close()
-            camera = null
-            imageReader?.close()
-            imageReader = null
+            synchronized(cameraStateLock) {
+                cameraState = CameraState.CLOSED
+                cameraCaptureSession?.close()
+                cameraCaptureSession = null
+                camera?.close()
+                camera = null
+                imageReader?.close()
+                imageReader = null
+            }
             stopThread()
             Log.i("CameraPreviewManager", "released")
         } catch (e: InterruptedException) {
@@ -136,6 +154,14 @@ class CameraPreviewManager(private val context: Context, private val textureView
                 val message = context.getString(R.string.camera_opening_timeout)
                 cameraCallback.onError(message)
             }
+
+            var cameraId: String? = null
+            var backgroundHandler: Handler? = null
+            synchronized(cameraStateLock) {
+                cameraId = this.cameraId
+                backgroundHandler = this.backgroundHandler
+            }
+
             cameraManager.openCamera(cameraId, cameraDeviceCallback(), backgroundHandler)
         }
     }
@@ -150,32 +176,11 @@ class CameraPreviewManager(private val context: Context, private val textureView
                 continue
             }
 
-            // Build imageReader
-            val configurationMap = characteristic.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
-            val largestSize = configurationMap.getOutputSizes(ImageFormat.YUV_420_888).maxWith(CompareAreaSize())
-
-            largestSize?.let {
-                // Try to improve legacy device camera speed, change ImageFormat from JPEG to YUV_420_888
-                imageReader = ImageReader.newInstance(it.width, it.height, ImageFormat.YUV_420_888, imageBufferCounts)
-                imageReader?.setOnImageAvailableListener({ reader ->
-                    backgroundHandler?.post({
-                        val image = reader?.acquireLatestImage()
-
-                        image?.planes?.get(0)?.buffer?.let {
-                            val data = ByteArray(it.remaining())
-                            it.get(data)
-                        }?.run {
-                            cameraCallback.onByteBufferGenerated(this)
-                        }
-
-                        image?.close()
-                    })
-                }, backgroundHandler)
-            } ?: return false
-
-            this.cameraCharacteristics = characteristic
-            this.cameraId = cameraId
-            this.facing = facing
+            synchronized(cameraStateLock) {
+                this.cameraCharacteristics = characteristic
+                this.cameraId = cameraId
+                this.facing = facing
+            }
             return true
         }
 
@@ -188,81 +193,111 @@ class CameraPreviewManager(private val context: Context, private val textureView
             return
         }
 
-        cameraCharacteristics?.run {
-            val map = get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
+        synchronized(cameraStateLock) {
+            cameraCharacteristics?.run {
+                val map = get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
 
-            val largestSize = map.getOutputSizes(ImageFormat.JPEG).maxWith(CompareAreaSize())
+                val largestSize = map.getOutputSizes(ImageFormat.JPEG).maxWith(CompareAreaSize())
 
-            // find the rotation of the device relative to the native device orientation
-            val deviceOrientation = displaySizeRequireHandler.getDisplayOrientation()
-            val displaySize = Point()
-            displaySizeRequireHandler.getDisplaySize(displaySize)
+                // find the rotation of the device relative to the native device orientation
+                val deviceOrientation = displaySizeRequireHandler.getDisplayOrientation()
+                val displaySize = Point()
+                displaySizeRequireHandler.getDisplaySize(displaySize)
 
-            // find the rotation of the device relative to the camera sensor
-            val totalRotation = sensorToDeviceRotation(deviceOrientation)
-            rotationConstraintNum = totalRotation
+                // find the rotation of the device relative to the camera sensor
+                val totalRotation = sensorToDeviceRotation(deviceOrientation)
+                rotationConstraintDigit = totalRotation
 
-            // swap the dimension if needed
-            val swappedDimension = totalRotation == 90 || totalRotation == 270
-            val rotatedViewWidth = if (swappedDimension) height else width
-            val rotatedViewHeight = if (swappedDimension) width else height
+                // swap the dimension if needed
+                val swappedDimension = totalRotation == 90 || totalRotation == 270
+                val rotatedViewWidth = if (swappedDimension) height else width
+                val rotatedViewHeight = if (swappedDimension) width else height
 
-            // preview should not be larger than display size and 1080p
-            val maxPreviewWidth = swappedDimension.let { shouldSwap ->
-                var result = if (shouldSwap) displaySize.y else displaySize.x
-                if (result > 1920) result = 1920
-                result
-            }
-            val maxPreviewHeight = swappedDimension.let { shouldSwap ->
-                var result = if (shouldSwap) displaySize.x else displaySize.y
-                if (result > 1080) result = 1080
-                result
-            }
-
-            // find best preview size for these view dimensions and configured JPEG size
-            val previewSize = largestSize?.let {
-                chooseOptimalSize(map.getOutputSizes(SurfaceTexture::class.java),
-                        rotatedViewWidth, rotatedViewHeight, maxPreviewWidth, maxPreviewHeight,
-                        it)
-            }
-
-            previewSize?.run {
-
-                if (swappedDimension) {
-                    textureView.setAspectRatio(this.height, this.width)
-                } else {
-                    textureView.setAspectRatio(this.width, this.height)
+                // preview should not be larger than display size and 1080p
+                val maxPreviewWidth = swappedDimension.let { shouldSwap ->
+                    var result = if (shouldSwap) displaySize.y else displaySize.x
+                    if (result > 1920) result = 1920
+                    result
+                }
+                val maxPreviewHeight = swappedDimension.let { shouldSwap ->
+                    var result = if (shouldSwap) displaySize.x else displaySize.y
+                    if (result > 1080) result = 1080
+                    result
                 }
 
-                // find rotation of device in degrees
-                val rotation = (360 - orientationMap[deviceOrientation]!!) % 360
-
-                val matrix = Matrix()
-                val viewRect = RectF(0f, 0f, width.toFloat(), height.toFloat())
-                val centerX = viewRect.centerX()
-                val centerY = viewRect.centerY()
-
-                if (deviceOrientation == Surface.ROTATION_90 || deviceOrientation == Surface.ROTATION_270) {
-                    val bufferRect = RectF(0f, 0f, this.height.toFloat(), this.width.toFloat())
-                    bufferRect.offset(centerX - bufferRect.centerX(), centerY - bufferRect.centerY())
-                    matrix.setRectToRect(viewRect, bufferRect, Matrix.ScaleToFit.FILL)
-                    val scale = Math.max(
-                            height.toFloat() / this.height,
-                            width.toFloat() / this.width
-                    )
-                    matrix.postScale(scale, scale, centerX, centerY)
+                // find best preview size for these view dimensions and configured JPEG size
+                val previewSize = largestSize?.let {
+                    chooseOptimalSize(map.getOutputSizes(SurfaceTexture::class.java),
+                            rotatedViewWidth, rotatedViewHeight, maxPreviewWidth, maxPreviewHeight,
+                            it)
                 }
-                matrix.postRotate(rotation.toFloat(), centerX, centerY)
-                textureView.setTransform(matrix)
 
-                if (this@CameraPreviewManager.previewSize == null || !checkAspectsEqual(previewSize, this@CameraPreviewManager.previewSize!!)) {
-                    this@CameraPreviewManager.previewSize = previewSize
-                    if (cameraState != CameraState.CLOSED) {
-                        startPreviewing()
+                previewSize?.run {
+
+                    if (swappedDimension) {
+                        textureView.setAspectRatio(this.height, this.width)
+                    } else {
+                        textureView.setAspectRatio(this.width, this.height)
+                    }
+
+                    // find rotation of device in degrees
+                    val rotation = (360 - orientationMap[deviceOrientation]!!) % 360
+
+                    val matrix = Matrix()
+                    val viewRect = RectF(0f, 0f, width.toFloat(), height.toFloat())
+                    val centerX = viewRect.centerX()
+                    val centerY = viewRect.centerY()
+
+                    if (deviceOrientation == Surface.ROTATION_90 || deviceOrientation == Surface.ROTATION_270) {
+                        val bufferRect = RectF(0f, 0f, this.height.toFloat(), this.width.toFloat())
+                        bufferRect.offset(centerX - bufferRect.centerX(), centerY - bufferRect.centerY())
+                        matrix.setRectToRect(viewRect, bufferRect, Matrix.ScaleToFit.FILL)
+                        val scale = Math.max(
+                                height.toFloat() / this.height,
+                                width.toFloat() / this.width
+                        )
+                        matrix.postScale(scale, scale, centerX, centerY)
+                    }
+                    matrix.postRotate(rotation.toFloat(), centerX, centerY)
+                    textureView.setTransform(matrix)
+
+                    if (this@CameraPreviewManager.previewSize == null || !checkAspectsEqual(previewSize, this@CameraPreviewManager.previewSize!!)) {
+                        this@CameraPreviewManager.previewSize = previewSize
+                        if (cameraState != CameraState.CLOSED) {
+                            if (imageReader == null) {
+                                setupImageReader()
+                            }
+
+                            startPreviewing()
+                        }
                     }
                 }
-            }
-        } ?: return
+            } ?: return
+        }
+    }
+
+    /***
+     *  Only call this method with [cameraStateLock] held
+     */
+    private fun setupImageReader() {
+        previewSize?.run {
+            // IMPORTANT:: green frames means the resolution or the camera settings are not supported.
+            // choose the right resolution/settings and it will display normally.
+            imageReader = ImageReader.newInstance(width, height, ImageFormat.YUV_420_888, imageBufferCounts)
+            imageReader?.setOnImageAvailableListener({ reader ->
+                backgroundHandler?.post({
+                    if (cameraState != CameraState.CLOSED) {
+                        val image = reader?.acquireLatestImage()
+                        // IMPORTANT::new Camera2 Api which sends YUV_420_888 yuv format
+                        // instead of NV21 (YUV_420_SP) format. And MLKit needs NV21 format
+                        // so it needs to convert
+                        val bytes = image?.convertYUV420888ToNV21()
+                        cameraCallback.onByteArrayGenerated(bytes)
+                        image?.close()
+                    }
+                })
+            }, backgroundHandler)
+        }
     }
 
     private fun checkAspectsEqual(firstSize: Size, secondSize: Size): Boolean {
@@ -326,31 +361,43 @@ class CameraPreviewManager(private val context: Context, private val textureView
 
     private fun cameraDeviceCallback(): CameraDevice.StateCallback = object : CameraDevice.StateCallback() {
         override fun onOpened(cameraDevice: CameraDevice?) {
-            cameraState = CameraState.OPENED
-            cameraOpenCloseLock.release()
-            camera = cameraDevice
+            synchronized(cameraStateLock) {
+                cameraState = CameraState.OPENED
+                cameraOpenCloseLock.release()
+                camera = cameraDevice
 
-            if (previewSize != null && textureView.isAvailable) {
-                startPreviewing()
+                if (previewSize != null && textureView.isAvailable) {
+                    startPreviewing()
+                }
             }
         }
 
         override fun onDisconnected(cameraDevice: CameraDevice?) {
-            cameraState = CameraState.CLOSED
-            cameraOpenCloseLock.release()
-            release()
+            synchronized(cameraStateLock) {
+                cameraState = CameraState.CLOSED
+                cameraOpenCloseLock.release()
+                cameraDevice?.close()
+                camera = null
+            }
         }
 
         override fun onError(cameraDevice: CameraDevice?, error: Int) {
-            cameraState = CameraState.CLOSED
-            cameraOpenCloseLock.release()
+            synchronized(cameraStateLock) {
+                cameraState = CameraState.CLOSED
+                cameraOpenCloseLock.release()
+                cameraDevice?.close()
+                camera = null
+            }
+
             val message = context.getString(R.string.camera_opening_failed)
             cameraCallback.onError(message)
-            release()
             Log.e("CameraPreviewManager", "Camera Open Error, Code is =$error")
         }
     }
 
+    /**
+     * Only call this method with [cameraStateLock] held
+     */
     private fun startPreviewing() {
         // TextureView surface
         val surfaceTexture = textureView.surfaceTexture ?: return
@@ -366,13 +413,18 @@ class CameraPreviewManager(private val context: Context, private val textureView
 
         camera?.createCaptureSession(listOf(surface, imageReaderSurface), object : CameraCaptureSession.StateCallback() {
             override fun onConfigured(cameraCaptureSession: CameraCaptureSession?) {
-                this@CameraPreviewManager.cameraCaptureSession = cameraCaptureSession
+                synchronized(cameraStateLock) {
+                    if (camera == null) {
+                        return
+                    }
+                    this@CameraPreviewManager.cameraCaptureSession = cameraCaptureSession
 
-                captureRequestBuilder?.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE)
-                val previewRequest = captureRequestBuilder?.build()
-                cameraCaptureSession?.setRepeatingRequest(previewRequest, null, backgroundHandler)
+                    captureRequestBuilder?.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE)
+                    val previewRequest = captureRequestBuilder?.build()
+                    cameraCaptureSession?.setRepeatingRequest(previewRequest, null, backgroundHandler)
 
-                cameraState = CameraState.PREVIEW
+                    cameraState = CameraState.PREVIEW
+                }
             }
 
             override fun onConfigureFailed(captureSession: CameraCaptureSession?) {
@@ -385,21 +437,39 @@ class CameraPreviewManager(private val context: Context, private val textureView
     private fun startThread() {
         backgroundThread = HandlerThread("CameraBackground")
         backgroundThread?.start()
-        backgroundHandler = Handler(backgroundThread?.looper)
-
         uiHandler = UIHandler(cameraCallback)
+
+        synchronized(cameraStateLock) {
+            backgroundHandler = Handler(backgroundThread?.looper)
+        }
     }
 
     private fun stopThread() {
         backgroundThread?.quitSafely()
-        try {
-            backgroundThread?.join()
-            backgroundThread = null
+        backgroundThread?.join()
+        backgroundThread = null
+        uiHandler = null
+
+        synchronized(cameraStateLock) {
             backgroundHandler = null
-            uiHandler = null
-        } catch (e: InterruptedException) {
-            Log.e("CameraPreviewManager", Log.getStackTraceString(e))
         }
+    }
+
+    private fun Image.convertYUV420888ToNV21(): ByteArray {
+        val byteArray: ByteArray?
+        val bufferY = planes[0].buffer
+        val bufferU = planes[1].buffer
+        val bufferV = planes[2].buffer
+        val bufferYSize = bufferY.remaining()
+        val bufferUSize = bufferU.remaining()
+        val bufferVSize = bufferV.remaining()
+        byteArray = ByteArray(bufferYSize + bufferUSize + bufferVSize)
+
+        // Y and V are swapped
+        bufferY.get(byteArray, 0, bufferYSize)
+        bufferV.get(byteArray, bufferYSize, bufferVSize)
+        bufferU.get(byteArray, bufferYSize + bufferVSize, bufferUSize)
+        return byteArray
     }
 
     private inline fun doWithCameraPermission(action: () -> Unit) {
@@ -421,8 +491,9 @@ class CameraPreviewManager(private val context: Context, private val textureView
         }
 
         override fun onSurfaceTextureDestroyed(p0: SurfaceTexture?): Boolean {
-            release()
-            previewSize = null
+            synchronized(cameraStateLock) {
+                previewSize = null
+            }
             Log.i("CameraPreviewManager", "surfaceDestroyed")
             return true
         }
@@ -454,7 +525,7 @@ class CameraPreviewManager(private val context: Context, private val textureView
     interface OnCameraPreviewCallback {
         fun shouldRequestPermission()
         fun onError(message: String)
-        fun onByteBufferGenerated(buffer: ByteBuffer?)
+        fun onByteArrayGenerated(bytes: ByteArray?)
     }
 
     interface OnDisplaySizeRequireHandler {

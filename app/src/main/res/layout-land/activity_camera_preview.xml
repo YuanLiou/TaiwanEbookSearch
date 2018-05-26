@@ -38,4 +38,13 @@
         tools:visibility="visible"
         />
 
+    <!--<android.support.v7.widget.AppCompatImageView-->
+        <!--android:id="@+id/activity_camera_preview_debug"-->
+        <!--android:layout_width="200dp"-->
+        <!--android:layout_height="200dp"-->
+        <!--android:layout_gravity="end|center_vertical"-->
+        <!--android:scaleType="fitCenter"-->
+        <!--android:visibility="gone"-->
+        <!--tools:background="@color/blue_green"-->
+        <!--/>-->
 </FrameLayout>

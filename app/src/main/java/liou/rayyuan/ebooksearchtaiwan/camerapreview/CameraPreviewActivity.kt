@@ -19,7 +19,6 @@ import liou.rayyuan.ebooksearchtaiwan.mlscanner.BarcodeVisionProcessor
 import liou.rayyuan.ebooksearchtaiwan.mlscanner.FrameVisionProcessor
 import liou.rayyuan.ebooksearchtaiwan.mlscanner.VisionProcessListener
 import liou.rayyuan.ebooksearchtaiwan.view.widget.AutoFitTextureView
-import java.nio.ByteBuffer
 
 class CameraPreviewActivity : AppCompatActivity(), CameraPreviewManager.OnCameraPreviewCallback,
         CameraPreviewManager.OnDisplaySizeRequireHandler, FrameVisionProcessor.CameraInformationCollector,
@@ -73,8 +72,9 @@ class CameraPreviewActivity : AppCompatActivity(), CameraPreviewManager.OnCamera
 
     override fun getDisplayOrientation(): Int = windowManager.defaultDisplay.rotation
 
-    override fun onByteBufferGenerated(buffer: ByteBuffer?) {
-        buffer?.run {
+    override fun onByteArrayGenerated(bytes: ByteArray?) {
+        //FIXME:: MLKit barcode scanner can't handle the buffer except legacy machine e.g. One M7
+        bytes?.run {
             frameVisionProcessor.setNextFrame(this)
         }
     }
@@ -83,7 +83,7 @@ class CameraPreviewActivity : AppCompatActivity(), CameraPreviewManager.OnCamera
     //region FrameVisionProcessor.CameraInformationCollector
     override fun getCameraPreviewSize(): Size = cameraPreviewManager.previewSize ?: Size(1280, 720)
 
-    override fun getCameraOrientation(): Int = cameraPreviewManager.rotationConstraintNum
+    override fun getCameraOrientation(): Int = cameraPreviewManager.rotationConstraintDigit
 
     override fun getCameraFacingDirection(): Int = cameraPreviewManager.facing ?: 0
     //endregion
@@ -92,6 +92,12 @@ class CameraPreviewActivity : AppCompatActivity(), CameraPreviewManager.OnCamera
     override fun onVisionProcessSucceed(result: String) {
         Log.i("CameraPreviewActivity", "the barcode result is = $result")
     }
+
+//    override fun onVisionProcessDebugUse(bitmap: Bitmap) {
+//        runOnUiThread {
+//            debugImageView.setImageBitmap(bitmap)
+//        }
+//    }
     //endregion
 
     private fun requestCameraPermission() {

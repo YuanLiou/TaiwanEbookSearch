@@ -6,7 +6,6 @@ import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.OnLifecycleEvent
 import android.util.Log
 import android.util.Size
-import java.nio.ByteBuffer
 
 class FrameVisionProcessor(private val visionImageProcessor: VisionImageProcessor,
                            private val cameraInformationCollector: CameraInformationCollector): LifecycleObserver {
@@ -26,8 +25,8 @@ class FrameVisionProcessor(private val visionImageProcessor: VisionImageProcesso
         }
     }
 
-    fun setNextFrame(byteBuffer: ByteBuffer) {
-        processingRunnable.data = byteBuffer
+    fun setNextFrame(bytes: ByteArray) {
+        processingRunnable.data = bytes
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
@@ -58,7 +57,7 @@ class FrameVisionProcessor(private val visionImageProcessor: VisionImageProcesso
                 }
             }
 
-        internal var data: ByteBuffer? = null
+        internal var data: ByteArray? = null
             set(value) {
                 synchronized(dataLock) {
                     field = value
@@ -67,7 +66,7 @@ class FrameVisionProcessor(private val visionImageProcessor: VisionImageProcesso
             }
 
         override fun run() {
-            var byteBuffer: ByteBuffer? = null
+            var bytes: ByteArray? = null
             while (true) {
                 synchronized(dataLock) {
                     while (active && data == null) {
@@ -83,12 +82,12 @@ class FrameVisionProcessor(private val visionImageProcessor: VisionImageProcesso
                         return
                     }
 
-                    byteBuffer = data
+                    bytes = data
                     data = null    // clean up
                 }
 
                 synchronized(processorLock) {
-                    byteBuffer?.run {
+                    bytes?.run {
                         val frameMetaData = FrameMetadata(
                                 cameraInformationCollector.getCameraPreviewSize().width,
                                 cameraInformationCollector.getCameraPreviewSize().height,

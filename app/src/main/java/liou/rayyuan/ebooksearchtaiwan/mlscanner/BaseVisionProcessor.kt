@@ -15,15 +15,26 @@ abstract class BaseVisionProcessor<T>: VisionImageProcessor {
             return
         }
 
-        val firebaseVisionImageMetaData = FirebaseVisionImageMetadata.Builder()
+        detectInVisionImage(FirebaseVisionImage.fromByteBuffer(data, buildFirebaseVisionMetadata(frameMetadata)),
+                frameMetadata)
+    }
+
+    override fun process(byteArray: ByteArray, frameMetadata: FrameMetadata) {
+        if (shouldThrottle.get()) {
+            return
+        }
+
+        detectInVisionImage(FirebaseVisionImage.fromByteArray(byteArray, buildFirebaseVisionMetadata(frameMetadata)),
+                frameMetadata)
+    }
+
+    private fun buildFirebaseVisionMetadata(frameMetadata: FrameMetadata): FirebaseVisionImageMetadata {
+        return FirebaseVisionImageMetadata.Builder()
                 .setFormat(FirebaseVisionImageMetadata.IMAGE_FORMAT_NV21)
                 .setWidth(frameMetadata.width)
                 .setHeight(frameMetadata.height)
                 .setRotation(frameMetadata.rotation)
                 .build()
-
-        detectInVisionImage(FirebaseVisionImage.fromByteBuffer(data, firebaseVisionImageMetaData),
-                frameMetadata)
     }
 
     override fun stop() {

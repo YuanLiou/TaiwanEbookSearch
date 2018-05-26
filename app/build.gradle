@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 27
@@ -75,7 +76,8 @@ dependencies {
     // Firebase
     implementation "com.google.firebase:firebase-core:${firebase_version}"
     implementation "com.google.firebase:firebase-ads:${firebase_version}"
-    implementation "com.google.firebase:firebase-ml-vision:${firebase_version}"
+    implementation "com.google.firebase:firebase-ml-vision:16.0.0"
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.3'
 
     // retrofit
     implementation "com.squareup.retrofit2:retrofit:${retrofit_version}"
