@@ -89,7 +89,7 @@ class FrameVisionProcessor(private val visionImageProcessor: VisionImageProcesso
 
                 synchronized(processorLock) {
                     byteBuffer?.run {
-                        val frameMetaData = FrameMetaData(
+                        val frameMetaData = FrameMetadata(
                                 cameraInformationCollector.getCameraPreviewSize().width,
                                 cameraInformationCollector.getCameraPreviewSize().height,
                                 cameraInformationCollector.getCameraOrientation(),

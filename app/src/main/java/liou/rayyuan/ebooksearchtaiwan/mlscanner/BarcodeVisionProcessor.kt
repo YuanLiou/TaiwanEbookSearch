@@ -26,7 +26,7 @@ class BarcodeVisionProcessor: BaseVisionProcessor<List<FirebaseVisionBarcode>>()
     override fun detectInImage(image: FirebaseVisionImage): Task<List<FirebaseVisionBarcode>> =
             detector.detectInImage(image)
 
-    override fun onDetectionSucceed(result: List<FirebaseVisionBarcode>, frameMetaData: FrameMetaData) {
+    override fun onDetectionSucceed(result: List<FirebaseVisionBarcode>, frameMetadata: FrameMetadata) {
         if (result.isNotEmpty()) {
             for (barcode in result) {
                 barcode.rawValue?.let {

@@ -10,26 +10,26 @@ abstract class BaseVisionProcessor<T>: VisionImageProcessor {
 
     private val shouldThrottle = AtomicBoolean(false)
 
-    override fun process(data: ByteBuffer, frameMetaData: FrameMetaData) {
+    override fun process(data: ByteBuffer, frameMetadata: FrameMetadata) {
         if (shouldThrottle.get()) {
             return
         }
 
         val firebaseVisionImageMetaData = FirebaseVisionImageMetadata.Builder()
                 .setFormat(FirebaseVisionImageMetadata.IMAGE_FORMAT_NV21)
-                .setWidth(frameMetaData.width)
-                .setHeight(frameMetaData.height)
-                .setRotation(frameMetaData.rotation)
+                .setWidth(frameMetadata.width)
+                .setHeight(frameMetadata.height)
+                .setRotation(frameMetadata.rotation)
                 .build()
 
         detectInVisionImage(FirebaseVisionImage.fromByteBuffer(data, firebaseVisionImageMetaData),
-                frameMetaData)
+                frameMetadata)
     }
 
     override fun stop() {
     }
 
-    private fun detectInVisionImage(image: FirebaseVisionImage, metadata: FrameMetaData) {
+    private fun detectInVisionImage(image: FirebaseVisionImage, metadata: FrameMetadata) {
         detectInImage(image).addOnSuccessListener {
             shouldThrottle.set(false)
             onDetectionSucceed(it, metadata)
@@ -42,6 +42,6 @@ abstract class BaseVisionProcessor<T>: VisionImageProcessor {
     }
 
     protected abstract fun detectInImage(image: FirebaseVisionImage): Task<T>
-    protected abstract fun onDetectionSucceed(result: T, frameMetaData: FrameMetaData)
+    protected abstract fun onDetectionSucceed(result: T, frameMetadata: FrameMetadata)
     protected abstract fun onDetectionFailed(exception: Exception)
 }
