@@ -34,4 +34,7 @@
     <string name="camera_opening_failed">相机加载失败，请再尝试一次</string>
     <string name="camera_opening_timeout">相机加载逾时，请再尝试一次</string>
     <string name="camera_scanning_result">扫描结果</string>
+    <string name="camera_permission_waiting">等待相机权限授权</string>
+    <string name="camera_permission_deny">事到如今，我也只能通灵</string>
+    <string name="auth_take_me_there">带我去</string>
 </resources>

@@ -38,6 +38,8 @@ import liou.rayyuan.ebooksearchtaiwan.view.ViewState.*
  */
 class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickListener, ChromeCustomTabsHelper.Fallback {
 
+    private val scanningBarcodeRequestCode = 1002
+
     private val searchButton: ImageView by bindView(R.id.search_view_search_icon)
     private val cameraButton: ImageView by bindView(R.id.search_view_camera_icon)
     private val searchEditText: EditText by bindView(R.id.search_view_edittext)
@@ -91,6 +93,22 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
     override fun onStop() {
         super.onStop()
         chromeCustomTabHelper.unbindCustomTabsServices(this)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            scanningBarcodeRequestCode -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    data?.run {
+                        val resultText = extras.getString(CameraPreviewActivity.resultISBNTextKey, "")
+                        searchEditText.setText(resultText)
+                        searchEditText.setSelection(resultText.length)
+                        presenter.searchBook(resultText)
+                    }
+                }
+            }
+            else -> super.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     //region BookSearchView
@@ -204,9 +222,8 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
             }
             R.id.search_view_hint -> { presenter.hintPressed() }
             R.id.search_view_camera_icon -> {
-                // TODO:: Start Barcode scanner
                 val intent = Intent(this, CameraPreviewActivity::class.java)
-                startActivity(intent)
+                startActivityForResult(intent, scanningBarcodeRequestCode)
             }
         }
     }

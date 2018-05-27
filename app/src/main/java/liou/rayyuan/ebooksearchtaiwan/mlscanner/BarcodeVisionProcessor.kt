@@ -31,12 +31,12 @@ class BarcodeVisionProcessor: BaseVisionProcessor<List<FirebaseVisionBarcode>>()
     override fun onDetectionSucceed(result: List<FirebaseVisionBarcode>, frameMetadata: FrameMetadata) {
         if (result.isNotEmpty()) {
             for (barcode in result) {
-                barcode.rawValue?.let {
+                barcode.displayValue?.let {
                     if (it.isNotBlank()) {
                         visionProcessListener?.onVisionProcessSucceed(it)
                     }
                 }
-                Log.i("BarcodeVisionProcessor", """Barcode result: ${barcode.rawValue}""")
+                Log.i("BarcodeVisionProcessor", """Barcode result: ${barcode.rawValue}, display value: ${barcode.displayValue}""")
             }
         }
     }

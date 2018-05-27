@@ -34,4 +34,7 @@
     <string name="camera_opening_failed">相機載入失敗，請再嘗試一次</string>
     <string name="camera_opening_timeout">相機載入逾時，請再嘗試一次</string>
     <string name="camera_scanning_result">掃描結果</string>
+    <string name="camera_permission_waiting">等待相機權限授權</string>
+    <string name="camera_permission_deny">事到如今，我也只能通靈</string>
+    <string name="auth_take_me_there">帶我去</string>
 </resources>

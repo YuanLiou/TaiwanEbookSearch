@@ -60,19 +60,20 @@
             android:ellipsize="end"
             android:fontFamily="sans-serif-condensed"
             android:textColor="@color/darker_gray_3B"
-            android:textSize="14sp"
+            android:textSize="17sp"
             android:visibility="invisible"
             tools:text="@tools:sample/lorem/random"
             tools:visibility="invisible"
             />
 
         <TextView
+            android:id="@+id/activity_camera_preview_result_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_above="@id/activity_camera_preview_result"
             android:layout_marginBottom="12dp"
-            android:textSize="13sp"
+            android:textSize="15sp"
             android:text="@string/camera_scanning_result"
             />
 
@@ -83,7 +84,29 @@
             android:layout_gravity="center"
             android:layout_centerInParent="true"
             android:visibility="visible"
+            tools:visibility="invisible"
             style="?android:attr/progressBarStyleSmall"
+            />
+
+        <TextView
+            android:id="@+id/activity_camera_preview_auth_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:background="@drawable/rounded_rectangle_transparent_bg_button"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="@color/darker_gray_3B"
+            android:textSize="17sp"
+            android:text="@string/dialog_auth"
+            android:visibility="gone"
+            tools:visibility="visible"
             />
 
     </RelativeLayout>
