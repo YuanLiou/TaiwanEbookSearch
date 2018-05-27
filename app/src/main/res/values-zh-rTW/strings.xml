@@ -33,4 +33,5 @@
     <string name="camera_is_opening">正在啟動相機</string>
     <string name="camera_opening_failed">相機載入失敗，請再嘗試一次</string>
     <string name="camera_opening_timeout">相機載入逾時，請再嘗試一次</string>
+    <string name="camera_scanning_result">掃描結果</string>
 </resources>

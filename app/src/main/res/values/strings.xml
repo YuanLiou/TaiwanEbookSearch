@@ -32,4 +32,5 @@
     <string name="camera_is_opening">Camera is opening...</string>
     <string name="camera_opening_failed">Opening Camera is failed. Please try again.</string>
     <string name="camera_opening_timeout">Opening Camera is timeout. Please try again.</string>
+    <string name="camera_scanning_result">Scanning Result</string>
 </resources>

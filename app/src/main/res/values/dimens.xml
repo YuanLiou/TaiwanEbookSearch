@@ -2,4 +2,7 @@
 <resources>
     <dimen name="padding">16dp</dimen>
     <dimen name="default_text_size">30sp</dimen>
+
+    <dimen name="camera_preview_bottom_result_height">150dp</dimen>
+    <dimen name="camera_preview_bottom_result_land_width">150dp</dimen>
 </resources>
