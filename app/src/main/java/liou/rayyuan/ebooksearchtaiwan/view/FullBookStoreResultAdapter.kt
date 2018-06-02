@@ -53,12 +53,6 @@ class FullBookStoreResultAdapter(private val clickHandler: BookResultClickHandle
                     bookStoreResult.visibility = View.VISIBLE
                     bookStoreResultIsEmpty.visibility = View.GONE
 
-                    if (pool == null) {
-                        pool = bookStoreResult.recycledViewPool
-                    }
-
-                    bookStoreResult.recycledViewPool = pool
-                    (bookStoreResult.layoutManager as LinearLayoutManager).recycleChildrenOnDetach = true
                     bookStoreResult.adapter = adapter
                 }
 
@@ -104,10 +98,18 @@ class FullBookStoreResultAdapter(private val clickHandler: BookResultClickHandle
         clickHandler.onBookCardClicked(book)
     }
 
-    class BookStoreResultViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    inner class BookStoreResultViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         internal val bookStoreTitle: TextView = itemView.findViewById(R.id.search_result_subtitle_top)
         internal val bookStoreResult: RecyclerView = itemView.findViewById(R.id.search_result_list_top)
         internal val bookStoreResultIsEmpty: TextView = itemView.findViewById(R.id.search_result_list_empty)
+
+        init {
+            if (pool == null) {
+                pool = bookStoreResult.recycledViewPool
+            }
+            bookStoreResult.recycledViewPool = pool
+            (bookStoreResult.layoutManager as LinearLayoutManager).recycleChildrenOnDetach = true
+        }
     }
 
     class BookStoreResultHeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

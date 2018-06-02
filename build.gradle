@@ -19,7 +19,7 @@ buildscript {
 }
 
 ext {
-    app_version = '1.4'
+    app_version = '1.4.1'
 
     // Note that:: support_library 27.1.0 and above will
     // break ViewModel preserve after rotating screen in another Activity then go back.
