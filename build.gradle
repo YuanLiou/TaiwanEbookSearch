@@ -29,6 +29,7 @@ ext {
     support_library = '27.0.2'
     retrofit_version = '2.4.0'
     firebase_version = '15.0.0'
+    fresco_version = '1.9.0'
 }
 
 allprojects {

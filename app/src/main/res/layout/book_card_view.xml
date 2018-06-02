@@ -48,8 +48,8 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/book_card_image"
-            android:layout_width="96dp"
-            android:layout_height="133dp"
+            android:layout_width="@dimen/list_book_cover_width"
+            android:layout_height="@dimen/list_book_cover_height"
             android:layout_marginTop="8dp"
             android:layout_below="@id/book_card_more_icon"
             android:layout_alignWithParentIfMissing="true"

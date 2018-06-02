@@ -28,6 +28,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import liou.rayyuan.chromecustomtabhelper.ChromeCustomTabsHelper
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
+import liou.rayyuan.ebooksearchtaiwan.EBookSearchApplication
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.CameraPreviewActivity
 import liou.rayyuan.ebooksearchtaiwan.view.ViewState
@@ -56,7 +57,9 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        presenter = BookSearchPresenter()
+
+        val apiManager = (application as EBookSearchApplication).apiManager
+        presenter = BookSearchPresenter(apiManager)
         presenter.attachView(this)
 
         chromeCustomTabHelper = ChromeCustomTabsHelper()

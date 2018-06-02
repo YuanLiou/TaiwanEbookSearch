@@ -111,7 +111,7 @@ class FullBookStoreResultAdapter(private val clickHandler: BookResultClickHandle
     }
 
     class BookStoreResultHeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        internal val bookResultAdView: AdView = itemView.findViewById(R.id.adapter_bookstore_header_adview)
+        private val bookResultAdView: AdView = itemView.findViewById(R.id.adapter_bookstore_header_adview)
 
         init {
             val adRequestBuilder = AdRequest.Builder()

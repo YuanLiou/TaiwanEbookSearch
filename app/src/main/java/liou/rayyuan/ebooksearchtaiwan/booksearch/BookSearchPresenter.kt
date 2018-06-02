@@ -23,7 +23,7 @@ import okhttp3.ResponseBody
 /**
  * Created by louis383 on 2017/12/2.
  */
-class BookSearchPresenter : Presenter<BookSearchView>, LifecycleObserver,
+class BookSearchPresenter(private val apiManager: APIManager) : Presenter<BookSearchView>, LifecycleObserver,
     OnNetworkConnectionListener, BookResultClickHandler {
 
     private var view: BookSearchView? = null
@@ -32,7 +32,6 @@ class BookSearchPresenter : Presenter<BookSearchView>, LifecycleObserver,
     private lateinit var fullBookStoreResultsAdapter: FullBookStoreResultAdapter
     private val maxListNumber: Int = 10
     private var eggCount: Int = 0
-    private val apiManager: APIManager = APIManager()
     private var bookStores: BookStores? = null
 
     override fun attachView(view: BookSearchView) {

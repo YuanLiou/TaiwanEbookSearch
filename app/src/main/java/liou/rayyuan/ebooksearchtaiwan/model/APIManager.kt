@@ -13,6 +13,8 @@ class APIManager {
     private val bookSearchService: BookSearchService
     private val timeout: Long = 60
 
+    val httpClient: OkHttpClient
+
     init {
         var userAgent = SystemInfoCollector.getUserAgent()
         val logInterceptor = HttpLoggingInterceptor()
@@ -24,7 +26,7 @@ class APIManager {
             logInterceptor.level = HttpLoggingInterceptor.Level.NONE
         }
 
-        val httpClient = OkHttpClient.Builder()
+        httpClient = OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val request = chain.request().newBuilder()
                         .header("User-Agent", userAgent)
@@ -49,5 +51,4 @@ class APIManager {
     fun getBooks(keywords: String): NetworkLiveData<BookStores> {
         return NetworkLiveData(bookSearchService.getBooks(keywords))
     }
-
 }

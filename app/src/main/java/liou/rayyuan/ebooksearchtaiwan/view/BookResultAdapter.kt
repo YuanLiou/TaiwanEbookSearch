@@ -1,12 +1,16 @@
 package liou.rayyuan.ebooksearchtaiwan.view
 
+import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
+import com.facebook.imagepipeline.common.ResizeOptions
+import com.facebook.imagepipeline.request.ImageRequestBuilder
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
 import liou.rayyuan.ebooksearchtaiwan.view.BookResultAdapter.BookResultViewHolder
@@ -44,7 +48,7 @@ class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int) : Recycler
                 bookTitle.text = bookViewModel.getTitle()
                 bookDescription.text = bookViewModel.getDescription()
                 bookPrice.text = bookViewModel.getPrice()
-                bookImage.setImageURI(bookViewModel.getImage())
+                bookImage.setResizeImage(bookViewModel.getImage())
                 bookResultBody.setOnClickListener({ bookResultClickHandler?.onBookCardClicked(book) })
 
                 if (hideTitleBar) {
@@ -94,6 +98,21 @@ class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int) : Recycler
 
     fun sortByMoney() {
         this.books.sortWith(compareBy { it.price })
+    }
+
+    private fun SimpleDraweeView.setResizeImage(url: String) {
+        val uri = Uri.parse(url)
+        val resizeOption = ResizeOptions(context.resources.getDimensionPixelSize(R.dimen.list_book_cover_width),
+                context.resources.getDimensionPixelSize(R.dimen.list_book_cover_height))
+        val imageRequest = ImageRequestBuilder.newBuilderWithSource(uri)
+                .setResizeOptions(resizeOption)
+                .build()
+        val imageController = Fresco.newDraweeControllerBuilder()
+                .setOldController(controller)
+                .setImageRequest(imageRequest)
+                .setTapToRetryEnabled(true)
+                .build()
+        controller = imageController
     }
 
     class BookResultViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
