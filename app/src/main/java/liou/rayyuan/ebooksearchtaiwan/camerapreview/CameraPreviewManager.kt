@@ -367,6 +367,10 @@ class CameraPreviewManager(private val context: Context, private val textureView
                 camera = cameraDevice
 
                 if (previewSize != null && textureView.isAvailable) {
+                    if (imageReader == null) {
+                        setupImageReader()
+                    }
+
                     startPreviewing()
                 }
             }
