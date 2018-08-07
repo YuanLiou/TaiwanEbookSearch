@@ -8,17 +8,19 @@ import liou.rayyuan.ebooksearchtaiwan.model.entity.BookStores
 
 class BookListViewModel: ViewModel() {
 
-    private var liveData: NetworkLiveData<BookStores>? = null
+    private var bookStoresLiveData: NetworkLiveData<BookStores>? = null
     var apiManager: APIManager? = null
 
-    fun getBookList(aboutSomething: String, force: Boolean): NetworkLiveData<BookStores>? {
-        requireNotNull(apiManager, { Log.e("BookListViewModel", "APIManager can't be null")})
-
-        if (force || (liveData == null && aboutSomething.isNotEmpty())) {
-            liveData = apiManager?.getBooks(aboutSomething)
-            liveData?.requestData()
+    fun getBookList(aboutSomething: String = "", force: Boolean): NetworkLiveData<BookStores>? {
+        requireNotNull(apiManager) {
+            Log.e("BookListViewModel", "APIManager can't be null")
         }
-        return liveData
+
+        if (force || (bookStoresLiveData == null && aboutSomething.isNotEmpty())) {
+            bookStoresLiveData = apiManager?.getBooks(aboutSomething)
+            bookStoresLiveData?.requestData()
+        }
+        return bookStoresLiveData
     }
 
     override fun onCleared() {
@@ -27,10 +29,10 @@ class BookListViewModel: ViewModel() {
     }
 
     fun isRequestingData(): Boolean {
-        return liveData?.isConnecting() == true
+        return bookStoresLiveData?.isConnecting() == true
     }
 
     fun forceStop() {
-        liveData?.cancel()
+        bookStoresLiveData?.cancel()
     }
 }

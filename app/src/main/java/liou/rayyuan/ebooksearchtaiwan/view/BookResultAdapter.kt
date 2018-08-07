@@ -17,9 +17,10 @@ import liou.rayyuan.ebooksearchtaiwan.view.BookResultAdapter.BookResultViewHolde
 import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
 
 /**
- * Created by louis383 on 2017/12/3.
+ * Created by louis383 on 2017/12/3.   <br/>
+ *
+ * @property maxDisplayNumber if pass -1, it will display as many as it has. No display limit.
  */
-
 class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int) : RecyclerView.Adapter<BookResultViewHolder>() {
     private val books = mutableListOf<Book>()
     private var hideTitleBar: Boolean = false

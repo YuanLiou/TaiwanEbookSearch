@@ -4,7 +4,7 @@
     <string name="button_search">搜索</string>
     <string name="main_search_hint">想找什幺书？</string>
     <string name="best_result_title">最佳结果</string>
-    <string name="books_companyt_title">博客來</string>
+    <string name="books_company_title">博客來</string>
     <string name="readmoo_title">Readmoo 读墨</string>
     <string name="kobo_title">乐天 Kobo</string>
     <string name="taaze_title">TAAZE 读册生活</string>
@@ -37,4 +37,5 @@
     <string name="camera_permission_waiting">等待相机权限授权</string>
     <string name="camera_permission_deny">事到如今，我也只能通灵</string>
     <string name="auth_take_me_there">带我去</string>
+    <string name="hyread_title">HyRead 电子书</string>
 </resources>

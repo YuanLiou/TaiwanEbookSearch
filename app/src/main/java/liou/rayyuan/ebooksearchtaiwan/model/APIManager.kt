@@ -21,7 +21,6 @@ class APIManager {
         if (BuildConfig.DEBUG) {
             logInterceptor.level = HttpLoggingInterceptor.Level.HEADERS
             logInterceptor.level = HttpLoggingInterceptor.Level.BODY
-            userAgent += " Debug App"
         } else {
             logInterceptor.level = HttpLoggingInterceptor.Level.NONE
         }

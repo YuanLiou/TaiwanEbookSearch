@@ -3,7 +3,7 @@
     <string name="button_search">Search</string>
     <string name="main_search_hint">What you want to find?</string>
     <string name="best_result_title">Best Results</string>
-    <string name="books_companyt_title">Books.com</string>
+    <string name="books_company_title">Books.com</string>
     <string name="readmoo_title">Readmoo</string>
     <string name="kobo_title">Kobo</string>
     <string name="taaze_title">TAAZE</string>
@@ -36,4 +36,5 @@
     <string name="camera_permission_waiting">Waiting for camera permission</string>
     <string name="camera_permission_deny">Oh OK... Fine I\'m out.</string>
     <string name="auth_take_me_there">Take me there</string>
+    <string name="hyread_title">HyRead</string>
 </resources>

@@ -23,6 +23,7 @@ package liou.rayyuan.ebooksearchtaiwan.model.entity
      ]
 * }
 * */
+// Update Entity to API version: 20180806
 data class Book(val thumbnail: String = "",
                 val priceCurrency: String = "",
                 val price: Float = 0.0f,
@@ -34,4 +35,5 @@ data class Book(val thumbnail: String = "",
                 val title: String = "",
                 val authors: List<String>?,
                 val painters: List<String>?,
-                var bookStore: String?)
+                var bookStore: String?,
+                val nonDrmPrice: Float = 0.0f)

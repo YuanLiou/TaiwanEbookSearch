@@ -5,6 +5,7 @@ import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.OnLifecycleEvent
 import android.net.Uri
+import android.support.annotation.StringRes
 import android.support.v7.widget.RecyclerView
 import liou.rayyuan.ebooksearchtaiwan.Presenter
 import liou.rayyuan.ebooksearchtaiwan.R
@@ -12,6 +13,8 @@ import liou.rayyuan.ebooksearchtaiwan.model.APIManager
 import liou.rayyuan.ebooksearchtaiwan.model.OnNetworkConnectionListener
 import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
 import liou.rayyuan.ebooksearchtaiwan.model.entity.BookStores
+import liou.rayyuan.ebooksearchtaiwan.model.generateBookStoresResultMap
+import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
 import liou.rayyuan.ebooksearchtaiwan.view.BookResultAdapter
 import liou.rayyuan.ebooksearchtaiwan.view.BookResultClickHandler
 import liou.rayyuan.ebooksearchtaiwan.view.BookResultView
@@ -33,6 +36,15 @@ class BookSearchPresenter(private val apiManager: APIManager) : Presenter<BookSe
     private val maxListNumber: Int = 10
     private var eggCount: Int = 0
     private var bookStores: BookStores? = null
+    private val defaultResultSort =
+            setOf(DefaultStoreNames.READMOO,
+                    DefaultStoreNames.KOBO,
+                    DefaultStoreNames.BOOK_WALKER,
+                    DefaultStoreNames.BOOK_COMPANY,
+                    DefaultStoreNames.TAAZE,
+                    DefaultStoreNames.PLAY_STORE,
+                    DefaultStoreNames.PUBU,
+                    DefaultStoreNames.HYREAD)
 
     override fun attachView(view: BookSearchView) {
         this.view = view
@@ -44,12 +56,14 @@ class BookSearchPresenter(private val apiManager: APIManager) : Presenter<BookSe
             view.setMainResultView(PREPARE)
         }
 
-        val bookLiveData = bookListViewModel.getBookList("", false)
-        bookLiveData?.listener = this
-        // Restore ViewModels
-        bookLiveData?.observe(view.getLifeCycleOwner(), Observer {
-            onBookSearchSucceed(it)
-        })
+        val bookLiveData = bookListViewModel.getBookList(force = false)
+        bookLiveData?.let { liveData ->
+            liveData.listener = this
+            // Restore ViewModels
+            liveData.observe(view.getLifeCycleOwner(), Observer {
+                prepareBookSearchResult(it)
+            })
+        }
 
         view.getLifeCycleOwner().lifecycle.addObserver(this)
     }
@@ -73,26 +87,30 @@ class BookSearchPresenter(private val apiManager: APIManager) : Presenter<BookSe
             return
         }
 
-        if (keyword.trim().isNotBlank()) {
-            view?.hideVirtualKeyboard()
-            if (view!!.isInternetConnectionAvailable()) {
+        view?.let {
+            if (keyword.trim().isNotBlank()) {
+                it.hideVirtualKeyboard()
 
-                if (bookListViewModel.isRequestingData()) {
-                    bookListViewModel.forceStop()
+                if (it.isInternetConnectionAvailable()) {
+
+                    if (bookListViewModel.isRequestingData()) {
+                        bookListViewModel.forceStop()
+                    }
+
+                    bookListViewModel.getBookList(keyword, true)
+                            ?.observe(it.getLifeCycleOwner(), Observer { bookStores ->
+                                prepareBookSearchResult(bookStores)
+                            })
+
+                    it.setMainResultView(PREPARE)
+                    resetCurrentResults()
+                } else {
+                    it.showInternetRequestDialog()
                 }
 
-                bookListViewModel.getBookList(keyword, true)
-                    ?.observe(view!!.getLifeCycleOwner() , Observer {
-                    onBookSearchSucceed(it)
-                })
-
-                view?.setMainResultView(PREPARE)
-                resetCurrentResults()
             } else {
-                view?.showInternetRequestDialog()
+                it.showKeywordIsEmpty()
             }
-        } else {
-            view?.showKeywordIsEmpty()
         }
     }
 
@@ -105,53 +123,30 @@ class BookSearchPresenter(private val apiManager: APIManager) : Presenter<BookSe
         recyclerView.adapter = fullBookStoreResultsAdapter
     }
 
-    private fun onBookSearchSucceed(bookStores: BookStores?) {
+    private fun prepareBookSearchResult(bookStores: BookStores?) {
         this.bookStores = bookStores
 
         view?.scrollToTop()
         val bestResultsAdapter = BookResultAdapter(false, -1)
 
-        this.bookStores?.booksCompany?.let {
-            val bookStoreName = view?.getApplicationString(R.string.books_companyt_title)
-            addResult(bestResultsAdapter, bookStoreName!!, it)
+        bookStores?.generateBookStoresResultMap(defaultResultSort)?.let { resultMap ->
+            for (bookStoreName in resultMap.keys) {
+                val localizedStoreName = view?.getApplicationString(getStringResource(bookStoreName))
+                        ?: bookStoreName.defaultStoreName
+
+                resultMap[bookStoreName]?.run {
+                    addResult(bestResultsAdapter, localizedStoreName, this)
+                }
+            }
         }
 
-        this.bookStores?.readmoo?.let {
-            val bookStoreName = view?.getApplicationString(R.string.readmoo_title)
-            addResult(bestResultsAdapter, bookStoreName!!, it)
+        if (bestResultsAdapter.itemCount > 1) {
+            bestResultsAdapter.sortByMoney()
         }
 
-        this.bookStores?.kobo?.let {
-            val bookStoreName = view?.getApplicationString(R.string.kobo_title)
-            addResult(bestResultsAdapter, bookStoreName!!, it)
-        }
-
-        this.bookStores?.taaze?.let {
-            val bookStoreName = view?.getApplicationString(R.string.taaze_title)
-            addResult(bestResultsAdapter, bookStoreName!!, it)
-        }
-
-        this.bookStores?.bookWalker?.let {
-            val bookStoreName = view?.getApplicationString(R.string.book_walker_title)
-            addResult(bestResultsAdapter, bookStoreName!!, it)
-        }
-
-        this.bookStores?.playStore?.let {
-            val bookStoreName = view?.getApplicationString(R.string.playbook_title)
-            addResult(bestResultsAdapter, bookStoreName!!, it)
-        }
-
-        this.bookStores?.pubu?.let {
-            val bookStoreName = view?.getApplicationString(R.string.pubu_title)
-            addResult(bestResultsAdapter, bookStoreName!!, it)
-        }
-
-        bestResultsAdapter.sortByMoney()
-
-        val bestResultTitle = view?.getApplicationString(R.string.best_result_title)
-        val bestResultView = BookResultView(bestResultTitle!!, bestResultsAdapter)
+        val bestResultTitle = view?.getApplicationString(R.string.best_result_title) ?: "best result"
+        val bestResultView = BookResultView(bestResultTitle, bestResultsAdapter)
         fullBookStoreResultsAdapter.addResultToBeginning(bestResultView)
-
         view?.setMainResultView(READY)
     }
 
@@ -180,4 +175,17 @@ class BookSearchPresenter(private val apiManager: APIManager) : Presenter<BookSe
     override fun onBookCardClicked(book: Book) {
         view?.openBookLink(Uri.parse(book.link))
     }
+
+    @StringRes
+    private fun getStringResource(defaultStoreNames: DefaultStoreNames): Int = when (defaultStoreNames) {
+        DefaultStoreNames.BOOK_COMPANY -> R.string.books_company_title
+        DefaultStoreNames.READMOO -> R.string.readmoo_title
+        DefaultStoreNames.KOBO -> R.string.kobo_title
+        DefaultStoreNames.TAAZE -> R.string.taaze_title
+        DefaultStoreNames.BOOK_WALKER -> R.string.book_walker_title
+        DefaultStoreNames.PLAY_STORE -> R.string.playbook_title
+        DefaultStoreNames.PUBU -> R.string.pubu_title
+        DefaultStoreNames.HYREAD -> R.string.hyread_title
+    }
+
 }
