@@ -19,11 +19,12 @@ interface BookSearchView {
     fun showInternetConnectionTimeout()
     fun showKeywordIsEmpty()
     fun hideVirtualKeyboard()
-    fun showVirtualKeyboard()
+    fun focusBookSearchEditText()
     fun showEasterEgg01()
     fun showErrorMessage(message: String)
     fun showNetworkErrorMessage()
     fun getApplicationString(stringId: Int): String
     fun getViewModelProvider(): ViewModelProvider
     fun getLifeCycleOwner(): LifecycleOwner
+    fun backToListTop()
 }

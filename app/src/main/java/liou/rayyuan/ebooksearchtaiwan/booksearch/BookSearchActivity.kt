@@ -15,6 +15,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.annotation.IdRes
 import android.support.customtabs.CustomTabsIntent
+import android.support.design.widget.AppBarLayout
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.AlertDialog
@@ -41,6 +42,7 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
 
     private val scanningBarcodeRequestCode = 1002
 
+    private val appbar: AppBarLayout by bindView(R.id.search_view_appbar)
     private val searchButton: ImageView by bindView(R.id.search_view_search_icon)
     private val cameraButton: ImageView by bindView(R.id.search_view_camera_icon)
     private val searchEditText: EditText by bindView(R.id.search_view_edittext)
@@ -49,8 +51,7 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
     private val progressBar: ProgressBar by bindView(R.id.search_view_progressbar)
 
     private val hintText: TextView by bindView(R.id.search_view_hint)
-    private val shadow: View by bindView(R.id.search_view_shadow)
-
+    private val backToTopButton: ImageButton by bindView(R.id.search_view_back_to_top_button)
     private lateinit var presenter: BookSearchPresenter
     private lateinit var chromeCustomTabHelper: ChromeCustomTabsHelper
 
@@ -85,6 +86,7 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
         val linearLayoutManager: LinearLayoutManager = resultsRecyclerView.layoutManager as LinearLayoutManager
         linearLayoutManager.initialPrefetchItemCount = 6
 
+        backToTopButton.setOnClickListener(this)
         presenter.setResultRecyclerView(resultsRecyclerView)
     }
 
@@ -137,7 +139,7 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
         val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
         dialogBuilder.setTitle(R.string.network_alert_dialog_title)
         dialogBuilder.setMessage(R.string.network_alert_message)
-        dialogBuilder.setPositiveButton(R.string.dialog_ok, { _: DialogInterface, _: Int -> })
+        dialogBuilder.setPositiveButton(R.string.dialog_ok) { _: DialogInterface, _: Int -> }
         dialogBuilder.create().show()
     }
 
@@ -155,19 +157,19 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
                 progressBar.visibility = View.VISIBLE
                 resultsRecyclerView.visibility = View.GONE
                 hintText.visibility = View.GONE
-                shadow.visibility = View.GONE
+                backToTopButton.visibility = View.GONE
             }
             READY -> {
                 progressBar.visibility = View.GONE
                 resultsRecyclerView.visibility = View.VISIBLE
                 hintText.visibility = View.GONE
-                shadow.visibility = View.VISIBLE
+                backToTopButton.visibility = View.VISIBLE
             }
             ERROR -> {
                 progressBar.visibility = View.GONE
                 resultsRecyclerView.visibility = View.GONE
                 hintText.visibility = View.VISIBLE
-                shadow.visibility = View.GONE
+                backToTopButton.visibility = View.GONE
             }
         }
     }
@@ -185,7 +187,8 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
         inputManager.hideSoftInputFromWindow(searchEditText.windowToken, 0)
     }
 
-    override fun showVirtualKeyboard() {
+    override fun focusBookSearchEditText() {
+        appbar.setExpanded(true, true)
         searchEditText.requestFocus()
         val inputManager: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.showSoftInput(searchEditText, 0)
@@ -214,6 +217,11 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
     override fun showNetworkErrorMessage() {
         Toast.makeText(this, getString(R.string.network_error_message), Toast.LENGTH_LONG).show()
     }
+
+    override fun backToListTop() {
+        resultsRecyclerView.smoothScrollToPosition(0)
+    }
+
     //endregion
 
     //region View.OnClickListener
@@ -223,10 +231,14 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
                 val keyword: String = searchEditText.text.toString()
                 presenter.searchBook(keyword)
             }
-            R.id.search_view_hint -> { presenter.hintPressed() }
+            R.id.search_view_hint -> presenter.hintPressed()
             R.id.search_view_camera_icon -> {
                 val intent = Intent(this, CameraPreviewActivity::class.java)
                 startActivityForResult(intent, scanningBarcodeRequestCode)
+            }
+            R.id.search_view_back_to_top_button -> {
+                val canListScrollVertically = resultsRecyclerView.canScrollVertically(-1)
+                presenter.backToTop(canListScrollVertically)
             }
         }
     }

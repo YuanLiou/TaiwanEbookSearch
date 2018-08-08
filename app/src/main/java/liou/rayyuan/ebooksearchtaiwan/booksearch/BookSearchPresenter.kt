@@ -74,11 +74,19 @@ class BookSearchPresenter(private val apiManager: APIManager) : Presenter<BookSe
     }
 
     fun hintPressed() {
-        view?.showVirtualKeyboard()
+        view?.focusBookSearchEditText()
 
         eggCount++
         if (eggCount == 10) {
             view?.showEasterEgg01()
+        }
+    }
+
+    fun backToTop(canResultListScrollVertically: Boolean) {
+        if (canResultListScrollVertically) {
+            view?.backToListTop()
+        } else {
+            view?.focusBookSearchEditText()
         }
     }
 
