@@ -27,6 +27,8 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import liou.rayyuan.chromecustomtabhelper.ChromeCustomTabsHelper
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.EBookSearchApplication
@@ -43,6 +45,7 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
     private val scanningBarcodeRequestCode = 1002
 
     private val appbar: AppBarLayout by bindView(R.id.search_view_appbar)
+    private val adViewLayout: FrameLayout by bindView(R.id.search_view_adview_layout)
     private val searchButton: ImageView by bindView(R.id.search_view_search_icon)
     private val cameraButton: ImageView by bindView(R.id.search_view_camera_icon)
     private val searchEditText: EditText by bindView(R.id.search_view_edittext)
@@ -86,6 +89,8 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
         val linearLayoutManager: LinearLayoutManager = resultsRecyclerView.layoutManager as LinearLayoutManager
         linearLayoutManager.initialPrefetchItemCount = 6
 
+        loadAds()
+
         backToTopButton.setOnClickListener(this)
         presenter.setResultRecyclerView(resultsRecyclerView)
     }
@@ -114,6 +119,13 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
             }
             else -> super.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    private fun loadAds() {
+        val adView: AdView = adViewLayout.findViewById(R.id.admob_view_header_adview)
+        val adRequestBuilder = AdRequest.Builder()
+        val adRequest = adRequestBuilder.build()
+        adView.loadAd(adRequest)
     }
 
     //region BookSearchView
@@ -158,18 +170,21 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
                 resultsRecyclerView.visibility = View.GONE
                 hintText.visibility = View.GONE
                 backToTopButton.visibility = View.GONE
+                adViewLayout.visibility = View.VISIBLE
             }
             READY -> {
                 progressBar.visibility = View.GONE
                 resultsRecyclerView.visibility = View.VISIBLE
                 hintText.visibility = View.GONE
                 backToTopButton.visibility = View.VISIBLE
+                adViewLayout.visibility = View.GONE
             }
             ERROR -> {
                 progressBar.visibility = View.GONE
                 resultsRecyclerView.visibility = View.GONE
                 hintText.visibility = View.VISIBLE
                 backToTopButton.visibility = View.GONE
+                adViewLayout.visibility = View.GONE
             }
         }
     }

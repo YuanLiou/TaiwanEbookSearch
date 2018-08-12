@@ -76,6 +76,17 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
+    <FrameLayout
+        android:id="@+id/search_view_adview_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="75dp"
+        >
+
+        <include layout="@layout/admob_view_header" />
+
+    </FrameLayout>
+
     <ProgressBar
         android:id="@+id/search_view_progressbar"
         android:layout_width="wrap_content"
@@ -113,7 +124,7 @@
         app:layoutManager="LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/adapter_bookstore_result"
-        tools:visibility="visible"
+        tools:visibility="gone"
         />
 
     <ImageButton

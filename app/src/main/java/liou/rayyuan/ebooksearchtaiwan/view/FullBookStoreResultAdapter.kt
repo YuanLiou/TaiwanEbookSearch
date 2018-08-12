@@ -28,7 +28,7 @@ class FullBookStoreResultAdapter(private val clickHandler: BookResultClickHandle
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == header) {
             MobileAds.initialize(parent.context, BuildConfig.AD_MOB_ID)
-            val headerView: View = LayoutInflater.from(parent.context).inflate(R.layout.adapter_bookstore_result_header, parent, false)
+            val headerView: View = LayoutInflater.from(parent.context).inflate(R.layout.admob_view_header, parent, false)
             return BookStoreResultHeaderViewHolder(headerView)
         }
 
@@ -113,7 +113,7 @@ class FullBookStoreResultAdapter(private val clickHandler: BookResultClickHandle
     }
 
     class BookStoreResultHeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val bookResultAdView: AdView = itemView.findViewById(R.id.adapter_bookstore_header_adview)
+        private val bookResultAdView: AdView = itemView.findViewById(R.id.admob_view_header_adview)
 
         init {
             val adRequestBuilder = AdRequest.Builder()
