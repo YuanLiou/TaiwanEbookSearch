@@ -90,8 +90,7 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
         linearLayoutManager.initialPrefetchItemCount = 6
 
         loadAds()
-
-        backToTopButton.setOnClickListener(this)
+        initScrollToTopButton()
         presenter.setResultRecyclerView(resultsRecyclerView)
     }
 
@@ -126,6 +125,21 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
         val adRequestBuilder = AdRequest.Builder()
         val adRequest = adRequestBuilder.build()
         adView.loadAd(adRequest)
+    }
+
+    private fun initScrollToTopButton() {
+        backToTopButton.setOnClickListener(this)
+        resultsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                if (resultsRecyclerView.canScrollVertically(-1)) {
+                    backToTopButton.setImageResource(R.drawable.ic_keyboard_arrow_up_24dp)
+                } else {
+                    backToTopButton.setImageResource(R.drawable.ic_search_white_24dp)
+                }
+            }
+        })
     }
 
     //region BookSearchView
