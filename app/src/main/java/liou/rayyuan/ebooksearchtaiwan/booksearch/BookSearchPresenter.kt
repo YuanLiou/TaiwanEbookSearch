@@ -5,11 +5,10 @@ import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.OnLifecycleEvent
 import android.net.Uri
-import android.support.annotation.StringRes
 import android.support.v7.widget.RecyclerView
 import liou.rayyuan.ebooksearchtaiwan.Presenter
-import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.model.APIManager
+import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.model.OnNetworkConnectionListener
 import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
 import liou.rayyuan.ebooksearchtaiwan.model.entity.BookStores
@@ -26,8 +25,8 @@ import okhttp3.ResponseBody
 /**
  * Created by louis383 on 2017/12/2.
  */
-class BookSearchPresenter(private val apiManager: APIManager) : Presenter<BookSearchView>, LifecycleObserver,
-    OnNetworkConnectionListener, BookResultClickHandler {
+class BookSearchPresenter(private val apiManager: APIManager, private val eventTracker: EventTracker) : Presenter<BookSearchView>,
+        LifecycleObserver, OnNetworkConnectionListener, BookResultClickHandler {
 
     private var view: BookSearchView? = null
     private lateinit var bookListViewModel: BookListViewModel
@@ -79,7 +78,9 @@ class BookSearchPresenter(private val apiManager: APIManager) : Presenter<BookSe
         eggCount++
         if (eggCount == 10) {
             view?.showEasterEgg01()
+            eventTracker.logEvent(EventTracker.SHOW_EASTER_EGG_01)
         }
+        eventTracker.logEvent(EventTracker.CLICK_INFO_BUTTON)
     }
 
     fun backToTop(canResultListScrollVertically: Boolean) {
@@ -88,6 +89,7 @@ class BookSearchPresenter(private val apiManager: APIManager) : Presenter<BookSe
         } else {
             view?.focusBookSearchEditText()
         }
+        eventTracker.logEvent(EventTracker.CLICK_BACK_TO_TOP_BUTTON)
     }
 
     fun searchBook(keyword: String) {
@@ -138,12 +140,9 @@ class BookSearchPresenter(private val apiManager: APIManager) : Presenter<BookSe
         val bestResultsAdapter = BookResultAdapter(false, -1)
 
         bookStores?.generateBookStoresResultMap(defaultResultSort)?.let { resultMap ->
-            for (bookStoreName in resultMap.keys) {
-                val localizedStoreName = view?.getApplicationString(getStringResource(bookStoreName))
-                        ?: bookStoreName.defaultStoreName
-
-                resultMap[bookStoreName]?.run {
-                    addResult(bestResultsAdapter, localizedStoreName, this)
+            for (defaultStoreName in resultMap.keys) {
+                resultMap[defaultStoreName]?.run {
+                    addResult(bestResultsAdapter, defaultStoreName, this)
                 }
             }
         }
@@ -152,23 +151,22 @@ class BookSearchPresenter(private val apiManager: APIManager) : Presenter<BookSe
             bestResultsAdapter.sortByMoney()
         }
 
-        val bestResultTitle = view?.getApplicationString(R.string.best_result_title) ?: "best result"
-        val bestResultView = BookResultView(bestResultTitle, bestResultsAdapter)
+        val bestResultView = BookResultView(DefaultStoreNames.BEST_RESULT, bestResultsAdapter)
         fullBookStoreResultsAdapter.addResultToBeginning(bestResultView)
         view?.setMainResultView(READY)
     }
 
-    private fun addResult(bestAdapter: BookResultAdapter, bookStoreName: String, books: List<Book>) {
+    private fun addResult(bestAdapter: BookResultAdapter, defaultStoreName: DefaultStoreNames, books: List<Book>) {
         if (books.isNotEmpty()) {
-            bestAdapter.addBook(books.first(), bookStoreName)
+            bestAdapter.addBook(books.first(), defaultStoreName)
         }
-        fullBookStoreResultsAdapter.addResult(generateBookResultView(bookStoreName, maxListNumber, books))
+        fullBookStoreResultsAdapter.addResult(generateBookResultView(defaultStoreName, maxListNumber, books))
     }
 
-    private fun generateBookResultView(storeName: String, maxListNumber: Int, books: List<Book>): BookResultView {
+    private fun generateBookResultView(defaultStoreName: DefaultStoreNames, maxListNumber: Int, books: List<Book>): BookResultView {
         val bookResultAdapter = BookResultAdapter(true, maxListNumber)
         bookResultAdapter.setBooks(books)
-        return BookResultView(storeName, bookResultAdapter)
+        return BookResultView(defaultStoreName, bookResultAdapter)
     }
 
     override fun onNetworkTimeout() {
@@ -183,17 +181,4 @@ class BookSearchPresenter(private val apiManager: APIManager) : Presenter<BookSe
     override fun onBookCardClicked(book: Book) {
         view?.openBookLink(Uri.parse(book.link))
     }
-
-    @StringRes
-    private fun getStringResource(defaultStoreNames: DefaultStoreNames): Int = when (defaultStoreNames) {
-        DefaultStoreNames.BOOK_COMPANY -> R.string.books_company_title
-        DefaultStoreNames.READMOO -> R.string.readmoo_title
-        DefaultStoreNames.KOBO -> R.string.kobo_title
-        DefaultStoreNames.TAAZE -> R.string.taaze_title
-        DefaultStoreNames.BOOK_WALKER -> R.string.book_walker_title
-        DefaultStoreNames.PLAY_STORE -> R.string.playbook_title
-        DefaultStoreNames.PUBU -> R.string.pubu_title
-        DefaultStoreNames.HYREAD -> R.string.hyread_title
-    }
-
 }

@@ -63,7 +63,8 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
         setContentView(R.layout.activity_search)
 
         val apiManager = (application as EBookSearchApplication).apiManager
-        presenter = BookSearchPresenter(apiManager)
+        val eventTracker = (application as EBookSearchApplication).eventTracker
+        presenter = BookSearchPresenter(apiManager, eventTracker)
         presenter.attachView(this)
 
         chromeCustomTabHelper = ChromeCustomTabsHelper()
@@ -223,10 +224,6 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
         inputManager.showSoftInput(searchEditText, 0)
     }
 
-    override fun getApplicationString(stringId: Int): String {
-        return resources.getString(stringId)
-    }
-
     override fun showKeywordIsEmpty() {
         Toast.makeText(this, R.string.search_keyword_empty, Toast.LENGTH_LONG).show()
     }
@@ -250,7 +247,6 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
     override fun backToListTop() {
         resultsRecyclerView.smoothScrollToPosition(0)
     }
-
     //endregion
 
     //region View.OnClickListener

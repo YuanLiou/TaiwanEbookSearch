@@ -50,6 +50,7 @@ fun BookStores.generateBookStoresResultMap(sortedSet: Set<DefaultStoreNames>): M
                     map.put(DefaultStoreNames.HYREAD, it)
                 }
             }
+            else -> {}
         }
     }
     return map

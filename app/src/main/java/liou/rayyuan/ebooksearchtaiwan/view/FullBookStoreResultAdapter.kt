@@ -12,6 +12,7 @@ import com.google.android.gms.ads.MobileAds
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
+import liou.rayyuan.ebooksearchtaiwan.utils.getLocalizedName
 
 /**
  * Created by louis383 on 2018/1/7.
@@ -45,7 +46,7 @@ class FullBookStoreResultAdapter(private val clickHandler: BookResultClickHandle
         if (holder is BookStoreResultViewHolder && results.isNotEmpty() && index < results.size) {
             val result: BookResultView = results[index]
             val adapter: BookResultAdapter = result.adapter
-            holder.bookStoreTitle.text = result.title
+            holder.bookStoreTitle.text = result.defaultStoreName.getLocalizedName(holder.itemView.context)
 
             if (result.adapter.getBooksCount() > 0) {
                 adapter.bookResultClickHandler = this

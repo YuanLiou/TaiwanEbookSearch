@@ -23,7 +23,6 @@ interface BookSearchView {
     fun showEasterEgg01()
     fun showErrorMessage(message: String)
     fun showNetworkErrorMessage()
-    fun getApplicationString(stringId: Int): String
     fun getViewModelProvider(): ViewModelProvider
     fun getLifeCycleOwner(): LifecycleOwner
     fun backToListTop()

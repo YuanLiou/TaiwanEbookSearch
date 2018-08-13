@@ -13,6 +13,7 @@ import com.facebook.imagepipeline.common.ResizeOptions
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
+import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
 import liou.rayyuan.ebooksearchtaiwan.view.BookResultAdapter.BookResultViewHolder
 import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
 
@@ -45,12 +46,12 @@ class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int) : Recycler
             val bookViewModel = BookViewModel(book)
 
             with(holder) {
-                bookShopName.text = bookViewModel.getShopName()
+                bookShopName.text = bookViewModel.getShopName(holder.itemView.context)
                 bookTitle.text = bookViewModel.getTitle()
                 bookDescription.text = bookViewModel.getDescription()
                 bookPrice.text = bookViewModel.getPrice()
                 bookImage.setResizeImage(bookViewModel.getImage())
-                bookResultBody.setOnClickListener({ bookResultClickHandler?.onBookCardClicked(book) })
+                bookResultBody.setOnClickListener { bookResultClickHandler?.onBookCardClicked(book) }
 
                 if (hideTitleBar) {
                     bookShopName.visibility = View.GONE
@@ -81,8 +82,8 @@ class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int) : Recycler
         notifyItemRangeInserted(originalIndex, books.size)
     }
 
-    fun addBook(book: Book, bookStoreName: String) {
-        book.bookStore = bookStoreName
+    fun addBook(book: Book, defaultStoreNames: DefaultStoreNames) {
+        book.bookStore = defaultStoreNames.defaultStoreName
         val originalIndex: Int = this.books.size
         this.books.add(book)
         notifyItemInserted(originalIndex)
