@@ -1,4 +1,4 @@
-# Taiwan ebook Search 台灣電子書搜尋
+# Taiwan ebook Search 台灣電子書搜尋  [![CircleCI](https://circleci.com/gh/YuanLiou/TaiwanEbookSearch/tree/develop.svg?style=svg)](https://circleci.com/gh/YuanLiou/TaiwanEbookSearch/tree/develop)
 eBook search tool mainly for Taiwan.
 
 ![Imgur](https://i.imgur.com/B3vzhTQ.jpg)
