@@ -86,10 +86,11 @@ class BookSearchPresenter(private val apiManager: APIManager, private val eventT
     fun backToTop(canResultListScrollVertically: Boolean) {
         if (canResultListScrollVertically) {
             view?.backToListTop()
+            eventTracker.logEvent(EventTracker.CLICK_BACK_TO_TOP_BUTTON)
         } else {
             view?.focusBookSearchEditText()
+            eventTracker.logEvent(EventTracker.CLICK_TO_SEARCH_BUTTON)
         }
-        eventTracker.logEvent(EventTracker.CLICK_BACK_TO_TOP_BUTTON)
     }
 
     fun searchBook(keyword: String) {
@@ -137,7 +138,7 @@ class BookSearchPresenter(private val apiManager: APIManager, private val eventT
         this.bookStores = bookStores
 
         view?.scrollToTop()
-        val bestResultsAdapter = BookResultAdapter(false, -1)
+        val bestResultsAdapter = BookResultAdapter(false, -1, DefaultStoreNames.BEST_RESULT, eventTracker)
 
         bookStores?.generateBookStoresResultMap(defaultResultSort)?.let { resultMap ->
             for (defaultStoreName in resultMap.keys) {
@@ -164,7 +165,7 @@ class BookSearchPresenter(private val apiManager: APIManager, private val eventT
     }
 
     private fun generateBookResultView(defaultStoreName: DefaultStoreNames, maxListNumber: Int, books: List<Book>): BookResultView {
-        val bookResultAdapter = BookResultAdapter(true, maxListNumber)
+        val bookResultAdapter = BookResultAdapter(true, maxListNumber, defaultStoreName, eventTracker)
         bookResultAdapter.setBooks(books)
         return BookResultView(defaultStoreName, bookResultAdapter)
     }

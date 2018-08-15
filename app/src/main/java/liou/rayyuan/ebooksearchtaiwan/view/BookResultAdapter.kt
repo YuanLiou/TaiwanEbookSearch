@@ -12,6 +12,7 @@ import com.facebook.drawee.view.SimpleDraweeView
 import com.facebook.imagepipeline.common.ResizeOptions
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import liou.rayyuan.ebooksearchtaiwan.R
+import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
 import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
 import liou.rayyuan.ebooksearchtaiwan.view.BookResultAdapter.BookResultViewHolder
@@ -22,7 +23,9 @@ import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
  *
  * @property maxDisplayNumber if pass -1, it will display as many as it has. No display limit.
  */
-class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int) : RecyclerView.Adapter<BookResultViewHolder>() {
+class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int,
+                        private val defaultStoreName: DefaultStoreNames,
+                        private val eventTracker: EventTracker?) : RecyclerView.Adapter<BookResultViewHolder>() {
     private val books = mutableListOf<Book>()
     private var hideTitleBar: Boolean = false
     private val maxDisplayNumber: Int
@@ -51,7 +54,15 @@ class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int) : Recycler
                 bookDescription.text = bookViewModel.getDescription()
                 bookPrice.text = bookViewModel.getPrice()
                 bookImage.setResizeImage(bookViewModel.getImage())
-                bookResultBody.setOnClickListener { bookResultClickHandler?.onBookCardClicked(book) }
+                bookResultBody.setOnClickListener {
+                    bookResultClickHandler?.onBookCardClicked(book)
+
+                    val isFromBestResult = (defaultStoreName == DefaultStoreNames.BEST_RESULT)
+                    val bookStoreName = book.bookStore ?: defaultStoreName.defaultName
+                    eventTracker?.generateBookRecordBundle(isFromBestResult, bookStoreName)?.run {
+                        eventTracker.logEvent(EventTracker.OPEN_BOOK_LINK, this)
+                    }
+                }
 
                 if (hideTitleBar) {
                     bookShopName.visibility = View.GONE
@@ -82,8 +93,8 @@ class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int) : Recycler
         notifyItemRangeInserted(originalIndex, books.size)
     }
 
-    fun addBook(book: Book, defaultStoreNames: DefaultStoreNames) {
-        book.bookStore = defaultStoreNames.defaultStoreName
+    fun addBook(book: Book, defaultStoreName: DefaultStoreNames) {
+        book.bookStore = defaultStoreName.defaultName
         val originalIndex: Int = this.books.size
         this.books.add(book)
         notifyItemInserted(originalIndex)

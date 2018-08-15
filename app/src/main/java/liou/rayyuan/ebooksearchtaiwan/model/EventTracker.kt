@@ -10,6 +10,8 @@ class EventTracker(context: Context) {
         const val CLICK_INFO_BUTTON = "click_info_button"
         const val CLICK_BACK_TO_TOP_BUTTON = "click_back_to_top_button"
         const val SHOW_EASTER_EGG_01 = "show_easter_egg_01"
+        const val CLICK_TO_SEARCH_BUTTON = "click_to_search_button"
+        const val OPEN_BOOK_LINK = "open_book_link"
     }
 
     private val firebaseAnalytics = FirebaseAnalytics.getInstance(context.applicationContext)

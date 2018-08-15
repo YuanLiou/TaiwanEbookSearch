@@ -33,7 +33,7 @@ class BookViewModel(private val book: Book) {
 
     fun getShopName(context: Context): String = book.bookStore?.let {
         DefaultStoreNames.values()
-                .find { enumValues -> enumValues.defaultStoreName == it }
+                .find { enumValues -> enumValues.defaultName == it }
                 ?.run { getLocalizedName(context )} ?: ""
     } ?: ""
 }

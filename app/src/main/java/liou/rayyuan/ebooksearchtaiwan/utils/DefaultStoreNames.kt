@@ -1,14 +1,14 @@
 package liou.rayyuan.ebooksearchtaiwan.utils
 
-enum class DefaultStoreNames(val defaultStoreName: String) {
-    BEST_RESULT("best_result"),
+enum class DefaultStoreNames(val defaultName: String) {
+    BEST_RESULT("BestResult"),
 
-    BOOK_COMPANY("books_company"),
+    BOOK_COMPANY("booksCompany"),
     READMOO("readmoo"),
     KOBO("kobo"),
     TAAZE("taaze"),
-    BOOK_WALKER("book_walker"),
-    PLAY_STORE("play_store"),
+    BOOK_WALKER("bookWalker"),
+    PLAY_STORE("playStore"),
     PUBU("pubu"),
     HYREAD("hyread")
 }
