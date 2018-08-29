@@ -31,11 +31,11 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import liou.rayyuan.chromecustomtabhelper.ChromeCustomTabsHelper
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
-import liou.rayyuan.ebooksearchtaiwan.EBookSearchApplication
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.CameraPreviewActivity
 import liou.rayyuan.ebooksearchtaiwan.view.ViewState
 import liou.rayyuan.ebooksearchtaiwan.view.ViewState.*
+import org.koin.android.ext.android.inject
 
 /**
  * Created by louis383 on 2017/12/2.
@@ -55,16 +55,13 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
 
     private val hintText: TextView by bindView(R.id.search_view_hint)
     private val backToTopButton: ImageButton by bindView(R.id.search_view_back_to_top_button)
-    private lateinit var presenter: BookSearchPresenter
+
+    private val presenter: BookSearchPresenter by inject()
     private lateinit var chromeCustomTabHelper: ChromeCustomTabsHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-
-        val apiManager = (application as EBookSearchApplication).apiManager
-        val eventTracker = (application as EBookSearchApplication).eventTracker
-        presenter = BookSearchPresenter(apiManager, eventTracker)
         presenter.attachView(this)
 
         chromeCustomTabHelper = ChromeCustomTabsHelper()

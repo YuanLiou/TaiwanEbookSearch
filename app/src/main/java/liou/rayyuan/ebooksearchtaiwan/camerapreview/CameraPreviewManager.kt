@@ -285,7 +285,7 @@ class CameraPreviewManager(private val context: Context, private val textureView
             // choose the right resolution/settings and it will display normally.
             imageReader = ImageReader.newInstance(width, height, ImageFormat.YUV_420_888, imageBufferCounts)
             imageReader?.setOnImageAvailableListener({ reader ->
-                backgroundHandler?.post({
+                backgroundHandler?.post {
                     if (cameraState != CameraState.CLOSED) {
                         val image = reader?.acquireLatestImage()
                         // IMPORTANT::new Camera2 Api which sends YUV_420_888 yuv format
@@ -295,7 +295,7 @@ class CameraPreviewManager(private val context: Context, private val textureView
                         cameraCallback.onByteArrayGenerated(bytes)
                         image?.close()
                     }
-                })
+                }
             }, backgroundHandler)
         }
     }

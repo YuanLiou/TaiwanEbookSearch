@@ -87,7 +87,9 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:${retrofit_version}"
     implementation "com.squareup.retrofit2:converter-gson:${retrofit_version}"
     implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
-    // end retrofit
+
+    // koin
+    implementation 'org.koin:koin-android:0.9.3'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
