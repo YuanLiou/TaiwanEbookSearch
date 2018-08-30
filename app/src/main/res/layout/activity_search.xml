@@ -134,7 +134,7 @@
         android:padding="6dp"
         android:translationY="40dp"
         android:clickable="true"
-        android:background="@drawable/material_rounded_button"
+        android:background="@drawable/material_rounded_button_green"
         android:src="@drawable/ic_keyboard_arrow_up_24dp"
         android:layout_gravity="bottom|center_horizontal"
         android:elevation="6dp"

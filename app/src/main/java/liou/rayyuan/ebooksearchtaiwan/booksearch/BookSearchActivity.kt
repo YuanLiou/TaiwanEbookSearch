@@ -127,6 +127,7 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
 
     private fun initScrollToTopButton() {
         backToTopButton.setOnClickListener(this)
+        backToTopButton.setBackgroundResource(R.drawable.material_rounded_button)
         resultsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -134,7 +135,7 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
                 if (resultsRecyclerView.canScrollVertically(-1)) {
                     backToTopButton.setImageResource(R.drawable.ic_keyboard_arrow_up_24dp)
                 } else {
-                    backToTopButton.setImageResource(R.drawable.ic_search_white_24dp)
+                    backToTopButton.setImageResource(R.drawable.ic_keyboard_white_24dp)
                 }
             }
         })

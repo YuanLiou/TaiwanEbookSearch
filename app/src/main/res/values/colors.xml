@@ -16,4 +16,7 @@
     <color name="dark_gray">#646464</color>
     <color name="darker_gray_3B">#3B3B3B</color>
     <color name="pure_dark">#000000</color>
+
+    <!-- alpha -->
+    <color name="blue_green_a50">#800EB29B</color>
 </resources>
