@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>use_color_back_to_top_button</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>use_keyboard_icon_on_top_list</key>
+        <value>false</value>
+    </entry>
+</defaultsMap>

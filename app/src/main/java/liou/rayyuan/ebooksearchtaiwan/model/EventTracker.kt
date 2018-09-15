@@ -14,6 +14,7 @@ class EventTracker(context: Context) {
         const val OPEN_BOOK_LINK = "open_book_link"
     }
 
+    // TODO:: make an abstract layer for 3rd party implementation
     private val firebaseAnalytics = FirebaseAnalytics.getInstance(context.applicationContext)
 
     fun logEvent(eventName: String, bundle: Bundle? = null) {

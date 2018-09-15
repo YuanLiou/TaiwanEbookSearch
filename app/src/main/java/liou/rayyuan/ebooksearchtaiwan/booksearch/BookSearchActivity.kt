@@ -33,6 +33,7 @@ import liou.rayyuan.chromecustomtabhelper.ChromeCustomTabsHelper
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.CameraPreviewActivity
+import liou.rayyuan.ebooksearchtaiwan.model.RemoteConfigManager
 import liou.rayyuan.ebooksearchtaiwan.view.ViewState
 import liou.rayyuan.ebooksearchtaiwan.view.ViewState.*
 import org.koin.android.ext.android.inject
@@ -58,6 +59,7 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
 
     private val presenter: BookSearchPresenter by inject()
     private lateinit var chromeCustomTabHelper: ChromeCustomTabsHelper
+    private val remoteConfigManager: RemoteConfigManager by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -127,7 +129,13 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
 
     private fun initScrollToTopButton() {
         backToTopButton.setOnClickListener(this)
-        backToTopButton.setBackgroundResource(R.drawable.material_rounded_button)
+
+        if (remoteConfigManager.firebaseRemoteConfig.getBoolean(RemoteConfigManager.COLOR_BACK_TO_TOP_BUTTON_KEY)) {
+            backToTopButton.setBackgroundResource(R.drawable.material_rounded_button_green)
+        } else {
+            backToTopButton.setBackgroundResource(R.drawable.material_rounded_button)
+        }
+
         resultsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -135,7 +143,13 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
                 if (resultsRecyclerView.canScrollVertically(-1)) {
                     backToTopButton.setImageResource(R.drawable.ic_keyboard_arrow_up_24dp)
                 } else {
-                    backToTopButton.setImageResource(R.drawable.ic_keyboard_white_24dp)
+
+                    if (remoteConfigManager.firebaseRemoteConfig.getBoolean(RemoteConfigManager.KEYBOARD_BACK_TO_TOP_ICON_KEY)) {
+                        backToTopButton.setImageResource(R.drawable.ic_keyboard_white_24dp)
+                    } else {
+                        backToTopButton.setImageResource(R.drawable.ic_search_white_24dp)
+                    }
+
                 }
             }
         })

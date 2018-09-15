@@ -1,5 +1,9 @@
 package liou.rayyuan.ebooksearchtaiwan.model.entity
 
+import android.annotation.SuppressLint
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 /**
  * Created by louis383 on 2017/11/29.
  */
@@ -24,6 +28,8 @@ package liou.rayyuan.ebooksearchtaiwan.model.entity
 * }
 * */
 // Update Entity to API version: 20180806
+@SuppressLint("ParcelCreator")
+@Parcelize
 data class Book(val thumbnail: String = "",
                 val priceCurrency: String = "",
                 val price: Float = 0.0f,
@@ -36,4 +42,4 @@ data class Book(val thumbnail: String = "",
                 val authors: List<String>?,
                 val painters: List<String>?,
                 var bookStore: String?,
-                val nonDrmPrice: Float = 0.0f)
+                val nonDrmPrice: Float = 0.0f) : Parcelable

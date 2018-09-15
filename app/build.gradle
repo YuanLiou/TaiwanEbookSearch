@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.fabric'
+apply plugin: 'com.akaita.android.easylauncher'
 
 android {
     compileSdkVersion 27
@@ -50,6 +51,23 @@ android {
     }
 }
 
+androidExtensions {
+    experimental = true
+}
+
+easylauncher {
+    iconNames "@mipmap/ic_launcher"
+    foregroundIconNames "@mipmap/ic_launcher_foreground"
+
+    buildTypes {
+        debug {
+            filters = [
+                    redRibbonFilter("WEBY")
+            ]
+        }
+    }
+}
+
 static def getVersionCodeTimeStamps() {
     def date = new Date()
     def formattedDate = '19' + date.format('yyMMddHH')
@@ -78,10 +96,11 @@ dependencies {
     implementation "android.arch.lifecycle:common-java8:1.1.1"
 
     // Firebase
-    implementation "com.google.firebase:firebase-core:${firebase_version}"
-    implementation "com.google.firebase:firebase-ads:${firebase_version}"
+    implementation "com.google.firebase:firebase-core:16.0.3"
+    implementation "com.google.firebase:firebase-ads:15.0.1"
     implementation "com.google.firebase:firebase-ml-vision:16.0.0"
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.4'
+    implementation "com.google.firebase:firebase-config:16.0.0"
 
     // retrofit
     implementation "com.squareup.retrofit2:retrofit:${retrofit_version}"
@@ -89,7 +108,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
 
     // koin
-    implementation 'org.koin:koin-android:0.9.3'
+    implementation "org.koin:koin-android:${koin_version}"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
