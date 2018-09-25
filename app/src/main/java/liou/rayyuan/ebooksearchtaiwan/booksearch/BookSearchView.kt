@@ -1,7 +1,7 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModelProvider
 import android.net.Uri
 import liou.rayyuan.ebooksearchtaiwan.view.ViewState
 

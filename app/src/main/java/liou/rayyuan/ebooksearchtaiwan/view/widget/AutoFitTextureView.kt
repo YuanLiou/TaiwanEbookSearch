@@ -1,7 +1,7 @@
 package liou.rayyuan.ebooksearchtaiwan.view.widget
 
 import android.content.Context
-import android.support.annotation.IntRange
+import androidx.annotation.IntRange
 import android.util.AttributeSet
 import android.view.TextureView
 

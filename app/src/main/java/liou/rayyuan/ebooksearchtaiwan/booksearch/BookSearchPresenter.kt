@@ -1,11 +1,11 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.Observer
+import androidx.lifecycle.OnLifecycleEvent
 import android.net.Uri
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import liou.rayyuan.ebooksearchtaiwan.Presenter
 import liou.rayyuan.ebooksearchtaiwan.model.APIManager
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker

@@ -1,11 +1,11 @@
 package liou.rayyuan.ebooksearchtaiwan.view.behavior
 
 import android.content.Context
-import android.support.design.widget.CoordinatorLayout
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import android.widget.ImageButton
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import liou.rayyuan.ebooksearchtaiwan.R
 
 class BottomNavigationBehavior : CoordinatorLayout.Behavior<View> {

@@ -2,10 +2,6 @@ package liou.rayyuan.ebooksearchtaiwan.camerapreview
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.*
@@ -16,11 +12,15 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.os.Looper
 import android.os.Message
-import android.support.v4.app.ActivityCompat
 import android.util.Log
 import android.util.Size
 import android.view.Surface
 import android.view.TextureView
+import androidx.core.app.ActivityCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.OnLifecycleEvent
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.view.widget.AutoFitTextureView
 import java.util.concurrent.Semaphore
@@ -310,7 +310,10 @@ class CameraPreviewManager(private val context: Context, private val textureView
         return cameraCharacteristics?.let {
             val sensorOrientation = it.get(CameraCharacteristics.SENSOR_ORIENTATION)
             val deviceOrientation = orientationMap[deviceOrientationRaw] ?: 0
-            (sensorOrientation - deviceOrientation + 360) % 360
+
+            sensorOrientation?.run {
+                (this - deviceOrientation + 360) % 360
+            } ?: -1
         } ?: -1
     }
 
@@ -413,7 +416,7 @@ class CameraPreviewManager(private val context: Context, private val textureView
 
         val captureRequestBuilder = camera?.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
         captureRequestBuilder?.addTarget(surface)
-        captureRequestBuilder?.addTarget(imageReaderSurface)
+        captureRequestBuilder?.addTarget(imageReaderSurface!!)
 
         camera?.createCaptureSession(listOf(surface, imageReaderSurface), object : CameraCaptureSession.StateCallback() {
             override fun onConfigured(cameraCaptureSession: CameraCaptureSession?) {
@@ -425,9 +428,11 @@ class CameraPreviewManager(private val context: Context, private val textureView
 
                     captureRequestBuilder?.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE)
                     val previewRequest = captureRequestBuilder?.build()
-                    cameraCaptureSession?.setRepeatingRequest(previewRequest, null, backgroundHandler)
+                    previewRequest?.run {
+                        cameraCaptureSession?.setRepeatingRequest(this, null, backgroundHandler)
 
-                    cameraState = CameraState.PREVIEW
+                        cameraState = CameraState.PREVIEW
+                    }
                 }
             }
 

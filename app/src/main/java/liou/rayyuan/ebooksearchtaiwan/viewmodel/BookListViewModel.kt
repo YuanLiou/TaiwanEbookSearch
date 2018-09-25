@@ -1,6 +1,6 @@
 package liou.rayyuan.ebooksearchtaiwan.viewmodel
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import android.util.Log
 import liou.rayyuan.ebooksearchtaiwan.model.APIManager
 import liou.rayyuan.ebooksearchtaiwan.model.NetworkLiveData

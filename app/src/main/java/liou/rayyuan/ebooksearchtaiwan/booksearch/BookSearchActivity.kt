@@ -1,9 +1,6 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import android.app.Activity
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -13,22 +10,25 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
 import android.os.Bundle
-import android.support.annotation.IdRes
-import android.support.customtabs.CustomTabsIntent
-import android.support.design.widget.AppBarLayout
-import android.support.v4.content.ContextCompat
-import android.support.v4.graphics.drawable.DrawableCompat
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.annotation.IdRes
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
+import com.google.android.material.appbar.AppBarLayout
 import liou.rayyuan.chromecustomtabhelper.ChromeCustomTabsHelper
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
@@ -108,8 +108,8 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
         when (requestCode) {
             scanningBarcodeRequestCode -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    data?.run {
-                        val resultText = extras.getString(CameraPreviewActivity.resultISBNTextKey, "")
+                    data?.extras?.run {
+                        val resultText = getString(CameraPreviewActivity.resultISBNTextKey, "")
                         searchEditText.setText(resultText)
                         searchEditText.setSelection(resultText.length)
                         presenter.searchBook(resultText)
@@ -137,7 +137,7 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
         }
 
         resultsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
                 if (resultsRecyclerView.canScrollVertically(-1)) {

@@ -1,11 +1,11 @@
 package liou.rayyuan.ebooksearchtaiwan.view
 
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
@@ -108,7 +108,7 @@ class FullBookStoreResultAdapter(private val clickHandler: BookResultClickHandle
             if (pool == null) {
                 pool = bookStoreResult.recycledViewPool
             }
-            bookStoreResult.recycledViewPool = pool
+            bookStoreResult.setRecycledViewPool(pool)
             (bookStoreResult.layoutManager as LinearLayoutManager).recycleChildrenOnDetach = true
         }
     }
