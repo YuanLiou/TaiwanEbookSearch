@@ -1,18 +1,16 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
+import android.net.Uri
+import android.os.Bundle
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.Observer
 import androidx.lifecycle.OnLifecycleEvent
-import android.net.Uri
 import androidx.recyclerview.widget.RecyclerView
 import liou.rayyuan.ebooksearchtaiwan.Presenter
-import liou.rayyuan.ebooksearchtaiwan.model.APIManager
-import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
-import liou.rayyuan.ebooksearchtaiwan.model.OnNetworkConnectionListener
+import liou.rayyuan.ebooksearchtaiwan.model.*
 import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
 import liou.rayyuan.ebooksearchtaiwan.model.entity.BookStores
-import liou.rayyuan.ebooksearchtaiwan.model.generateBookStoresResultMap
 import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
 import liou.rayyuan.ebooksearchtaiwan.view.BookResultAdapter
 import liou.rayyuan.ebooksearchtaiwan.view.BookResultClickHandler
@@ -51,6 +49,7 @@ class BookSearchPresenter(private val apiManager: APIManager, private val eventT
 
         bookListViewModel = view.getViewModelProvider().get(BookListViewModel::class.java)
         bookListViewModel.apiManager = apiManager
+        bookListViewModel.networkConnectionListener = this
         if (bookListViewModel.isRequestingData()) {
             view.setMainResultView(PREPARE)
         }
@@ -170,6 +169,23 @@ class BookSearchPresenter(private val apiManager: APIManager, private val eventT
         return BookResultView(defaultStoreName, bookResultAdapter)
     }
 
+    fun logThemeChangedEvent(isDarkThemeEnabled: Boolean) {
+        val themeResult = if (isDarkThemeEnabled) {
+            "dark"
+        } else {
+            "light"
+        }
+
+        eventTracker.logEvent(EventTracker.USER_THEME_CHOSEN, Bundle().apply {
+            putString("theme", themeResult)
+        })
+    }
+
+    fun logISBNScanningSucceed() {
+        eventTracker.logEvent(EventTracker.SCANNED_ISBN)
+    }
+
+    //region OnNetworkConnectionListener
     override fun onNetworkTimeout() {
         view?.showInternetConnectionTimeout()
     }
@@ -179,7 +195,19 @@ class BookSearchPresenter(private val apiManager: APIManager, private val eventT
         view?.showNetworkErrorMessage()
     }
 
+    override fun onExceptionOccurred(message: String) {
+        view?.setMainResultView(ERROR)
+        if (message == NetworkLiveData.GENERIC_NETWORK_ISSUE) {
+            view?.showNetworkErrorMessage()
+        } else {
+            view?.showToast(message)
+        }
+    }
+    //endregion
+
+    //region BookResultClickHandler
     override fun onBookCardClicked(book: Book) {
         view?.openBookLink(Uri.parse(book.link))
     }
+    //endregion
 }

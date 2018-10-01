@@ -38,4 +38,8 @@
     <string name="camera_permission_deny">Oh OK... Fine I\'m out.</string>
     <string name="auth_take_me_there">Take me there</string>
     <string name="hyread_title">HyRead</string>
+    <string name="menu_setting">Settings</string>
+    <string name="preference_catagory_appearance">Appearance</string>
+    <string name="preference_appearance_theme_title">App Theme</string>
+    <string name="preference_appearance_theme_description">Choose a color theme for the app.</string>
 </resources>

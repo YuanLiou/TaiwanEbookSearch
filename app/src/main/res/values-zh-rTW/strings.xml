@@ -38,4 +38,8 @@
     <string name="camera_permission_waiting">等待相機權限授權</string>
     <string name="camera_permission_deny">事到如今，我也只能通靈</string>
     <string name="auth_take_me_there">帶我去</string>
+    <string name="menu_setting">設定</string>
+    <string name="preference_catagory_appearance">外觀</string>
+    <string name="preference_appearance_theme_title">主題</string>
+    <string name="preference_appearance_theme_description">選擇不同的外觀樣式</string>
 </resources>

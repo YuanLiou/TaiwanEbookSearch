@@ -7,13 +7,38 @@
         <item name="colorPrimaryDark">@color/blue_green_dark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="searchBoxColor">@color/pure_white</item>
-        <item name="appBackgroundColor">@color/google_app_white_color</item>
-        <item name="titleTextColor">@color/pure_dark</item>
-        <item name="descriptionTextColor">@color/dark_gray</item>
+
+        <item name="actionOverflowButtonStyle">@style/Overflow</item>
+        <item name="android:colorBackground">@color/google_app_white_color</item>
+        <item name="android:textColorPrimary">@color/pure_dark</item>
+        <item name="android:textColorSecondary">@color/dark_gray</item>
+        <item name="android:textColorTertiary">@color/darker_gray_3B</item>
+
+        <item name="dividerColor">@color/blue_green</item>
+        <item name="editTextHintColor">@color/gray</item>
+        <item name="editTextInputColor">@color/pure_dark</item>
+        <item name="backToTopButtonDrawable">@drawable/material_rounded_button</item>
+
+        <item name="colorControlNormal">@color/white_EB</item>
     </style>
 
     <style name="FullScreenTheme" parent="AppTheme" >
         <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="Overflow" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_dots_vertical</item>
+    </style>
+
+    <style name="NightTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">@color/blue_green</item>
+        <item name="android:textColorTertiary">@color/white_BD</item>
+        <item name="searchBoxColor">@color/gray</item>
+
+        <item name="dividerColor">@color/blue_green</item>
+        <item name="editTextHintColor">@color/white_BD</item>
+        <item name="editTextInputColor">@color/pure_white</item>
+        <item name="backToTopButtonDrawable">@drawable/material_rounded_button_dark_mode</item>
     </style>
 
 </resources>

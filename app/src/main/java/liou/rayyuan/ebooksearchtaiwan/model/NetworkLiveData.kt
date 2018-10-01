@@ -1,7 +1,7 @@
 package liou.rayyuan.ebooksearchtaiwan.model
 
-import androidx.lifecycle.LiveData
 import android.util.Log
+import androidx.lifecycle.LiveData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -9,6 +9,9 @@ import java.net.SocketTimeoutException
 import java.util.concurrent.TimeoutException
 
 class NetworkLiveData<T>(private val call: Call<T>): LiveData<T>(), Callback<T> {
+    companion object {
+        const val GENERIC_NETWORK_ISSUE = "generic-network-issue"
+    }
 
     private val tag: String = "NetworkLiveData"
     var listener: OnNetworkConnectionListener? = null
@@ -18,6 +21,9 @@ class NetworkLiveData<T>(private val call: Call<T>): LiveData<T>(), Callback<T> 
         Log.e(tag, Log.getStackTraceString(t))
         if (t is SocketTimeoutException || t is TimeoutException) {
             listener?.onNetworkTimeout()
+        } else {
+            val message = t?.localizedMessage ?: GENERIC_NETWORK_ISSUE
+            listener?.onExceptionOccurred(message)
         }
     }
 

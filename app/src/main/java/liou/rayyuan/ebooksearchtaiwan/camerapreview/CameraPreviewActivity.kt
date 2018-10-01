@@ -8,19 +8,20 @@ import android.graphics.Point
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import androidx.annotation.IdRes
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Size
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.annotation.IdRes
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.mlscanner.BarcodeVisionProcessor
 import liou.rayyuan.ebooksearchtaiwan.mlscanner.FrameVisionProcessor
 import liou.rayyuan.ebooksearchtaiwan.mlscanner.VisionProcessListener
+import liou.rayyuan.ebooksearchtaiwan.utils.bindView
 import liou.rayyuan.ebooksearchtaiwan.view.widget.AutoFitTextureView
 
 class CameraPreviewActivity : AppCompatActivity(), CameraPreviewManager.OnCameraPreviewCallback,
@@ -156,10 +157,9 @@ class CameraPreviewActivity : AppCompatActivity(), CameraPreviewManager.OnCamera
                         AlertDialog.Builder(this)
                                 .setTitle(R.string.permission_request_title)
                                 .setMessage(R.string.permission_required_camera)
-                                .setPositiveButton(R.string.dialog_auth, { _, _ ->  requestCameraPermission() })
-                                .setNegativeButton(R.string.dialog_cancel, {
-                                    dialogInterface, _ -> dialogInterface.dismiss()
-                                })
+                                .setPositiveButton(R.string.dialog_auth) { _, _ ->  requestCameraPermission() }
+                                .setNegativeButton(R.string.dialog_cancel) { dialogInterface, _ -> dialogInterface.dismiss()
+                                }
                                 .create().show()
                     } else {
                         scanningResultTitle.text = getString(R.string.camera_permission_deny)
@@ -198,7 +198,4 @@ class CameraPreviewActivity : AppCompatActivity(), CameraPreviewManager.OnCamera
         authText.visibility = View.GONE
         frameVisionProcessor.start()
     }
-
-    private fun <T: View> Activity.bindView(@IdRes id: Int): Lazy<T> =
-            lazy { findViewById<T>(id) }
 }

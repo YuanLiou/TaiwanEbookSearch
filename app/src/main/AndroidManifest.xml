@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="liou.rayyuan.ebooksearchtaiwan">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="liou.rayyuan.ebooksearchtaiwan">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -16,7 +17,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:hardwareAccelerated="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:appCategory="productivity"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning"
+        >
+
         <activity
             android:name=".booksearch.BookSearchActivity"
             android:windowSoftInputMode="adjustNothing"
@@ -40,6 +45,11 @@
                 />
 
         </activity>
+
+        <activity
+            android:name=".preferencesetting.PreferenceSettingsActivity"
+            android:label="@string/menu_setting"
+            />
 
     </application>
 </manifest>

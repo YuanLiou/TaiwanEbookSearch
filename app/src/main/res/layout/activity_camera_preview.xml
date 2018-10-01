@@ -45,6 +45,8 @@
         android:background="@drawable/round_rectangle_background"
         android:alpha="0.95"
         android:elevation="8dp"
+        tools:alpha="1"
+        tools:visibility="visible"
         >
 
         <TextView
@@ -59,7 +61,7 @@
             android:singleLine="true"
             android:ellipsize="end"
             android:fontFamily="sans-serif-condensed"
-            android:textColor="@color/darker_gray_3B"
+            android:textColor="?android:attr/textColorTertiary"
             android:textSize="17sp"
             android:visibility="invisible"
             tools:text="@tools:sample/lorem/random"
@@ -74,6 +76,7 @@
             android:layout_above="@id/activity_camera_preview_result"
             android:layout_marginBottom="12dp"
             android:textSize="15sp"
+            android:textColor="?android:attr/textColorTertiary"
             android:text="@string/camera_scanning_result"
             />
 
@@ -111,13 +114,3 @@
 
     </RelativeLayout>
 </FrameLayout>
-
-        <!--<android.support.v7.widget.AppCompatImageView-->
-        <!--android:id="@+id/activity_camera_preview_debug"-->
-        <!--android:layout_width="200dp"-->
-        <!--android:layout_height="200dp"-->
-        <!--android:layout_gravity="bottom|center_horizontal"-->
-        <!--android:scaleType="fitCenter"-->
-        <!--android:visibility="gone"-->
-        <!--tools:background="@color/blue_green"-->
-        <!--/>-->

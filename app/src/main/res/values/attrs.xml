@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="appBackgroundColor" format="color" />
-    <attr name="titleTextColor" format="color" />
-    <attr name="descriptionTextColor" format="color" />
     <attr name="searchBoxColor" format="color" />
+    <attr name="dividerColor" format="color" />
+    <attr name="editTextHintColor" format="color" />
+    <attr name="editTextInputColor" format="color" />
+    <attr name="backToTopButtonDrawable" format="reference" />
 </resources>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="app_option_preferences"
+    android:title="@string/menu_setting"
+    >
+
+    <PreferenceCategory
+        android:key="app_option_preference_appearance"
+        android:title="@string/preference_catagory_appearance"
+        >
+
+        <ListPreference
+            android:key="app_option_preference_appearance_theme"
+            android:title="@string/preference_appearance_theme_title"
+            android:summary="@string/preference_appearance_theme_description"
+            android:entries="@array/theme_options"
+            android:entryValues="@array/theme_options_values"
+            android:defaultValue="light"
+            android:dialogTitle="@string/preference_appearance_theme_title"
+            />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

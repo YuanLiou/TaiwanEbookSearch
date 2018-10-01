@@ -1,8 +1,8 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
+import android.net.Uri
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
-import android.net.Uri
 import liou.rayyuan.ebooksearchtaiwan.view.ViewState
 
 /**
@@ -26,4 +26,5 @@ interface BookSearchView {
     fun getViewModelProvider(): ViewModelProvider
     fun getLifeCycleOwner(): LifecycleOwner
     fun backToListTop()
+    fun showToast(message: String)
 }

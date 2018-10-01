@@ -11,29 +11,36 @@ import android.net.NetworkInfo
 import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import androidx.annotation.IdRes
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.material.appbar.AppBarLayout
+import kotlinx.android.synthetic.main.activity_search.*
 import liou.rayyuan.chromecustomtabhelper.ChromeCustomTabsHelper
+import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.CameraPreviewActivity
 import liou.rayyuan.ebooksearchtaiwan.model.RemoteConfigManager
+import liou.rayyuan.ebooksearchtaiwan.preferencesetting.PreferenceSettingsActivity
+import liou.rayyuan.ebooksearchtaiwan.utils.bindView
+import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
 import liou.rayyuan.ebooksearchtaiwan.view.ViewState
 import liou.rayyuan.ebooksearchtaiwan.view.ViewState.*
 import org.koin.android.ext.android.inject
@@ -41,9 +48,10 @@ import org.koin.android.ext.android.inject
 /**
  * Created by louis383 on 2017/12/2.
  */
-class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickListener, ChromeCustomTabsHelper.Fallback {
+class BookSearchActivity : BaseActivity(), BookSearchView, View.OnClickListener, ChromeCustomTabsHelper.Fallback {
 
     private val scanningBarcodeRequestCode = 1002
+    private val preferenceSettingsRequestCode = 1003
 
     private val appbar: AppBarLayout by bindView(R.id.search_view_appbar)
     private val adViewLayout: FrameLayout by bindView(R.id.search_view_adview_layout)
@@ -59,11 +67,12 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
 
     private val presenter: BookSearchPresenter by inject()
     private lateinit var chromeCustomTabHelper: ChromeCustomTabsHelper
-    private val remoteConfigManager: RemoteConfigManager by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
+        setSupportActionBar(search_view_toolbar)
         presenter.attachView(this)
 
         chromeCustomTabHelper = ChromeCustomTabsHelper()
@@ -113,11 +122,36 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
                         searchEditText.setText(resultText)
                         searchEditText.setSelection(resultText.length)
                         presenter.searchBook(resultText)
+                        presenter.logISBNScanningSucceed()
                     }
+                }
+            }
+            preferenceSettingsRequestCode -> {
+                if (isThemeChanged()) {
+                    presenter.logThemeChangedEvent(isDarkTheme())
+                    recreate()
                 }
             }
             else -> super.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.search_page, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        item?.let {
+            return when (it.itemId) {
+                R.id.search_page_menu_action_setting -> {
+                    val intent = Intent(this, PreferenceSettingsActivity::class.java)
+                    startActivityForResult(intent, preferenceSettingsRequestCode)
+                    true
+                }
+                else -> true
+            }
+        } ?: return super.onOptionsItemSelected(item)
     }
 
     private fun loadAds() {
@@ -133,7 +167,10 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
         if (remoteConfigManager.firebaseRemoteConfig.getBoolean(RemoteConfigManager.COLOR_BACK_TO_TOP_BUTTON_KEY)) {
             backToTopButton.setBackgroundResource(R.drawable.material_rounded_button_green)
         } else {
-            backToTopButton.setBackgroundResource(R.drawable.material_rounded_button)
+            val typedValue = TypedValue()
+            theme.resolveAttribute(R.attr.backToTopButtonDrawable, typedValue, true)
+            val backToButtonButtonResourceId = typedValue.resourceId
+            backToTopButton.setBackgroundResource(backToButtonButtonResourceId)
         }
 
         resultsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -141,15 +178,14 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
                 super.onScrolled(recyclerView, dx, dy)
 
                 if (resultsRecyclerView.canScrollVertically(-1)) {
-                    backToTopButton.setImageResource(R.drawable.ic_keyboard_arrow_up_24dp)
+                    backToTopButton.setImageResource(baseContext, R.drawable.ic_keyboard_arrow_up_24dp)
                 } else {
 
                     if (remoteConfigManager.firebaseRemoteConfig.getBoolean(RemoteConfigManager.KEYBOARD_BACK_TO_TOP_ICON_KEY)) {
-                        backToTopButton.setImageResource(R.drawable.ic_keyboard_white_24dp)
+                        backToTopButton.setImageResource(baseContext, R.drawable.ic_keyboard_white_24dp)
                     } else {
-                        backToTopButton.setImageResource(R.drawable.ic_search_white_24dp)
+                        backToTopButton.setImageResource(baseContext, R.drawable.ic_search_white_24dp)
                     }
-
                 }
             }
         })
@@ -183,7 +219,7 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
     }
 
     override fun showInternetConnectionTimeout() {
-        Toast.makeText(this, R.string.state_timeout, Toast.LENGTH_LONG).show()
+        getString(R.string.state_timeout).showToastOn(this)
     }
 
     override fun scrollToTop() {
@@ -253,12 +289,17 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
     }
 
     override fun showNetworkErrorMessage() {
-        Toast.makeText(this, getString(R.string.network_error_message), Toast.LENGTH_LONG).show()
+        getString(R.string.network_error_message).showToastOn(this)
     }
 
     override fun backToListTop() {
         resultsRecyclerView.smoothScrollToPosition(0)
     }
+
+    override fun showToast(message: String) {
+        message.showToastOn(this)
+    }
+
     //endregion
 
     //region View.OnClickListener
@@ -289,9 +330,6 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
     }
     //endregion
 
-    private fun <T: View> Activity.bindView(@IdRes resId: Int): Lazy<T> =
-            lazy { findViewById<T>(resId) }
-
     private fun getThemePrimaryColor(): Int {
         val typedValue = TypedValue()
         theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
@@ -300,5 +338,14 @@ class BookSearchActivity : AppCompatActivity(), BookSearchView, View.OnClickList
 
     private fun Activity.isCameraAvailable(): Boolean {
         return this.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)
+    }
+
+    private fun ImageButton.setImageResource(context: Context, @DrawableRes drawableId: Int) {
+        ContextCompat.getDrawable(context, drawableId)?.run {
+            if (isDarkTheme()) {
+                DrawableCompat.setTint(this, ContextCompat.getColor(baseContext, R.color.pure_dark))
+            }
+            this@setImageResource.setImageDrawable(this)
+        }
     }
 }

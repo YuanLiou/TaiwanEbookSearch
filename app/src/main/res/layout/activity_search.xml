@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/appBackgroundColor"
+    android:background="?android:attr/colorBackground"
     >
 
     <com.google.android.material.appbar.AppBarLayout
@@ -17,62 +17,71 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             app:layout_scrollFlags="scroll|enterAlways|snap"
             >
 
-            <RelativeLayout
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/search_view_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/search_box"
+                android:minHeight="?actionBarSize"
                 >
 
-                <ImageView
-                    android:id="@+id/search_view_search_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|center_vertical"
-                    android:layout_alignParentEnd="true"
-                    android:padding="8dp"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:src="@drawable/ic_search_black_24dp"
-                    />
-
-                <ImageView
-                    android:id="@+id/search_view_camera_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|center_vertical"
-                    android:layout_toStartOf="@id/search_view_search_icon"
-                    android:layout_alignWithParentIfMissing="true"
-                    android:padding="8dp"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:src="@drawable/ic_baseline_filter_center_focus_24px"
-                    />
-
-                <EditText
-                    android:id="@+id/search_view_edittext"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@id/search_view_camera_icon"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:ellipsize="end"
-                    android:inputType="text"
-                    android:imeOptions="actionSearch"
-                    android:hint="@string/search_bar_hint"
-                    android:background="@android:color/transparent"
-                    />
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/search_box"
+                    >
 
-            </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/search_view_search_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_alignParentEnd="true"
+                        android:padding="8dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_search_black_24dp"
+                        />
+
+                    <ImageView
+                        android:id="@+id/search_view_camera_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_toStartOf="@id/search_view_search_icon"
+                        android:layout_alignWithParentIfMissing="true"
+                        android:padding="8dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_baseline_filter_center_focus_24px"
+                        />
+
+                    <EditText
+                        android:id="@+id/search_view_edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_toStartOf="@id/search_view_camera_icon"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:inputType="text"
+                        android:imeOptions="actionSearch"
+                        android:hint="@string/search_bar_hint"
+                        android:textColorHint="?attr/editTextHintColor"
+                        android:textColor="?attr/editTextColor"
+                        android:background="@android:color/transparent"
+                        />
+
+                </RelativeLayout>
+            </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -104,7 +113,7 @@
         android:layout_gravity="center"
         android:drawableTop="@drawable/ic_touch_app_black_24dp"
         android:drawablePadding="8dp"
-        android:textColor="@color/gray"
+        android:textColor="?android:attr/textColorSecondary"
         android:textSize="16sp"
         android:text="@string/welcome_words"
         android:background="?selectableItemBackgroundBorderless"

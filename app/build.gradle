@@ -79,20 +79,24 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.github.YuanLiou:chrome-custom-tab-helper:1.1b1'
 
-    // Android X
-    implementation 'androidx.appcompat:appcompat:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
-
+    // Android X Libraries
+    implementation "androidx.appcompat:appcompat:${androidx_version}"
+    implementation "androidx.recyclerview:recyclerview:${androidx_version}"
+    implementation "androidx.cardview:cardview:${androidx_version}"
+    implementation "androidx.preference:preference:${androidx_version}"
+    implementation "com.google.android.material:material:${androidx_version}"
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
-
     // Java8 support for Lifecycles
     implementation "androidx.lifecycle:lifecycle-common-java8:2.0.0"
+    // KTX
+    implementation "androidx.core:core-ktx:1.0.0"
+    implementation "androidx.fragment:fragment-ktx:1.0.0"
+
     // End of Android X Libraries
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation 'com.google.code.gson:gson:2.8.4'
+    implementation 'com.google.code.gson:gson:2.8.5'
 
     // Fresco
     implementation "com.facebook.fresco:fresco:$fresco_version"
@@ -101,18 +105,19 @@ dependencies {
     // Firebase
     implementation "com.google.firebase:firebase-core:16.0.3"
     implementation "com.google.firebase:firebase-ads:15.0.1"
-    implementation "com.google.firebase:firebase-ml-vision:16.0.0"
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.4'
+    implementation "com.google.firebase:firebase-ml-vision:17.0.0"
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
     implementation "com.google.firebase:firebase-config:16.0.0"
 
     // retrofit
     implementation "com.squareup.retrofit2:retrofit:${retrofit_version}"
     implementation "com.squareup.retrofit2:converter-gson:${retrofit_version}"
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
 
     // koin
     implementation "org.koin:koin-android:${koin_version}"
 
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'

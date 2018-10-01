@@ -21,7 +21,7 @@
         android:background="?selectableItemBackground"
         >
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/book_card_more_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,6 +30,7 @@
             android:visibility="invisible"
             android:src="@drawable/ic_more_vert_black_24dp"
             android:background="?selectableItemBackgroundBorderless"
+            app:tint="?android:attr/textColorPrimary"
             tools:visibility="visible"
             />
 
@@ -41,7 +42,7 @@
             android:layout_alignTop="@id/book_card_more_icon"
             android:layout_alignBottom="@id/book_card_more_icon"
             android:layout_alignParentStart="true"
-            android:textColor="?attr/descriptionTextColor"
+            android:textColor="?android:attr/textColorSecondary"
             android:fontFamily="sans-serif-light"
             tools:text="Readmoo"
             />
@@ -60,7 +61,7 @@
             app:progressBarAutoRotateInterval="1000"
             app:roundingBorderWidth="0.5dp"
             app:roundingBorderPadding="0.5dp"
-            app:roundingBorderColor="@color/dark_gray"
+            app:roundingBorderColor="?android:attr/textColorSecondary"
             app:fadeDuration="300"
             app:actualImageScaleType="fitXY"
             />
@@ -77,7 +78,7 @@
             android:ellipsize="end"
             android:fontFamily="sans-serif"
             android:textStyle="bold"
-            android:textColor="?attr/titleTextColor"
+            android:textColor="?android:attr/textColorPrimary"
             tools:text="被討厭的勇氣 二部曲完結篇：人生幸福的行動指南 (電子書)"
             />
 
@@ -93,7 +94,7 @@
             android:textSize="14sp"
             android:lineSpacingMultiplier="1.2"
             android:fontFamily="sans-serif-light"
-            android:textColor="?attr/descriptionTextColor"
+            android:textColor="?android:attr/textColorSecondary"
             tools:text="我們勇於面對當下每一決定的嚴師(原來是我把自己害得那麼慘)。讀完《被討厭的勇氣》，身為佛洛伊德忠實信徒的我也不得不承認，阿德勒的理論，讓人燃起想好好活在當下、不為宿命捆綁束縛的信念與熱情。「只有自己能夠改變自己」，我會永遠這樣勉勵自己，不再"
             />
 

@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:layout_gravity="center_vertical"
+        android:textColor="?android:attr/textColorSecondary"
         android:text="@string/advertisement_title"
         />
 

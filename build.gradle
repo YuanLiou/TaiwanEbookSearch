@@ -20,10 +20,12 @@ buildscript {
 }
 
 ext {
-    app_version = '1.5'
+    app_version = '1.6'
+
+    androidx_version = '1.0.0'
     retrofit_version = '2.4.0'
     fresco_version = '1.10.0'
-    koin_version = '1.0.0'
+    koin_version = '1.0.1'
 }
 
 allprojects {

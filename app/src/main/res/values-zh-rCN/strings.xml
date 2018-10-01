@@ -38,4 +38,8 @@
     <string name="camera_permission_deny">事到如今，我也只能通灵</string>
     <string name="auth_take_me_there">带我去</string>
     <string name="hyread_title">HyRead 电子书</string>
+    <string name="menu_setting">设置</string>
+    <string name="preference_catagory_appearance">外观</string>
+    <string name="preference_appearance_theme_title">主题</string>
+    <string name="preference_appearance_theme_description">选择不同的外观样式</string>
 </resources>

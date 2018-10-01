@@ -4,7 +4,7 @@
     >
 
     <solid
-        android:color="@color/google_app_white_color"
+        android:color="?android:attr/colorBackground"
         />
 
     <corners
