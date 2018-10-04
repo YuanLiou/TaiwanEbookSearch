@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.fabric'
 apply plugin: 'com.akaita.android.easylauncher'
+apply from: '../gradle/detekt.gradle'
 
 android {
     compileSdkVersion 28
