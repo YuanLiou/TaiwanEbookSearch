@@ -2,55 +2,67 @@ package liou.rayyuan.ebooksearchtaiwan.model
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import retrofit2.Call
-import retrofit2.Callback
+import kotlinx.coroutines.*
 import retrofit2.Response
 import java.net.SocketTimeoutException
 import java.util.concurrent.TimeoutException
 
-class NetworkLiveData<T>(private val call: Call<T>): LiveData<T>(), Callback<T> {
+class NetworkLiveData<T>(private val call: Deferred<Response<T>>): LiveData<T>() {
     companion object {
         const val GENERIC_NETWORK_ISSUE = "generic-network-issue"
     }
 
     private val tag: String = "NetworkLiveData"
+    private var requestJob: Job? = null
     var listener: OnNetworkConnectionListener? = null
 
-    //region Retrofit.Callback<T>
-    override fun onFailure(call: Call<T>?, t: Throwable?) {
-        Log.e(tag, Log.getStackTraceString(t))
-        if (t is SocketTimeoutException || t is TimeoutException) {
-            listener?.onNetworkTimeout()
-        } else {
-            val message = t?.localizedMessage ?: GENERIC_NETWORK_ISSUE
-            listener?.onExceptionOccurred(message)
-        }
-    }
-
-    override fun onResponse(call: Call<T>?, response: Response<T>?) {
-        val isSuccessful = response?.isSuccessful ?: false
-        if (isSuccessful) {
-            value = response?.body()
-        } else {
-            listener?.onNetworkErrorOccurred(response?.errorBody())
-        }
-    }
-    //endregion
-
     fun requestData() {
-        if (!call.isCanceled && !call.isExecuted) {
-            call.enqueue(this)
+        requestJob?.takeIf { it.isCancelled || it.isCompleted }?.run { return }
+        requestJob = CoroutineScope(Dispatchers.IO).launch {
+            val result = getData()
+            withContext(Dispatchers.Main) {
+                when (result) {
+                    is HttpResult.Success -> {
+                        val isSuccessful = result.data.isSuccessful
+                        if (isSuccessful) {
+                            value = result.data.body()
+                        } else {
+                            listener?.onNetworkErrorOccurred(result.data.errorBody())
+                        }
+                    }
+                    is HttpResult.Error -> {
+                        Log.e(tag, Log.getStackTraceString(result.exception))
+                        if (result.exception is SocketTimeoutException ||
+                                result.exception is TimeoutException) {
+                            listener?.onNetworkTimeout()
+                        } else {
+                            val message = result.exception.localizedMessage
+                                    ?: GENERIC_NETWORK_ISSUE
+                            listener?.onExceptionOccurred(message)
+                        }
+                    }
+                }
+            }
         }
     }
 
     fun cancel() {
-        if (!call.isCanceled) {
-            call.cancel()
-            Log.i("NetworkLiveData", "request is canceled.")
+        requestJob?.takeIf { it.isActive }?.run {
+            cancel()
+            Log.i(tag, "request is canceled.")
         }
     }
 
     fun isConnecting(): Boolean {
-        return call.isExecuted
+        return requestJob?.isActive ?: false
+    }
+
+    private suspend fun getData(): HttpResult<Response<T>> {
+        return try {
+            val result = call.await()
+            HttpResult.Success(result)
+        } catch (e: Throwable) {
+            HttpResult.Error(e)
+        }
     }
 }

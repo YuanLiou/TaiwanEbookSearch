@@ -18,21 +18,17 @@
 
 -optimizationpasses 5
 
-#-keep class !liou.rayyuan.** { *; }
-#-dontwarn !liou.rayyuan.**,**
-
+# ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
 # Model
 -keep class liou.rayyuan.ebooksearchtaiwan.model.entity.** { *; }
 -keep class liou.rayyuan.ebooksearchtaiwan.model.BookSearchService { *; }
+# ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
 
-# Crashlytics
--keepattributes *Annotation*
--keepattributes SourceFile,LineNumberTable
--keep public class * extends java.lang.Exception
--keep class com.crashlytics.** { *; }
--dontwarn com.crashlytics.**
 
-# Remove log code
+
+
+# ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
+## Remove log code
 -assumenosideeffects class android.util.Log {
     public static boolean isLoggable(java.lang.String, int);
     public static int v(...);
@@ -41,18 +37,61 @@
     public static int d(...);
     public static int e(...);
 }
+# ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
 
-# Retrofit 2 ======
+
+# Third Parties Libraries
+#-keep class !liou.rayyuan.** { *; }
+#-dontwarn !liou.rayyuan.**,**
+
+
+# ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
+## Crashlytics
+-keepattributes *Annotation*
+-keepattributes SourceFile,LineNumberTable
+-keep public class * extends java.lang.Exception
+-keep class com.crashlytics.** { *; }
+-dontwarn com.crashlytics.**
+# ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
+
+
+
+
+# ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
+## Coroutune Android MainThread Dispatcher
+# ServiceLoader support
+-keepnames class kotlinx.coroutines.internal.MainDispatcherFactory {}
+-keepnames class kotlinx.coroutines.CoroutineExceptionHandler {}
+
+# Most of volatile fields are updated with AFU and should not be mangled
+-keepclassmembernames class kotlinx.** {
+    volatile <fields>;
+}
+# ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
+
+
+
+
+# ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
+## Retrofit 2
 # Platform calls Class.forName on types which do not exist on Android to determine platform.
 -dontnote retrofit2.Platform
+
 # Platform used when running on Java 8 VMs. Will not be used at runtime.
 -dontwarn retrofit2.Platform$Java8
+
 # Retain generic type information for use by reflection by converters and adapters.
 -keepattributes Signature
+
 # Retain declared checked exceptions for use by a Proxy instance.
 -keepattributes Exceptions
+# ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
 
-# Fresco =======
+
+
+
+# ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
+# Fresco
 -keep,allowobfuscation @interface com.facebook.common.internal.DoNotStrip
 
 # Do not strip any method/class that is annotated with @DoNotStrip
@@ -75,4 +114,6 @@
 -dontwarn javax.annotation.**
 -dontwarn com.android.volley.toolbox.**
 -dontwarn com.facebook.infer.**
-# Fresco End =======
+# ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
+
+

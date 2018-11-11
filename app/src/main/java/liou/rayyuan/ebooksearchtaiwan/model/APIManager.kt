@@ -1,5 +1,6 @@
 package liou.rayyuan.ebooksearchtaiwan.model
 
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.model.entity.BookStores
 import okhttp3.OkHttpClient
@@ -41,6 +42,7 @@ class APIManager {
         val retrofit = Retrofit.Builder()
             .baseUrl(BuildConfig.HOST_URL)
             .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(httpClient)
             .build()
 
