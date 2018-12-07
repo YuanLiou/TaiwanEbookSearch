@@ -113,8 +113,8 @@ dependencies {
     // Retrofit 2
     implementation "com.squareup.retrofit2:retrofit:${retrofit_version}"
     implementation "com.squareup.retrofit2:converter-gson:${retrofit_version}"
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
     implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
+    implementation 'com.itkacher.okhttpprofiler:okhttpprofiler:1.0.4'
     implementation 'com.google.code.gson:gson:2.8.5'
 
     // Koin

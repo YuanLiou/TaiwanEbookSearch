@@ -7,6 +7,7 @@ import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFact
 import liou.rayyuan.ebooksearchtaiwan.di.appModules
 import liou.rayyuan.ebooksearchtaiwan.model.APIManager
 import liou.rayyuan.ebooksearchtaiwan.model.RemoteConfigManager
+import okhttp3.OkHttpClient
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.android.startKoin
 
@@ -24,7 +25,7 @@ class EBookSearchApplication : Application() {
         startKoin(this, appModules)
         remoteConfigManager.start()
 
-        val imagePipeline = OkHttpImagePipelineConfigFactory.newBuilder(this, apiManager.httpClient)
+        val imagePipeline = OkHttpImagePipelineConfigFactory.newBuilder(this, OkHttpClient.Builder().build())
         with(imagePipeline) {
             isDownsampleEnabled = true
             setResizeAndRotateEnabledForNetwork(true)
