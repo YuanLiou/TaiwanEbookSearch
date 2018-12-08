@@ -104,10 +104,10 @@ dependencies {
     implementation "com.facebook.fresco:imagepipeline-okhttp3:$fresco_version"
 
     // Firebase
-    implementation "com.google.firebase:firebase-core:16.0.3"
-    implementation "com.google.firebase:firebase-ads:15.0.1"
-    implementation "com.google.firebase:firebase-ml-vision:17.0.0"
-    implementation "com.google.firebase:firebase-config:16.0.0"
+    implementation "com.google.firebase:firebase-core:16.0.6"
+    implementation "com.google.firebase:firebase-ads:17.1.2"
+    implementation "com.google.firebase:firebase-ml-vision:18.0.2"
+    implementation "com.google.firebase:firebase-config:16.1.2"
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.6'
 
     // Retrofit 2

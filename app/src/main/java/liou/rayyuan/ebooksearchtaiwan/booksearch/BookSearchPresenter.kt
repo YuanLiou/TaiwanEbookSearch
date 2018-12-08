@@ -1,7 +1,6 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import android.net.Uri
-import android.os.Bundle
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.Observer
@@ -23,7 +22,8 @@ import okhttp3.ResponseBody
 /**
  * Created by louis383 on 2017/12/2.
  */
-class BookSearchPresenter(private val apiManager: APIManager, private val eventTracker: EventTracker) : Presenter<BookSearchView>,
+class BookSearchPresenter(private val apiManager: APIManager,
+                          private val eventTracker: EventTracker) : Presenter<BookSearchView>,
         LifecycleObserver, OnNetworkConnectionListener, BookResultClickHandler {
 
     private var view: BookSearchView? = null
@@ -45,30 +45,34 @@ class BookSearchPresenter(private val apiManager: APIManager, private val eventT
 
     override fun attachView(view: BookSearchView) {
         this.view = view
-        view.setupUI()
-
-        bookListViewModel = view.getViewModelProvider().get(BookListViewModel::class.java)
-        bookListViewModel.apiManager = apiManager
-        bookListViewModel.networkConnectionListener = this
-        if (bookListViewModel.isRequestingData()) {
-            view.setMainResultView(PREPARE)
-        }
-
-        val bookLiveData = bookListViewModel.getBookList(force = false)
-        bookLiveData?.let { liveData ->
-            liveData.listener = this
-            // Restore ViewModels
-            liveData.observe(view.getLifeCycleOwner(), Observer {
-                prepareBookSearchResult(it)
-            })
-        }
-
-        view.getLifeCycleOwner().lifecycle.addObserver(this)
+        view.setPresenter(this)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     override fun detachView() {
         this.view = null
+    }
+
+    internal fun ready() {
+        view?.setupUI()
+        view?.let { attachedView ->
+            bookListViewModel = attachedView.getViewModelProvider().get(BookListViewModel::class.java)
+            bookListViewModel.apiManager = apiManager
+            bookListViewModel.networkConnectionListener = this
+            if (bookListViewModel.isRequestingData()) {
+                attachedView.setMainResultView(PREPARE)
+            }
+
+            val bookLiveData = bookListViewModel.getBookList(force = false)
+            bookLiveData?.let { liveData ->
+                liveData.listener = this
+                // Restore ViewModels
+                liveData.observe(attachedView.getLifeCycleOwner(), Observer {
+                    prepareBookSearchResult(it)
+                })
+            }
+            attachedView.getLifeCycleOwner().lifecycle.addObserver(this)
+        }
     }
 
     fun hintPressed() {
@@ -113,6 +117,7 @@ class BookSearchPresenter(private val apiManager: APIManager, private val eventT
                             })
 
                     it.setMainResultView(PREPARE)
+                    it.scrollToTop()
                     resetCurrentResults()
                 } else {
                     it.showInternetRequestDialog()
@@ -135,8 +140,6 @@ class BookSearchPresenter(private val apiManager: APIManager, private val eventT
 
     private fun prepareBookSearchResult(bookStores: BookStores?) {
         this.bookStores = bookStores
-
-        view?.scrollToTop()
         val bestResultsAdapter = BookResultAdapter(false, -1, DefaultStoreNames.BEST_RESULT, eventTracker)
 
         bookStores?.generateBookStoresResultMap(defaultResultSort)?.let { resultMap ->
@@ -167,18 +170,6 @@ class BookSearchPresenter(private val apiManager: APIManager, private val eventT
         val bookResultAdapter = BookResultAdapter(true, maxListNumber, defaultStoreName, eventTracker)
         bookResultAdapter.setBooks(books)
         return BookResultView(defaultStoreName, bookResultAdapter)
-    }
-
-    fun logThemeChangedEvent(isDarkThemeEnabled: Boolean) {
-        val themeResult = if (isDarkThemeEnabled) {
-            "dark"
-        } else {
-            "light"
-        }
-
-        eventTracker.logEvent(EventTracker.USER_THEME_CHOSEN, Bundle().apply {
-            putString("theme", themeResult)
-        })
     }
 
     fun logISBNScanningSucceed() {
