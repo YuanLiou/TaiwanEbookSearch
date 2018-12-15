@@ -145,6 +145,9 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
     private fun loadAds() {
         val adView: AdView = adViewLayout.findViewById(R.id.admob_view_header_adview)
         val adRequestBuilder = AdRequest.Builder()
+        if (BuildConfig.DEBUG) {
+            adRequestBuilder.addTestDevice(BuildConfig.ADMOB_TEST_DEVICE_ID)
+        }
         val adRequest = adRequestBuilder.build()
         adView.loadAd(adRequest)
     }

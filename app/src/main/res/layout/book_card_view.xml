@@ -34,7 +34,7 @@
             tools:visibility="visible"
             />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/book_card_shop_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
             app:actualImageScaleType="fitXY"
             />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/book_card_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
             tools:text="被討厭的勇氣 二部曲完結篇：人生幸福的行動指南 (電子書)"
             />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/book_card_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

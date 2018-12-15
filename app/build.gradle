@@ -44,6 +44,7 @@ android {
     buildTypes.all {
         buildConfigField 'String', 'HOST_URL', HOST
         buildConfigField 'String', 'AD_MOB_ID', ADMOB_ID
+        buildConfigField 'String', 'ADMOB_TEST_DEVICE_ID', ADMOB_TEST_DEVICE_ID
         resValue 'string', 'AD_MOB_UNIT_ID', ADMOB_UNIT_ID
     }
     compileOptions {

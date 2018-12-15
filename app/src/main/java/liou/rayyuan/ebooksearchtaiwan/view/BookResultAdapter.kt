@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.text.PrecomputedTextCompat
+import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
@@ -49,10 +51,11 @@ class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int,
             val bookViewModel = BookViewModel(book)
 
             with(holder) {
-                bookShopName.text = bookViewModel.getShopName(holder.itemView.context)
-                bookTitle.text = bookViewModel.getTitle()
-                bookDescription.text = bookViewModel.getDescription()
-                bookPrice.text = bookViewModel.getPrice()
+                setTextOnViewHolder(bookShopName, bookViewModel.getShopName(holder.itemView.context))
+                setTextOnViewHolder(bookTitle, bookViewModel.getTitle())
+                setTextOnViewHolder(bookDescription, bookViewModel.getDescription())
+                setTextOnViewHolder(bookPrice, bookViewModel.getPrice())
+
                 bookImage.setResizeImage(bookViewModel.getImage())
                 bookResultBody.setOnClickListener {
                     bookResultClickHandler?.onBookCardClicked(book)
@@ -73,6 +76,11 @@ class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int,
                 }
             }
         }
+    }
+
+    private fun setTextOnViewHolder(textView: AppCompatTextView, content: String) {
+        textView.setTextFuture(PrecomputedTextCompat.getTextFuture(
+                content, TextViewCompat.getTextMetricsParams(textView), null))
     }
 
     override fun getItemCount(): Int {
@@ -129,10 +137,10 @@ class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int,
     }
 
     class BookResultViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        internal val bookShopName: TextView = itemView.findViewById(R.id.book_card_shop_name)
-        internal val bookTitle: TextView = itemView.findViewById(R.id.book_card_title)
-        internal val bookDescription: TextView = itemView.findViewById(R.id.book_card_description)
-        internal val bookPrice: TextView = itemView.findViewById(R.id.book_card_price)
+        internal val bookShopName: AppCompatTextView = itemView.findViewById(R.id.book_card_shop_name)
+        internal val bookTitle: AppCompatTextView = itemView.findViewById(R.id.book_card_title)
+        internal val bookDescription: AppCompatTextView = itemView.findViewById(R.id.book_card_description)
+        internal val bookPrice: AppCompatTextView = itemView.findViewById(R.id.book_card_price)
         internal val moreIcon: ImageView = itemView.findViewById(R.id.book_card_more_icon)
         internal val bookImage: SimpleDraweeView = itemView.findViewById(R.id.book_card_image)
         internal val bookResultBody: View = itemView.findViewById(R.id.book_card_item_body)
