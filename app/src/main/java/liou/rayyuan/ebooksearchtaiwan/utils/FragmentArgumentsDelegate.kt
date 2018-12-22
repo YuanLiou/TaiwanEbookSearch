@@ -21,7 +21,11 @@ class FragmentArgumentsDelegate<T: Any> : ReadWriteProperty<Fragment, T> {
     }
 
     override fun setValue(thisRef: Fragment, property: KProperty<*>, value: T) {
-        val argument = thisRef.arguments ?: Bundle()
+        if (thisRef.arguments == null) {
+            thisRef.arguments = Bundle()
+        }
+
+        val argument = thisRef.arguments!!
         val key = property.name
 
         argument.putAll(bundleOf(key to value))

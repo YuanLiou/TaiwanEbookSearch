@@ -39,7 +39,18 @@
     <string name="auth_take_me_there">Take me there</string>
     <string name="hyread_title">HyRead</string>
     <string name="menu_setting">Settings</string>
-    <string name="preference_catagory_appearance">Appearance</string>
+    <string name="preference_category_appearance">Appearance</string>
     <string name="preference_appearance_theme_title">App Theme</string>
     <string name="preference_appearance_theme_description">Choose a color theme for the app.</string>
+    <string name="preference_category_behaviours">Behaviour</string>
+    <string name="preference_custom_tab_description">Use Chrome Custom Tab</string>
+    <string name="preference_custom_tab_on_summary">Now use Chrome Custom Tab to open result</string>
+    <string name="preference_custom_tab_off_summary">Now open the result in app</string>
+
+    <plurals name="title_authors">
+        <item quantity="one">Author: %1$s</item>
+        <item quantity="other">Authors: %1$s</item>
+    </plurals>
+    <string name="menu_open_in_browser">Open in browser</string>
+    <string name="menu_share">Share</string>
 </resources>

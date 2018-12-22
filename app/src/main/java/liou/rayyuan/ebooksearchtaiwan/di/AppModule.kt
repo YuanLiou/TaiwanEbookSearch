@@ -5,6 +5,7 @@ import liou.rayyuan.ebooksearchtaiwan.model.APIManager
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.model.RemoteConfigManager
 import liou.rayyuan.ebooksearchtaiwan.model.UserPreferenceManager
+import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module.module
 
@@ -18,6 +19,7 @@ val appModule = module {
     single { RemoteConfigManager() }
     factory { EventTracker(androidApplication()) }
     factory { UserPreferenceManager(androidApplication()) }
+    factory { QuickChecker(androidApplication()) }
 
     // Presenters
     factory { BookSearchPresenter(get(), get()) }

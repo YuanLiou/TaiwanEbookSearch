@@ -1,6 +1,5 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
-import android.net.Uri
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.Observer
@@ -45,7 +44,6 @@ class BookSearchPresenter(private val apiManager: APIManager,
 
     override fun attachView(view: BookSearchView) {
         this.view = view
-        view.setPresenter(this)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
@@ -198,7 +196,7 @@ class BookSearchPresenter(private val apiManager: APIManager,
 
     //region BookResultClickHandler
     override fun onBookCardClicked(book: Book) {
-        view?.openBookLink(Uri.parse(book.link))
+        view?.openBook(book)
     }
     //endregion
 }

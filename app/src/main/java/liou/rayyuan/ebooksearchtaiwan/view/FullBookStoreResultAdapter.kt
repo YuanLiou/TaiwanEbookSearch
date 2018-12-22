@@ -48,18 +48,17 @@ class FullBookStoreResultAdapter(private val clickHandler: BookResultClickHandle
             val adapter: BookResultAdapter = result.adapter
             holder.bookStoreTitle.text = result.defaultStoreName.getLocalizedName(holder.itemView.context)
 
-            if (result.adapter.getBooksCount() > 0) {
-                adapter.bookResultClickHandler = this
-                with(holder) {
-                    bookStoreResult.visibility = View.VISIBLE
-                    bookStoreResultIsEmpty.visibility = View.GONE
+            adapter.bookResultClickHandler = this
+            with(holder) {
+                bookStoreResult.visibility = View.VISIBLE
+                bookStoreResultIsEmpty.visibility = View.GONE
+                bookStoreResult.adapter = adapter
+            }
 
-                    bookStoreResult.adapter = adapter
-                }
-
-            } else {
-                holder.bookStoreResult.visibility = View.GONE
+            if (result.adapter.isBookEmpty()) {
                 holder.bookStoreResultIsEmpty.visibility = View.VISIBLE
+            } else {
+                holder.bookStoreResultIsEmpty.visibility = View.GONE
             }
         }
     }

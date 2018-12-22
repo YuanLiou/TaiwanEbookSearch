@@ -2,19 +2,33 @@ package liou.rayyuan.ebooksearchtaiwan.preferencesetting
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SwitchPreference
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.model.UserPreferenceManager
+import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
+import org.koin.android.ext.android.inject
 
 /**
  * Created by louis383 on 2018/9/29.
  */
 class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 
-    internal var callback: PerferencesChangeCallback? = null
+    private val quickChecker: QuickChecker by inject()
+    internal var callback: PreferencesChangeCallback? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
+
+        if (quickChecker.isTabletSize()) {
+            val preferCustomTabs = findPreference("app_option_preference__use_chrome_custom_view") as SwitchPreference
+            with(preferCustomTabs) {
+                isChecked = false
+                isEnabled = false
+                setShouldDisableView(true)
+            }
+        }
     }
 
     override fun onResume() {
@@ -33,12 +47,14 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
             UserPreferenceManager.KEY_USER_THEME -> {
                 callback?.onThemeChanged()
             }
-            else -> {}
+            else -> {
+                Log.i("PreferenceSettings", "The value of $key changed")
+            }
         }
     }
     //endregion
 
-    internal interface PerferencesChangeCallback {
+    internal interface PreferencesChangeCallback {
         fun onThemeChanged()
     }
 }

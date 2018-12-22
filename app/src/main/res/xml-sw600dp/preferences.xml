@@ -32,8 +32,10 @@
             android:title="@string/preference_custom_tab_description"
             android:summaryOn="@string/preference_custom_tab_on_summary"
             android:summaryOff="@string/preference_custom_tab_off_summary"
-            android:defaultValue="true"
-            tools:defaultValue="false"
+            android:defaultValue="false"
+            android:enabled="false"
+            android:clickable="false"
+            android:shouldDisableView="true"
             />
 
     </PreferenceCategory>

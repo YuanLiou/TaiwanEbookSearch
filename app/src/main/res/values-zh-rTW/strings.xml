@@ -39,7 +39,17 @@
     <string name="camera_permission_deny">事到如今，我也只能通靈</string>
     <string name="auth_take_me_there">帶我去</string>
     <string name="menu_setting">設定</string>
-    <string name="preference_catagory_appearance">外觀</string>
+    <string name="preference_category_appearance">外觀</string>
     <string name="preference_appearance_theme_title">主題</string>
     <string name="preference_appearance_theme_description">選擇不同的外觀樣式</string>
+    <string name="preference_category_behaviours">行為</string>
+    <string name="preference_custom_tab_description">使用 Chrome Custom Tab</string>
+    <string name="preference_custom_tab_on_summary">現在使用 Chrome Custom Tab 開啟結果頁面</string>
+    <string name="preference_custom_tab_off_summary">現在在 App 內開啟結果頁面</string>
+
+    <plurals name="title_authors">
+        <item quantity="other">作者: %1$s</item>
+    </plurals>
+    <string name="menu_open_in_browser">用瀏覽器開啟</string>
+    <string name="menu_share">分享</string>
 </resources>

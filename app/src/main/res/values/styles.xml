@@ -11,8 +11,6 @@
 
         <item name="actionOverflowButtonStyle">@style/Overflow</item>
         <item name="android:colorBackground">@color/google_app_white_color</item>
-        <item name="android:textColorPrimary">@color/pure_dark</item>
-        <item name="android:textColorSecondary">@color/dark_gray</item>
         <item name="android:textColorTertiary">@color/darker_gray_3B</item>
 
         <item name="dividerColor">@color/blue_green</item>

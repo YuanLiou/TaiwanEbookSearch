@@ -39,7 +39,17 @@
     <string name="auth_take_me_there">带我去</string>
     <string name="hyread_title">HyRead 电子书</string>
     <string name="menu_setting">设置</string>
-    <string name="preference_catagory_appearance">外观</string>
+    <string name="preference_category_appearance">外观</string>
     <string name="preference_appearance_theme_title">主题</string>
     <string name="preference_appearance_theme_description">选择不同的外观样式</string>
+    <string name="preference_category_behaviours">行为</string>
+    <string name="preference_custom_tab_description">使用 Chrome Custom Tab</string>
+    <string name="preference_custom_tab_on_summary">现在使用 Chrome Custom Tab 开启结果页面</string>
+    <string name="preference_custom_tab_off_summary">现在在应用内打开结果页面</string>
+
+    <plurals name="title_authors">
+        <item quantity="other">作者: %1$s</item>
+    </plurals>
+    <string name="menu_open_in_browser">用浏览器开启</string>
+    <string name="menu_share">分享</string>
 </resources>

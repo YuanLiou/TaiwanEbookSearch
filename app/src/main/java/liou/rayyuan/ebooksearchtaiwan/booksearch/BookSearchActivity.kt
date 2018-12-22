@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
+import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.preference.PreferenceManager
 import liou.rayyuan.chromecustomtabhelper.ChromeCustomTabsHelper
@@ -12,39 +13,71 @@ import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.CameraPreviewActivity
+import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
 import liou.rayyuan.ebooksearchtaiwan.preferencesetting.PreferenceSettingsActivity
+import liou.rayyuan.ebooksearchtaiwan.simplewebview.SimpleWebViewFragment
+import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import liou.rayyuan.ebooksearchtaiwan.view.Router
 import org.koin.android.ext.android.inject
 
 /**
  * Created by louis383 on 2017/12/2.
  */
-class BookSearchActivity : BaseActivity(), ChromeCustomTabsHelper.Fallback {
+class BookSearchActivity : BaseActivity(), ChromeCustomTabsHelper.Fallback,
+        SimpleWebViewFragment.OnSimpleWebviewActionListener {
 
+    private val KEY_LAST_FRAGMENT_TAG = "key-last-fragment-tag"
     private val scanningBarcodeRequestCode = 1002
     private val preferenceSettingsRequestCode = 1003
 
-    private val presenter: BookSearchPresenter by inject()
-    private val router = Router(supportFragmentManager, R.id.activity_book_search_nav_host_container)
+    private val quickChecker: QuickChecker by inject()
+    private var isDualPane: Boolean = false
+    private lateinit var contentRouter: Router
     private lateinit var chromeCustomTabHelper: ChromeCustomTabsHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_search)
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
-
         chromeCustomTabHelper = ChromeCustomTabsHelper()
 
-        val bookResultListFragment = router.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
-                ?: BookResultListFragment.newInstance()
+        val secondContainer: View? = findViewById(R.id.activity_book_search_content_container)
+        isDualPane = secondContainer?.visibility == View.VISIBLE
 
-        presenter.attachView(bookResultListFragment)
-        router.replaceView(bookResultListFragment, BookResultListFragment.TAG)
+        contentRouter = if (isDualPane) {
+            Router(supportFragmentManager, R.id.activity_book_search_content_container)
+        } else {
+            Router(supportFragmentManager, R.id.activity_book_search_nav_host_container)
+        }
+
+        if (savedInstanceState == null) {
+            val bookResultListFragment = BookResultListFragment.newInstance()
+            if (isDualPane) {
+                val subRouter = Router(supportFragmentManager, R.id.activity_book_search_nav_host_container)
+                subRouter.addView(bookResultListFragment, BookResultListFragment.TAG, false)
+            } else {
+                contentRouter.addView(bookResultListFragment, BookResultListFragment.TAG, false)
+            }
+        } else {
+            if (savedInstanceState.getString(KEY_LAST_FRAGMENT_TAG) != null) {
+                val lastFragmentTag = savedInstanceState.getString(KEY_LAST_FRAGMENT_TAG)
+                val lastFragment = contentRouter.findFragmentByTag(lastFragmentTag)
+                (lastFragment as? SimpleWebViewFragment)?.onSimpleWebviewActionListener = this
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
         chromeCustomTabHelper.bindCustomTabsServices(this, BuildConfig.HOST_URL)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val topFragmentTag = contentRouter.findTopFragment()?.tag
+        if (topFragmentTag != null) {
+            outState.putString(KEY_LAST_FRAGMENT_TAG, topFragmentTag)
+        }
     }
 
     override fun onStop() {
@@ -58,7 +91,12 @@ class BookSearchActivity : BaseActivity(), ChromeCustomTabsHelper.Fallback {
                 if (resultCode == Activity.RESULT_OK) {
                     data?.extras?.run {
                         val resultText = getString(CameraPreviewActivity.resultISBNTextKey, "")
-                        val bookResultFragment = router.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
+                        val bookResultFragment = if (isDualPane) {
+                            val subRouter = Router(supportFragmentManager, R.id.activity_book_search_nav_host_container)
+                            subRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
+                        } else {
+                            contentRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
+                        }
                         bookResultFragment?.searchWithText(resultText)
                     }
                 }
@@ -97,11 +135,39 @@ class BookSearchActivity : BaseActivity(), ChromeCustomTabsHelper.Fallback {
         startActivityForResult(intent, preferenceSettingsRequestCode)
     }
 
-    internal fun openBookLink(uri: Uri) {
-        val builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder()
-        builder.setToolbarColor(getThemePrimaryColor())
-        val chromeCustomTabIntent: CustomTabsIntent = builder.build()
-        ChromeCustomTabsHelper.openCustomTab(this, chromeCustomTabIntent, uri, this)
+    internal fun openBookLink(book: Book) {
+        if (!quickChecker.isTabletSize() && userPreferenceManager.isPreferCustomTab()) {
+            val builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder()
+            builder.setToolbarColor(getThemePrimaryColor())
+            val chromeCustomTabIntent: CustomTabsIntent = builder.build()
+            ChromeCustomTabsHelper.openCustomTab(this, chromeCustomTabIntent, Uri.parse(book.link), this)
+        } else {
+            val isTablet = quickChecker.isTabletSize()
+            val resultFragment = contentRouter.findFragmentByTag(SimpleWebViewFragment.TAG) as? SimpleWebViewFragment
+            resultFragment?.loadBookResult(book) ?: run {
+                val webViewFragment = SimpleWebViewFragment.newInstance(book, !isTablet)
+                webViewFragment.onSimpleWebviewActionListener = this
+                contentRouter.addView(webViewFragment, SimpleWebViewFragment.TAG, true)
+            }
+        }
     }
 
+    override fun onBackPressed() {
+        if (contentRouter.findTopFragment() is SimpleWebViewFragment) {
+            val canGoBack = (contentRouter.findTopFragment() as SimpleWebViewFragment).goBack()
+            if (canGoBack) {
+                return
+            }
+        }
+
+        if (!contentRouter.backToPreviousFragment()) {
+            super.onBackPressed()
+        }
+    }
+
+    //region SimpleWebViewFragment.OnSimpleWebviewActionListener
+    override fun onSimpleWebViewClose(tag: String) {
+        contentRouter.backToPreviousFragment()
+    }
+    //endregion
 }

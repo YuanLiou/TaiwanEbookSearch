@@ -3,6 +3,7 @@ package liou.rayyuan.ebooksearchtaiwan.booksearch
 import android.net.Uri
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
+import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
 import liou.rayyuan.ebooksearchtaiwan.view.ViewState
 
 /**
@@ -10,11 +11,10 @@ import liou.rayyuan.ebooksearchtaiwan.view.ViewState
  */
 
 interface BookSearchView {
-    fun setPresenter(presenter: BookSearchPresenter)
     fun setupUI()
     fun setMainResultView(viewState: ViewState)
     fun scrollToTop()
-    fun openBookLink(uri: Uri)
+    fun openBook(book: Book)
     fun isInternetConnectionAvailable(): Boolean
     fun showInternetRequestDialog()
     fun showInternetConnectionTimeout()

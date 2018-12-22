@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
-import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.*
@@ -32,8 +31,10 @@ import liou.rayyuan.ebooksearchtaiwan.BaseFragment
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.model.RemoteConfigManager
+import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
 import liou.rayyuan.ebooksearchtaiwan.view.ViewState
+import org.koin.android.ext.android.inject
 
 class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListener {
 
@@ -42,7 +43,7 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
         const val TAG = "book-result-list-fragment"
     }
 
-    private var presenter: BookSearchPresenter? = null
+    private val presenter: BookSearchPresenter by inject()
 
     //region View Components
     private lateinit var appbar: AppBarLayout
@@ -69,16 +70,17 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        presenter.attachView(this)
         (activity as AppCompatActivity).setSupportActionBar(search_view_toolbar)
         bindViews(view)
         init()
 
-        presenter?.setResultRecyclerView(resultsRecyclerView)
+        presenter.setResultRecyclerView(resultsRecyclerView)
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        presenter?.ready()
+        presenter.ready()
     }
 
     private fun bindViews(view: View) {
@@ -106,7 +108,7 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
         searchEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val keyword: String = searchEditText.text.toString()
-                presenter?.searchBook(keyword)
+                presenter.searchBook(keyword)
             }
             false
         }
@@ -116,8 +118,13 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
                 .filterNotNull()
                 .forEach { DrawableCompat.setTint(it, ContextCompat.getColor(context!!, R.color.gray)) }
 
-        val linearLayoutManager: LinearLayoutManager = resultsRecyclerView.layoutManager as LinearLayoutManager
+        val linearLayoutManager = object : LinearLayoutManager(context!!) {
+            override fun getExtraLayoutSpace(state: RecyclerView.State): Int {
+                return 300
+            }
+        }
         linearLayoutManager.initialPrefetchItemCount = 6
+        resultsRecyclerView.layoutManager = linearLayoutManager
 
         loadAds()
         initScrollToTopButton()
@@ -187,10 +194,6 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
     }
 
     //region BookSearchView
-    override fun setPresenter(presenter: BookSearchPresenter) {
-        this.presenter = presenter
-    }
-
     override fun setupUI() {
         val hintWithAppVersion = hintText.text.toString() + "\n" + resources.getString(R.string.app_version, BuildConfig.VERSION_NAME)
         hintText.text = hintWithAppVersion
@@ -226,9 +229,9 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
         resultsRecyclerView.scrollToPosition(0)
     }
 
-    override fun openBookLink(uri: Uri) {
+    override fun openBook(book: Book) {
         if (isAdded && activity is BookSearchActivity) {
-            (activity as BookSearchActivity).openBookLink(uri)
+            (activity as BookSearchActivity).openBookLink(book)
         }
     }
 
@@ -326,9 +329,9 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
         when (view?.id) {
             R.id.search_view_search_icon -> {
                 val keyword: String = searchEditText.text.toString()
-                presenter?.searchBook(keyword)
+                presenter.searchBook(keyword)
             }
-            R.id.search_view_hint -> presenter?.hintPressed()
+            R.id.search_view_hint -> presenter.hintPressed()
             R.id.search_view_camera_icon -> {
                 if (isAdded && activity is BookSearchActivity) {
                     (activity as BookSearchActivity).openCameraPreviewActivity()
@@ -336,7 +339,7 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
             }
             R.id.search_view_back_to_top_button -> {
                 val canListScrollVertically = resultsRecyclerView.canScrollVertically(-1)
-                presenter?.backToTop(canListScrollVertically)
+                presenter.backToTop(canListScrollVertically)
             }
         }
     }
@@ -363,7 +366,7 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
     internal fun searchWithText(text: String) {
         searchEditText.setText(text)
         searchEditText.setSelection(text.length)
-        presenter?.searchBook(text)
-        presenter?.logISBNScanningSucceed()
+        presenter.searchBook(text)
+        presenter.logISBNScanningSucceed()
     }
 }

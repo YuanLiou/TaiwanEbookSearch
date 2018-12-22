@@ -117,6 +117,10 @@ class BookResultAdapter(hideTitleBar: Boolean, maxDisplayNumber: Int,
         return books.size
     }
 
+    fun isBookEmpty(): Boolean {
+        return books.isEmpty()
+    }
+
     fun sortByMoney() {
         this.books.sortWith(compareBy { it.price })
     }

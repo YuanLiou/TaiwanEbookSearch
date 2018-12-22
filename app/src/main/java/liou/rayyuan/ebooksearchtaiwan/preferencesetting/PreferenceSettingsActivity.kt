@@ -11,7 +11,7 @@ import liou.rayyuan.ebooksearchtaiwan.R
 /**
  * Created by louis383 on 2018/9/29.
  */
-class PreferenceSettingsActivity : BaseActivity(), PreferenceSettingsFragment.PerferencesChangeCallback {
+class PreferenceSettingsActivity : BaseActivity(), PreferenceSettingsFragment.PreferencesChangeCallback {
     companion object {
         const val KEY_THEME_CHANGED = "theme-changed"
     }
@@ -44,7 +44,7 @@ class PreferenceSettingsActivity : BaseActivity(), PreferenceSettingsFragment.Pe
         } ?: return super.onOptionsItemSelected(item)
     }
 
-    //region PreferenceSettingsFragment.PerferencesChangeCallback
+    //region PreferenceSettingsFragment.PreferencesChangeCallback
     override fun onThemeChanged() {
         if (isThemeChanged()) {
             recreate()

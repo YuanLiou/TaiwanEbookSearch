@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:weightSum="10"
+    tools:background="#C0C0C0"
+    >
+
+    <FrameLayout
+        android:id="@+id/activity_book_search_nav_host_container"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        tools:background="#80FA4181"
+        />
+
+    <FrameLayout
+        android:id="@+id/activity_book_search_content_container"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="7"
+        android:background="#BCBEC0"
+        >
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:alpha="0.3"
+            android:src="@drawable/big_icon"
+            />
+
+    </FrameLayout>
+
+</LinearLayout>
+

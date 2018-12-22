@@ -19,6 +19,7 @@
         android:supportsRtl="true"
         android:appCategory="productivity"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         >
 
