@@ -43,7 +43,7 @@ class SimpleWebViewFragment: BaseFragment(), View.OnClickListener, Toolbar.OnMen
     private val customWebViewClient = CustomWebViewClient()
 
     var onSimpleWebviewActionListener: OnSimpleWebviewActionListener? = null
-    private lateinit var shareActionProvider: ShareActionProvider
+    private var shareActionProvider: ShareActionProvider? = null
     private lateinit var webView: WebView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +64,8 @@ class SimpleWebViewFragment: BaseFragment(), View.OnClickListener, Toolbar.OnMen
 
         simple_webview_toolbar.inflateMenu(R.menu.webview_page)
         val menuItem = simple_webview_toolbar.menu.findItem(R.id.webview_page_menu_action_share)
-        shareActionProvider = MenuItemCompat.getActionProvider(menuItem) as ShareActionProvider
+        //FIXME:: ShareActionProvider is null and not work on Release build
+        shareActionProvider = MenuItemCompat.getActionProvider(menuItem) as? ShareActionProvider
 
         simple_webview_toolbar.setOnMenuItemClickListener(this)
 
@@ -147,7 +148,9 @@ class SimpleWebViewFragment: BaseFragment(), View.OnClickListener, Toolbar.OnMen
                 intent.type = "text/plain"
                 intent.putExtra(Intent.EXTRA_SUBJECT, book.title)
                 intent.putExtra(Intent.EXTRA_TEXT, book.link)
-                shareActionProvider.setShareIntent(intent)
+                shareActionProvider?.setShareIntent(intent) ?: run {
+                    startActivity(Intent.createChooser(intent, getString(R.string.menu_share_menu_appear)))
+                }
                 true
             }
             else -> false

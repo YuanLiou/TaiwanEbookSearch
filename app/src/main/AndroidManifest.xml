@@ -40,8 +40,6 @@
                 android:launchMode="singleTop"
                 >
 
-            <tools:validation testUrl="https://taiwan-ebook-lover.github.io/search?q=mac os"/>
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
