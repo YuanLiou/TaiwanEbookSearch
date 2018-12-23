@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
@@ -13,6 +14,7 @@ import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.CameraPreviewActivity
+import liou.rayyuan.ebooksearchtaiwan.model.DeeplinkHelper
 import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
 import liou.rayyuan.ebooksearchtaiwan.preferencesetting.PreferenceSettingsActivity
 import liou.rayyuan.ebooksearchtaiwan.simplewebview.SimpleWebViewFragment
@@ -31,6 +33,7 @@ class BookSearchActivity : BaseActivity(), ChromeCustomTabsHelper.Fallback,
     private val preferenceSettingsRequestCode = 1003
 
     private val quickChecker: QuickChecker by inject()
+    private val deeplinkHelper = DeeplinkHelper()
     private var isDualPane: Boolean = false
     private lateinit var contentRouter: Router
     private lateinit var chromeCustomTabHelper: ChromeCustomTabsHelper
@@ -51,7 +54,8 @@ class BookSearchActivity : BaseActivity(), ChromeCustomTabsHelper.Fallback,
         }
 
         if (savedInstanceState == null) {
-            val bookResultListFragment = BookResultListFragment.newInstance()
+            val appLinkKeyword = deeplinkHelper.getSearchKeyword(intent)
+            val bookResultListFragment = BookResultListFragment.newInstance(appLinkKeyword)
             if (isDualPane) {
                 val subRouter = Router(supportFragmentManager, R.id.activity_book_search_nav_host_container)
                 subRouter.addView(bookResultListFragment, BookResultListFragment.TAG, false)
@@ -63,6 +67,27 @@ class BookSearchActivity : BaseActivity(), ChromeCustomTabsHelper.Fallback,
                 val lastFragmentTag = savedInstanceState.getString(KEY_LAST_FRAGMENT_TAG)
                 val lastFragment = contentRouter.findFragmentByTag(lastFragmentTag)
                 (lastFragment as? SimpleWebViewFragment)?.onSimpleWebviewActionListener = this
+            }
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleIntent()
+    }
+
+    private fun handleIntent() {
+        val searchKeyword = deeplinkHelper.getSearchKeyword(intent)
+        Log.i("BookSearchActivity", "Search Keyword is = $searchKeyword")
+        searchKeyword?.run {
+            if (isDualPane) {
+                val subRouter = Router(supportFragmentManager, R.id.activity_book_search_nav_host_container)
+                val bookSearchFragment = subRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
+                bookSearchFragment?.searchWithText(searchKeyword)
+            } else {
+                val bookSearchFragment = contentRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
+                bookSearchFragment?.searchWithText(searchKeyword)
             }
         }
     }

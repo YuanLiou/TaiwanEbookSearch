@@ -50,4 +50,6 @@
     </plurals>
     <string name="menu_open_in_browser">用瀏覽器開啟</string>
     <string name="menu_share">分享</string>
+    <string name="menu_share_result">分享搜尋結果</string>
+    <string name="menu_share_menu_appear">分享給</string>
 </resources>

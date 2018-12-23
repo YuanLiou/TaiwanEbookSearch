@@ -3,61 +3,84 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="liou.rayyuan.ebooksearchtaiwan">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
 
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature
+            android:name="android.hardware.camera"
+            android:required="false"/>
 
     <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:name=".EBookSearchApplication"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:hardwareAccelerated="true"
-        android:supportsRtl="true"
-        android:appCategory="productivity"
-        android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
-        tools:ignore="GoogleAppIndexingWarning"
-        >
+            android:allowBackup="true"
+            android:icon="@mipmap/ic_launcher"
+            android:name=".EBookSearchApplication"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:hardwareAccelerated="true"
+            android:supportsRtl="true"
+            android:appCategory="productivity"
+            android:theme="@style/AppTheme"
+            android:usesCleartextTraffic="true"
+            tools:ignore="GoogleAppIndexingWarning"
+            >
 
         <meta-data
-            android:name="com.google.android.gms.ads.AD_MANAGER_APP"
-            android:value="true"
-            />
+                android:name="com.google.android.gms.ads.AD_MANAGER_APP"
+                android:value="true"
+                />
 
-        <meta-data android:name="android.allow_multiple_resumed_activities" android:value="true" />
+        <meta-data
+                android:name="android.allow_multiple_resumed_activities"
+                android:value="true"/>
 
         <activity
-            android:name=".booksearch.BookSearchActivity"
-            android:windowSoftInputMode="adjustNothing"
-            >
+                android:name=".booksearch.BookSearchActivity"
+                android:windowSoftInputMode="adjustNothing"
+                android:launchMode="singleTop"
+                >
+
+            <tools:validation testUrl="https://taiwan-ebook-lover.github.io/search?q=mac os"/>
+
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                        android:scheme="https"
+                        android:host="taiwan-ebook-lover.github.io"
+                        android:pathPrefix="/search"
+                        />
+
+            </intent-filter>
+
         </activity>
 
         <!-- other components -->
         <activity
-            android:name=".camerapreview.CameraPreviewActivity"
-            android:theme="@style/FullScreenTheme"
-            android:label="@string/barcode_scanner_title"
-            >
+                android:name=".camerapreview.CameraPreviewActivity"
+                android:theme="@style/FullScreenTheme"
+                android:label="@string/barcode_scanner_title"
+                >
 
             <meta-data
-                android:name="com.google.firebase.ml.vision.DEPENDENCIES"
-                android:value="barcode"
-                />
+                    android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+                    android:value="barcode"
+                    />
 
         </activity>
 
         <activity
-            android:name=".preferencesetting.PreferenceSettingsActivity"
-            android:label="@string/menu_setting"
-            />
+                android:name=".preferencesetting.PreferenceSettingsActivity"
+                android:label="@string/menu_setting"
+                />
 
     </application>
 </manifest>

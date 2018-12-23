@@ -3,12 +3,14 @@ package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
 import android.os.Parcelable
+import android.text.TextUtils
 import android.util.Log
 import android.util.TypedValue
 import android.view.*
@@ -34,6 +36,7 @@ import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.model.RemoteConfigManager
 import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
+import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
 import liou.rayyuan.ebooksearchtaiwan.view.ViewState
 import org.koin.android.ext.android.inject
@@ -41,13 +44,17 @@ import org.koin.android.ext.android.inject
 class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListener {
 
     companion object {
-        fun newInstance() = BookResultListFragment()
+        fun newInstance(defaultKeyword: String?) = BookResultListFragment().apply {
+            this.defaultSearchKeyword = defaultKeyword ?: ""
+        }
         const val TAG = "book-result-list-fragment"
     }
 
     private val BUNDLE_RECYCLERVIEW_STATE: String = "BUNDLE_RECYCLERVIEW_STATE"
     private val KEY_RECYCLERVIEW_POSITION: String = "KEY_RECYCLERVIEW_POSITION"
     private val presenter: BookSearchPresenter by inject()
+
+    private var defaultSearchKeyword: String by FragmentArgumentsDelegate()
 
     //region View Components
     private lateinit var appbar: AppBarLayout
@@ -61,6 +68,7 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
 
     private lateinit var hintText: TextView
     private lateinit var backToTopButton: ImageButton
+    private lateinit var shareResultMenu: MenuItem
     //endregion
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,6 +102,11 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
             Log.i("BookResultListFragment", "restore recyclerView Position = $recyclerViewPosition")
         }
         presenter.ready()
+
+        if (!TextUtils.isEmpty(defaultSearchKeyword)) {
+            searchWithText(defaultSearchKeyword)
+            defaultSearchKeyword = ""
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -148,6 +161,7 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.search_page, menu)
+        shareResultMenu = menu.findItem(R.id.search_page_menu_action_share)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -157,6 +171,20 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
                 R.id.search_page_menu_action_setting -> {
                     if (isAdded && activity is BookSearchActivity) {
                         (activity as BookSearchActivity).openPreferenceActivity()
+                    }
+                    true
+                }
+                R.id.search_page_menu_action_share -> {
+                    val targetKeyword = searchEditText.text.toString()
+                    if (!TextUtils.isEmpty(targetKeyword)) {
+                        val text = "https://taiwan-ebook-lover.github.io/search?q=$targetKeyword"
+                        val intent = Intent(Intent.ACTION_SEND)
+                        with(intent) {
+                            type = "text/plain"
+                            putExtra(Intent.EXTRA_SUBJECT, "From " + getString(R.string.app_name))
+                            putExtra(Intent.EXTRA_TEXT, text)
+                        }
+                        startActivity(Intent.createChooser(intent, getString(R.string.menu_share_menu_appear)))
                     }
                     true
                 }
@@ -223,6 +251,10 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
                 hintText.visibility = View.GONE
                 backToTopButton.visibility = View.GONE
                 adViewLayout.visibility = View.VISIBLE
+
+                if (this::shareResultMenu.isInitialized) {
+                    shareResultMenu.setVisible(false)
+                }
             }
             ViewState.READY -> {
                 progressBar.visibility = View.GONE
@@ -230,6 +262,10 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
                 hintText.visibility = View.GONE
                 backToTopButton.visibility = View.VISIBLE
                 adViewLayout.visibility = View.GONE
+
+                if (this::shareResultMenu.isInitialized) {
+                    shareResultMenu.setVisible(true)
+                }
             }
             ViewState.ERROR -> {
                 progressBar.visibility = View.GONE
@@ -237,6 +273,10 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
                 hintText.visibility = View.VISIBLE
                 backToTopButton.visibility = View.GONE
                 adViewLayout.visibility = View.GONE
+
+                if (this::shareResultMenu.isInitialized) {
+                    shareResultMenu.setVisible(false)
+                }
             }
         }
     }
