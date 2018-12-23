@@ -8,6 +8,8 @@ import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
+import android.os.Parcelable
+import android.util.Log
 import android.util.TypedValue
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -43,6 +45,8 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
         const val TAG = "book-result-list-fragment"
     }
 
+    private val BUNDLE_RECYCLERVIEW_STATE: String = "BUNDLE_RECYCLERVIEW_STATE"
+    private val KEY_RECYCLERVIEW_POSITION: String = "KEY_RECYCLERVIEW_POSITION"
     private val presenter: BookSearchPresenter by inject()
 
     //region View Components
@@ -80,7 +84,24 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
+        if (savedInstanceState != null) {
+            val recyclerViewState = savedInstanceState.getParcelable(BUNDLE_RECYCLERVIEW_STATE) as Parcelable
+            resultsRecyclerView.layoutManager?.onRestoreInstanceState(recyclerViewState)
+
+            val recyclerViewPosition = savedInstanceState.getInt(KEY_RECYCLERVIEW_POSITION, 0)
+            (resultsRecyclerView.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(recyclerViewPosition, 0)
+            presenter.lastScrollPosition = recyclerViewPosition
+            Log.i("BookResultListFragment", "restore recyclerView Position = $recyclerViewPosition")
+        }
         presenter.ready()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable(BUNDLE_RECYCLERVIEW_STATE, resultsRecyclerView.layoutManager?.onSaveInstanceState())
+        val recyclerViewPosition = (resultsRecyclerView.layoutManager as? LinearLayoutManager)?.findFirstCompletelyVisibleItemPosition()
+        outState.putInt(KEY_RECYCLERVIEW_POSITION, recyclerViewPosition ?: 0)
+        Log.i("BookResultListFragment", "save recyclerView Position = $recyclerViewPosition")
     }
 
     private fun bindViews(view: View) {
@@ -118,13 +139,8 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
                 .filterNotNull()
                 .forEach { DrawableCompat.setTint(it, ContextCompat.getColor(context!!, R.color.gray)) }
 
-        val linearLayoutManager = object : LinearLayoutManager(context!!) {
-            override fun getExtraLayoutSpace(state: RecyclerView.State): Int {
-                return 300
-            }
-        }
+        val linearLayoutManager = resultsRecyclerView.layoutManager as LinearLayoutManager
         linearLayoutManager.initialPrefetchItemCount = 6
-        resultsRecyclerView.layoutManager = linearLayoutManager
 
         loadAds()
         initScrollToTopButton()
@@ -315,6 +331,10 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
 
     override fun backToListTop() {
         resultsRecyclerView.smoothScrollToPosition(0)
+    }
+
+    override fun scrollToPosition(position: Int) {
+        (resultsRecyclerView.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(position, 0)
     }
 
     override fun showToast(message: String) {

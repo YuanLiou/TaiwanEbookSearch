@@ -131,8 +131,9 @@
         android:overScrollMode="always"
         android:visibility="invisible"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/adapter_bookstore_result"
-        tools:visibility="gone"
+        tools:visibility="visible"
         />
 
     <ImageButton

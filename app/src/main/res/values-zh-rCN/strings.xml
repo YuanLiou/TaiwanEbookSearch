@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">台湾电子书搜索</string>
-    <string name="button_search">搜索</string>
-    <string name="main_search_hint">想找什幺书？</string>
     <string name="best_result_title">最佳结果</string>
     <string name="books_company_title">博客來</string>
     <string name="readmoo_title">Readmoo 读墨</string>

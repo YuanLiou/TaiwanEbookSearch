@@ -41,5 +41,6 @@ data class Book(val thumbnail: String = "",
                 val title: String = "",
                 val authors: List<String>?,
                 val painters: List<String>?,
-                var bookStore: String?,
-                val nonDrmPrice: Float = 0.0f) : Parcelable
+                var bookStore: String = "",
+                val nonDrmPrice: Float = 0.0f,
+                var isFirstChoice: Boolean) : Parcelable, AdapterItem

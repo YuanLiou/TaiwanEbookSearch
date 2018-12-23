@@ -52,7 +52,7 @@
         android:focusable="false"
         app:layoutManager="LinearLayoutManager"
         tools:listitem="@layout/book_card_view"
-        tools:visibility="invisible"
+        tools:visibility="visible"
         />
 
     <View

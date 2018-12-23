@@ -1,8 +1,6 @@
 <resources>
     <string name="navigation_behavior" translatable="false">liou.rayyuan.ebooksearchtaiwan.view.behavior.BottomNavigationBehavior</string>
     <string name="app_name">TaiwanEbookSearcher</string>
-    <string name="button_search">Search</string>
-    <string name="main_search_hint">What you want to find?</string>
     <string name="best_result_title">Best Results</string>
     <string name="books_company_title">Books.com</string>
     <string name="readmoo_title">Readmoo</string>

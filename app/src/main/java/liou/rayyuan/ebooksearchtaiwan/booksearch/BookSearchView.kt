@@ -1,6 +1,5 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
-import android.net.Uri
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
@@ -14,6 +13,7 @@ interface BookSearchView {
     fun setupUI()
     fun setMainResultView(viewState: ViewState)
     fun scrollToTop()
+    fun scrollToPosition(position: Int)
     fun openBook(book: Book)
     fun isInternetConnectionAvailable(): Boolean
     fun showInternetRequestDialog()

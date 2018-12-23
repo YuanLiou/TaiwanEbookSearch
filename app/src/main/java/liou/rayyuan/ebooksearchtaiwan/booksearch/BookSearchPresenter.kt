@@ -5,14 +5,15 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.Observer
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.*
 import liou.rayyuan.ebooksearchtaiwan.Presenter
 import liou.rayyuan.ebooksearchtaiwan.model.*
+import liou.rayyuan.ebooksearchtaiwan.model.entity.AdapterItem
 import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
+import liou.rayyuan.ebooksearchtaiwan.model.entity.BookHeader
 import liou.rayyuan.ebooksearchtaiwan.model.entity.BookStores
 import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
-import liou.rayyuan.ebooksearchtaiwan.view.BookResultAdapter
 import liou.rayyuan.ebooksearchtaiwan.view.BookResultClickHandler
-import liou.rayyuan.ebooksearchtaiwan.view.BookResultView
 import liou.rayyuan.ebooksearchtaiwan.view.FullBookStoreResultAdapter
 import liou.rayyuan.ebooksearchtaiwan.view.ViewState.*
 import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookListViewModel
@@ -28,6 +29,9 @@ class BookSearchPresenter(private val apiManager: APIManager,
     private var view: BookSearchView? = null
     private lateinit var bookListViewModel: BookListViewModel
 
+    private val dataSetJob = Job()
+    private val backgroundScope = CoroutineScope(Dispatchers.IO + dataSetJob)
+
     private lateinit var fullBookStoreResultsAdapter: FullBookStoreResultAdapter
     private val maxListNumber: Int = 10
     private var eggCount: Int = 0
@@ -42,12 +46,17 @@ class BookSearchPresenter(private val apiManager: APIManager,
                     DefaultStoreNames.PUBU,
                     DefaultStoreNames.HYREAD)
 
+    internal var lastScrollPosition: Int = 0
+
     override fun attachView(view: BookSearchView) {
         this.view = view
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     override fun detachView() {
+        if (dataSetJob.isActive && !dataSetJob.isCompleted) {
+            dataSetJob.cancel()
+        }
         this.view = null
     }
 
@@ -132,42 +141,65 @@ class BookSearchPresenter(private val apiManager: APIManager,
     }
 
     fun setResultRecyclerView(recyclerView: RecyclerView) {
-        fullBookStoreResultsAdapter = FullBookStoreResultAdapter(this)
+        fullBookStoreResultsAdapter = FullBookStoreResultAdapter(this, eventTracker)
+
         recyclerView.adapter = fullBookStoreResultsAdapter
     }
 
-    private fun prepareBookSearchResult(bookStores: BookStores?) {
+    private fun prepareBookSearchResult(bookStores: BookStores) {
         this.bookStores = bookStores
-        val bestResultsAdapter = BookResultAdapter(false, -1, DefaultStoreNames.BEST_RESULT, eventTracker)
 
-        bookStores?.generateBookStoresResultMap(defaultResultSort)?.let { resultMap ->
-            for (defaultStoreName in resultMap.keys) {
-                resultMap[defaultStoreName]?.run {
-                    addResult(bestResultsAdapter, defaultStoreName, this)
+        backgroundScope.launch {
+            val adapterItems = mutableListOf<AdapterItem>()
+            val bookItems = bookStores.generateBookStoresResultMap(defaultResultSort)
+
+            val bestItems = mutableListOf<Book>()
+            bookItems.forEach{ (key, value) ->
+                if (defaultResultSort.contains(key)) {
+                    val book = value.firstOrNull()?.apply {
+                        isFirstChoice = true
+                        bookStore = key.defaultName
+                    }
+
+                    book?.run {
+                        bestItems.add(this)
+                    }
                 }
             }
+            bestItems.sortWith( compareBy { it.price })
+
+            adapterItems.add(BookHeader(DefaultStoreNames.BEST_RESULT.defaultResId, bestItems.isEmpty()))
+            adapterItems.addAll(bestItems)
+
+            defaultResultSort.forEach {
+                val books = bookItems[it]?.run {
+                    drop(1)
+                }?.run {
+                    take(maxListNumber)
+                }?.run {
+                    sortedWith(compareBy { book -> book.price })
+                }
+
+                adapterItems.add(BookHeader(it.defaultResId, books?.isEmpty() ?: true))
+                books?.let { resultList ->
+                    resultList.forEach { book ->
+                        book.bookStore = it.defaultName
+                    }
+                    adapterItems.addAll(resultList)
+                }
+            }
+
+            withContext(Dispatchers.Main) {
+                fullBookStoreResultsAdapter.addResult(adapterItems)
+
+                if (lastScrollPosition > 0) {
+                    view?.scrollToPosition(lastScrollPosition)
+                    lastScrollPosition = 0
+                }
+
+                view?.setMainResultView(READY)
+            }
         }
-
-        if (bestResultsAdapter.itemCount > 1) {
-            bestResultsAdapter.sortByMoney()
-        }
-
-        val bestResultView = BookResultView(DefaultStoreNames.BEST_RESULT, bestResultsAdapter)
-        fullBookStoreResultsAdapter.addResultToBeginning(bestResultView)
-        view?.setMainResultView(READY)
-    }
-
-    private fun addResult(bestAdapter: BookResultAdapter, defaultStoreName: DefaultStoreNames, books: List<Book>) {
-        if (books.isNotEmpty()) {
-            bestAdapter.addBook(books.first(), defaultStoreName)
-        }
-        fullBookStoreResultsAdapter.addResult(generateBookResultView(defaultStoreName, maxListNumber, books))
-    }
-
-    private fun generateBookResultView(defaultStoreName: DefaultStoreNames, maxListNumber: Int, books: List<Book>): BookResultView {
-        val bookResultAdapter = BookResultAdapter(true, maxListNumber, defaultStoreName, eventTracker)
-        bookResultAdapter.setBooks(books)
-        return BookResultView(defaultStoreName, bookResultAdapter)
     }
 
     fun logISBNScanningSucceed() {
