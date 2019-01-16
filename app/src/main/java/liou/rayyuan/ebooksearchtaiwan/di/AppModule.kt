@@ -22,7 +22,7 @@ val appModule = module {
     factory { QuickChecker(androidApplication()) }
 
     // Presenters
-    factory { BookSearchPresenter(get(), get()) }
+    factory { BookSearchPresenter(get(), get(), get()) }
 
 }
 

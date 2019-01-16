@@ -31,7 +31,10 @@ android {
             minifyEnabled false
             applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
+
+            buildConfigField 'String', 'HOST_URL', HOST_STAGING
         }
+
         release {
             signingConfig signingConfigs.release
 
@@ -39,10 +42,11 @@ android {
             shrinkResources true
             zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            buildConfigField 'String', 'HOST_URL', HOST
         }
     }
     buildTypes.all {
-        buildConfigField 'String', 'HOST_URL', HOST
         buildConfigField 'String', 'AD_MOB_ID', ADMOB_ID
         buildConfigField 'String', 'ADMOB_TEST_DEVICE_ID', ADMOB_TEST_DEVICE_ID
         resValue 'string', 'AD_MOB_UNIT_ID', ADMOB_UNIT_ID
@@ -98,7 +102,7 @@ dependencies {
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.0'
 
     // Fresco
     implementation "com.facebook.fresco:fresco:$fresco_version"

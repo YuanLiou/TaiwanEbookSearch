@@ -23,6 +23,7 @@ import okhttp3.ResponseBody
  * Created by louis383 on 2017/12/2.
  */
 class BookSearchPresenter(private val apiManager: APIManager,
+                          private val preferenceManager: UserPreferenceManager,
                           private val eventTracker: EventTracker) : Presenter<BookSearchView>,
         LifecycleObserver, OnNetworkConnectionListener, BookResultClickHandler {
 
@@ -36,8 +37,9 @@ class BookSearchPresenter(private val apiManager: APIManager,
     private val maxListNumber: Int = 10
     private var eggCount: Int = 0
     private var bookStores: BookStores? = null
-    private val defaultResultSort =
-            setOf(DefaultStoreNames.READMOO,
+    private val defaultResultSort by lazy {
+        preferenceManager.getBookStoreSort() ?: run {
+            val defaultSort = listOf(DefaultStoreNames.READMOO,
                     DefaultStoreNames.KOBO,
                     DefaultStoreNames.BOOK_WALKER,
                     DefaultStoreNames.BOOK_COMPANY,
@@ -45,6 +47,10 @@ class BookSearchPresenter(private val apiManager: APIManager,
                     DefaultStoreNames.PLAY_STORE,
                     DefaultStoreNames.PUBU,
                     DefaultStoreNames.HYREAD)
+            preferenceManager.saveBookStoreSort(defaultSort)
+            preferenceManager.getBookStoreSort()!!
+        }
+    }
 
     internal var lastScrollPosition: Int = 0
 

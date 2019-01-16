@@ -5,10 +5,10 @@ import liou.rayyuan.ebooksearchtaiwan.model.entity.BookStores
 import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
 
 
-fun BookStores.generateBookStoresResultMap(sortedSet: Set<DefaultStoreNames>): Map<DefaultStoreNames, List<Book>> {
+fun BookStores.generateBookStoresResultMap(sortedList: List<DefaultStoreNames>): Map<DefaultStoreNames, List<Book>> {
     val map = mutableMapOf<DefaultStoreNames, List<Book>>()
 
-    for (store in sortedSet) {
+    for (store in sortedList) {
         when (store) {
             DefaultStoreNames.BOOK_COMPANY -> {
                 this.booksCompany?.let {

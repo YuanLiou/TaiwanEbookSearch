@@ -13,5 +13,11 @@ enum class DefaultStoreNames(val defaultName: String, @StringRes val defaultResI
     BOOK_WALKER("bookWalker", R.string.book_walker_title),
     PLAY_STORE("playStore", R.string.playbook_title),
     PUBU("pubu", R.string.pubu_title),
-    HYREAD("hyread", R.string.hyread_title)
+    HYREAD("hyread", R.string.hyread_title);
+
+    companion object {
+        private val map = DefaultStoreNames.values().associateBy { it.defaultName }
+        fun fromName(storeName: String): DefaultStoreNames? = map[storeName]
+    }
 }
+
