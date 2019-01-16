@@ -25,6 +25,9 @@ function copyEnvVarsToGradleProperties {
         echo "Writing HOST to gradle.properties..."
         echo "HOST=\"$HOST\"" >> $GRADLE_PROPERTIES
 
+        echo "Writing HOST_STAGING to gradle.properties..."
+        echo "HOST_STAGING=\"$HOST_STAGING\"" >> $GRADLE_PROPERTIES
+
         echo "Writing ADMOB_ID to gradle.properties..."
         echo "ADMOB_ID=\"$ADMOB_ID\"" >> $GRADLE_PROPERTIES
 
