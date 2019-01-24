@@ -53,4 +53,7 @@
     <string name="menu_share">Share</string>
     <string name="menu_share_result">Share Result</string>
     <string name="menu_share_menu_appear">Share to</string>
+    <string name="options">Options</string>
+    <string name="activty_reorder_title">Reorder book stores</string>
+    <string name="summary_reorder_bookstore">Reorder search results by the book store</string>
 </resources>

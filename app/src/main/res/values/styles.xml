@@ -8,6 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="searchBoxColor">@color/pure_white</item>
         <item name="android:textViewStyle">@style/CustomLightTextViewStyle</item>
+        <item name="reorderListBackgroundColor">@color/pure_white</item>
+        <item name="reorderHandlerItemDrawable">@drawable/ic_baseline_reorder_24px</item>
 
         <item name="actionOverflowButtonStyle">@style/Overflow</item>
         <item name="android:colorBackground">@color/google_app_white_color</item>
@@ -34,6 +36,8 @@
         <item name="android:textColorTertiary">@color/white_BD</item>
         <item name="searchBoxColor">@color/gray</item>
         <item name="android:textViewStyle">@style/CustomTextViewStyle</item>
+        <item name="reorderListBackgroundColor">@color/darker_gray_3B</item>
+        <item name="reorderHandlerItemDrawable">@drawable/ic_baseline_reorder_light_24px</item>
 
         <item name="dividerColor">@color/blue_green</item>
         <item name="editTextHintColor">@color/white_BD</item>

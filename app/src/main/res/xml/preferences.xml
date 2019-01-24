@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- androidx.preference.PreferenceScreen -->
+<!-- use PreferenceScreen for previewing -->
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:key="app_option_preferences"
     android:title="@string/menu_setting"
@@ -27,15 +30,29 @@
         android:title="@string/preference_category_behaviours"
         >
 
-        <SwitchPreference
-            android:key="app_option_preference__use_chrome_custom_view"
-            android:title="@string/preference_custom_tab_description"
-            android:summaryOn="@string/preference_custom_tab_on_summary"
-            android:summaryOff="@string/preference_custom_tab_off_summary"
-            android:defaultValue="true"
+        <SwitchPreferenceCompat
+            app:key="app_option_preference__use_chrome_custom_view"
+            app:title="@string/preference_custom_tab_description"
+            app:summaryOn="@string/preference_custom_tab_on_summary"
+            app:summaryOff="@string/preference_custom_tab_off_summary"
+            app:defaultValue="true"
+            tools:title="@string/preference_custom_tab_description"
+            tools:summaryOn="@string/preference_custom_tab_on_summary"
+            tools:summaryOff="@string/preference_custom_tab_off_summary"
             tools:defaultValue="false"
             />
 
-    </PreferenceCategory>
+        <Preference
+            android:key="key-reorder-bookstores"
+            android:title="@string/activty_reorder_title"
+            android:summary="@string/summary_reorder_bookstore"
+            >
 
-</PreferenceScreen>
+            <intent
+                android:targetPackage="@string/package_name"
+                android:targetClass="liou.rayyuan.ebooksearchtaiwan.bookstorereorder.BookStoreReorderActivity"
+                />
+
+        </Preference>
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

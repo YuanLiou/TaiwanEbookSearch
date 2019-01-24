@@ -13,6 +13,7 @@ import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
 import liou.rayyuan.ebooksearchtaiwan.model.entity.BookHeader
 import liou.rayyuan.ebooksearchtaiwan.model.entity.BookStores
 import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
+import liou.rayyuan.ebooksearchtaiwan.utils.Utils
 import liou.rayyuan.ebooksearchtaiwan.view.BookResultClickHandler
 import liou.rayyuan.ebooksearchtaiwan.view.FullBookStoreResultAdapter
 import liou.rayyuan.ebooksearchtaiwan.view.ViewState.*
@@ -39,14 +40,7 @@ class BookSearchPresenter(private val apiManager: APIManager,
     private var bookStores: BookStores? = null
     private val defaultResultSort by lazy {
         preferenceManager.getBookStoreSort() ?: run {
-            val defaultSort = listOf(DefaultStoreNames.READMOO,
-                    DefaultStoreNames.KOBO,
-                    DefaultStoreNames.BOOK_WALKER,
-                    DefaultStoreNames.BOOK_COMPANY,
-                    DefaultStoreNames.TAAZE,
-                    DefaultStoreNames.PLAY_STORE,
-                    DefaultStoreNames.PUBU,
-                    DefaultStoreNames.HYREAD)
+            val defaultSort = Utils.getDefaultSort()
             preferenceManager.saveBookStoreSort(defaultSort)
             preferenceManager.getBookStoreSort()!!
         }

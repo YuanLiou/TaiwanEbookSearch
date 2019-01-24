@@ -52,4 +52,7 @@
     <string name="menu_share">分享</string>
     <string name="menu_share_result">分享搜索结果</string>
     <string name="menu_share_menu_appear">分享给</string>
+    <string name="options">选项</string>
+    <string name="activty_reorder_title">重新排序书店结果</string>
+    <string name="summary_reorder_bookstore">重新调整搜索结果顺序</string>
 </resources>

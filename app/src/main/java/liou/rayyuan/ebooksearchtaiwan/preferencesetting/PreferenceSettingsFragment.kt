@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.SwitchPreference
+import androidx.preference.SwitchPreferenceCompat
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.model.UserPreferenceManager
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
@@ -22,7 +22,7 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
         if (quickChecker.isTabletSize()) {
-            val preferCustomTabs = findPreference("app_option_preference__use_chrome_custom_view") as SwitchPreference
+            val preferCustomTabs = findPreference("app_option_preference__use_chrome_custom_view") as SwitchPreferenceCompat
             with(preferCustomTabs) {
                 isChecked = false
                 isEnabled = false

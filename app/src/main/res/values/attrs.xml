@@ -4,7 +4,9 @@
     <attr name="dividerColor" format="color" />
     <attr name="editTextHintColor" format="color" />
     <attr name="editTextInputColor" format="color" />
+    <attr name="reorderListBackgroundColor" format="color" />
     <attr name="backToTopButtonDrawable" format="reference" />
+    <attr name="reorderHandlerItemDrawable" format="reference" />
 
     <bool name="isTabletSize">false</bool>
 </resources>

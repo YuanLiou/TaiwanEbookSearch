@@ -15,6 +15,8 @@ class UserPreferenceManager(context: Context) {
         const val KEY_BOOK_STORE_SORT = "key-book-store-sort"
         const val VALUE_LIGHT_THEME = "light"
         const val VALUE_DARK_THEME = "dark"
+
+        private val KEY_REORDER_BOOKSTORES = "key-reorder-bookstores"
     }
 
     private val defaultPreferences = PreferenceManager.getDefaultSharedPreferences(context)

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:clipToPadding="false"
+    android:background="?attr/reorderListBackgroundColor"
+    >
+
+    <TextView
+        android:id="@+id/adapter_bookstore_name_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:textSize="16sp"
+        android:layout_centerVertical="true"
+        tools:text="@tools:sample/cities"
+        />
+
+    <View
+        android:id="@+id/adapter_bookstore_touchzone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?selectableItemBackground"
+        />
+
+    <ImageView
+        android:id="@+id/adapter_bookstore_reorder_imageview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:background="?selectableItemBackgroundBorderless"
+        android:src="?attr/reorderHandlerItemDrawable"
+        />
+
+</RelativeLayout>

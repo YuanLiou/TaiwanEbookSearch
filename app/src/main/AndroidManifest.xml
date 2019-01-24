@@ -84,5 +84,10 @@
                 android:label="@string/menu_setting"
                 />
 
+        <activity
+                android:name=".bookstorereorder.BookStoreReorderActivity"
+                android:label="@string/activty_reorder_title"
+                />
+
     </application>
 </manifest>
