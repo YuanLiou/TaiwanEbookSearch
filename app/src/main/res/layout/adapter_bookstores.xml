@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="72dp"
     android:clipToPadding="false"
+    android:elevation="0dp"
     android:background="?attr/reorderListBackgroundColor"
     >
 
@@ -33,6 +34,7 @@
         android:paddingEnd="16dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
+        android:clickable="true"
         android:background="?selectableItemBackgroundBorderless"
         android:src="?attr/reorderHandlerItemDrawable"
         />

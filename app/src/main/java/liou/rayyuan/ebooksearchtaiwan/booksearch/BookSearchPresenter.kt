@@ -38,13 +38,14 @@ class BookSearchPresenter(private val apiManager: APIManager,
     private val maxListNumber: Int = 10
     private var eggCount: Int = 0
     private var bookStores: BookStores? = null
-    private val defaultResultSort by lazy {
-        preferenceManager.getBookStoreSort() ?: run {
-            val defaultSort = Utils.getDefaultSort()
-            preferenceManager.saveBookStoreSort(defaultSort)
-            preferenceManager.getBookStoreSort()!!
+    private val defaultResultSort: List<DefaultStoreNames>
+        get() {
+            return preferenceManager.getBookStoreSort() ?: run {
+                val defaultSort = Utils.getDefaultSort()
+                preferenceManager.saveBookStoreSort(defaultSort)
+                preferenceManager.getBookStoreSort()!!
+            }
         }
-    }
 
     internal var lastScrollPosition: Int = 0
 
