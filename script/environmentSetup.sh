@@ -37,6 +37,12 @@ function copyEnvVarsToGradleProperties {
         echo "Writing ADMOB_TEST_DEVICE_ID to gradle.properties..."
         echo "ADMOB_TEST_DEVICE_ID=\"$ADMOB_TEST_DEVICE_ID\"" >> $GRADLE_PROPERTIES
 
+        echo "Writing useAndroidX to gradle.properties..."
+        echo "android.useAndroidX=true" >> $GRADLE_PROPERTIES
+
+        echo "Writing android.enableJetifier to gradle.properties..."
+        echo "android.enableJetifier=true" >> $GRADLE_PROPERTIES
+
         echo "done"
     fi
 }
