@@ -30,7 +30,7 @@ ext {
     androidx_version = '1.0.0'
     retrofit_version = '2.5.0'
     fresco_version = '1.11.0'
-    koin_version = '1.0.2'
+    koin_version = '2.0.0-beta-1'
 }
 
 allprojects {

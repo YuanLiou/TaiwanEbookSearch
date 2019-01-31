@@ -1,13 +1,14 @@
 package liou.rayyuan.ebooksearchtaiwan.di
 
-import liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchPresenter
+import liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchViewModel
 import liou.rayyuan.ebooksearchtaiwan.model.APIManager
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.model.RemoteConfigManager
 import liou.rayyuan.ebooksearchtaiwan.model.UserPreferenceManager
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import org.koin.android.ext.koin.androidApplication
-import org.koin.dsl.module.module
+import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.dsl.module
 
 /**
  * Created by louis383 on 2018/8/29.
@@ -24,8 +25,8 @@ val appModule = module {
     single { UserPreferenceManager(androidApplication()) }
     single { QuickChecker(androidApplication()) }
 
-    // Presenters
-    factory { BookSearchPresenter(get(), get(), get()) }
+    // ViewModels
+    viewModel { BookSearchViewModel(get(), get(), get(), get()) }
 
 }
 

@@ -126,6 +126,7 @@ dependencies {
 
     // Koin
     implementation "org.koin:koin-android:${koin_version}"
+    implementation "org.koin:koin-android-viewmodel:${koin_version}"
 
 // disable for Google Play instant App testing
 //    debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'

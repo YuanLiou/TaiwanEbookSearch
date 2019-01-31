@@ -42,7 +42,7 @@ class APIManager {
         bookSearchService = retrofit.create(BookSearchService::class.java)
     }
 
-    fun getBooks(keywords: String): NetworkLiveData<BookStores> {
-        return NetworkLiveData(bookSearchService.getBooks(keywords))
+    fun getBooks(keywords: String): NetworkRequest<BookStores> {
+        return NetworkRequest(bookSearchService.getBooks(keywords))
     }
 }
