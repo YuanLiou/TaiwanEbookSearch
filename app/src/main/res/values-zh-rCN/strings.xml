@@ -41,8 +41,8 @@
     <string name="preference_appearance_theme_title">主题</string>
     <string name="preference_appearance_theme_description">选择不同的外观样式</string>
     <string name="preference_category_behaviours">行为</string>
-    <string name="preference_custom_tab_description">使用 Chrome Custom Tab</string>
-    <string name="preference_custom_tab_on_summary">现在使用 Chrome Custom Tab 开启结果页面</string>
+    <string name="preference_custom_tab_description">使用浏览器分页</string>
+    <string name="preference_custom_tab_on_summary">现在使用浏览器分页来开启结果页面</string>
     <string name="preference_custom_tab_off_summary">现在在应用内打开结果页面</string>
 
     <plurals name="title_authors">
@@ -55,4 +55,6 @@
     <string name="options">选项</string>
     <string name="activty_reorder_title">重新排序书店结果</string>
     <string name="summary_reorder_bookstore">重新调整搜索结果顺序</string>
+    <string name="preference_custom_tab_prefer_browser">首选浏览器</string>
+    <string name="preference_custom_tab_prefer_browser_summary">选择偏好的浏览器来开启结果分页</string>
 </resources>

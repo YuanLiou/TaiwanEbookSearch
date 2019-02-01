@@ -41,8 +41,8 @@
     <string name="preference_appearance_theme_title">App Theme</string>
     <string name="preference_appearance_theme_description">Choose a color theme for the app.</string>
     <string name="preference_category_behaviours">Behaviour</string>
-    <string name="preference_custom_tab_description">Use Chrome Custom Tab</string>
-    <string name="preference_custom_tab_on_summary">Now use Chrome Custom Tab to open result</string>
+    <string name="preference_custom_tab_description">Use Browser Tab</string>
+    <string name="preference_custom_tab_on_summary">Now use browser Tab to open result</string>
     <string name="preference_custom_tab_off_summary">Now open the result in app</string>
 
     <plurals name="title_authors">
@@ -56,4 +56,6 @@
     <string name="options">Options</string>
     <string name="activty_reorder_title">Reorder book stores</string>
     <string name="summary_reorder_bookstore">Reorder search results by the book store</string>
+    <string name="preference_custom_tab_prefer_browser">Default Browser</string>
+    <string name="preference_custom_tab_prefer_browser_summary">Choose the default browser to open book link</string>
 </resources>

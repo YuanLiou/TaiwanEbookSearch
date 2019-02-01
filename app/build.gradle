@@ -85,7 +85,7 @@ static def getVersionCodeTimeStamps() {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.github.YuanLiou:chrome-custom-tab-helper:1.1b1'
+    implementation 'com.github.YuanLiou:chrome-custom-tab-helper:1.1.1'
 
     // region Android X Libraries
     implementation "androidx.appcompat:appcompat:1.0.2"
