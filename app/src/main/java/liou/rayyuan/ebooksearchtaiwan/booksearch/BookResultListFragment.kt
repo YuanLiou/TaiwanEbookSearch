@@ -5,9 +5,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.os.Bundle
 import android.os.Parcelable
 import android.text.TextUtils
@@ -22,9 +19,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.AdRequest
@@ -34,14 +29,16 @@ import kotlinx.android.synthetic.main.fragment_search_list.*
 import liou.rayyuan.ebooksearchtaiwan.BaseFragment
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
+import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.model.RemoteConfigManager
 import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
-import liou.rayyuan.ebooksearchtaiwan.view.ViewState
-import org.koin.android.ext.android.inject
+import liou.rayyuan.ebooksearchtaiwan.view.BookResultClickHandler
+import liou.rayyuan.ebooksearchtaiwan.view.FullBookStoreResultAdapter
+import org.koin.android.viewmodel.ext.viewModel
 
-class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListener {
+class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultClickHandler {
 
     companion object {
         fun newInstance(defaultKeyword: String?) = BookResultListFragment().apply {
@@ -52,9 +49,10 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
 
     private val BUNDLE_RECYCLERVIEW_STATE: String = "BUNDLE_RECYCLERVIEW_STATE"
     private val KEY_RECYCLERVIEW_POSITION: String = "KEY_RECYCLERVIEW_POSITION"
-    private val presenter: BookSearchPresenter by inject()
+    private val bookSearchViewModel: BookSearchViewModel by viewModel()
 
     private var defaultSearchKeyword: String by FragmentArgumentsDelegate()
+    private lateinit var fullBookStoreResultsAdapter: FullBookStoreResultAdapter
 
     //region View Components
     private lateinit var appbar: AppBarLayout
@@ -82,12 +80,13 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.attachView(this)
         (activity as AppCompatActivity).setSupportActionBar(search_view_toolbar)
         bindViews(view)
         init()
 
-        presenter.setResultRecyclerView(resultsRecyclerView)
+        fullBookStoreResultsAdapter = FullBookStoreResultAdapter(this, eventTracker)
+        resultsRecyclerView.adapter = fullBookStoreResultsAdapter
+        bookSearchViewModel.setRecyclerViewAdapter(fullBookStoreResultsAdapter)
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
@@ -98,10 +97,13 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
 
             val recyclerViewPosition = savedInstanceState.getInt(KEY_RECYCLERVIEW_POSITION, 0)
             (resultsRecyclerView.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(recyclerViewPosition, 0)
-            presenter.lastScrollPosition = recyclerViewPosition
+            bookSearchViewModel.lastScrollPosition = recyclerViewPosition
             Log.i("BookResultListFragment", "restore recyclerView Position = $recyclerViewPosition")
         }
-        presenter.ready()
+        bookSearchViewModel.screenViewState.observe(viewLifecycleOwner, Observer<ScreenState> { state -> updateScreen(state) })
+        bookSearchViewModel.listViewState.observe(viewLifecycleOwner, Observer<ListViewState> { state -> setMainResultView(state) })
+        bookSearchViewModel.ready()
+        setupUI()
 
         if (!TextUtils.isEmpty(defaultSearchKeyword)) {
             searchWithText(defaultSearchKeyword)
@@ -141,8 +143,9 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
 
         searchEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                hideVirtualKeyboard()
                 val keyword: String = searchEditText.text.toString()
-                presenter.searchBook(keyword)
+                bookSearchViewModel.searchBook(keyword)
             }
             false
         }
@@ -237,15 +240,14 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
         })
     }
 
-    //region BookSearchView
-    override fun setupUI() {
+    private fun setupUI() {
         val hintWithAppVersion = hintText.text.toString() + "\n" + resources.getString(R.string.app_version, BuildConfig.VERSION_NAME)
         hintText.text = hintWithAppVersion
     }
 
-    override fun setMainResultView(viewState: ViewState) {
-        when (viewState) {
-            ViewState.PREPARE -> {
+    private fun setMainResultView(listViewState: ListViewState?) {
+        when (listViewState) {
+            is ListViewState.Prepare -> {
                 progressBar.visibility = View.VISIBLE
                 resultsRecyclerView.visibility = View.GONE
                 hintText.visibility = View.GONE
@@ -255,8 +257,18 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
                 if (this::shareResultMenu.isInitialized) {
                     shareResultMenu.setVisible(false)
                 }
+
+                if (listViewState.scrollToTop) {
+                    scrollToTop()
+                }
             }
-            ViewState.READY -> {
+            is ListViewState.Ready -> {
+                if (listViewState.adapterItems.isNotEmpty()) {
+                    if (this::fullBookStoreResultsAdapter.isInitialized) {
+                        fullBookStoreResultsAdapter.addResult(listViewState.adapterItems)
+                    }
+                }
+
                 progressBar.visibility = View.GONE
                 resultsRecyclerView.visibility = View.VISIBLE
                 hintText.visibility = View.GONE
@@ -266,8 +278,12 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
                 if (this::shareResultMenu.isInitialized) {
                     shareResultMenu.setVisible(true)
                 }
+
+                if (listViewState.scrollPosition > 0) {
+                    scrollToPosition(listViewState.scrollPosition)
+                }
             }
-            ViewState.ERROR -> {
+            ListViewState.Error -> {
                 progressBar.visibility = View.GONE
                 resultsRecyclerView.visibility = View.GONE
                 hintText.visibility = View.VISIBLE
@@ -278,30 +294,50 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
                     shareResultMenu.setVisible(false)
                 }
             }
+            else -> {}
         }
     }
 
-    override fun scrollToTop() {
+    private fun updateScreen(screenState: ScreenState?) {
+        when (screenState) {
+            ScreenState.EasterEgg -> {
+                showEasterEgg01()
+            }
+            ScreenState.ConnectionTimeout -> {
+                showInternetConnectionTimeout()
+            }
+            ScreenState.NetworkError -> {
+                showNetworkErrorMessage()
+            }
+            ScreenState.EmptyKeyword -> {
+                showKeywordIsEmpty()
+            }
+            ScreenState.NoInternetConnection -> {
+                showInternetRequestDialog()
+            }
+            is ScreenState.ShowToastMessage -> {
+                if (screenState.stringResId != BookSearchViewModel.NO_MESSAGE) {
+                    showToast(getString(screenState.stringResId))
+                } else {
+                    showToast(screenState.message)
+                }
+            }
+            else -> {}
+        }
+    }
+
+
+    private fun scrollToTop() {
         resultsRecyclerView.scrollToPosition(0)
     }
 
-    override fun openBook(book: Book) {
+    private fun openBook(book: Book) {
         if (isAdded && activity is BookSearchActivity) {
             (activity as BookSearchActivity).openBookLink(book)
         }
     }
 
-    override fun isInternetConnectionAvailable(): Boolean {
-        if (isAdded) {
-            val connectionManager: ConnectivityManager = context!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            val networkInfo: NetworkInfo? = connectionManager.activeNetworkInfo
-            return networkInfo != null && networkInfo.isConnected && networkInfo.isAvailable
-        }
-
-        return false
-    }
-
-    override fun showInternetRequestDialog() {
+    private fun showInternetRequestDialog() {
         if (isAdded) {
             val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(activity!!)
             dialogBuilder.setTitle(R.string.network_alert_dialog_title)
@@ -311,26 +347,26 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
         }
     }
 
-    override fun showInternetConnectionTimeout() {
+    private fun showInternetConnectionTimeout() {
         if (isAdded) {
             getString(R.string.state_timeout).showToastOn(context!!)
         }
     }
 
-    override fun showKeywordIsEmpty() {
+    private fun showKeywordIsEmpty() {
         if (isAdded) {
             Toast.makeText(context!!, R.string.search_keyword_empty, Toast.LENGTH_LONG).show()
         }
     }
 
-    override fun hideVirtualKeyboard() {
+    private fun hideVirtualKeyboard() {
         if (isAdded) {
             val inputManager: InputMethodManager = context!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputManager.hideSoftInputFromWindow(searchEditText.windowToken, 0)
         }
     }
 
-    override fun focusBookSearchEditText() {
+    private fun focusBookSearchEditText() {
         if (isAdded) {
             appbar.setExpanded(true, true)
             searchEditText.requestFocus()
@@ -339,59 +375,43 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
         }
     }
 
-    override fun showEasterEgg01() {
+    private fun showEasterEgg01() {
         if (isAdded) {
             Toast.makeText(context!!, R.string.easter_egg_01, Toast.LENGTH_LONG).show()
         }
     }
 
-    override fun showErrorMessage(message: String) {
-        if (isAdded) {
-            val errorDrawable: Drawable? = ContextCompat.getDrawable(context!!, R.drawable.ic_sentiment_very_dissatisfied_black_24dp)
-            errorDrawable?.let { DrawableCompat.setTint(it, ContextCompat.getColor(context!!, R.color.gray)) }
-            hintText.setOnClickListener(null)
-            hintText.setCompoundDrawablesRelativeWithIntrinsicBounds(null, errorDrawable, null, null)
-            hintText.text = message
-        }
-    }
-
-    override fun showNetworkErrorMessage() {
+    private fun showNetworkErrorMessage() {
         if (isAdded) {
             getString(R.string.network_error_message).showToastOn(context!!)
         }
     }
 
-    override fun getViewModelProvider(): ViewModelProvider {
-        return ViewModelProviders.of(this)
-    }
-
-    override fun getLifeCycleOwner(): LifecycleOwner {
-        return viewLifecycleOwner
-    }
-
-    override fun backToListTop() {
+    private fun backToListTop() {
         resultsRecyclerView.smoothScrollToPosition(0)
     }
 
-    override fun scrollToPosition(position: Int) {
+    private fun scrollToPosition(position: Int) {
         (resultsRecyclerView.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(position, 0)
     }
 
-    override fun showToast(message: String) {
+    private fun showToast(message: String) {
         if (isAdded) {
             message.showToastOn(context!!)
         }
     }
-    //endregion
 
     //region View.OnClickListener
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.search_view_search_icon -> {
+                hideVirtualKeyboard()
                 val keyword: String = searchEditText.text.toString()
-                presenter.searchBook(keyword)
+                bookSearchViewModel.searchBook(keyword)
             }
-            R.id.search_view_hint -> presenter.hintPressed()
+            R.id.search_view_hint -> {
+                hintPressed()
+            }
             R.id.search_view_camera_icon -> {
                 if (isAdded && activity is BookSearchActivity) {
                     (activity as BookSearchActivity).openCameraPreviewActivity()
@@ -399,9 +419,24 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
             }
             R.id.search_view_back_to_top_button -> {
                 val canListScrollVertically = resultsRecyclerView.canScrollVertically(-1)
-                presenter.backToTop(canListScrollVertically)
+                backToTop(canListScrollVertically)
             }
         }
+    }
+
+    private fun backToTop(canResultListScrollVertically: Boolean) {
+        if (canResultListScrollVertically) {
+            backToListTop()
+            eventTracker.logEvent(EventTracker.CLICK_BACK_TO_TOP_BUTTON)
+        } else {
+            focusBookSearchEditText()
+            eventTracker.logEvent(EventTracker.CLICK_TO_SEARCH_BUTTON)
+        }
+    }
+
+    private fun hintPressed() {
+        bookSearchViewModel.hintPressed()
+        focusBookSearchEditText()
     }
     //endregion
 
@@ -426,7 +461,14 @@ class BookResultListFragment : BaseFragment(), BookSearchView, View.OnClickListe
     internal fun searchWithText(text: String) {
         searchEditText.setText(text)
         searchEditText.setSelection(text.length)
-        presenter.searchBook(text)
-        presenter.logISBNScanningSucceed()
+        hideVirtualKeyboard()
+        bookSearchViewModel.searchBook(text)
+        bookSearchViewModel.logISBNScanningSucceed()
     }
+
+    //region BookResultClickHandler
+    override fun onBookCardClicked(book: Book) {
+        openBook(book)
+    }
+    //endregion
 }
