@@ -94,7 +94,11 @@ class BookSearchActivity : BaseActivity(), ChromeCustomTabsHelper.Fallback,
 
     override fun onResume() {
         super.onResume()
-        chromeCustomTabHelper.bindCustomTabsServices(this, BuildConfig.HOST_URL)
+        if (userPreferenceManager.isPreferCustomTab()) {
+            chromeCustomTabHelper.bindCustomTabsServices(this,
+                    userPreferenceManager.getPreferBrowser(),
+                    BuildConfig.HOST_URL)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -107,7 +111,9 @@ class BookSearchActivity : BaseActivity(), ChromeCustomTabsHelper.Fallback,
 
     override fun onStop() {
         super.onStop()
-        chromeCustomTabHelper.unbindCustomTabsServices(this)
+        if (userPreferenceManager.isPreferCustomTab()) {
+            chromeCustomTabHelper.unbindCustomTabsServices(this)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -165,7 +171,8 @@ class BookSearchActivity : BaseActivity(), ChromeCustomTabsHelper.Fallback,
             val builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder()
             builder.setToolbarColor(getThemePrimaryColor())
             val chromeCustomTabIntent: CustomTabsIntent = builder.build()
-            ChromeCustomTabsHelper.openCustomTab(this, chromeCustomTabIntent, Uri.parse(book.link), this)
+            ChromeCustomTabsHelper.openCustomTab(this, userPreferenceManager.getPreferBrowser(),
+                    chromeCustomTabIntent, Uri.parse(book.link), this)
         } else {
             val isTablet = quickChecker.isTabletSize()
             val resultFragment = contentRouter.findFragmentByTag(SimpleWebViewFragment.TAG) as? SimpleWebViewFragment

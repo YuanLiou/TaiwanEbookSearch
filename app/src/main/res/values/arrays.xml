@@ -10,4 +10,16 @@
         <item>dark</item>
     </string-array>
 
+    <string-array name="browser_options">
+        <item>Google Chrome</item>
+        <item>Firefox</item>
+        <item>Samsung Internet Browser</item>
+    </string-array>
+
+    <string-array name="browser_options_values">
+        <item>chrome</item>
+        <item>firefox</item>
+        <item>samsung</item>
+    </string-array>
+
 </resources>

@@ -3,6 +3,7 @@ package liou.rayyuan.ebooksearchtaiwan.preferencesetting
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import liou.rayyuan.ebooksearchtaiwan.R
@@ -20,13 +21,23 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
+        val preferCustomTabs = findPreference(UserPreferenceManager.KEY_USE_CHROME_CUSTOM_VIEW) as SwitchPreferenceCompat
+        val choosePreferBrowser = findPreference(UserPreferenceManager.KEY_PREFER_BROWSER) as ListPreference
 
         if (quickChecker.isTabletSize()) {
-            val preferCustomTabs = findPreference("app_option_preference__use_chrome_custom_view") as SwitchPreferenceCompat
             with(preferCustomTabs) {
                 isChecked = false
                 isEnabled = false
                 setShouldDisableView(true)
+            }
+
+            with(choosePreferBrowser) {
+                isEnabled = false
+                setShouldDisableView(true)
+            }
+        } else {
+            if (preferCustomTabs.isChecked) {
+                choosePreferBrowser.summary = choosePreferBrowser.entry
             }
         }
     }
@@ -46,6 +57,27 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
         when (key) {
             UserPreferenceManager.KEY_USER_THEME -> {
                 callback?.onThemeChanged()
+            }
+            UserPreferenceManager.KEY_USE_CHROME_CUSTOM_VIEW -> {
+                val preferCustomTabs = findPreference(UserPreferenceManager.KEY_USE_CHROME_CUSTOM_VIEW) as SwitchPreferenceCompat
+                val choosePreferBrowser = findPreference(UserPreferenceManager.KEY_PREFER_BROWSER) as ListPreference
+                if (preferCustomTabs.isChecked) {
+                    with(choosePreferBrowser) {
+                        isEnabled = true
+                        setShouldDisableView(false)
+                        summary = entry
+                    }
+                } else {
+                    with(choosePreferBrowser) {
+                        isEnabled = false
+                        setShouldDisableView(true)
+                        summary = getString(R.string.preference_custom_tab_prefer_browser_summary)
+                    }
+                }
+            }
+            UserPreferenceManager.KEY_PREFER_BROWSER -> {
+                val choosePreferBrowser = findPreference(UserPreferenceManager.KEY_PREFER_BROWSER) as ListPreference
+                choosePreferBrowser.summary = choosePreferBrowser.entry
             }
             else -> {
                 Log.i("PreferenceSettings", "The value of $key changed")

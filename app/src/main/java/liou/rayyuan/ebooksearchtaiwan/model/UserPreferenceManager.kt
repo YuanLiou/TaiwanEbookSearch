@@ -3,6 +3,7 @@ package liou.rayyuan.ebooksearchtaiwan.model
 import android.content.Context
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
+import liou.rayyuan.chromecustomtabhelper.Browsers
 import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
 
 /**
@@ -13,8 +14,14 @@ class UserPreferenceManager(context: Context) {
         const val KEY_USER_THEME = "app_option_preference_appearance_theme"
         const val KEY_USE_CHROME_CUSTOM_VIEW = "app_option_preference__use_chrome_custom_view"
         const val KEY_BOOK_STORE_SORT = "key-book-store-sort"
+        const val KEY_PREFER_BROWSER = "preference_custom_tab_prefer_browser"
         const val VALUE_LIGHT_THEME = "light"
         const val VALUE_DARK_THEME = "dark"
+
+        private val VALUE_BROWSER_NAME = mapOf(
+                "chrome" to Browsers.CHROME,
+                "firefox" to Browsers.FIREFOX,
+                "samsung" to Browsers.SAMSUNG)
 
         private val KEY_REORDER_BOOKSTORES = "key-reorder-bookstores"
     }
@@ -29,6 +36,15 @@ class UserPreferenceManager(context: Context) {
 
     fun isPreferCustomTab(): Boolean {
         return defaultPreferences.getBoolean(KEY_USE_CHROME_CUSTOM_VIEW, true)
+    }
+
+    fun getPreferBrowser(): Browsers {
+        val preferBrowser = defaultPreferences.getString(KEY_PREFER_BROWSER, "") ?: ""
+        return if (preferBrowser.isNotBlank()) {
+            VALUE_BROWSER_NAME[preferBrowser] ?: Browsers.CHROME
+        } else {
+            Browsers.CHROME
+        }
     }
 
     fun saveBookStoreSort(bookSorts: List<DefaultStoreNames>) {

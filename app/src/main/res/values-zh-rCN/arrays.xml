@@ -4,4 +4,10 @@
         <item>明亮</item>
         <item>黑夜</item>
     </string-array>
+
+    <string-array name="browser_options">
+        <item>Google Chrome</item>
+        <item>Firefox</item>
+        <item>三星浏览器</item>
+    </string-array>
 </resources>
