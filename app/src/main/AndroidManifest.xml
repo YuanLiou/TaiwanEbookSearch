@@ -26,6 +26,7 @@
             android:appCategory="productivity"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true"
+            android:resizeableActivity="true"
             tools:ignore="GoogleAppIndexingWarning"
             >
 
