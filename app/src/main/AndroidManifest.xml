@@ -59,11 +59,10 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
 
-                <data
-                    android:scheme="https"
-                    android:host="taiwan-ebook-lover.github.io"
-                    android:pathPrefix="/search"
-                    />
+                <data android:scheme="https" />
+                <data android:scheme="http" />
+                <data android:host="taiwan-ebook-lover.github.io" />
+                <data android:pathPrefix="/search" />
 
             </intent-filter>
 
