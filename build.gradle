@@ -28,7 +28,7 @@ ext {
 
     androidx_version = '1.0.0'
     retrofit_version = '2.5.0'
-    fresco_version = '1.11.0'
+    fresco_version = '1.12.0'
     koin_version = '2.0.0-beta-1'
 }
 
