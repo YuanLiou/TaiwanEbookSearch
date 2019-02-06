@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.fabric'
-apply plugin: 'com.akaita.android.easylauncher'
 apply from: '../gradle/detekt.gradle'
 
 android {
@@ -61,19 +60,6 @@ android {
 
 androidExtensions {
     experimental = true
-}
-
-easylauncher {
-    iconNames "@mipmap/ic_launcher"
-    foregroundIconNames "@mipmap/ic_launcher_foreground"
-
-    buildTypes {
-        debug {
-            filters = [
-                    redRibbonFilter("WEBY")
-            ]
-        }
-    }
 }
 
 static def getVersionCodeTimeStamps() {
