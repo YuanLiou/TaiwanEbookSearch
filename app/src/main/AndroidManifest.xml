@@ -66,6 +66,11 @@
 
             </intent-filter>
 
+            <meta-data
+                android:name="default-url"
+                android:value="https://taiwan-ebook-lover.github.io"
+                />
+
         </activity>
 
         <!-- other components -->
