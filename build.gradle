@@ -24,7 +24,7 @@ buildscript {
 }
 
 ext {
-    app_version = '1.8'
+    app_version = '1.8.1'
 
     androidx_version = '1.0.0'
     retrofit_version = '2.5.0'
