@@ -326,7 +326,6 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
         }
     }
 
-
     private fun scrollToTop() {
         resultsRecyclerView.scrollToPosition(0)
     }
