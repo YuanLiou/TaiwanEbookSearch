@@ -38,6 +38,12 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
         } else {
             if (preferCustomTabs.isChecked) {
                 choosePreferBrowser.summary = choosePreferBrowser.entry
+            } else {
+                with(choosePreferBrowser) {
+                    isEnabled = false
+                    setShouldDisableView(true)
+                    summary = getString(R.string.preference_custom_tab_prefer_browser_summary)
+                }
             }
         }
     }
