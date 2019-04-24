@@ -24,7 +24,8 @@ val app_version by extra("1.8.1")
 val androidx_version by extra("1.0.0")
 val retrofit_version by extra("2.5.0")
 val fresco_version by extra("1.12.1")
-val koin_version by extra("2.0.0-beta-1")
+val koin_version by extra("2.0.0-rc-2")
+val room_version by extra("2.0.0-beta01")
 
 allprojects {
     repositories {

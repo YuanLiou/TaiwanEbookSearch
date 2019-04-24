@@ -6,6 +6,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-android-extensions")
     id("io.fabric")
+    kotlin("kapt")
 }
 apply(from = "../gradle/detekt.gradle")
 
@@ -139,6 +140,12 @@ dependencies {
     val koin_version = rootProject.extra.get("koin_version")
     implementation("org.koin:koin-android:$koin_version")
     implementation("org.koin:koin-android-viewmodel:$koin_version")
+
+    // Room
+    val roomVersion = rootProject.extra.get("room_version")
+    implementation("androidx.room:room-runtime:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.paging:paging-runtime:2.1.0")
 
 // disable for Google Play instant App testing
 //    debugImplementation("com.amitshekhar.android:debug-db:1.0.4")
