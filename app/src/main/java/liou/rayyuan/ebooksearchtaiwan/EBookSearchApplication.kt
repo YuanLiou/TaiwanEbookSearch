@@ -4,6 +4,7 @@ import android.app.Application
 import android.graphics.Bitmap
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory
+import com.jakewharton.threetenabp.AndroidThreeTen
 import liou.rayyuan.ebooksearchtaiwan.di.appModules
 import liou.rayyuan.ebooksearchtaiwan.model.RemoteConfigManager
 import okhttp3.OkHttpClient
@@ -32,6 +33,7 @@ class EBookSearchApplication : Application() {
             modules(appModules)
         }
         remoteConfigManager.start()
+        AndroidThreeTen.init(this)
 
         val imagePipeline = OkHttpImagePipelineConfigFactory.newBuilder(this, OkHttpClient.Builder().build())
         with(imagePipeline) {

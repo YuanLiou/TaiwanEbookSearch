@@ -31,6 +31,20 @@ android {
         versionCode = getVersionCodeTimeStamps()
         versionName = rootProject.extra.get("app_version").toString()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = mapOf("room.schemaLocation" to "$projectDir/schemas")
+            }
+        }
+    }
+
+    sourceSets {
+//        test.assets.srcDirs += files("$projectDir/schemas")
+    }
+
+    dataBinding {
+        isEnabled = true
     }
 
     signingConfigs {
@@ -94,6 +108,7 @@ tasks.register("checkVersionCode") {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation("com.github.YuanLiou:chrome-custom-tab-helper:1.1.1")
+    implementation("com.jakewharton.threetenabp:threetenabp:1.2.0")
 
     // region Android X Libraries
     val androidx_version = rootProject.extra.get("androidx_version")
@@ -148,7 +163,8 @@ dependencies {
     implementation("androidx.paging:paging-runtime:2.1.0")
 
 // disable for Google Play instant App testing
-//    debugImplementation("com.amitshekhar.android:debug-db:1.0.4")
+    debugImplementation("com.amitshekhar.android:debug-db:1.0.6")
+
     testImplementation("junit:junit:4.12")
     androidTestImplementation("androidx.test:runner:1.1.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.1.0")

@@ -1,10 +1,8 @@
 package liou.rayyuan.ebooksearchtaiwan.di
 
+import androidx.room.Room
 import liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchViewModel
-import liou.rayyuan.ebooksearchtaiwan.model.APIManager
-import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
-import liou.rayyuan.ebooksearchtaiwan.model.RemoteConfigManager
-import liou.rayyuan.ebooksearchtaiwan.model.UserPreferenceManager
+import liou.rayyuan.ebooksearchtaiwan.model.*
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.viewmodel.dsl.viewModel
@@ -24,6 +22,18 @@ val appModule = module {
     single { EventTracker(androidApplication()) }
     single { UserPreferenceManager(androidApplication()) }
     single { QuickChecker(androidApplication()) }
+
+    // Database related and Daos
+    single {
+        Room.databaseBuilder(androidApplication(),
+                DatabaseManager::class.java,
+                DatabaseManager.DATABASE_NAME)
+                .build()
+    }
+
+    single {
+        get<DatabaseManager>().searchRecordDao()
+    }
 
     // ViewModels
     viewModel { BookSearchViewModel(get(), get(), get(), get()) }
