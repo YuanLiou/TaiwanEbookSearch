@@ -117,6 +117,7 @@ class FullBookStoreResultAdapter(private val clickHandler: BookResultClickHandle
         val resizeOption = ResizeOptions(context.resources.getDimensionPixelSize(R.dimen.list_book_cover_width),
                 context.resources.getDimensionPixelSize(R.dimen.list_book_cover_height))
         val imageRequest = ImageRequestBuilder.newBuilderWithSource(uri)
+                .setProgressiveRenderingEnabled(true)
                 .setResizeOptions(resizeOption)
                 .build()
         val imageController = Fresco.newDraweeControllerBuilder()

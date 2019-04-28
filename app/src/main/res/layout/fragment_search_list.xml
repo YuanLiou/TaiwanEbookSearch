@@ -152,15 +152,9 @@
         tools:visibility="visible"
         />
 
-    <ViewStub
-        android:id="@+id/search_view_search_records"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:minHeight="56dp"
-        android:layout_marginTop="64dp"
-        android:elevation="8dp"
-        android:layout="@layout/viewstub_search_records"
-        tools:visibility="visible"
+    <include
+        layout="@layout/layout_search_records"
+        tools:elevation="0dp"
         />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

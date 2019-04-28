@@ -57,4 +57,6 @@
     <string name="summary_reorder_bookstore">重新调整搜索结果顺序</string>
     <string name="preference_custom_tab_prefer_browser">首选浏览器</string>
     <string name="preference_custom_tab_prefer_browser_summary">选择偏好的浏览器来开启结果分页</string>
+    <string name="alert_dialog_delete_search_records">删除纪录</string>
+    <string name="alert_dialog_delete_search_record_message">确定要删除%1$s吗？</string>
 </resources>

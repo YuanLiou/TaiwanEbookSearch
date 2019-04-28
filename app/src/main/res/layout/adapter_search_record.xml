@@ -18,6 +18,7 @@
         >
 
         <TextView
+            android:id="@+id/adapter_search_record_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

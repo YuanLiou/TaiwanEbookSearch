@@ -9,15 +9,16 @@ import org.threeten.bp.OffsetDateTime
 @Dao
 interface SearchRecordDao {
 
-    @Query("SELECT * FROM search_records ORDER BY datetime(time_stamp)")
+    @Query("SELECT * FROM search_records ORDER BY datetime(time_stamp) DESC")
     fun getAllSearchRecords(): LiveData<List<SearchRecord>>
 
-    @Query("SELECT * FROM search_records ORDER BY datetime(time_stamp)")
+    @Query("SELECT * FROM search_records ORDER BY datetime(time_stamp) DESC")
     fun getSearchRecordsPaged(): DataSource.Factory<Int, SearchRecord>
 
     @Query("""
         SELECT * FROM search_records
         WHERE result_text = :passedRecord
+        LIMIT 1
         """)
     fun getSearchRecordWithTitle(passedRecord: String): SearchRecord?
 
@@ -38,5 +39,8 @@ interface SearchRecordDao {
         WHERE id = :id
     """)
     fun updateCounts(id: Int, counts: Int, timeStamp: OffsetDateTime)
+
+    @Query("DELETE FROM search_records")
+    fun deleteAllRecords()
 
 }

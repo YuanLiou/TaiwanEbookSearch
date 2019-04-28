@@ -3,17 +3,17 @@ package liou.rayyuan.ebooksearchtaiwan.booksearch
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.paging.LivePagedListBuilder
 import kotlinx.coroutines.*
 import liou.rayyuan.ebooksearchtaiwan.model.*
-import liou.rayyuan.ebooksearchtaiwan.model.entity.AdapterItem
-import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
-import liou.rayyuan.ebooksearchtaiwan.model.entity.BookHeader
-import liou.rayyuan.ebooksearchtaiwan.model.entity.BookStores
+import liou.rayyuan.ebooksearchtaiwan.model.dao.SearchRecordDao
+import liou.rayyuan.ebooksearchtaiwan.model.entity.*
 import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import liou.rayyuan.ebooksearchtaiwan.utils.Utils
 import liou.rayyuan.ebooksearchtaiwan.view.FullBookStoreResultAdapter
 import okhttp3.ResponseBody
+import org.threeten.bp.OffsetDateTime
 
 /**
  * Created by louis383 on 2017/12/2.
@@ -21,7 +21,8 @@ import okhttp3.ResponseBody
 class BookSearchViewModel(private val apiManager: APIManager,
                           private val preferenceManager: UserPreferenceManager,
                           private val eventTracker: EventTracker,
-                          private val quickChecker: QuickChecker) : ViewModel(), OnNetworkConnectionListener<BookStores> {
+                          private val quickChecker: QuickChecker,
+                          private val searchRecordDao: SearchRecordDao) : ViewModel(), OnNetworkConnectionListener<BookStores> {
     companion object {
         const val NO_MESSAGE = -1
     }
@@ -33,6 +34,16 @@ class BookSearchViewModel(private val apiManager: APIManager,
     private val _screenViewState = MutableLiveData<ScreenState>()
     internal val screenViewState: LiveData<ScreenState>
         get() = _screenViewState
+
+    private val _searchRecordState = MutableLiveData<SearchRecordStates>()
+    internal val searchRecordState: LiveData<SearchRecordStates>
+        get() = _searchRecordState
+
+    internal val searchRecordLiveData = run {
+        val factory = searchRecordDao.getSearchRecordsPaged()
+        val pagedListBuilder = LivePagedListBuilder<Int, SearchRecord>(factory, 10)
+        pagedListBuilder.build()
+    }
 
     private var bookStoresRequest: NetworkRequest<BookStores>? = null
 
@@ -89,6 +100,15 @@ class BookSearchViewModel(private val apiManager: APIManager,
         eventTracker.logEvent(EventTracker.CLICK_INFO_BUTTON)
     }
 
+    fun focusOnEditText(isFocus: Boolean) {
+        if (isFocus) {
+            _searchRecordState.value = SearchRecordStates.ShowList
+        } else {
+            _searchRecordState.value = SearchRecordStates.HideList
+            searchRecordLiveData.value?.dataSource?.invalidate()    // Refresh PagedLifeData
+        }
+    }
+
     fun searchBook(keyword: String) {
         if (keyword.trim().isNotBlank()) {
             if (quickChecker.isInternetConnectionAvailable()) {
@@ -99,12 +119,32 @@ class BookSearchViewModel(private val apiManager: APIManager,
                 bookStoresRequest = getBookList(keyword, true)
                 _listViewState.value = ListViewState.Prepare(true)
                 resetCurrentResults()
+                saveKeywordToLocal(keyword)
             } else {
                 _screenViewState.value = ScreenState.NoInternetConnection
             }
 
         } else {
             _screenViewState.value = ScreenState.EmptyKeyword
+        }
+
+        _searchRecordState.value = SearchRecordStates.HideList
+    }
+
+    private fun saveKeywordToLocal(keyword: String) {
+        backgroundScope.launch {
+            searchRecordDao.getSearchRecordWithTitle(keyword)?.let {
+                searchRecordDao.updateCounts(it.id, it.counts + 1, OffsetDateTime.now())
+            } ?: run {
+                val searchRecord = SearchRecord(keyword, 1, OffsetDateTime.now())
+                searchRecordDao.insertRecords(listOf(searchRecord))
+            }
+        }
+    }
+
+    internal fun deleteRecords(searchRecord: SearchRecord) {
+        backgroundScope.launch {
+            searchRecordDao.deleteRecord(searchRecord)
         }
     }
 

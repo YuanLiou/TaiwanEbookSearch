@@ -18,10 +18,10 @@ val appModule = module {
     // related to: https://github.com/InsertKoinIO/koin/issues/281
     // it will be fix in Koin 2.0
     single { APIManager() }
-    single { RemoteConfigManager() }
-    single { EventTracker(androidApplication()) }
-    single { UserPreferenceManager(androidApplication()) }
-    single { QuickChecker(androidApplication()) }
+    factory { RemoteConfigManager() }
+    factory { EventTracker(androidApplication()) }
+    factory { UserPreferenceManager(androidApplication()) }
+    factory { QuickChecker(androidApplication()) }
 
     // Database related and Daos
     single {
@@ -36,7 +36,7 @@ val appModule = module {
     }
 
     // ViewModels
-    viewModel { BookSearchViewModel(get(), get(), get(), get()) }
+    viewModel { BookSearchViewModel(get(), get(), get(), get(), get()) }
 
 }
 
