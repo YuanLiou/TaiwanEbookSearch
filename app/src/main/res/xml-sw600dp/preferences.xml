@@ -70,4 +70,10 @@
 
         </Preference>
     </PreferenceCategory>
+
+    <Preference
+        android:key="key-clean-up-search-record"
+        android:title="@string/preference_clean_all_records"
+        />
+
 </androidx.preference.PreferenceScreen>

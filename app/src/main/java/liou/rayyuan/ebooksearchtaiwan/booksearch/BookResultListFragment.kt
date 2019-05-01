@@ -155,13 +155,27 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
 
         searchEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                hideVirtualKeyboard()
-                searchEditText.clearFocus()
-                val keyword: String = searchEditText.text.toString()
-                bookSearchViewModel.searchBook(keyword)
+                searchWithEditText()
+                return@setOnEditorActionListener true
             }
             false
         }
+
+        searchEditText.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    searchWithEditText()
+                    return@OnKeyListener true
+                }
+
+                if (keyCode == KeyEvent.KEYCODE_ESCAPE) {
+                    hideVirtualKeyboard()
+                    searchEditText.clearFocus()
+                    return@OnKeyListener true
+                }
+            }
+            false
+        })
 
         searchEditText.onFocusChangeListener = View.OnFocusChangeListener {
             _, hasFocus -> bookSearchViewModel.focusOnEditText(hasFocus)
@@ -190,6 +204,13 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
 
         loadAds()
         initScrollToTopButton()
+    }
+
+    private fun searchWithEditText() {
+        hideVirtualKeyboard()
+        searchEditText.clearFocus()
+        val keyword: String = searchEditText.text.toString()
+        bookSearchViewModel.searchBook(keyword)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

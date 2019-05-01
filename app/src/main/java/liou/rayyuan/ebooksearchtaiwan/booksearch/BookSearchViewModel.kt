@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import kotlinx.coroutines.*
 import liou.rayyuan.ebooksearchtaiwan.model.*
 import liou.rayyuan.ebooksearchtaiwan.model.dao.SearchRecordDao
@@ -41,7 +42,13 @@ class BookSearchViewModel(private val apiManager: APIManager,
 
     internal val searchRecordLiveData = run {
         val factory = searchRecordDao.getSearchRecordsPaged()
-        val pagedListBuilder = LivePagedListBuilder<Int, SearchRecord>(factory, 10)
+        val config = PagedList.Config.Builder()
+                .setEnablePlaceholders(true)
+                .setInitialLoadSizeHint(10)
+                .setPageSize(10)
+                .build()
+
+        val pagedListBuilder = LivePagedListBuilder<Int, SearchRecord>(factory, config)
         pagedListBuilder.build()
     }
 

@@ -59,4 +59,7 @@
     <string name="preference_custom_tab_prefer_browser_summary">選擇偏好的瀏覽器來開啟結果分頁</string>
     <string name="alert_dialog_delete_search_records">刪除紀錄</string>
     <string name="alert_dialog_delete_search_record_message">確定要刪除%1$s嗎？</string>
+    <string name="preference_clean_all_records">清除搜尋紀錄</string>
+    <string name="dialog_clean_all_records">確定要清除所有搜尋紀錄嗎？</string>
+    <string name="dialog_clean_all_records_cleaned">搜尋紀錄已清除</string>
 </resources>

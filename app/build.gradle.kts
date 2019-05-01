@@ -24,6 +24,11 @@ val ADMOB_UNIT_ID: String by project
 
 android {
     compileSdkVersion(28)
+
+    packagingOptions {
+        pickFirst("META-INF/atomicfu.kotlin_module")
+    }
+
     defaultConfig {
         applicationId = "liou.rayyuan.ebooksearchtaiwan"
         minSdkVersion(21)
@@ -129,7 +134,7 @@ dependencies {
     // Kotlin
     val kotlin_version = rootProject.extra.get("kotlin_version")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.0")
 
     // Fresco
     val fresco_version = rootProject.extra.get("fresco_version")

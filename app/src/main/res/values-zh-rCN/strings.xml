@@ -59,4 +59,7 @@
     <string name="preference_custom_tab_prefer_browser_summary">选择偏好的浏览器来开启结果分页</string>
     <string name="alert_dialog_delete_search_records">删除纪录</string>
     <string name="alert_dialog_delete_search_record_message">确定要删除%1$s吗？</string>
+    <string name="preference_clean_all_records">清除搜索纪录</string>
+    <string name="dialog_clean_all_records">确定要清除所有搜索纪录吗？</string>
+    <string name="dialog_clean_all_records_cleaned">搜索纪录已清除</string>
 </resources>

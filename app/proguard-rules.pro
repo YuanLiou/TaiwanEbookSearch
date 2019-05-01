@@ -67,6 +67,8 @@
 -keepclassmembernames class kotlinx.** {
     volatile <fields>;
 }
+
+-dontwarn kotlinx.atomicfu.**
 # ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
 
 
