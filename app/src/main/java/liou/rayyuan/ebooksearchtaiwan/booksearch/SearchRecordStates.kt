@@ -1,6 +1,6 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 sealed class SearchRecordStates {
-    object ShowList: SearchRecordStates()
+    class ShowList(val itemCounts: Int): SearchRecordStates()
     object HideList: SearchRecordStates()
 }

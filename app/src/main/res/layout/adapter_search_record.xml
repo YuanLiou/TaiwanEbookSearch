@@ -13,7 +13,7 @@
     <FrameLayout
         android:id="@+id/adapter_search_record_rootview"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/search_records_item_height"
         android:background="?selectableItemBackground"
         >
 

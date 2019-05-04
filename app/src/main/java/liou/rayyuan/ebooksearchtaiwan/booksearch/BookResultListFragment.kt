@@ -1,6 +1,7 @@
 
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -11,12 +12,14 @@ import android.text.TextUtils
 import android.util.Log
 import android.util.TypedValue
 import android.view.*
+import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.Observer
@@ -56,6 +59,7 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
     private val bookSearchViewModel: BookSearchViewModel by viewModel()
 
     private var defaultSearchKeyword: String by FragmentArgumentsDelegate()
+    private var searchRecordAnimator: ValueAnimator? = null
     private lateinit var fullBookStoreResultsAdapter: FullBookStoreResultAdapter
 
     //region View Components
@@ -73,6 +77,7 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
     private lateinit var shareResultMenu: MenuItem
 
     private lateinit var searchRecordsRootView: FrameLayout
+    private lateinit var searchRecordsCardView: CardView
     private lateinit var searchRecordsRecyclerView: RecyclerView
     private val searchRecordsAdapter = SearchRecordAdapter(this)
     //endregion
@@ -142,6 +147,7 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
         backToTopButton = view.findViewById(R.id.search_view_back_to_top_button)
 
         searchRecordsRootView = view.findViewById(R.id.layout_search_records_rootview)
+        searchRecordsCardView = view.findViewById(R.id.layout_search_records_card_view)
         searchRecordsRecyclerView = view.findViewById(R.id.layout_search_records_recycler_view)
     }
 
@@ -379,8 +385,19 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
 
     private fun updateSearchRecords(searchRecordStates: SearchRecordStates?) {
         when (searchRecordStates) {
-            SearchRecordStates.ShowList -> {
-                searchRecordsRootView.visibility = View.VISIBLE
+            is SearchRecordStates.ShowList -> {
+                val itemCounts = searchRecordStates.itemCounts
+                val heightPadding = if (itemCounts < 5) {
+                    TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                            (36f / itemCounts),
+                            resources.displayMetrics).toInt()
+                } else {
+                    0
+                }
+
+                val adapterItemHeight = resources.getDimensionPixelSize(R.dimen.search_records_item_height)
+
+                toggleSearchRecordView(true, (adapterItemHeight + heightPadding) * itemCounts)
                 bookSearchViewModel.searchRecordLiveData.observe(viewLifecycleOwner,
                         Observer<PagedList<SearchRecord>> { searchRecords ->
                             searchRecordsAdapter.addItems(searchRecords)
@@ -390,9 +407,8 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
             SearchRecordStates.HideList -> {
                 if (this::searchRecordsRootView.isInitialized) {
                     bookSearchViewModel.searchRecordLiveData.removeObservers(viewLifecycleOwner)
-                    searchRecordsRootView.visibility = View.GONE
+                    toggleSearchRecordView(false)
                     (searchRecordsRecyclerView.layoutManager as? LinearLayoutManager)?.scrollToPosition(0)
-                    searchRecordsAdapter.addItems(null)
                 }
             }
         }
@@ -546,6 +562,52 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
         }
 
         return false
+    }
+
+    private fun toggleSearchRecordView(show: Boolean, targetHeight: Int = 0) {
+        if (!this::searchRecordsRootView.isInitialized) {
+            return
+        }
+
+        if (show) {
+            expandSearchRecordView(searchRecordsRootView, targetHeight)
+        } else {
+            collapseSearchRecordView(searchRecordsRootView)
+        }
+    }
+
+    private fun expandSearchRecordView(view: FrameLayout, targetHeight: Int) {
+        val maxHeight = resources.getDimensionPixelSize(R.dimen.search_records_max_height)
+        val height = if (targetHeight > maxHeight) {
+            maxHeight
+        } else {
+            targetHeight
+        }
+
+        animateViewHeight(view, height)
+    }
+
+    private fun collapseSearchRecordView(view: FrameLayout) {
+        animateViewHeight(view, 0)
+    }
+
+    private fun animateViewHeight(view: FrameLayout, targetHeight: Int) {
+        searchRecordAnimator?.takeIf { it.isRunning }?.run {
+            removeAllUpdateListeners()
+            cancel()
+        }
+
+        val animation = ValueAnimator.ofInt(view.measuredHeightAndState, targetHeight)
+        animation.duration = 150
+        animation.setInterpolator(DecelerateInterpolator())
+        animation.addUpdateListener { valueAnimator ->
+            val value = valueAnimator.animatedValue as Int
+            val layoutParams = view.layoutParams
+            layoutParams.height = value
+            view.layoutParams = layoutParams
+        }
+        animation.start()
+        searchRecordAnimator = animation
     }
 
     //region BookResultClickHandler

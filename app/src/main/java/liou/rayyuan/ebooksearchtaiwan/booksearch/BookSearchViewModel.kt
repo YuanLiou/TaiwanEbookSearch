@@ -109,10 +109,18 @@ class BookSearchViewModel(private val apiManager: APIManager,
 
     fun focusOnEditText(isFocus: Boolean) {
         if (isFocus) {
-            _searchRecordState.value = SearchRecordStates.ShowList
+            backgroundScope.launch {
+                val recordCounts = searchRecordDao.getSearchRecordsCounts()
+                withContext(Dispatchers.Main) {
+                    if (recordCounts > 0) {
+                        _searchRecordState.value = SearchRecordStates.ShowList(recordCounts)
+                    } else {
+                        _searchRecordState.value = SearchRecordStates.HideList
+                    }
+                }
+            }
         } else {
             _searchRecordState.value = SearchRecordStates.HideList
-            searchRecordLiveData.value?.dataSource?.invalidate()    // Refresh PagedLifeData
         }
     }
 
