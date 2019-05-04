@@ -391,7 +391,7 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
                 if (this::searchRecordsRootView.isInitialized) {
                     bookSearchViewModel.searchRecordLiveData.removeObservers(viewLifecycleOwner)
                     searchRecordsRootView.visibility = View.GONE
-                    searchRecordsRecyclerView.smoothScrollToPosition(0)
+                    (searchRecordsRecyclerView.layoutManager as? LinearLayoutManager)?.scrollToPosition(0)
                     searchRecordsAdapter.addItems(null)
                 }
             }
