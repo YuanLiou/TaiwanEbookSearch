@@ -1,14 +1,14 @@
 package liou.rayyuan.ebooksearchtaiwan.mlscanner
 
+import android.util.Log
+import android.util.Size
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
-import android.util.Log
-import android.util.Size
 
-class FrameVisionProcessor(private val visionImageProcessor: VisionImageProcessor,
-                           private val cameraInformationCollector: CameraInformationCollector): LifecycleObserver {
+class FrameVisionProcessor(private var visionImageProcessor: VisionImageProcessor?,
+                           private var cameraInformationCollector: CameraInformationCollector?): LifecycleObserver {
     private val processingRunnable = FrameProcessingRunnable()
     private var processingThread: Thread? = Thread(processingRunnable)
     private val processorLock = Object()    // for synchronization use
@@ -33,7 +33,10 @@ class FrameVisionProcessor(private val visionImageProcessor: VisionImageProcesso
     private fun release() {
         synchronized(processorLock) {
             stop()
-            visionImageProcessor.stop()
+            visionImageProcessor?.stop()
+
+            visionImageProcessor = null
+            cameraInformationCollector = null
         }
     }
 
@@ -88,15 +91,17 @@ class FrameVisionProcessor(private val visionImageProcessor: VisionImageProcesso
 
                 synchronized(processorLock) {
                     bytes?.run {
-                        val frameMetaData = FrameMetadata(
-                                cameraInformationCollector.getCameraPreviewSize().width,
-                                cameraInformationCollector.getCameraPreviewSize().height,
-                                cameraInformationCollector.getCameraOrientation(),
-                                cameraInformationCollector.getCameraFacingDirection()
-                        )
+                        cameraInformationCollector?.let {
+                            val frameMetaData = FrameMetadata(
+                                    it.getCameraPreviewSize().width,
+                                    it.getCameraPreviewSize().height,
+                                    it.getCameraOrientation(),
+                                    it.getCameraFacingDirection()
+                            )
 
-//                        Log.i("FrameProcessingRunnable", "processing image")
-                        visionImageProcessor.process(this, frameMetaData)
+//                            Log.i("FrameProcessingRunnable", "processing image")
+                            visionImageProcessor?.process(this, frameMetaData)
+                        }
                     }
                 }
             }

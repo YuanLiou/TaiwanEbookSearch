@@ -1,6 +1,8 @@
 
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.content.Context
 import android.content.DialogInterface
@@ -79,6 +81,7 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
     private lateinit var searchRecordsRootView: FrameLayout
     private lateinit var searchRecordsCardView: CardView
     private lateinit var searchRecordsRecyclerView: RecyclerView
+    private lateinit var searchRecordsBackground: View
     private val searchRecordsAdapter = SearchRecordAdapter(this)
     //endregion
 
@@ -149,6 +152,7 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
         searchRecordsRootView = view.findViewById(R.id.layout_search_records_rootview)
         searchRecordsCardView = view.findViewById(R.id.layout_search_records_card_view)
         searchRecordsRecyclerView = view.findViewById(R.id.layout_search_records_recycler_view)
+        searchRecordsBackground = view.findViewById(R.id.search_view_search_records_background)
     }
 
     private fun init() {
@@ -207,9 +211,16 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
                 }
             }
         })
+        searchRecordsBackground.setOnClickListener(this)
 
         loadAds()
         initScrollToTopButton()
+    }
+
+    override fun onDestroy() {
+        searchRecordsAdapter.release()
+        fullBookStoreResultsAdapter.release()
+        super.onDestroy()
     }
 
     private fun searchWithEditText() {
@@ -509,6 +520,10 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
                 val canListScrollVertically = resultsRecyclerView.canScrollVertically(-1)
                 backToTop(canListScrollVertically)
             }
+            R.id.search_view_search_records_background -> {
+                toggleSearchRecordView(false)
+                hideVirtualKeyboard()
+            }
         }
     }
 
@@ -564,7 +579,7 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
         return false
     }
 
-    private fun toggleSearchRecordView(show: Boolean, targetHeight: Int = 0) {
+    internal fun toggleSearchRecordView(show: Boolean, targetHeight: Int = 0) {
         if (!this::searchRecordsRootView.isInitialized) {
             return
         }
@@ -593,6 +608,7 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
 
     private fun animateViewHeight(view: FrameLayout, targetHeight: Int) {
         searchRecordAnimator?.takeIf { it.isRunning }?.run {
+            removeAllListeners()
             removeAllUpdateListeners()
             cancel()
         }
@@ -600,6 +616,23 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
         val animation = ValueAnimator.ofInt(view.measuredHeightAndState, targetHeight)
         animation.duration = 150
         animation.setInterpolator(DecelerateInterpolator())
+        animation.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationStart(animation: Animator?) {
+                super.onAnimationStart(animation)
+                val isBackgroundVisible = searchRecordsBackground.visibility == View.VISIBLE
+                val isGoingToExpand = targetHeight > 0
+                if (isBackgroundVisible && !isGoingToExpand) {
+                    searchRecordsBackground.visibility = View.GONE
+                    backToTopButton.visibility = View.VISIBLE
+                    return
+                }
+
+                if (!isBackgroundVisible && isGoingToExpand){
+                    searchRecordsBackground.visibility = View.VISIBLE
+                    backToTopButton.visibility = View.GONE
+                }
+            }
+        })
         animation.addUpdateListener { valueAnimator ->
             val value = valueAnimator.animatedValue as Int
             val layoutParams = view.layoutParams

@@ -17,4 +17,5 @@
 
     <!-- alpha -->
     <color name="blue_green_a50">#800EB29B</color>
+    <color name="darker_gray_3B_a85">#D93B3B3B</color>
 </resources>

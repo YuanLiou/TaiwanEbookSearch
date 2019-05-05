@@ -14,7 +14,7 @@ import liou.rayyuan.ebooksearchtaiwan.BR
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.model.entity.SearchRecord
 
-class SearchRecordAdapter(private val listener: OnSearchRecordsClickListener?): PagedListAdapter<SearchRecord,
+class SearchRecordAdapter(private var listener: OnSearchRecordsClickListener?): PagedListAdapter<SearchRecord,
         SearchRecordAdapter.SearchRecordViewHolder>(SearchRecordDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchRecordViewHolder {
@@ -34,6 +34,10 @@ class SearchRecordAdapter(private val listener: OnSearchRecordsClickListener?): 
     fun addItems(searchRecords: PagedList<SearchRecord>?) {
         submitList(searchRecords)
         notifyDataSetChanged()
+    }
+
+    fun release() {
+        listener = null
     }
 
     class SearchRecordDiffCallback: DiffUtil.ItemCallback<SearchRecord>() {

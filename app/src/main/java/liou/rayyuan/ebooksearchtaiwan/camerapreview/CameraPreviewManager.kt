@@ -42,8 +42,8 @@ import kotlin.math.sign
  *    - check [setupCameraParams(cameraManager: CameraManager)] and [configureTransform()] methods for more infos.
  */
 class CameraPreviewManager(private val context: Context, private val textureView: AutoFitTextureView,
-                           private val cameraCallback: OnCameraPreviewCallback,
-                           private val displaySizeRequireHandler: OnDisplaySizeRequireHandler): LifecycleObserver {
+                           private var cameraCallback: OnCameraPreviewCallback?,
+                           private var displaySizeRequireHandler: OnDisplaySizeRequireHandler?): LifecycleObserver {
     enum class CameraState {
         CLOSED,
         OPENED,
@@ -139,6 +139,12 @@ class CameraPreviewManager(private val context: Context, private val textureView
         }
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    private fun releaseReferences() {
+        cameraCallback = null
+        displaySizeRequireHandler = null
+    }
+
     // Actually checked in the lambda function
     @SuppressLint("MissingPermission")
     private fun initCamera() {
@@ -146,13 +152,13 @@ class CameraPreviewManager(private val context: Context, private val textureView
             val cameraManager = context.getSystemService(Context.CAMERA_SERVICE) as CameraManager
             if (!setupCameraParams(cameraManager)) {
                 val message = context.getString(R.string.camera_opening_failed)
-                cameraCallback.onError(message)
+                cameraCallback?.onError(message)
                 return
             }
 
             if (!cameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
                 val message = context.getString(R.string.camera_opening_timeout)
-                cameraCallback.onError(message)
+                cameraCallback?.onError(message)
             }
 
             var cameraId: String? = null
@@ -200,9 +206,9 @@ class CameraPreviewManager(private val context: Context, private val textureView
                 val largestSize = map.getOutputSizes(ImageFormat.JPEG).maxWith(CompareAreaSize())
 
                 // find the rotation of the device relative to the native device orientation
-                val deviceOrientation = displaySizeRequireHandler.getDisplayOrientation()
+                val deviceOrientation = displaySizeRequireHandler?.getDisplayOrientation() ?: return
                 val displaySize = Point()
-                displaySizeRequireHandler.getDisplaySize(displaySize)
+                displaySizeRequireHandler?.getDisplaySize(displaySize)
 
                 // find the rotation of the device relative to the camera sensor
                 val totalRotation = sensorToDeviceRotation(deviceOrientation)
@@ -292,7 +298,7 @@ class CameraPreviewManager(private val context: Context, private val textureView
                         // instead of NV21 (YUV_420_SP) format. And MLKit needs NV21 format
                         // so it needs to convert
                         val bytes = image?.convertYUV420888ToNV21()
-                        cameraCallback.onByteArrayGenerated(bytes)
+                        cameraCallback?.onByteArrayGenerated(bytes)
                         image?.close()
                     }
                 }
@@ -397,7 +403,7 @@ class CameraPreviewManager(private val context: Context, private val textureView
             }
 
             val message = context.getString(R.string.camera_opening_failed)
-            cameraCallback.onError(message)
+            cameraCallback?.onError(message)
             Log.e("CameraPreviewManager", "Camera Open Error, Code is =$error")
         }
     }
@@ -457,6 +463,7 @@ class CameraPreviewManager(private val context: Context, private val textureView
         backgroundThread?.quitSafely()
         backgroundThread?.join()
         backgroundThread = null
+        uiHandler?.release()
         uiHandler = null
 
         synchronized(cameraStateLock) {
@@ -487,7 +494,7 @@ class CameraPreviewManager(private val context: Context, private val textureView
             action()
         } else {
             isAborted = true
-            cameraCallback.shouldRequestPermission()
+            cameraCallback?.shouldRequestPermission()
         }
     }
 
@@ -513,21 +520,25 @@ class CameraPreviewManager(private val context: Context, private val textureView
         }
     }
 
-    class UIHandler(failureCallback: OnCameraPreviewCallback): Handler(Looper.getMainLooper()) {
+    class UIHandler(failureCallback: OnCameraPreviewCallback?): Handler(Looper.getMainLooper()) {
         companion object {
             const val sendMessage: Int = 1001
         }
 
-        private var failedCallback: OnCameraPreviewCallback = failureCallback
+        private var failedCallback: OnCameraPreviewCallback? = failureCallback
 
         override fun handleMessage(message: Message?) {
             when (message?.what) {
                 sendMessage -> {
                     val errorMessage: String = message.obj as String
-                    failedCallback.onError(errorMessage)
+                    failedCallback?.onError(errorMessage)
                 }
                 else -> super.handleMessage(message)
             }
+        }
+
+        internal fun release() {
+            failedCallback = null
         }
     }
 

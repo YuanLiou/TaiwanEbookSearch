@@ -86,6 +86,11 @@ class SimpleWebViewFragment: BaseFragment(), View.OnClickListener, Toolbar.OnMen
         }
     }
 
+    override fun onDestroy() {
+        onSimpleWebviewActionListener = null
+        super.onDestroy()
+    }
+
     private fun initWebView() {
         with(webView.settings) {
             javaScriptEnabled = true

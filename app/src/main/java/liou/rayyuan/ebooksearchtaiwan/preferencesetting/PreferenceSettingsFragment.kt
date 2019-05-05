@@ -108,6 +108,11 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
         preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
     }
 
+    override fun onDestroy() {
+        callback = null
+        super.onDestroy()
+    }
+
     //region SharedPreferences.OnSharedPreferenceChangeListener
     override fun onSharedPreferenceChanged(sharedPreference: SharedPreferences, key: String) {
         when (key) {

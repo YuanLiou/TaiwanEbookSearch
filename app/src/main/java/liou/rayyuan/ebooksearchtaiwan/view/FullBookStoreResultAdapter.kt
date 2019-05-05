@@ -28,7 +28,7 @@ import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
 /**
  * Created by louis383 on 2018/1/7.
  */
-class FullBookStoreResultAdapter(private val clickHandler: BookResultClickHandler,
+class FullBookStoreResultAdapter(private var clickHandler: BookResultClickHandler?,
                                  private val eventTracker: EventTracker?):
         RecyclerView.Adapter<RecyclerView.ViewHolder>(),
         BookResultClickHandler {
@@ -87,7 +87,7 @@ class FullBookStoreResultAdapter(private val clickHandler: BookResultClickHandle
 
                         bookImage.setResizeImage(bookViewModel.getImage())
                         bookResultBody.setOnClickListener {
-                            clickHandler.onBookCardClicked(book)
+                            clickHandler?.onBookCardClicked(book)
 
                             eventTracker?.generateBookRecordBundle(book.isFirstChoice, book.bookStore)?.run {
                                 eventTracker.logEvent(EventTracker.OPEN_BOOK_LINK, this)
@@ -161,7 +161,11 @@ class FullBookStoreResultAdapter(private val clickHandler: BookResultClickHandle
     }
 
     override fun onBookCardClicked(book: Book) {
-        clickHandler.onBookCardClicked(book)
+        clickHandler?.onBookCardClicked(book)
+    }
+
+    fun release() {
+        clickHandler = null
     }
 
     class BookStoreTitleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

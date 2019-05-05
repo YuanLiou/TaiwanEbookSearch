@@ -132,9 +132,13 @@ class BookSearchActivity : BaseActivity(), ChromeCustomTabsHelper.Fallback,
                     logThemeChangedEvent(isDarkTheme())
                     recreate()
                 }
+
+                getBookResultFragment()?.let {
+                    it.toggleSearchRecordView(false)
+                }
             }
-            else -> super.onActivityResult(requestCode, resultCode, data)
         }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     //region ChromeCustomTabsHelper.Fallback
