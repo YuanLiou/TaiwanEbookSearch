@@ -19,7 +19,7 @@ buildscript {
     }
 }
 
-val app_version by extra("1.8.1")
+val app_version by extra("1.9")
 
 val androidx_version by extra("1.0.0")
 val retrofit_version by extra("2.5.0")
