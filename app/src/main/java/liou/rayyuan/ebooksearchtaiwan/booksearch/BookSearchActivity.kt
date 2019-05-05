@@ -122,12 +122,7 @@ class BookSearchActivity : BaseActivity(), ChromeCustomTabsHelper.Fallback,
                 if (resultCode == Activity.RESULT_OK) {
                     data?.extras?.run {
                         val resultText = getString(CameraPreviewActivity.resultISBNTextKey, "")
-                        val bookResultFragment = if (isDualPane) {
-                            val subRouter = Router(supportFragmentManager, R.id.activity_book_search_nav_host_container)
-                            subRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
-                        } else {
-                            contentRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
-                        }
+                        val bookResultFragment = getBookResultFragment()
                         bookResultFragment?.searchWithText(resultText)
                     }
                 }
@@ -137,9 +132,13 @@ class BookSearchActivity : BaseActivity(), ChromeCustomTabsHelper.Fallback,
                     logThemeChangedEvent(isDarkTheme())
                     recreate()
                 }
+
+                getBookResultFragment()?.let {
+                    it.toggleSearchRecordView(false)
+                }
             }
-            else -> super.onActivityResult(requestCode, resultCode, data)
         }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     //region ChromeCustomTabsHelper.Fallback
@@ -192,8 +191,24 @@ class BookSearchActivity : BaseActivity(), ChromeCustomTabsHelper.Fallback,
             }
         }
 
+        getBookResultFragment()?.let {
+            val isConsumed = it.onBackPressed()
+            if (isConsumed) {
+                return
+            }
+        }
+
         if (!contentRouter.backToPreviousFragment()) {
             super.onBackPressed()
+        }
+    }
+
+    private fun getBookResultFragment(): BookResultListFragment? {
+        return if (isDualPane) {
+            val subRouter = Router(supportFragmentManager, R.id.activity_book_search_nav_host_container)
+            subRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
+        } else {
+            contentRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
         }
     }
 

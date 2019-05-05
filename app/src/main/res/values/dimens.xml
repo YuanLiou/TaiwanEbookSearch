@@ -6,4 +6,7 @@
 
     <dimen name="list_book_cover_width">96dp</dimen>
     <dimen name="list_book_cover_height">133dp</dimen>
+
+    <dimen name="search_records_max_height">300dp</dimen>
+    <dimen name="search_records_item_height">48dp</dimen>
 </resources>

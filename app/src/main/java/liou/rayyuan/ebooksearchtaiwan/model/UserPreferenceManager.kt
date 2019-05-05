@@ -15,6 +15,7 @@ class UserPreferenceManager(context: Context) {
         const val KEY_USE_CHROME_CUSTOM_VIEW = "app_option_preference__use_chrome_custom_view"
         const val KEY_BOOK_STORE_SORT = "key-book-store-sort"
         const val KEY_PREFER_BROWSER = "preference_custom_tab_prefer_browser"
+        const val KEY_CLEAN_SEARCH_RECORD = "key-clean-up-search-record"
         const val VALUE_LIGHT_THEME = "light"
         const val VALUE_DARK_THEME = "dark"
 

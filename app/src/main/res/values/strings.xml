@@ -58,4 +58,9 @@
     <string name="summary_reorder_bookstore">Reorder search results by the book store</string>
     <string name="preference_custom_tab_prefer_browser">Default Browser</string>
     <string name="preference_custom_tab_prefer_browser_summary">Choose the default browser to open book link</string>
+    <string name="alert_dialog_delete_search_records">Delete Record</string>
+    <string name="alert_dialog_delete_search_record_message">Do you want to delete %1$s?</string>
+    <string name="preference_clean_all_records">Clean Search History</string>
+    <string name="dialog_clean_all_records">Do you want to clean all records?</string>
+    <string name="dialog_clean_all_records_cleaned">All search records have been cleaned</string>
 </resources>

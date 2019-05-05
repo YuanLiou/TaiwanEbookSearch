@@ -6,6 +6,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-android-extensions")
     id("io.fabric")
+    kotlin("kapt")
 }
 apply(from = "../gradle/detekt.gradle")
 
@@ -23,6 +24,11 @@ val ADMOB_UNIT_ID: String by project
 
 android {
     compileSdkVersion(28)
+
+    packagingOptions {
+        pickFirst("META-INF/atomicfu.kotlin_module")
+    }
+
     defaultConfig {
         applicationId = "liou.rayyuan.ebooksearchtaiwan"
         minSdkVersion(21)
@@ -30,6 +36,20 @@ android {
         versionCode = getVersionCodeTimeStamps()
         versionName = rootProject.extra.get("app_version").toString()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = mapOf("room.schemaLocation" to "$projectDir/schemas")
+            }
+        }
+    }
+
+    sourceSets {
+//        test.assets.srcDirs += files("$projectDir/schemas")
+    }
+
+    dataBinding {
+        isEnabled = true
     }
 
     signingConfigs {
@@ -93,6 +113,7 @@ tasks.register("checkVersionCode") {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation("com.github.YuanLiou:chrome-custom-tab-helper:1.1.1")
+    implementation("com.jakewharton.threetenabp:threetenabp:1.2.0")
 
     // region Android X Libraries
     val androidx_version = rootProject.extra.get("androidx_version")
@@ -113,7 +134,7 @@ dependencies {
     // Kotlin
     val kotlin_version = rootProject.extra.get("kotlin_version")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.0")
 
     // Fresco
     val fresco_version = rootProject.extra.get("fresco_version")
@@ -123,7 +144,7 @@ dependencies {
     // Firebase
     implementation("com.google.firebase:firebase-core:16.0.6")
     implementation("com.google.firebase:firebase-ads:17.1.2")
-    implementation("com.google.firebase:firebase-ml-vision:18.0.2")
+    implementation("com.google.firebase:firebase-ml-vision:19.0.3")
     implementation("com.google.firebase:firebase-config:16.1.2")
     implementation("com.crashlytics.sdk.android:crashlytics:2.9.6")
 
@@ -140,8 +161,15 @@ dependencies {
     implementation("org.koin:koin-android:$koin_version")
     implementation("org.koin:koin-android-viewmodel:$koin_version")
 
+    // Room
+    val roomVersion = rootProject.extra.get("room_version")
+    implementation("androidx.room:room-runtime:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.paging:paging-runtime:2.1.0")
+
 // disable for Google Play instant App testing
-//    debugImplementation("com.amitshekhar.android:debug-db:1.0.4")
+    debugImplementation("com.amitshekhar.android:debug-db:1.0.6")
+
     testImplementation("junit:junit:4.12")
     androidTestImplementation("androidx.test:runner:1.1.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.1.0")

@@ -65,6 +65,11 @@ class BookStoreReorderActivity : BaseActivity(), OnStartDragListener {
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.pure_white))
     }
 
+    override fun onDestroy() {
+        adapter.release()
+        super.onDestroy()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.reorder_page, menu)
         checkMarkerOption = menu.findItem(R.id.reorder_page_menu_action_check)

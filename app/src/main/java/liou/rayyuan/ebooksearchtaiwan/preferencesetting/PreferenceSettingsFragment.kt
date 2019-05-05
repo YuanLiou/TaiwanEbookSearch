@@ -3,11 +3,18 @@ package liou.rayyuan.ebooksearchtaiwan.preferencesetting
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AlertDialog
 import androidx.preference.ListPreference
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.model.UserPreferenceManager
+import liou.rayyuan.ebooksearchtaiwan.model.dao.SearchRecordDao
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import org.koin.android.ext.android.inject
 
@@ -17,12 +24,15 @@ import org.koin.android.ext.android.inject
 class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private val quickChecker: QuickChecker by inject()
+    private val searchRecordDao: SearchRecordDao by inject()
+
     internal var callback: PreferencesChangeCallback? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
         val preferCustomTabs = findPreference(UserPreferenceManager.KEY_USE_CHROME_CUSTOM_VIEW) as SwitchPreferenceCompat
         val choosePreferBrowser = findPreference(UserPreferenceManager.KEY_PREFER_BROWSER) as ListPreference
+        val cleanSearchRecord = findPreference(UserPreferenceManager.KEY_CLEAN_SEARCH_RECORD) as Preference
 
         if (quickChecker.isTabletSize()) {
             with(preferCustomTabs) {
@@ -46,6 +56,46 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
                 }
             }
         }
+
+        cleanSearchRecord.setOnPreferenceClickListener {
+            context?.run {
+                AlertDialog.Builder(this)
+                        .setTitle(R.string.preference_clean_all_records)
+                        .setMessage(R.string.dialog_clean_all_records)
+                        .setPositiveButton(R.string.dialog_ok) { dialog, _ ->
+                            deleteAllSearchRecords()
+                            dialog.dismiss()
+                        }
+                        .setNegativeButton(R.string.dialog_cancel) { dialog, _ -> dialog.dismiss() }
+                        .create().show()
+            }
+
+            true
+        }
+    }
+
+    private fun deleteAllSearchRecords() {
+        CoroutineScope(Dispatchers.IO).launch {
+            searchRecordDao.deleteAllRecords()
+
+            withContext(Dispatchers.Main) {
+                showDeleteSearchRecordsSuccessDialog()
+            }
+        }
+    }
+
+    private fun showDeleteSearchRecordsSuccessDialog() {
+        if (isAdded && isResumed) {
+            context?.run {
+                AlertDialog.Builder(this)
+                        .setTitle(R.string.preference_clean_all_records)
+                        .setMessage(R.string.dialog_clean_all_records_cleaned)
+                        .setPositiveButton(R.string.dialog_ok) { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .create().show()
+            }
+        }
     }
 
     override fun onResume() {
@@ -56,6 +106,11 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
     override fun onPause() {
         super.onPause()
         preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onDestroy() {
+        callback = null
+        super.onDestroy()
     }
 
     //region SharedPreferences.OnSharedPreferenceChangeListener

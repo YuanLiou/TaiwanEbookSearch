@@ -17,7 +17,7 @@ import liou.rayyuan.ebooksearchtaiwan.view.ListItemTouchListener
 import liou.rayyuan.ebooksearchtaiwan.view.OnStartDragListener
 import java.util.*
 
-class BookstoreNameAdapter(private val listener: OnStartDragListener): RecyclerView.Adapter<BookstoreNameAdapter.BookstoreViewHolder>(),
+class BookstoreNameAdapter(private var listener: OnStartDragListener?): RecyclerView.Adapter<BookstoreNameAdapter.BookstoreViewHolder>(),
         ListItemTouchListener {
 
     private val bookStores = mutableListOf<DefaultStoreNames>()
@@ -42,7 +42,7 @@ class BookstoreNameAdapter(private val listener: OnStartDragListener): RecyclerV
             holder.bookstoreReorderImage.setOnTouchListener(object : View.OnTouchListener {
                 override fun onTouch(v: View, event: MotionEvent): Boolean {
                     if (event.actionMasked == MotionEvent.ACTION_DOWN) {
-                        listener.onStartDrag(holder)
+                        listener?.onStartDrag(holder)
                     }
 
                     return false
@@ -73,6 +73,10 @@ class BookstoreNameAdapter(private val listener: OnStartDragListener): RecyclerV
 
         notifyItemMoved(fromPosition, toPosition)
         Log.i("BookstoreNameAdapter", "onItemMove, list is = $bookStores")
+    }
+
+    fun release() {
+        listener = null
     }
 
     class BookstoreViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), ListDraggingViewHolderHelper {

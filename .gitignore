@@ -4,6 +4,8 @@
 app/.project
 app/.settings
 app/.classpath
+app/schemas
+app/schemas/*
 
 
 # Created by .ignore support plugin (hsz.mobi)

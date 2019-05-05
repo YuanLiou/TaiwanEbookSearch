@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+        <variable
+            name="search_record"
+            type="liou.rayyuan.ebooksearchtaiwan.model.entity.SearchRecord"
+            />
+    </data>
+
+    <FrameLayout
+        android:id="@+id/adapter_search_record_rootview"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/search_records_item_height"
+        android:background="?selectableItemBackground"
+        >
+
+        <TextView
+            android:id="@+id/adapter_search_record_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="16sp"
+            android:paddingStart="16dp"
+            android:text="@{search_record.resultText}"
+            tools:text="@tools:sample/cities"
+            />
+
+        <ImageView
+            android:id="@+id/adapter_search_record_close_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:padding="12dp"
+            android:src="@drawable/ic_baseline_clear_24px"
+            android:background="?selectableItemBackgroundBorderless"
+            android:tint="@color/dark_gray"
+            />
+
+    </FrameLayout>
+</layout>
