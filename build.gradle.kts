@@ -3,6 +3,11 @@
 buildscript {
     val kotlin_version by extra("1.3.31")
     val detekt_version by extra("1.0.0.RC9.2")
+
+    val isUseUnstableBuildTool = (project.properties["useUnstableGradleBuildTool"] as? String)?.toBoolean()
+        ?: false
+    println("is use unstable build tool = $isUseUnstableBuildTool")
+
     repositories {
         google()
         jcenter()
@@ -11,7 +16,11 @@ buildscript {
         maven(url = "https://plugins.gradle.org/m2/")
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:3.4.0")
+        if (isUseUnstableBuildTool) {
+            classpath("com.android.tools.build:gradle:3.5.0-rc03")
+        } else {
+            classpath("com.android.tools.build:gradle:3.4.2")
+        }
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
         classpath("com.google.gms:google-services:4.2.0")
         classpath("io.fabric.tools:gradle:1.28.1")
