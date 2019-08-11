@@ -112,8 +112,8 @@ tasks.register("checkVersionCode") {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation("com.github.YuanLiou:chrome-custom-tab-helper:1.1.1")
-    implementation("com.jakewharton.threetenabp:threetenabp:1.2.0")
+    implementation("liou.rayyuan.chromecustomtabhelper:chrome-custom-tab-helper:1.1.1")
+    implementation("com.jakewharton.threetenabp:threetenabp:1.2.1")
 
     // region Android X Libraries
     val androidx_version = rootProject.extra.get("androidx_version")
@@ -127,7 +127,7 @@ dependencies {
     // Java8 support for Lifecycles
     implementation("androidx.lifecycle:lifecycle-common-java8:2.0.0")
     // KTX
-    implementation("androidx.core:core-ktx:1.0.1")
+    implementation("androidx.core:core-ktx:1.0.2")
     implementation("androidx.fragment:fragment-ktx:1.0.0")
     // endregion of Android X Libraries
 
@@ -152,7 +152,6 @@ dependencies {
     val retrofit_version = rootProject.extra.get("retrofit_version")
     implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
     implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
-    implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
     implementation("com.itkacher.okhttpprofiler:okhttpprofiler:1.0.5")
     implementation("com.google.code.gson:gson:2.8.5")
 

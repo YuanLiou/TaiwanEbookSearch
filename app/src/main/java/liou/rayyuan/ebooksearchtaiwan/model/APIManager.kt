@@ -1,10 +1,10 @@
 package liou.rayyuan.ebooksearchtaiwan.model
 
 import com.itkacher.okhttpprofiler.OkHttpProfilerInterceptor
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.model.entity.BookStores
 import okhttp3.OkHttpClient
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -35,14 +35,13 @@ class APIManager {
         val retrofit = Retrofit.Builder()
             .baseUrl(BuildConfig.HOST_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(httpClient)
             .build()
 
         bookSearchService = retrofit.create(BookSearchService::class.java)
     }
 
-    fun getBooks(keywords: String): NetworkRequest<BookStores> {
-        return NetworkRequest(bookSearchService.getBooks(keywords))
+    suspend fun getBooks(keywords: String): Response<BookStores> {
+        return bookSearchService.getBooks(keywords)
     }
 }

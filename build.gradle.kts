@@ -31,16 +31,15 @@ buildscript {
 val app_version by extra("1.9")
 
 val androidx_version by extra("1.0.0")
-val retrofit_version by extra("2.5.0")
+val retrofit_version by extra("2.6.1")
 val fresco_version by extra("1.13.0")
-val koin_version by extra("2.0.0-rc-2")
+val koin_version by extra("2.0.1")
 val room_version by extra("2.0.0-beta01")
 
 allprojects {
     repositories {
         google()
         jcenter()
-        maven(url = "https://jitpack.io")
     }
 }
 
