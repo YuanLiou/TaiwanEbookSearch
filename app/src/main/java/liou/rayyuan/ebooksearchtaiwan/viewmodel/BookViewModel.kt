@@ -24,16 +24,16 @@ class BookViewModel(private val book: Book) {
 
     fun getPrice(): String {
         if (book.priceCurrency == "TWD") {
-            val price:Int = book.price.toInt()
+            val price: Int = book.price.toInt()
             return "$" + price + " " + book.priceCurrency
         }
 
         return "$" + book.price + " " + book.priceCurrency
     }
 
-    fun getShopName(context: Context): String = book.bookStore?.let {
+    fun getShopName(context: Context): String = book.bookStore.let {
         DefaultStoreNames.values()
                 .find { enumValues -> enumValues.defaultName == it }
                 ?.run { getLocalizedName(context )} ?: ""
-    } ?: ""
+    }
 }

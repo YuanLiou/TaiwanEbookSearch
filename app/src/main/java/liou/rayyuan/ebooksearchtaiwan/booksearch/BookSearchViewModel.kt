@@ -15,6 +15,7 @@ import liou.rayyuan.ebooksearchtaiwan.utils.Utils
 import liou.rayyuan.ebooksearchtaiwan.view.FullBookStoreResultAdapter
 import okhttp3.ResponseBody
 import org.threeten.bp.OffsetDateTime
+import java.net.SocketTimeoutException
 
 /**
  * Created by louis383 on 2017/12/2.
@@ -23,11 +24,13 @@ class BookSearchViewModel(private val apiManager: APIManager,
                           private val preferenceManager: UserPreferenceManager,
                           private val eventTracker: EventTracker,
                           private val quickChecker: QuickChecker,
-                          private val searchRecordDao: SearchRecordDao) : ViewModel(), OnNetworkConnectionListener<BookStores> {
+                          private val searchRecordDao: SearchRecordDao) : ViewModel() {
     companion object {
         const val NO_MESSAGE = -1
+        const val GENERIC_NETWORK_ISSUE = "generic-network-issue"
     }
 
+    //region ViewStates
     private val _listViewState = MutableLiveData<ListViewState>()
     internal val listViewState: LiveData<ListViewState>
         get() = _listViewState
@@ -39,6 +42,7 @@ class BookSearchViewModel(private val apiManager: APIManager,
     private val _searchRecordState = MutableLiveData<SearchRecordStates>()
     internal val searchRecordState: LiveData<SearchRecordStates>
         get() = _searchRecordState
+    //endregion
 
     internal val searchRecordLiveData = run {
         val factory = searchRecordDao.getSearchRecordsPaged()
@@ -52,8 +56,7 @@ class BookSearchViewModel(private val apiManager: APIManager,
         pagedListBuilder.build()
     }
 
-    private var bookStoresRequest: NetworkRequest<BookStores>? = null
-
+    private var networkJob: Job? = null
     private val dataSetJob = Job()
     private val backgroundScope = CoroutineScope(Dispatchers.IO + dataSetJob)
 
@@ -131,10 +134,31 @@ class BookSearchViewModel(private val apiManager: APIManager,
                     forceStopRequestingBookData()
                 }
 
-                bookStoresRequest = getBookList(keyword, true)
                 _listViewState.value = ListViewState.Prepare(true)
-                resetCurrentResults()
-                saveKeywordToLocal(keyword)
+                networkJob = CoroutineScope(Dispatchers.IO).launch {
+                    val response = getBookList(keyword, true).await()
+                    withContext(Dispatchers.Main) {
+                        when (response) {
+                            is HttpResult.Success -> {
+                                networkRequestSuccess(response.data)
+                                resetCurrentResults()
+                                saveKeywordToLocal(keyword)
+                            }
+                            is HttpResult.Error -> {
+                                networkErrorOccurred(null)
+                            }
+                            is HttpResult.ErrorInException -> {
+                                if (response.exception is SocketTimeoutException) {
+                                    networkTimeout()
+                                } else {
+                                    val message = response.exception.localizedMessage ?: GENERIC_NETWORK_ISSUE
+                                    networkExceptionOccurred(message)
+                                }
+                            }
+                            HttpResult.Empty -> {}
+                        }
+                    }
+                }
             } else {
                 _screenViewState.value = ScreenState.NoInternetConnection
             }
@@ -225,44 +249,52 @@ class BookSearchViewModel(private val apiManager: APIManager,
         eventTracker.logEvent(EventTracker.SCANNED_ISBN)
     }
 
-    private fun getBookList(aboutSomething: String = "", force: Boolean): NetworkRequest<BookStores>? {
-        if (force || (bookStoresRequest == null && aboutSomething.isNotEmpty())) {
-            bookStoresRequest = apiManager.getBooks(aboutSomething)
-            bookStoresRequest?.listener = this
-            bookStoresRequest?.requestData()
+    private fun getBookList(aboutSomething: String = "", force: Boolean): Deferred<HttpResult<BookStores>> {
+        return CoroutineScope(Dispatchers.IO).async {
+            try {
+                if (force || (networkJob == null && aboutSomething.isNotEmpty())) {
+                    val response = apiManager.getBooks(aboutSomething)
+                    if (response.isSuccessful && response.body() != null) {
+                        HttpResult.Success(response.body()!!)
+                    } else {
+                        HttpResult.Error(null, true)
+                    }
+                } else {
+                    HttpResult.Empty
+                }
+            } catch (error: Throwable) {
+                HttpResult.ErrorInException(error)
+            }
         }
-        return bookStoresRequest
     }
 
     private fun isRequestingBookData(): Boolean {
-        return bookStoresRequest?.isConnecting() == true
+        return networkJob?.isActive ?: false
     }
 
     private fun forceStopRequestingBookData() {
-        bookStoresRequest?.cancel()
+        networkJob?.cancel()
     }
 
-    //region OnNetworkConnectionListener
-    override fun onNetworkRequestSuccess(bookStores: BookStores) {
+    private fun networkRequestSuccess(bookStores: BookStores) {
         prepareBookSearchResult(bookStores)
     }
 
-    override fun onNetworkTimeout() {
+    private fun networkTimeout() {
         _screenViewState.value = ScreenState.ConnectionTimeout
     }
 
-    override fun onNetworkErrorOccurred(errorBody: ResponseBody?) {
+    private fun networkErrorOccurred(errorBody: ResponseBody?) {
         _listViewState.value = ListViewState.Error
         _screenViewState.value = ScreenState.NetworkError
     }
 
-    override fun onExceptionOccurred(message: String) {
+    private fun networkExceptionOccurred(message: String) {
         _listViewState.value = ListViewState.Error
-        if (message == NetworkRequest.GENERIC_NETWORK_ISSUE) {
+        if (message == GENERIC_NETWORK_ISSUE) {
             _screenViewState.value = ScreenState.NetworkError
         } else {
             _screenViewState.value = ScreenState.ShowToastMessage(-1, message)
         }
     }
-    //endregion
 }
