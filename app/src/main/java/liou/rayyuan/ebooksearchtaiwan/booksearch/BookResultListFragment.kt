@@ -44,7 +44,7 @@ import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
 import liou.rayyuan.ebooksearchtaiwan.view.BookResultClickHandler
 import liou.rayyuan.ebooksearchtaiwan.view.FullBookStoreResultAdapter
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultClickHandler,
         SearchRecordAdapter.OnSearchRecordsClickListener {

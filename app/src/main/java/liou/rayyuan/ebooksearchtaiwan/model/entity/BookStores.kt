@@ -1,5 +1,7 @@
 package liou.rayyuan.ebooksearchtaiwan.model.entity
 
+import kotlinx.serialization.Serializable
+
 /*
 *
 {
@@ -14,11 +16,12 @@ package liou.rayyuan.ebooksearchtaiwan.model.entity
 }
 * }
 */
-data class BookStores(val booksCompany: List<Book>?,
-                      val readmoo: List<Book>?,
-                      val kobo: List<Book>?,
-                      val taaze: List<Book>?,
-                      val bookWalker: List<Book>?,
-                      val playStore: List<Book>?,
-                      val pubu: List<Book>?,
-                      val hyread: List<Book>?)
+@Serializable
+data class BookStores(val booksCompany: List<Book>? = null,
+                      val readmoo: List<Book>? = null,
+                      val kobo: List<Book>? = null,
+                      val taaze: List<Book>? = null,
+                      val bookWalker: List<Book>? = null,
+                      val playStore: List<Book>? = null,
+                      val pubu: List<Book>? = null,
+                      val hyread: List<Book>? = null)

@@ -3,6 +3,8 @@ package liou.rayyuan.ebooksearchtaiwan.model.entity
 import android.annotation.SuppressLint
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
 /**
  * Created by louis383 on 2017/11/29.
@@ -30,17 +32,20 @@ import kotlinx.android.parcel.Parcelize
 // Update Entity to API version: 20180806
 @SuppressLint("ParcelCreator")
 @Parcelize
+@Serializable
 data class Book(val thumbnail: String = "",
                 val priceCurrency: String = "",
                 val price: Float = 0.0f,
-                val translators: List<String>?,
+                val translators: List<String>? = listOf(),
+                val translator: String = "",
                 val link: String = "",
                 val about: String = "",
                 val publisher: String? = "",
                 val id: String = "",
                 val title: String = "",
-                val authors: List<String>?,
-                val painters: List<String>?,
-                var bookStore: String = "",
+                val authors: List<String>? = listOf(),
+                val painters: List<String>? = listOf(),
                 val nonDrmPrice: Float = 0.0f,
-                var isFirstChoice: Boolean) : Parcelable, AdapterItem
+                val publishDate: String = "",
+                @Transient var bookStore: String = "",
+                @Transient var isFirstChoice: Boolean = false) : Parcelable, AdapterItem

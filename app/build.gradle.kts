@@ -6,6 +6,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-android-extensions")
     id("io.fabric")
+    id("kotlinx-serialization")
     kotlin("kapt")
 }
 apply(from = "../gradle/detekt.gradle")
@@ -135,6 +136,7 @@ dependencies {
     val kotlin_version = rootProject.extra.get("kotlin_version")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.11.1")
 
     // Fresco
     val fresco_version = rootProject.extra.get("fresco_version")
@@ -151,14 +153,13 @@ dependencies {
     // Retrofit 2
     val retrofit_version = rootProject.extra.get("retrofit_version")
     implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
-    implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
     implementation("com.itkacher.okhttpprofiler:okhttpprofiler:1.0.5")
-    implementation("com.google.code.gson:gson:2.8.5")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.4.0")
 
     // Koin
     val koin_version = rootProject.extra.get("koin_version")
     implementation("org.koin:koin-android:$koin_version")
-    implementation("org.koin:koin-android-viewmodel:$koin_version")
+    implementation("org.koin:koin-androidx-viewmodel:$koin_version")
 
     // Room
     val roomVersion = rootProject.extra.get("room_version")

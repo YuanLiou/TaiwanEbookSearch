@@ -1,12 +1,14 @@
 package liou.rayyuan.ebooksearchtaiwan.model
 
 import com.itkacher.okhttpprofiler.OkHttpProfilerInterceptor
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.serialization.json.Json
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.model.entity.BookStores
+import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 class APIManager {
@@ -32,9 +34,10 @@ class APIManager {
         }
         val httpClient = httpClientBuilder.build()
 
+        val contentType = MediaType.get("application/json")
         val retrofit = Retrofit.Builder()
             .baseUrl(BuildConfig.HOST_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(Json.asConverterFactory(contentType))
             .client(httpClient)
             .build()
 

@@ -5,7 +5,7 @@ import liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchViewModel
 import liou.rayyuan.ebooksearchtaiwan.model.*
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import org.koin.android.ext.koin.androidApplication
-import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 /**
