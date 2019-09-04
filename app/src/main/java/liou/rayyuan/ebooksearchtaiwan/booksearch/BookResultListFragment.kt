@@ -108,7 +108,7 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         if (savedInstanceState != null) {
-            val recyclerViewState = savedInstanceState.getParcelable(BUNDLE_RECYCLERVIEW_STATE) as Parcelable
+            val recyclerViewState = savedInstanceState.getParcelable<Parcelable>(BUNDLE_RECYCLERVIEW_STATE)
             resultsRecyclerView.layoutManager?.onRestoreInstanceState(recyclerViewState)
 
             val recyclerViewPosition = savedInstanceState.getInt(KEY_RECYCLERVIEW_POSITION, 0)

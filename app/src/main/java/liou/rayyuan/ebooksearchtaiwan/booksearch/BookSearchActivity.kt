@@ -64,7 +64,7 @@ class BookSearchActivity : BaseActivity(), ChromeCustomTabsHelper.Fallback,
             }
         } else {
             if (savedInstanceState.getString(KEY_LAST_FRAGMENT_TAG) != null) {
-                val lastFragmentTag = savedInstanceState.getString(KEY_LAST_FRAGMENT_TAG)
+                val lastFragmentTag = savedInstanceState.getString(KEY_LAST_FRAGMENT_TAG) ?: return
                 val lastFragment = contentRouter.findFragmentByTag(lastFragmentTag)
                 (lastFragment as? SimpleWebViewFragment)?.onSimpleWebviewActionListener = this
             }

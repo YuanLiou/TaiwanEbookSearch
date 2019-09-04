@@ -24,7 +24,7 @@ val ADMOB_TEST_DEVICE_ID: String by project
 val ADMOB_UNIT_ID: String by project
 
 android {
-    compileSdkVersion(28)
+    compileSdkVersion(29)
 
     packagingOptions {
         pickFirst("META-INF/atomicfu.kotlin_module")
@@ -33,7 +33,7 @@ android {
     defaultConfig {
         applicationId = "liou.rayyuan.ebooksearchtaiwan"
         minSdkVersion(21)
-        targetSdkVersion(28)
+        targetSdkVersion(29)
         versionCode = getVersionCodeTimeStamps()
         versionName = rootProject.extra.get("app_version").toString()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

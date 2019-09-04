@@ -168,7 +168,9 @@ class CameraPreviewManager(private val context: Context, private val textureView
                 backgroundHandler = this.backgroundHandler
             }
 
-            cameraManager.openCamera(cameraId, cameraDeviceCallback(), backgroundHandler)
+            cameraId?.run {
+                cameraManager.openCamera(this, cameraDeviceCallback(), backgroundHandler)
+            } ?: cameraCallback?.onError("camera id is empty")
         }
     }
 
@@ -201,9 +203,8 @@ class CameraPreviewManager(private val context: Context, private val textureView
 
         synchronized(cameraStateLock) {
             cameraCharacteristics?.run {
-                val map = get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
-
-                val largestSize = map.getOutputSizes(ImageFormat.JPEG).maxWith(CompareAreaSize())
+                val map = get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP) ?: return
+                val largestSize = map.getOutputSizes(ImageFormat.JPEG)?.maxWith(CompareAreaSize()) ?: return
 
                 // find the rotation of the device relative to the native device orientation
                 val deviceOrientation = displaySizeRequireHandler?.getDisplayOrientation() ?: return
@@ -232,14 +233,11 @@ class CameraPreviewManager(private val context: Context, private val textureView
                 }
 
                 // find best preview size for these view dimensions and configured JPEG size
-                val previewSize = largestSize?.let {
-                    chooseOptimalSize(map.getOutputSizes(SurfaceTexture::class.java),
-                            rotatedViewWidth, rotatedViewHeight, maxPreviewWidth, maxPreviewHeight,
-                            it)
-                }
+                val outputSizes = map.getOutputSizes(SurfaceTexture::class.java)
+                val previewSize = chooseOptimalSize(outputSizes, rotatedViewWidth,
+                        rotatedViewHeight, maxPreviewWidth, maxPreviewHeight, largestSize)
 
                 previewSize?.run {
-
                     if (swappedDimension) {
                         textureView.setAspectRatio(this.height, this.width)
                     } else {
@@ -369,7 +367,7 @@ class CameraPreviewManager(private val context: Context, private val textureView
     }
 
     private fun cameraDeviceCallback(): CameraDevice.StateCallback = object : CameraDevice.StateCallback() {
-        override fun onOpened(cameraDevice: CameraDevice?) {
+        override fun onOpened(cameraDevice: CameraDevice) {
             synchronized(cameraStateLock) {
                 cameraState = CameraState.OPENED
                 cameraOpenCloseLock.release()
@@ -385,20 +383,20 @@ class CameraPreviewManager(private val context: Context, private val textureView
             }
         }
 
-        override fun onDisconnected(cameraDevice: CameraDevice?) {
+        override fun onDisconnected(cameraDevice: CameraDevice) {
             synchronized(cameraStateLock) {
                 cameraState = CameraState.CLOSED
                 cameraOpenCloseLock.release()
-                cameraDevice?.close()
+                cameraDevice.close()
                 camera = null
             }
         }
 
-        override fun onError(cameraDevice: CameraDevice?, error: Int) {
+        override fun onError(cameraDevice: CameraDevice, error: Int) {
             synchronized(cameraStateLock) {
                 cameraState = CameraState.CLOSED
                 cameraOpenCloseLock.release()
-                cameraDevice?.close()
+                cameraDevice.close()
                 camera = null
             }
 
@@ -425,7 +423,7 @@ class CameraPreviewManager(private val context: Context, private val textureView
         captureRequestBuilder?.addTarget(imageReaderSurface!!)
 
         camera?.createCaptureSession(listOf(surface, imageReaderSurface), object : CameraCaptureSession.StateCallback() {
-            override fun onConfigured(cameraCaptureSession: CameraCaptureSession?) {
+            override fun onConfigured(cameraCaptureSession: CameraCaptureSession) {
                 synchronized(cameraStateLock) {
                     if (camera == null) {
                         return
@@ -435,14 +433,14 @@ class CameraPreviewManager(private val context: Context, private val textureView
                     captureRequestBuilder?.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE)
                     val previewRequest = captureRequestBuilder?.build()
                     previewRequest?.run {
-                        cameraCaptureSession?.setRepeatingRequest(this, null, backgroundHandler)
+                        cameraCaptureSession.setRepeatingRequest(this, null, backgroundHandler)
 
                         cameraState = CameraState.PREVIEW
                     }
                 }
             }
 
-            override fun onConfigureFailed(captureSession: CameraCaptureSession?) {
+            override fun onConfigureFailed(captureSession: CameraCaptureSession) {
                 val message = context.getString(R.string.camera_opening_failed)
                 uiHandler?.obtainMessage(UIHandler.sendMessage, message)?.sendToTarget()
             }
