@@ -13,5 +13,4 @@ object Utils {
                 DefaultStoreNames.PUBU,
                 DefaultStoreNames.HYREAD)
     }
-
 }
