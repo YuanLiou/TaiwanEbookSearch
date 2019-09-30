@@ -118,18 +118,18 @@ dependencies {
 
     // region Android X Libraries
     val androidx_version = rootProject.extra.get("androidx_version")
-    implementation("androidx.appcompat:appcompat:1.0.2")
+    implementation("androidx.appcompat:appcompat:1.1.0")
     implementation("androidx.recyclerview:recyclerview:$androidx_version")
     implementation("androidx.cardview:cardview:$androidx_version")
     implementation("androidx.preference:preference:$androidx_version")
     implementation("com.google.android.material:material:$androidx_version")
     // ViewModel and LiveData
-    implementation("androidx.lifecycle:lifecycle-extensions:2.0.0")
+    implementation("androidx.lifecycle:lifecycle-extensions:2.1.0")
     // Java8 support for Lifecycles
-    implementation("androidx.lifecycle:lifecycle-common-java8:2.0.0")
+    implementation("androidx.lifecycle:lifecycle-common-java8:2.1.0")
     // KTX
-    implementation("androidx.core:core-ktx:1.0.2")
-    implementation("androidx.fragment:fragment-ktx:1.0.0")
+    implementation("androidx.core:core-ktx:1.1.0")
+    implementation("androidx.fragment:fragment-ktx:1.1.0")
     // endregion of Android X Libraries
 
     // Kotlin
@@ -144,11 +144,11 @@ dependencies {
     implementation("com.facebook.fresco:imagepipeline-okhttp3:$fresco_version")
 
     // Firebase
-    implementation("com.google.firebase:firebase-core:16.0.6")
-    implementation("com.google.firebase:firebase-ads:17.1.2")
-    implementation("com.google.firebase:firebase-ml-vision:19.0.3")
-    implementation("com.google.firebase:firebase-config:16.1.2")
-    implementation("com.crashlytics.sdk.android:crashlytics:2.9.6")
+    implementation("com.google.firebase:firebase-core:17.2.0")
+    implementation("com.google.firebase:firebase-ads:18.2.0")
+    implementation("com.google.firebase:firebase-ml-vision:23.0.0")
+    implementation("com.google.firebase:firebase-config:19.0.2")
+    implementation("com.crashlytics.sdk.android:crashlytics:2.10.1")
 
     // Retrofit 2
     val retrofit_version = rootProject.extra.get("retrofit_version")

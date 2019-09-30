@@ -32,10 +32,10 @@ buildscript {
 val app_version by extra("1.9")
 
 val androidx_version by extra("1.0.0")
-val retrofit_version by extra("2.6.1")
+val retrofit_version by extra("2.6.2")
 val fresco_version by extra("2.0.0")
 val koin_version by extra("2.0.1")
-val room_version by extra("2.0.0-beta01")
+val room_version by extra("2.0.0-rc01")
 
 allprojects {
     repositories {

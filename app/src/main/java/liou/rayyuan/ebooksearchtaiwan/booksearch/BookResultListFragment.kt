@@ -236,32 +236,30 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        item?.let {
-            return when (it.itemId) {
-                R.id.search_page_menu_action_setting -> {
-                    if (isAdded && activity is BookSearchActivity) {
-                        (activity as BookSearchActivity).openPreferenceActivity()
-                    }
-                    true
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.search_page_menu_action_setting -> {
+                if (isAdded && activity is BookSearchActivity) {
+                    (activity as BookSearchActivity).openPreferenceActivity()
                 }
-                R.id.search_page_menu_action_share -> {
-                    val targetKeyword = searchEditText.text.toString()
-                    if (!TextUtils.isEmpty(targetKeyword)) {
-                        val text = "https://taiwan-ebook-lover.github.io/search?q=$targetKeyword"
-                        val intent = Intent(Intent.ACTION_SEND)
-                        with(intent) {
-                            type = "text/plain"
-                            putExtra(Intent.EXTRA_SUBJECT, "From " + getString(R.string.app_name))
-                            putExtra(Intent.EXTRA_TEXT, text)
-                        }
-                        startActivity(Intent.createChooser(intent, getString(R.string.menu_share_menu_appear)))
-                    }
-                    true
-                }
-                else -> true
+                true
             }
-        } ?: return super.onOptionsItemSelected(item)
+            R.id.search_page_menu_action_share -> {
+                val targetKeyword = searchEditText.text.toString()
+                if (!TextUtils.isEmpty(targetKeyword)) {
+                    val text = "https://taiwan-ebook-lover.github.io/search?q=$targetKeyword"
+                    val intent = Intent(Intent.ACTION_SEND)
+                    with(intent) {
+                        type = "text/plain"
+                        putExtra(Intent.EXTRA_SUBJECT, "From " + getString(R.string.app_name))
+                        putExtra(Intent.EXTRA_TEXT, text)
+                    }
+                    startActivity(Intent.createChooser(intent, getString(R.string.menu_share_menu_appear)))
+                }
+                true
+            }
+            else -> true
+        }
     }
 
     private fun loadAds() {
@@ -545,7 +543,7 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
 
     private fun isCameraAvailable(): Boolean {
         if (isAdded) {
-            return activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_CAMERA) ?: false
+            return activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY) ?: false
         }
         return false
     }
