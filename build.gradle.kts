@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    val kotlin_version by extra("1.3.31")
+    val kotlin_version by extra("1.3.50")
     val detekt_version by extra("1.0.0.RC9.2")
 
     val isUseUnstableBuildTool = (project.properties["useUnstableGradleBuildTool"] as? String)?.toBoolean()
@@ -32,10 +32,10 @@ buildscript {
 val app_version by extra("1.9")
 
 val androidx_version by extra("1.0.0")
-val retrofit_version by extra("2.6.1")
+val retrofit_version by extra("2.6.2")
 val fresco_version by extra("2.0.0")
 val koin_version by extra("2.0.1")
-val room_version by extra("2.0.0-beta01")
+val room_version by extra("2.0.0-rc01")
 
 allprojects {
     repositories {

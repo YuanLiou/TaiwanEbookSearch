@@ -49,7 +49,7 @@ class SimpleWebViewFragment: BaseFragment(), View.OnClickListener, Toolbar.OnMen
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState != null) {
-            book = savedInstanceState.getParcelable(KEY_BOOK) as Book
+            book = savedInstanceState.getParcelable(KEY_BOOK)!!
             showCloseButton = savedInstanceState.getBoolean(KEY_SHOW_CLOSE_BUTTON, false)
         }
     }

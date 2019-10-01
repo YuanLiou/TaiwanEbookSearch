@@ -2,7 +2,6 @@
 <resources>
     <color name="colorAccent">#ff4081</color>
 
-
     <!-- light theme -->
     <color name="blue_green">#0EB29B</color>
     <color name="blue_green_dark">#00826D</color>

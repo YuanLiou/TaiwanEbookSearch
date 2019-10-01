@@ -19,5 +19,9 @@ enum class DefaultStoreNames(val defaultName: String, @StringRes val defaultResI
         private val map = DefaultStoreNames.values().associateBy { it.defaultName }
         fun fromName(storeName: String): DefaultStoreNames? = map[storeName]
     }
+
+    fun isSame(passedValue: DefaultStoreNames): Boolean {
+        return defaultName == passedValue.defaultName
+    }
 }
 

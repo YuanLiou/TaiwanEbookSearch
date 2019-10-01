@@ -15,10 +15,10 @@ import liou.rayyuan.ebooksearchtaiwan.model.UserPreferenceManager
 import liou.rayyuan.ebooksearchtaiwan.utils.Utils
 import liou.rayyuan.ebooksearchtaiwan.utils.bindView
 import liou.rayyuan.ebooksearchtaiwan.view.ListItemTouchCallback
-import liou.rayyuan.ebooksearchtaiwan.view.OnStartDragListener
+import liou.rayyuan.ebooksearchtaiwan.view.OnBookStoreItemChangedListener
 import org.koin.android.ext.android.inject
 
-class BookStoreReorderActivity : BaseActivity(), OnStartDragListener {
+class BookStoreReorderActivity : BaseActivity(), OnBookStoreItemChangedListener {
 
     private val toolbar: Toolbar by bindView(R.id.activity_reorder_layout_toolbar)
     private val recyclerView: RecyclerView by bindView(R.id.activity_reorder_recyclerview)
@@ -93,12 +93,19 @@ class BookStoreReorderActivity : BaseActivity(), OnStartDragListener {
         return super.onOptionsItemSelected(item)
     }
 
-    //region OnStartDragListener
-    override fun onStartDrag(viewhoder: RecyclerView.ViewHolder) {
+    //region OnBookStoreItemChangedListener
+    override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
         if (this::itemTouchHelper.isInitialized) {
-            itemTouchHelper.startDrag(viewhoder)
+            itemTouchHelper.startDrag(viewHolder)
         }
+        showSaveSettingIcon()
+    }
 
+    override fun onStoreVisibilityChanged() {
+        showSaveSettingIcon()
+    }
+
+    private fun showSaveSettingIcon() {
         if (this::checkMarkerOption.isInitialized) {
             checkMarkerOption.isVisible = true
         }

@@ -2,7 +2,6 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/blue_green</item>
         <item name="colorPrimaryDark">@color/blue_green_dark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -21,6 +20,7 @@
         <item name="backToTopButtonDrawable">@drawable/material_rounded_button</item>
 
         <item name="colorControlNormal">@color/white_EB</item>
+        <item name="checkboxStyle">@style/CustomCheckBoxStyle</item>
     </style>
 
     <style name="FullScreenTheme" parent="AppTheme" >
@@ -43,6 +43,7 @@
         <item name="editTextHintColor">@color/white_BD</item>
         <item name="editTextInputColor">@color/pure_white</item>
         <item name="backToTopButtonDrawable">@drawable/material_rounded_button_dark_mode</item>
+        <item name="checkboxStyle">@style/CustomNightCheckBoxStyle</item>
     </style>
 
     <!-- TextView Styles -->
@@ -54,4 +55,11 @@
         <item name="android:hyphenationFrequency" tools:targetApi="m">none</item>
     </style>
 
+    <style name="CustomNightCheckBoxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="buttonTint">@color/custom_dark_check_box</item>
+    </style>
+
+    <style name="CustomCheckBoxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="buttonTint">@color/custom_check_box</item>
+    </style>
 </resources>
