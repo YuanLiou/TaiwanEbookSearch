@@ -88,6 +88,7 @@ class BookstoreNameAdapter(private var listener: OnBookStoreItemChangedListener?
         if (enable) {
             viewHolder.bookstoreCheckBox.isEnabled = true
             viewHolder.bookstoreCheckBox.isClickable = true
+            viewHolder.bookstoreCheckBox.alpha = 1.0f
             viewHolder.bookstoreTouchZone.setOnClickListener {
                 val checkBox = viewHolder.bookstoreCheckBox
                 checkBox.isChecked = !checkBox.isChecked
@@ -95,6 +96,7 @@ class BookstoreNameAdapter(private var listener: OnBookStoreItemChangedListener?
         } else {
             viewHolder.bookstoreCheckBox.isEnabled = false
             viewHolder.bookstoreCheckBox.isClickable = false
+            viewHolder.bookstoreCheckBox.alpha = 0.4f
             viewHolder.bookstoreTouchZone.setOnClickListener(null)
         }
     }
