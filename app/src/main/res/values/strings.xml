@@ -63,4 +63,7 @@
     <string name="preference_clean_all_records">Clean Search History</string>
     <string name="dialog_clean_all_records">Do you want to clean all records?</string>
     <string name="dialog_clean_all_records_cleaned">All search records have been cleaned</string>
+    <string name="preference_follow_system_theme">Follow system theme</string>
+    <string name="preference_follow_system_switch_on">App theme follows system setting.</string>
+    <string name="preference_generic_checkbox_switch_off">Disable</string>
 </resources>

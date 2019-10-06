@@ -12,6 +12,7 @@ abstract class BaseFragment: Fragment() {
     protected val remoteConfigManager: RemoteConfigManager by inject()
     protected val eventTracker: EventTracker by inject()
 
-    protected fun isDarkTheme(): Boolean = userPreferenceManager.isDarkTheme()
-
+    protected fun isDarkTheme(): Boolean {
+        return (activity as? BaseActivity)?.isDarkTheme() ?: false
+    }
 }

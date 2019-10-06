@@ -13,6 +13,15 @@
         android:title="@string/preference_category_appearance"
         >
 
+        <SwitchPreferenceCompat
+            app:key="app_option_preference_follow_system_theme"
+            app:title="@string/preference_follow_system_theme"
+            app:summaryOn="@string/preference_follow_system_switch_on"
+            app:summaryOff="@string/preference_generic_checkbox_switch_off"
+            app:defaultValue="false"
+            tools:defaultValue="true"
+            />
+
         <ListPreference
             android:key="app_option_preference_appearance_theme"
             android:title="@string/preference_appearance_theme_title"

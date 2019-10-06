@@ -3,7 +3,7 @@ package liou.rayyuan.ebooksearchtaiwan.preferencesetting
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.transaction
+import androidx.fragment.app.commit
 import kotlinx.android.synthetic.main.activity_preference.*
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.R
@@ -25,7 +25,7 @@ class PreferenceSettingsActivity : BaseActivity(), PreferenceSettingsFragment.Pr
         supportActionBar?.setHomeButtonEnabled(true)
         preference_layout_toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.pure_white))
 
-        supportFragmentManager.transaction {
+        supportFragmentManager.commit {
             replace(R.id.preference_layout_main_content, PreferenceSettingsFragment().apply {
                 callback = this@PreferenceSettingsActivity
             })
@@ -46,7 +46,7 @@ class PreferenceSettingsActivity : BaseActivity(), PreferenceSettingsFragment.Pr
 
     //region PreferenceSettingsFragment.PreferencesChangeCallback
     override fun onThemeChanged() {
-        if (isThemeChanged()) {
+        if (isThemeChanged() || isStartToFollowSystemTheme()) {
             recreate()
         }
     }
