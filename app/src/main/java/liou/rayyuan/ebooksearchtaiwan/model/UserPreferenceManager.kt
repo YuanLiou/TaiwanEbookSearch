@@ -12,6 +12,7 @@ import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
 class UserPreferenceManager(context: Context) {
     companion object {
         const val KEY_USER_THEME = "app_option_preference_appearance_theme"
+        const val KEY_USER_SYSTEM_THEME = "app_option_preference_follow_system_theme"
         const val KEY_USE_CHROME_CUSTOM_VIEW = "app_option_preference__use_chrome_custom_view"
         const val KEY_BOOK_STORE_SORT = "key-book-store-sort"
         const val KEY_PREFER_BROWSER = "preference_custom_tab_prefer_browser"
@@ -30,6 +31,10 @@ class UserPreferenceManager(context: Context) {
     private val defaultPreferences = PreferenceManager.getDefaultSharedPreferences(context)
     private val preferenceName = "ebook_search_settings"
     private val sharedPreference = context.getSharedPreferences(preferenceName, Context.MODE_PRIVATE)
+
+    fun isFollowSystemTheme(): Boolean {
+        return defaultPreferences.getBoolean(KEY_USER_SYSTEM_THEME, false)
+    }
 
     fun isDarkTheme(): Boolean {
         return defaultPreferences.getString(KEY_USER_THEME, VALUE_LIGHT_THEME) == VALUE_DARK_THEME

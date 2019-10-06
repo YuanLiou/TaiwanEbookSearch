@@ -62,4 +62,7 @@
     <string name="preference_clean_all_records">清除搜尋紀錄</string>
     <string name="dialog_clean_all_records">確定要清除所有搜尋紀錄嗎？</string>
     <string name="dialog_clean_all_records_cleaned">搜尋紀錄已清除</string>
+    <string name="preference_follow_system_theme">跟隨系統主題</string>
+    <string name="preference_follow_system_switch_on">外觀跟隨系統設定</string>
+    <string name="preference_generic_checkbox_switch_off">關閉</string>
 </resources>
