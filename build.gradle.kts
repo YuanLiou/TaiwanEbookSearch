@@ -19,17 +19,17 @@ buildscript {
         if (isUseUnstableBuildTool) {
             classpath("com.android.tools.build:gradle:3.5.0-rc03")
         } else {
-            classpath("com.android.tools.build:gradle:3.4.2")
+            classpath("com.android.tools.build:gradle:3.5.1")
         }
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
         classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlin_version")
-        classpath("com.google.gms:google-services:4.2.0")
-        classpath("io.fabric.tools:gradle:1.28.1")
+        classpath("com.google.gms:google-services:4.3.2")
+        classpath("io.fabric.tools:gradle:1.31.0")
         classpath("gradle.plugin.io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detekt_version")
     }
 }
 
-val app_version by extra("1.9")
+val app_version by extra("1.10")
 
 val androidx_version by extra("1.0.0")
 val retrofit_version by extra("2.6.2")
