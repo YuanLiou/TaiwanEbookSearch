@@ -113,7 +113,7 @@ tasks.register("checkVersionCode") {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation("liou.rayyuan.chromecustomtabhelper:chrome-custom-tab-helper:1.1.1")
+    implementation("liou.rayyuan.chromecustomtabhelper:chrome-custom-tab-helper:1.1.2")
     implementation("com.jakewharton.threetenabp:threetenabp:1.2.1")
 
     // region Android X Libraries
