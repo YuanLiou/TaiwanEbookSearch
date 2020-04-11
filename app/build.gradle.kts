@@ -85,14 +85,20 @@ android {
             resValue("string", "package_name", "liou.rayyuan.ebooksearchtaiwan")
         }
     }
+
     buildTypes.all {
         buildConfigField("String", "AD_MOB_ID", ADMOB_ID)
         buildConfigField("String", "ADMOB_TEST_DEVICE_ID", ADMOB_TEST_DEVICE_ID)
         resValue("string", "AD_MOB_UNIT_ID", ADMOB_UNIT_ID)
     }
+
     compileOptions {
         setSourceCompatibility(JavaVersion.VERSION_1_8)
         setTargetCompatibility(JavaVersion.VERSION_1_8)
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 
@@ -153,7 +159,7 @@ dependencies {
     // Retrofit 2
     val retrofit_version = rootProject.extra.get("retrofit_version")
     implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
-    implementation("com.itkacher.okhttpprofiler:okhttpprofiler:1.0.5")
+    implementation("com.itkacher.okhttpprofiler:okhttpprofiler:1.0.7")
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.4.0")
 
     // Koin

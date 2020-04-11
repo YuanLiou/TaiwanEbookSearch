@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    val kotlin_version by extra("1.3.50")
+    val kotlin_version by extra("1.3.71")
     val detekt_version by extra("1.0.0.RC9.2")
 
     val isUseUnstableBuildTool = (project.properties["useUnstableGradleBuildTool"] as? String)?.toBoolean()
@@ -17,7 +17,7 @@ buildscript {
     }
     dependencies {
         if (isUseUnstableBuildTool) {
-            classpath("com.android.tools.build:gradle:3.5.0-rc03")
+            classpath("com.android.tools.build:gradle:3.6.2")
         } else {
             classpath("com.android.tools.build:gradle:3.5.1")
         }
