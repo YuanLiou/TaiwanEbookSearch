@@ -6,7 +6,6 @@ import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory
 import com.jakewharton.threetenabp.AndroidThreeTen
 import liou.rayyuan.ebooksearchtaiwan.di.appModules
-import liou.rayyuan.ebooksearchtaiwan.model.RemoteConfigManager
 import okhttp3.OkHttpClient
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
@@ -19,8 +18,6 @@ import org.koin.core.context.startKoin
 
 class EBookSearchApplication : Application() {
 
-    private val remoteConfigManager: RemoteConfigManager by inject()
-
     override fun onCreate() {
         super.onCreate()
         startKoin {
@@ -32,7 +29,6 @@ class EBookSearchApplication : Application() {
             androidContext(this@EBookSearchApplication)
             modules(appModules)
         }
-        remoteConfigManager.start()
         AndroidThreeTen.init(this)
 
         val imagePipeline = OkHttpImagePipelineConfigFactory.newBuilder(this, OkHttpClient.Builder().build())

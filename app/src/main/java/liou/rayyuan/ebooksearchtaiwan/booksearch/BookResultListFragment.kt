@@ -37,7 +37,6 @@ import liou.rayyuan.ebooksearchtaiwan.BaseFragment
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
-import liou.rayyuan.ebooksearchtaiwan.model.RemoteConfigManager
 import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
 import liou.rayyuan.ebooksearchtaiwan.model.entity.SearchRecord
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
@@ -279,28 +278,14 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
             return
         }
 
-        if (remoteConfigManager.firebaseRemoteConfig.getBoolean(RemoteConfigManager.COLOR_BACK_TO_TOP_BUTTON_KEY)) {
-            backToTopButton.setBackgroundResource(R.drawable.material_rounded_button_green)
-        } else {
-            val typedValue = TypedValue()
-            activity?.theme?.resolveAttribute(R.attr.backToTopButtonDrawable, typedValue, true)
-            val backToButtonButtonResourceId = typedValue.resourceId
-            backToTopButton.setBackgroundResource(backToButtonButtonResourceId)
-        }
-
+        backToTopButton.setBackgroundResource(R.drawable.material_rounded_button_green)
         resultsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-
                 if (resultsRecyclerView.canScrollVertically(-1)) {
-                    backToTopButton.setImageResource(context!!, R.drawable.ic_keyboard_arrow_up_24dp)
+                    backToTopButton.setImageResource(requireContext(), R.drawable.ic_keyboard_arrow_up_24dp)
                 } else {
-
-                    if (remoteConfigManager.firebaseRemoteConfig.getBoolean(RemoteConfigManager.KEYBOARD_BACK_TO_TOP_ICON_KEY)) {
-                        backToTopButton.setImageResource(context!!, R.drawable.ic_keyboard_white_24dp)
-                    } else {
-                        backToTopButton.setImageResource(context!!, R.drawable.ic_search_white_24dp)
-                    }
+                    backToTopButton.setImageResource(requireContext(), R.drawable.ic_search_white_24dp)
                 }
             }
         })

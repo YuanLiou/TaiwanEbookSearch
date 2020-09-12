@@ -5,7 +5,6 @@ import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
-import liou.rayyuan.ebooksearchtaiwan.model.RemoteConfigManager
 import liou.rayyuan.ebooksearchtaiwan.model.UserPreferenceManager
 import org.koin.android.ext.android.inject
 
@@ -15,7 +14,6 @@ import org.koin.android.ext.android.inject
 abstract class BaseActivity : AppCompatActivity() {
 
     protected val userPreferenceManager: UserPreferenceManager by inject()
-    protected val remoteConfigManager: RemoteConfigManager by inject()
     protected val eventTracker: EventTracker by inject()
 
     private val isOpenWithDarkTheme = userPreferenceManager.isDarkTheme()
@@ -69,5 +67,4 @@ abstract class BaseActivity : AppCompatActivity() {
             putString("theme", themeResult)
         })
     }
-
 }

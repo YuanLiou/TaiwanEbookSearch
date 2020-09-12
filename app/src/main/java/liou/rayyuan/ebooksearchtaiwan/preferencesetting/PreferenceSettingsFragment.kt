@@ -9,10 +9,7 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.model.UserPreferenceManager
 import liou.rayyuan.ebooksearchtaiwan.model.dao.SearchRecordDao
@@ -31,39 +28,40 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
-        val themeChooser = findPreference(UserPreferenceManager.KEY_USER_THEME) as ListPreference
-        val followSystemTheme = findPreference(UserPreferenceManager.KEY_USER_SYSTEM_THEME) as SwitchPreferenceCompat
-        val preferCustomTabs = findPreference(UserPreferenceManager.KEY_USE_CHROME_CUSTOM_VIEW) as SwitchPreferenceCompat
-        val choosePreferBrowser = findPreference(UserPreferenceManager.KEY_PREFER_BROWSER) as ListPreference
-        val cleanSearchRecord = findPreference(UserPreferenceManager.KEY_CLEAN_SEARCH_RECORD) as Preference
+        val themeChooser = findPreference(UserPreferenceManager.KEY_USER_THEME) as? ListPreference
+        val followSystemTheme = findPreference(UserPreferenceManager.KEY_USER_SYSTEM_THEME) as? SwitchPreferenceCompat
+        val preferCustomTabs = findPreference(UserPreferenceManager.KEY_USE_CHROME_CUSTOM_VIEW) as? SwitchPreferenceCompat
+        val choosePreferBrowser = findPreference(UserPreferenceManager.KEY_PREFER_BROWSER) as? ListPreference
+        val cleanSearchRecord = findPreference(UserPreferenceManager.KEY_CLEAN_SEARCH_RECORD) as? Preference
 
-        initiateCustomTabOption(preferCustomTabs, choosePreferBrowser)
+        if (preferCustomTabs != null && choosePreferBrowser != null) {
+            initiateCustomTabOption(preferCustomTabs, choosePreferBrowser)
+        }
+
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-            with(followSystemTheme) {
+            followSystemTheme?.run {
                 isChecked = false
                 isEnabled = false
                 setShouldDisableView(true)
             }
         }
-        if (followSystemTheme.isChecked) {
-            with(themeChooser) {
+        if (followSystemTheme?.isChecked == true) {
+            themeChooser?.run {
                 isEnabled = false
                 setShouldDisableView(true)
             }
         }
 
-        cleanSearchRecord.setOnPreferenceClickListener {
-            context?.run {
-                AlertDialog.Builder(this)
-                        .setTitle(R.string.preference_clean_all_records)
-                        .setMessage(R.string.dialog_clean_all_records)
-                        .setPositiveButton(R.string.dialog_ok) { dialog, _ ->
-                            deleteAllSearchRecords()
-                            dialog.dismiss()
-                        }
-                        .setNegativeButton(R.string.dialog_cancel) { dialog, _ -> dialog.dismiss() }
-                        .create().show()
-            }
+        cleanSearchRecord?.setOnPreferenceClickListener {
+            AlertDialog.Builder(requireContext())
+                .setTitle(R.string.preference_clean_all_records)
+                .setMessage(R.string.dialog_clean_all_records)
+                .setPositiveButton(R.string.dialog_ok) { dialog, _ ->
+                    deleteAllSearchRecords()
+                    dialog.dismiss()
+                }
+                .setNegativeButton(R.string.dialog_cancel) { dialog, _ -> dialog.dismiss() }
+                .create().show()
 
             true
         }
@@ -98,9 +96,11 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
     }
 
     private fun deleteAllSearchRecords() {
-        CoroutineScope(Dispatchers.IO).launch {
+        val errorHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+            Log.d("PreferenceFragment", Log.getStackTraceString(throwable))
+        }
+        CoroutineScope(Dispatchers.IO).launch(errorHandler) {
             searchRecordDao.deleteAllRecords()
-
             withContext(Dispatchers.Main) {
                 showDeleteSearchRecordsSuccessDialog()
             }
@@ -140,15 +140,15 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
     override fun onSharedPreferenceChanged(sharedPreference: SharedPreferences, key: String) {
         when (key) {
             UserPreferenceManager.KEY_USER_SYSTEM_THEME -> {
-                val themeChooser = findPreference(UserPreferenceManager.KEY_USER_THEME) as ListPreference
-                val followSystemTheme = findPreference(UserPreferenceManager.KEY_USER_SYSTEM_THEME) as SwitchPreferenceCompat
-                if (followSystemTheme.isChecked) {
-                    with(themeChooser) {
+                val themeChooser = findPreference(UserPreferenceManager.KEY_USER_THEME) as? ListPreference
+                val followSystemTheme = findPreference(UserPreferenceManager.KEY_USER_SYSTEM_THEME) as? SwitchPreferenceCompat
+                if (followSystemTheme?.isChecked == true) {
+                    themeChooser?.run {
                         isEnabled = false
                         setShouldDisableView(true)
                     }
                 } else {
-                    with(themeChooser) {
+                    themeChooser?.run {
                         isEnabled = true
                         setShouldDisableView(false)
                     }
@@ -159,16 +159,16 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
                 callback?.onThemeChanged()
             }
             UserPreferenceManager.KEY_USE_CHROME_CUSTOM_VIEW -> {
-                val preferCustomTabs = findPreference(UserPreferenceManager.KEY_USE_CHROME_CUSTOM_VIEW) as SwitchPreferenceCompat
-                val choosePreferBrowser = findPreference(UserPreferenceManager.KEY_PREFER_BROWSER) as ListPreference
-                if (preferCustomTabs.isChecked) {
-                    with(choosePreferBrowser) {
+                val preferCustomTabs = findPreference(UserPreferenceManager.KEY_USE_CHROME_CUSTOM_VIEW) as? SwitchPreferenceCompat
+                val choosePreferBrowser = findPreference(UserPreferenceManager.KEY_PREFER_BROWSER) as? ListPreference
+                if (preferCustomTabs?.isChecked == true) {
+                    choosePreferBrowser?.run {
                         isEnabled = true
                         setShouldDisableView(false)
                         summary = entry
                     }
                 } else {
-                    with(choosePreferBrowser) {
+                    choosePreferBrowser?.run {
                         isEnabled = false
                         setShouldDisableView(true)
                         summary = getString(R.string.preference_custom_tab_prefer_browser_summary)
@@ -176,8 +176,8 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
                 }
             }
             UserPreferenceManager.KEY_PREFER_BROWSER -> {
-                val choosePreferBrowser = findPreference(UserPreferenceManager.KEY_PREFER_BROWSER) as ListPreference
-                choosePreferBrowser.summary = choosePreferBrowser.entry
+                val choosePreferBrowser = findPreference(UserPreferenceManager.KEY_PREFER_BROWSER) as? ListPreference
+                choosePreferBrowser?.summary = choosePreferBrowser?.entry
             }
             else -> {
                 Log.i("PreferenceSettings", "The value of $key changed")

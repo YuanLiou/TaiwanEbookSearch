@@ -13,12 +13,7 @@ import org.koin.dsl.module
  */
 
 val appModule = module {
-
-    // use single to prevent HashSet searching slow issue
-    // related to: https://github.com/InsertKoinIO/koin/issues/281
-    // it will be fix in Koin 2.0
     single { APIManager() }
-    factory { RemoteConfigManager() }
     factory { EventTracker(androidApplication()) }
     factory { UserPreferenceManager(androidApplication()) }
     factory { QuickChecker(androidApplication()) }

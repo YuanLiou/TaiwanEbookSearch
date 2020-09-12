@@ -36,7 +36,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = mapOf("room.schemaLocation" to "$projectDir/schemas")
+                arguments = mapOf("room.schemaLocation" to "$projectDir/schemas", "room.incremental" to "true")
             }
         }
     }
@@ -118,19 +118,24 @@ dependencies {
     implementation("com.jakewharton.threetenabp:threetenabp:1.2.1")
 
     // region Android X Libraries
-    val androidx_version = rootProject.extra.get("androidx_version")
-    implementation("androidx.appcompat:appcompat:1.1.0")
-    implementation("androidx.recyclerview:recyclerview:$androidx_version")
-    implementation("androidx.cardview:cardview:$androidx_version")
-    implementation("androidx.preference:preference:$androidx_version")
-    implementation("com.google.android.material:material:$androidx_version")
+    implementation("androidx.appcompat:appcompat:1.2.0")
+    implementation("androidx.core:core-ktx:1.3.1")
+    implementation("androidx.fragment:fragment-ktx:1.2.5")
+    implementation("androidx.recyclerview:recyclerview:1.1.0")
+    implementation("androidx.cardview:cardview:1.0.0")
+    implementation("androidx.preference:preference-ktx:1.1.1")
+    implementation("com.google.android.material:material:1.2.1")
     // ViewModel and LiveData
-    implementation("androidx.lifecycle:lifecycle-extensions:2.1.0")
+    val lifecycleLibraryVersion = "2.2.0"
+    implementation("androidx.lifecycle:lifecycle-extensions:$lifecycleLibraryVersion")
     // Java8 support for Lifecycles
-    implementation("androidx.lifecycle:lifecycle-common-java8:2.1.0")
-    // KTX
-    implementation("androidx.core:core-ktx:1.1.0")
-    implementation("androidx.fragment:fragment-ktx:1.1.0")
+    implementation("androidx.lifecycle:lifecycle-common-java8:$lifecycleLibraryVersion")
+
+    // Room
+    val roomVersion = rootProject.extra.get("room_version")
+    implementation("androidx.room:room-runtime:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.paging:paging-runtime:2.1.2")
     // endregion of Android X Libraries
 
     // Kotlin
@@ -146,7 +151,6 @@ dependencies {
     implementation("com.google.firebase:firebase-core:17.2.0")
     implementation("com.google.firebase:firebase-ads:18.2.0")
     implementation("com.google.firebase:firebase-ml-vision:23.0.0")
-    implementation("com.google.firebase:firebase-config:19.0.2")
     implementation("com.crashlytics.sdk.android:crashlytics:2.10.1")
 
     // Retrofit 2
@@ -159,12 +163,6 @@ dependencies {
     val koin_version = rootProject.extra.get("koin_version")
     implementation("org.koin:koin-android:$koin_version")
     implementation("org.koin:koin-androidx-viewmodel:$koin_version")
-
-    // Room
-    val roomVersion = rootProject.extra.get("room_version")
-    implementation("androidx.room:room-runtime:$roomVersion")
-    kapt("androidx.room:room-compiler:$roomVersion")
-    implementation("androidx.paging:paging-runtime:2.1.0")
 
     // disable for Google Play instant App testing
     debugImplementation("com.amitshekhar.android:debug-db:1.0.6")
