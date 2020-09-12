@@ -19,7 +19,7 @@ buildscript {
         classpath("com.android.tools.build:gradle:4.0.1")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
         classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlin_version")
-        classpath("com.google.gms:google-services:4.3.2")
+        classpath("com.google.gms:google-services:4.3.3")
         classpath("io.fabric.tools:gradle:1.31.0")
         classpath("gradle.plugin.io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detekt_version")
     }
@@ -27,7 +27,6 @@ buildscript {
 
 val app_version by extra("1.10")
 
-val androidx_version by extra("1.0.0")
 val retrofit_version by extra("2.6.2")
 val fresco_version by extra("2.0.0")
 val koin_version by extra("2.2.0-beta-1")

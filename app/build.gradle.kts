@@ -46,6 +46,10 @@ android {
         viewBinding = true
     }
 
+    lintOptions {
+        isAbortOnError = false
+    }
+
     signingConfigs {
         create("release") {
             storeFile = file(keystorePath)
@@ -147,10 +151,12 @@ dependencies {
     implementation("com.facebook.fresco:fresco:$fresco_version")
     implementation("com.facebook.fresco:imagepipeline-okhttp3:$fresco_version")
 
-    // Firebase
-    implementation("com.google.firebase:firebase-core:17.2.0")
-    implementation("com.google.firebase:firebase-ads:18.2.0")
-    implementation("com.google.firebase:firebase-ml-vision:23.0.0")
+    // Firebase and GMS
+    implementation(platform("com.google.firebase:firebase-bom:25.4.0"))
+    implementation("com.google.firebase:firebase-core")
+    implementation("com.google.firebase:firebase-ads-lite")
+    implementation("com.google.firebase:firebase-ml-vision")
+//    implementation("com.google.android.gms:play-services-vision:20.1.2")
     implementation("com.crashlytics.sdk.android:crashlytics:2.10.1")
 
     // Retrofit 2
