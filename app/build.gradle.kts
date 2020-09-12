@@ -7,7 +7,7 @@ plugins {
     id("kotlin-android-extensions")
     id("io.fabric")
     id("kotlinx-serialization")
-    kotlin("kapt")
+    id("kotlin-kapt")
 }
 apply(from = "../gradle/detekt.gradle")
 
@@ -26,10 +26,6 @@ val ADMOB_UNIT_ID: String by project
 android {
     compileSdkVersion(29)
 
-    packagingOptions {
-        pickFirst("META-INF/atomicfu.kotlin_module")
-    }
-
     defaultConfig {
         applicationId = "liou.rayyuan.ebooksearchtaiwan"
         minSdkVersion(21)
@@ -45,12 +41,9 @@ android {
         }
     }
 
-    sourceSets {
-//        test.assets.srcDirs += files("$projectDir/schemas")
-    }
-
-    dataBinding {
-        isEnabled = true
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
     }
 
     signingConfigs {
@@ -93,6 +86,7 @@ android {
     }
 
     compileOptions {
+        coreLibraryDesugaringEnabled = true
         setSourceCompatibility(JavaVersion.VERSION_1_8)
         setTargetCompatibility(JavaVersion.VERSION_1_8)
     }
@@ -119,6 +113,7 @@ tasks.register("checkVersionCode") {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.0.10")
     implementation("liou.rayyuan.chromecustomtabhelper:chrome-custom-tab-helper:1.1.2")
     implementation("com.jakewharton.threetenabp:threetenabp:1.2.1")
 
@@ -139,10 +134,8 @@ dependencies {
     // endregion of Android X Libraries
 
     // Kotlin
-    val kotlin_version = rootProject.extra.get("kotlin_version")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.11.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC")
 
     // Fresco
     val fresco_version = rootProject.extra.get("fresco_version")
@@ -160,7 +153,7 @@ dependencies {
     val retrofit_version = rootProject.extra.get("retrofit_version")
     implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
     implementation("com.itkacher.okhttpprofiler:okhttpprofiler:1.0.7")
-    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.4.0")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.7.0")
 
     // Koin
     val koin_version = rootProject.extra.get("koin_version")
@@ -173,7 +166,7 @@ dependencies {
     kapt("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.paging:paging-runtime:2.1.0")
 
-// disable for Google Play instant App testing
+    // disable for Google Play instant App testing
     debugImplementation("com.amitshekhar.android:debug-db:1.0.6")
 
     testImplementation("junit:junit:4.12")

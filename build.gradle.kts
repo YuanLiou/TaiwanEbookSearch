@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    val kotlin_version by extra("1.3.71")
+    val kotlin_version by extra("1.4.10")
     val detekt_version by extra("1.0.0.RC9.2")
 
     val isUseUnstableBuildTool = (project.properties["useUnstableGradleBuildTool"] as? String)?.toBoolean()
@@ -16,11 +16,7 @@ buildscript {
         maven(url = "https://plugins.gradle.org/m2/")
     }
     dependencies {
-        if (isUseUnstableBuildTool) {
-            classpath("com.android.tools.build:gradle:3.6.2")
-        } else {
-            classpath("com.android.tools.build:gradle:3.5.1")
-        }
+        classpath("com.android.tools.build:gradle:4.0.1")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
         classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlin_version")
         classpath("com.google.gms:google-services:4.3.2")
@@ -34,8 +30,8 @@ val app_version by extra("1.10")
 val androidx_version by extra("1.0.0")
 val retrofit_version by extra("2.6.2")
 val fresco_version by extra("2.0.0")
-val koin_version by extra("2.0.1")
-val room_version by extra("2.0.0-rc01")
+val koin_version by extra("2.2.0-beta-1")
+val room_version by extra("2.2.5")
 
 allprojects {
     repositories {
