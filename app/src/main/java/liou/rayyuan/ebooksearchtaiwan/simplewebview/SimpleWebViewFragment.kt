@@ -136,7 +136,6 @@ class SimpleWebViewFragment: BaseFragment(), View.OnClickListener, Toolbar.OnMen
 
     override fun onDestroyView() {
         webView.webChromeClient = null
-        webView.webViewClient = null
         super.onDestroyView()
     }
 

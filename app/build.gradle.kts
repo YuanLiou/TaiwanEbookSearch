@@ -24,12 +24,12 @@ val ADMOB_TEST_DEVICE_ID: String by project
 val ADMOB_UNIT_ID: String by project
 
 android {
-    compileSdkVersion(29)
+    compileSdkVersion(30)
 
     defaultConfig {
         applicationId = "liou.rayyuan.ebooksearchtaiwan"
-        minSdkVersion(21)
-        targetSdkVersion(29)
+        minSdkVersion(23)
+        targetSdkVersion(30)
         versionCode = getVersionCodeTimeStamps()
         versionName = rootProject.extra.get("app_version").toString()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
