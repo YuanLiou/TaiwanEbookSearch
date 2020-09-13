@@ -5,7 +5,7 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import kotlinx.serialization.json.Json
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.model.entity.BookStores
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -34,7 +34,7 @@ class APIManager {
         }
         val httpClient = httpClientBuilder.build()
 
-        val contentType = MediaType.get("application/json")
+        val contentType = "application/json".toMediaType()
         val retrofit = Retrofit.Builder()
             .baseUrl(BuildConfig.HOST_URL)
             .addConverterFactory(Json.asConverterFactory(contentType))

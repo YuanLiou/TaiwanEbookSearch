@@ -5,9 +5,9 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-android-extensions")
-    id("io.fabric")
+    id("com.google.firebase.crashlytics")
     id("kotlinx-serialization")
-    kotlin("kapt")
+    id("kotlin-kapt")
 }
 apply(from = "../gradle/detekt.gradle")
 
@@ -24,33 +24,30 @@ val ADMOB_TEST_DEVICE_ID: String by project
 val ADMOB_UNIT_ID: String by project
 
 android {
-    compileSdkVersion(29)
-
-    packagingOptions {
-        pickFirst("META-INF/atomicfu.kotlin_module")
-    }
+    compileSdkVersion(30)
 
     defaultConfig {
         applicationId = "liou.rayyuan.ebooksearchtaiwan"
-        minSdkVersion(21)
-        targetSdkVersion(29)
+        minSdkVersion(23)
+        targetSdkVersion(30)
         versionCode = getVersionCodeTimeStamps()
         versionName = rootProject.extra.get("app_version").toString()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = mapOf("room.schemaLocation" to "$projectDir/schemas")
+                arguments = mapOf("room.schemaLocation" to "$projectDir/schemas", "room.incremental" to "true")
             }
         }
     }
 
-    sourceSets {
-//        test.assets.srcDirs += files("$projectDir/schemas")
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
     }
 
-    dataBinding {
-        isEnabled = true
+    lintOptions {
+        isAbortOnError = false
     }
 
     signingConfigs {
@@ -85,14 +82,21 @@ android {
             resValue("string", "package_name", "liou.rayyuan.ebooksearchtaiwan")
         }
     }
+
     buildTypes.all {
         buildConfigField("String", "AD_MOB_ID", ADMOB_ID)
         buildConfigField("String", "ADMOB_TEST_DEVICE_ID", ADMOB_TEST_DEVICE_ID)
         resValue("string", "AD_MOB_UNIT_ID", ADMOB_UNIT_ID)
     }
+
     compileOptions {
+        coreLibraryDesugaringEnabled = true
         setSourceCompatibility(JavaVersion.VERSION_1_8)
         setTargetCompatibility(JavaVersion.VERSION_1_8)
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 
@@ -113,61 +117,59 @@ tasks.register("checkVersionCode") {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.0.10")
     implementation("liou.rayyuan.chromecustomtabhelper:chrome-custom-tab-helper:1.1.2")
     implementation("com.jakewharton.threetenabp:threetenabp:1.2.1")
 
     // region Android X Libraries
-    val androidx_version = rootProject.extra.get("androidx_version")
-    implementation("androidx.appcompat:appcompat:1.1.0")
-    implementation("androidx.recyclerview:recyclerview:$androidx_version")
-    implementation("androidx.cardview:cardview:$androidx_version")
-    implementation("androidx.preference:preference:$androidx_version")
-    implementation("com.google.android.material:material:$androidx_version")
+    implementation("androidx.appcompat:appcompat:1.2.0")
+    implementation("androidx.core:core-ktx:1.3.1")
+    implementation("androidx.fragment:fragment-ktx:1.2.5")
+    implementation("androidx.recyclerview:recyclerview:1.1.0")
+    implementation("androidx.cardview:cardview:1.0.0")
+    implementation("androidx.preference:preference-ktx:1.1.1")
+    implementation("com.google.android.material:material:1.2.1")
     // ViewModel and LiveData
-    implementation("androidx.lifecycle:lifecycle-extensions:2.1.0")
+    val lifecycleLibraryVersion = "2.2.0"
+    implementation("androidx.lifecycle:lifecycle-extensions:$lifecycleLibraryVersion")
     // Java8 support for Lifecycles
-    implementation("androidx.lifecycle:lifecycle-common-java8:2.1.0")
-    // KTX
-    implementation("androidx.core:core-ktx:1.1.0")
-    implementation("androidx.fragment:fragment-ktx:1.1.0")
+    implementation("androidx.lifecycle:lifecycle-common-java8:$lifecycleLibraryVersion")
+
+    // Room
+    val roomVersion = rootProject.extra.get("room_version")
+    implementation("androidx.room:room-runtime:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.paging:paging-runtime:2.1.2")
     // endregion of Android X Libraries
 
     // Kotlin
-    val kotlin_version = rootProject.extra.get("kotlin_version")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.11.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC")
 
     // Fresco
     val fresco_version = rootProject.extra.get("fresco_version")
     implementation("com.facebook.fresco:fresco:$fresco_version")
     implementation("com.facebook.fresco:imagepipeline-okhttp3:$fresco_version")
 
-    // Firebase
-    implementation("com.google.firebase:firebase-core:17.2.0")
-    implementation("com.google.firebase:firebase-ads:18.2.0")
-    implementation("com.google.firebase:firebase-ml-vision:23.0.0")
-    implementation("com.google.firebase:firebase-config:19.0.2")
-    implementation("com.crashlytics.sdk.android:crashlytics:2.10.1")
+    // Firebase and GMS
+    implementation(platform("com.google.firebase:firebase-bom:25.4.0"))
+    implementation("com.google.firebase:firebase-core")
+    implementation("com.google.firebase:firebase-ads-lite")
+    implementation("com.google.firebase:firebase-ml-vision")
+    implementation("com.google.firebase:firebase-crashlytics")
 
     // Retrofit 2
     val retrofit_version = rootProject.extra.get("retrofit_version")
     implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
-    implementation("com.itkacher.okhttpprofiler:okhttpprofiler:1.0.5")
-    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.4.0")
+    implementation("com.itkacher.okhttpprofiler:okhttpprofiler:1.0.7")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.7.0")
 
     // Koin
     val koin_version = rootProject.extra.get("koin_version")
     implementation("org.koin:koin-android:$koin_version")
     implementation("org.koin:koin-androidx-viewmodel:$koin_version")
 
-    // Room
-    val roomVersion = rootProject.extra.get("room_version")
-    implementation("androidx.room:room-runtime:$roomVersion")
-    kapt("androidx.room:room-compiler:$roomVersion")
-    implementation("androidx.paging:paging-runtime:2.1.0")
-
-// disable for Google Play instant App testing
+    // disable for Google Play instant App testing
     debugImplementation("com.amitshekhar.android:debug-db:1.0.6")
 
     testImplementation("junit:junit:4.12")

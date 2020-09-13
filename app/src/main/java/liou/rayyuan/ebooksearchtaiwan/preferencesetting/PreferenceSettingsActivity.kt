@@ -32,7 +32,7 @@ class PreferenceSettingsActivity : BaseActivity(), PreferenceSettingsFragment.Pr
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         item?.run {
             return when (this.itemId) {
                 android.R.id.home -> {

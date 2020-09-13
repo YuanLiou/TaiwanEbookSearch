@@ -448,12 +448,14 @@ class CameraPreviewManager(private val context: Context, private val textureView
     }
 
     private fun startThread() {
-        backgroundThread = HandlerThread("CameraBackground")
-        backgroundThread?.start()
+        val backgroundThread = HandlerThread("CameraBackground")
+        this.backgroundThread = backgroundThread
+
+        backgroundThread.start()
         uiHandler = UIHandler(cameraCallback)
 
         synchronized(cameraStateLock) {
-            backgroundHandler = Handler(backgroundThread?.looper)
+            backgroundHandler = Handler(backgroundThread.looper)
         }
     }
 
@@ -497,14 +499,14 @@ class CameraPreviewManager(private val context: Context, private val textureView
     }
 
     inner class SurfaceTextureCallback : TextureView.SurfaceTextureListener {
-        override fun onSurfaceTextureUpdated(p0: SurfaceTexture?) {
+        override fun onSurfaceTextureUpdated(p0: SurfaceTexture) {
         }
 
-        override fun onSurfaceTextureSizeChanged(surfaceTexture: SurfaceTexture?, width: Int, height: Int) {
+        override fun onSurfaceTextureSizeChanged(surfaceTexture: SurfaceTexture, width: Int, height: Int) {
             configureTransform(width, height)
         }
 
-        override fun onSurfaceTextureDestroyed(p0: SurfaceTexture?): Boolean {
+        override fun onSurfaceTextureDestroyed(p0: SurfaceTexture): Boolean {
             synchronized(cameraStateLock) {
                 previewSize = null
             }
@@ -512,7 +514,7 @@ class CameraPreviewManager(private val context: Context, private val textureView
             return true
         }
 
-        override fun onSurfaceTextureAvailable(surfaceTexture: SurfaceTexture?, width: Int, height: Int) {
+        override fun onSurfaceTextureAvailable(surfaceTexture: SurfaceTexture, width: Int, height: Int) {
             configureTransform(width, height)
             Log.i("CameraPreviewManager", "surfaceCreated")
         }
@@ -525,8 +527,8 @@ class CameraPreviewManager(private val context: Context, private val textureView
 
         private var failedCallback: OnCameraPreviewCallback? = failureCallback
 
-        override fun handleMessage(message: Message?) {
-            when (message?.what) {
+        override fun handleMessage(message: Message) {
+            when (message.what) {
                 sendMessage -> {
                     val errorMessage: String = message.obj as String
                     failedCallback?.onError(errorMessage)
