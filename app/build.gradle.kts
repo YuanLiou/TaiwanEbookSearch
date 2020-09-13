@@ -155,7 +155,6 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:25.4.0"))
     implementation("com.google.firebase:firebase-core")
     implementation("com.google.firebase:firebase-ads-lite")
-    implementation("com.google.firebase:firebase-ml-vision")
     implementation("com.google.firebase:firebase-crashlytics")
 
     // Retrofit 2
