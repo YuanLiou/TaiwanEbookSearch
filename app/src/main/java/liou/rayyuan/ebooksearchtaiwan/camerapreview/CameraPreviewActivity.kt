@@ -14,7 +14,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.journeyapps.barcodescanner.CaptureManager
 import liou.rayyuan.ebooksearchtaiwan.R
+import liou.rayyuan.ebooksearchtaiwan.databinding.ActivityCameraPreviewBinding
 import liou.rayyuan.ebooksearchtaiwan.utils.bindView
 
 class CameraPreviewActivity : AppCompatActivity() {
@@ -23,31 +25,24 @@ class CameraPreviewActivity : AppCompatActivity() {
         const val resultISBNTextKey = "result-isbn-text-key"
     }
 
+    private lateinit var viewBinding: ActivityCameraPreviewBinding
     private val statusText: TextView by bindView(R.id.activity_camera_preview_status_text)
     private val scanningProgressBar: ProgressBar by bindView(R.id.activity_camera_preview_progressbar)
-    private val scanningResultText: TextView by bindView(R.id.activity_camera_preview_result)
     private val scanningResultTitle: TextView by bindView(R.id.activity_camera_preview_result_title)
     private val authText: TextView by bindView(R.id.activity_camera_preview_auth_text)
 
     private val cameraPermissionRequestCode = 1001
     private val cameraPermissionManuallyEnable = 1002
 
+    private lateinit var captureManager: CaptureManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_camera_preview)
-        scanningResultText.setOnClickListener {
-            val resultISBNText = scanningResultText.text.toString().trim()
-            if (resultISBNText.isNotBlank()) {
-                val intent = Intent().apply {
-                    val bundle = Bundle()
-                    bundle.putString(resultISBNTextKey, resultISBNText)
-                    putExtras(bundle)
-                }
-
-                setResult(Activity.RESULT_OK, intent)
-                finish()
-            }
+        viewBinding = ActivityCameraPreviewBinding.inflate(layoutInflater).also {
+            setContentView(it.root)
         }
+        captureManager = CaptureManager(this, viewBinding.zxingBarcodeScanner)
+        captureManager.initializeFromIntent(intent, savedInstanceState)
 
         authText.setOnClickListener {
             requestCameraPermission()
@@ -57,7 +52,30 @@ class CameraPreviewActivity : AppCompatActivity() {
             requestCameraPermission()
             scanningProgressBar.visibility = View.GONE
             scanningResultTitle.text = getString(R.string.camera_permission_waiting)
+            captureManager.setShowMissingCameraPermissionDialog(true)
+        } else {
+            captureManager.decode()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        captureManager.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        captureManager.onPause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        captureManager.onDestroy()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        captureManager.onSaveInstanceState(outState)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -65,6 +83,7 @@ class CameraPreviewActivity : AppCompatActivity() {
             cameraPermissionManuallyEnable -> {
                 if (shouldRequestCameraPermission()) {
                     requestCameraPermission()
+                    captureManager.setShowMissingCameraPermissionDialog(true)
                 } else {
                     readyToShowCameraView()
                 }
@@ -73,19 +92,12 @@ class CameraPreviewActivity : AppCompatActivity() {
         }
     }
 
-    // TODO:: Wire-up this action if barcode has been scanned
-//    private fun onVisionProcessSucceed(result: String) {
-//        scanningProgressBar.visibility = View.GONE
-//        scanningResultText.visibility = View.VISIBLE
-//
-//        scanningResultText.text = result
-//    }
-
     private fun requestCameraPermission() {
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), cameraPermissionRequestCode)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        captureManager.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             cameraPermissionRequestCode -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -130,10 +142,10 @@ class CameraPreviewActivity : AppCompatActivity() {
             ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
 
     private fun readyToShowCameraView() {
-        // TODO:: to show barcode scanner
         statusText.visibility = View.GONE
         scanningProgressBar.visibility = View.VISIBLE
         scanningResultTitle.text = getString(R.string.camera_scanning_result)
-        authText.visibility = View.GONE
+        authText.visibility = View.INVISIBLE
+        captureManager.decode()
     }
 }

@@ -168,6 +168,12 @@ dependencies {
     implementation("org.koin:koin-android:$koin_version")
     implementation("org.koin:koin-androidx-viewmodel:$koin_version")
 
+    // Zxing
+    implementation("com.journeyapps:zxing-android-embedded:4.1.0") {
+        isTransitive = false
+    }
+    implementation("com.google.zxing:core:3.3.0")
+
     // disable for Google Play instant App testing
     debugImplementation("com.amitshekhar.android:debug-db:1.0.6")
 
