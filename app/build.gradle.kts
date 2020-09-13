@@ -5,7 +5,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-android-extensions")
-    id("io.fabric")
+    id("com.google.firebase.crashlytics")
     id("kotlinx-serialization")
     id("kotlin-kapt")
 }
@@ -156,8 +156,7 @@ dependencies {
     implementation("com.google.firebase:firebase-core")
     implementation("com.google.firebase:firebase-ads-lite")
     implementation("com.google.firebase:firebase-ml-vision")
-//    implementation("com.google.android.gms:play-services-vision:20.1.2")
-    implementation("com.crashlytics.sdk.android:crashlytics:2.10.1")
+    implementation("com.google.firebase:firebase-crashlytics")
 
     // Retrofit 2
     val retrofit_version = rootProject.extra.get("retrofit_version")

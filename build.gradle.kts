@@ -11,8 +11,6 @@ buildscript {
     repositories {
         google()
         jcenter()
-
-        maven(url = "https://maven.fabric.io/public")
         maven(url = "https://plugins.gradle.org/m2/")
     }
     dependencies {
@@ -20,7 +18,7 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
         classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlin_version")
         classpath("com.google.gms:google-services:4.3.3")
-        classpath("io.fabric.tools:gradle:1.31.0")
+        classpath("com.google.firebase:firebase-crashlytics-gradle:2.3.0")
         classpath("gradle.plugin.io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detekt_version")
     }
 }

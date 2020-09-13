@@ -21,7 +21,6 @@ class EBookSearchApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         startKoin {
-
             if (BuildConfig.DEBUG) {
                 AndroidLogger()
             }
