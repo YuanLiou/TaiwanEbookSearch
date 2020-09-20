@@ -34,6 +34,11 @@
         <!-- Prevent Android Pie crash -->
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
 
+        <!-- AdMob App ID -->
+        <meta-data
+                android:name="com.google.android.gms.ads.APPLICATION_ID"
+                android:value="@string/AD_MOB_ID"/>
+
         <meta-data
                 android:name="com.google.android.gms.ads.AD_MANAGER_APP"
                 android:value="true"

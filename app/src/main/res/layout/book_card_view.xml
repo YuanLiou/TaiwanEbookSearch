@@ -47,23 +47,14 @@
             tools:text="Readmoo"
             />
 
-        <com.facebook.drawee.view.SimpleDraweeView
+        <ImageView
             android:id="@+id/book_card_image"
             android:layout_width="@dimen/list_book_cover_width"
             android:layout_height="@dimen/list_book_cover_height"
             android:layout_marginTop="8dp"
             android:layout_below="@id/book_card_more_icon"
             android:layout_alignWithParentIfMissing="true"
-            app:placeholderImage="@drawable/book_image_placeholder"
-            app:placeholderImageScaleType="fitXY"
-            app:progressBarImage="@drawable/ic_loading"
-            app:progressBarImageScaleType="centerInside"
-            app:progressBarAutoRotateInterval="1000"
-            app:roundingBorderWidth="0.5dp"
-            app:roundingBorderPadding="0.5dp"
-            app:roundingBorderColor="?android:attr/textColorSecondary"
-            app:fadeDuration="300"
-            app:actualImageScaleType="fitXY"
+            tools:background="#101100"
             />
 
         <androidx.appcompat.widget.AppCompatTextView

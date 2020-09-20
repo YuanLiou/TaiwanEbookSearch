@@ -99,7 +99,7 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
         bindViews(view)
         init()
 
-        fullBookStoreResultsAdapter = FullBookStoreResultAdapter(this, eventTracker)
+        fullBookStoreResultsAdapter = FullBookStoreResultAdapter(eventTracker, this, this)
         resultsRecyclerView.adapter = fullBookStoreResultsAdapter
         bookSearchViewModel.setRecyclerViewAdapter(fullBookStoreResultsAdapter)
     }

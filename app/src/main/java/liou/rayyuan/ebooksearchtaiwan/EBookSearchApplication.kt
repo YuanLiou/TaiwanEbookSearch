@@ -1,13 +1,8 @@
 package liou.rayyuan.ebooksearchtaiwan
 
 import android.app.Application
-import android.graphics.Bitmap
-import com.facebook.drawee.backends.pipeline.Fresco
-import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory
 import com.jakewharton.threetenabp.AndroidThreeTen
 import liou.rayyuan.ebooksearchtaiwan.di.appModules
-import okhttp3.OkHttpClient
-import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.logger.AndroidLogger
 import org.koin.core.context.startKoin
@@ -29,13 +24,5 @@ class EBookSearchApplication : Application() {
             modules(appModules)
         }
         AndroidThreeTen.init(this)
-
-        val imagePipeline = OkHttpImagePipelineConfigFactory.newBuilder(this, OkHttpClient.Builder().build())
-        with(imagePipeline) {
-            isDownsampleEnabled = true
-            setResizeAndRotateEnabledForNetwork(true)
-            setBitmapsConfig(Bitmap.Config.RGB_565)
-        }
-        Fresco.initialize(this, imagePipeline.build())
     }
 }
