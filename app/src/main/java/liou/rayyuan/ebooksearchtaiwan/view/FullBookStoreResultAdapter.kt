@@ -1,6 +1,5 @@
 package liou.rayyuan.ebooksearchtaiwan.view
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,15 +8,12 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
-import com.facebook.drawee.backends.pipeline.Fresco
-import com.facebook.drawee.view.SimpleDraweeView
-import com.facebook.imagepipeline.common.ResizeOptions
-import com.facebook.imagepipeline.request.ImageRequestBuilder
+import coil.load
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
-import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.model.entity.AdapterItem
@@ -28,8 +24,11 @@ import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
 /**
  * Created by louis383 on 2018/1/7.
  */
-class FullBookStoreResultAdapter(private var clickHandler: BookResultClickHandler?,
-                                 private val eventTracker: EventTracker?):
+class FullBookStoreResultAdapter(
+    private val eventTracker: EventTracker?,
+    private var clickHandler: BookResultClickHandler?,
+    private val lifecycleOwner: LifecycleOwner
+) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>(),
         BookResultClickHandler {
 
@@ -42,7 +41,7 @@ class FullBookStoreResultAdapter(private var clickHandler: BookResultClickHandle
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             header -> {
-                MobileAds.initialize(parent.context, BuildConfig.AD_MOB_ID)
+                MobileAds.initialize(parent.context)
                 val headerView: View = LayoutInflater.from(parent.context).inflate(R.layout.admob_view_header, parent, false)
                 AdViewHolder(headerView)
             }
@@ -85,7 +84,13 @@ class FullBookStoreResultAdapter(private var clickHandler: BookResultClickHandle
                         setTextOnViewHolder(bookDescription, bookViewModel.getDescription())
                         setTextOnViewHolder(bookPrice, bookViewModel.getPrice())
 
-                        bookImage.setResizeImage(bookViewModel.getImage())
+                        bookImage.load(bookViewModel.getImage()) {
+                            crossfade(true)
+                            placeholder(R.drawable.book_image_placeholder)
+                            allowRgb565(true)
+                            lifecycle(lifecycleOwner)
+                        }
+
                         bookResultBody.setOnClickListener {
                             clickHandler?.onBookCardClicked(book)
 
@@ -110,22 +115,6 @@ class FullBookStoreResultAdapter(private var clickHandler: BookResultClickHandle
     private fun setTextOnViewHolder(textView: AppCompatTextView, content: String) {
         textView.setTextFuture(PrecomputedTextCompat.getTextFuture(
                 content, TextViewCompat.getTextMetricsParams(textView), null))
-    }
-
-    private fun SimpleDraweeView.setResizeImage(url: String) {
-        val uri = Uri.parse(url)
-        val resizeOption = ResizeOptions(context.resources.getDimensionPixelSize(R.dimen.list_book_cover_width),
-                context.resources.getDimensionPixelSize(R.dimen.list_book_cover_height))
-        val imageRequest = ImageRequestBuilder.newBuilderWithSource(uri)
-                .setProgressiveRenderingEnabled(true)
-                .setResizeOptions(resizeOption)
-                .build()
-        val imageController = Fresco.newDraweeControllerBuilder()
-                .setOldController(controller)
-                .setImageRequest(imageRequest)
-                .setTapToRetryEnabled(true)
-                .build()
-        controller = imageController
     }
 
     override fun getItemCount(): Int {
@@ -179,7 +168,7 @@ class FullBookStoreResultAdapter(private var clickHandler: BookResultClickHandle
         internal val bookDescription: AppCompatTextView = itemView.findViewById(R.id.book_card_description)
         internal val bookPrice: AppCompatTextView = itemView.findViewById(R.id.book_card_price)
         internal val moreIcon: ImageView = itemView.findViewById(R.id.book_card_more_icon)
-        internal val bookImage: SimpleDraweeView = itemView.findViewById(R.id.book_card_image)
+        internal val bookImage: ImageView = itemView.findViewById(R.id.book_card_image)
         internal val bookResultBody: View = itemView.findViewById(R.id.book_card_item_body)
     }
 

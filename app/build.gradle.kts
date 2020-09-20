@@ -84,7 +84,7 @@ android {
     }
 
     buildTypes.all {
-        buildConfigField("String", "AD_MOB_ID", ADMOB_ID)
+        resValue("string", "AD_MOB_ID", ADMOB_ID)
         buildConfigField("String", "ADMOB_TEST_DEVICE_ID", ADMOB_TEST_DEVICE_ID)
         resValue("string", "AD_MOB_UNIT_ID", ADMOB_UNIT_ID)
     }
@@ -96,6 +96,7 @@ android {
     }
 
     kotlinOptions {
+        freeCompilerArgs = listOf("-Xjvm-default=all")
         jvmTarget = "1.8"
     }
 }
@@ -147,11 +148,6 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC")
 
-    // Fresco
-    val fresco_version = rootProject.extra.get("fresco_version")
-    implementation("com.facebook.fresco:fresco:$fresco_version")
-    implementation("com.facebook.fresco:imagepipeline-okhttp3:$fresco_version")
-
     // Firebase and GMS
     implementation(platform("com.google.firebase:firebase-bom:25.4.0"))
     implementation("com.google.firebase:firebase-core")
@@ -174,6 +170,9 @@ dependencies {
         isTransitive = false
     }
     implementation("com.google.zxing:core:3.3.0")
+
+    // Coil
+    implementation("io.coil-kt:coil:1.0.0-rc2")
 
     // disable for Google Play instant App testing
     debugImplementation("com.amitshekhar.android:debug-db:1.0.6")

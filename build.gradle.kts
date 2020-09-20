@@ -26,7 +26,6 @@ buildscript {
 val app_version by extra("1.10")
 
 val retrofit_version by extra("2.6.2")
-val fresco_version by extra("2.0.0")
 val koin_version by extra("2.2.0-beta-1")
 val room_version by extra("2.2.5")
 
