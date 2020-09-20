@@ -7,8 +7,11 @@ import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
+import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.preference.PreferenceManager
+import com.google.zxing.client.android.Intents
+import com.google.zxing.integration.android.IntentIntegrator
 import liou.rayyuan.chromecustomtabhelper.ChromeCustomTabsHelper
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
@@ -19,6 +22,7 @@ import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
 import liou.rayyuan.ebooksearchtaiwan.preferencesetting.PreferenceSettingsActivity
 import liou.rayyuan.ebooksearchtaiwan.simplewebview.SimpleWebViewFragment
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
+import liou.rayyuan.ebooksearchtaiwan.utils.showToastMessage
 import liou.rayyuan.ebooksearchtaiwan.view.Router
 import org.koin.android.ext.android.inject
 
@@ -57,7 +61,10 @@ class BookSearchActivity : BaseActivity(), ChromeCustomTabsHelper.Fallback,
             val appLinkKeyword = deeplinkHelper.getSearchKeyword(intent)
             val bookResultListFragment = BookResultListFragment.newInstance(appLinkKeyword)
             if (isDualPane) {
-                val subRouter = Router(supportFragmentManager, R.id.activity_book_search_nav_host_container)
+                val subRouter = Router(
+                    supportFragmentManager,
+                    R.id.activity_book_search_nav_host_container
+                )
                 subRouter.addView(bookResultListFragment, BookResultListFragment.TAG, false)
             } else {
                 contentRouter.addView(bookResultListFragment, BookResultListFragment.TAG, false)
@@ -82,7 +89,10 @@ class BookSearchActivity : BaseActivity(), ChromeCustomTabsHelper.Fallback,
         Log.i("BookSearchActivity", "Search Keyword is = $searchKeyword")
         searchKeyword?.run {
             if (isDualPane) {
-                val subRouter = Router(supportFragmentManager, R.id.activity_book_search_nav_host_container)
+                val subRouter = Router(
+                    supportFragmentManager,
+                    R.id.activity_book_search_nav_host_container
+                )
                 val bookSearchFragment = subRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
                 bookSearchFragment?.searchWithText(searchKeyword)
             } else {
@@ -95,9 +105,11 @@ class BookSearchActivity : BaseActivity(), ChromeCustomTabsHelper.Fallback,
     override fun onResume() {
         super.onResume()
         if (userPreferenceManager.isPreferCustomTab()) {
-            chromeCustomTabHelper.bindCustomTabsServices(this,
-                    userPreferenceManager.getPreferBrowser(),
-                    BuildConfig.HOST_URL)
+            chromeCustomTabHelper.bindCustomTabsServices(
+                this,
+                userPreferenceManager.getPreferBrowser(),
+                BuildConfig.HOST_URL
+            )
         }
     }
 
@@ -119,12 +131,16 @@ class BookSearchActivity : BaseActivity(), ChromeCustomTabsHelper.Fallback,
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             scanningBarcodeRequestCode -> {
-                if (resultCode == Activity.RESULT_OK) {
-                    data?.extras?.run {
-                        val resultText = getString(CameraPreviewActivity.resultISBNTextKey, "")
-                        val bookResultFragment = getBookResultFragment()
-                        bookResultFragment?.searchWithText(resultText)
+                val result = IntentIntegrator.parseActivityResult(resultCode, data)
+                if (result.contents == null) {
+                    val originalIntent = result.originalIntent
+                    if (originalIntent?.hasExtra(Intents.Scan.MISSING_CAMERA_PERMISSION) == true) {
+                        showToastMessage(R.string.permission_required_camera)
                     }
+                } else {
+                    val resultText = result.contents
+                    val bookResultFragment = getBookResultFragment()
+                    bookResultFragment?.searchWithText(resultText)
                 }
             }
             preferenceSettingsRequestCode -> {
@@ -152,8 +168,12 @@ class BookSearchActivity : BaseActivity(), ChromeCustomTabsHelper.Fallback,
     }
 
     internal fun openCameraPreviewActivity() {
-        val intent = Intent(this, CameraPreviewActivity::class.java)
-        startActivityForResult(intent, scanningBarcodeRequestCode)
+        IntentIntegrator(this)
+            .setOrientationLocked(false)
+            .setDesiredBarcodeFormats(IntentIntegrator.EAN_13)
+            .setRequestCode(scanningBarcodeRequestCode)
+            .setCaptureActivity(CameraPreviewActivity::class.java)
+            .initiateScan()
     }
 
     internal fun openPreferenceActivity() {
@@ -166,8 +186,10 @@ class BookSearchActivity : BaseActivity(), ChromeCustomTabsHelper.Fallback,
             val builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder()
             builder.setToolbarColor(getThemePrimaryColor())
             val chromeCustomTabIntent: CustomTabsIntent = builder.build()
-            ChromeCustomTabsHelper.openCustomTab(this, userPreferenceManager.getPreferBrowser(),
-                    chromeCustomTabIntent, Uri.parse(book.link), this)
+            ChromeCustomTabsHelper.openCustomTab(
+                this, userPreferenceManager.getPreferBrowser(),
+                chromeCustomTabIntent, Uri.parse(book.link), this
+            )
         } else {
             val isTablet = quickChecker.isTabletSize()
             val resultFragment = contentRouter.findFragmentByTag(SimpleWebViewFragment.TAG) as? SimpleWebViewFragment
@@ -201,7 +223,10 @@ class BookSearchActivity : BaseActivity(), ChromeCustomTabsHelper.Fallback,
 
     private fun getBookResultFragment(): BookResultListFragment? {
         return if (isDualPane) {
-            val subRouter = Router(supportFragmentManager, R.id.activity_book_search_nav_host_container)
+            val subRouter = Router(
+                supportFragmentManager,
+                R.id.activity_book_search_nav_host_container
+            )
             subRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
         } else {
             contentRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment

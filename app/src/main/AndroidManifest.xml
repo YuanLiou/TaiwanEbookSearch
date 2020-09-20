@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
 
     <uses-feature
             android:name="android.hardware.camera"
@@ -76,16 +77,9 @@
         <!-- other components -->
         <activity
                 android:name=".camerapreview.CameraPreviewActivity"
-                android:theme="@style/FullScreenTheme"
                 android:label="@string/barcode_scanner_title"
-                >
-
-            <meta-data
-                    android:name="com.google.firebase.ml.vision.DEPENDENCIES"
-                    android:value="barcode"
-                    />
-
-        </activity>
+                android:theme="@style/FullScreenTheme"
+                />
 
         <activity
                 android:name=".preferencesetting.PreferenceSettingsActivity"
