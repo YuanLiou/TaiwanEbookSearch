@@ -39,7 +39,6 @@
             android:layout_width="0dp"
             android:layout_height="411dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/activity_camera_preview_result_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:zxing_scanner_layout="@layout/component_barcode_scanner" />

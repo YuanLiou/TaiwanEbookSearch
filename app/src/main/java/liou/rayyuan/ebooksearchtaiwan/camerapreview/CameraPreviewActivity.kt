@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -21,7 +20,6 @@ import liou.rayyuan.ebooksearchtaiwan.utils.bindView
 class CameraPreviewActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityCameraPreviewBinding
     private val statusText: TextView by bindView(R.id.zxing_status_view)
-    private val scanningResultTitle: TextView by bindView(R.id.activity_camera_preview_result_title)
     private val authText: TextView by bindView(R.id.activity_camera_preview_auth_text)
 
     private val cameraPermissionRequestCode = 1001
@@ -35,7 +33,6 @@ class CameraPreviewActivity : AppCompatActivity() {
             setContentView(it.root)
         }
         captureManager = CaptureManager(this, viewBinding.zxingBarcodeScanner)
-        captureManager.initializeFromIntent(intent, savedInstanceState)
 
         authText.setOnClickListener {
             requestCameraPermission()
@@ -43,16 +40,22 @@ class CameraPreviewActivity : AppCompatActivity() {
 
         if (shouldRequestCameraPermission()) {
             requestCameraPermission()
-            scanningResultTitle.text = getString(R.string.camera_permission_waiting)
-            captureManager.setShowMissingCameraPermissionDialog(true)
+            statusText.text = getString(R.string.camera_permission_waiting)
         } else {
-            captureManager.decode()
+            startDecodeBarcode(savedInstanceState)
         }
+    }
+
+    private fun startDecodeBarcode(savedInstanceState: Bundle?) {
+        captureManager.initializeFromIntent(intent, savedInstanceState)
+        captureManager.decode()
     }
 
     override fun onResume() {
         super.onResume()
-        captureManager.onResume()
+        runWithCameraPermission {
+            captureManager.onResume()
+        }
     }
 
     override fun onPause() {
@@ -75,7 +78,6 @@ class CameraPreviewActivity : AppCompatActivity() {
             cameraPermissionManuallyEnable -> {
                 if (shouldRequestCameraPermission()) {
                     requestCameraPermission()
-                    captureManager.setShowMissingCameraPermissionDialog(true)
                 } else {
                     readyToShowCameraView()
                 }
@@ -89,11 +91,12 @@ class CameraPreviewActivity : AppCompatActivity() {
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        captureManager.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             cameraPermissionRequestCode -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     readyToShowCameraView()
+                    captureManager.onRequestPermissionsResult(requestCode, permissions, grantResults)
+                    startDecodeBarcode(null)
                 } else {
                     authText.visibility = View.VISIBLE
                     if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
@@ -105,7 +108,6 @@ class CameraPreviewActivity : AppCompatActivity() {
                                 }
                                 .create().show()
                     } else {
-                        scanningResultTitle.text = getString(R.string.camera_permission_deny)
                         val appName = getString(R.string.app_name)
                         val permissionName = getString(R.string.permission_camera_name)
                         val authYourselfMessage = getString(R.string.auth_yourself, appName, permissionName)
@@ -133,10 +135,14 @@ class CameraPreviewActivity : AppCompatActivity() {
     private fun shouldRequestCameraPermission(): Boolean =
             ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
 
+    private fun runWithCameraPermission(action: () -> Unit) {
+        if (!shouldRequestCameraPermission()) {
+            action()
+        }
+    }
+
     private fun readyToShowCameraView() {
-        statusText.visibility = View.GONE
-        scanningResultTitle.text = getString(R.string.camera_scanning_result)
+        statusText.text = getString(R.string.zxing_msg_default_status)
         authText.visibility = View.INVISIBLE
-        captureManager.decode()
     }
 }
