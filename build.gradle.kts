@@ -23,7 +23,7 @@ buildscript {
     }
 }
 
-val app_version by extra("1.10")
+val app_version by extra("1.11")
 
 val retrofit_version by extra("2.6.2")
 val koin_version by extra("2.2.0-beta-1")
