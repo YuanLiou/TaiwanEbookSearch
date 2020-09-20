@@ -78,6 +78,7 @@
         <activity
                 android:name=".camerapreview.CameraPreviewActivity"
                 android:label="@string/barcode_scanner_title"
+                android:theme="@style/FullScreenTheme"
                 />
 
         <activity

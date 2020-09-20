@@ -1,7 +1,6 @@
 package liou.rayyuan.ebooksearchtaiwan.camerapreview
 
 import android.Manifest
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -20,14 +19,8 @@ import liou.rayyuan.ebooksearchtaiwan.databinding.ActivityCameraPreviewBinding
 import liou.rayyuan.ebooksearchtaiwan.utils.bindView
 
 class CameraPreviewActivity : AppCompatActivity() {
-
-    companion object {
-        const val resultISBNTextKey = "result-isbn-text-key"
-    }
-
     private lateinit var viewBinding: ActivityCameraPreviewBinding
-    private val statusText: TextView by bindView(R.id.activity_camera_preview_status_text)
-    private val scanningProgressBar: ProgressBar by bindView(R.id.activity_camera_preview_progressbar)
+    private val statusText: TextView by bindView(R.id.zxing_status_view)
     private val scanningResultTitle: TextView by bindView(R.id.activity_camera_preview_result_title)
     private val authText: TextView by bindView(R.id.activity_camera_preview_auth_text)
 
@@ -50,7 +43,6 @@ class CameraPreviewActivity : AppCompatActivity() {
 
         if (shouldRequestCameraPermission()) {
             requestCameraPermission()
-            scanningProgressBar.visibility = View.GONE
             scanningResultTitle.text = getString(R.string.camera_permission_waiting)
             captureManager.setShowMissingCameraPermissionDialog(true)
         } else {
@@ -143,7 +135,6 @@ class CameraPreviewActivity : AppCompatActivity() {
 
     private fun readyToShowCameraView() {
         statusText.visibility = View.GONE
-        scanningProgressBar.visibility = View.VISIBLE
         scanningResultTitle.text = getString(R.string.camera_scanning_result)
         authText.visibility = View.INVISIBLE
         captureManager.decode()

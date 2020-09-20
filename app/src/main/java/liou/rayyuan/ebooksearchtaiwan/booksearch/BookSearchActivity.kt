@@ -134,7 +134,7 @@ class BookSearchActivity : BaseActivity(), ChromeCustomTabsHelper.Fallback,
                 val result = IntentIntegrator.parseActivityResult(resultCode, data)
                 if (result.contents == null) {
                     val originalIntent = result.originalIntent
-                    if (originalIntent.hasExtra(Intents.Scan.MISSING_CAMERA_PERMISSION)) {
+                    if (originalIntent?.hasExtra(Intents.Scan.MISSING_CAMERA_PERMISSION) == true) {
                         showToastMessage(R.string.permission_required_camera)
                     }
                 } else {
@@ -170,6 +170,7 @@ class BookSearchActivity : BaseActivity(), ChromeCustomTabsHelper.Fallback,
     internal fun openCameraPreviewActivity() {
         IntentIntegrator(this)
             .setOrientationLocked(false)
+            .setDesiredBarcodeFormats(IntentIntegrator.EAN_13)
             .setRequestCode(scanningBarcodeRequestCode)
             .setCaptureActivity(CameraPreviewActivity::class.java)
             .initiateScan()

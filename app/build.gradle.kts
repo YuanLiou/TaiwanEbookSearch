@@ -129,6 +129,7 @@ dependencies {
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.preference:preference-ktx:1.1.1")
     implementation("com.google.android.material:material:1.2.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.1")
     // ViewModel and LiveData
     val lifecycleLibraryVersion = "2.2.0"
     implementation("androidx.lifecycle:lifecycle-extensions:$lifecycleLibraryVersion")
