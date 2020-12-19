@@ -36,7 +36,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = mapOf("room.schemaLocation" to "$projectDir/schemas", "room.incremental" to "true")
+                arguments.putAll(mapOf("room.schemaLocation" to "$projectDir/schemas", "room.incremental" to "true"))
             }
         }
     }
@@ -74,7 +74,7 @@ android {
             signingConfig = signingConfigs.getByName("release")
 
             isMinifyEnabled = true
-            setShrinkResources(true)
+            isShrinkResources = true
             isZipAlignEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
 
@@ -90,9 +90,9 @@ android {
     }
 
     compileOptions {
-        coreLibraryDesugaringEnabled = true
-        setSourceCompatibility(JavaVersion.VERSION_1_8)
-        setTargetCompatibility(JavaVersion.VERSION_1_8)
+        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
