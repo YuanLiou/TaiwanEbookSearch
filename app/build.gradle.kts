@@ -118,69 +118,51 @@ tasks.register("checkVersionCode") {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.0.10")
-    implementation("liou.rayyuan.chromecustomtabhelper:chrome-custom-tab-helper:1.1.2")
-    implementation("com.jakewharton.threetenabp:threetenabp:1.2.1")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:${AppSettings.DESUGAR_LIB_VERSION}")
+    implementation(AppDependencies.CUSTOM_TAB)
+    implementation(AppDependencies.THREE_TEN_ABP)
 
     // region Android X Libraries
-    implementation("androidx.appcompat:appcompat:1.2.0")
-    implementation("androidx.core:core-ktx:1.3.2")
-    implementation("androidx.fragment:fragment-ktx:1.2.5")
-    implementation("androidx.activity:activity-ktx:1.1.0")
-    implementation("androidx.recyclerview:recyclerview:1.1.0")
-    implementation("androidx.cardview:cardview:1.0.0")
-    implementation("androidx.preference:preference-ktx:1.1.1")
-    implementation("com.google.android.material:material:1.2.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
-    // ViewModel and LiveData
-    val lifecycleLibraryVersion = "2.2.0"
-    implementation("androidx.lifecycle:lifecycle-extensions:$lifecycleLibraryVersion")
-    // Java8 support for Lifecycles
-    implementation("androidx.lifecycle:lifecycle-common-java8:$lifecycleLibraryVersion")
-
-    // Room
-    val roomVersion = rootProject.extra.get("room_version")
-    implementation("androidx.room:room-runtime:$roomVersion")
-    kapt("androidx.room:room-compiler:$roomVersion")
-    implementation("androidx.paging:paging-runtime:2.1.2")
+    AppDependencies.JetPacks.Libs.forEach {
+        implementation(it)
+    }
+    kapt(AppDependencies.JetPacks.ROOM_COMPILER)
     // endregion of Android X Libraries
 
     // Kotlin
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC")
+    implementation(AppDependencies.Kotlin.COROUTINE)
+    implementation(AppDependencies.Kotlin.SERIALIZATION)
 
     // Firebase and GMS
-    implementation(platform("com.google.firebase:firebase-bom:25.4.0"))
-    implementation("com.google.firebase:firebase-core")
-    implementation("com.google.firebase:firebase-ads-lite")
-    implementation("com.google.firebase:firebase-crashlytics")
+    implementation(platform(AppDependencies.Firebase.BOM))
+    AppDependencies.Firebase.Libs.forEach {
+        implementation(it)
+    }
 
     // Retrofit 2
-    val retrofit_version = rootProject.extra.get("retrofit_version")
-    implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
-    implementation("com.itkacher.okhttpprofiler:okhttpprofiler:1.0.7")
-    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.7.0")
+    AppDependencies.Retrofit.Libs.forEach {
+        implementation(it)
+    }
 
     // Koin
-    val koin_version = rootProject.extra.get("koin_version")
-    implementation("org.koin:koin-android:$koin_version")
-    implementation("org.koin:koin-androidx-viewmodel:$koin_version")
+    implementation(AppDependencies.Koin.KOIN)
+    implementation(AppDependencies.Koin.KOIN_VIEWMODEL)
 
     // Zxing
-    implementation("com.journeyapps:zxing-android-embedded:4.1.0") {
+    implementation(AppDependencies.Zxing.ZXING_ANDROID) {
         isTransitive = false
     }
-    implementation("com.google.zxing:core:3.3.0")
+    implementation(AppDependencies.Zxing.ZXING_CORE)
 
     // Coil
-    implementation("io.coil-kt:coil:1.0.0-rc2")
+    implementation(AppDependencies.COIL)
 
     // disable for Google Play instant App testing
-    debugImplementation("com.amitshekhar.android:debug-db:1.0.6")
+    debugImplementation(AppDependencies.DATABASE_DEBUG)
 
-    testImplementation("junit:junit:4.12")
-    androidTestImplementation("androidx.test:runner:1.1.0")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.1.0")
+    testImplementation(AppDependencies.Test.JUNIT)
+    androidTestImplementation(AppDependencies.Test.RUNNER)
+    androidTestImplementation(AppDependencies.Test.ESPRESSO)
 }
 
 // Firebase config needs to put on bottom
