@@ -4,32 +4,39 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
-import kotlinx.android.synthetic.main.activity_preference.*
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.R
+import liou.rayyuan.ebooksearchtaiwan.databinding.ActivityPreferenceBinding
+import liou.rayyuan.ebooksearchtaiwan.utils.ActivityViewBinding
 
 /**
  * Created by louis383 on 2018/9/29.
  */
-class PreferenceSettingsActivity : BaseActivity(), PreferenceSettingsFragment.PreferencesChangeCallback {
+class PreferenceSettingsActivity : BaseActivity(R.layout.activity_preference), PreferenceSettingsFragment.PreferencesChangeCallback {
     companion object {
         const val KEY_THEME_CHANGED = "theme-changed"
     }
 
+    private val viewBinding: ActivityPreferenceBinding by ActivityViewBinding(ActivityPreferenceBinding::bind, R.id.preference_layout_rootView)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_preference)
-
-        setSupportActionBar(preference_layout_toolbar)
+        val toolbar = viewBinding.preferenceLayoutToolbar
+        setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
-        preference_layout_toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.pure_white))
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.pure_white))
 
         supportFragmentManager.commit {
             replace(R.id.preference_layout_main_content, PreferenceSettingsFragment().apply {
                 callback = this@PreferenceSettingsActivity
             })
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        setSupportActionBar(null)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
