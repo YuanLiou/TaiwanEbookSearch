@@ -4,7 +4,7 @@ import java.util.*
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-android-extensions")
+    id("kotlin-parcelize")
     id("com.google.firebase.crashlytics")
     id("kotlinx-serialization")
     id("kotlin-kapt")
@@ -99,10 +99,6 @@ android {
         freeCompilerArgs = listOf("-Xjvm-default=all")
         jvmTarget = "1.8"
     }
-}
-
-androidExtensions {
-    isExperimental = true
 }
 
 fun getVersionCodeTimeStamps(): Int {
