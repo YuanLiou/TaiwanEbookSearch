@@ -29,7 +29,7 @@ import org.koin.android.ext.android.inject
 /**
  * Created by louis383 on 2017/12/2.
  */
-class BookSearchActivity : BaseActivity(), ChromeCustomTabsHelper.Fallback,
+class BookSearchActivity : BaseActivity(R.layout.activity_book_search), ChromeCustomTabsHelper.Fallback,
         SimpleWebViewFragment.OnSimpleWebviewActionListener {
 
     private val KEY_LAST_FRAGMENT_TAG = "key-last-fragment-tag"
@@ -44,7 +44,6 @@ class BookSearchActivity : BaseActivity(), ChromeCustomTabsHelper.Fallback,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_book_search)
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
         chromeCustomTabHelper = ChromeCustomTabsHelper()
 

@@ -18,7 +18,7 @@ import liou.rayyuan.ebooksearchtaiwan.view.ListItemTouchCallback
 import liou.rayyuan.ebooksearchtaiwan.view.OnBookStoreItemChangedListener
 import org.koin.android.ext.android.inject
 
-class BookStoreReorderActivity : BaseActivity(), OnBookStoreItemChangedListener {
+class BookStoreReorderActivity : BaseActivity(R.layout.activity_reorder_stores), OnBookStoreItemChangedListener {
 
     private val toolbar: Toolbar by bindView(R.id.activity_reorder_layout_toolbar)
     private val recyclerView: RecyclerView by bindView(R.id.activity_reorder_recyclerview)
@@ -30,7 +30,6 @@ class BookStoreReorderActivity : BaseActivity(), OnBookStoreItemChangedListener 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_reorder_stores)
         initToolbar()
 
         with(recyclerView) {

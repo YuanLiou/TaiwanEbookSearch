@@ -32,20 +32,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.material.appbar.AppBarLayout
-import kotlinx.android.synthetic.main.fragment_search_list.*
 import liou.rayyuan.ebooksearchtaiwan.BaseFragment
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
+import liou.rayyuan.ebooksearchtaiwan.databinding.FragmentSearchListBinding
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
 import liou.rayyuan.ebooksearchtaiwan.model.entity.SearchRecord
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
+import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
 import liou.rayyuan.ebooksearchtaiwan.view.BookResultClickHandler
 import liou.rayyuan.ebooksearchtaiwan.view.FullBookStoreResultAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultClickHandler,
+class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View.OnClickListener, BookResultClickHandler,
         SearchRecordAdapter.OnSearchRecordsClickListener {
 
     companion object {
@@ -59,6 +60,7 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
     private val KEY_RECYCLERVIEW_POSITION: String = "KEY_RECYCLERVIEW_POSITION"
     private val bookSearchViewModel: BookSearchViewModel by viewModel()
 
+    private val viewBinding: FragmentSearchListBinding by FragmentViewBinding(FragmentSearchListBinding::bind)
     private var defaultSearchKeyword: String by FragmentArgumentsDelegate()
     private var searchRecordAnimator: ValueAnimator? = null
     private lateinit var fullBookStoreResultsAdapter: FullBookStoreResultAdapter
@@ -89,13 +91,10 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_search_list, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as AppCompatActivity).setSupportActionBar(search_view_toolbar)
+        val toolbar = viewBinding.searchViewToolbar
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
         bindViews(view)
         init()
 
@@ -198,7 +197,7 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
         hintText.setOnClickListener(this)
         hintText.compoundDrawables
                 .filterNotNull()
-                .forEach { DrawableCompat.setTint(it, ContextCompat.getColor(context!!, R.color.gray)) }
+                .forEach { DrawableCompat.setTint(it, ContextCompat.getColor(requireContext(), R.color.gray)) }
 
         val linearLayoutManager = resultsRecyclerView.layoutManager as LinearLayoutManager
         linearLayoutManager.initialPrefetchItemCount = 6
@@ -217,6 +216,7 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
     }
 
     override fun onDestroy() {
+        (activity as AppCompatActivity).setSupportActionBar(null)
         searchRecordsAdapter.release()
         fullBookStoreResultsAdapter.release()
         super.onDestroy()
@@ -420,7 +420,7 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
 
     private fun showInternetRequestDialog() {
         if (isAdded) {
-            val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(activity!!)
+            val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(requireActivity())
             dialogBuilder.setTitle(R.string.network_alert_dialog_title)
             dialogBuilder.setMessage(R.string.network_alert_message)
             dialogBuilder.setPositiveButton(R.string.dialog_ok) { _: DialogInterface, _: Int -> }
@@ -430,19 +430,19 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
 
     private fun showInternetConnectionTimeout() {
         if (isAdded) {
-            getString(R.string.state_timeout).showToastOn(context!!)
+            getString(R.string.state_timeout).showToastOn(requireContext())
         }
     }
 
     private fun showKeywordIsEmpty() {
         if (isAdded) {
-            Toast.makeText(context!!, R.string.search_keyword_empty, Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), R.string.search_keyword_empty, Toast.LENGTH_LONG).show()
         }
     }
 
     private fun hideVirtualKeyboard() {
         if (isAdded) {
-            val inputManager: InputMethodManager = context!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val inputManager: InputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputManager.hideSoftInputFromWindow(searchEditText.windowToken, 0)
         }
     }
@@ -451,20 +451,20 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
         if (isAdded) {
             appbar.setExpanded(true, true)
             searchEditText.requestFocus()
-            val inputManager: InputMethodManager = context!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val inputManager: InputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputManager.showSoftInput(searchEditText, 0)
         }
     }
 
     private fun showEasterEgg01() {
         if (isAdded) {
-            Toast.makeText(context!!, R.string.easter_egg_01, Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), R.string.easter_egg_01, Toast.LENGTH_LONG).show()
         }
     }
 
     private fun showNetworkErrorMessage() {
         if (isAdded) {
-            getString(R.string.network_error_message).showToastOn(context!!)
+            getString(R.string.network_error_message).showToastOn(requireContext())
         }
     }
 
@@ -478,7 +478,7 @@ class BookResultListFragment : BaseFragment(), View.OnClickListener, BookResultC
 
     private fun showToast(message: String) {
         if (isAdded) {
-            message.showToastOn(context!!)
+            message.showToastOn(requireContext())
         }
     }
 

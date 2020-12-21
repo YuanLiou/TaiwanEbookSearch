@@ -3,6 +3,7 @@ package liou.rayyuan.ebooksearchtaiwan
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
+import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.model.UserPreferenceManager
@@ -11,7 +12,7 @@ import org.koin.android.ext.android.inject
 /**
  * Created by louis383 on 2018/9/29.
  */
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity(@LayoutRes contentLayoutId: Int) : AppCompatActivity(contentLayoutId) {
 
     protected val userPreferenceManager: UserPreferenceManager by inject()
     protected val eventTracker: EventTracker by inject()
