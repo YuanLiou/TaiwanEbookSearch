@@ -3,8 +3,7 @@ import org.gradle.kotlin.dsl.extra
 object AppDependencies {
     const val CUSTOM_TAB = "liou.rayyuan.chromecustomtabhelper:chrome-custom-tab-helper:1.1.2"
     const val THREE_TEN_ABP = "com.jakewharton.threetenabp:threetenabp:1.2.1"
-    const val COIL = "io.coil-kt:coil:1.0.0-rc2"
-    const val DATABASE_DEBUG = "com.amitshekhar.android:debug-db:1.0.6"
+    const val COIL = "io.coil-kt:coil:1.1.0"
 
     object JetPacks {
         const val APPCOMPAT = "androidx.appcompat:appcompat:1.2.0"
@@ -45,8 +44,8 @@ object AppDependencies {
     }
 
     object Kotlin {
-        const val COROUTINE = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9"
-        const val SERIALIZATION = "org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC"
+        const val COROUTINE = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
+        const val SERIALIZATION = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1"
     }
 
     object Firebase {
@@ -62,10 +61,10 @@ object AppDependencies {
     }
 
     object Retrofit {
-        private const val retrofit_version = "2.6.2"
+        private const val retrofit_version = "2.9.0"
         const val RETROFIT = "com.squareup.retrofit2:retrofit:$retrofit_version"
         const val PROFILER = "com.itkacher.okhttpprofiler:okhttpprofiler:1.0.7"
-        const val SERIALIZATION = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.7.0"
+        const val SERIALIZATION = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
         val Libs = listOf(
             RETROFIT,
             PROFILER,
@@ -74,7 +73,7 @@ object AppDependencies {
     }
 
     object Koin {
-        private const val koin_version = "2.2.0-beta-1"
+        private const val koin_version = "2.2.2"
         const val KOIN = "org.koin:koin-android:$koin_version"
         const val KOIN_VIEWMODEL = "org.koin:koin-androidx-viewmodel:$koin_version"
     }
