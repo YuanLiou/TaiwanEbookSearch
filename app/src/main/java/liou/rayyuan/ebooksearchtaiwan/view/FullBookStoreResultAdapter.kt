@@ -17,7 +17,7 @@ import com.google.android.gms.ads.MobileAds
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.model.entity.AdapterItem
-import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
+import liou.rayyuan.ebooksearchtaiwan.model.domain.model.Book
 import liou.rayyuan.ebooksearchtaiwan.model.entity.BookHeader
 import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
 

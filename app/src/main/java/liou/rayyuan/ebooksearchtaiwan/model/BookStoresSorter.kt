@@ -1,7 +1,7 @@
 package liou.rayyuan.ebooksearchtaiwan.model
 
-import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
-import liou.rayyuan.ebooksearchtaiwan.model.entity.BookStores
+import liou.rayyuan.ebooksearchtaiwan.model.domain.model.Book
+import liou.rayyuan.ebooksearchtaiwan.model.domain.model.BookStores
 import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
 
 

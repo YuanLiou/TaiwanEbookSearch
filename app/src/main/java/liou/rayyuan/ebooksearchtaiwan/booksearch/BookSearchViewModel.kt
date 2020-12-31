@@ -8,6 +8,10 @@ import androidx.paging.PagedList
 import kotlinx.coroutines.*
 import liou.rayyuan.ebooksearchtaiwan.model.*
 import liou.rayyuan.ebooksearchtaiwan.model.dao.SearchRecordDao
+import liou.rayyuan.ebooksearchtaiwan.model.domain.Result
+import liou.rayyuan.ebooksearchtaiwan.model.domain.model.Book
+import liou.rayyuan.ebooksearchtaiwan.model.domain.model.BookStores
+import liou.rayyuan.ebooksearchtaiwan.model.domain.usecase.GetBooksUseCase
 import liou.rayyuan.ebooksearchtaiwan.model.entity.*
 import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
@@ -20,7 +24,7 @@ import java.net.SocketTimeoutException
 /**
  * Created by louis383 on 2017/12/2.
  */
-class BookSearchViewModel(private val apiManager: APIManager,
+class BookSearchViewModel(private val getBooksUseCase: GetBooksUseCase,
                           private val preferenceManager: UserPreferenceManager,
                           private val eventTracker: EventTracker,
                           private val quickChecker: QuickChecker,
@@ -136,33 +140,28 @@ class BookSearchViewModel(private val apiManager: APIManager,
 
                 _listViewState.value = ListViewState.Prepare(true)
                 networkJob = CoroutineScope(Dispatchers.IO).launch {
-                    val response = getBookList(keyword, true).await()
+                    val response = getBooksUseCase(keyword)
                     withContext(Dispatchers.Main) {
                         when (response) {
-                            is HttpResult.Success -> {
-                                networkRequestSuccess(response.data)
+                            is Result.Success -> {
+                                networkRequestSuccess(response.value)
                                 resetCurrentResults()
                                 saveKeywordToLocal(keyword)
                             }
-                            is HttpResult.Error -> {
-                                networkErrorOccurred(null)
-                            }
-                            is HttpResult.ErrorInException -> {
-                                if (response.exception is SocketTimeoutException) {
+                            is Result.Failed -> {
+                                if (response.error is SocketTimeoutException) {
                                     networkTimeout()
                                 } else {
-                                    val message = response.exception.localizedMessage ?: GENERIC_NETWORK_ISSUE
+                                    val message = response.error.localizedMessage ?: GENERIC_NETWORK_ISSUE
                                     networkExceptionOccurred(message)
                                 }
                             }
-                            HttpResult.Empty -> {}
                         }
                     }
                 }
             } else {
                 _screenViewState.value = ScreenState.NoInternetConnection
             }
-
         } else {
             _screenViewState.value = ScreenState.EmptyKeyword
         }
@@ -170,14 +169,12 @@ class BookSearchViewModel(private val apiManager: APIManager,
         _searchRecordState.value = SearchRecordStates.HideList
     }
 
-    private fun saveKeywordToLocal(keyword: String) {
-        backgroundScope.launch {
-            searchRecordDao.getSearchRecordWithTitle(keyword)?.let {
-                searchRecordDao.updateCounts(it.id, it.counts + 1, OffsetDateTime.now())
-            } ?: run {
-                val searchRecord = SearchRecord(keyword, 1, OffsetDateTime.now())
-                searchRecordDao.insertRecords(listOf(searchRecord))
-            }
+    private suspend fun saveKeywordToLocal(keyword: String) = withContext(Dispatchers.IO) {
+        searchRecordDao.getSearchRecordWithTitle(keyword)?.let {
+            searchRecordDao.updateCounts(it.id, it.counts + 1, OffsetDateTime.now())
+        } ?: run {
+            val searchRecord = SearchRecord(keyword, 1, OffsetDateTime.now())
+            searchRecordDao.insertRecords(listOf(searchRecord))
         }
     }
 
@@ -205,11 +202,7 @@ class BookSearchViewModel(private val apiManager: APIManager,
             val bestItems = mutableListOf<Book>()
             bookItems.forEach{ (key, value) ->
                 if (defaultResultSort.contains(key)) {
-                    val book = value.firstOrNull()?.apply {
-                        isFirstChoice = true
-                        bookStore = key.defaultName
-                    }
-
+                    val book = value.firstOrNull()
                     book?.run {
                         bestItems.add(this)
                     }
@@ -231,9 +224,6 @@ class BookSearchViewModel(private val apiManager: APIManager,
 
                 adapterItems.add(BookHeader(it.defaultResId, books?.isEmpty() ?: true))
                 books?.let { resultList ->
-                    resultList.forEach { book ->
-                        book.bookStore = it.defaultName
-                    }
                     adapterItems.addAll(resultList)
                 }
             }
@@ -247,25 +237,6 @@ class BookSearchViewModel(private val apiManager: APIManager,
 
     fun logISBNScanningSucceed() {
         eventTracker.logEvent(EventTracker.SCANNED_ISBN)
-    }
-
-    private fun getBookList(aboutSomething: String = "", force: Boolean): Deferred<HttpResult<BookStores>> {
-        return CoroutineScope(Dispatchers.IO).async {
-            try {
-                if (force || (networkJob == null && aboutSomething.isNotEmpty())) {
-                    val response = apiManager.getBooks(aboutSomething)
-                    if (response.isSuccessful && response.body() != null) {
-                        HttpResult.Success(response.body()!!)
-                    } else {
-                        HttpResult.Error(null, true)
-                    }
-                } else {
-                    HttpResult.Empty
-                }
-            } catch (error: Throwable) {
-                HttpResult.ErrorInException(error)
-            }
-        }
     }
 
     private fun isRequestingBookData(): Boolean {
@@ -282,11 +253,6 @@ class BookSearchViewModel(private val apiManager: APIManager,
 
     private fun networkTimeout() {
         _screenViewState.value = ScreenState.ConnectionTimeout
-    }
-
-    private fun networkErrorOccurred(errorBody: ResponseBody?) {
-        _listViewState.value = ListViewState.Error
-        _screenViewState.value = ScreenState.NetworkError
     }
 
     private fun networkExceptionOccurred(message: String) {

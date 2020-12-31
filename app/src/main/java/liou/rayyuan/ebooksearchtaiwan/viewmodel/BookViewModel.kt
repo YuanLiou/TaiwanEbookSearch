@@ -1,7 +1,7 @@
 package liou.rayyuan.ebooksearchtaiwan.viewmodel
 
 import android.content.Context
-import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
+import liou.rayyuan.ebooksearchtaiwan.model.domain.model.Book
 import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
 import liou.rayyuan.ebooksearchtaiwan.utils.getLocalizedName
 
@@ -33,7 +33,7 @@ class BookViewModel(private val book: Book) {
 
     fun getShopName(context: Context): String = book.bookStore.let {
         DefaultStoreNames.values()
-                .find { enumValues -> enumValues.defaultName == it }
+                .find { enumValues -> enumValues == it }
                 ?.run { getLocalizedName(context )} ?: ""
     }
 }

@@ -2,7 +2,7 @@ package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import android.content.Context
 import liou.rayyuan.ebooksearchtaiwan.R
-import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
+import liou.rayyuan.ebooksearchtaiwan.model.domain.model.Book
 
 class BookView(val book: Book) {
 

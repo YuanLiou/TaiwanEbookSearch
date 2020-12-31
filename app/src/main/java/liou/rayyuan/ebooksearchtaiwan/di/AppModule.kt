@@ -32,7 +32,9 @@ val appModule = module {
 
     // ViewModels
     viewModel { BookSearchViewModel(get(), get(), get(), get(), get()) }
-
 }
 
-val appModules = listOf(appModule)
+val appModules = listOf(
+    appModule,
+    domainModule
+)

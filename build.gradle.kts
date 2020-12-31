@@ -9,8 +9,10 @@ buildscript {
 
     repositories {
         google()
-        jcenter()
+//        jcenter()
+        mavenCentral()
         maven(url = "https://plugins.gradle.org/m2/")
+        maven(url = "https://jitpack.io")
     }
     dependencies {
         classpath("com.android.tools.build:gradle:${AppSettings.AGP_VERSION}")
@@ -27,7 +29,9 @@ val app_version by extra("1.11")
 allprojects {
     repositories {
         google()
-        jcenter()
+//        jcenter()
+        mavenCentral()
+        maven(url = "https://jitpack.io")
     }
 }
 
