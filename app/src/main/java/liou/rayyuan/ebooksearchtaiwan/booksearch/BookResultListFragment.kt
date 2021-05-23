@@ -42,11 +42,10 @@ import liou.rayyuan.ebooksearchtaiwan.model.entity.SearchRecord
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
-import liou.rayyuan.ebooksearchtaiwan.view.BookResultClickHandler
-import liou.rayyuan.ebooksearchtaiwan.view.FullBookStoreResultAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View.OnClickListener, BookResultClickHandler,
+class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View.OnClickListener,
+    BookResultClickHandler,
         SearchRecordAdapter.OnSearchRecordsClickListener {
 
     companion object {

@@ -1,4 +1,4 @@
-package liou.rayyuan.ebooksearchtaiwan.view
+package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import liou.rayyuan.ebooksearchtaiwan.model.domain.model.Book
 

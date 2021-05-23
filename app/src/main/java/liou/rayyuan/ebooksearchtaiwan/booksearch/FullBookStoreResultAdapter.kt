@@ -1,6 +1,5 @@
-package liou.rayyuan.ebooksearchtaiwan.view
+package liou.rayyuan.ebooksearchtaiwan.booksearch
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,6 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import liou.rayyuan.ebooksearchtaiwan.R
-import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.model.entity.AdapterItem
 import liou.rayyuan.ebooksearchtaiwan.model.domain.model.Book
 import liou.rayyuan.ebooksearchtaiwan.model.entity.BookHeader
@@ -30,7 +28,7 @@ class FullBookStoreResultAdapter(
     private val lifecycleOwner: LifecycleOwner
 ) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>(),
-        BookResultClickHandler {
+    BookResultClickHandler {
 
     private val header = 1001
     private val storeTitle = 1002
@@ -81,9 +79,6 @@ class FullBookStoreResultAdapter(
                     with(holder) {
                         val shopName = bookViewModel.getShopName(holder.itemView.context)
                         setTextOnViewHolder(bookShopName, shopName)
-                        Log.i("FullBookStoreResultAdap", "shopName is $shopName")
-
-
                         setTextOnViewHolder(bookTitle, bookViewModel.getTitle())
                         setTextOnViewHolder(bookDescription, bookViewModel.getDescription())
                         setTextOnViewHolder(bookPrice, bookViewModel.getPrice())

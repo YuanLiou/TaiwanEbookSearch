@@ -16,8 +16,6 @@ import liou.rayyuan.ebooksearchtaiwan.model.entity.*
 import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import liou.rayyuan.ebooksearchtaiwan.utils.Utils
-import liou.rayyuan.ebooksearchtaiwan.view.FullBookStoreResultAdapter
-import okhttp3.ResponseBody
 import org.threeten.bp.OffsetDateTime
 import java.net.SocketTimeoutException
 
