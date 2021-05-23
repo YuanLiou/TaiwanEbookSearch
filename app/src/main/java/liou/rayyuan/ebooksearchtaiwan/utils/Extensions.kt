@@ -18,6 +18,8 @@ fun DefaultStoreNames.getLocalizedName(context: Context): String = when (this) {
     DefaultStoreNames.PLAY_STORE -> context.getString(R.string.playbook_title)
     DefaultStoreNames.PUBU -> context.getString(R.string.pubu_title)
     DefaultStoreNames.HYREAD -> context.getString(R.string.hyread_title)
+    DefaultStoreNames.KINDLE -> context.getString(R.string.kindle_title)
+    DefaultStoreNames.UNKNOWN -> context.getString(R.string.book_source_unknown)
 }
 
 fun String?.showToastOn(context: Context, duration: Int = Toast.LENGTH_LONG): Toast {

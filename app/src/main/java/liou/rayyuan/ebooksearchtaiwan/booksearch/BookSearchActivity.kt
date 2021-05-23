@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
-import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.preference.PreferenceManager
 import com.google.zxing.client.android.Intents
@@ -18,7 +17,7 @@ import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.CameraPreviewActivity
 import liou.rayyuan.ebooksearchtaiwan.model.DeeplinkHelper
-import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
+import liou.rayyuan.ebooksearchtaiwan.model.domain.model.Book
 import liou.rayyuan.ebooksearchtaiwan.preferencesetting.PreferenceSettingsActivity
 import liou.rayyuan.ebooksearchtaiwan.simplewebview.SimpleWebViewFragment
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker

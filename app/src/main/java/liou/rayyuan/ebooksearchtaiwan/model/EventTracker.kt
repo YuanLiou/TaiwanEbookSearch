@@ -35,8 +35,8 @@ class EventTracker(context: Context) {
         })
     }
 
-    fun generateBookRecordBundle(isFromBestResult: Boolean, bookStoreName: String): Bundle = Bundle().apply {
+    fun generateBookRecordBundle(isFromBestResult: Boolean, bookStoreName: DefaultStoreNames?): Bundle = Bundle().apply {
         putBoolean("choose_from_best_result", isFromBestResult)
-        putString("book_store_name", bookStoreName)
+        putString("book_store_name", bookStoreName?.defaultName ?: "null")
     }
 }

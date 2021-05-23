@@ -1,10 +1,11 @@
 package liou.rayyuan.ebooksearchtaiwan.model
 
-import com.itkacher.okhttpprofiler.OkHttpProfilerInterceptor
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
 import kotlinx.serialization.json.Json
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
-import liou.rayyuan.ebooksearchtaiwan.model.entity.BookStores
+import liou.rayyuan.ebooksearchtaiwan.model.data.dto.NetworkBookStore
+import liou.rayyuan.ebooksearchtaiwan.model.data.dto.NetworkCrawerResult
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Response
@@ -16,7 +17,7 @@ class APIManager {
     private val timeout: Long = 30
 
     init {
-        var userAgent = SystemInfoCollector.getUserAgent()
+        val userAgent = SystemInfoCollector.getUserAgent()
         val httpClientBuilder = OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val request = chain.request().newBuilder()
@@ -37,14 +38,16 @@ class APIManager {
         val contentType = "application/json".toMediaType()
         val retrofit = Retrofit.Builder()
             .baseUrl(BuildConfig.HOST_URL)
-            .addConverterFactory(Json.asConverterFactory(contentType))
+            .addConverterFactory(Json {
+                ignoreUnknownKeys = true
+            }.asConverterFactory(contentType))
             .client(httpClient)
             .build()
 
         bookSearchService = retrofit.create(BookSearchService::class.java)
     }
 
-    suspend fun getBooks(keywords: String): Response<BookStores> {
-        return bookSearchService.getBooks(keywords)
+    suspend fun postBooks(keywords: String): Response<NetworkCrawerResult> {
+        return bookSearchService.postBooks(keywords)
     }
 }

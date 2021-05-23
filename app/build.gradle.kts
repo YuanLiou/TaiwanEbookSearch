@@ -152,10 +152,6 @@ dependencies {
 
     // Coil
     implementation(AppDependencies.COIL)
-
-    // disable for Google Play instant App testing
-    debugImplementation(AppDependencies.DATABASE_DEBUG)
-
     testImplementation(AppDependencies.Test.JUNIT)
     androidTestImplementation(AppDependencies.Test.RUNNER)
     androidTestImplementation(AppDependencies.Test.ESPRESSO)

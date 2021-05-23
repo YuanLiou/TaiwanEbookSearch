@@ -1,4 +1,4 @@
-package liou.rayyuan.ebooksearchtaiwan.view
+package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import android.view.LayoutInflater
 import android.view.View
@@ -15,9 +15,8 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import liou.rayyuan.ebooksearchtaiwan.R
-import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.model.entity.AdapterItem
-import liou.rayyuan.ebooksearchtaiwan.model.entity.Book
+import liou.rayyuan.ebooksearchtaiwan.model.domain.model.Book
 import liou.rayyuan.ebooksearchtaiwan.model.entity.BookHeader
 import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
 
@@ -25,12 +24,11 @@ import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
  * Created by louis383 on 2018/1/7.
  */
 class FullBookStoreResultAdapter(
-    private val eventTracker: EventTracker?,
     private var clickHandler: BookResultClickHandler?,
     private val lifecycleOwner: LifecycleOwner
 ) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>(),
-        BookResultClickHandler {
+    BookResultClickHandler {
 
     private val header = 1001
     private val storeTitle = 1002
@@ -79,7 +77,8 @@ class FullBookStoreResultAdapter(
                     val bookViewModel = BookViewModel(book)
 
                     with(holder) {
-                        setTextOnViewHolder(bookShopName, bookViewModel.getShopName(holder.itemView.context))
+                        val shopName = bookViewModel.getShopName(holder.itemView.context)
+                        setTextOnViewHolder(bookShopName, shopName)
                         setTextOnViewHolder(bookTitle, bookViewModel.getTitle())
                         setTextOnViewHolder(bookDescription, bookViewModel.getDescription())
                         setTextOnViewHolder(bookPrice, bookViewModel.getPrice())
@@ -93,10 +92,6 @@ class FullBookStoreResultAdapter(
 
                         bookResultBody.setOnClickListener {
                             clickHandler?.onBookCardClicked(book)
-
-                            eventTracker?.generateBookRecordBundle(book.isFirstChoice, book.bookStore)?.run {
-                                eventTracker.logEvent(EventTracker.OPEN_BOOK_LINK, this)
-                            }
                         }
 
                         if (book.isFirstChoice) {
