@@ -18,5 +18,5 @@ data class Book(val thumbnail: String,
                 val id: String,
                 val title: String,
                 val authors: List<String>? = listOf(),
-                var bookStore: DefaultStoreNames? = null,
+                val bookStore: DefaultStoreNames,
                 var isFirstChoice: Boolean = false) : Parcelable, AdapterItem

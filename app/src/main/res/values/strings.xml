@@ -66,4 +66,6 @@
     <string name="preference_follow_system_theme">Follow system theme</string>
     <string name="preference_follow_system_switch_on">App theme follows system setting.</string>
     <string name="preference_generic_checkbox_switch_off">Disable</string>
+    <string name="kindle_title">Amazon Kindle</string>
+    <string name="book_source_unknown">From Unknow Source</string>
 </resources>

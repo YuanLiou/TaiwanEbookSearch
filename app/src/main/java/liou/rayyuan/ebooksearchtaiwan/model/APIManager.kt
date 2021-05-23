@@ -4,7 +4,8 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
 import kotlinx.serialization.json.Json
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
-import liou.rayyuan.ebooksearchtaiwan.model.data.dto.NetworkBookStores
+import liou.rayyuan.ebooksearchtaiwan.model.data.dto.NetworkBookStore
+import liou.rayyuan.ebooksearchtaiwan.model.data.dto.NetworkCrawerResult
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Response
@@ -37,14 +38,16 @@ class APIManager {
         val contentType = "application/json".toMediaType()
         val retrofit = Retrofit.Builder()
             .baseUrl(BuildConfig.HOST_URL)
-            .addConverterFactory(Json.asConverterFactory(contentType))
+            .addConverterFactory(Json {
+                ignoreUnknownKeys = true
+            }.asConverterFactory(contentType))
             .client(httpClient)
             .build()
 
         bookSearchService = retrofit.create(BookSearchService::class.java)
     }
 
-    suspend fun getBooks(keywords: String): Response<NetworkBookStores> {
-        return bookSearchService.getBooks(keywords)
+    suspend fun postBooks(keywords: String): Response<NetworkCrawerResult> {
+        return bookSearchService.postBooks(keywords)
     }
 }

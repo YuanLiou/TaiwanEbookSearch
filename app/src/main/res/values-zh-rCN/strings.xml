@@ -65,4 +65,6 @@
     <string name="preference_follow_system_theme">跟随系统主题</string>
     <string name="preference_follow_system_switch_on">皮肤跟随系统设置</string>
     <string name="preference_generic_checkbox_switch_off">关闭</string>
+    <string name="kindle_title">Amazon Kindle</string>
+    <string name="book_source_unknown">未知的来源</string>
 </resources>

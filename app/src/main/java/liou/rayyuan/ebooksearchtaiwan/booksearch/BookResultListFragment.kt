@@ -98,7 +98,7 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
         bindViews(view)
         init()
 
-        fullBookStoreResultsAdapter = FullBookStoreResultAdapter(eventTracker, this, this)
+        fullBookStoreResultsAdapter = FullBookStoreResultAdapter(this, this)
         resultsRecyclerView.adapter = fullBookStoreResultsAdapter
         bookSearchViewModel.setRecyclerViewAdapter(fullBookStoreResultsAdapter)
     }

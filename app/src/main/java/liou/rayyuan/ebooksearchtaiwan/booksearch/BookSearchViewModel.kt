@@ -203,8 +203,9 @@ class BookSearchViewModel(private val getBooksUseCase: GetBooksUseCase,
             bookItems.forEach{ (key, value) ->
                 if (defaultResultSort.contains(key)) {
                     val book = value.firstOrNull()
-                    book?.run {
-                        bestItems.add(this)
+                    book?.let { currentBook ->
+                        currentBook.isFirstChoice = true
+                        bestItems.add(currentBook)
                     }
                 }
             }

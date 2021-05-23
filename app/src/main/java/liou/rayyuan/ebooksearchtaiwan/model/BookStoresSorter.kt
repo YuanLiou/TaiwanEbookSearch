@@ -50,6 +50,11 @@ fun BookStores.generateBookStoresResultMap(sortedList: List<DefaultStoreNames>):
                     map.put(DefaultStoreNames.HYREAD, it)
                 }
             }
+            DefaultStoreNames.KINDLE -> {
+                this.kindle?.let {
+                    map.put(DefaultStoreNames.KINDLE, it)
+                }
+            }
             else -> {}
         }
     }

@@ -1,5 +1,6 @@
 package liou.rayyuan.ebooksearchtaiwan.view
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +26,6 @@ import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
  * Created by louis383 on 2018/1/7.
  */
 class FullBookStoreResultAdapter(
-    private val eventTracker: EventTracker?,
     private var clickHandler: BookResultClickHandler?,
     private val lifecycleOwner: LifecycleOwner
 ) :
@@ -79,7 +79,11 @@ class FullBookStoreResultAdapter(
                     val bookViewModel = BookViewModel(book)
 
                     with(holder) {
-                        setTextOnViewHolder(bookShopName, bookViewModel.getShopName(holder.itemView.context))
+                        val shopName = bookViewModel.getShopName(holder.itemView.context)
+                        setTextOnViewHolder(bookShopName, shopName)
+                        Log.i("FullBookStoreResultAdap", "shopName is $shopName")
+
+
                         setTextOnViewHolder(bookTitle, bookViewModel.getTitle())
                         setTextOnViewHolder(bookDescription, bookViewModel.getDescription())
                         setTextOnViewHolder(bookPrice, bookViewModel.getPrice())
@@ -93,10 +97,6 @@ class FullBookStoreResultAdapter(
 
                         bookResultBody.setOnClickListener {
                             clickHandler?.onBookCardClicked(book)
-
-                            eventTracker?.generateBookRecordBundle(book.isFirstChoice, book.bookStore)?.run {
-                                eventTracker.logEvent(EventTracker.OPEN_BOOK_LINK, this)
-                            }
                         }
 
                         if (book.isFirstChoice) {
