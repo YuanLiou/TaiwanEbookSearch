@@ -1,25 +1,38 @@
 package liou.rayyuan.ebooksearchtaiwan.model.domain.repository
 
-import liou.rayyuan.ebooksearchtaiwan.model.APIManager
+import liou.rayyuan.ebooksearchtaiwan.model.data.api.BookSearchService
 import liou.rayyuan.ebooksearchtaiwan.model.data.BookStoreKeys
 import liou.rayyuan.ebooksearchtaiwan.model.data.dto.NetworkCrawerResult
 import liou.rayyuan.ebooksearchtaiwan.model.data.mapper.SearchResultMapper
 import liou.rayyuan.ebooksearchtaiwan.model.domain.Result
 import liou.rayyuan.ebooksearchtaiwan.model.domain.SimpleResult
 import liou.rayyuan.ebooksearchtaiwan.model.domain.model.BookStores
+import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
 
 class BookRepositoryImpl(
-    private val apiManager: APIManager,
+    private val bookSearchService: BookSearchService,
     private val searchResultMapper: SearchResultMapper
 ) : BookRepository {
 
     override suspend fun getBooks(keyword: String): SimpleResult<BookStores> {
-        val bookStoreResponse = apiManager.postBooks(keyword)
-        val body = bookStoreResponse.body()
-        return if (bookStoreResponse.isSuccessful && body != null) {
-            Result.Success(mapBookStores(body))
-        } else {
-            Result.Failed(BookResultException("Response is failed, code is ${bookStoreResponse.code()}"))
+        return try {
+            val response = bookSearchService.postBooks(keyword)
+            Result.Success(mapBookStores(response))
+        } catch (exception: Exception) {
+            Result.Failed(BookResultException("Response is failed, exception is $exception", exception))
+        }
+    }
+
+    override suspend fun getBooksWithStores(
+        stores: List<DefaultStoreNames>,
+        keyword: String
+    ): SimpleResult<BookStores> {
+        val storeStringList = stores.map { it.defaultName }
+        return try {
+            val response = bookSearchService.postBooks(storeStringList, keyword)
+            Result.Success(mapBookStores(response))
+        } catch (exception: Exception) {
+            Result.Failed(BookResultException("Response is failed, exception is $exception", exception))
         }
     }
 
@@ -42,5 +55,5 @@ class BookRepositoryImpl(
         )
     }
 
-    class BookResultException(message: String) : Throwable(message)
+    class BookResultException(message: String, exception: Exception) : Throwable(message)
 }

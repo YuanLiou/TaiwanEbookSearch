@@ -116,7 +116,6 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:${AppSettings.DESUGAR_LIB_VERSION}")
     implementation(AppDependencies.CUSTOM_TAB)
-    implementation(AppDependencies.THREE_TEN_ABP)
 
     // region Android X Libraries
     AppDependencies.JetPacks.Libs.forEach {
@@ -128,6 +127,9 @@ dependencies {
     // Kotlin
     implementation(AppDependencies.Kotlin.COROUTINE)
     implementation(AppDependencies.Kotlin.SERIALIZATION)
+    implementation(AppDependencies.Kotlin.KTOR_CLIENT_ANDROID)
+    implementation(AppDependencies.Kotlin.KTOR_CLIENT_SERIALIZATION)
+    implementation(AppDependencies.Kotlin.KTOR_CLIENT_LOGGING)
 
     // Firebase and GMS
     implementation(platform(AppDependencies.Firebase.BOM))
@@ -135,14 +137,8 @@ dependencies {
         implementation(it)
     }
 
-    // Retrofit 2
-    AppDependencies.Retrofit.Libs.forEach {
-        implementation(it)
-    }
-
     // Koin
     implementation(AppDependencies.Koin.KOIN)
-    implementation(AppDependencies.Koin.KOIN_VIEWMODEL)
 
     // Zxing
     implementation(AppDependencies.Zxing.ZXING_ANDROID) {

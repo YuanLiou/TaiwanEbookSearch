@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.room.*
 import liou.rayyuan.ebooksearchtaiwan.model.entity.SearchRecord
-import org.threeten.bp.OffsetDateTime
+import java.time.OffsetDateTime
 
 @Dao
 interface SearchRecordDao {

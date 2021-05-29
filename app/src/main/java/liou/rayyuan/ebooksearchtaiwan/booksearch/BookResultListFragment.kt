@@ -295,7 +295,7 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
         hintText.text = hintWithAppVersion
     }
 
-    private fun setMainResultView(listViewState: ListViewState?) {
+    private fun setMainResultView(listViewState: ListViewState) {
         when (listViewState) {
             is ListViewState.Prepare -> {
                 progressBar.visibility = View.VISIBLE
@@ -303,6 +303,9 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
                 hintText.visibility = View.GONE
                 backToTopButton.visibility = View.GONE
                 adViewLayout.visibility = View.VISIBLE
+
+                searchButton.isEnabled = false
+                cameraButton.isEnabled = false
 
                 if (this::shareResultMenu.isInitialized) {
                     shareResultMenu.setVisible(false)
@@ -325,6 +328,9 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
                 backToTopButton.visibility = View.VISIBLE
                 adViewLayout.visibility = View.GONE
 
+                searchButton.isEnabled = true
+                cameraButton.isEnabled = true
+
                 if (this::shareResultMenu.isInitialized) {
                     shareResultMenu.setVisible(true)
                 }
@@ -340,15 +346,17 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
                 backToTopButton.visibility = View.GONE
                 adViewLayout.visibility = View.GONE
 
+                searchButton.isEnabled = true
+                cameraButton.isEnabled = true
+
                 if (this::shareResultMenu.isInitialized) {
                     shareResultMenu.setVisible(false)
                 }
             }
-            else -> {}
         }
     }
 
-    private fun updateScreen(screenState: ScreenState?) {
+    private fun updateScreen(screenState: ScreenState) {
         when (screenState) {
             ScreenState.EasterEgg -> {
                 showEasterEgg01()
@@ -372,11 +380,10 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
                     showToast(screenState.message)
                 }
             }
-            else -> {}
         }
     }
 
-    private fun updateSearchRecords(searchRecordStates: SearchRecordStates?) {
+    private fun updateSearchRecords(searchRecordStates: SearchRecordStates) {
         when (searchRecordStates) {
             is SearchRecordStates.ShowList -> {
                 val itemCounts = searchRecordStates.itemCounts
