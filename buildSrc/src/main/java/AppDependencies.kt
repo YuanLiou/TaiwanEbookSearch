@@ -1,5 +1,3 @@
-import org.gradle.kotlin.dsl.extra
-
 object AppDependencies {
     const val CUSTOM_TAB = "com.github.YuanLiou:chrome-custom-tab-helper:1.1.1"
     const val THREE_TEN_ABP = "com.jakewharton.threetenabp:threetenabp:1.2.1"

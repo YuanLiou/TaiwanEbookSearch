@@ -13,7 +13,7 @@ import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
 
 class APIManager {
-    private val bookSearchService: BookSearchService
+    val bookSearchService: BookSearchService
     private val timeout: Long = 30
 
     init {
@@ -45,9 +45,5 @@ class APIManager {
             .build()
 
         bookSearchService = retrofit.create(BookSearchService::class.java)
-    }
-
-    suspend fun postBooks(keywords: String): Response<NetworkCrawerResult> {
-        return bookSearchService.postBooks(keywords)
     }
 }

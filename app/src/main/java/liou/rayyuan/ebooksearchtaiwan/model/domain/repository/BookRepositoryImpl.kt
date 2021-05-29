@@ -1,6 +1,7 @@
 package liou.rayyuan.ebooksearchtaiwan.model.domain.repository
 
 import liou.rayyuan.ebooksearchtaiwan.model.APIManager
+import liou.rayyuan.ebooksearchtaiwan.model.BookSearchService
 import liou.rayyuan.ebooksearchtaiwan.model.data.BookStoreKeys
 import liou.rayyuan.ebooksearchtaiwan.model.data.dto.NetworkCrawerResult
 import liou.rayyuan.ebooksearchtaiwan.model.data.mapper.SearchResultMapper
@@ -9,12 +10,12 @@ import liou.rayyuan.ebooksearchtaiwan.model.domain.SimpleResult
 import liou.rayyuan.ebooksearchtaiwan.model.domain.model.BookStores
 
 class BookRepositoryImpl(
-    private val apiManager: APIManager,
+    private val bookSearchService: BookSearchService,
     private val searchResultMapper: SearchResultMapper
 ) : BookRepository {
 
     override suspend fun getBooks(keyword: String): SimpleResult<BookStores> {
-        val bookStoreResponse = apiManager.postBooks(keyword)
+        val bookStoreResponse = bookSearchService.postBooks(keyword)
         val body = bookStoreResponse.body()
         return if (bookStoreResponse.isSuccessful && body != null) {
             Result.Success(mapBookStores(body))
