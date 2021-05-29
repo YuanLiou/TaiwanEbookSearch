@@ -1,6 +1,6 @@
 object AppDependencies {
     const val CUSTOM_TAB = "com.github.YuanLiou:chrome-custom-tab-helper:1.1.1"
-    const val COIL = "io.coil-kt:coil:1.1.0"
+    const val COIL = "io.coil-kt:coil:1.2.1"
 
     object JetPacks {
         const val APPCOMPAT = "androidx.appcompat:appcompat:1.2.0"

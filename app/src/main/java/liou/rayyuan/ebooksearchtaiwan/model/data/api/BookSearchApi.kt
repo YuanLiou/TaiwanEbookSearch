@@ -14,4 +14,9 @@ class BookSearchApi(
     override suspend fun postBooks(keyword: String): NetworkCrawerResult {
         return httpClient.post(url + keyword)
     }
+
+    override suspend fun postBooks(stores: List<String>, keyword: String): NetworkCrawerResult {
+        val storesString = stores.joinToString("&bookstores[]=", prefix = "&bookstores[]=")
+        return httpClient.post(url + keyword + storesString)
+    }
 }

@@ -12,6 +12,7 @@ import liou.rayyuan.ebooksearchtaiwan.model.domain.Result
 import liou.rayyuan.ebooksearchtaiwan.model.domain.model.Book
 import liou.rayyuan.ebooksearchtaiwan.model.domain.model.BookStores
 import liou.rayyuan.ebooksearchtaiwan.model.domain.usecase.GetBooksUseCase
+import liou.rayyuan.ebooksearchtaiwan.model.domain.usecase.GetBooksWithStoresUseCase
 import liou.rayyuan.ebooksearchtaiwan.model.entity.*
 import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
@@ -22,7 +23,7 @@ import java.time.OffsetDateTime
 /**
  * Created by louis383 on 2017/12/2.
  */
-class BookSearchViewModel(private val getBooksUseCase: GetBooksUseCase,
+class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithStoresUseCase,
                           private val preferenceManager: UserPreferenceManager,
                           private val eventTracker: EventTracker,
                           private val quickChecker: QuickChecker,
@@ -138,7 +139,7 @@ class BookSearchViewModel(private val getBooksUseCase: GetBooksUseCase,
 
                 _listViewState.value = ListViewState.Prepare(true)
                 networkJob = CoroutineScope(Dispatchers.IO).launch {
-                    val response = getBooksUseCase(keyword)
+                    val response = getBooksWithStoresUseCase(defaultResultSort, keyword)
                     withContext(Dispatchers.Main) {
                         when (response) {
                             is Result.Success -> {

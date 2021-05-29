@@ -4,6 +4,7 @@ import liou.rayyuan.ebooksearchtaiwan.model.data.api.BookSearchApi
 import liou.rayyuan.ebooksearchtaiwan.model.data.mapper.*
 import liou.rayyuan.ebooksearchtaiwan.model.domain.repository.BookRepositoryImpl
 import liou.rayyuan.ebooksearchtaiwan.model.domain.usecase.GetBooksUseCase
+import liou.rayyuan.ebooksearchtaiwan.model.domain.usecase.GetBooksWithStoresUseCase
 import org.koin.dsl.module
 
 val domainModule = module {
@@ -40,5 +41,9 @@ val domainModule = module {
     // UseCases
     factory {
         GetBooksUseCase(get<BookRepositoryImpl>())
+    }
+
+    factory {
+        GetBooksWithStoresUseCase(get<BookRepositoryImpl>())
     }
 }
