@@ -1,11 +1,10 @@
 package liou.rayyuan.ebooksearchtaiwan.di
 
-import liou.rayyuan.ebooksearchtaiwan.model.APIManager
+import liou.rayyuan.ebooksearchtaiwan.model.data.api.BookSearchApi
 import liou.rayyuan.ebooksearchtaiwan.model.data.mapper.*
 import liou.rayyuan.ebooksearchtaiwan.model.domain.repository.BookRepositoryImpl
 import liou.rayyuan.ebooksearchtaiwan.model.domain.usecase.GetBooksUseCase
 import org.koin.dsl.module
-
 
 val domainModule = module {
     // Mappers
@@ -35,7 +34,7 @@ val domainModule = module {
 
     // Repositories
     factory {
-        BookRepositoryImpl(get<APIManager>().bookSearchService, get<SearchResultMapper>())
+        BookRepositoryImpl(get<BookSearchApi>(), get<SearchResultMapper>())
     }
 
     // UseCases

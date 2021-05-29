@@ -16,8 +16,8 @@ import liou.rayyuan.ebooksearchtaiwan.model.entity.*
 import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import liou.rayyuan.ebooksearchtaiwan.utils.Utils
-import org.threeten.bp.OffsetDateTime
 import java.net.SocketTimeoutException
+import java.time.OffsetDateTime
 
 /**
  * Created by louis383 on 2017/12/2.
@@ -147,6 +147,11 @@ class BookSearchViewModel(private val getBooksUseCase: GetBooksUseCase,
                                 saveKeywordToLocal(keyword)
                             }
                             is Result.Failed -> {
+                                /*
+                                ServerResponseException == internal server error
+                                ClientRequestException == response.status.value to get response code
+                                RedirectResponseException
+                                 */
                                 if (response.error is SocketTimeoutException) {
                                     networkTimeout()
                                 } else {

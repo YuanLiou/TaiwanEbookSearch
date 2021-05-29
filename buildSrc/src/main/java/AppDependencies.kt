@@ -1,6 +1,5 @@
 object AppDependencies {
     const val CUSTOM_TAB = "com.github.YuanLiou:chrome-custom-tab-helper:1.1.1"
-    const val THREE_TEN_ABP = "com.jakewharton.threetenabp:threetenabp:1.2.1"
     const val COIL = "io.coil-kt:coil:1.1.0"
 
     object JetPacks {
@@ -44,6 +43,10 @@ object AppDependencies {
     object Kotlin {
         const val COROUTINE = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0"
         const val SERIALIZATION = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.1"
+        private const val ktorVersion = "1.6.0"
+        const val KTOR_CLIENT_ANDROID = "io.ktor:ktor-client-android:$ktorVersion"
+        const val KTOR_CLIENT_SERIALIZATION = "io.ktor:ktor-client-serialization:$ktorVersion"
+        const val KTOR_CLIENT_LOGGING = "io.ktor:ktor-client-logging:$ktorVersion"
     }
 
     object Firebase {
@@ -58,24 +61,9 @@ object AppDependencies {
         )
     }
 
-    object Retrofit {
-        private const val retrofit_version = "2.9.0"
-        const val RETROFIT = "com.squareup.retrofit2:retrofit:$retrofit_version"
-        const val PROFILER = "com.localebro:okhttpprofiler:1.0.8"
-        const val SERIALIZATION = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
-        const val OKHTTP = "com.squareup.okhttp3:okhttp:4.9.1"
-        val Libs = listOf(
-            RETROFIT,
-            PROFILER,
-            SERIALIZATION,
-            OKHTTP
-        )
-    }
-
     object Koin {
         private const val koin_version = "3.0.1"
         const val KOIN = "io.insert-koin:koin-android:$koin_version"
-        const val KOIN_VIEWMODEL = "io.insert-koin:koin-android:$koin_version"
     }
 
     object Zxing {

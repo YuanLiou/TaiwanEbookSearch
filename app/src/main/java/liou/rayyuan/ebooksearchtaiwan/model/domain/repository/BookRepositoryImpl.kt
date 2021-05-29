@@ -1,7 +1,6 @@
 package liou.rayyuan.ebooksearchtaiwan.model.domain.repository
 
-import liou.rayyuan.ebooksearchtaiwan.model.APIManager
-import liou.rayyuan.ebooksearchtaiwan.model.BookSearchService
+import liou.rayyuan.ebooksearchtaiwan.model.data.api.BookSearchService
 import liou.rayyuan.ebooksearchtaiwan.model.data.BookStoreKeys
 import liou.rayyuan.ebooksearchtaiwan.model.data.dto.NetworkCrawerResult
 import liou.rayyuan.ebooksearchtaiwan.model.data.mapper.SearchResultMapper
@@ -15,12 +14,11 @@ class BookRepositoryImpl(
 ) : BookRepository {
 
     override suspend fun getBooks(keyword: String): SimpleResult<BookStores> {
-        val bookStoreResponse = bookSearchService.postBooks(keyword)
-        val body = bookStoreResponse.body()
-        return if (bookStoreResponse.isSuccessful && body != null) {
-            Result.Success(mapBookStores(body))
-        } else {
-            Result.Failed(BookResultException("Response is failed, code is ${bookStoreResponse.code()}"))
+        return try {
+            val response = bookSearchService.postBooks(keyword)
+            Result.Success(mapBookStores(response))
+        } catch (exception: Exception) {
+            Result.Failed(BookResultException("Response is failed, exception is $exception", exception))
         }
     }
 
@@ -43,5 +41,5 @@ class BookRepositoryImpl(
         )
     }
 
-    class BookResultException(message: String) : Throwable(message)
+    class BookResultException(message: String, exception: Exception) : Throwable(message)
 }

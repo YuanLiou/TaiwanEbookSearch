@@ -13,7 +13,6 @@ import org.koin.dsl.module
  */
 
 val appModule = module {
-    single { APIManager() }
     factory { EventTracker(androidApplication()) }
     factory { UserPreferenceManager(androidApplication()) }
     factory { QuickChecker(androidApplication()) }
@@ -36,5 +35,6 @@ val appModule = module {
 
 val appModules = listOf(
     appModule,
-    domainModule
+    domainModule,
+    dataModule
 )
