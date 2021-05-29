@@ -3,6 +3,7 @@ package liou.rayyuan.ebooksearchtaiwan.booksearch
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import kotlinx.coroutines.*
@@ -47,7 +48,7 @@ class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithSto
         get() = _searchRecordState
     //endregion
 
-    internal val searchRecordLiveData = run {
+    val searchRecordLiveData = run {
         val factory = searchRecordDao.getSearchRecordsPaged()
         val config = PagedList.Config.Builder()
                 .setEnablePlaceholders(true)
@@ -60,9 +61,6 @@ class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithSto
     }
 
     private var networkJob: Job? = null
-    private val dataSetJob = Job()
-    private val backgroundScope = CoroutineScope(Dispatchers.IO + dataSetJob)
-
     private lateinit var fullBookStoreResultsAdapter: FullBookStoreResultAdapter
     private val maxListNumber: Int = 10
     private var eggCount: Int = 0
@@ -76,8 +74,8 @@ class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithSto
             }
         }
 
-    internal var lastScrollPosition: Int = 0
-        internal set(value) {
+    var lastScrollPosition: Int = 0
+        set(value) {
             if (!isRequestingBookData()) {
                 field = value
             } else {
@@ -86,15 +84,12 @@ class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithSto
         }
 
     override fun onCleared() {
-        if (dataSetJob.isActive && !dataSetJob.isCompleted) {
-            dataSetJob.cancel()
-        }
         forceStopRequestingBookData()
         eggCount = 0
         super.onCleared()
     }
 
-    internal fun ready() {
+    fun ready() {
         if (isRequestingBookData()) {
             _listViewState.value = ListViewState.Prepare()
         } else {
@@ -104,7 +99,7 @@ class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithSto
         }
     }
 
-    internal fun hintPressed() {
+    fun hintPressed() {
         eggCount++
         if (eggCount == 10) {
             _screenViewState.value = ScreenState.EasterEgg
@@ -115,14 +110,15 @@ class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithSto
 
     fun focusOnEditText(isFocus: Boolean) {
         if (isFocus) {
-            backgroundScope.launch {
-                val recordCounts = searchRecordDao.getSearchRecordsCounts()
-                withContext(Dispatchers.Main) {
-                    if (recordCounts > 0) {
-                        _searchRecordState.value = SearchRecordStates.ShowList(recordCounts)
-                    } else {
-                        _searchRecordState.value = SearchRecordStates.HideList
-                    }
+            viewModelScope.launch {
+                val recordCounts = withContext(Dispatchers.IO) {
+                    searchRecordDao.getSearchRecordsCounts()
+                }
+
+                if (recordCounts > 0) {
+                    _searchRecordState.value = SearchRecordStates.ShowList(recordCounts)
+                } else {
+                    _searchRecordState.value = SearchRecordStates.HideList
                 }
             }
         } else {
@@ -182,9 +178,11 @@ class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithSto
         }
     }
 
-    internal fun deleteRecords(searchRecord: SearchRecord) {
-        backgroundScope.launch {
-            searchRecordDao.deleteRecord(searchRecord)
+    fun deleteRecords(searchRecord: SearchRecord) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                searchRecordDao.deleteRecord(searchRecord)
+            }
         }
     }
 
@@ -199,45 +197,48 @@ class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithSto
     private fun prepareBookSearchResult(bookStores: BookStores) {
         this.bookStores = bookStores
 
-        backgroundScope.launch {
-            val adapterItems = mutableListOf<AdapterItem>()
-            val bookItems = bookStores.generateBookStoresResultMap(defaultResultSort)
+        viewModelScope.launch {
+            val adapterItems = generateAdapterItems(bookStores)
+            _listViewState.value = ListViewState.Ready(lastScrollPosition, adapterItems)
+            lastScrollPosition = 0
+        }
+    }
 
-            val bestItems = mutableListOf<Book>()
-            bookItems.forEach{ (key, value) ->
-                if (defaultResultSort.contains(key)) {
-                    val book = value.firstOrNull()
-                    book?.let { currentBook ->
-                        currentBook.isFirstChoice = true
-                        bestItems.add(currentBook)
-                    }
+    private suspend fun generateAdapterItems(bookStores: BookStores) = withContext(Dispatchers.Default) {
+        val adapterItems = mutableListOf<AdapterItem>()
+        val bookItems = bookStores.generateBookStoresResultMap(defaultResultSort)
+
+        val bestItems = mutableListOf<Book>()
+        bookItems.forEach{ (key, value) ->
+            if (defaultResultSort.contains(key)) {
+                val book = value.firstOrNull()
+                book?.let { currentBook ->
+                    currentBook.isFirstChoice = true
+                    bestItems.add(currentBook)
                 }
-            }
-            bestItems.sortWith( compareBy { it.price })
-
-            adapterItems.add(BookHeader(DefaultStoreNames.BEST_RESULT.defaultResId, bestItems.isEmpty()))
-            adapterItems.addAll(bestItems)
-
-            defaultResultSort.forEach {
-                val books = bookItems[it]?.run {
-                    drop(1)
-                }?.run {
-                    take(maxListNumber)
-                }?.run {
-                    sortedWith(compareBy { book -> book.price })
-                }
-
-                adapterItems.add(BookHeader(it.defaultResId, books?.isEmpty() ?: true))
-                books?.let { resultList ->
-                    adapterItems.addAll(resultList)
-                }
-            }
-
-            withContext(Dispatchers.Main) {
-                _listViewState.value = ListViewState.Ready(lastScrollPosition, adapterItems)
-                lastScrollPosition = 0
             }
         }
+        bestItems.sortWith( compareBy { it.price })
+
+        adapterItems.add(BookHeader(DefaultStoreNames.BEST_RESULT.defaultResId, bestItems.isEmpty()))
+        adapterItems.addAll(bestItems)
+
+        defaultResultSort.forEach {
+            val books = bookItems[it]?.run {
+                drop(1)
+            }?.run {
+                take(maxListNumber)
+            }?.run {
+                sortedWith(compareBy { book -> book.price })
+            }
+
+            adapterItems.add(BookHeader(it.defaultResId, books?.isEmpty() ?: true))
+            books?.let { resultList ->
+                adapterItems.addAll(resultList)
+            }
+        }
+
+        adapterItems
     }
 
     fun logISBNScanningSucceed() {

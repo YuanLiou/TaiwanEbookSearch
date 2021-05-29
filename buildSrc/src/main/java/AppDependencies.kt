@@ -3,18 +3,18 @@ object AppDependencies {
     const val COIL = "io.coil-kt:coil:1.2.1"
 
     object JetPacks {
-        const val APPCOMPAT = "androidx.appcompat:appcompat:1.2.0"
-        const val CORE = "androidx.core:core-ktx:1.3.2"
-        const val FRAGMENT = "androidx.fragment:fragment-ktx:1.2.5"
-        const val ACTIVITY = "androidx.activity:activity-ktx:1.1.0"
-        const val RECYCELRVIEW = "androidx.recyclerview:recyclerview:1.1.0"
+        const val APPCOMPAT = "androidx.appcompat:appcompat:1.3.0"
+        const val CORE = "androidx.core:core-ktx:1.5.0"
+        const val FRAGMENT = "androidx.fragment:fragment-ktx:1.3.4"
+        const val ACTIVITY = "androidx.activity:activity-ktx:1.2.3"
+        const val RECYCELRVIEW = "androidx.recyclerview:recyclerview:1.2.0"
         const val CARDVIEW = "androidx.cardview:cardview:1.0.0"
         const val PREFERENCE = "androidx.preference:preference-ktx:1.1.1"
         const val MATERIAL_DESIGN = "com.google.android.material:material:1.2.1"
         const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:2.0.4"
         // ViewModel and LiveData
-        private const val lifecycleLibraryVersion = "2.2.0"
-        const val LIFECYCLE = "androidx.lifecycle:lifecycle-extensions:$lifecycleLibraryVersion"
+        private const val lifecycleLibraryVersion = "2.3.1"
+        const val LIFECYCLE = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleLibraryVersion"
         // Java8 support for Lifecycles
         const val LIFECYCLE_JAVA8 = "androidx.lifecycle:lifecycle-common-java8:$lifecycleLibraryVersion"
 

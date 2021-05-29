@@ -34,9 +34,4 @@ class EventTracker(context: Context) {
             putString("storeName", storeNames.first().defaultName)
         })
     }
-
-    fun generateBookRecordBundle(isFromBestResult: Boolean, bookStoreName: DefaultStoreNames?): Bundle = Bundle().apply {
-        putBoolean("choose_from_best_result", isFromBestResult)
-        putString("book_store_name", bookStoreName?.defaultName ?: "null")
-    }
 }
