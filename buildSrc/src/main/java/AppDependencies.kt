@@ -44,8 +44,8 @@ object AppDependencies {
     }
 
     object Kotlin {
-        const val COROUTINE = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
-        const val SERIALIZATION = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1"
+        const val COROUTINE = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0"
+        const val SERIALIZATION = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.1"
     }
 
     object Firebase {
