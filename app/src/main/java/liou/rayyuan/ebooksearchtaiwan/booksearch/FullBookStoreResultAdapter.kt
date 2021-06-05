@@ -15,9 +15,9 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import liou.rayyuan.ebooksearchtaiwan.R
-import liou.rayyuan.ebooksearchtaiwan.model.entity.AdapterItem
+import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
 import liou.rayyuan.ebooksearchtaiwan.model.domain.model.Book
-import liou.rayyuan.ebooksearchtaiwan.model.entity.BookHeader
+import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookHeader
 import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
 
 /**
@@ -59,57 +59,104 @@ class FullBookStoreResultAdapter(
         when (holder) {
             is AdViewHolder -> return
             is BookStoreTitleViewHolder -> {
-                val adapterPosition = (holder.adapterPosition - 1)    // minus a position for header
+                val adapterPosition = (holder.absoluteAdapterPosition - 1)    // minus a position for header
                 if (adapterPosition != RecyclerView.NO_POSITION) {
                     val bookHeader = items[adapterPosition] as BookHeader
-                    holder.bookStoreTitle.text = holder.itemView.context.getText(bookHeader.stringId)
-                    if (bookHeader.isEmptyResult) {
-                        holder.bookResultIsEmptyText.visibility = View.VISIBLE
-                    } else {
-                        holder.bookResultIsEmptyText.visibility = View.GONE
-                    }
+                    bindHeader(holder, bookHeader)
                 }
             }
             is BookCardViewHolder -> {
-                val index: Int = (holder.adapterPosition - 1)    // minus a position for header
+                val index: Int = (holder.absoluteAdapterPosition - 1)    // minus a position for header
                 if (index < items.size && index != RecyclerView.NO_POSITION) {
                     val book = items[index] as Book
                     val bookViewModel = BookViewModel(book)
-
-                    with(holder) {
-                        val shopName = bookViewModel.getShopName(holder.itemView.context)
-                        setTextOnViewHolder(bookShopName, shopName)
-                        setTextOnViewHolder(bookTitle, bookViewModel.getTitle())
-                        setTextOnViewHolder(bookDescription, bookViewModel.getDescription())
-                        setTextOnViewHolder(bookPrice, bookViewModel.getPrice())
-
-                        bookImage.load(bookViewModel.getImage()) {
-                            crossfade(true)
-                            placeholder(R.drawable.book_image_placeholder)
-                            allowRgb565(true)
-                            lifecycle(lifecycleOwner)
-                        }
-
-                        bookResultBody.setOnClickListener {
-                            clickHandler?.onBookCardClicked(book)
-                        }
-
-                        if (book.isFirstChoice) {
-                            bookShopName.visibility = View.VISIBLE
-                            moreIcon.visibility = View.INVISIBLE
-                        } else {
-                            bookShopName.visibility = View.GONE
-                            moreIcon.visibility = View.GONE
-                        }
-                    }
+                    bindBook(holder, bookViewModel)
                 }
+            }
+        }
+    }
+
+    private fun bindHeader(
+        holder: BookStoreTitleViewHolder,
+        bookHeader: BookHeader
+    ) {
+        holder.bookStoreTitle.text = holder.itemView.context.getText(bookHeader.stringId)
+        val siteInfo = bookHeader.siteInfo
+        if (siteInfo == null) {
+            checkIsEmptyResult(bookHeader, holder)
+            return
+        }
+
+        val isSiteOnline = siteInfo.isOnline
+        val isResultOkay = siteInfo.isResultOkay
+        val searchResultMessage = siteInfo.status
+        val isResultEmpty = bookHeader.isEmptyResult
+        if (!isResultEmpty && isSiteOnline && isResultOkay) {
+            holder.bookResultStatusText.visibility = View.GONE
+            return
+        }
+
+        if (!isSiteOnline) {
+            holder.bookResultStatusText.text = holder.itemView.context.getText(R.string.error_site_is_not_online)
+            holder.bookResultStatusText.visibility = View.VISIBLE
+        } else if (!isResultOkay) {
+            val failedMessage = holder.itemView.context.getText(R.string.error_result_is_failed).toString() + "\n" + searchResultMessage
+            holder.bookResultStatusText.text = failedMessage
+            holder.bookResultStatusText.visibility = View.VISIBLE
+        } else if (isResultEmpty) {
+            holder.bookResultStatusText.text = holder.itemView.context.getText(R.string.result_nothing)
+            holder.bookResultStatusText.visibility = View.VISIBLE
+        }
+    }
+
+    private fun checkIsEmptyResult(
+        bookHeader: BookHeader,
+        holder: BookStoreTitleViewHolder
+    ) {
+        if (bookHeader.isEmptyResult) {
+            holder.bookResultStatusText.text = holder.itemView.context.getText(R.string.result_nothing)
+            holder.bookResultStatusText.visibility = View.VISIBLE
+        } else {
+            holder.bookResultStatusText.visibility = View.GONE
+        }
+    }
+
+    private fun bindBook(
+        holder: BookCardViewHolder,
+        bookViewModel: BookViewModel
+    ) {
+        with(holder) {
+            val shopName = bookViewModel.getShopName(holder.itemView.context)
+            setTextOnViewHolder(bookShopName, shopName)
+            setTextOnViewHolder(bookTitle, bookViewModel.getTitle())
+            setTextOnViewHolder(bookDescription, bookViewModel.getDescription())
+            setTextOnViewHolder(bookPrice, bookViewModel.getPrice())
+
+            bookImage.load(bookViewModel.getImage()) {
+                crossfade(true)
+                placeholder(R.drawable.book_image_placeholder)
+                allowRgb565(true)
+                lifecycle(lifecycleOwner)
+            }
+
+            val book = bookViewModel.book
+            bookResultBody.setOnClickListener {
+                clickHandler?.onBookCardClicked(book)
+            }
+
+            if (book.isFirstChoice) {
+                bookShopName.visibility = View.VISIBLE
+                moreIcon.visibility = View.INVISIBLE
+            } else {
+                bookShopName.visibility = View.GONE
+                moreIcon.visibility = View.GONE
             }
         }
     }
 
     private fun setTextOnViewHolder(textView: AppCompatTextView, content: String) {
         textView.setTextFuture(PrecomputedTextCompat.getTextFuture(
-                content, TextViewCompat.getTextMetricsParams(textView), null))
+            content, TextViewCompat.getTextMetricsParams(textView), null))
     }
 
     override fun getItemCount(): Int {
@@ -154,7 +201,7 @@ class FullBookStoreResultAdapter(
 
     class BookStoreTitleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         internal val bookStoreTitle: TextView = itemView.findViewById(R.id.search_result_subtitle_top)
-        internal val bookResultIsEmptyText: TextView = itemView.findViewById(R.id.search_result_list_empty)
+        internal val bookResultStatusText: TextView = itemView.findViewById(R.id.search_result_message_text)
     }
 
     class BookCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

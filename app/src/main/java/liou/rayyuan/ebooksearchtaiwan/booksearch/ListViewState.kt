@@ -1,6 +1,6 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
-import liou.rayyuan.ebooksearchtaiwan.model.entity.AdapterItem
+import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
 
 /**
  * Created by louis383 on 2017/12/4.

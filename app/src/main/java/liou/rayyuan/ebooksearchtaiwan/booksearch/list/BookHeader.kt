@@ -1,4 +1,4 @@
-package liou.rayyuan.ebooksearchtaiwan.model.entity
+package liou.rayyuan.ebooksearchtaiwan.booksearch.list
 
 import android.os.Parcelable
 import androidx.annotation.StringRes
