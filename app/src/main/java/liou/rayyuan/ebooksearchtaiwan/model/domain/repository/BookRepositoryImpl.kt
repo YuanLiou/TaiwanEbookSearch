@@ -1,9 +1,8 @@
 package liou.rayyuan.ebooksearchtaiwan.model.domain.repository
 
 import liou.rayyuan.ebooksearchtaiwan.model.data.api.BookSearchService
-import liou.rayyuan.ebooksearchtaiwan.model.data.BookStoreKeys
 import liou.rayyuan.ebooksearchtaiwan.model.data.dto.NetworkCrawerResult
-import liou.rayyuan.ebooksearchtaiwan.model.data.mapper.SearchResultMapper
+import liou.rayyuan.ebooksearchtaiwan.model.data.mapper.BookStoresMapper
 import liou.rayyuan.ebooksearchtaiwan.model.domain.Result
 import liou.rayyuan.ebooksearchtaiwan.model.domain.SimpleResult
 import liou.rayyuan.ebooksearchtaiwan.model.domain.model.BookStores
@@ -11,7 +10,7 @@ import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
 
 class BookRepositoryImpl(
     private val bookSearchService: BookSearchService,
-    private val searchResultMapper: SearchResultMapper
+    private val bookStoresMapper: BookStoresMapper
 ) : BookRepository {
 
     override suspend fun getBooks(keyword: String): SimpleResult<BookStores> {
@@ -37,22 +36,7 @@ class BookRepositoryImpl(
     }
 
     private fun mapBookStores(input: NetworkCrawerResult): BookStores {
-        val convertedResult = searchResultMapper.map(input)
-        val books = convertedResult.bookStores.associate {
-            Pair(it.bookStoreDetails?.id, it.books)
-        }
-
-        return BookStores(
-            booksCompany = books[BookStoreKeys.booksCompany],
-            readmoo = books[BookStoreKeys.readmoo],
-            kobo = books[BookStoreKeys.kobo],
-            taaze = books[BookStoreKeys.taaze],
-            bookWalker = books[BookStoreKeys.bookwalker],
-            playStore = books[BookStoreKeys.playStore],
-            pubu = books[BookStoreKeys.pubu],
-            hyread = books[BookStoreKeys.hyread],
-            kindle = books[BookStoreKeys.kindle]
-        )
+        return bookStoresMapper.map(input)
     }
 
     class BookResultException(message: String, exception: Exception) : Throwable(message)

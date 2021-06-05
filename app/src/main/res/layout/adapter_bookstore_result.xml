@@ -30,7 +30,7 @@
         />
 
     <TextView
-        android:id="@+id/search_result_list_empty"
+        android:id="@+id/search_result_message_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -41,17 +41,6 @@
         android:text="@string/result_nothing"
         android:visibility="gone"
         android:textColor="?android:attr/textColorTertiary"
-        tools:visibility="visible"
-        />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/search_result_list_top"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:nestedScrollingEnabled="false"
-        android:focusable="false"
-        app:layoutManager="LinearLayoutManager"
-        tools:listitem="@layout/book_card_view"
         tools:visibility="visible"
         />
 

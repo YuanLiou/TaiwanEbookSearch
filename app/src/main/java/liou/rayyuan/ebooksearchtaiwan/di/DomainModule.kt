@@ -33,9 +33,13 @@ val domainModule = module {
         SearchResultMapper(get<BookStoreListMapper>())
     }
 
+    factory {
+        BookStoresMapper(get<SearchResultMapper>())
+    }
+
     // Repositories
     factory {
-        BookRepositoryImpl(get<BookSearchApi>(), get<SearchResultMapper>())
+        BookRepositoryImpl(get<BookSearchApi>(), get<BookStoresMapper>())
     }
 
     // UseCases

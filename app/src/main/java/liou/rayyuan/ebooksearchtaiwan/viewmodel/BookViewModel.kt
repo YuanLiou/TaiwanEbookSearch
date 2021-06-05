@@ -8,7 +8,7 @@ import liou.rayyuan.ebooksearchtaiwan.utils.getLocalizedName
 /**
  * Created by louis383 on 2017/12/4.
  */
-class BookViewModel(private val book: Book) {
+class BookViewModel(val book: Book) {
 
     fun getTitle(): String {
         return book.title

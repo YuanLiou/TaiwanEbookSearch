@@ -27,7 +27,7 @@
             />
 
     <TextView
-            android:id="@+id/search_result_list_empty"
+            android:id="@+id/search_result_message_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -38,7 +38,7 @@
             android:text="@string/result_nothing"
             android:visibility="gone"
             android:textColor="?android:attr/textColorTertiary"
-            tools:visibility="gone"
+            tools:visibility="visible"
             />
 
 </LinearLayout>

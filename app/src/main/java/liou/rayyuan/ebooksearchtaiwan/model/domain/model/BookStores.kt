@@ -5,13 +5,13 @@ import kotlinx.parcelize.Parcelize
 
 
 @Parcelize
-data class BookStores(val booksCompany: List<Book>?,
-                      val readmoo: List<Book>?,
-                      val kobo: List<Book>?,
-                      val taaze: List<Book>?,
-                      val bookWalker: List<Book>?,
-                      val playStore: List<Book>?,
-                      val pubu: List<Book>?,
-                      val hyread: List<Book>?,
-                      val kindle: List<Book>?
+data class BookStores(val booksCompany: BookResult?,
+                      val readmoo: BookResult?,
+                      val kobo: BookResult?,
+                      val taaze: BookResult?,
+                      val bookWalker: BookResult?,
+                      val playStore: BookResult?,
+                      val pubu: BookResult?,
+                      val hyread: BookResult?,
+                      val kindle: BookResult?
 ) : Parcelable
