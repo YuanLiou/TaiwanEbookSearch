@@ -11,8 +11,8 @@ import liou.rayyuan.ebooksearchtaiwan.model.*
 import liou.rayyuan.ebooksearchtaiwan.model.dao.SearchRecordDao
 import liou.rayyuan.ebooksearchtaiwan.model.domain.Result
 import liou.rayyuan.ebooksearchtaiwan.model.domain.model.Book
+import liou.rayyuan.ebooksearchtaiwan.model.domain.model.BookResult
 import liou.rayyuan.ebooksearchtaiwan.model.domain.model.BookStores
-import liou.rayyuan.ebooksearchtaiwan.model.domain.usecase.GetBooksUseCase
 import liou.rayyuan.ebooksearchtaiwan.model.domain.usecase.GetBooksWithStoresUseCase
 import liou.rayyuan.ebooksearchtaiwan.model.entity.*
 import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
@@ -206,12 +206,53 @@ class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithSto
 
     private suspend fun generateAdapterItems(bookStores: BookStores) = withContext(Dispatchers.Default) {
         val adapterItems = mutableListOf<AdapterItem>()
-        val bookItems = bookStores.generateBookStoresResultMap(defaultResultSort)
+        val groupedResults = bookStores.generateBookStoresResultMap(defaultResultSort)
 
+        val bestItems = generateBestItems(groupedResults)
+        adapterItems.add(
+            BookHeader(
+                DefaultStoreNames.BEST_RESULT.defaultResId,
+                bestItems.isEmpty(),
+                siteInfo = null
+            )
+        )
+        adapterItems.addAll(bestItems)
+
+        for (storeName in defaultResultSort) {
+            val bookResult = groupedResults[storeName] ?: continue
+            val books = bookResult.books.run {
+                drop(1)
+            }.run {
+                take(maxListNumber)
+            }.run {
+                sortedWith(compareBy { book -> book.price })
+            }
+
+            adapterItems.add(
+                BookHeader(
+                    storeName.defaultResId,
+                    books.isEmpty(),
+                    siteInfo = SiteInfo(
+                        isOnline = bookResult.isOnline,
+                        isResultOkay = bookResult.isOkay,
+                        status = bookResult.status
+                    ),
+                )
+            )
+
+            books.let { resultList ->
+                adapterItems.addAll(resultList)
+            }
+        }
+
+        adapterItems.toList()
+    }
+
+    private fun generateBestItems(bookItems: Map<DefaultStoreNames, BookResult>): List<Book> {
         val bestItems = mutableListOf<Book>()
         bookItems.forEach{ (key, value) ->
             if (defaultResultSort.contains(key)) {
-                val book = value.firstOrNull()
+                val book = value.books.firstOrNull()
                 book?.let { currentBook ->
                     currentBook.isFirstChoice = true
                     bestItems.add(currentBook)
@@ -219,26 +260,7 @@ class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithSto
             }
         }
         bestItems.sortWith( compareBy { it.price })
-
-        adapterItems.add(BookHeader(DefaultStoreNames.BEST_RESULT.defaultResId, bestItems.isEmpty()))
-        adapterItems.addAll(bestItems)
-
-        defaultResultSort.forEach {
-            val books = bookItems[it]?.run {
-                drop(1)
-            }?.run {
-                take(maxListNumber)
-            }?.run {
-                sortedWith(compareBy { book -> book.price })
-            }
-
-            adapterItems.add(BookHeader(it.defaultResId, books?.isEmpty() ?: true))
-            books?.let { resultList ->
-                adapterItems.addAll(resultList)
-            }
-        }
-
-        adapterItems
+        return bestItems
     }
 
     fun logISBNScanningSucceed() {

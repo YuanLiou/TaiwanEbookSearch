@@ -1,12 +1,12 @@
 package liou.rayyuan.ebooksearchtaiwan.model
 
-import liou.rayyuan.ebooksearchtaiwan.model.domain.model.Book
+import liou.rayyuan.ebooksearchtaiwan.model.domain.model.BookResult
 import liou.rayyuan.ebooksearchtaiwan.model.domain.model.BookStores
 import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
 
 
-fun BookStores.generateBookStoresResultMap(sortedList: List<DefaultStoreNames>): Map<DefaultStoreNames, List<Book>> {
-    val map = mutableMapOf<DefaultStoreNames, List<Book>>()
+fun BookStores.generateBookStoresResultMap(sortedList: List<DefaultStoreNames>): Map<DefaultStoreNames, BookResult> {
+    val map = mutableMapOf<DefaultStoreNames, BookResult>()
 
     for (store in sortedList) {
         when (store) {
