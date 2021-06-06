@@ -3,7 +3,7 @@ package liou.rayyuan.ebooksearchtaiwan.model
 import android.content.Context
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
-import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
+import liou.rayyuan.ebooksearchtaiwan.model.data.DefaultStoreNames
 
 class EventTracker(context: Context) {
     companion object {

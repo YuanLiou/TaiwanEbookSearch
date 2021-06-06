@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import liou.rayyuan.chromecustomtabhelper.Browsers
-import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
+import liou.rayyuan.ebooksearchtaiwan.model.data.DefaultStoreNames
 
 /**
  * Created by louis383 on 2018/9/29.

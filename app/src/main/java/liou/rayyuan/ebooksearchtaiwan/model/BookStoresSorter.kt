@@ -2,7 +2,7 @@ package liou.rayyuan.ebooksearchtaiwan.model
 
 import liou.rayyuan.ebooksearchtaiwan.model.domain.model.BookResult
 import liou.rayyuan.ebooksearchtaiwan.model.domain.model.BookStores
-import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
+import liou.rayyuan.ebooksearchtaiwan.model.data.DefaultStoreNames
 
 
 fun BookStores.generateBookStoresResultMap(sortedList: List<DefaultStoreNames>): Map<DefaultStoreNames, BookResult> {

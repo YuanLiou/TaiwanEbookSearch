@@ -6,7 +6,7 @@ import liou.rayyuan.ebooksearchtaiwan.model.data.mapper.BookStoresMapper
 import liou.rayyuan.ebooksearchtaiwan.model.domain.Result
 import liou.rayyuan.ebooksearchtaiwan.model.domain.SimpleResult
 import liou.rayyuan.ebooksearchtaiwan.model.domain.model.BookStores
-import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
+import liou.rayyuan.ebooksearchtaiwan.model.data.DefaultStoreNames
 
 class BookRepositoryImpl(
     private val bookSearchService: BookSearchService,

@@ -3,7 +3,7 @@ package liou.rayyuan.ebooksearchtaiwan.model.domain.model
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
-import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
+import liou.rayyuan.ebooksearchtaiwan.model.data.DefaultStoreNames
 
 /**
  * Created by louis383 on 2017/11/29.

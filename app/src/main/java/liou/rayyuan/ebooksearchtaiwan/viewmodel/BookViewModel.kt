@@ -2,7 +2,7 @@ package liou.rayyuan.ebooksearchtaiwan.viewmodel
 
 import android.content.Context
 import liou.rayyuan.ebooksearchtaiwan.model.domain.model.Book
-import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
+import liou.rayyuan.ebooksearchtaiwan.model.data.DefaultStoreNames
 import liou.rayyuan.ebooksearchtaiwan.utils.getLocalizedName
 
 /**

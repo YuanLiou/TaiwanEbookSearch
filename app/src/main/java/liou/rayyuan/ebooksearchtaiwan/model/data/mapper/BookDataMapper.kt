@@ -3,7 +3,7 @@ package liou.rayyuan.ebooksearchtaiwan.model.data.mapper
 import liou.rayyuan.ebooksearchtaiwan.model.data.dto.NetworkBook
 import liou.rayyuan.ebooksearchtaiwan.model.data.mapper.basic.Mapper
 import liou.rayyuan.ebooksearchtaiwan.model.domain.model.Book
-import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
+import liou.rayyuan.ebooksearchtaiwan.model.data.DefaultStoreNames
 
 class BookDataMapper : Mapper<NetworkBook, Book> {
 

@@ -18,9 +18,10 @@ import liou.rayyuan.ebooksearchtaiwan.model.domain.model.BookResult
 import liou.rayyuan.ebooksearchtaiwan.model.domain.model.BookStores
 import liou.rayyuan.ebooksearchtaiwan.model.domain.usecase.GetBooksWithStoresUseCase
 import liou.rayyuan.ebooksearchtaiwan.model.entity.*
-import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
+import liou.rayyuan.ebooksearchtaiwan.model.data.DefaultStoreNames
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import liou.rayyuan.ebooksearchtaiwan.utils.Utils
+import liou.rayyuan.ebooksearchtaiwan.view.getStringResource
 import java.net.SocketTimeoutException
 import java.time.OffsetDateTime
 
@@ -214,7 +215,7 @@ class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithSto
         val bestItems = generateBestItems(groupedResults)
         adapterItems.add(
             BookHeader(
-                DefaultStoreNames.BEST_RESULT.defaultResId,
+                DefaultStoreNames.BEST_RESULT.getStringResource(),
                 bestItems.isEmpty(),
                 siteInfo = null
             )
@@ -233,7 +234,7 @@ class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithSto
 
             adapterItems.add(
                 BookHeader(
-                    storeName.defaultResId,
+                    storeName.getStringResource(),
                     books.isEmpty(),
                     siteInfo = SiteInfo(
                         isOnline = bookResult.isOnline,

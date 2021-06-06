@@ -1,7 +1,7 @@
 package liou.rayyuan.ebooksearchtaiwan.model.domain
 
 import liou.rayyuan.ebooksearchtaiwan.model.UserPreferenceManager
-import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
+import liou.rayyuan.ebooksearchtaiwan.model.data.DefaultStoreNames
 import liou.rayyuan.ebooksearchtaiwan.utils.Utils
 
 class StoreResultSortChecker(
