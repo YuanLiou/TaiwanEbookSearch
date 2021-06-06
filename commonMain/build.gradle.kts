@@ -27,14 +27,13 @@ android {
             isMinifyEnabled = false
 
             buildConfigField("String", "HOST_URL", HOST_STAGING)
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
 
         getByName("release") {
             isMinifyEnabled = true
             isZipAlignEnabled = true
             buildConfigField("String", "HOST_URL", HOST)
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            consumerProguardFiles("consumer-rules.pro")
         }
     }
     compileOptions {
