@@ -16,7 +16,15 @@ val appModule = module {
     factory { QuickChecker(androidApplication()) }
 
     // ViewModels
-    viewModel { BookSearchViewModel(get(), get(), get(), get(), get()) }
+    viewModel { BookSearchViewModel(
+        getBooksWithStoresUseCase = get(),
+        getSearchRecordsUseCase = get(),
+        getSearchRecordsCountsUseCase = get(),
+        preferenceManager = get(),
+        eventTracker = get(),
+        quickChecker = get(),
+        deleteSearchRecordUseCase = get()
+    ) }
 }
 
 val appModules = listOf(

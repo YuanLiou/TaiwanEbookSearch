@@ -5,9 +5,15 @@ import com.rayliu.commonmain.DatabaseManager
 import com.rayliu.commonmain.UserPreferenceManager
 import com.rayliu.commonmain.data.mapper.*
 import com.rayliu.commonmain.data.api.BookSearchApi
+import com.rayliu.commonmain.data.dao.SearchRecordDao
+import com.rayliu.commonmain.domain.repository.BookRepository
 import com.rayliu.commonmain.domain.repository.BookRepositoryImpl
-import com.rayliu.commonmain.domain.usecase.GetBooksUseCase
+import com.rayliu.commonmain.domain.repository.SearchRecordRepository
+import com.rayliu.commonmain.domain.repository.SearchRecordRepositoryImpl
+import com.rayliu.commonmain.domain.usecase.DeleteSearchRecordUseCase
 import com.rayliu.commonmain.domain.usecase.GetBooksWithStoresUseCase
+import com.rayliu.commonmain.domain.usecase.GetSearchRecordsCountsUseCase
+import com.rayliu.commonmain.domain.usecase.GetSearchRecordsUseCase
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
@@ -41,8 +47,16 @@ val domainModule = module {
         BookStoresMapper(get<SearchResultMapper>())
     }
 
-    // Repositories
     factory {
+        SearchRecordMapper()
+    }
+
+    factory {
+        LocalSearchRecordMapper()
+    }
+
+    // Repositories
+    factory<BookRepository> {
         BookRepositoryImpl(get<BookSearchApi>(), get<BookStoresMapper>())
     }
 
@@ -50,16 +64,28 @@ val domainModule = module {
         get<DatabaseManager>().searchRecordDao()
     }
 
+    factory<SearchRecordRepository> {
+        SearchRecordRepositoryImpl(get<SearchRecordMapper>(), get<LocalSearchRecordMapper>(), get<SearchRecordDao>())
+    }
+
     // UseCases
     factory {
-        GetBooksUseCase(get<BookRepositoryImpl>())
+        GetBooksWithStoresUseCase(get<BookRepository>(), get<SearchRecordRepository>())
     }
 
     factory {
-        GetBooksWithStoresUseCase(get<BookRepositoryImpl>())
+        GetSearchRecordsUseCase(get<SearchRecordRepository>())
     }
 
-    // Services(Application)
+    factory {
+        GetSearchRecordsCountsUseCase(get<SearchRecordRepository>())
+    }
+
+    factory {
+        DeleteSearchRecordUseCase(get<SearchRecordRepository>())
+    }
+
+    // Services(Applications)
     // Database related and Daos
     single {
         Room.databaseBuilder(androidApplication(),

@@ -1,4 +1,4 @@
-package com.rayliu.commonmain.entity
+package com.rayliu.commonmain.data.dto
 
 import android.os.Parcelable
 import androidx.annotation.NonNull
@@ -10,7 +10,7 @@ import java.time.OffsetDateTime
 
 @Parcelize
 @Entity(tableName = "search_records")
-data class SearchRecord(
+data class LocalSearchRecord(
         @NonNull @ColumnInfo(name = "result_text") val resultText: String,
         val counts: Int,
         @ColumnInfo(name = "time_stamp") val timeStamps: OffsetDateTime? = null

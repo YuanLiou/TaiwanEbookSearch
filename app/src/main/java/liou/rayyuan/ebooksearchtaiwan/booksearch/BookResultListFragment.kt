@@ -38,7 +38,7 @@ import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.databinding.FragmentSearchListBinding
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import com.rayliu.commonmain.domain.model.Book
-import com.rayliu.commonmain.entity.SearchRecord
+import com.rayliu.commonmain.domain.model.SearchRecord
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
@@ -640,12 +640,12 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
 
     //region SearchRecordAdapter.OnSearchRecordsClickListener
     override fun onSearchRecordClicked(searchRecord: SearchRecord) {
-        searchWithText(searchRecord.resultText)
+        searchWithText(searchRecord.text)
     }
 
     override fun onSearchRecordCloseImageClicked(searchRecord: SearchRecord, position: Int) {
-        context?.let {
-            val message = getString(R.string.alert_dialog_delete_search_record_message, searchRecord.resultText)
+        requireContext().let {
+            val message = getString(R.string.alert_dialog_delete_search_record_message, searchRecord.text)
             AlertDialog.Builder(it)
                     .setTitle(R.string.alert_dialog_delete_search_records)
                     .setMessage(message)

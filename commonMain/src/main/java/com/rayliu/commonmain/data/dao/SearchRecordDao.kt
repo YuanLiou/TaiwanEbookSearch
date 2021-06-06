@@ -1,35 +1,35 @@
-package com.rayliu.commonmain.dao
+package com.rayliu.commonmain.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.room.*
-import com.rayliu.commonmain.entity.SearchRecord
+import com.rayliu.commonmain.data.dto.LocalSearchRecord
 import java.time.OffsetDateTime
 
 @Dao
 interface SearchRecordDao {
 
     @Query("SELECT * FROM search_records ORDER BY datetime(time_stamp) DESC")
-    fun getAllSearchRecords(): LiveData<List<SearchRecord>>
+    fun getAllSearchRecords(): LiveData<List<LocalSearchRecord>>
 
     @Query("SELECT * FROM search_records ORDER BY datetime(time_stamp) DESC")
-    fun getSearchRecordsPaged(): DataSource.Factory<Int, SearchRecord>
+    fun getSearchRecordsPaged(): DataSource.Factory<Int, LocalSearchRecord>
 
     @Query("""
         SELECT * FROM search_records
         WHERE result_text = :passedRecord
         LIMIT 1
         """)
-    fun getSearchRecordWithTitle(passedRecord: String): SearchRecord?
+    fun getSearchRecordWithTitle(passedRecord: String): LocalSearchRecord?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertRecords(searchRecords: List<SearchRecord>)
+    fun insertRecords(searchRecords: List<LocalSearchRecord>)
 
     @Delete
-    fun deleteRecord(searchRecord: SearchRecord)
+    fun deleteRecord(searchRecord: LocalSearchRecord)
 
     @Update
-    fun updateRecord(searchRecord: SearchRecord)
+    fun updateRecord(searchRecord: LocalSearchRecord)
 
     @Query("SELECT count(*) FROM search_records")
     fun getSearchRecordsCounts(): Int

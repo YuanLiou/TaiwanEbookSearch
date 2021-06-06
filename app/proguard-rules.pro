@@ -21,9 +21,7 @@
 # ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
 # Model
 -keep class liou.rayyuan.ebooksearchtaiwan.model.entity.** { *; }
--keep class com.rayliu.commonmain.data.api.BookSearchService { *; }
 # ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
-
 
 
 

@@ -4,38 +4,39 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
 import com.rayliu.commonmain.UserPreferenceManager
 import kotlinx.coroutines.*
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookHeader
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.SiteInfo
 import liou.rayyuan.ebooksearchtaiwan.model.*
-import com.rayliu.commonmain.dao.SearchRecordDao
 import com.rayliu.commonmain.domain.Result
-import com.rayliu.commonmain.domain.model.Book
 import com.rayliu.commonmain.domain.model.BookResult
 import com.rayliu.commonmain.domain.model.BookStores
 import com.rayliu.commonmain.domain.usecase.GetBooksWithStoresUseCase
-import com.rayliu.commonmain.entity.SearchRecord
 import com.rayliu.commonmain.data.DefaultStoreNames
 import com.rayliu.commonmain.generateBookStoresResultMap
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import com.rayliu.commonmain.Utils
+import com.rayliu.commonmain.domain.model.SearchRecord
+import com.rayliu.commonmain.domain.usecase.DeleteSearchRecordUseCase
+import com.rayliu.commonmain.domain.usecase.GetSearchRecordsCountsUseCase
+import com.rayliu.commonmain.domain.usecase.GetSearchRecordsUseCase
 import liou.rayyuan.ebooksearchtaiwan.view.getStringResource
 import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
 import java.net.SocketTimeoutException
-import java.time.OffsetDateTime
 
 /**
  * Created by louis383 on 2017/12/2.
  */
-class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithStoresUseCase,
-                          private val preferenceManager: UserPreferenceManager,
-                          private val eventTracker: EventTracker,
-                          private val quickChecker: QuickChecker,
-                          private val searchRecordDao: SearchRecordDao
+class BookSearchViewModel(
+    private val getBooksWithStoresUseCase: GetBooksWithStoresUseCase,
+    private val getSearchRecordsUseCase: GetSearchRecordsUseCase,
+    private val getSearchRecordsCountsUseCase: GetSearchRecordsCountsUseCase,
+    private val preferenceManager: UserPreferenceManager,
+    private val eventTracker: EventTracker,
+    private val quickChecker: QuickChecker,
+    private val deleteSearchRecordUseCase: DeleteSearchRecordUseCase
 ) : ViewModel() {
     companion object {
         const val NO_MESSAGE = -1
@@ -56,16 +57,8 @@ class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithSto
         get() = _searchRecordState
     //endregion
 
-    val searchRecordLiveData = run {
-        val factory = searchRecordDao.getSearchRecordsPaged()
-        val config = PagedList.Config.Builder()
-                .setEnablePlaceholders(true)
-                .setInitialLoadSizeHint(10)
-                .setPageSize(10)
-                .build()
-
-        val pagedListBuilder = LivePagedListBuilder<Int, SearchRecord>(factory, config)
-        pagedListBuilder.build()
+    val searchRecordLiveData by lazy {
+        getSearchRecordsUseCase()
     }
 
     private var networkJob: Job? = null
@@ -119,15 +112,18 @@ class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithSto
     fun focusOnEditText(isFocus: Boolean) {
         if (isFocus) {
             viewModelScope.launch {
-                val recordCounts = withContext(Dispatchers.IO) {
-                    searchRecordDao.getSearchRecordsCounts()
-                }
-
-                if (recordCounts > 0) {
-                    _searchRecordState.value = SearchRecordStates.ShowList(recordCounts)
-                } else {
-                    _searchRecordState.value = SearchRecordStates.HideList
-                }
+                getSearchRecordsCountsUseCase().fold(
+                    success = { recordCounts ->
+                        if (recordCounts > 0) {
+                            _searchRecordState.value = SearchRecordStates.ShowList(recordCounts)
+                        } else {
+                            _searchRecordState.value = SearchRecordStates.HideList
+                        }
+                    },
+                    failure = {
+                        _searchRecordState.value = SearchRecordStates.HideList
+                    }
+                )
             }
         } else {
             _searchRecordState.value = SearchRecordStates.HideList
@@ -149,7 +145,6 @@ class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithSto
                             is Result.Success -> {
                                 networkRequestSuccess(response.value)
                                 resetCurrentResults()
-                                saveKeywordToLocal(keyword)
                             }
                             is Result.Failed -> {
                                 /*
@@ -177,20 +172,9 @@ class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithSto
         _searchRecordState.value = SearchRecordStates.HideList
     }
 
-    private suspend fun saveKeywordToLocal(keyword: String) = withContext(Dispatchers.IO) {
-        searchRecordDao.getSearchRecordWithTitle(keyword)?.let {
-            searchRecordDao.updateCounts(it.id, it.counts + 1, OffsetDateTime.now())
-        } ?: run {
-            val searchRecord = SearchRecord(keyword, 1, OffsetDateTime.now())
-            searchRecordDao.insertRecords(listOf(searchRecord))
-        }
-    }
-
     fun deleteRecords(searchRecord: SearchRecord) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                searchRecordDao.deleteRecord(searchRecord)
-            }
+            deleteSearchRecordUseCase(searchRecord)
         }
     }
 
