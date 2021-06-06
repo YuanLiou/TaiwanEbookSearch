@@ -50,7 +50,7 @@ class BookstoreNameAdapter(private var listener: OnBookStoreItemChangedListener?
     }
 
     override fun onBindViewHolder(holder: BookstoreViewHolder, position: Int) {
-        val index = holder.adapterPosition
+        val index = holder.absoluteAdapterPosition
         if (index == RecyclerView.NO_POSITION) {
             return
         }
@@ -127,6 +127,7 @@ class BookstoreNameAdapter(private var listener: OnBookStoreItemChangedListener?
         Log.i("BookstoreNameAdapter", "display stores = $displayStores")
         val disableStores = DefaultStoreNames.values().toMutableList()
         disableStores.remove(DefaultStoreNames.BEST_RESULT)
+        disableStores.remove(DefaultStoreNames.UNKNOWN)
         disableStores.removeAll(displayStores)
 
         if (disableStores.isNotEmpty()) {
@@ -210,6 +211,5 @@ class BookstoreNameAdapter(private var listener: OnBookStoreItemChangedListener?
         }
     }
 
-    @Parcelize
-    data class SortedStore(val defaultStoreName: DefaultStoreNames, var isVisible: Boolean) : Parcelable
+    data class SortedStore(val defaultStoreName: DefaultStoreNames, var isVisible: Boolean)
 }

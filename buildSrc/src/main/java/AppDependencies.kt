@@ -68,8 +68,9 @@ object AppDependencies {
     }
 
     object Koin {
-        private const val koin_version = "3.0.1"
-        const val KOIN = "io.insert-koin:koin-android:$koin_version"
+        private const val koin_version = "3.0.2"
+        const val ANDROID = "io.insert-koin:koin-android:$koin_version"
+        const val CORE = "io.insert-koin:koin-core:$koin_version"
     }
 
     object Zxing {

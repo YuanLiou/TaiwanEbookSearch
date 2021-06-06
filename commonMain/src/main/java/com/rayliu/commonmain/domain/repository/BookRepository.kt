@@ -7,4 +7,5 @@ import com.rayliu.commonmain.data.DefaultStoreNames
 interface BookRepository {
     suspend fun getBooks(keyword: String): SimpleResult<BookStores>
     suspend fun getBooksWithStores(stores: List<DefaultStoreNames>, keyword: String): SimpleResult<BookStores>
+    fun getDefaultResultSort(): List<DefaultStoreNames>
 }

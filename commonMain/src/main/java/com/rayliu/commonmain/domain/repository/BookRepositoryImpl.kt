@@ -1,5 +1,7 @@
 package com.rayliu.commonmain.domain.repository
 
+import com.rayliu.commonmain.UserPreferenceManager
+import com.rayliu.commonmain.Utils
 import com.rayliu.commonmain.data.api.BookSearchService
 import com.rayliu.commonmain.data.dto.NetworkCrawerResult
 import com.rayliu.commonmain.data.mapper.BookStoresMapper
@@ -10,7 +12,8 @@ import com.rayliu.commonmain.data.DefaultStoreNames
 
 class BookRepositoryImpl(
     private val bookSearchService: BookSearchService,
-    private val bookStoresMapper: BookStoresMapper
+    private val bookStoresMapper: BookStoresMapper,
+    private val preferenceManager: UserPreferenceManager
 ) : BookRepository {
 
     override suspend fun getBooks(keyword: String): SimpleResult<BookStores> {
@@ -37,6 +40,17 @@ class BookRepositoryImpl(
 
     private fun mapBookStores(input: NetworkCrawerResult): BookStores {
         return bookStoresMapper.map(input)
+    }
+
+    override fun getDefaultResultSort(): List<DefaultStoreNames> {
+        val userDefaultSort = preferenceManager.getBookStoreSort()
+        if (userDefaultSort != null) {
+            return userDefaultSort
+        }
+
+        val defaultSort = Utils.getDefaultSort()
+        preferenceManager.saveBookStoreSort(defaultSort)
+        return defaultSort
     }
 
     class BookResultException(message: String, exception: Exception) : Throwable(message)

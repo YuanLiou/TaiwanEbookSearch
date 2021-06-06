@@ -13,15 +13,12 @@ import liou.rayyuan.ebooksearchtaiwan.model.*
 import com.rayliu.commonmain.domain.Result
 import com.rayliu.commonmain.domain.model.BookResult
 import com.rayliu.commonmain.domain.model.BookStores
-import com.rayliu.commonmain.domain.usecase.GetBooksWithStoresUseCase
 import com.rayliu.commonmain.data.DefaultStoreNames
 import com.rayliu.commonmain.generateBookStoresResultMap
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import com.rayliu.commonmain.Utils
 import com.rayliu.commonmain.domain.model.SearchRecord
-import com.rayliu.commonmain.domain.usecase.DeleteSearchRecordUseCase
-import com.rayliu.commonmain.domain.usecase.GetSearchRecordsCountsUseCase
-import com.rayliu.commonmain.domain.usecase.GetSearchRecordsUseCase
+import com.rayliu.commonmain.domain.usecase.*
 import liou.rayyuan.ebooksearchtaiwan.view.getStringResource
 import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
 import java.net.SocketTimeoutException
@@ -33,7 +30,7 @@ class BookSearchViewModel(
     private val getBooksWithStoresUseCase: GetBooksWithStoresUseCase,
     private val getSearchRecordsUseCase: GetSearchRecordsUseCase,
     private val getSearchRecordsCountsUseCase: GetSearchRecordsCountsUseCase,
-    private val preferenceManager: UserPreferenceManager,
+    private val getDefaultBookSortUseCase: GetDefaultBookSortUseCase,
     private val eventTracker: EventTracker,
     private val quickChecker: QuickChecker,
     private val deleteSearchRecordUseCase: DeleteSearchRecordUseCase
@@ -67,13 +64,7 @@ class BookSearchViewModel(
     private var eggCount: Int = 0
     private var bookStores: BookStores? = null
     private val defaultResultSort: List<DefaultStoreNames>
-        get() {
-            return preferenceManager.getBookStoreSort() ?: run {
-                val defaultSort = Utils.getDefaultSort()
-                preferenceManager.saveBookStoreSort(defaultSort)
-                preferenceManager.getBookStoreSort()!!
-            }
-        }
+        get() = getDefaultBookSortUseCase()
 
     var lastScrollPosition: Int = 0
         set(value) {

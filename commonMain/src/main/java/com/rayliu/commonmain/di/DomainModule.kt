@@ -10,10 +10,7 @@ import com.rayliu.commonmain.domain.repository.BookRepository
 import com.rayliu.commonmain.domain.repository.BookRepositoryImpl
 import com.rayliu.commonmain.domain.repository.SearchRecordRepository
 import com.rayliu.commonmain.domain.repository.SearchRecordRepositoryImpl
-import com.rayliu.commonmain.domain.usecase.DeleteSearchRecordUseCase
-import com.rayliu.commonmain.domain.usecase.GetBooksWithStoresUseCase
-import com.rayliu.commonmain.domain.usecase.GetSearchRecordsCountsUseCase
-import com.rayliu.commonmain.domain.usecase.GetSearchRecordsUseCase
+import com.rayliu.commonmain.domain.usecase.*
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
@@ -57,7 +54,7 @@ val domainModule = module {
 
     // Repositories
     factory<BookRepository> {
-        BookRepositoryImpl(get<BookSearchApi>(), get<BookStoresMapper>())
+        BookRepositoryImpl(get<BookSearchApi>(), get<BookStoresMapper>(), get<UserPreferenceManager>())
     }
 
     single {
@@ -85,7 +82,11 @@ val domainModule = module {
         DeleteSearchRecordUseCase(get<SearchRecordRepository>())
     }
 
-    // Services(Applications)
+    factory {
+        GetDefaultBookSortUseCase(get<BookRepository>())
+    }
+
+    // Service (Application)
     // Database related and Daos
     single {
         Room.databaseBuilder(androidApplication(),

@@ -15,7 +15,7 @@ buildscript {
     }
     dependencies {
         classpath("com.android.tools.build:gradle:${AppSettings.AGP_VERSION}")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${AppSettings.KOTLIN_VERSION}")
         classpath("org.jetbrains.kotlin:kotlin-serialization:${AppSettings.KOTLIN_VERSION}")
         classpath("com.google.gms:google-services:4.3.3")
         classpath("com.google.firebase:firebase-crashlytics-gradle:2.3.0")

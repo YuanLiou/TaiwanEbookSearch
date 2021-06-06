@@ -6,7 +6,7 @@ enum class DefaultStoreNames(val defaultName: String) {
     KINDLE(BookStoreKeys.kindle),
     READMOO(BookStoreKeys.readmoo),
     KOBO(BookStoreKeys.kobo),
-    TAAZE(BookStoreKeys.kobo),
+    TAAZE(BookStoreKeys.taaze),
     BOOK_WALKER(BookStoreKeys.bookwalker),
     PLAY_STORE(BookStoreKeys.playStore),
     PUBU(BookStoreKeys.pubu),

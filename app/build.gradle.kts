@@ -1,6 +1,3 @@
-import java.text.SimpleDateFormat
-import java.util.*
-
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -121,7 +118,7 @@ dependencies {
     }
 
     // Koin
-    implementation(AppDependencies.Koin.KOIN)
+    implementation(AppDependencies.Koin.ANDROID)
 
     // Zxing
     implementation(AppDependencies.Zxing.ZXING_ANDROID) {

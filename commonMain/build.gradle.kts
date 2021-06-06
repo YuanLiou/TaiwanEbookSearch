@@ -65,7 +65,7 @@ dependencies {
     kapt(AppDependencies.JetPacks.ROOM_COMPILER)
 
     // Koin
-    implementation(AppDependencies.Koin.KOIN)
+    implementation(AppDependencies.Koin.ANDROID)
 
     testImplementation(AppDependencies.Test.JUNIT)
     androidTestImplementation(AppDependencies.Test.RUNNER)

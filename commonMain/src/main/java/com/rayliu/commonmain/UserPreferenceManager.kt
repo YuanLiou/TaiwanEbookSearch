@@ -62,7 +62,7 @@ class UserPreferenceManager(context: Context) {
     fun getBookStoreSort(): List<DefaultStoreNames>? {
         val settingString = sharedPreference.getString(KEY_BOOK_STORE_SORT, "") ?: ""
         if (settingString.isNotBlank()) {
-            val result = settingString.split(",").map {
+            val result = settingString.split(",").mapNotNull {
                 DefaultStoreNames.fromName(it)
             }
             return result

@@ -13,6 +13,7 @@ import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.R
 import com.rayliu.commonmain.UserPreferenceManager
 import com.rayliu.commonmain.Utils
+import com.rayliu.commonmain.domain.usecase.GetDefaultBookSortUseCase
 import liou.rayyuan.ebooksearchtaiwan.utils.bindView
 import liou.rayyuan.ebooksearchtaiwan.view.ListItemTouchCallback
 import liou.rayyuan.ebooksearchtaiwan.view.OnBookStoreItemChangedListener
@@ -24,6 +25,7 @@ class BookStoreReorderActivity : BaseActivity(R.layout.activity_reorder_stores),
     private val recyclerView: RecyclerView by bindView(R.id.activity_reorder_recyclerview)
     private val adapter: BookstoreNameAdapter = BookstoreNameAdapter(this)
     private val preferenceManager: UserPreferenceManager by inject()
+    private val getDefaultBookSortUseCase: GetDefaultBookSortUseCase by inject()
 
     private lateinit var itemTouchHelper: ItemTouchHelper
     private lateinit var checkMarkerOption: MenuItem
@@ -39,14 +41,8 @@ class BookStoreReorderActivity : BaseActivity(R.layout.activity_reorder_stores),
             adapter = this@BookStoreReorderActivity.adapter
         }
 
-        val bookstores = preferenceManager.getBookStoreSort()
-        bookstores?.let {
-            adapter.setStoreNames(it)
-        } ?: run {
-            val defaultSort = Utils.getDefaultSort()
-            preferenceManager.saveBookStoreSort(defaultSort)
-            adapter.setStoreNames(defaultSort)
-        }
+        val bookstores = getDefaultBookSortUseCase()
+        adapter.setStoreNames(bookstores)
 
         val listItemTouchCallback = ListItemTouchCallback(adapter)
         itemTouchHelper = ItemTouchHelper(listItemTouchCallback)
