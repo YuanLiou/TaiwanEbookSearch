@@ -2,7 +2,7 @@ package liou.rayyuan.ebooksearchtaiwan.view
 
 import androidx.annotation.StringRes
 import liou.rayyuan.ebooksearchtaiwan.R
-import liou.rayyuan.ebooksearchtaiwan.model.data.DefaultStoreNames
+import com.rayliu.commonmain.data.DefaultStoreNames
 
 @StringRes
 fun DefaultStoreNames.getStringResource(): Int {

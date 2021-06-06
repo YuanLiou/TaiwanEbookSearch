@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.R
-import liou.rayyuan.ebooksearchtaiwan.model.UserPreferenceManager
-import liou.rayyuan.ebooksearchtaiwan.utils.Utils
+import com.rayliu.commonmain.UserPreferenceManager
+import com.rayliu.commonmain.Utils
 import liou.rayyuan.ebooksearchtaiwan.utils.bindView
 import liou.rayyuan.ebooksearchtaiwan.view.ListItemTouchCallback
 import liou.rayyuan.ebooksearchtaiwan.view.OnBookStoreItemChangedListener

@@ -14,7 +14,7 @@ import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.parcelize.Parcelize
 import liou.rayyuan.ebooksearchtaiwan.R
-import liou.rayyuan.ebooksearchtaiwan.model.data.DefaultStoreNames
+import com.rayliu.commonmain.data.DefaultStoreNames
 import liou.rayyuan.ebooksearchtaiwan.view.ListDraggingViewHolderHelper
 import liou.rayyuan.ebooksearchtaiwan.view.ListItemTouchListener
 import liou.rayyuan.ebooksearchtaiwan.view.OnBookStoreItemChangedListener

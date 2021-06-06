@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.annotation.IdRes
 import liou.rayyuan.ebooksearchtaiwan.R
-import liou.rayyuan.ebooksearchtaiwan.model.data.DefaultStoreNames
+import com.rayliu.commonmain.data.DefaultStoreNames
 
 
 fun DefaultStoreNames.getLocalizedName(context: Context): String = when (this) {

@@ -17,7 +17,7 @@ import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.CameraPreviewActivity
 import liou.rayyuan.ebooksearchtaiwan.model.DeeplinkHelper
-import liou.rayyuan.ebooksearchtaiwan.model.domain.model.Book
+import com.rayliu.commonmain.domain.model.Book
 import liou.rayyuan.ebooksearchtaiwan.preferencesetting.PreferenceSettingsActivity
 import liou.rayyuan.ebooksearchtaiwan.simplewebview.SimpleWebViewFragment
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
@@ -106,7 +106,7 @@ class BookSearchActivity : BaseActivity(R.layout.activity_book_search), ChromeCu
             chromeCustomTabHelper.bindCustomTabsServices(
                 this,
                 userPreferenceManager.getPreferBrowser(),
-                BuildConfig.HOST_URL
+                "https://www.google.com"
             )
         }
     }

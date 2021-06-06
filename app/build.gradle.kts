@@ -16,9 +16,6 @@ val keystoreAlias: String by project
 val storePass: String by project
 val keyPass: String by project
 
-val HOST_STAGING: String by project
-val HOST: String by project
-
 val ADMOB_ID: String by project
 val ADMOB_TEST_DEVICE_ID: String by project
 val ADMOB_UNIT_ID: String by project
@@ -65,8 +62,6 @@ android {
             isMinifyEnabled = false
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
-
-            buildConfigField("String", "HOST_URL", HOST_STAGING)
             resValue("string", "package_name", "liou.rayyuan.ebooksearchtaiwan.debug")
         }
 
@@ -77,8 +72,6 @@ android {
             isShrinkResources = true
             isZipAlignEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-
-            buildConfigField("String", "HOST_URL", HOST)
             resValue("string", "package_name", "liou.rayyuan.ebooksearchtaiwan")
         }
     }
@@ -101,13 +94,6 @@ android {
     }
 }
 
-fun getVersionCodeTimeStamps(): Int {
-    val date = Date()
-    val dateFormatter = SimpleDateFormat("yyMMddHH")
-    val formattedDate = "19" + dateFormatter.format(date)
-    return formattedDate.toInt()
-}
-
 tasks.register("checkVersionCode") {
     println("Version Code is ${getVersionCodeTimeStamps()}")
 }
@@ -115,21 +101,18 @@ tasks.register("checkVersionCode") {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:${AppSettings.DESUGAR_LIB_VERSION}")
+    implementation(project(":commonMain"))
     implementation(AppDependencies.CUSTOM_TAB)
 
     // region Android X Libraries
     AppDependencies.JetPacks.Libs.forEach {
         implementation(it)
     }
-    kapt(AppDependencies.JetPacks.ROOM_COMPILER)
     // endregion of Android X Libraries
 
     // Kotlin
     implementation(AppDependencies.Kotlin.COROUTINE)
     implementation(AppDependencies.Kotlin.SERIALIZATION)
-    implementation(AppDependencies.Kotlin.KTOR_CLIENT_ANDROID)
-    implementation(AppDependencies.Kotlin.KTOR_CLIENT_SERIALIZATION)
-    implementation(AppDependencies.Kotlin.KTOR_CLIENT_LOGGING)
 
     // Firebase and GMS
     implementation(platform(AppDependencies.Firebase.BOM))

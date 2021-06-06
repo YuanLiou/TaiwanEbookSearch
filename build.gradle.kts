@@ -9,14 +9,13 @@ buildscript {
 
     repositories {
         google()
-//        jcenter()
         mavenCentral()
         maven(url = "https://plugins.gradle.org/m2/")
         maven(url = "https://jitpack.io")
     }
     dependencies {
         classpath("com.android.tools.build:gradle:${AppSettings.AGP_VERSION}")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${AppSettings.KOTLIN_VERSION}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10")
         classpath("org.jetbrains.kotlin:kotlin-serialization:${AppSettings.KOTLIN_VERSION}")
         classpath("com.google.gms:google-services:4.3.3")
         classpath("com.google.firebase:firebase-crashlytics-gradle:2.3.0")
@@ -29,7 +28,6 @@ val app_version by extra("1.11")
 allprojects {
     repositories {
         google()
-//        jcenter()
         mavenCentral()
         maven(url = "https://jitpack.io")
     }

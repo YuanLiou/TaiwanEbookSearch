@@ -6,7 +6,7 @@
     <data>
         <variable
             name="search_record"
-            type="liou.rayyuan.ebooksearchtaiwan.model.entity.SearchRecord"
+            type="com.rayliu.commonmain.entity.SearchRecord"
             />
     </data>
 

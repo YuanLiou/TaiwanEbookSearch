@@ -35,7 +35,13 @@ object AppDependencies {
             CONSTRAINT_LAYOUT,
             LIFECYCLE,
             LIFECYCLE_JAVA8,
+            PAGING
+        )
+
+        val common = listOf(
             ROOM,
+            LIFECYCLE,
+            PREFERENCE,
             PAGING
         )
     }

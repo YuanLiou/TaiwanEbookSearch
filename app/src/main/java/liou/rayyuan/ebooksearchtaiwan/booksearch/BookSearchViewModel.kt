@@ -6,22 +6,25 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import com.rayliu.commonmain.UserPreferenceManager
 import kotlinx.coroutines.*
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookHeader
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.SiteInfo
 import liou.rayyuan.ebooksearchtaiwan.model.*
-import liou.rayyuan.ebooksearchtaiwan.model.dao.SearchRecordDao
-import liou.rayyuan.ebooksearchtaiwan.model.domain.Result
-import liou.rayyuan.ebooksearchtaiwan.model.domain.model.Book
-import liou.rayyuan.ebooksearchtaiwan.model.domain.model.BookResult
-import liou.rayyuan.ebooksearchtaiwan.model.domain.model.BookStores
-import liou.rayyuan.ebooksearchtaiwan.model.domain.usecase.GetBooksWithStoresUseCase
-import liou.rayyuan.ebooksearchtaiwan.model.entity.*
-import liou.rayyuan.ebooksearchtaiwan.model.data.DefaultStoreNames
+import com.rayliu.commonmain.dao.SearchRecordDao
+import com.rayliu.commonmain.domain.Result
+import com.rayliu.commonmain.domain.model.Book
+import com.rayliu.commonmain.domain.model.BookResult
+import com.rayliu.commonmain.domain.model.BookStores
+import com.rayliu.commonmain.domain.usecase.GetBooksWithStoresUseCase
+import com.rayliu.commonmain.entity.SearchRecord
+import com.rayliu.commonmain.data.DefaultStoreNames
+import com.rayliu.commonmain.generateBookStoresResultMap
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
-import liou.rayyuan.ebooksearchtaiwan.utils.Utils
+import com.rayliu.commonmain.Utils
 import liou.rayyuan.ebooksearchtaiwan.view.getStringResource
+import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
 import java.net.SocketTimeoutException
 import java.time.OffsetDateTime
 
@@ -32,7 +35,8 @@ class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithSto
                           private val preferenceManager: UserPreferenceManager,
                           private val eventTracker: EventTracker,
                           private val quickChecker: QuickChecker,
-                          private val searchRecordDao: SearchRecordDao) : ViewModel() {
+                          private val searchRecordDao: SearchRecordDao
+) : ViewModel() {
     companion object {
         const val NO_MESSAGE = -1
         const val GENERIC_NETWORK_ISSUE = "generic-network-issue"
@@ -245,25 +249,27 @@ class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithSto
             )
 
             books.let { resultList ->
-                adapterItems.addAll(resultList)
+                adapterItems.addAll(
+                    resultList.map { BookViewModel(it)}
+                )
             }
         }
 
         adapterItems.toList()
     }
 
-    private fun generateBestItems(bookItems: Map<DefaultStoreNames, BookResult>): List<Book> {
-        val bestItems = mutableListOf<Book>()
+    private fun generateBestItems(bookItems: Map<DefaultStoreNames, BookResult>): List<BookViewModel> {
+        val bestItems = mutableListOf<BookViewModel>()
         bookItems.forEach{ (key, value) ->
             if (defaultResultSort.contains(key)) {
                 val book = value.books.firstOrNull()
                 book?.let { currentBook ->
                     currentBook.isFirstChoice = true
-                    bestItems.add(currentBook)
+                    bestItems.add(BookViewModel(currentBook))
                 }
             }
         }
-        bestItems.sortWith( compareBy { it.price })
+        bestItems.sortWith( compareBy { it.book.price })
         return bestItems
     }
 

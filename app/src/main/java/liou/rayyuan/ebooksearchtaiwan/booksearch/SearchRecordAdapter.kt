@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import liou.rayyuan.ebooksearchtaiwan.BR
 import liou.rayyuan.ebooksearchtaiwan.R
-import liou.rayyuan.ebooksearchtaiwan.model.entity.SearchRecord
+import com.rayliu.commonmain.entity.SearchRecord
 
 class SearchRecordAdapter(private var listener: OnSearchRecordsClickListener?): PagedListAdapter<SearchRecord,
         SearchRecordAdapter.SearchRecordViewHolder>(SearchRecordDiffCallback()) {

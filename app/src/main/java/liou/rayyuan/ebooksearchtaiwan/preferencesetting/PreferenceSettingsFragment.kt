@@ -11,8 +11,8 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import kotlinx.coroutines.*
 import liou.rayyuan.ebooksearchtaiwan.R
-import liou.rayyuan.ebooksearchtaiwan.model.UserPreferenceManager
-import liou.rayyuan.ebooksearchtaiwan.model.dao.SearchRecordDao
+import com.rayliu.commonmain.UserPreferenceManager
+import com.rayliu.commonmain.dao.SearchRecordDao
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import org.koin.android.ext.android.inject
 
