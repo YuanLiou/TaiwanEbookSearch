@@ -1,6 +1,5 @@
 package liou.rayyuan.ebooksearchtaiwan.di
 
-import androidx.room.Room
 import liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchViewModel
 import liou.rayyuan.ebooksearchtaiwan.model.*
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
@@ -14,23 +13,18 @@ import org.koin.dsl.module
 
 val appModule = module {
     factory { EventTracker(androidApplication()) }
-    factory { UserPreferenceManager(androidApplication()) }
     factory { QuickChecker(androidApplication()) }
 
-    // Database related and Daos
-    single {
-        Room.databaseBuilder(androidApplication(),
-                DatabaseManager::class.java,
-                DatabaseManager.DATABASE_NAME)
-                .build()
-    }
-
-    single {
-        get<DatabaseManager>().searchRecordDao()
-    }
-
     // ViewModels
-    viewModel { BookSearchViewModel(get(), get(), get(), get(), get()) }
+    viewModel { BookSearchViewModel(
+        getBooksWithStoresUseCase = get(),
+        getSearchRecordsUseCase = get(),
+        getSearchRecordsCountsUseCase = get(),
+        getDefaultBookSortUseCase = get(),
+        eventTracker = get(),
+        quickChecker = get(),
+        deleteSearchRecordUseCase = get()
+    ) }
 }
 
 val appModules = listOf(

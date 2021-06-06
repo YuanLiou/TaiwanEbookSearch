@@ -1,6 +1,6 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
-import liou.rayyuan.ebooksearchtaiwan.model.domain.model.Book
+import com.rayliu.commonmain.domain.model.Book
 
 /**
  * Created by louis383 on 2017/12/4.

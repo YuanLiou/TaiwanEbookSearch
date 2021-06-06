@@ -14,10 +14,11 @@ import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.parcelize.Parcelize
 import liou.rayyuan.ebooksearchtaiwan.R
-import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
+import com.rayliu.commonmain.data.DefaultStoreNames
 import liou.rayyuan.ebooksearchtaiwan.view.ListDraggingViewHolderHelper
 import liou.rayyuan.ebooksearchtaiwan.view.ListItemTouchListener
 import liou.rayyuan.ebooksearchtaiwan.view.OnBookStoreItemChangedListener
+import liou.rayyuan.ebooksearchtaiwan.view.getStringResource
 import java.util.*
 
 class BookstoreNameAdapter(private var listener: OnBookStoreItemChangedListener?): RecyclerView.Adapter<BookstoreNameAdapter.BookstoreViewHolder>(),
@@ -49,7 +50,7 @@ class BookstoreNameAdapter(private var listener: OnBookStoreItemChangedListener?
     }
 
     override fun onBindViewHolder(holder: BookstoreViewHolder, position: Int) {
-        val index = holder.adapterPosition
+        val index = holder.absoluteAdapterPosition
         if (index == RecyclerView.NO_POSITION) {
             return
         }
@@ -57,7 +58,7 @@ class BookstoreNameAdapter(private var listener: OnBookStoreItemChangedListener?
         val bookStore = bookStores[index]
         val storeName = bookStore.defaultStoreName
         val context = holder.itemView.context
-        holder.bookstoreTitle.text = context.getString(storeName.defaultResId)
+        holder.bookstoreTitle.text = context.getString(storeName.getStringResource())
         toggleEdition(holder, bookStore)
 
         holder.bookstoreCheckBox.isChecked = bookStore.isVisible
@@ -126,6 +127,7 @@ class BookstoreNameAdapter(private var listener: OnBookStoreItemChangedListener?
         Log.i("BookstoreNameAdapter", "display stores = $displayStores")
         val disableStores = DefaultStoreNames.values().toMutableList()
         disableStores.remove(DefaultStoreNames.BEST_RESULT)
+        disableStores.remove(DefaultStoreNames.UNKNOWN)
         disableStores.removeAll(displayStores)
 
         if (disableStores.isNotEmpty()) {
@@ -209,6 +211,5 @@ class BookstoreNameAdapter(private var listener: OnBookStoreItemChangedListener?
         }
     }
 
-    @Parcelize
-    data class SortedStore(val defaultStoreName: DefaultStoreNames, var isVisible: Boolean) : Parcelable
+    data class SortedStore(val defaultStoreName: DefaultStoreNames, var isVisible: Boolean)
 }

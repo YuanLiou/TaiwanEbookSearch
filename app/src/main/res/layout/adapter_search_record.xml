@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     >
 
     <data>
         <variable
             name="search_record"
-            type="liou.rayyuan.ebooksearchtaiwan.model.entity.SearchRecord"
+            type="com.rayliu.commonmain.domain.model.SearchRecord"
             />
     </data>
 
@@ -24,11 +25,11 @@
             android:layout_gravity="center_vertical"
             android:textSize="16sp"
             android:paddingStart="16dp"
-            android:text="@{search_record.resultText}"
+            android:text="@{search_record.text}"
             tools:text="@tools:sample/cities"
             />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/adapter_search_record_close_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,7 +37,7 @@
             android:padding="12dp"
             android:src="@drawable/ic_baseline_clear_24px"
             android:background="?selectableItemBackgroundBorderless"
-            android:tint="@color/dark_gray"
+            app:tint="@color/dark_gray"
             />
 
     </FrameLayout>

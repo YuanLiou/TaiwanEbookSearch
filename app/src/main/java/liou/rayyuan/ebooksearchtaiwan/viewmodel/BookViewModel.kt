@@ -1,14 +1,15 @@
 package liou.rayyuan.ebooksearchtaiwan.viewmodel
 
 import android.content.Context
-import liou.rayyuan.ebooksearchtaiwan.model.domain.model.Book
-import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
-import liou.rayyuan.ebooksearchtaiwan.utils.getLocalizedName
+import com.rayliu.commonmain.domain.model.Book
+import com.rayliu.commonmain.data.DefaultStoreNames
+import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
+import liou.rayyuan.ebooksearchtaiwan.view.getLocalizedName
 
 /**
  * Created by louis383 on 2017/12/4.
  */
-class BookViewModel(val book: Book) {
+data class BookViewModel(val book: Book) : AdapterItem {
 
     fun getTitle(): String {
         return book.title
@@ -34,6 +35,6 @@ class BookViewModel(val book: Book) {
     fun getShopName(context: Context): String = book.bookStore.let {
         DefaultStoreNames.values()
                 .find { enumValues -> enumValues == it }
-                ?.run { getLocalizedName(context )} ?: ""
+                ?.run { getLocalizedName(context)} ?: ""
     }
 }

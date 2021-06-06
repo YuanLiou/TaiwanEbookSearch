@@ -18,7 +18,7 @@ import liou.rayyuan.ebooksearchtaiwan.BaseFragment
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.booksearch.BookView
 import liou.rayyuan.ebooksearchtaiwan.databinding.FragmentSimpleWebviewBinding
-import liou.rayyuan.ebooksearchtaiwan.model.domain.model.Book
+import com.rayliu.commonmain.domain.model.Book
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
 

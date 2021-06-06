@@ -16,7 +16,7 @@ import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
-import liou.rayyuan.ebooksearchtaiwan.model.domain.model.Book
+import com.rayliu.commonmain.domain.model.Book
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookHeader
 import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
 
@@ -68,9 +68,8 @@ class FullBookStoreResultAdapter(
             is BookCardViewHolder -> {
                 val index: Int = (holder.absoluteAdapterPosition - 1)    // minus a position for header
                 if (index < items.size && index != RecyclerView.NO_POSITION) {
-                    val book = items[index] as Book
-                    val bookViewModel = BookViewModel(book)
-                    bindBook(holder, bookViewModel)
+                    val book = items[index] as BookViewModel
+                    bindBook(holder, book)
                 }
             }
         }
@@ -175,7 +174,7 @@ class FullBookStoreResultAdapter(
         val adapterItem = items[(position - 1)]    // minus a position for header
         if (adapterItem is BookHeader) {
             return storeTitle
-        } else if (adapterItem is Book) {
+        } else if (adapterItem is BookViewModel) {
             return bookItem
         }
         return super.getItemViewType(position)

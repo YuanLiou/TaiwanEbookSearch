@@ -4,34 +4,37 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
+import com.rayliu.commonmain.UserPreferenceManager
 import kotlinx.coroutines.*
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookHeader
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.SiteInfo
 import liou.rayyuan.ebooksearchtaiwan.model.*
-import liou.rayyuan.ebooksearchtaiwan.model.dao.SearchRecordDao
-import liou.rayyuan.ebooksearchtaiwan.model.domain.Result
-import liou.rayyuan.ebooksearchtaiwan.model.domain.model.Book
-import liou.rayyuan.ebooksearchtaiwan.model.domain.model.BookResult
-import liou.rayyuan.ebooksearchtaiwan.model.domain.model.BookStores
-import liou.rayyuan.ebooksearchtaiwan.model.domain.usecase.GetBooksWithStoresUseCase
-import liou.rayyuan.ebooksearchtaiwan.model.entity.*
-import liou.rayyuan.ebooksearchtaiwan.utils.DefaultStoreNames
+import com.rayliu.commonmain.domain.Result
+import com.rayliu.commonmain.domain.model.BookResult
+import com.rayliu.commonmain.domain.model.BookStores
+import com.rayliu.commonmain.data.DefaultStoreNames
+import com.rayliu.commonmain.generateBookStoresResultMap
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
-import liou.rayyuan.ebooksearchtaiwan.utils.Utils
+import com.rayliu.commonmain.Utils
+import com.rayliu.commonmain.domain.model.SearchRecord
+import com.rayliu.commonmain.domain.usecase.*
+import liou.rayyuan.ebooksearchtaiwan.view.getStringResource
+import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
 import java.net.SocketTimeoutException
-import java.time.OffsetDateTime
 
 /**
  * Created by louis383 on 2017/12/2.
  */
-class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithStoresUseCase,
-                          private val preferenceManager: UserPreferenceManager,
-                          private val eventTracker: EventTracker,
-                          private val quickChecker: QuickChecker,
-                          private val searchRecordDao: SearchRecordDao) : ViewModel() {
+class BookSearchViewModel(
+    private val getBooksWithStoresUseCase: GetBooksWithStoresUseCase,
+    private val getSearchRecordsUseCase: GetSearchRecordsUseCase,
+    private val getSearchRecordsCountsUseCase: GetSearchRecordsCountsUseCase,
+    private val getDefaultBookSortUseCase: GetDefaultBookSortUseCase,
+    private val eventTracker: EventTracker,
+    private val quickChecker: QuickChecker,
+    private val deleteSearchRecordUseCase: DeleteSearchRecordUseCase
+) : ViewModel() {
     companion object {
         const val NO_MESSAGE = -1
         const val GENERIC_NETWORK_ISSUE = "generic-network-issue"
@@ -51,16 +54,8 @@ class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithSto
         get() = _searchRecordState
     //endregion
 
-    val searchRecordLiveData = run {
-        val factory = searchRecordDao.getSearchRecordsPaged()
-        val config = PagedList.Config.Builder()
-                .setEnablePlaceholders(true)
-                .setInitialLoadSizeHint(10)
-                .setPageSize(10)
-                .build()
-
-        val pagedListBuilder = LivePagedListBuilder<Int, SearchRecord>(factory, config)
-        pagedListBuilder.build()
+    val searchRecordLiveData by lazy {
+        getSearchRecordsUseCase()
     }
 
     private var networkJob: Job? = null
@@ -69,13 +64,7 @@ class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithSto
     private var eggCount: Int = 0
     private var bookStores: BookStores? = null
     private val defaultResultSort: List<DefaultStoreNames>
-        get() {
-            return preferenceManager.getBookStoreSort() ?: run {
-                val defaultSort = Utils.getDefaultSort()
-                preferenceManager.saveBookStoreSort(defaultSort)
-                preferenceManager.getBookStoreSort()!!
-            }
-        }
+        get() = getDefaultBookSortUseCase()
 
     var lastScrollPosition: Int = 0
         set(value) {
@@ -114,15 +103,18 @@ class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithSto
     fun focusOnEditText(isFocus: Boolean) {
         if (isFocus) {
             viewModelScope.launch {
-                val recordCounts = withContext(Dispatchers.IO) {
-                    searchRecordDao.getSearchRecordsCounts()
-                }
-
-                if (recordCounts > 0) {
-                    _searchRecordState.value = SearchRecordStates.ShowList(recordCounts)
-                } else {
-                    _searchRecordState.value = SearchRecordStates.HideList
-                }
+                getSearchRecordsCountsUseCase().fold(
+                    success = { recordCounts ->
+                        if (recordCounts > 0) {
+                            _searchRecordState.value = SearchRecordStates.ShowList(recordCounts)
+                        } else {
+                            _searchRecordState.value = SearchRecordStates.HideList
+                        }
+                    },
+                    failure = {
+                        _searchRecordState.value = SearchRecordStates.HideList
+                    }
+                )
             }
         } else {
             _searchRecordState.value = SearchRecordStates.HideList
@@ -144,7 +136,6 @@ class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithSto
                             is Result.Success -> {
                                 networkRequestSuccess(response.value)
                                 resetCurrentResults()
-                                saveKeywordToLocal(keyword)
                             }
                             is Result.Failed -> {
                                 /*
@@ -172,20 +163,9 @@ class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithSto
         _searchRecordState.value = SearchRecordStates.HideList
     }
 
-    private suspend fun saveKeywordToLocal(keyword: String) = withContext(Dispatchers.IO) {
-        searchRecordDao.getSearchRecordWithTitle(keyword)?.let {
-            searchRecordDao.updateCounts(it.id, it.counts + 1, OffsetDateTime.now())
-        } ?: run {
-            val searchRecord = SearchRecord(keyword, 1, OffsetDateTime.now())
-            searchRecordDao.insertRecords(listOf(searchRecord))
-        }
-    }
-
     fun deleteRecords(searchRecord: SearchRecord) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                searchRecordDao.deleteRecord(searchRecord)
-            }
+            deleteSearchRecordUseCase(searchRecord)
         }
     }
 
@@ -214,7 +194,7 @@ class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithSto
         val bestItems = generateBestItems(groupedResults)
         adapterItems.add(
             BookHeader(
-                DefaultStoreNames.BEST_RESULT.defaultResId,
+                DefaultStoreNames.BEST_RESULT.getStringResource(),
                 bestItems.isEmpty(),
                 siteInfo = null
             )
@@ -233,7 +213,7 @@ class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithSto
 
             adapterItems.add(
                 BookHeader(
-                    storeName.defaultResId,
+                    storeName.getStringResource(),
                     books.isEmpty(),
                     siteInfo = SiteInfo(
                         isOnline = bookResult.isOnline,
@@ -244,25 +224,27 @@ class BookSearchViewModel(private val getBooksWithStoresUseCase: GetBooksWithSto
             )
 
             books.let { resultList ->
-                adapterItems.addAll(resultList)
+                adapterItems.addAll(
+                    resultList.map { BookViewModel(it)}
+                )
             }
         }
 
         adapterItems.toList()
     }
 
-    private fun generateBestItems(bookItems: Map<DefaultStoreNames, BookResult>): List<Book> {
-        val bestItems = mutableListOf<Book>()
+    private fun generateBestItems(bookItems: Map<DefaultStoreNames, BookResult>): List<BookViewModel> {
+        val bestItems = mutableListOf<BookViewModel>()
         bookItems.forEach{ (key, value) ->
             if (defaultResultSort.contains(key)) {
                 val book = value.books.firstOrNull()
                 book?.let { currentBook ->
                     currentBook.isFirstChoice = true
-                    bestItems.add(currentBook)
+                    bestItems.add(BookViewModel(currentBook))
                 }
             }
         }
-        bestItems.sortWith( compareBy { it.price })
+        bestItems.sortWith( compareBy { it.book.price })
         return bestItems
     }
 

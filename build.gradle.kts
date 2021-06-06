@@ -9,7 +9,6 @@ buildscript {
 
     repositories {
         google()
-//        jcenter()
         mavenCentral()
         maven(url = "https://plugins.gradle.org/m2/")
         maven(url = "https://jitpack.io")
@@ -29,7 +28,6 @@ val app_version by extra("1.11")
 allprojects {
     repositories {
         google()
-//        jcenter()
         mavenCentral()
         maven(url = "https://jitpack.io")
     }
