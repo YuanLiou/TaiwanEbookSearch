@@ -14,7 +14,7 @@ eBook search tool mainly for Taiwan.
 
 ### Special Thanks
  - [@denkeni](https://twitter.com/denkeni): Come up with this idea and make it real
- - [@passerbyid](https://twitter.com/passerbyid):
+ - [@passerbyid](https://twitter.com/passerbyid)
  - [@focaaby](https://github.com/focaaby)
  - [@safefly](https://safefly.tw/)
  - [@afunTW](https://afun.tw/)
