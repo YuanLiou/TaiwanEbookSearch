@@ -13,9 +13,13 @@ eBook search tool mainly for Taiwan.
 <br> Public Beta is now opened.
 
 ### Special Thanks
- - [@denkeni](https://twitter.com/denkeni): Come up with this idea and make it real. An [iOS App](https://goo.gl/qDGLsQ) is available too.
- - [@passerbyid](https://twitter.com/passerbyid): A brilliant back-end and full-stack developer. The API he built make multi-platforms works like a charm.
-API is opensourced! Check [TaiwanEbookSearch-API](https://github.com/passerbyid/TaiwanEbookSearch-API) repo!
- - [@focaaby](https://github.com/focaaby): [Web version](https://focaaby.github.io/ebook-search/) of Taiwan eBook Search. Powered by Vue.js.
+ - [@denkeni](https://twitter.com/denkeni): Come up with this idea and make it real
+ - [@passerbyid](https://twitter.com/passerbyid):
+ - [@focaaby](https://github.com/focaaby)
+ - [@safefly](https://safefly.tw/)
+ - [@afunTW](https://afun.tw/)
+
+### Links
+Send me to [Web version](https://focaaby.github.io/ebook-search/)
  
 
