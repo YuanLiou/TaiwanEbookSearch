@@ -39,9 +39,14 @@ import liou.rayyuan.ebooksearchtaiwan.databinding.FragmentSearchListBinding
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import com.rayliu.commonmain.domain.model.Book
 import com.rayliu.commonmain.domain.model.SearchRecord
+import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ListViewState
+import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
+import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.SearchRecordStates
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
+import liou.rayyuan.ebooksearchtaiwan.view.EventObserver
+import liou.rayyuan.ebooksearchtaiwan.view.ViewEvent
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View.OnClickListener,
@@ -112,7 +117,14 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
             bookSearchViewModel.lastScrollPosition = recyclerViewPosition
             Log.i("BookResultListFragment", "restore recyclerView Position = $recyclerViewPosition")
         }
-        bookSearchViewModel.screenViewState.observe(viewLifecycleOwner, Observer<ScreenState> { state -> updateScreen(state) })
+        bookSearchViewModel.screenViewState.observe(
+            viewLifecycleOwner,
+            { state ->
+                EventObserver<ScreenState> {
+                    updateScreen(it)
+                }
+            }
+        )
         bookSearchViewModel.listViewState.observe(viewLifecycleOwner, Observer<ListViewState> { state -> setMainResultView(state) })
         bookSearchViewModel.searchRecordState.observe(viewLifecycleOwner, Observer<SearchRecordStates> { state -> updateSearchRecords(state) })
         bookSearchViewModel.ready()

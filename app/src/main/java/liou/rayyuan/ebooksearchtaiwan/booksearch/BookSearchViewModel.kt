@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rayliu.commonmain.UserPreferenceManager
 import kotlinx.coroutines.*
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookHeader
@@ -16,9 +15,12 @@ import com.rayliu.commonmain.domain.model.BookStores
 import com.rayliu.commonmain.data.DefaultStoreNames
 import com.rayliu.commonmain.generateBookStoresResultMap
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
-import com.rayliu.commonmain.Utils
 import com.rayliu.commonmain.domain.model.SearchRecord
 import com.rayliu.commonmain.domain.usecase.*
+import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ListViewState
+import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
+import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.SearchRecordStates
+import liou.rayyuan.ebooksearchtaiwan.view.ViewEvent
 import liou.rayyuan.ebooksearchtaiwan.view.getStringResource
 import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
 import java.net.SocketTimeoutException
@@ -42,15 +44,15 @@ class BookSearchViewModel(
 
     //region ViewStates
     private val _listViewState = MutableLiveData<ListViewState>()
-    internal val listViewState: LiveData<ListViewState>
+    val listViewState: LiveData<ListViewState>
         get() = _listViewState
 
-    private val _screenViewState = MutableLiveData<ScreenState>()
-    internal val screenViewState: LiveData<ScreenState>
+    private val _screenViewState = MutableLiveData<ViewEvent<ScreenState>>()
+    val screenViewState: LiveData<ViewEvent<ScreenState>>
         get() = _screenViewState
 
     private val _searchRecordState = MutableLiveData<SearchRecordStates>()
-    internal val searchRecordState: LiveData<SearchRecordStates>
+    val searchRecordState: LiveData<SearchRecordStates>
         get() = _searchRecordState
     //endregion
 
@@ -93,7 +95,7 @@ class BookSearchViewModel(
     fun hintPressed() {
         eggCount++
         if (eggCount == 10) {
-            _screenViewState.value = ScreenState.EasterEgg
+            sendViewEvent(ScreenState.EasterEgg)
             eventTracker.logEvent(EventTracker.SHOW_EASTER_EGG_01)
         }
         eventTracker.logEvent(EventTracker.CLICK_INFO_BUTTON)
@@ -152,10 +154,10 @@ class BookSearchViewModel(
                     }
                 }
             } else {
-                _screenViewState.value = ScreenState.NoInternetConnection
+                sendViewEvent(ScreenState.NoInternetConnection)
             }
         } else {
-            _screenViewState.value = ScreenState.EmptyKeyword
+            sendViewEvent(ScreenState.EmptyKeyword)
         }
 
         _searchRecordState.value = SearchRecordStates.HideList
@@ -255,15 +257,19 @@ class BookSearchViewModel(
     }
 
     private fun networkTimeout() {
-        _screenViewState.value = ScreenState.ConnectionTimeout
+        sendViewEvent(ScreenState.ConnectionTimeout)
     }
 
     private fun networkExceptionOccurred(message: String) {
         _listViewState.value = ListViewState.Error
         if (message == GENERIC_NETWORK_ISSUE) {
-            _screenViewState.value = ScreenState.NetworkError
+            sendViewEvent(ScreenState.NetworkError)
         } else {
-            _screenViewState.value = ScreenState.ShowToastMessage(-1, message)
+            sendViewEvent(ScreenState.ShowToastMessage(-1, message))
         }
+    }
+
+    private fun sendViewEvent(screenState: ScreenState) {
+        _screenViewState.value = ViewEvent(screenState)
     }
 }

@@ -1,4 +1,4 @@
-package liou.rayyuan.ebooksearchtaiwan.booksearch
+package liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate
 
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
 
