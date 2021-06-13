@@ -99,7 +99,6 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
 
         fullBookStoreResultsAdapter = FullBookStoreResultAdapter(this, this)
         resultsRecyclerView.adapter = fullBookStoreResultsAdapter
-        bookSearchViewModel.setRecyclerViewAdapter(fullBookStoreResultsAdapter)
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
@@ -318,6 +317,7 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
             is ListViewState.Ready -> {
                 if (listViewState.adapterItems.isNotEmpty()) {
                     if (this::fullBookStoreResultsAdapter.isInitialized) {
+                        fullBookStoreResultsAdapter.clean()
                         fullBookStoreResultsAdapter.addResult(listViewState.adapterItems)
                     }
                 }

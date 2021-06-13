@@ -59,7 +59,6 @@ class BookSearchViewModel(
     }
 
     private var networkJob: Job? = null
-    private lateinit var fullBookStoreResultsAdapter: FullBookStoreResultAdapter
     private val maxListNumber: Int = 10
     private var eggCount: Int = 0
     private var bookStores: BookStores? = null
@@ -135,7 +134,6 @@ class BookSearchViewModel(
                         when (response) {
                             is Result.Success -> {
                                 networkRequestSuccess(response.value)
-                                resetCurrentResults()
                             }
                             is Result.Failed -> {
                                 /*
@@ -167,14 +165,6 @@ class BookSearchViewModel(
         viewModelScope.launch {
             deleteSearchRecordUseCase(searchRecord)
         }
-    }
-
-    private fun resetCurrentResults() {
-        fullBookStoreResultsAdapter.clean()
-    }
-
-    fun setRecyclerViewAdapter(fullBookStoreResultsAdapter: FullBookStoreResultAdapter) {
-        this.fullBookStoreResultsAdapter = fullBookStoreResultsAdapter
     }
 
     private fun prepareBookSearchResult(bookStores: BookStores) {
