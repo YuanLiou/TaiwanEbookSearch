@@ -66,7 +66,7 @@ class BookSearchViewModel(
     private val defaultResultSort: List<DefaultStoreNames>
         get() = getDefaultBookSortUseCase()
 
-    var lastScrollPosition: Int = 0
+    private var lastScrollPosition: Int = 0
         set(value) {
             field = if (!isRequestingBookData()) {
                 value
@@ -107,6 +107,10 @@ class BookSearchViewModel(
         forceStopRequestingBookData()
         eggCount = 0
         super.onCleared()
+    }
+
+    fun savePreviousScrollPosition(position: Int) {
+        lastScrollPosition = position
     }
 
     private fun ready() {

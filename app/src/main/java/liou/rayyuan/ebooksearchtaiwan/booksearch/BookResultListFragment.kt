@@ -115,7 +115,7 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
 
             val recyclerViewPosition = savedInstanceState.getInt(KEY_RECYCLERVIEW_POSITION, 0)
             (resultsRecyclerView.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(recyclerViewPosition, 0)
-            bookSearchViewModel.lastScrollPosition = recyclerViewPosition
+            bookSearchViewModel.savePreviousScrollPosition(recyclerViewPosition)
             Log.i("BookResultListFragment", "restore recyclerView Position = $recyclerViewPosition")
         }
         bookSearchViewModel.screenViewState.observe(
