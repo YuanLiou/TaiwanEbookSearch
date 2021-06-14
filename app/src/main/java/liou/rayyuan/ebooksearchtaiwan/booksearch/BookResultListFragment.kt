@@ -25,7 +25,6 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.Observer
-import androidx.paging.PagedList
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -39,14 +38,12 @@ import liou.rayyuan.ebooksearchtaiwan.databinding.FragmentSearchListBinding
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import com.rayliu.commonmain.domain.model.Book
 import com.rayliu.commonmain.domain.model.SearchRecord
-import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ListViewState
+import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
-import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.SearchRecordStates
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
 import liou.rayyuan.ebooksearchtaiwan.view.EventObserver
-import liou.rayyuan.ebooksearchtaiwan.view.ViewEvent
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View.OnClickListener,
@@ -98,7 +95,7 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val toolbar = viewBinding.searchViewToolbar
-        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
         bindViews(view)
         init()
 
@@ -125,8 +122,8 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
                 }
             }
         )
-        bookSearchViewModel.listViewState.observe(viewLifecycleOwner, Observer<ListViewState> { state -> setMainResultView(state) })
-        bookSearchViewModel.searchRecordState.observe(viewLifecycleOwner, Observer<SearchRecordStates> { state -> updateSearchRecords(state) })
+        bookSearchViewModel.bookResultViewState.observe(viewLifecycleOwner,
+            { state -> setMainResultView(state) })
         bookSearchViewModel.ready()
         setupUI()
 
@@ -226,7 +223,7 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
     }
 
     override fun onDestroy() {
-        (activity as AppCompatActivity).setSupportActionBar(null)
+        (requireActivity() as AppCompatActivity).setSupportActionBar(null)
         searchRecordsAdapter.release()
         fullBookStoreResultsAdapter.release()
         super.onDestroy()
@@ -248,8 +245,8 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.search_page_menu_action_setting -> {
-                if (isAdded && activity is BookSearchActivity) {
-                    (activity as BookSearchActivity).openPreferenceActivity()
+                if (isAdded) {
+                    (requireActivity() as? BookSearchActivity)?.openPreferenceActivity()
                 }
                 true
             }
@@ -306,9 +303,9 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
         hintText.text = hintWithAppVersion
     }
 
-    private fun setMainResultView(listViewState: ListViewState) {
-        when (listViewState) {
-            is ListViewState.Prepare -> {
+    private fun setMainResultView(bookResultViewState: BookResultViewState) {
+        when (bookResultViewState) {
+            is BookResultViewState.PrepareBookResult -> {
                 progressBar.visibility = View.VISIBLE
                 resultsRecyclerView.visibility = View.GONE
                 hintText.visibility = View.GONE
@@ -322,15 +319,15 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
                     shareResultMenu.setVisible(false)
                 }
 
-                if (listViewState.scrollToTop) {
+                if (bookResultViewState.scrollToTop) {
                     scrollToTop()
                 }
             }
-            is ListViewState.Ready -> {
-                if (listViewState.adapterItems.isNotEmpty()) {
+            is BookResultViewState.ShowBooks -> {
+                if (bookResultViewState.adapterItems.isNotEmpty()) {
                     if (this::fullBookStoreResultsAdapter.isInitialized) {
                         fullBookStoreResultsAdapter.clean()
-                        fullBookStoreResultsAdapter.addResult(listViewState.adapterItems)
+                        fullBookStoreResultsAdapter.addResult(bookResultViewState.adapterItems)
                     }
                 }
 
@@ -347,11 +344,11 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
                     shareResultMenu.setVisible(true)
                 }
 
-                if (listViewState.scrollPosition > 0) {
-                    scrollToPosition(listViewState.scrollPosition)
+                if (bookResultViewState.scrollPosition > 0) {
+                    scrollToPosition(bookResultViewState.scrollPosition)
                 }
             }
-            ListViewState.Error -> {
+            BookResultViewState.PrepareBookResultError -> {
                 progressBar.visibility = View.GONE
                 resultsRecyclerView.visibility = View.GONE
                 hintText.visibility = View.VISIBLE
@@ -363,6 +360,32 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
 
                 if (this::shareResultMenu.isInitialized) {
                     shareResultMenu.setVisible(false)
+                }
+            }
+            is BookResultViewState.ShowSearchRecordList -> {
+                val itemCounts = bookResultViewState.itemCounts
+                val heightPadding = if (itemCounts < 5) {
+                    TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                        (36f / itemCounts),
+                        resources.displayMetrics).toInt()
+                } else {
+                    0
+                }
+
+                val adapterItemHeight = resources.getDimensionPixelSize(R.dimen.search_records_item_height)
+
+                toggleSearchRecordView(true, (adapterItemHeight + heightPadding) * itemCounts)
+                bookSearchViewModel.searchRecordLiveData.observe(viewLifecycleOwner,
+                    Observer { searchRecords ->
+                        searchRecordsAdapter.addItems(searchRecords)
+                    }
+                )
+            }
+            BookResultViewState.HideSearchRecordList -> {
+                if (this::searchRecordsRootView.isInitialized) {
+                    bookSearchViewModel.searchRecordLiveData.removeObservers(viewLifecycleOwner)
+                    toggleSearchRecordView(false)
+                    (searchRecordsRecyclerView.layoutManager as? LinearLayoutManager)?.scrollToPosition(0)
                 }
             }
         }
@@ -395,44 +418,13 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
         }
     }
 
-    private fun updateSearchRecords(searchRecordStates: SearchRecordStates) {
-        when (searchRecordStates) {
-            is SearchRecordStates.ShowList -> {
-                val itemCounts = searchRecordStates.itemCounts
-                val heightPadding = if (itemCounts < 5) {
-                    TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                            (36f / itemCounts),
-                            resources.displayMetrics).toInt()
-                } else {
-                    0
-                }
-
-                val adapterItemHeight = resources.getDimensionPixelSize(R.dimen.search_records_item_height)
-
-                toggleSearchRecordView(true, (adapterItemHeight + heightPadding) * itemCounts)
-                bookSearchViewModel.searchRecordLiveData.observe(viewLifecycleOwner,
-                        Observer<PagedList<SearchRecord>> { searchRecords ->
-                            searchRecordsAdapter.addItems(searchRecords)
-                        }
-                )
-            }
-            SearchRecordStates.HideList -> {
-                if (this::searchRecordsRootView.isInitialized) {
-                    bookSearchViewModel.searchRecordLiveData.removeObservers(viewLifecycleOwner)
-                    toggleSearchRecordView(false)
-                    (searchRecordsRecyclerView.layoutManager as? LinearLayoutManager)?.scrollToPosition(0)
-                }
-            }
-        }
-    }
-
     private fun scrollToTop() {
         resultsRecyclerView.scrollToPosition(0)
     }
 
     private fun openBook(book: Book) {
-        if (isAdded && activity is BookSearchActivity) {
-            (activity as BookSearchActivity).openBookLink(book)
+        if (isAdded) {
+            (requireActivity() as? BookSearchActivity)?.openBookLink(book)
         }
     }
 
@@ -513,8 +505,8 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
                 hintPressed()
             }
             R.id.search_view_camera_icon -> {
-                if (isAdded && activity is BookSearchActivity) {
-                    (activity as BookSearchActivity).openCameraPreviewActivity()
+                if (isAdded) {
+                    (requireActivity() as? BookSearchActivity)?.openCameraPreviewActivity()
                 }
             }
             R.id.search_view_back_to_top_button -> {
@@ -546,7 +538,7 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
 
     private fun isCameraAvailable(): Boolean {
         if (isAdded) {
-            return activity?.packageManager?.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY) ?: false
+            return requireActivity().packageManager?.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY) ?: false
         }
         return false
     }

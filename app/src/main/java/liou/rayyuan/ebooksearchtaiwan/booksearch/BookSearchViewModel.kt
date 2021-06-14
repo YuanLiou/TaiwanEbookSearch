@@ -17,9 +17,8 @@ import com.rayliu.commonmain.generateBookStoresResultMap
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import com.rayliu.commonmain.domain.model.SearchRecord
 import com.rayliu.commonmain.domain.usecase.*
-import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ListViewState
+import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
-import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.SearchRecordStates
 import liou.rayyuan.ebooksearchtaiwan.view.ViewEvent
 import liou.rayyuan.ebooksearchtaiwan.view.getStringResource
 import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
@@ -43,17 +42,13 @@ class BookSearchViewModel(
     }
 
     //region ViewStates
-    private val _listViewState = MutableLiveData<ListViewState>()
-    val listViewState: LiveData<ListViewState>
-        get() = _listViewState
+    private val _bookResultViewState = MutableLiveData<BookResultViewState>()
+    val bookResultViewState: LiveData<BookResultViewState>
+        get() = _bookResultViewState
 
     private val _screenViewState = MutableLiveData<ViewEvent<ScreenState>>()
     val screenViewState: LiveData<ViewEvent<ScreenState>>
         get() = _screenViewState
-
-    private val _searchRecordState = MutableLiveData<SearchRecordStates>()
-    val searchRecordState: LiveData<SearchRecordStates>
-        get() = _searchRecordState
     //endregion
 
     val searchRecordLiveData by lazy {
@@ -84,7 +79,7 @@ class BookSearchViewModel(
 
     fun ready() {
         if (isRequestingBookData()) {
-            _listViewState.value = ListViewState.Prepare()
+            _bookResultViewState.value = BookResultViewState.PrepareBookResult()
         } else {
             bookStores?.let {
                 prepareBookSearchResult(it)
@@ -107,18 +102,18 @@ class BookSearchViewModel(
                 getSearchRecordsCountsUseCase().fold(
                     success = { recordCounts ->
                         if (recordCounts > 0) {
-                            _searchRecordState.value = SearchRecordStates.ShowList(recordCounts)
+                            _bookResultViewState.value = BookResultViewState.ShowSearchRecordList(recordCounts)
                         } else {
-                            _searchRecordState.value = SearchRecordStates.HideList
+                            _bookResultViewState.value = BookResultViewState.HideSearchRecordList
                         }
                     },
                     failure = {
-                        _searchRecordState.value = SearchRecordStates.HideList
+                        _bookResultViewState.value = BookResultViewState.HideSearchRecordList
                     }
                 )
             }
         } else {
-            _searchRecordState.value = SearchRecordStates.HideList
+            _bookResultViewState.value = BookResultViewState.HideSearchRecordList
         }
     }
 
@@ -129,7 +124,7 @@ class BookSearchViewModel(
                     forceStopRequestingBookData()
                 }
 
-                _listViewState.value = ListViewState.Prepare(true)
+                _bookResultViewState.value = BookResultViewState.PrepareBookResult(true)
                 networkJob = CoroutineScope(Dispatchers.IO).launch {
                     val response = getBooksWithStoresUseCase(defaultResultSort, keyword)
                     withContext(Dispatchers.Main) {
@@ -159,8 +154,7 @@ class BookSearchViewModel(
         } else {
             sendViewEvent(ScreenState.EmptyKeyword)
         }
-
-        _searchRecordState.value = SearchRecordStates.HideList
+        _bookResultViewState.value = BookResultViewState.HideSearchRecordList
     }
 
     fun deleteRecords(searchRecord: SearchRecord) {
@@ -174,7 +168,7 @@ class BookSearchViewModel(
 
         viewModelScope.launch {
             val adapterItems = generateAdapterItems(bookStores)
-            _listViewState.value = ListViewState.Ready(lastScrollPosition, adapterItems)
+            _bookResultViewState.value = BookResultViewState.ShowBooks(lastScrollPosition, adapterItems)
             lastScrollPosition = 0
         }
     }
@@ -261,7 +255,7 @@ class BookSearchViewModel(
     }
 
     private fun networkExceptionOccurred(message: String) {
-        _listViewState.value = ListViewState.Error
+        _bookResultViewState.value = BookResultViewState.PrepareBookResultError
         if (message == GENERIC_NETWORK_ISSUE) {
             sendViewEvent(ScreenState.NetworkError)
         } else {
