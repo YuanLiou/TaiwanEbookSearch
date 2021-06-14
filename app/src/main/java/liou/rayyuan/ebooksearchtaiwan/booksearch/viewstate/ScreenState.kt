@@ -1,8 +1,8 @@
-package liou.rayyuan.ebooksearchtaiwan.booksearch
+package liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate
 
 import androidx.annotation.StringRes
 
-internal sealed class ScreenState {
+sealed class ScreenState {
     object EasterEgg : ScreenState()
     object ConnectionTimeout : ScreenState()
     object NetworkError : ScreenState()

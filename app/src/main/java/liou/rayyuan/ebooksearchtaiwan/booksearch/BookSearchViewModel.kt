@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rayliu.commonmain.UserPreferenceManager
 import kotlinx.coroutines.*
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookHeader
@@ -16,9 +15,15 @@ import com.rayliu.commonmain.domain.model.BookStores
 import com.rayliu.commonmain.data.DefaultStoreNames
 import com.rayliu.commonmain.generateBookStoresResultMap
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
-import com.rayliu.commonmain.Utils
 import com.rayliu.commonmain.domain.model.SearchRecord
 import com.rayliu.commonmain.domain.usecase.*
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.consumeAsFlow
+import liou.rayyuan.ebooksearchtaiwan.arch.IModel
+import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
+import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
+import liou.rayyuan.ebooksearchtaiwan.view.ViewEffect
 import liou.rayyuan.ebooksearchtaiwan.view.getStringResource
 import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
 import java.net.SocketTimeoutException
@@ -34,46 +39,69 @@ class BookSearchViewModel(
     private val eventTracker: EventTracker,
     private val quickChecker: QuickChecker,
     private val deleteSearchRecordUseCase: DeleteSearchRecordUseCase
-) : ViewModel() {
+) : ViewModel(),
+    IModel<BookResultViewState, BookSearchUserIntent> {
     companion object {
         const val NO_MESSAGE = -1
         const val GENERIC_NETWORK_ISSUE = "generic-network-issue"
     }
 
-    //region ViewStates
-    private val _listViewState = MutableLiveData<ListViewState>()
-    internal val listViewState: LiveData<ListViewState>
-        get() = _listViewState
+    override val userIntents: Channel<BookSearchUserIntent> = Channel(Channel.UNLIMITED)
+    private val _bookResultViewState = MutableLiveData<BookResultViewState>()
+    override val viewState: LiveData<BookResultViewState>
+        get() = _bookResultViewState
 
-    private val _screenViewState = MutableLiveData<ScreenState>()
-    internal val screenViewState: LiveData<ScreenState>
+    private val _screenViewState = MutableLiveData<ViewEffect<ScreenState>>()
+    val screenViewState: LiveData<ViewEffect<ScreenState>>
         get() = _screenViewState
-
-    private val _searchRecordState = MutableLiveData<SearchRecordStates>()
-    internal val searchRecordState: LiveData<SearchRecordStates>
-        get() = _searchRecordState
-    //endregion
 
     val searchRecordLiveData by lazy {
         getSearchRecordsUseCase()
     }
 
     private var networkJob: Job? = null
-    private lateinit var fullBookStoreResultsAdapter: FullBookStoreResultAdapter
     private val maxListNumber: Int = 10
     private var eggCount: Int = 0
     private var bookStores: BookStores? = null
     private val defaultResultSort: List<DefaultStoreNames>
         get() = getDefaultBookSortUseCase()
 
-    var lastScrollPosition: Int = 0
+    private var lastScrollPosition: Int = 0
         set(value) {
-            if (!isRequestingBookData()) {
-                field = value
+            field = if (!isRequestingBookData()) {
+                value
             } else {
-                field = 0
+                0
             }
         }
+
+    init {
+        setupUserIntentHanding()
+    }
+
+    private fun setupUserIntentHanding() {
+        viewModelScope.launch {
+            userIntents.consumeAsFlow().collect {
+                when (it) {
+                    is BookSearchUserIntent.DeleteSearchRecord -> {
+                        deleteRecords(it.searchRecord)
+                    }
+                    is BookSearchUserIntent.FocusOnTextEditing -> {
+                        focusOnEditText(it.isFocus)
+                    }
+                    BookSearchUserIntent.OnViewReadyToServe -> {
+                        ready()
+                    }
+                    BookSearchUserIntent.PressHint -> {
+                        hintPressed()
+                    }
+                    is BookSearchUserIntent.SearchBook -> {
+                        searchBook(it.keywords)
+                    }
+                }
+            }
+        }
+    }
 
     override fun onCleared() {
         forceStopRequestingBookData()
@@ -81,9 +109,13 @@ class BookSearchViewModel(
         super.onCleared()
     }
 
-    fun ready() {
+    fun savePreviousScrollPosition(position: Int) {
+        lastScrollPosition = position
+    }
+
+    private fun ready() {
         if (isRequestingBookData()) {
-            _listViewState.value = ListViewState.Prepare()
+            updateScreen(BookResultViewState.PrepareBookResult())
         } else {
             bookStores?.let {
                 prepareBookSearchResult(it)
@@ -91,51 +123,50 @@ class BookSearchViewModel(
         }
     }
 
-    fun hintPressed() {
+    private fun hintPressed() {
         eggCount++
         if (eggCount == 10) {
-            _screenViewState.value = ScreenState.EasterEgg
+            sendViewEffect(ScreenState.EasterEgg)
             eventTracker.logEvent(EventTracker.SHOW_EASTER_EGG_01)
         }
         eventTracker.logEvent(EventTracker.CLICK_INFO_BUTTON)
     }
 
-    fun focusOnEditText(isFocus: Boolean) {
+    private fun focusOnEditText(isFocus: Boolean) {
         if (isFocus) {
             viewModelScope.launch {
                 getSearchRecordsCountsUseCase().fold(
                     success = { recordCounts ->
                         if (recordCounts > 0) {
-                            _searchRecordState.value = SearchRecordStates.ShowList(recordCounts)
+                            updateScreen(BookResultViewState.ShowSearchRecordList(recordCounts))
                         } else {
-                            _searchRecordState.value = SearchRecordStates.HideList
+                            updateScreen(BookResultViewState.HideSearchRecordList)
                         }
                     },
                     failure = {
-                        _searchRecordState.value = SearchRecordStates.HideList
+                        updateScreen(BookResultViewState.HideSearchRecordList)
                     }
                 )
             }
         } else {
-            _searchRecordState.value = SearchRecordStates.HideList
+            updateScreen(BookResultViewState.HideSearchRecordList)
         }
     }
 
-    fun searchBook(keyword: String) {
+    private fun searchBook(keyword: String) {
         if (keyword.trim().isNotBlank()) {
             if (quickChecker.isInternetConnectionAvailable()) {
                 if (isRequestingBookData()) {
                     forceStopRequestingBookData()
                 }
 
-                _listViewState.value = ListViewState.Prepare(true)
+                updateScreen(BookResultViewState.PrepareBookResult(true))
                 networkJob = CoroutineScope(Dispatchers.IO).launch {
                     val response = getBooksWithStoresUseCase(defaultResultSort, keyword)
                     withContext(Dispatchers.Main) {
                         when (response) {
                             is Result.Success -> {
                                 networkRequestSuccess(response.value)
-                                resetCurrentResults()
                             }
                             is Result.Failed -> {
                                 /*
@@ -154,27 +185,18 @@ class BookSearchViewModel(
                     }
                 }
             } else {
-                _screenViewState.value = ScreenState.NoInternetConnection
+                sendViewEffect(ScreenState.NoInternetConnection)
             }
         } else {
-            _screenViewState.value = ScreenState.EmptyKeyword
+            sendViewEffect(ScreenState.EmptyKeyword)
         }
-
-        _searchRecordState.value = SearchRecordStates.HideList
+        updateScreen(BookResultViewState.HideSearchRecordList)
     }
 
-    fun deleteRecords(searchRecord: SearchRecord) {
+    private fun deleteRecords(searchRecord: SearchRecord) {
         viewModelScope.launch {
             deleteSearchRecordUseCase(searchRecord)
         }
-    }
-
-    private fun resetCurrentResults() {
-        fullBookStoreResultsAdapter.clean()
-    }
-
-    fun setRecyclerViewAdapter(fullBookStoreResultsAdapter: FullBookStoreResultAdapter) {
-        this.fullBookStoreResultsAdapter = fullBookStoreResultsAdapter
     }
 
     private fun prepareBookSearchResult(bookStores: BookStores) {
@@ -182,7 +204,7 @@ class BookSearchViewModel(
 
         viewModelScope.launch {
             val adapterItems = generateAdapterItems(bookStores)
-            _listViewState.value = ListViewState.Ready(lastScrollPosition, adapterItems)
+            updateScreen(BookResultViewState.ShowBooks(lastScrollPosition, adapterItems))
             lastScrollPosition = 0
         }
     }
@@ -265,15 +287,26 @@ class BookSearchViewModel(
     }
 
     private fun networkTimeout() {
-        _screenViewState.value = ScreenState.ConnectionTimeout
+        sendViewEffect(ScreenState.ConnectionTimeout)
     }
 
     private fun networkExceptionOccurred(message: String) {
-        _listViewState.value = ListViewState.Error
+        updateScreen(BookResultViewState.PrepareBookResultError)
         if (message == GENERIC_NETWORK_ISSUE) {
-            _screenViewState.value = ScreenState.NetworkError
+            sendViewEffect(ScreenState.NetworkError)
         } else {
-            _screenViewState.value = ScreenState.ShowToastMessage(-1, message)
+            sendViewEffect(ScreenState.ShowToastMessage(-1, message))
         }
+    }
+
+    private fun sendViewEffect(screenState: ScreenState) {
+        _screenViewState.value = ViewEffect(screenState)
+    }
+
+    /***
+     * reduce
+     */
+    private fun updateScreen(bookResultViewState: BookResultViewState) {
+        _bookResultViewState.value = bookResultViewState
     }
 }
