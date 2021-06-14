@@ -2,7 +2,7 @@ package liou.rayyuan.ebooksearchtaiwan.view
 
 import androidx.lifecycle.Observer
 
-class ViewEvent<out T>(private val content: T) {
+class ViewEffect<out T>(private val content: T) {
 
     var hasBeenHandled = false
         private set
@@ -21,9 +21,9 @@ class ViewEvent<out T>(private val content: T) {
     }
 }
 
-class EventObserver<T>(private val onEventUnhandledContent: (T) -> Unit): Observer<ViewEvent<T>> {
-    override fun onChanged(event: ViewEvent<T>?) {
-        event?.getContentIfNotHandled()?.let {
+class ViewEffectObserver<T>(private val onEventUnhandledContent: (T) -> Unit): Observer<ViewEffect<T>> {
+    override fun onChanged(effect: ViewEffect<T>?) {
+        effect?.getContentIfNotHandled()?.let {
             onEventUnhandledContent(it)
         }
     }

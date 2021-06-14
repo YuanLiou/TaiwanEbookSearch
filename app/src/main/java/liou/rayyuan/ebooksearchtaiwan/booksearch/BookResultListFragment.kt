@@ -25,6 +25,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -38,17 +39,20 @@ import liou.rayyuan.ebooksearchtaiwan.databinding.FragmentSearchListBinding
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import com.rayliu.commonmain.domain.model.Book
 import com.rayliu.commonmain.domain.model.SearchRecord
+import kotlinx.coroutines.launch
+import liou.rayyuan.ebooksearchtaiwan.arch.IView
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
-import liou.rayyuan.ebooksearchtaiwan.view.EventObserver
+import liou.rayyuan.ebooksearchtaiwan.view.ViewEffectObserver
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View.OnClickListener,
     BookResultClickHandler,
-        SearchRecordAdapter.OnSearchRecordsClickListener {
+    SearchRecordAdapter.OnSearchRecordsClickListener,
+    IView<BookResultViewState> {
 
     companion object {
         fun newInstance(defaultKeyword: String?) = BookResultListFragment().apply {
@@ -117,16 +121,16 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
         bookSearchViewModel.screenViewState.observe(
             viewLifecycleOwner,
             { state ->
-                EventObserver<ScreenState> {
+                ViewEffectObserver<ScreenState> {
                     updateScreen(it)
                 }
             }
         )
-        bookSearchViewModel.bookResultViewState.observe(viewLifecycleOwner,
-            { state -> setMainResultView(state) })
-        bookSearchViewModel.ready()
-        setupUI()
+        bookSearchViewModel.viewState.observe(viewLifecycleOwner,
+            { state -> render(state) })
 
+        sendUserIntent(BookSearchUserIntent.OnViewReadyToServe)
+        setupUI()
         if (!TextUtils.isEmpty(defaultSearchKeyword)) {
             searchWithText(defaultSearchKeyword)
             defaultSearchKeyword = ""
@@ -192,8 +196,8 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
             false
         })
 
-        searchEditText.onFocusChangeListener = View.OnFocusChangeListener {
-            _, hasFocus -> bookSearchViewModel.focusOnEditText(hasFocus)
+        searchEditText.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            sendUserIntent(BookSearchUserIntent.FocusOnTextEditing(hasFocus))
         }
 
         with(searchRecordsRecyclerView) {
@@ -233,7 +237,7 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
         hideVirtualKeyboard()
         searchEditText.clearFocus()
         val keyword: String = searchEditText.text.toString()
-        bookSearchViewModel.searchBook(keyword)
+        sendUserIntent(BookSearchUserIntent.SearchBook(keyword))
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -303,7 +307,11 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
         hintText.text = hintWithAppVersion
     }
 
-    private fun setMainResultView(bookResultViewState: BookResultViewState) {
+    override fun render(viewState: BookResultViewState) {
+        renderMainResultView(viewState)
+    }
+
+    private fun renderMainResultView(bookResultViewState: BookResultViewState) {
         when (bookResultViewState) {
             is BookResultViewState.PrepareBookResult -> {
                 progressBar.visibility = View.VISIBLE
@@ -499,7 +507,7 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
                 hideVirtualKeyboard()
                 searchEditText.clearFocus()
                 val keyword: String = searchEditText.text.toString()
-                bookSearchViewModel.searchBook(keyword)
+                sendUserIntent(BookSearchUserIntent.SearchBook(keyword))
             }
             R.id.search_view_hint -> {
                 hintPressed()
@@ -531,7 +539,7 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
     }
 
     private fun hintPressed() {
-        bookSearchViewModel.hintPressed()
+        sendUserIntent(BookSearchUserIntent.PressHint)
         focusBookSearchEditText()
     }
     //endregion
@@ -554,16 +562,16 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
         }
     }
 
-    internal fun searchWithText(text: String) {
+    fun searchWithText(text: String) {
         searchEditText.setText(text)
         searchEditText.setSelection(text.length)
         searchEditText.clearFocus()
         hideVirtualKeyboard()
-        bookSearchViewModel.searchBook(text)
+        sendUserIntent(BookSearchUserIntent.SearchBook(text))
         bookSearchViewModel.logISBNScanningSucceed()
     }
 
-    internal fun onBackPressed(): Boolean {
+    fun onBackPressed(): Boolean {
         if (searchEditText.isFocused) {
             searchEditText.clearFocus()
             return true
@@ -572,7 +580,7 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
         return false
     }
 
-    internal fun toggleSearchRecordView(show: Boolean, targetHeight: Int = 0) {
+    fun toggleSearchRecordView(show: Boolean, targetHeight: Int = 0) {
         if (!this::searchRecordsRootView.isInitialized) {
             return
         }
@@ -654,7 +662,7 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
                     .setTitle(R.string.alert_dialog_delete_search_records)
                     .setMessage(message)
                     .setPositiveButton(getString(R.string.dialog_ok)) { dialog, _ ->
-                        bookSearchViewModel.deleteRecords(searchRecord)
+                        sendUserIntent(BookSearchUserIntent.DeleteSearchRecord(searchRecord))
                         searchRecordsAdapter.notifyItemRemoved(position)
                         dialog.dismiss()
                     }
@@ -663,4 +671,10 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
         }
     }
     //endregion
+
+    private fun sendUserIntent(userIntent: BookSearchUserIntent) {
+        lifecycleScope.launch {
+            bookSearchViewModel.userIntents.send(userIntent)
+        }
+    }
 }

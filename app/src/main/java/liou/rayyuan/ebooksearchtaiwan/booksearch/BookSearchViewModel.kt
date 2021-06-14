@@ -17,9 +17,13 @@ import com.rayliu.commonmain.generateBookStoresResultMap
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import com.rayliu.commonmain.domain.model.SearchRecord
 import com.rayliu.commonmain.domain.usecase.*
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.consumeAsFlow
+import liou.rayyuan.ebooksearchtaiwan.arch.IModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
-import liou.rayyuan.ebooksearchtaiwan.view.ViewEvent
+import liou.rayyuan.ebooksearchtaiwan.view.ViewEffect
 import liou.rayyuan.ebooksearchtaiwan.view.getStringResource
 import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
 import java.net.SocketTimeoutException
@@ -35,21 +39,21 @@ class BookSearchViewModel(
     private val eventTracker: EventTracker,
     private val quickChecker: QuickChecker,
     private val deleteSearchRecordUseCase: DeleteSearchRecordUseCase
-) : ViewModel() {
+) : ViewModel(),
+    IModel<BookResultViewState, BookSearchUserIntent> {
     companion object {
         const val NO_MESSAGE = -1
         const val GENERIC_NETWORK_ISSUE = "generic-network-issue"
     }
 
-    //region ViewStates
+    override val userIntents: Channel<BookSearchUserIntent> = Channel(Channel.UNLIMITED)
     private val _bookResultViewState = MutableLiveData<BookResultViewState>()
-    val bookResultViewState: LiveData<BookResultViewState>
+    override val viewState: LiveData<BookResultViewState>
         get() = _bookResultViewState
 
-    private val _screenViewState = MutableLiveData<ViewEvent<ScreenState>>()
-    val screenViewState: LiveData<ViewEvent<ScreenState>>
+    private val _screenViewState = MutableLiveData<ViewEffect<ScreenState>>()
+    val screenViewState: LiveData<ViewEffect<ScreenState>>
         get() = _screenViewState
-    //endregion
 
     val searchRecordLiveData by lazy {
         getSearchRecordsUseCase()
@@ -64,12 +68,40 @@ class BookSearchViewModel(
 
     var lastScrollPosition: Int = 0
         set(value) {
-            if (!isRequestingBookData()) {
-                field = value
+            field = if (!isRequestingBookData()) {
+                value
             } else {
-                field = 0
+                0
             }
         }
+
+    init {
+        setupUserIntentHanding()
+    }
+
+    private fun setupUserIntentHanding() {
+        viewModelScope.launch {
+            userIntents.consumeAsFlow().collect {
+                when (it) {
+                    is BookSearchUserIntent.DeleteSearchRecord -> {
+                        deleteRecords(it.searchRecord)
+                    }
+                    is BookSearchUserIntent.FocusOnTextEditing -> {
+                        focusOnEditText(it.isFocus)
+                    }
+                    BookSearchUserIntent.OnViewReadyToServe -> {
+                        ready()
+                    }
+                    BookSearchUserIntent.PressHint -> {
+                        hintPressed()
+                    }
+                    is BookSearchUserIntent.SearchBook -> {
+                        searchBook(it.keywords)
+                    }
+                }
+            }
+        }
+    }
 
     override fun onCleared() {
         forceStopRequestingBookData()
@@ -77,9 +109,9 @@ class BookSearchViewModel(
         super.onCleared()
     }
 
-    fun ready() {
+    private fun ready() {
         if (isRequestingBookData()) {
-            _bookResultViewState.value = BookResultViewState.PrepareBookResult()
+            updateScreen(BookResultViewState.PrepareBookResult())
         } else {
             bookStores?.let {
                 prepareBookSearchResult(it)
@@ -87,44 +119,44 @@ class BookSearchViewModel(
         }
     }
 
-    fun hintPressed() {
+    private fun hintPressed() {
         eggCount++
         if (eggCount == 10) {
-            sendViewEvent(ScreenState.EasterEgg)
+            sendViewEffect(ScreenState.EasterEgg)
             eventTracker.logEvent(EventTracker.SHOW_EASTER_EGG_01)
         }
         eventTracker.logEvent(EventTracker.CLICK_INFO_BUTTON)
     }
 
-    fun focusOnEditText(isFocus: Boolean) {
+    private fun focusOnEditText(isFocus: Boolean) {
         if (isFocus) {
             viewModelScope.launch {
                 getSearchRecordsCountsUseCase().fold(
                     success = { recordCounts ->
                         if (recordCounts > 0) {
-                            _bookResultViewState.value = BookResultViewState.ShowSearchRecordList(recordCounts)
+                            updateScreen(BookResultViewState.ShowSearchRecordList(recordCounts))
                         } else {
-                            _bookResultViewState.value = BookResultViewState.HideSearchRecordList
+                            updateScreen(BookResultViewState.HideSearchRecordList)
                         }
                     },
                     failure = {
-                        _bookResultViewState.value = BookResultViewState.HideSearchRecordList
+                        updateScreen(BookResultViewState.HideSearchRecordList)
                     }
                 )
             }
         } else {
-            _bookResultViewState.value = BookResultViewState.HideSearchRecordList
+            updateScreen(BookResultViewState.HideSearchRecordList)
         }
     }
 
-    fun searchBook(keyword: String) {
+    private fun searchBook(keyword: String) {
         if (keyword.trim().isNotBlank()) {
             if (quickChecker.isInternetConnectionAvailable()) {
                 if (isRequestingBookData()) {
                     forceStopRequestingBookData()
                 }
 
-                _bookResultViewState.value = BookResultViewState.PrepareBookResult(true)
+                updateScreen(BookResultViewState.PrepareBookResult(true))
                 networkJob = CoroutineScope(Dispatchers.IO).launch {
                     val response = getBooksWithStoresUseCase(defaultResultSort, keyword)
                     withContext(Dispatchers.Main) {
@@ -149,15 +181,15 @@ class BookSearchViewModel(
                     }
                 }
             } else {
-                sendViewEvent(ScreenState.NoInternetConnection)
+                sendViewEffect(ScreenState.NoInternetConnection)
             }
         } else {
-            sendViewEvent(ScreenState.EmptyKeyword)
+            sendViewEffect(ScreenState.EmptyKeyword)
         }
-        _bookResultViewState.value = BookResultViewState.HideSearchRecordList
+        updateScreen(BookResultViewState.HideSearchRecordList)
     }
 
-    fun deleteRecords(searchRecord: SearchRecord) {
+    private fun deleteRecords(searchRecord: SearchRecord) {
         viewModelScope.launch {
             deleteSearchRecordUseCase(searchRecord)
         }
@@ -168,7 +200,7 @@ class BookSearchViewModel(
 
         viewModelScope.launch {
             val adapterItems = generateAdapterItems(bookStores)
-            _bookResultViewState.value = BookResultViewState.ShowBooks(lastScrollPosition, adapterItems)
+            updateScreen(BookResultViewState.ShowBooks(lastScrollPosition, adapterItems))
             lastScrollPosition = 0
         }
     }
@@ -251,19 +283,26 @@ class BookSearchViewModel(
     }
 
     private fun networkTimeout() {
-        sendViewEvent(ScreenState.ConnectionTimeout)
+        sendViewEffect(ScreenState.ConnectionTimeout)
     }
 
     private fun networkExceptionOccurred(message: String) {
-        _bookResultViewState.value = BookResultViewState.PrepareBookResultError
+        updateScreen(BookResultViewState.PrepareBookResultError)
         if (message == GENERIC_NETWORK_ISSUE) {
-            sendViewEvent(ScreenState.NetworkError)
+            sendViewEffect(ScreenState.NetworkError)
         } else {
-            sendViewEvent(ScreenState.ShowToastMessage(-1, message))
+            sendViewEffect(ScreenState.ShowToastMessage(-1, message))
         }
     }
 
-    private fun sendViewEvent(screenState: ScreenState) {
-        _screenViewState.value = ViewEvent(screenState)
+    private fun sendViewEffect(screenState: ScreenState) {
+        _screenViewState.value = ViewEffect(screenState)
+    }
+
+    /***
+     * reduce
+     */
+    private fun updateScreen(bookResultViewState: BookResultViewState) {
+        _bookResultViewState.value = bookResultViewState
     }
 }
