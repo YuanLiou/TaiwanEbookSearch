@@ -10,7 +10,7 @@ object AppDependencies {
         const val RECYCELRVIEW = "androidx.recyclerview:recyclerview:1.2.0"
         const val CARDVIEW = "androidx.cardview:cardview:1.0.0"
         const val PREFERENCE = "androidx.preference:preference-ktx:1.1.1"
-        const val MATERIAL_DESIGN = "com.google.android.material:material:1.2.1"
+        const val MATERIAL_DESIGN = "com.google.android.material:material:1.4.0-rc01"
         const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:2.0.4"
         // ViewModel and LiveData
         private const val lifecycleLibraryVersion = "2.3.1"
