@@ -19,13 +19,14 @@
 
     </FrameLayout>
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/search_view_progressbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone"
-        style="?android:attr/progressBarStyle"
+        android:indeterminate="true"
+        tools:visibility="visible"
         />
 
     <TextView
@@ -88,17 +89,17 @@
         android:id="@+id/search_view_appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:liftOnScroll="true"
+        app:liftOnScrollTargetViewId="@id/search_view_result"
         >
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
             app:layout_scrollFlags="scroll|enterAlways|snap"
             >
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/search_view_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -157,7 +158,7 @@
                         />
 
                 </RelativeLayout>
-            </androidx.appcompat.widget.Toolbar>
+            </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 

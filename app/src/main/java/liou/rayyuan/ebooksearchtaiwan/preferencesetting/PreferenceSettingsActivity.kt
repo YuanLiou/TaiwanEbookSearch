@@ -13,9 +13,6 @@ import liou.rayyuan.ebooksearchtaiwan.utils.ActivityViewBinding
  * Created by louis383 on 2018/9/29.
  */
 class PreferenceSettingsActivity : BaseActivity(R.layout.activity_preference), PreferenceSettingsFragment.PreferencesChangeCallback {
-    companion object {
-        const val KEY_THEME_CHANGED = "theme-changed"
-    }
 
     private val viewBinding: ActivityPreferenceBinding by ActivityViewBinding(ActivityPreferenceBinding::bind, R.id.preference_layout_rootView)
 
@@ -25,7 +22,10 @@ class PreferenceSettingsActivity : BaseActivity(R.layout.activity_preference), P
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
-        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.pure_white))
+
+        if (!isDarkTheme()) {
+            viewBinding.preferenceLayoutMainContent.setBackgroundColor(ContextCompat.getColor(this, R.color.pure_white))
+        }
 
         supportFragmentManager.commit {
             replace(R.id.preference_layout_main_content, PreferenceSettingsFragment().apply {
@@ -40,7 +40,7 @@ class PreferenceSettingsActivity : BaseActivity(R.layout.activity_preference), P
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        item?.run {
+        item.run {
             return when (this.itemId) {
                 android.R.id.home -> {
                     onBackPressed()
@@ -48,7 +48,7 @@ class PreferenceSettingsActivity : BaseActivity(R.layout.activity_preference), P
                 }
                 else -> super.onOptionsItemSelected(this)
             }
-        } ?: return super.onOptionsItemSelected(item)
+        }
     }
 
     //region PreferenceSettingsFragment.PreferencesChangeCallback

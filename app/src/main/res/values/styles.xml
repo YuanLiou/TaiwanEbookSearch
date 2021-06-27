@@ -1,49 +1,48 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/blue_green</item>
-        <item name="colorPrimaryDark">@color/blue_green_dark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/blue_green_you</item>
+        <item name="colorPrimaryDark">@color/blue_green_dark_you</item>
+        <item name="colorAccent">@color/blue_green_you</item>
         <item name="searchBoxColor">@color/pure_white</item>
         <item name="android:textViewStyle">@style/CustomLightTextViewStyle</item>
         <item name="reorderListBackgroundColor">@color/pure_white</item>
         <item name="reorderHandlerItemDrawable">@drawable/ic_baseline_reorder_24px</item>
-
-        <item name="actionOverflowButtonStyle">@style/Overflow</item>
-        <item name="android:colorBackground">@color/google_app_white_color</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:colorBackground">@color/light_blue_green_you</item>
         <item name="android:textColorTertiary">@color/darker_gray_3B</item>
-
-        <item name="dividerColor">@color/blue_green</item>
+        <item name="toolbarStyle">@style/Widget.App.Toolbar</item>
+        <item name="dividerColor">@color/blue_green_you</item>
         <item name="editTextHintColor">@color/gray</item>
         <item name="editTextInputColor">@color/pure_dark</item>
         <item name="backToTopButtonDrawable">@drawable/material_rounded_button</item>
-
-        <item name="colorControlNormal">@color/white_EB</item>
+        <item name="colorControlNormal">@color/darker_gray_3B</item>
         <item name="checkboxStyle">@style/CustomCheckBoxStyle</item>
+        <item name="android:statusBarColor">@color/light_blue_green_you</item>
     </style>
 
     <style name="FullScreenTheme" parent="AppTheme" >
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
-    <style name="Overflow" parent="Widget.AppCompat.ActionButton.Overflow">
-        <item name="android:src">@drawable/ic_dots_vertical</item>
-    </style>
-
-    <style name="NightTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorAccent">@color/blue_green</item>
+    <style name="NightTheme" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimary">@color/blue_green_you</item>
+        <item name="colorPrimaryDark">@color/blue_green_dark_you</item>
+        <item name="colorAccent">@color/blue_green_you</item>
         <item name="android:textColorTertiary">@color/white_BD</item>
         <item name="searchBoxColor">@color/gray</item>
         <item name="android:textViewStyle">@style/CustomTextViewStyle</item>
         <item name="reorderListBackgroundColor">@color/darker_gray_3B</item>
         <item name="reorderHandlerItemDrawable">@drawable/ic_baseline_reorder_light_24px</item>
-
-        <item name="dividerColor">@color/blue_green</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="dividerColor">@color/blue_green_you</item>
         <item name="editTextHintColor">@color/white_BD</item>
         <item name="editTextInputColor">@color/pure_white</item>
         <item name="backToTopButtonDrawable">@drawable/material_rounded_button_dark_mode</item>
         <item name="checkboxStyle">@style/CustomNightCheckBoxStyle</item>
+        <item name="toolbarStyle">@style/Widget.App.Dark.Toolbar</item>
+        <item name="android:statusBarColor">@color/darker_gray_28</item>
     </style>
 
     <!-- TextView Styles -->
@@ -55,11 +54,59 @@
         <item name="android:hyphenationFrequency" tools:targetApi="m">none</item>
     </style>
 
+    <!-- Light theme -->
+    <!-- Toolbar theme -->
+    <style name="Widget.App.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Toolbar</item>
+        <item name="titleTextAppearance">@style/TextAppearance.App.Headline6</item>
+        <item name="subtitleTextAppearance">@style/TextAppearance.App.Subtitle1</item>
+    </style>
+
+    <style name="TextAppearance.App.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:textColor">@color/darker_gray_3B</item>
+    </style>
+
+    <style name="TextAppearance.App.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">@color/darker_gray_3B</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Toolbar" parent="">
+        <item name="colorPrimary">@color/light_blue_green_you</item> <!-- brand color -->
+        <item name="colorPrimaryVariant">@color/light_blue_green_you</item> <!-- brand color in a light one -->
+        <item name="colorOnPrimary">@color/darker_gray_3B</item> <!-- options and text colors -->
+    </style>
+
+    <!-- checkbox -->
+    <style name="CustomCheckBoxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="buttonTint">@color/custom_check_box</item>
+    </style>
+
+    <!-- dark theme -->
+    <!-- Toolbar theme -->
+    <style name="Widget.App.Dark.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Dark.Toolbar</item>
+        <item name="titleTextAppearance">@style/TextAppearance.App.Dark.Headline6</item>
+        <item name="subtitleTextAppearance">@style/TextAppearance.App.Dark.Subtitle1</item>
+    </style>
+
+    <style name="TextAppearance.App.Dark.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:textColor">@color/pure_white</item>
+    </style>
+
+    <style name="TextAppearance.App.Dark.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">@color/pure_white</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Dark.Toolbar" parent="">
+        <item name="colorPrimary">?android:attr/colorBackground</item>
+        <item name="colorPrimaryVariant">@color/light_blue_green_you</item>
+        <item name="colorOnPrimary">@color/pure_white</item>
+    </style>
+
+    <!-- checkbox -->
     <style name="CustomNightCheckBoxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
         <item name="buttonTint">@color/custom_dark_check_box</item>
     </style>
 
-    <style name="CustomCheckBoxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
-        <item name="buttonTint">@color/custom_check_box</item>
-    </style>
 </resources>

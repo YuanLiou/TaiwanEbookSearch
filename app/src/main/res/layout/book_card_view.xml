@@ -90,20 +90,19 @@
             />
 
         <TextView
-            android:id="@+id/book_card_price"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:layout_below="@id/book_card_image"
-            android:layout_toEndOf="@id/book_card_image"
-            android:layout_alignParentEnd="true"
-            android:includeFontPadding="false"
-            android:paddingEnd="8dp"
-            android:textSize="16sp"
-            android:fontFamily="sans-serif-medium"
-            android:textColor="?attr/colorAccent"
-            tools:text="$210 TWD"
-            />
+                android:id="@+id/book_card_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/book_card_image"
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@id/book_card_image"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="end"
+                android:includeFontPadding="false"
+                android:paddingEnd="8dp"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="16sp"
+                tools:text="$210 TWD" />
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

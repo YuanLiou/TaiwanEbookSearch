@@ -28,11 +28,10 @@
         />
 
     <View
-        android:id="@+id/adapter_bookstore_touchzone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?selectableItemBackground"
-        />
+            android:id="@+id/adapter_bookstore_touchzone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?selectableItemBackground" />
 
     <ImageView
         android:id="@+id/adapter_bookstore_reorder_imageview"
