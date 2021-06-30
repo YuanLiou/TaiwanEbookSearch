@@ -8,12 +8,21 @@
     android:background="?android:attr/colorBackground"
     >
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/activity_reorder_layout_toolbar"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?android:attr/colorPrimary"
-        />
+        android:layout_height="wrap_content"
+        app:liftOnScroll="true"
+        app:liftOnScrollTargetViewId="@id/activity_reorder_recyclerview"
+        >
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/activity_reorder_layout_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activity_reorder_recyclerview"
         android:layout_width="match_parent"

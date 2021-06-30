@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorAccent">#ff4081</color>
-
     <!-- light theme -->
-    <color name="blue_green">#0EB29B</color>
-    <color name="blue_green_dark">#00826D</color>
+    <color name="wax_flower">#FFBB9A</color> <!-- Accent -->
+    <color name="blue_green_you">#58D5B7</color>
+    <color name="blue_green_dark_you">#CAE6DA</color>
+    <color name="light_blue_green_you">#E7F3EF</color>
     <color name="pure_white">#FFFFFF</color>
     <color name="white_EB">#EBEBEB</color>
     <color name="google_app_white_color">#F2F2F2</color>
@@ -12,9 +12,10 @@
     <color name="gray">#929292</color>
     <color name="dark_gray">#646464</color>
     <color name="darker_gray_3B">#3B3B3B</color>
+    <color name="darker_gray_28">#282828</color>
     <color name="pure_dark">#000000</color>
 
     <!-- alpha -->
-    <color name="blue_green_a50">#800EB29B</color>
+    <color name="blue_green_a50">#8058D5B7</color>
     <color name="darker_gray_3B_a85">#D93B3B3B</color>
 </resources>

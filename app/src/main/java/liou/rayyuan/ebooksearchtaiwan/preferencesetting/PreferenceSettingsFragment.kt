@@ -4,11 +4,12 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.*
 import liou.rayyuan.ebooksearchtaiwan.R
 import com.rayliu.commonmain.UserPreferenceManager
@@ -53,7 +54,7 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
         }
 
         cleanSearchRecord?.setOnPreferenceClickListener {
-            AlertDialog.Builder(requireContext())
+            MaterialAlertDialogBuilder(requireContext())
                 .setTitle(R.string.preference_clean_all_records)
                 .setMessage(R.string.dialog_clean_all_records)
                 .setPositiveButton(R.string.dialog_ok) { dialog, _ ->
@@ -99,18 +100,19 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
         val errorHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
             Log.d("PreferenceFragment", Log.getStackTraceString(throwable))
         }
-        CoroutineScope(Dispatchers.IO).launch(errorHandler) {
-            searchRecordDao.deleteAllRecords()
-            withContext(Dispatchers.Main) {
-                showDeleteSearchRecordsSuccessDialog()
+
+        lifecycleScope.launch(errorHandler) {
+            withContext(Dispatchers.IO) {
+                searchRecordDao.deleteAllRecords()
             }
+            showDeleteSearchRecordsSuccessDialog()
         }
     }
 
     private fun showDeleteSearchRecordsSuccessDialog() {
         if (isAdded && isResumed) {
-            context?.run {
-                AlertDialog.Builder(this)
+            requireContext().run {
+                MaterialAlertDialogBuilder(this)
                         .setTitle(R.string.preference_clean_all_records)
                         .setMessage(R.string.dialog_clean_all_records_cleaned)
                         .setPositiveButton(R.string.dialog_ok) { dialog, _ ->

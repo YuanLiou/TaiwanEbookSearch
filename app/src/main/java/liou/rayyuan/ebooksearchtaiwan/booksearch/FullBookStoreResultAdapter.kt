@@ -11,6 +11,7 @@ import androidx.core.widget.TextViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.transform.RoundedCornersTransformation
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
@@ -132,10 +133,11 @@ class FullBookStoreResultAdapter(
             setTextOnViewHolder(bookPrice, bookViewModel.getPrice())
 
             bookImage.load(bookViewModel.getImage()) {
+                lifecycle(lifecycleOwner)
                 crossfade(true)
                 placeholder(R.drawable.book_image_placeholder)
                 allowRgb565(true)
-                lifecycle(lifecycleOwner)
+                transformations(RoundedCornersTransformation(holder.getRoundedCornerValue()))
             }
 
             val book = bookViewModel.book
@@ -199,18 +201,22 @@ class FullBookStoreResultAdapter(
     }
 
     class BookStoreTitleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        internal val bookStoreTitle: TextView = itemView.findViewById(R.id.search_result_subtitle_top)
-        internal val bookResultStatusText: TextView = itemView.findViewById(R.id.search_result_message_text)
+        val bookStoreTitle: TextView = itemView.findViewById(R.id.search_result_subtitle_top)
+        val bookResultStatusText: TextView = itemView.findViewById(R.id.search_result_message_text)
     }
 
     class BookCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        internal val bookShopName: AppCompatTextView = itemView.findViewById(R.id.book_card_shop_name)
-        internal val bookTitle: AppCompatTextView = itemView.findViewById(R.id.book_card_title)
-        internal val bookDescription: AppCompatTextView = itemView.findViewById(R.id.book_card_description)
-        internal val bookPrice: AppCompatTextView = itemView.findViewById(R.id.book_card_price)
-        internal val moreIcon: ImageView = itemView.findViewById(R.id.book_card_more_icon)
-        internal val bookImage: ImageView = itemView.findViewById(R.id.book_card_image)
-        internal val bookResultBody: View = itemView.findViewById(R.id.book_card_item_body)
+        val bookShopName: AppCompatTextView = itemView.findViewById(R.id.book_card_shop_name)
+        val bookTitle: AppCompatTextView = itemView.findViewById(R.id.book_card_title)
+        val bookDescription: AppCompatTextView = itemView.findViewById(R.id.book_card_description)
+        val bookPrice: AppCompatTextView = itemView.findViewById(R.id.book_card_price)
+        val moreIcon: ImageView = itemView.findViewById(R.id.book_card_more_icon)
+        val bookImage: ImageView = itemView.findViewById(R.id.book_card_image)
+        val bookResultBody: View = itemView.findViewById(R.id.book_card_item_body)
+
+        fun getRoundedCornerValue(): Float {
+            return itemView.context.resources.getDimension(R.dimen.image_round_corner)
+        }
     }
 
     class AdViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

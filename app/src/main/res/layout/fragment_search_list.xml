@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:attr/colorBackground"
     >
 
     <FrameLayout
@@ -19,16 +18,17 @@
 
     </FrameLayout>
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/search_view_progressbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone"
-        style="?android:attr/progressBarStyle"
+        android:indeterminate="true"
+        tools:visibility="visible"
         />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/search_view_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,9 +49,7 @@
         android:clipToPadding="false"
         android:clipChildren="false"
         android:paddingBottom="80dp"
-        android:scrollbars="none"
         android:descendantFocusability="beforeDescendants"
-        android:overScrollMode="always"
         android:visibility="invisible"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -59,7 +57,7 @@
         tools:visibility="visible"
         />
 
-    <ImageButton
+    <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/search_view_back_to_top_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -88,17 +86,17 @@
         android:id="@+id/search_view_appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:liftOnScroll="true"
+        app:liftOnScrollTargetViewId="@id/search_view_result"
         >
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
             app:layout_scrollFlags="scroll|enterAlways|snap"
             >
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/search_view_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -112,7 +110,7 @@
                     android:background="@drawable/search_box"
                     >
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/search_view_search_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -123,17 +121,16 @@
                         android:src="@drawable/ic_search_black_24dp"
                         />
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/search_view_camera_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignWithParentIfMissing="true"
                         android:layout_gravity="end|center_vertical"
                         android:layout_toStartOf="@id/search_view_search_icon"
-                        android:layout_alignWithParentIfMissing="true"
-                        android:padding="8dp"
                         android:background="?selectableItemBackgroundBorderless"
-                        android:src="@drawable/ic_baseline_filter_center_focus_24px"
-                        />
+                        android:padding="8dp"
+                        android:src="@drawable/ic_baseline_filter_center_focus_24px" />
 
                     <liou.rayyuan.ebooksearchtaiwan.view.widget.NoWrapEditText
                         android:id="@+id/search_view_edittext"
@@ -141,7 +138,7 @@
                         android:layout_height="wrap_content"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"
-                        android:paddingStart="8dp"
+                        android:paddingStart="12dp"
                         android:paddingEnd="8dp"
                         android:layout_alignParentStart="true"
                         android:layout_toStartOf="@id/search_view_camera_icon"
@@ -157,7 +154,7 @@
                         />
 
                 </RelativeLayout>
-            </androidx.appcompat.widget.Toolbar>
+            </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 

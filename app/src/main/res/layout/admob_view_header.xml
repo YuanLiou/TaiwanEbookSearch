@@ -6,12 +6,12 @@
     android:id="@+id/admob_view_header_rootview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="3dp"
+    app:cardCornerRadius="@dimen/round_corner"
     app:cardUseCompatPadding="true"
-    app:cardElevation="2dp"
+    app:cardElevation="0dp"
     >
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/admob_view_header_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

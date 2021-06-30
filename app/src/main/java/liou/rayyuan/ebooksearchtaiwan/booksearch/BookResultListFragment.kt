@@ -19,7 +19,6 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.annotation.DrawableRes
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
@@ -31,7 +30,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import liou.rayyuan.ebooksearchtaiwan.BaseFragment
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
@@ -48,6 +50,7 @@ import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
 import liou.rayyuan.ebooksearchtaiwan.view.ViewEffectObserver
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View.OnClickListener,
     BookResultClickHandler,
@@ -274,11 +277,12 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
 
     private fun loadAds() {
         val adView: AdView = adViewLayout.findViewById(R.id.admob_view_header_adview)
-        val adRequestBuilder = AdRequest.Builder()
+        val configurationBuilder = RequestConfiguration.Builder()
         if (BuildConfig.DEBUG) {
-            adRequestBuilder.addTestDevice(BuildConfig.ADMOB_TEST_DEVICE_ID)
+            configurationBuilder.setTestDeviceIds(Arrays.asList(BuildConfig.ADMOB_TEST_DEVICE_ID))
         }
-        val adRequest = adRequestBuilder.build()
+        MobileAds.setRequestConfiguration(configurationBuilder.build())
+        val adRequest = AdRequest.Builder().build()
         adView.loadAd(adRequest)
     }
 
@@ -438,7 +442,7 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
 
     private fun showInternetRequestDialog() {
         if (isAdded) {
-            val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(requireActivity())
+            val dialogBuilder = MaterialAlertDialogBuilder(requireActivity())
             dialogBuilder.setTitle(R.string.network_alert_dialog_title)
             dialogBuilder.setMessage(R.string.network_alert_message)
             dialogBuilder.setPositiveButton(R.string.dialog_ok) { _: DialogInterface, _: Int -> }
@@ -658,7 +662,7 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
     override fun onSearchRecordCloseImageClicked(searchRecord: SearchRecord, position: Int) {
         requireContext().let {
             val message = getString(R.string.alert_dialog_delete_search_record_message, searchRecord.text)
-            AlertDialog.Builder(it)
+            MaterialAlertDialogBuilder(it)
                     .setTitle(R.string.alert_dialog_delete_search_records)
                     .setMessage(message)
                     .setPositiveButton(getString(R.string.dialog_ok)) { dialog, _ ->

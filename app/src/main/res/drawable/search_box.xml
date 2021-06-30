@@ -5,6 +5,6 @@
     >
 
     <solid android:color="?attr/searchBoxColor" />
-    <corners android:radius="3dp" />
+    <corners android:radius="@dimen/round_corner" />
 
 </shape>

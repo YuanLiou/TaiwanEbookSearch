@@ -4,8 +4,9 @@ import android.content.Context
 import android.text.TextUtils
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
+import com.google.android.material.textfield.TextInputEditText
 
-class NoWrapEditText(context: Context, attrs: AttributeSet): AppCompatEditText(context, attrs) {
+class NoWrapEditText(context: Context, attrs: AttributeSet): TextInputEditText(context, attrs) {
 
     private val pattern by lazy {
         "\\n+".toRegex()
@@ -33,5 +34,4 @@ class NoWrapEditText(context: Context, attrs: AttributeSet): AppCompatEditText(c
         setText(currentText.trim())
         setSelection(text?.length ?: 0)
     }
-
 }

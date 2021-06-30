@@ -21,7 +21,7 @@
             app:srcCompat="@drawable/ic_outline_photo_camera_24px"
             app:tint="@color/white_EB" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
             android:id="@+id/activity_camera_preview_status_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,7 +51,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/camera_preview_bottom_result_height"
             android:layout_gravity="bottom"
-            android:alpha="0.95"
             android:background="@drawable/round_rectangle_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +58,7 @@
             tools:alpha="1"
             tools:visibility="visible" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
             android:id="@+id/zxing_status_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -77,7 +76,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
             android:id="@+id/activity_camera_preview_auth_text"
             android:layout_width="wrap_content"
             android:layout_height="31dp"

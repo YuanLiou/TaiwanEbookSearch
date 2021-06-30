@@ -5,6 +5,8 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -47,17 +49,16 @@ class BookStoreReorderActivity : BaseActivity(R.layout.activity_reorder_stores),
         val listItemTouchCallback = ListItemTouchCallback(adapter)
         itemTouchHelper = ItemTouchHelper(listItemTouchCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
+
     }
 
     private fun initToolbar() {
         setSupportActionBar(toolbar)
-
         supportActionBar?.run {
             setDisplayHomeAsUpEnabled(true)
             setHomeButtonEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
-        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.pure_white))
     }
 
     override fun onDestroy() {
@@ -67,7 +68,14 @@ class BookStoreReorderActivity : BaseActivity(R.layout.activity_reorder_stores),
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.reorder_page, menu)
-        checkMarkerOption = menu.findItem(R.id.reorder_page_menu_action_check)
+        val checkMarkerOption = menu.findItem(R.id.reorder_page_menu_action_check)
+        if (!isDarkTheme()) {
+            checkMarkerOption.icon.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+                ContextCompat.getColor(this, R.color.darker_gray_3B),
+                BlendModeCompat.SRC_ATOP
+            )
+        }
+        this.checkMarkerOption = checkMarkerOption
         return true
     }
 
