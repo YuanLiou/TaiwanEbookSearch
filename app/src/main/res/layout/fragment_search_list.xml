@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:attr/colorBackground"
     >
 
     <FrameLayout
@@ -128,13 +127,12 @@
                         android:id="@+id/search_view_camera_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignWithParentIfMissing="true"
                         android:layout_gravity="end|center_vertical"
                         android:layout_toStartOf="@id/search_view_search_icon"
-                        android:layout_alignWithParentIfMissing="true"
-                        android:padding="8dp"
                         android:background="?selectableItemBackgroundBorderless"
-                        android:src="@drawable/ic_baseline_filter_center_focus_24px"
-                        />
+                        android:padding="8dp"
+                        android:src="@drawable/ic_baseline_filter_center_focus_24px" />
 
                     <liou.rayyuan.ebooksearchtaiwan.view.widget.NoWrapEditText
                         android:id="@+id/search_view_edittext"
@@ -142,7 +140,7 @@
                         android:layout_height="wrap_content"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"
-                        android:paddingStart="8dp"
+                        android:paddingStart="12dp"
                         android:paddingEnd="8dp"
                         android:layout_alignParentStart="true"
                         android:layout_toStartOf="@id/search_view_camera_icon"

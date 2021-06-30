@@ -15,7 +15,7 @@
         android:id="@+id/layout_search_records_card_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardCornerRadius="4dp"
+        app:cardCornerRadius="@dimen/round_corner"
         app:cardElevation="8dp"
         app:cardUseCompatPadding="true"
         >
@@ -24,8 +24,6 @@
             android:id="@+id/layout_search_records_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
             android:scrollbarStyle="outsideOverlay"
             android:scrollbars="vertical"
             android:nestedScrollingEnabled="false"

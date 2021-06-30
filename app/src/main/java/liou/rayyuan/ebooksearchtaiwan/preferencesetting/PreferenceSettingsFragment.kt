@@ -4,12 +4,12 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.*
 import liou.rayyuan.ebooksearchtaiwan.R
 import com.rayliu.commonmain.UserPreferenceManager
@@ -54,7 +54,7 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
         }
 
         cleanSearchRecord?.setOnPreferenceClickListener {
-            AlertDialog.Builder(requireContext())
+            MaterialAlertDialogBuilder(requireContext())
                 .setTitle(R.string.preference_clean_all_records)
                 .setMessage(R.string.dialog_clean_all_records)
                 .setPositiveButton(R.string.dialog_ok) { dialog, _ ->
@@ -112,7 +112,7 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
     private fun showDeleteSearchRecordsSuccessDialog() {
         if (isAdded && isResumed) {
             requireContext().run {
-                AlertDialog.Builder(this)
+                MaterialAlertDialogBuilder(this)
                         .setTitle(R.string.preference_clean_all_records)
                         .setMessage(R.string.dialog_clean_all_records_cleaned)
                         .setPositiveButton(R.string.dialog_ok) { dialog, _ ->

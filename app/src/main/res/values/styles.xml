@@ -20,6 +20,8 @@
         <item name="colorControlNormal">@color/darker_gray_3B</item>
         <item name="checkboxStyle">@style/CustomCheckBoxStyle</item>
         <item name="android:statusBarColor">@color/light_blue_green_you</item>
+        <item name="alertDialogTheme">@style/AppTheme.AlertDialogTheme</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MaterialAlertDialog.Rounded</item>
     </style>
 
     <style name="FullScreenTheme" parent="AppTheme" >
@@ -43,6 +45,8 @@
         <item name="checkboxStyle">@style/CustomNightCheckBoxStyle</item>
         <item name="toolbarStyle">@style/Widget.App.Dark.Toolbar</item>
         <item name="android:statusBarColor">@color/darker_gray_28</item>
+        <item name="alertDialogTheme">@style/AppTheme.AlertDialogTheme</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MaterialAlertDialog.Rounded</item>
     </style>
 
     <!-- TextView Styles -->
@@ -52,6 +56,27 @@
 
     <style name="CustomLightTextViewStyle" parent="android:Widget.Material.Light.TextView">
         <item name="android:hyphenationFrequency" tools:targetApi="m">none</item>
+    </style>
+
+    <!-- Alert Dialog -->
+    <style name="ThemeOverlay.MaterialAlertDialog.Rounded" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.MaterialAlertDialog.Rounded</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.MaterialAlertDialog.Rounded</item>
+        <item name="alertDialogStyle">@style/MaterialAlertDialog.Rounded</item>
+    </style>
+
+    <style name="MaterialAlertDialog.Rounded" parent="MaterialAlertDialog.MaterialComponents">
+        <item name="shapeAppearance">@style/ShapeAppearance.MaterialAlertDialog.Rounded</item>
+    </style>
+
+    <style name="ShapeAppearance.MaterialAlertDialog.Rounded" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/round_corner</item>
+    </style>
+
+    <!-- Legacy AlertDialog -->
+    <style name="AppTheme.AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="dialogCornerRadius">@dimen/round_corner</item>
     </style>
 
     <!-- Light theme -->

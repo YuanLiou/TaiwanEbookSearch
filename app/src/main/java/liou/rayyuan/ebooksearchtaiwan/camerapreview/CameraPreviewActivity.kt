@@ -8,10 +8,10 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.View
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.journeyapps.barcodescanner.CaptureManager
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.databinding.ActivityCameraPreviewBinding
@@ -100,7 +100,7 @@ class CameraPreviewActivity : AppCompatActivity() {
                 } else {
                     authText.visibility = View.VISIBLE
                     if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-                        AlertDialog.Builder(this)
+                        MaterialAlertDialogBuilder(this)
                                 .setTitle(R.string.permission_request_title)
                                 .setMessage(R.string.permission_required_camera)
                                 .setPositiveButton(R.string.dialog_auth) { _, _ ->  requestCameraPermission() }
@@ -112,7 +112,7 @@ class CameraPreviewActivity : AppCompatActivity() {
                         val permissionName = getString(R.string.permission_camera_name)
                         val authYourselfMessage = getString(R.string.auth_yourself, appName, permissionName)
 
-                        AlertDialog.Builder(this)
+                        MaterialAlertDialogBuilder(this)
                                 .setTitle(R.string.permission_request_title)
                                 .setMessage(authYourselfMessage)
                                 .setNegativeButton(R.string.dialog_ok, { dialogInterface, _ -> dialogInterface.dismiss() })
