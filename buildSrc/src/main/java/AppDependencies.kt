@@ -1,6 +1,6 @@
 object AppDependencies {
     const val CUSTOM_TAB = "com.github.YuanLiou:chrome-custom-tab-helper:1.1.1"
-    const val COIL = "io.coil-kt:coil:1.2.1"
+    const val COIL = "io.coil-kt:coil:1.2.2"
 
     object JetPacks {
         const val APPCOMPAT = "androidx.appcompat:appcompat:1.3.0"
@@ -56,21 +56,22 @@ object AppDependencies {
     }
 
     object Firebase {
-        const val BOM = "com.google.firebase:firebase-bom:25.4.0"
+        const val BOM = "com.google.firebase:firebase-bom:28.2.0"
         const val CORE = "com.google.firebase:firebase-core"
-        const val ADS = "com.google.firebase:firebase-ads-lite"
         const val CRASHLYTICS = "com.google.firebase:firebase-crashlytics"
         val Libs = listOf(
             CORE,
-            ADS,
             CRASHLYTICS
         )
+    }
+
+    object GooglePlayService {
+        const val ADMOB = "com.google.android.gms:play-services-ads-lite:20.2.0"
     }
 
     object Koin {
         private const val koin_version = "3.0.2"
         const val ANDROID = "io.insert-koin:koin-android:$koin_version"
-        const val CORE = "io.insert-koin:koin-core:$koin_version"
     }
 
     object Zxing {

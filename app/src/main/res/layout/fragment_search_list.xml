@@ -28,7 +28,7 @@
         tools:visibility="visible"
         />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/search_view_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,9 +49,7 @@
         android:clipToPadding="false"
         android:clipChildren="false"
         android:paddingBottom="80dp"
-        android:scrollbars="none"
         android:descendantFocusability="beforeDescendants"
-        android:overScrollMode="always"
         android:visibility="invisible"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -59,7 +57,7 @@
         tools:visibility="visible"
         />
 
-    <ImageButton
+    <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/search_view_back_to_top_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -112,7 +110,7 @@
                     android:background="@drawable/search_box"
                     >
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/search_view_search_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -123,7 +121,7 @@
                         android:src="@drawable/ic_search_black_24dp"
                         />
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/search_view_camera_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

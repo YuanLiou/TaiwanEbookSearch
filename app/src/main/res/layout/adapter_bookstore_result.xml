@@ -18,7 +18,7 @@
         android:background="?attr/dividerColor"
         />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/search_result_subtitle_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
         tools:text="最佳結果"
         />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/search_result_message_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

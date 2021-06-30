@@ -30,6 +30,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import liou.rayyuan.ebooksearchtaiwan.BaseFragment
@@ -48,6 +50,7 @@ import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
 import liou.rayyuan.ebooksearchtaiwan.view.ViewEffectObserver
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View.OnClickListener,
     BookResultClickHandler,
@@ -274,11 +277,12 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
 
     private fun loadAds() {
         val adView: AdView = adViewLayout.findViewById(R.id.admob_view_header_adview)
-        val adRequestBuilder = AdRequest.Builder()
+        val configurationBuilder = RequestConfiguration.Builder()
         if (BuildConfig.DEBUG) {
-            adRequestBuilder.addTestDevice(BuildConfig.ADMOB_TEST_DEVICE_ID)
+            configurationBuilder.setTestDeviceIds(Arrays.asList(BuildConfig.ADMOB_TEST_DEVICE_ID))
         }
-        val adRequest = adRequestBuilder.build()
+        MobileAds.setRequestConfiguration(configurationBuilder.build())
+        val adRequest = AdRequest.Builder().build()
         adView.loadAd(adRequest)
     }
 

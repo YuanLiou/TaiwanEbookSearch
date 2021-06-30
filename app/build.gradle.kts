@@ -116,6 +116,7 @@ dependencies {
     AppDependencies.Firebase.Libs.forEach {
         implementation(it)
     }
+    implementation(AppDependencies.GooglePlayService.ADMOB)
 
     // Koin
     implementation(AppDependencies.Koin.ANDROID)

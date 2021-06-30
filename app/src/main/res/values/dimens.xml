@@ -11,4 +11,5 @@
     <dimen name="search_records_item_height">48dp</dimen>
 
     <dimen name="round_corner">10dp</dimen>
+    <dimen name="image_round_corner">4dp</dimen>
 </resources>

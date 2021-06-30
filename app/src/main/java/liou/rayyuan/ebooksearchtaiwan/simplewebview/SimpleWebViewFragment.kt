@@ -44,7 +44,6 @@ class SimpleWebViewFragment: BaseFragment(R.layout.fragment_simple_webview), Too
     private val customWebViewClient = CustomWebViewClient()
 
     var onSimpleWebviewActionListener: OnSimpleWebviewActionListener? = null
-    private var shareActionProvider: ShareActionProvider? = null
     private lateinit var toolbar: MaterialToolbar
     private lateinit var webView: WebView
 
@@ -62,10 +61,6 @@ class SimpleWebViewFragment: BaseFragment(R.layout.fragment_simple_webview), Too
 
         val toolbar = viewBinding.simpleWebviewToolbar
         toolbar.inflateMenu(R.menu.webview_page)
-        val menuItem = toolbar.menu.findItem(R.id.webview_page_menu_action_share)
-        //FIXME:: ShareActionProvider is null and not work on Release build
-        shareActionProvider = MenuItemCompat.getActionProvider(menuItem) as? ShareActionProvider
-
         toolbar.setOnMenuItemClickListener(this)
         this.toolbar = toolbar
 
@@ -156,10 +151,8 @@ class SimpleWebViewFragment: BaseFragment(R.layout.fragment_simple_webview), Too
                 val intent = Intent(Intent.ACTION_SEND)
                 intent.type = "text/plain"
                 intent.putExtra(Intent.EXTRA_SUBJECT, book.title)
-                intent.putExtra(Intent.EXTRA_TEXT, book.link)
-                shareActionProvider?.setShareIntent(intent) ?: run {
-                    startActivity(Intent.createChooser(intent, getString(R.string.menu_share_menu_appear)))
-                }
+                intent.putExtra(Intent.EXTRA_TEXT, "${book.title} \n ${book.link}")
+                startActivity(Intent.createChooser(intent, getString(R.string.menu_share_menu_appear)))
                 true
             }
             else -> false
@@ -168,12 +161,6 @@ class SimpleWebViewFragment: BaseFragment(R.layout.fragment_simple_webview), Too
 
     private fun retrieveView(view: View) {
         webView = view.findViewById(R.id.simple_webview_content)
-    }
-
-    fun loadUrl(url: String) {
-        if (this::webView.isInitialized) {
-            webView.loadUrl(url)
-        }
     }
 
     fun goBack(): Boolean {

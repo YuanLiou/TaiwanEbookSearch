@@ -16,7 +16,7 @@
         android:layout_marginStart="16dp"
         />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/adapter_bookstore_name_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
             android:layout_height="match_parent"
             android:background="?selectableItemBackground" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/adapter_bookstore_reorder_imageview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

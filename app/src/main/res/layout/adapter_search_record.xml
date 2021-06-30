@@ -18,7 +18,7 @@
         android:background="?selectableItemBackground"
         >
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/adapter_search_record_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
