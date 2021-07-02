@@ -1,8 +1,8 @@
 package liou.rayyuan.ebooksearchtaiwan.di
 
 import androidx.room.Room
-import com.rayliu.commonmain.DatabaseManager
-import com.rayliu.commonmain.UserPreferenceManager
+import com.rayliu.commonmain.domain.service.DatabaseManager
+import com.rayliu.commonmain.domain.service.UserPreferenceManager
 import com.rayliu.commonmain.data.mapper.*
 import com.rayliu.commonmain.data.api.BookSearchApi
 import com.rayliu.commonmain.data.dao.SearchRecordDao

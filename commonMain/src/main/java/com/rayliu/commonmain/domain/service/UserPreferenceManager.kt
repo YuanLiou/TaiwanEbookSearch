@@ -1,4 +1,4 @@
-package com.rayliu.commonmain
+package com.rayliu.commonmain.domain.service
 
 import android.content.Context
 import androidx.preference.PreferenceManager
@@ -23,8 +23,6 @@ class UserPreferenceManager(context: Context) {
                 "chrome" to Browsers.CHROME,
                 "firefox" to Browsers.FIREFOX,
                 "samsung" to Browsers.SAMSUNG)
-
-        private val KEY_REORDER_BOOKSTORES = "key-reorder-bookstores"
     }
 
     private val defaultPreferences = PreferenceManager.getDefaultSharedPreferences(context)
@@ -70,5 +68,4 @@ class UserPreferenceManager(context: Context) {
             return null
         }
     }
-
 }

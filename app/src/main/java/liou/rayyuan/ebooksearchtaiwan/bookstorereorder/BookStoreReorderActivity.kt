@@ -13,8 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.R
-import com.rayliu.commonmain.UserPreferenceManager
-import com.rayliu.commonmain.Utils
+import com.rayliu.commonmain.domain.service.UserPreferenceManager
 import com.rayliu.commonmain.domain.usecase.GetDefaultBookSortUseCase
 import liou.rayyuan.ebooksearchtaiwan.utils.bindView
 import liou.rayyuan.ebooksearchtaiwan.view.ListItemTouchCallback

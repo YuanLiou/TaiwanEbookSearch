@@ -1,6 +1,6 @@
 package com.rayliu.commonmain.domain.repository
 
-import com.rayliu.commonmain.UserPreferenceManager
+import com.rayliu.commonmain.domain.service.UserPreferenceManager
 import com.rayliu.commonmain.Utils
 import com.rayliu.commonmain.data.api.BookSearchService
 import com.rayliu.commonmain.data.dto.NetworkCrawerResult
