@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
-import com.rayliu.commonmain.UserPreferenceManager
+import com.rayliu.commonmain.domain.service.UserPreferenceManager
 import org.koin.android.ext.android.inject
 
 /**

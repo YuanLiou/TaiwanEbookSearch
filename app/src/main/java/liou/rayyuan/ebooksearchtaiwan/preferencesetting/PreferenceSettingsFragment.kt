@@ -12,7 +12,7 @@ import androidx.preference.SwitchPreferenceCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.*
 import liou.rayyuan.ebooksearchtaiwan.R
-import com.rayliu.commonmain.UserPreferenceManager
+import com.rayliu.commonmain.domain.service.UserPreferenceManager
 import com.rayliu.commonmain.data.dao.SearchRecordDao
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import org.koin.android.ext.android.inject

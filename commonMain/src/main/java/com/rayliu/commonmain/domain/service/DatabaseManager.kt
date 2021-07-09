@@ -1,8 +1,9 @@
-package com.rayliu.commonmain
+package com.rayliu.commonmain.domain.service
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.rayliu.commonmain.OffsetDateTypeConverter
 import com.rayliu.commonmain.data.dao.SearchRecordDao
 import com.rayliu.commonmain.data.dto.LocalSearchRecord
 
@@ -14,5 +15,4 @@ abstract class DatabaseManager: RoomDatabase() {
     }
 
     abstract fun searchRecordDao(): SearchRecordDao
-
 }

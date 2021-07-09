@@ -1,6 +1,7 @@
 package liou.rayyuan.ebooksearchtaiwan.di
 
 import liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchViewModel
+import liou.rayyuan.ebooksearchtaiwan.bookstorereorder.BookStoreReorderViewModel
 import liou.rayyuan.ebooksearchtaiwan.model.*
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import org.koin.android.ext.koin.androidApplication
@@ -25,6 +26,13 @@ val appModule = module {
         quickChecker = get(),
         deleteSearchRecordUseCase = get()
     ) }
+
+    viewModel {
+        BookStoreReorderViewModel(
+            getDefaultBookSortUseCase = get(),
+            saveDefaultBookBookSortUseCase = get()
+        )
+    }
 }
 
 val appModules = listOf(

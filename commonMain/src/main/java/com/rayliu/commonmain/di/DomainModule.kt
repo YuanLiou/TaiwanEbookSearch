@@ -1,8 +1,8 @@
 package liou.rayyuan.ebooksearchtaiwan.di
 
 import androidx.room.Room
-import com.rayliu.commonmain.DatabaseManager
-import com.rayliu.commonmain.UserPreferenceManager
+import com.rayliu.commonmain.domain.service.DatabaseManager
+import com.rayliu.commonmain.domain.service.UserPreferenceManager
 import com.rayliu.commonmain.data.mapper.*
 import com.rayliu.commonmain.data.api.BookSearchApi
 import com.rayliu.commonmain.data.dao.SearchRecordDao
@@ -11,7 +11,9 @@ import com.rayliu.commonmain.domain.repository.BookRepositoryImpl
 import com.rayliu.commonmain.domain.repository.SearchRecordRepository
 import com.rayliu.commonmain.domain.repository.SearchRecordRepositoryImpl
 import com.rayliu.commonmain.domain.usecase.*
+import com.rayliu.commonmain.userDataStore
 import org.koin.android.ext.koin.androidApplication
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val domainModule = module {
@@ -54,7 +56,11 @@ val domainModule = module {
 
     // Repositories
     factory<BookRepository> {
-        BookRepositoryImpl(get<BookSearchApi>(), get<BookStoresMapper>(), get<UserPreferenceManager>())
+        BookRepositoryImpl(
+            get<BookSearchApi>(),
+            get<BookStoresMapper>(),
+            androidContext().userDataStore
+        )
     }
 
     single {
@@ -84,6 +90,10 @@ val domainModule = module {
 
     factory {
         GetDefaultBookSortUseCase(get<BookRepository>())
+    }
+
+    factory {
+        SaveDefaultBookSortUseCase(get<BookRepository>())
     }
 
     // Service (Application)

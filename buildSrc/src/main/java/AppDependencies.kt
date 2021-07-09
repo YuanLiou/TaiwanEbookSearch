@@ -12,6 +12,7 @@ object AppDependencies {
         const val PREFERENCE = "androidx.preference:preference-ktx:1.1.1"
         const val MATERIAL_DESIGN = "com.google.android.material:material:1.4.0-rc01"
         const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:2.0.4"
+        const val DATASTORE_PREFERENCE = "androidx.datastore:datastore-preferences:1.0.0-rc01"
         // ViewModel and LiveData
         private const val lifecycleLibraryVersion = "2.3.1"
         const val LIFECYCLE = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleLibraryVersion"
@@ -42,7 +43,8 @@ object AppDependencies {
             ROOM,
             LIFECYCLE,
             PREFERENCE,
-            PAGING
+            PAGING,
+            DATASTORE_PREFERENCE
         )
     }
 
@@ -67,6 +69,8 @@ object AppDependencies {
 
     object GooglePlayService {
         const val ADMOB = "com.google.android.gms:play-services-ads-lite:20.2.0"
+        const val CORE = "com.google.android.play:core:1.10.0"
+        const val CORE_KTX = "com.google.android.play:core-ktx:1.8.1"
     }
 
     object Koin {
