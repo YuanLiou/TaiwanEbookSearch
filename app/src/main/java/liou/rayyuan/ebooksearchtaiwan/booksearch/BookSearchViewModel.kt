@@ -20,6 +20,7 @@ import com.rayliu.commonmain.domain.usecase.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.first
 import liou.rayyuan.ebooksearchtaiwan.arch.IModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
@@ -63,8 +64,6 @@ class BookSearchViewModel(
     private val maxListNumber: Int = 10
     private var eggCount: Int = 0
     private var bookStores: BookStores? = null
-    private val defaultResultSort: List<DefaultStoreNames>
-        get() = getDefaultBookSortUseCase()
 
     private var lastScrollPosition: Int = 0
         set(value) {
@@ -162,7 +161,8 @@ class BookSearchViewModel(
 
                 updateScreen(BookResultViewState.PrepareBookResult(true))
                 networkJob = CoroutineScope(Dispatchers.IO).launch {
-                    val response = getBooksWithStoresUseCase(defaultResultSort, keyword)
+                    val defaultSort = getDefaultBookSortUseCase().first()
+                    val response = getBooksWithStoresUseCase(defaultSort, keyword)
                     withContext(Dispatchers.Main) {
                         when (response) {
                             is Result.Success -> {
@@ -211,9 +211,10 @@ class BookSearchViewModel(
 
     private suspend fun generateAdapterItems(bookStores: BookStores) = withContext(Dispatchers.Default) {
         val adapterItems = mutableListOf<AdapterItem>()
-        val groupedResults = bookStores.generateBookStoresResultMap(defaultResultSort)
+        val defaultSort = getDefaultBookSortUseCase().first()
+        val groupedResults = bookStores.generateBookStoresResultMap(defaultSort)
 
-        val bestItems = generateBestItems(groupedResults)
+        val bestItems = generateBestItems(defaultSort, groupedResults)
         adapterItems.add(
             BookHeader(
                 DefaultStoreNames.BEST_RESULT.getStringResource(),
@@ -223,7 +224,7 @@ class BookSearchViewModel(
         )
         adapterItems.addAll(bestItems)
 
-        for (storeName in defaultResultSort) {
+        for (storeName in defaultSort) {
             val bookResult = groupedResults[storeName] ?: continue
             val books = bookResult.books.run {
                 drop(1)
@@ -255,10 +256,13 @@ class BookSearchViewModel(
         adapterItems.toList()
     }
 
-    private fun generateBestItems(bookItems: Map<DefaultStoreNames, BookResult>): List<BookViewModel> {
+    private fun generateBestItems(
+        defaultSort: List<DefaultStoreNames>,
+        bookItems: Map<DefaultStoreNames, BookResult>
+    ): List<BookViewModel> {
         val bestItems = mutableListOf<BookViewModel>()
         bookItems.forEach{ (key, value) ->
-            if (defaultResultSort.contains(key)) {
+            if (defaultSort.contains(key)) {
                 val book = value.books.firstOrNull()
                 book?.let { currentBook ->
                     currentBook.isFirstChoice = true

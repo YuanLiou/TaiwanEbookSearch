@@ -1,7 +1,6 @@
 package liou.rayyuan.ebooksearchtaiwan.bookstorereorder
 
 import android.annotation.SuppressLint
-import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -10,11 +9,13 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.parcelize.Parcelize
+import com.google.android.material.checkbox.MaterialCheckBox
 import liou.rayyuan.ebooksearchtaiwan.R
 import com.rayliu.commonmain.data.DefaultStoreNames
+import com.rayliu.commonmain.domain.model.Book
 import liou.rayyuan.ebooksearchtaiwan.view.ListDraggingViewHolderHelper
 import liou.rayyuan.ebooksearchtaiwan.view.ListItemTouchListener
 import liou.rayyuan.ebooksearchtaiwan.view.OnBookStoreItemChangedListener
@@ -61,20 +62,12 @@ class BookstoreNameAdapter(private var listener: OnBookStoreItemChangedListener?
         holder.bookstoreTitle.text = context.getString(storeName.getStringResource())
         toggleEdition(holder, bookStore)
 
-        holder.bookstoreCheckBox.isChecked = bookStore.isVisible
-        holder.bookstoreCheckBox.jumpDrawablesToCurrentState()
-        holder.bookstoreCheckBox.setOnCheckedChangeListener { buttonView, isChecked ->
-            listener?.onStoreVisibilityChanged()
-            if (isChecked) {
-                displayStoreFromResult(bookStore)
-            } else {
-                val isRemoved = removeDisplayStoreFromResult(bookStore)
-                if (!isRemoved) {
-                    buttonView.isChecked = !isChecked
-                    buttonView.jumpDrawablesToCurrentState()
-                }
-            }
+        if (bookStore.isVisible) {
+            holder.bookstoreCheckBox.setChecked(true)
+        } else {
+            holder.bookstoreCheckBox.setChecked(false)
         }
+        holder.bookstoreCheckBox.jumpDrawablesToCurrentState()
     }
 
     private fun toggleEdition(holder: BookstoreViewHolder, bookStore: SortedStore) {
@@ -82,23 +75,43 @@ class BookstoreNameAdapter(private var listener: OnBookStoreItemChangedListener?
         toggleDraggable(holder, enableStoreCounts > 1)
 
         val disableCheckBox = (enableStoreCounts < 2 && bookStore.isVisible)
-        toggleVisibilityChange(holder, !disableCheckBox)
+        toggleVisibilityChange(holder, bookStore, !disableCheckBox)
     }
 
-    private fun toggleVisibilityChange(viewHolder: BookstoreViewHolder, enable: Boolean) {
+    private fun toggleVisibilityChange(viewHolder: BookstoreViewHolder, bookStore: SortedStore, enable: Boolean) {
         if (enable) {
             viewHolder.bookstoreCheckBox.isEnabled = true
             viewHolder.bookstoreCheckBox.isClickable = true
             viewHolder.bookstoreCheckBox.alpha = 1.0f
+            viewHolder.bookstoreCheckBox.setOnClickListener {
+                viewHolder.bookstoreCheckBox.statusChange(bookStore)
+            }
             viewHolder.bookstoreTouchZone.setOnClickListener {
-                val checkBox = viewHolder.bookstoreCheckBox
-                checkBox.isChecked = !checkBox.isChecked
+                viewHolder.bookstoreCheckBox.statusChange(bookStore)
             }
         } else {
             viewHolder.bookstoreCheckBox.isEnabled = false
             viewHolder.bookstoreCheckBox.isClickable = false
             viewHolder.bookstoreCheckBox.alpha = 0.4f
+            viewHolder.bookstoreCheckBox.setOnClickListener(null)
             viewHolder.bookstoreTouchZone.setOnClickListener(null)
+        }
+    }
+
+    private fun AppCompatCheckBox.statusChange(bookstore: SortedStore) {
+        val switchToResult = !isChecked
+        isChecked = switchToResult
+        handleCheckChanged(switchToResult, bookstore)
+    }
+
+    private fun handleCheckChanged(isChecked: Boolean,
+                                   bookStore: SortedStore
+    ) {
+        listener?.onStoreVisibilityChanged()
+        if (isChecked) {
+            displayStoreFromResult(bookStore)
+        } else {
+            removeDisplayStoreFromResult(bookStore)
         }
     }
 
@@ -195,10 +208,10 @@ class BookstoreNameAdapter(private var listener: OnBookStoreItemChangedListener?
     }
 
     class BookstoreViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), ListDraggingViewHolderHelper {
-        internal val bookstoreTitle = itemView.findViewById<TextView>(R.id.adapter_bookstore_name_textview)
-        internal val bookstoreTouchZone = itemView.findViewById<View>(R.id.adapter_bookstore_touchzone)
-        internal val bookstoreReorderImage = itemView.findViewById<ImageView>(R.id.adapter_bookstore_reorder_imageview)
-        internal val bookstoreCheckBox = itemView.findViewById<CheckBox>(R.id.adapter_bookstore_name_checkbox)
+        val bookstoreTitle = itemView.findViewById<TextView>(R.id.adapter_bookstore_name_textview)
+        val bookstoreTouchZone = itemView.findViewById<View>(R.id.adapter_bookstore_touchzone)
+        val bookstoreReorderImage = itemView.findViewById<ImageView>(R.id.adapter_bookstore_reorder_imageview)
+        val bookstoreCheckBox = itemView.findViewById<MaterialCheckBox>(R.id.adapter_bookstore_name_checkbox)
 
         override fun onListItemSelected() {
             ViewCompat.setElevation(itemView, 8f)

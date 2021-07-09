@@ -7,26 +7,29 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.rayliu.commonmain.data.DefaultStoreNames
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.R
-import com.rayliu.commonmain.domain.service.UserPreferenceManager
-import com.rayliu.commonmain.domain.usecase.GetDefaultBookSortUseCase
+import kotlinx.coroutines.launch
+import liou.rayyuan.ebooksearchtaiwan.arch.IView
 import liou.rayyuan.ebooksearchtaiwan.utils.bindView
 import liou.rayyuan.ebooksearchtaiwan.view.ListItemTouchCallback
 import liou.rayyuan.ebooksearchtaiwan.view.OnBookStoreItemChangedListener
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class BookStoreReorderActivity : BaseActivity(R.layout.activity_reorder_stores), OnBookStoreItemChangedListener {
+class BookStoreReorderActivity : BaseActivity(R.layout.activity_reorder_stores),
+    OnBookStoreItemChangedListener,
+    IView<BookStoreReorderViewState> {
+    private val viewModel: BookStoreReorderViewModel by viewModel()
 
     private val toolbar: Toolbar by bindView(R.id.activity_reorder_layout_toolbar)
     private val recyclerView: RecyclerView by bindView(R.id.activity_reorder_recyclerview)
     private val adapter: BookstoreNameAdapter = BookstoreNameAdapter(this)
-    private val preferenceManager: UserPreferenceManager by inject()
-    private val getDefaultBookSortUseCase: GetDefaultBookSortUseCase by inject()
 
     private lateinit var itemTouchHelper: ItemTouchHelper
     private lateinit var checkMarkerOption: MenuItem
@@ -34,7 +37,6 @@ class BookStoreReorderActivity : BaseActivity(R.layout.activity_reorder_stores),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initToolbar()
-
         with(recyclerView) {
             setHasFixedSize(true)
             addItemDecoration(DividerItemDecoration(this@BookStoreReorderActivity,
@@ -42,13 +44,11 @@ class BookStoreReorderActivity : BaseActivity(R.layout.activity_reorder_stores),
             adapter = this@BookStoreReorderActivity.adapter
         }
 
-        val bookstores = getDefaultBookSortUseCase()
-        adapter.setStoreNames(bookstores)
-
         val listItemTouchCallback = ListItemTouchCallback(adapter)
         itemTouchHelper = ItemTouchHelper(listItemTouchCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
-
+        viewModel.viewState.observe(this, { state -> render(state) })
+        sendUserIntent(BookStoreReorderUserIntent.GetPreviousSavedSort)
     }
 
     private fun initToolbar() {
@@ -86,9 +86,8 @@ class BookStoreReorderActivity : BaseActivity(R.layout.activity_reorder_stores),
             }
             R.id.reorder_page_menu_action_check -> {
                 val result = adapter.getStoreNames()
-                preferenceManager.saveBookStoreSort(result)
                 eventTracker.logTopSelectedStoreName(result)
-                finish()
+                sendUserIntent(BookStoreReorderUserIntent.UpdateSort(result))
                 return true
             }
         }
@@ -113,4 +112,20 @@ class BookStoreReorderActivity : BaseActivity(R.layout.activity_reorder_stores),
         }
     }
     //endregion
+    override fun render(viewState: BookStoreReorderViewState) {
+        when (viewState) {
+            BookStoreReorderViewState.BackToPreviousPage -> {
+                finish()
+            }
+            is BookStoreReorderViewState.PrepareBookSort -> {
+                adapter.setStoreNames(viewState.bookSort)
+            }
+        }
+    }
+
+    private fun sendUserIntent(userIntent: BookStoreReorderUserIntent) {
+        lifecycleScope.launch {
+            viewModel.userIntents.send(userIntent)
+        }
+    }
 }

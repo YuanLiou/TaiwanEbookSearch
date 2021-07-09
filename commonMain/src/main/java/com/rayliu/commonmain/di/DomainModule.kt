@@ -11,7 +11,9 @@ import com.rayliu.commonmain.domain.repository.BookRepositoryImpl
 import com.rayliu.commonmain.domain.repository.SearchRecordRepository
 import com.rayliu.commonmain.domain.repository.SearchRecordRepositoryImpl
 import com.rayliu.commonmain.domain.usecase.*
+import com.rayliu.commonmain.userDataStore
 import org.koin.android.ext.koin.androidApplication
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val domainModule = module {
@@ -54,7 +56,11 @@ val domainModule = module {
 
     // Repositories
     factory<BookRepository> {
-        BookRepositoryImpl(get<BookSearchApi>(), get<BookStoresMapper>(), get<UserPreferenceManager>())
+        BookRepositoryImpl(
+            get<BookSearchApi>(),
+            get<BookStoresMapper>(),
+            androidContext().userDataStore
+        )
     }
 
     single {
@@ -84,6 +90,10 @@ val domainModule = module {
 
     factory {
         GetDefaultBookSortUseCase(get<BookRepository>())
+    }
+
+    factory {
+        SaveDefaultBookSortUseCase(get<BookRepository>())
     }
 
     // Service (Application)
