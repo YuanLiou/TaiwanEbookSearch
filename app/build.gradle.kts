@@ -18,12 +18,12 @@ val ADMOB_TEST_DEVICE_ID: String by project
 val ADMOB_UNIT_ID: String by project
 
 android {
-    compileSdkVersion(AppSettings.COMPILE_SDK_VERSION)
+    compileSdk = AppSettings.COMPILE_SDK_VERSION
 
     defaultConfig {
         applicationId = "liou.rayyuan.ebooksearchtaiwan"
-        minSdkVersion(AppSettings.MIN_SDK_VERSION)
-        targetSdkVersion(AppSettings.TARGET_SDK_VERSION)
+        minSdk = AppSettings.MIN_SDK_VERSION
+        targetSdk = AppSettings.MIN_SDK_VERSION
         versionCode = getVersionCodeTimeStamps()
         versionName = rootProject.extra.get("app_version").toString()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -40,7 +40,7 @@ android {
         viewBinding = true
     }
 
-    lintOptions {
+    lint {
         isAbortOnError = false
     }
 
@@ -67,7 +67,6 @@ android {
 
             isMinifyEnabled = true
             isShrinkResources = true
-            isZipAlignEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             resValue("string", "package_name", "liou.rayyuan.ebooksearchtaiwan")
         }
