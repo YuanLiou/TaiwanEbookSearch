@@ -6,7 +6,8 @@ app/.settings
 app/.classpath
 app/schemas
 app/schemas/*
-
+commonMain/schemas
+commonMain/schemas/*
 
 # Created by .ignore support plugin (hsz.mobi)
 ### JetBrains template

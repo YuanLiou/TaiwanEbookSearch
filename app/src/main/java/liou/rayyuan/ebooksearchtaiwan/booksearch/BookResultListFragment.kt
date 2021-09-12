@@ -122,13 +122,12 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
             Log.i("BookResultListFragment", "restore recyclerView Position = $recyclerViewPosition")
         }
         bookSearchViewModel.screenViewState.observe(
-            viewLifecycleOwner,
-            { state ->
-                ViewEffectObserver<ScreenState> {
-                    updateScreen(it)
-                }
+            viewLifecycleOwner
+        ) { _ ->
+            ViewEffectObserver<ScreenState> {
+                updateScreen(it)
             }
-        )
+        }
         bookSearchViewModel.viewState.observe(viewLifecycleOwner,
             { state -> render(state) })
 

@@ -97,7 +97,7 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
     }
 
     private fun deleteAllSearchRecords() {
-        val errorHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+        val errorHandler = CoroutineExceptionHandler { _, throwable ->
             Log.d("PreferenceFragment", Log.getStackTraceString(throwable))
         }
 
