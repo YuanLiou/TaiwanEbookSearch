@@ -20,7 +20,7 @@ object AppDependencies {
         const val LIFECYCLE_JAVA8 = "androidx.lifecycle:lifecycle-common-java8:$lifecycleLibraryVersion"
 
         // Room
-        private const val roomVersion = "2.2.5"
+        private const val roomVersion = "2.4.0"
         const val ROOM = "androidx.room:room-runtime:$roomVersion"
         const val ROOM_COMPILER = "androidx.room:room-compiler:$roomVersion"
         const val PAGING = "androidx.paging:paging-runtime:2.1.2"
