@@ -19,7 +19,7 @@ class ListItemTouchCallback(private val listener: ListItemTouchListener): ItemTo
     }
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-        listener.onItemMove(viewHolder.adapterPosition, target.adapterPosition)
+        listener.onItemMove(viewHolder.absoluteAdapterPosition, target.absoluteAdapterPosition)
         return true
     }
 

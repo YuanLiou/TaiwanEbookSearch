@@ -10,16 +10,19 @@ val HOST_STAGING: String by project
 val HOST: String by project
 
 android {
-    compileSdkVersion(AppSettings.COMPILE_SDK_VERSION)
+    compileSdk = AppSettings.COMPILE_SDK_VERSION
 
     defaultConfig {
-        minSdkVersion(AppSettings.MIN_SDK_VERSION)
-        targetSdkVersion(AppSettings.TARGET_SDK_VERSION)
-        versionCode = getVersionCodeTimeStamps()
-        versionName = rootProject.extra.get("app_version").toString()
-
+        minSdk = AppSettings.MIN_SDK_VERSION
+        targetSdk = AppSettings.TARGET_SDK_VERSION
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += mapOf("room.schemaLocation" to "$projectDir/schemas")
+            }
+        }
     }
 
     buildTypes {
@@ -31,7 +34,6 @@ android {
 
         getByName("release") {
             isMinifyEnabled = true
-            isZipAlignEnabled = true
             buildConfigField("String", "HOST_URL", HOST)
             consumerProguardFiles("consumer-rules.pro")
         }
