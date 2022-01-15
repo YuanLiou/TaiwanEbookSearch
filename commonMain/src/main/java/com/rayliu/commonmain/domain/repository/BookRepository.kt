@@ -10,4 +10,5 @@ interface BookRepository {
     suspend fun getBooksWithStores(stores: List<DefaultStoreNames>, keyword: String): SimpleResult<BookStores>
     fun getDefaultResultSort(): Flow<List<DefaultStoreNames>>
     suspend fun saveDefaultResultSort(currentSortSettings: List<DefaultStoreNames>)
+    suspend fun getSearchSnapshot(searchId: String): SimpleResult<BookStores>
 }

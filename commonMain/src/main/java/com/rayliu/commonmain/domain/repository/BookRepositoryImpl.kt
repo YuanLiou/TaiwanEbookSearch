@@ -86,5 +86,14 @@ class BookRepositoryImpl(
         }
     }
 
+    override suspend fun getSearchSnapshot(searchId: String): SimpleResult<BookStores> {
+        return try {
+            val response = bookSearchService.getSearchSnapshot(searchId)
+            Result.Success(mapBookStores(response))
+        } catch (exception: Exception) {
+            Result.Failed(BookResultException("Response is failed, exception is $exception", exception))
+        }
+    }
+
     class BookResultException(message: String, exception: Exception) : Throwable(message)
 }

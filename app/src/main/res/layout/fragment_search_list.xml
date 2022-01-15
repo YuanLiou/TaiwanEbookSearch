@@ -107,6 +107,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:background="@drawable/search_box"
                     >
 
@@ -136,22 +138,21 @@
                         android:id="@+id/search_view_edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="8dp"
                         android:layout_alignParentStart="true"
                         android:layout_toStartOf="@id/search_view_camera_icon"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:ellipsize="end"
-                        android:inputType="text"
-                        android:imeOptions="actionSearch"
-                        android:hint="@string/search_bar_hint"
-                        android:textColorHint="?attr/editTextHintColor"
-                        android:textColor="?attr/editTextColor"
                         android:background="@android:color/transparent"
-                        />
+                        android:ellipsize="end"
+                        android:hint="@string/search_bar_hint"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:paddingStart="12dp"
+                        android:paddingTop="8dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="8dp"
+                        android:singleLine="true"
+                        android:textColor="?attr/editTextColor"
+                        android:textColorHint="?attr/editTextHintColor" />
 
                 </RelativeLayout>
             </com.google.android.material.appbar.MaterialToolbar>

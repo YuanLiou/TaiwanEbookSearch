@@ -1,5 +1,6 @@
 package liou.rayyuan.ebooksearchtaiwan.di
 
+import com.rayliu.commonmain.domain.usecase.GetSearchSnapshotUseCase
 import liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchViewModel
 import liou.rayyuan.ebooksearchtaiwan.bookstorereorder.BookStoreReorderViewModel
 import liou.rayyuan.ebooksearchtaiwan.model.*
@@ -22,6 +23,7 @@ val appModule = module {
         getSearchRecordsUseCase = get(),
         getSearchRecordsCountsUseCase = get(),
         getDefaultBookSortUseCase = get(),
+        getSearchSnapshotUseCase = get(),
         eventTracker = get(),
         quickChecker = get(),
         deleteSearchRecordUseCase = get()

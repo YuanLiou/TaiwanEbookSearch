@@ -133,7 +133,7 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
 
         sendUserIntent(BookSearchUserIntent.OnViewReadyToServe)
         setupUI()
-        if (!TextUtils.isEmpty(defaultSearchKeyword)) {
+        if (!defaultSearchKeyword.isNullOrEmpty()) {
             searchWithText(defaultSearchKeyword)
             defaultSearchKeyword = ""
         }
@@ -571,7 +571,11 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
         searchEditText.clearFocus()
         hideVirtualKeyboard()
         sendUserIntent(BookSearchUserIntent.SearchBook(text))
-        bookSearchViewModel.logISBNScanningSucceed()
+    }
+
+    fun showSearchSnapshot(searchId: String) {
+        hideVirtualKeyboard()
+        sendUserIntent(BookSearchUserIntent.ShowSearchSnapshot(searchId))
     }
 
     fun onBackPressed(): Boolean {

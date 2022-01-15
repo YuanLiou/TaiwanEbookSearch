@@ -4,30 +4,31 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.*
-import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
-import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookHeader
-import liou.rayyuan.ebooksearchtaiwan.booksearch.list.SiteInfo
-import liou.rayyuan.ebooksearchtaiwan.model.*
+import com.rayliu.commonmain.data.DefaultStoreNames
 import com.rayliu.commonmain.domain.Result
+import com.rayliu.commonmain.domain.SimpleResult
 import com.rayliu.commonmain.domain.model.BookResult
 import com.rayliu.commonmain.domain.model.BookStores
-import com.rayliu.commonmain.data.DefaultStoreNames
-import com.rayliu.commonmain.generateBookStoresResultMap
-import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import com.rayliu.commonmain.domain.model.SearchRecord
 import com.rayliu.commonmain.domain.usecase.*
+import com.rayliu.commonmain.generateBookStoresResultMap
+import java.net.SocketTimeoutException
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.first
 import liou.rayyuan.ebooksearchtaiwan.arch.IModel
+import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
+import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookHeader
+import liou.rayyuan.ebooksearchtaiwan.booksearch.list.SiteInfo
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
+import liou.rayyuan.ebooksearchtaiwan.model.*
+import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import liou.rayyuan.ebooksearchtaiwan.view.ViewEffect
 import liou.rayyuan.ebooksearchtaiwan.view.getStringResource
 import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
-import java.net.SocketTimeoutException
 
 /**
  * Created by louis383 on 2017/12/2.
@@ -37,6 +38,7 @@ class BookSearchViewModel(
     private val getSearchRecordsUseCase: GetSearchRecordsUseCase,
     private val getSearchRecordsCountsUseCase: GetSearchRecordsCountsUseCase,
     private val getDefaultBookSortUseCase: GetDefaultBookSortUseCase,
+    private val getSearchSnapshotUseCase: GetSearchSnapshotUseCase,
     private val eventTracker: EventTracker,
     private val quickChecker: QuickChecker,
     private val deleteSearchRecordUseCase: DeleteSearchRecordUseCase
@@ -97,6 +99,9 @@ class BookSearchViewModel(
                     is BookSearchUserIntent.SearchBook -> {
                         searchBook(it.keywords)
                     }
+                    is BookSearchUserIntent.ShowSearchSnapshot -> {
+                        requestSearchSnapshot(it.searchId)
+                    }
                 }
             }
         }
@@ -153,44 +158,67 @@ class BookSearchViewModel(
     }
 
     private fun searchBook(keyword: String) {
-        if (keyword.trim().isNotBlank()) {
-            if (quickChecker.isInternetConnectionAvailable()) {
-                if (isRequestingBookData()) {
-                    forceStopRequestingBookData()
-                }
+        if (keyword.trim().isBlank()) {
+            sendViewEffect(ScreenState.EmptyKeyword)
+            return
+        }
+        fetchBookResult(SearchBookAction(keyword))
+    }
 
-                updateScreen(BookResultViewState.PrepareBookResult(true))
-                networkJob = CoroutineScope(Dispatchers.IO).launch {
-                    val defaultSort = getDefaultBookSortUseCase().first()
-                    val response = getBooksWithStoresUseCase(defaultSort, keyword)
-                    withContext(Dispatchers.Main) {
-                        when (response) {
-                            is Result.Success -> {
-                                networkRequestSuccess(response.value)
-                            }
-                            is Result.Failed -> {
-                                /*
-                                ServerResponseException == internal server error
-                                ClientRequestException == response.status.value to get response code
-                                RedirectResponseException
-                                 */
-                                if (response.error is SocketTimeoutException) {
-                                    networkTimeout()
-                                } else {
-                                    val message = response.error.localizedMessage ?: GENERIC_NETWORK_ISSUE
-                                    networkExceptionOccurred(message)
-                                }
-                            }
+    private inner class SearchBookAction(private val keyword: String) : suspend () -> SimpleResult<BookStores> {
+        override suspend fun invoke(): SimpleResult<BookStores> {
+            val defaultSort = getDefaultBookSortUseCase().first()
+            return getBooksWithStoresUseCase(defaultSort, keyword)
+        }
+    }
+
+    private fun fetchBookResult(action: suspend () -> SimpleResult<BookStores>) {
+        if (!quickChecker.isInternetConnectionAvailable()) {
+            sendViewEffect(ScreenState.NoInternetConnection)
+            return
+        }
+
+        if (isRequestingBookData()) {
+            forceStopRequestingBookData()
+        }
+
+        updateScreen(BookResultViewState.PrepareBookResult(true))
+        networkJob = viewModelScope.launch(Dispatchers.IO) {
+            val response = action.invoke()
+            withContext(Dispatchers.Main) {
+                when (response) {
+                    is Result.Success -> {
+                        networkRequestSuccess(response.value)
+                    }
+                    is Result.Failed -> {
+                        // ServerResponseException == internal server error
+                        // ClientRequestException == response.status.value to get response code
+                        // RedirectResponseException
+                        if (response.error is SocketTimeoutException) {
+                            networkTimeout()
+                        } else {
+                            val message = response.error.localizedMessage ?: GENERIC_NETWORK_ISSUE
+                            networkExceptionOccurred(message)
                         }
                     }
                 }
-            } else {
-                sendViewEffect(ScreenState.NoInternetConnection)
             }
-        } else {
-            sendViewEffect(ScreenState.EmptyKeyword)
         }
         updateScreen(BookResultViewState.HideSearchRecordList)
+    }
+
+    private inner class ShowSearchSnapshotAction(private val searchId: String) : suspend () -> SimpleResult<BookStores> {
+        override suspend fun invoke(): SimpleResult<BookStores> {
+            return getSearchSnapshotUseCase(searchId)
+        }
+    }
+
+    private fun requestSearchSnapshot(searchId: String) {
+        if (searchId.isEmpty()) {
+            sendViewEffect(ScreenState.EmptyKeyword)
+            return
+        }
+        fetchBookResult(ShowSearchSnapshotAction(searchId))
     }
 
     private fun deleteRecords(searchRecord: SearchRecord) {
@@ -246,11 +274,9 @@ class BookSearchViewModel(
                 )
             )
 
-            books.let { resultList ->
-                adapterItems.addAll(
-                    resultList.map { BookViewModel(it)}
-                )
-            }
+            adapterItems.addAll(
+                books.map { BookViewModel(it) }
+            )
         }
 
         adapterItems.toList()
@@ -261,7 +287,7 @@ class BookSearchViewModel(
         bookItems: Map<DefaultStoreNames, BookResult>
     ): List<BookViewModel> {
         val bestItems = mutableListOf<BookViewModel>()
-        bookItems.forEach{ (key, value) ->
+        bookItems.forEach { (key, value) ->
             if (defaultSort.contains(key)) {
                 val book = value.books.firstOrNull()
                 book?.let { currentBook ->
@@ -270,10 +296,11 @@ class BookSearchViewModel(
                 }
             }
         }
-        bestItems.sortWith( compareBy { it.book.price })
+        bestItems.sortWith(compareBy { it.book.price })
         return bestItems
     }
 
+    // FIXME:: reimplement this event
     fun logISBNScanningSucceed() {
         eventTracker.logEvent(EventTracker.SCANNED_ISBN)
     }
