@@ -58,7 +58,8 @@ class BookSearchActivity :
 
         if (savedInstanceState == null) {
             val appLinkKeyword = deeplinkHelper.getSearchKeyword(intent)
-            val bookResultListFragment = BookResultListFragment.newInstance(appLinkKeyword)
+            val appLinkSnapshotSearchId = deeplinkHelper.getSearchId(intent)
+            val bookResultListFragment = BookResultListFragment.newInstance(appLinkKeyword, appLinkSnapshotSearchId)
             if (isDualPane) {
                 val subRouter = Router(
                     supportFragmentManager,
@@ -131,7 +132,7 @@ class BookSearchActivity :
             chromeCustomTabHelper.bindCustomTabsServices(
                 this,
                 userPreferenceManager.getPreferBrowser(),
-                "https://www.google.com"
+                "https://taiwan-ebook-lover.github.io"
             )
         }
     }
