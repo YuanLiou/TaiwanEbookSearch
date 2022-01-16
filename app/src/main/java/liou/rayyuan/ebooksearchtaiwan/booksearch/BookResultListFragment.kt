@@ -284,17 +284,7 @@ class BookResultListFragment :
                 true
             }
             R.id.search_page_menu_action_share -> {
-                val targetKeyword = searchEditText.text.toString()
-                if (!TextUtils.isEmpty(targetKeyword)) {
-                    val text = "https://taiwan-ebook-lover.github.io/search?q=$targetKeyword"
-                    val intent = Intent(Intent.ACTION_SEND)
-                    with(intent) {
-                        type = "text/plain"
-                        putExtra(Intent.EXTRA_SUBJECT, "From " + getString(R.string.app_name))
-                        putExtra(Intent.EXTRA_TEXT, text)
-                    }
-                    startActivity(Intent.createChooser(intent, getString(R.string.menu_share_menu_appear)))
-                }
+                sendUserIntent(BookSearchUserIntent.ShareSnapshot)
                 true
             }
             else -> true
@@ -421,7 +411,7 @@ class BookResultListFragment :
                 toggleSearchRecordView(true, (adapterItemHeight + heightPadding) * itemCounts)
                 bookSearchViewModel.searchRecordLiveData.observe(
                     viewLifecycleOwner,
-                    Observer { searchRecords ->
+                    { searchRecords ->
                         searchRecordsAdapter.addItems(searchRecords)
                     }
                 )
@@ -432,6 +422,15 @@ class BookResultListFragment :
                     toggleSearchRecordView(false)
                     (searchRecordsRecyclerView.layoutManager as? LinearLayoutManager)?.scrollToPosition(0)
                 }
+            }
+            is BookResultViewState.ShareCurrentPageSnapshot -> {
+                val intent = Intent(Intent.ACTION_SEND)
+                with(intent) {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_SUBJECT, "From " + getString(R.string.app_name))
+                    putExtra(Intent.EXTRA_TEXT, bookResultViewState.url)
+                }
+                startActivity(Intent.createChooser(intent, getString(R.string.menu_share_menu_appear)))
             }
         }
     }

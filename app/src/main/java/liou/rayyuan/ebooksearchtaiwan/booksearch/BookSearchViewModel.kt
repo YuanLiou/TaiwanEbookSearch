@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.arch.IModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookHeader
@@ -34,6 +35,7 @@ import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
+import liou.rayyuan.ebooksearchtaiwan.utils.ResourceHelper
 import liou.rayyuan.ebooksearchtaiwan.view.ViewEffect
 import liou.rayyuan.ebooksearchtaiwan.view.getStringResource
 import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
@@ -49,7 +51,8 @@ class BookSearchViewModel(
     private val getSearchSnapshotUseCase: GetSearchSnapshotUseCase,
     private val eventTracker: EventTracker,
     private val quickChecker: QuickChecker,
-    private val deleteSearchRecordUseCase: DeleteSearchRecordUseCase
+    private val deleteSearchRecordUseCase: DeleteSearchRecordUseCase,
+    private val resourceHelper: ResourceHelper
 ) : ViewModel(),
     IModel<BookResultViewState, BookSearchUserIntent> {
     companion object {
@@ -109,6 +112,9 @@ class BookSearchViewModel(
                     }
                     is BookSearchUserIntent.ShowSearchSnapshot -> {
                         requestSearchSnapshot(it.searchId)
+                    }
+                    BookSearchUserIntent.ShareSnapshot -> {
+                        shareCurrentSnapshot()
                     }
                 }
             }
@@ -306,6 +312,14 @@ class BookSearchViewModel(
         }
         bestItems.sortWith(compareBy { it.book.price })
         return bestItems
+    }
+
+    private fun shareCurrentSnapshot() {
+        val searchId = bookStores?.searchId.orEmpty()
+        if (searchId.isNotEmpty()) {
+            val targetUrl = resourceHelper.getString(R.string.ebook_snapshot_url, searchId)
+            updateScreen(BookResultViewState.ShareCurrentPageSnapshot(targetUrl))
+        }
     }
 
     // FIXME:: reimplement this event

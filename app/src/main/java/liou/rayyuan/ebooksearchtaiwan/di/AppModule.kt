@@ -1,10 +1,10 @@
 package liou.rayyuan.ebooksearchtaiwan.di
 
-import com.rayliu.commonmain.domain.usecase.GetSearchSnapshotUseCase
 import liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchViewModel
 import liou.rayyuan.ebooksearchtaiwan.bookstorereorder.BookStoreReorderViewModel
 import liou.rayyuan.ebooksearchtaiwan.model.*
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
+import liou.rayyuan.ebooksearchtaiwan.utils.ResourceHelper
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -15,7 +15,6 @@ import org.koin.dsl.module
 
 val appModule = module {
     factory { EventTracker(androidApplication()) }
-    factory { QuickChecker(androidApplication()) }
 
     // ViewModels
     viewModel { BookSearchViewModel(
@@ -26,7 +25,8 @@ val appModule = module {
         getSearchSnapshotUseCase = get(),
         eventTracker = get(),
         quickChecker = get(),
-        deleteSearchRecordUseCase = get()
+        deleteSearchRecordUseCase = get(),
+        resourceHelper = get()
     ) }
 
     viewModel {
@@ -37,8 +37,14 @@ val appModule = module {
     }
 }
 
+val appUtilsModule = module {
+    factory { ResourceHelper(androidApplication()) }
+    factory { QuickChecker(androidApplication()) }
+}
+
 val appModules = listOf(
     appModule,
+    appUtilsModule,
     domainModule,
     dataModule
 )

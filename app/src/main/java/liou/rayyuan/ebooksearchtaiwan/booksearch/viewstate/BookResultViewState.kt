@@ -14,6 +14,7 @@ sealed class BookResultViewState : IState {
         val adapterItems: List<AdapterItem>
     ) : BookResultViewState()
     object PrepareBookResultError : BookResultViewState()
+    class ShareCurrentPageSnapshot(val url: String) : BookResultViewState()
 
     class ShowSearchRecordList(val itemCounts: Int) : BookResultViewState()
     object HideSearchRecordList : BookResultViewState()

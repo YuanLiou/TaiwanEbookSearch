@@ -10,4 +10,5 @@ sealed class BookSearchUserIntent : IUserIntent {
     data class DeleteSearchRecord(val searchRecord: SearchRecord) : BookSearchUserIntent()
     object OnViewReadyToServe : BookSearchUserIntent()
     object PressHint : BookSearchUserIntent()
+    object ShareSnapshot: BookSearchUserIntent()
 }
