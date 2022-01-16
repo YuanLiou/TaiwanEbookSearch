@@ -8,9 +8,13 @@ import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
  */
 sealed class BookResultViewState : IState {
     class PrepareBookResult(val scrollToTop: Boolean = false) : BookResultViewState()
-    class ShowBooks(val scrollPosition: Int, val adapterItems: List<AdapterItem>) : BookResultViewState()
+    class ShowBooks(
+        val keyword: String,
+        val scrollPosition: Int,
+        val adapterItems: List<AdapterItem>
+    ) : BookResultViewState()
     object PrepareBookResultError : BookResultViewState()
 
-    class ShowSearchRecordList(val itemCounts: Int): BookResultViewState()
-    object HideSearchRecordList: BookResultViewState()
+    class ShowSearchRecordList(val itemCounts: Int) : BookResultViewState()
+    object HideSearchRecordList : BookResultViewState()
 }

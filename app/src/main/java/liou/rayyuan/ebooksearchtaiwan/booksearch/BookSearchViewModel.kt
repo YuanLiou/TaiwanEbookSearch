@@ -240,7 +240,7 @@ class BookSearchViewModel(
 
         viewModelScope.launch {
             val adapterItems = generateAdapterItems(bookStores)
-            updateScreen(BookResultViewState.ShowBooks(lastScrollPosition, adapterItems))
+            updateScreen(BookResultViewState.ShowBooks(bookStores.searchKeyword, lastScrollPosition, adapterItems))
             lastScrollPosition = 0
         }
     }

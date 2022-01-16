@@ -378,6 +378,10 @@ class BookResultListFragment :
                 searchButton.isEnabled = true
                 cameraButton.isEnabled = true
 
+                if (bookResultViewState.keyword.isNotEmpty()) {
+                    changeSearchBoxKeyword(bookResultViewState.keyword)
+                }
+
                 if (this::shareResultMenu.isInitialized) {
                     shareResultMenu.setVisible(true)
                 }
@@ -596,11 +600,15 @@ class BookResultListFragment :
     }
 
     fun searchWithText(text: String) {
-        searchEditText.setText(text)
-        searchEditText.setSelection(text.length)
-        searchEditText.clearFocus()
+        changeSearchBoxKeyword(text)
         hideVirtualKeyboard()
         sendUserIntent(BookSearchUserIntent.SearchBook(text))
+    }
+
+    private fun changeSearchBoxKeyword(keyword: String) {
+        searchEditText.setText(keyword)
+        searchEditText.setSelection(keyword.length)
+        searchEditText.clearFocus()
     }
 
     fun showSearchSnapshot(searchId: String) {
