@@ -13,11 +13,21 @@ import android.os.Parcelable
 import android.text.TextUtils
 import android.util.Log
 import android.util.TypedValue
-import android.view.*
+import android.view.KeyEvent
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.EditText
+import android.widget.FrameLayout
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -34,32 +44,35 @@ import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.rayliu.commonmain.domain.model.Book
+import com.rayliu.commonmain.domain.model.SearchRecord
+import java.util.Arrays
+import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.BaseFragment
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
-import liou.rayyuan.ebooksearchtaiwan.databinding.FragmentSearchListBinding
-import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
-import com.rayliu.commonmain.domain.model.Book
-import com.rayliu.commonmain.domain.model.SearchRecord
-import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.arch.IView
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
+import liou.rayyuan.ebooksearchtaiwan.databinding.FragmentSearchListBinding
+import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
 import liou.rayyuan.ebooksearchtaiwan.view.ViewEffectObserver
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
 
-class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View.OnClickListener,
+class BookResultListFragment :
+    BaseFragment(R.layout.fragment_search_list),
+    View.OnClickListener,
     BookResultClickHandler,
     SearchRecordAdapter.OnSearchRecordsClickListener,
     IView<BookResultViewState> {
 
     companion object {
-        fun newInstance(defaultKeyword: String?) = BookResultListFragment().apply {
-            this.defaultSearchKeyword = defaultKeyword ?: ""
+        fun newInstance(defaultKeyword: String?, defaultSnapshotSearchId: String?) = BookResultListFragment().apply {
+            this.defaultSearchKeyword = defaultKeyword.orEmpty()
+            this.defaultSnapshotSearchId = defaultSnapshotSearchId.orEmpty()
         }
         const val TAG = "book-result-list-fragment"
     }
@@ -70,6 +83,7 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
 
     private val viewBinding: FragmentSearchListBinding by FragmentViewBinding(FragmentSearchListBinding::bind)
     private var defaultSearchKeyword: String by FragmentArgumentsDelegate()
+    private var defaultSnapshotSearchId: String by FragmentArgumentsDelegate()
     private var searchRecordAnimator: ValueAnimator? = null
     private lateinit var fullBookStoreResultsAdapter: FullBookStoreResultAdapter
 
@@ -128,14 +142,25 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
                 updateScreen(it)
             }
         }
-        bookSearchViewModel.viewState.observe(viewLifecycleOwner,
-            { state -> render(state) })
+        bookSearchViewModel.viewState.observe(
+            viewLifecycleOwner,
+            { state -> render(state) }
+        )
 
         sendUserIntent(BookSearchUserIntent.OnViewReadyToServe)
         setupUI()
-        if (!TextUtils.isEmpty(defaultSearchKeyword)) {
-            searchWithText(defaultSearchKeyword)
-            defaultSearchKeyword = ""
+        handleInitialDeepLink()
+    }
+
+    private fun handleInitialDeepLink() {
+        lifecycleScope.launchWhenResumed {
+            if (defaultSearchKeyword.isNotBlank()) {
+                searchWithText(defaultSearchKeyword)
+                defaultSearchKeyword = ""
+            } else if (defaultSnapshotSearchId.isNotBlank()) {
+                showSearchSnapshot(defaultSnapshotSearchId)
+                defaultSnapshotSearchId = ""
+            }
         }
     }
 
@@ -182,21 +207,23 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
             false
         }
 
-        searchEditText.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
-            if (event.action == KeyEvent.ACTION_DOWN) {
-                if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                    searchWithEditText()
-                    return@OnKeyListener true
-                }
+        searchEditText.setOnKeyListener(
+            View.OnKeyListener { _, keyCode, event ->
+                if (event.action == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                        searchWithEditText()
+                        return@OnKeyListener true
+                    }
 
-                if (keyCode == KeyEvent.KEYCODE_ESCAPE) {
-                    hideVirtualKeyboard()
-                    searchEditText.clearFocus()
-                    return@OnKeyListener true
+                    if (keyCode == KeyEvent.KEYCODE_ESCAPE) {
+                        hideVirtualKeyboard()
+                        searchEditText.clearFocus()
+                        return@OnKeyListener true
+                    }
                 }
+                false
             }
-            false
-        })
+        )
 
         searchEditText.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             sendUserIntent(BookSearchUserIntent.FocusOnTextEditing(hasFocus))
@@ -209,8 +236,8 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
 
         hintText.setOnClickListener(this)
         hintText.compoundDrawables
-                .filterNotNull()
-                .forEach { DrawableCompat.setTint(it, ContextCompat.getColor(requireContext(), R.color.gray)) }
+            .filterNotNull()
+            .forEach { DrawableCompat.setTint(it, ContextCompat.getColor(requireContext(), R.color.gray)) }
 
         val linearLayoutManager = resultsRecyclerView.layoutManager as LinearLayoutManager
         linearLayoutManager.initialPrefetchItemCount = 6
@@ -257,17 +284,7 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
                 true
             }
             R.id.search_page_menu_action_share -> {
-                val targetKeyword = searchEditText.text.toString()
-                if (!TextUtils.isEmpty(targetKeyword)) {
-                    val text = "https://taiwan-ebook-lover.github.io/search?q=$targetKeyword"
-                    val intent = Intent(Intent.ACTION_SEND)
-                    with(intent) {
-                        type = "text/plain"
-                        putExtra(Intent.EXTRA_SUBJECT, "From " + getString(R.string.app_name))
-                        putExtra(Intent.EXTRA_TEXT, text)
-                    }
-                    startActivity(Intent.createChooser(intent, getString(R.string.menu_share_menu_appear)))
-                }
+                sendUserIntent(BookSearchUserIntent.ShareSnapshot)
                 true
             }
             else -> true
@@ -351,6 +368,10 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
                 searchButton.isEnabled = true
                 cameraButton.isEnabled = true
 
+                if (bookResultViewState.keyword.isNotEmpty()) {
+                    changeSearchBoxKeyword(bookResultViewState.keyword)
+                }
+
                 if (this::shareResultMenu.isInitialized) {
                     shareResultMenu.setVisible(true)
                 }
@@ -376,9 +397,11 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
             is BookResultViewState.ShowSearchRecordList -> {
                 val itemCounts = bookResultViewState.itemCounts
                 val heightPadding = if (itemCounts < 5) {
-                    TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                    TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
                         (36f / itemCounts),
-                        resources.displayMetrics).toInt()
+                        resources.displayMetrics
+                    ).toInt()
                 } else {
                     0
                 }
@@ -386,8 +409,9 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
                 val adapterItemHeight = resources.getDimensionPixelSize(R.dimen.search_records_item_height)
 
                 toggleSearchRecordView(true, (adapterItemHeight + heightPadding) * itemCounts)
-                bookSearchViewModel.searchRecordLiveData.observe(viewLifecycleOwner,
-                    Observer { searchRecords ->
+                bookSearchViewModel.searchRecordLiveData.observe(
+                    viewLifecycleOwner,
+                    { searchRecords ->
                         searchRecordsAdapter.addItems(searchRecords)
                     }
                 )
@@ -398,6 +422,15 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
                     toggleSearchRecordView(false)
                     (searchRecordsRecyclerView.layoutManager as? LinearLayoutManager)?.scrollToPosition(0)
                 }
+            }
+            is BookResultViewState.ShareCurrentPageSnapshot -> {
+                val intent = Intent(Intent.ACTION_SEND)
+                with(intent) {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_SUBJECT, "From " + getString(R.string.app_name))
+                    putExtra(Intent.EXTRA_TEXT, bookResultViewState.url)
+                }
+                startActivity(Intent.createChooser(intent, getString(R.string.menu_share_menu_appear)))
             }
         }
     }
@@ -566,12 +599,20 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
     }
 
     fun searchWithText(text: String) {
-        searchEditText.setText(text)
-        searchEditText.setSelection(text.length)
-        searchEditText.clearFocus()
+        changeSearchBoxKeyword(text)
         hideVirtualKeyboard()
         sendUserIntent(BookSearchUserIntent.SearchBook(text))
-        bookSearchViewModel.logISBNScanningSucceed()
+    }
+
+    private fun changeSearchBoxKeyword(keyword: String) {
+        searchEditText.setText(keyword)
+        searchEditText.setSelection(keyword.length)
+        searchEditText.clearFocus()
+    }
+
+    fun showSearchSnapshot(searchId: String) {
+        hideVirtualKeyboard()
+        sendUserIntent(BookSearchUserIntent.ShowSearchSnapshot(searchId))
     }
 
     fun onBackPressed(): Boolean {
@@ -631,7 +672,7 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
                     return
                 }
 
-                if (!isBackgroundVisible && isGoingToExpand){
+                if (!isBackgroundVisible && isGoingToExpand) {
                     searchRecordsBackground.visibility = View.VISIBLE
                     backToTopButton.visibility = View.GONE
                 }
@@ -662,15 +703,15 @@ class BookResultListFragment : BaseFragment(R.layout.fragment_search_list), View
         requireContext().let {
             val message = getString(R.string.alert_dialog_delete_search_record_message, searchRecord.text)
             MaterialAlertDialogBuilder(it)
-                    .setTitle(R.string.alert_dialog_delete_search_records)
-                    .setMessage(message)
-                    .setPositiveButton(getString(R.string.dialog_ok)) { dialog, _ ->
-                        sendUserIntent(BookSearchUserIntent.DeleteSearchRecord(searchRecord))
-                        searchRecordsAdapter.notifyItemRemoved(position)
-                        dialog.dismiss()
-                    }
-                    .setNegativeButton(getString(R.string.dialog_cancel)) { dialog, _ -> dialog.dismiss() }
-                    .create().show()
+                .setTitle(R.string.alert_dialog_delete_search_records)
+                .setMessage(message)
+                .setPositiveButton(getString(R.string.dialog_ok)) { dialog, _ ->
+                    sendUserIntent(BookSearchUserIntent.DeleteSearchRecord(searchRecord))
+                    searchRecordsAdapter.notifyItemRemoved(position)
+                    dialog.dismiss()
+                }
+                .setNegativeButton(getString(R.string.dialog_cancel)) { dialog, _ -> dialog.dismiss() }
+                .create().show()
         }
     }
     //endregion

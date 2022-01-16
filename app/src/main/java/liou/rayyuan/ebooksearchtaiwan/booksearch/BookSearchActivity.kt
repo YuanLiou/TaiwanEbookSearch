@@ -11,13 +11,12 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.preference.PreferenceManager
 import com.google.zxing.client.android.Intents
 import com.google.zxing.integration.android.IntentIntegrator
+import com.rayliu.commonmain.domain.model.Book
 import liou.rayyuan.chromecustomtabhelper.ChromeCustomTabsHelper
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
-import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.CameraPreviewActivity
 import liou.rayyuan.ebooksearchtaiwan.model.DeeplinkHelper
-import com.rayliu.commonmain.domain.model.Book
 import liou.rayyuan.ebooksearchtaiwan.preferencesetting.PreferenceSettingsActivity
 import liou.rayyuan.ebooksearchtaiwan.simplewebview.SimpleWebViewFragment
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
@@ -28,8 +27,10 @@ import org.koin.android.ext.android.inject
 /**
  * Created by louis383 on 2017/12/2.
  */
-class BookSearchActivity : BaseActivity(R.layout.activity_book_search), ChromeCustomTabsHelper.Fallback,
-        SimpleWebViewFragment.OnSimpleWebviewActionListener {
+class BookSearchActivity :
+    BaseActivity(R.layout.activity_book_search),
+    ChromeCustomTabsHelper.Fallback,
+    SimpleWebViewFragment.OnSimpleWebviewActionListener {
 
     private val KEY_LAST_FRAGMENT_TAG = "key-last-fragment-tag"
     private val scanningBarcodeRequestCode = 1002
@@ -57,7 +58,8 @@ class BookSearchActivity : BaseActivity(R.layout.activity_book_search), ChromeCu
 
         if (savedInstanceState == null) {
             val appLinkKeyword = deeplinkHelper.getSearchKeyword(intent)
-            val bookResultListFragment = BookResultListFragment.newInstance(appLinkKeyword)
+            val appLinkSnapshotSearchId = deeplinkHelper.getSearchId(intent)
+            val bookResultListFragment = BookResultListFragment.newInstance(appLinkKeyword, appLinkSnapshotSearchId)
             if (isDualPane) {
                 val subRouter = Router(
                     supportFragmentManager,
@@ -85,18 +87,42 @@ class BookSearchActivity : BaseActivity(R.layout.activity_book_search), ChromeCu
     private fun handleIntent() {
         val searchKeyword = deeplinkHelper.getSearchKeyword(intent)
         Log.i("BookSearchActivity", "Search Keyword is = $searchKeyword")
-        searchKeyword?.run {
-            if (isDualPane) {
-                val subRouter = Router(
-                    supportFragmentManager,
-                    R.id.activity_book_search_nav_host_container
-                )
-                val bookSearchFragment = subRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
-                bookSearchFragment?.searchWithText(searchKeyword)
-            } else {
-                val bookSearchFragment = contentRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
-                bookSearchFragment?.searchWithText(searchKeyword)
-            }
+
+        val searchId = deeplinkHelper.getSearchId(intent)
+        Log.i("BookSearchActivity", "Search Id is = $searchId")
+
+        if (!searchKeyword.isNullOrEmpty()) {
+            searchBook(searchKeyword)
+        } else if (!searchId.isNullOrEmpty()) {
+            showSearchSnapshot(searchId)
+        }
+    }
+
+    private fun showSearchSnapshot(searchId: String) {
+        if (isDualPane) {
+            val subRouter = Router(
+                supportFragmentManager,
+                R.id.activity_book_search_nav_host_container
+            )
+            val bookSearchFragment = subRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
+            bookSearchFragment?.showSearchSnapshot(searchId)
+        } else {
+            val bookSearchFragment = contentRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
+            bookSearchFragment?.showSearchSnapshot(searchId)
+        }
+    }
+
+    private fun searchBook(keyword: String) {
+        if (isDualPane) {
+            val subRouter = Router(
+                supportFragmentManager,
+                R.id.activity_book_search_nav_host_container
+            )
+            val bookSearchFragment = subRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
+            bookSearchFragment?.searchWithText(keyword)
+        } else {
+            val bookSearchFragment = contentRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
+            bookSearchFragment?.searchWithText(keyword)
         }
     }
 
@@ -106,7 +132,7 @@ class BookSearchActivity : BaseActivity(R.layout.activity_book_search), ChromeCu
             chromeCustomTabHelper.bindCustomTabsServices(
                 this,
                 userPreferenceManager.getPreferBrowser(),
-                "https://www.google.com"
+                "https://taiwan-ebook-lover.github.io"
             )
         }
     }

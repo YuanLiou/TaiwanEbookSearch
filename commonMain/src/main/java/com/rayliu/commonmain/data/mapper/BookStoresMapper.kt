@@ -16,6 +16,8 @@ class BookStoresMapper(
         val books = convertedResult.bookStores.associateBy { it.bookStoreDetails?.id }
 
         return BookStores(
+            searchId = input.id.orEmpty(),
+            searchKeyword = input.keywords.orEmpty(),
             booksCompany = books[BookStoreKeys.booksCompany]?.createBookResult(),
             readmoo = books[BookStoreKeys.readmoo]?.createBookResult(),
             kobo = books[BookStoreKeys.kobo]?.createBookResult(),

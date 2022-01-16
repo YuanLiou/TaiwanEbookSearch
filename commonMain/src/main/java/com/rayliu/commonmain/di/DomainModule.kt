@@ -96,6 +96,10 @@ val domainModule = module {
         SaveDefaultBookSortUseCase(get<BookRepository>())
     }
 
+    factory {
+        GetSearchSnapshotUseCase(get<BookRepository>(), get<SearchRecordRepository>())
+    }
+
     // Service (Application)
     // Database related and Daos
     single {
