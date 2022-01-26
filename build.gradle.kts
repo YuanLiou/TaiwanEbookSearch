@@ -17,7 +17,7 @@ buildscript {
         classpath("com.android.tools.build:gradle:${AppSettings.AGP_VERSION}")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${AppSettings.KOTLIN_VERSION}")
         classpath("org.jetbrains.kotlin:kotlin-serialization:${AppSettings.KOTLIN_VERSION}")
-        classpath("com.google.gms:google-services:4.3.8")
+        classpath("com.google.gms:google-services:4.3.10")
         classpath("com.google.firebase:firebase-crashlytics-gradle:2.7.1")
         classpath("gradle.plugin.io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detekt_version")
     }
