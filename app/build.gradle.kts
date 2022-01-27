@@ -42,7 +42,7 @@ android {
     }
 
     lint {
-        isAbortOnError = false
+        abortOnError = false
     }
 
     signingConfigs {
@@ -81,13 +81,13 @@ android {
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjvm-default=all")
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 }
 
