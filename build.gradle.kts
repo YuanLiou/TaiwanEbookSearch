@@ -23,7 +23,7 @@ buildscript {
     }
 }
 
-val app_version by extra("1.12")
+val app_version by extra("2.0.0")
 
 allprojects {
     repositories {
