@@ -1,4 +1,3 @@
-
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import android.animation.Animator
@@ -10,7 +9,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Parcelable
-import android.text.TextUtils
 import android.util.Log
 import android.util.TypedValue
 import android.view.KeyEvent
@@ -33,7 +31,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -70,10 +67,12 @@ class BookResultListFragment :
     IView<BookResultViewState> {
 
     companion object {
-        fun newInstance(defaultKeyword: String?, defaultSnapshotSearchId: String?) = BookResultListFragment().apply {
-            this.defaultSearchKeyword = defaultKeyword.orEmpty()
-            this.defaultSnapshotSearchId = defaultSnapshotSearchId.orEmpty()
-        }
+        fun newInstance(defaultKeyword: String?, defaultSnapshotSearchId: String?) =
+            BookResultListFragment().apply {
+                this.defaultSearchKeyword = defaultKeyword.orEmpty()
+                this.defaultSnapshotSearchId = defaultSnapshotSearchId.orEmpty()
+            }
+
         const val TAG = "book-result-list-fragment"
     }
 
@@ -81,7 +80,9 @@ class BookResultListFragment :
     private val KEY_RECYCLERVIEW_POSITION: String = "KEY_RECYCLERVIEW_POSITION"
     private val bookSearchViewModel: BookSearchViewModel by viewModel()
 
-    private val viewBinding: FragmentSearchListBinding by FragmentViewBinding(FragmentSearchListBinding::bind)
+    private val viewBinding: FragmentSearchListBinding by FragmentViewBinding(
+        FragmentSearchListBinding::bind
+    )
     private var defaultSearchKeyword: String by FragmentArgumentsDelegate()
     private var defaultSnapshotSearchId: String by FragmentArgumentsDelegate()
     private var searchRecordAnimator: ValueAnimator? = null
@@ -127,11 +128,15 @@ class BookResultListFragment :
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         if (savedInstanceState != null) {
-            val recyclerViewState = savedInstanceState.getParcelable<Parcelable>(BUNDLE_RECYCLERVIEW_STATE)
+            val recyclerViewState =
+                savedInstanceState.getParcelable<Parcelable>(BUNDLE_RECYCLERVIEW_STATE)
             resultsRecyclerView.layoutManager?.onRestoreInstanceState(recyclerViewState)
 
             val recyclerViewPosition = savedInstanceState.getInt(KEY_RECYCLERVIEW_POSITION, 0)
-            (resultsRecyclerView.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(recyclerViewPosition, 0)
+            (resultsRecyclerView.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(
+                recyclerViewPosition,
+                0
+            )
             bookSearchViewModel.savePreviousScrollPosition(recyclerViewPosition)
             Log.i("BookResultListFragment", "restore recyclerView Position = $recyclerViewPosition")
         }
@@ -166,8 +171,12 @@ class BookResultListFragment :
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putParcelable(BUNDLE_RECYCLERVIEW_STATE, resultsRecyclerView.layoutManager?.onSaveInstanceState())
-        val recyclerViewPosition = (resultsRecyclerView.layoutManager as? LinearLayoutManager)?.findFirstCompletelyVisibleItemPosition()
+        outState.putParcelable(
+            BUNDLE_RECYCLERVIEW_STATE,
+            resultsRecyclerView.layoutManager?.onSaveInstanceState()
+        )
+        val recyclerViewPosition =
+            (resultsRecyclerView.layoutManager as? LinearLayoutManager)?.findFirstCompletelyVisibleItemPosition()
         outState.putInt(KEY_RECYCLERVIEW_POSITION, recyclerViewPosition ?: 0)
         Log.i("BookResultListFragment", "save recyclerView Position = $recyclerViewPosition")
     }
@@ -237,7 +246,12 @@ class BookResultListFragment :
         hintText.setOnClickListener(this)
         hintText.compoundDrawables
             .filterNotNull()
-            .forEach { DrawableCompat.setTint(it, ContextCompat.getColor(requireContext(), R.color.gray)) }
+            .forEach {
+                DrawableCompat.setTint(
+                    it,
+                    ContextCompat.getColor(requireContext(), R.color.gray)
+                )
+            }
 
         val linearLayoutManager = resultsRecyclerView.layoutManager as LinearLayoutManager
         linearLayoutManager.initialPrefetchItemCount = 6
@@ -314,16 +328,25 @@ class BookResultListFragment :
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (resultsRecyclerView.canScrollVertically(-1)) {
-                    backToTopButton.setImageResource(requireContext(), R.drawable.ic_keyboard_arrow_up_24dp)
+                    backToTopButton.setImageResource(
+                        requireContext(),
+                        R.drawable.ic_keyboard_arrow_up_24dp
+                    )
                 } else {
-                    backToTopButton.setImageResource(requireContext(), R.drawable.ic_search_white_24dp)
+                    backToTopButton.setImageResource(
+                        requireContext(),
+                        R.drawable.ic_search_white_24dp
+                    )
                 }
             }
         })
     }
 
     private fun setupUI() {
-        val hintWithAppVersion = hintText.text.toString() + "\n" + resources.getString(R.string.app_version, BuildConfig.VERSION_NAME)
+        val hintWithAppVersion = hintText.text.toString() + "\n" + resources.getString(
+            R.string.app_version,
+            BuildConfig.VERSION_NAME
+        )
         hintText.text = hintWithAppVersion
     }
 
@@ -406,7 +429,8 @@ class BookResultListFragment :
                     0
                 }
 
-                val adapterItemHeight = resources.getDimensionPixelSize(R.dimen.search_records_item_height)
+                val adapterItemHeight =
+                    resources.getDimensionPixelSize(R.dimen.search_records_item_height)
 
                 toggleSearchRecordView(true, (adapterItemHeight + heightPadding) * itemCounts)
                 bookSearchViewModel.searchRecordLiveData.observe(
@@ -420,7 +444,9 @@ class BookResultListFragment :
                 if (this::searchRecordsRootView.isInitialized) {
                     bookSearchViewModel.searchRecordLiveData.removeObservers(viewLifecycleOwner)
                     toggleSearchRecordView(false)
-                    (searchRecordsRecyclerView.layoutManager as? LinearLayoutManager)?.scrollToPosition(0)
+                    (searchRecordsRecyclerView.layoutManager as? LinearLayoutManager)?.scrollToPosition(
+                        0
+                    )
                 }
             }
             is BookResultViewState.ShareCurrentPageSnapshot -> {
@@ -430,7 +456,12 @@ class BookResultListFragment :
                     putExtra(Intent.EXTRA_SUBJECT, "From " + getString(R.string.app_name))
                     putExtra(Intent.EXTRA_TEXT, bookResultViewState.url)
                 }
-                startActivity(Intent.createChooser(intent, getString(R.string.menu_share_menu_appear)))
+                startActivity(
+                    Intent.createChooser(
+                        intent,
+                        getString(R.string.menu_share_menu_appear)
+                    )
+                )
             }
         }
     }
@@ -490,13 +521,15 @@ class BookResultListFragment :
 
     private fun showKeywordIsEmpty() {
         if (isAdded) {
-            Toast.makeText(requireContext(), R.string.search_keyword_empty, Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), R.string.search_keyword_empty, Toast.LENGTH_LONG)
+                .show()
         }
     }
 
     private fun hideVirtualKeyboard() {
         if (isAdded) {
-            val inputManager: InputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val inputManager: InputMethodManager =
+                requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputManager.hideSoftInputFromWindow(searchEditText.windowToken, 0)
         }
     }
@@ -505,7 +538,8 @@ class BookResultListFragment :
         if (isAdded) {
             appbar.setExpanded(true, true)
             searchEditText.requestFocus()
-            val inputManager: InputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val inputManager: InputMethodManager =
+                requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputManager.showSoftInput(searchEditText, 0)
         }
     }
@@ -527,7 +561,10 @@ class BookResultListFragment :
     }
 
     private fun scrollToPosition(position: Int) {
-        (resultsRecyclerView.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(position, 0)
+        (resultsRecyclerView.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(
+            position,
+            0
+        )
     }
 
     private fun showToast(message: String) {
@@ -582,7 +619,8 @@ class BookResultListFragment :
 
     private fun isCameraAvailable(): Boolean {
         if (isAdded) {
-            return requireActivity().packageManager?.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY) ?: false
+            return requireActivity().packageManager?.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
+                ?: false
         }
         return false
     }
@@ -701,7 +739,8 @@ class BookResultListFragment :
 
     override fun onSearchRecordCloseImageClicked(searchRecord: SearchRecord, position: Int) {
         requireContext().let {
-            val message = getString(R.string.alert_dialog_delete_search_record_message, searchRecord.text)
+            val message =
+                getString(R.string.alert_dialog_delete_search_record_message, searchRecord.text)
             MaterialAlertDialogBuilder(it)
                 .setTitle(R.string.alert_dialog_delete_search_records)
                 .setMessage(message)
