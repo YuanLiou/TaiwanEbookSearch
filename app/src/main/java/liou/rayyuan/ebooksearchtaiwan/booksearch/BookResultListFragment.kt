@@ -140,17 +140,19 @@ class BookResultListFragment :
             bookSearchViewModel.savePreviousScrollPosition(recyclerViewPosition)
             Log.i("BookResultListFragment", "restore recyclerView Position = $recyclerViewPosition")
         }
+
+        // Render View Effect
         bookSearchViewModel.screenViewState.observe(
-            viewLifecycleOwner
-        ) { _ ->
-            ViewEffectObserver<ScreenState> {
+            viewLifecycleOwner,
+            ViewEffectObserver {
                 updateScreen(it)
             }
-        }
-        bookSearchViewModel.viewState.observe(
-            viewLifecycleOwner,
-            { state -> render(state) }
         )
+
+        // Render Book Result State
+        bookSearchViewModel.viewState.observe(
+            viewLifecycleOwner
+        ) { state -> render(state) }
 
         sendUserIntent(BookSearchUserIntent.OnViewReadyToServe)
         setupUI()
@@ -434,19 +436,16 @@ class BookResultListFragment :
 
                 toggleSearchRecordView(true, (adapterItemHeight + heightPadding) * itemCounts)
                 bookSearchViewModel.searchRecordLiveData.observe(
-                    viewLifecycleOwner,
-                    { searchRecords ->
-                        searchRecordsAdapter.addItems(searchRecords)
-                    }
-                )
+                    viewLifecycleOwner
+                ) { searchRecords ->
+                    searchRecordsAdapter.addItems(searchRecords)
+                }
             }
             BookResultViewState.HideSearchRecordList -> {
                 if (this::searchRecordsRootView.isInitialized) {
                     bookSearchViewModel.searchRecordLiveData.removeObservers(viewLifecycleOwner)
                     toggleSearchRecordView(false)
-                    (searchRecordsRecyclerView.layoutManager as? LinearLayoutManager)?.scrollToPosition(
-                        0
-                    )
+                    (searchRecordsRecyclerView.layoutManager as? LinearLayoutManager)?.scrollToPosition(0)
                 }
             }
             is BookResultViewState.ShareCurrentPageSnapshot -> {
@@ -489,6 +488,9 @@ class BookResultListFragment :
                 } else {
                     showToast(screenState.message)
                 }
+            }
+            ScreenState.NoSharingContentAvailable -> {
+                showToast(getString(R.string.no_shareable_content))
             }
         }
     }

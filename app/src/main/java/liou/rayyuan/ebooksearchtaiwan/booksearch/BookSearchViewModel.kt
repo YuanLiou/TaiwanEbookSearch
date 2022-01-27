@@ -1,5 +1,6 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -77,6 +78,7 @@ class BookSearchViewModel(
     private val maxListNumber: Int = 10
     private var eggCount: Int = 0
     private var bookStores: BookStores? = null
+    private var previousKeyword: String? = null
 
     private var lastScrollPosition: Int = 0
         set(value) {
@@ -176,12 +178,18 @@ class BookSearchViewModel(
             sendViewEffect(ScreenState.EmptyKeyword)
             return
         }
+
+        if (keyword == previousKeyword || keyword == bookStores?.searchKeyword) {
+            Log.i("BookSearchViewModel", "search blocked")
+            return
+        }
         fetchBookResult(SearchBookAction(keyword))
     }
 
     private inner class SearchBookAction(private val keyword: String) :
         suspend () -> SimpleResult<BookStores> {
         override suspend fun invoke(): SimpleResult<BookStores> {
+            this@BookSearchViewModel.previousKeyword = keyword
             val defaultSort = getDefaultBookSortUseCase().first()
             return getBooksWithStoresUseCase(defaultSort, keyword)
         }
@@ -198,6 +206,7 @@ class BookSearchViewModel(
         }
 
         updateScreen(BookResultViewState.PrepareBookResult(true))
+        bookStores = null // clean up
         networkJob = viewModelScope.launch(Dispatchers.IO) {
             val response = action.invoke()
             withContext(Dispatchers.Main) {
@@ -324,7 +333,12 @@ class BookSearchViewModel(
     }
 
     private fun shareCurrentSnapshot() {
-        val searchId = bookStores?.searchId.orEmpty()
+        val currentBookStore = bookStores ?: run {
+            sendViewEffect(ScreenState.NoSharingContentAvailable)
+            return
+        }
+
+        val searchId = currentBookStore.searchId
         if (searchId.isNotEmpty()) {
             val targetUrl = resourceHelper.getString(R.string.ebook_snapshot_url, searchId)
             updateScreen(BookResultViewState.ShareCurrentPageSnapshot(targetUrl))
@@ -349,6 +363,7 @@ class BookSearchViewModel(
     }
 
     private fun networkTimeout() {
+        updateScreen(BookResultViewState.PrepareBookResultError)
         sendViewEffect(ScreenState.ConnectionTimeout)
     }
 
