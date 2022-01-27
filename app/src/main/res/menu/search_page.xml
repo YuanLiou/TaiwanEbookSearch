@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     >
 
     <item
@@ -9,8 +8,6 @@
         android:orderInCategory="101"
         app:showAsAction="never"
         android:title="@string/menu_share_result"
-        android:visible="false"
-        tools:visible="true"
         />
 
     <item
@@ -19,6 +16,5 @@
         android:title="@string/menu_setting"
         android:orderInCategory="102"
         />
-
 
 </menu>

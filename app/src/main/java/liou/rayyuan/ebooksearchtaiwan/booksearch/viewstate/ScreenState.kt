@@ -8,5 +8,6 @@ sealed class ScreenState {
     object NetworkError : ScreenState()
     object EmptyKeyword : ScreenState()
     object NoInternetConnection : ScreenState()
+    object NoSharingContentAvailable : ScreenState()
     class ShowToastMessage(@StringRes val stringResId: Int = -1, val message: String) : ScreenState()
 }
