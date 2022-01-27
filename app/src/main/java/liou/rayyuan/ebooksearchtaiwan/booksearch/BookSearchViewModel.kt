@@ -179,7 +179,8 @@ class BookSearchViewModel(
         fetchBookResult(SearchBookAction(keyword))
     }
 
-    private inner class SearchBookAction(private val keyword: String) : suspend () -> SimpleResult<BookStores> {
+    private inner class SearchBookAction(private val keyword: String) :
+        suspend () -> SimpleResult<BookStores> {
         override suspend fun invoke(): SimpleResult<BookStores> {
             val defaultSort = getDefaultBookSortUseCase().first()
             return getBooksWithStoresUseCase(defaultSort, keyword)
@@ -221,7 +222,8 @@ class BookSearchViewModel(
         updateScreen(BookResultViewState.HideSearchRecordList)
     }
 
-    private inner class ShowSearchSnapshotAction(private val searchId: String) : suspend () -> SimpleResult<BookStores> {
+    private inner class ShowSearchSnapshotAction(private val searchId: String) :
+        suspend () -> SimpleResult<BookStores> {
         override suspend fun invoke(): SimpleResult<BookStores> {
             return getSearchSnapshotUseCase(searchId)
         }
@@ -246,55 +248,62 @@ class BookSearchViewModel(
 
         viewModelScope.launch {
             val adapterItems = generateAdapterItems(bookStores)
-            updateScreen(BookResultViewState.ShowBooks(bookStores.searchKeyword, lastScrollPosition, adapterItems))
+            updateScreen(
+                BookResultViewState.ShowBooks(
+                    bookStores.searchKeyword,
+                    lastScrollPosition,
+                    adapterItems
+                )
+            )
             lastScrollPosition = 0
         }
     }
 
-    private suspend fun generateAdapterItems(bookStores: BookStores) = withContext(Dispatchers.Default) {
-        val adapterItems = mutableListOf<AdapterItem>()
-        val defaultSort = getDefaultBookSortUseCase().first()
-        val groupedResults = bookStores.generateBookStoresResultMap(defaultSort)
+    private suspend fun generateAdapterItems(bookStores: BookStores) =
+        withContext(Dispatchers.Default) {
+            val adapterItems = mutableListOf<AdapterItem>()
+            val defaultSort = getDefaultBookSortUseCase().first()
+            val groupedResults = bookStores.generateBookStoresResultMap(defaultSort)
 
-        val bestItems = generateBestItems(defaultSort, groupedResults)
-        adapterItems.add(
-            BookHeader(
-                DefaultStoreNames.BEST_RESULT.getStringResource(),
-                bestItems.isEmpty(),
-                siteInfo = null
-            )
-        )
-        adapterItems.addAll(bestItems)
-
-        for (storeName in defaultSort) {
-            val bookResult = groupedResults[storeName] ?: continue
-            val books = bookResult.books.run {
-                drop(1)
-            }.run {
-                take(maxListNumber)
-            }.run {
-                sortedWith(compareBy { book -> book.price })
-            }
-
+            val bestItems = generateBestItems(defaultSort, groupedResults)
             adapterItems.add(
                 BookHeader(
-                    storeName.getStringResource(),
-                    books.isEmpty(),
-                    siteInfo = SiteInfo(
-                        isOnline = bookResult.isOnline,
-                        isResultOkay = bookResult.isOkay,
-                        status = bookResult.status
-                    ),
+                    DefaultStoreNames.BEST_RESULT.getStringResource(),
+                    bestItems.isEmpty(),
+                    siteInfo = null
                 )
             )
+            adapterItems.addAll(bestItems)
 
-            adapterItems.addAll(
-                books.map { BookViewModel(it) }
-            )
+            for (storeName in defaultSort) {
+                val bookResult = groupedResults[storeName] ?: continue
+                val books = bookResult.books.run {
+                    drop(1)
+                }.run {
+                    take(maxListNumber)
+                }.run {
+                    sortedWith(compareBy { book -> book.price })
+                }
+
+                adapterItems.add(
+                    BookHeader(
+                        storeName.getStringResource(),
+                        books.isEmpty(),
+                        siteInfo = SiteInfo(
+                            isOnline = bookResult.isOnline,
+                            isResultOkay = bookResult.isOkay,
+                            status = bookResult.status
+                        ),
+                    )
+                )
+
+                adapterItems.addAll(
+                    books.map { BookViewModel(it) }
+                )
+            }
+
+            adapterItems.toList()
         }
-
-        adapterItems.toList()
-    }
 
     private fun generateBestItems(
         defaultSort: List<DefaultStoreNames>,
