@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-parcelize")
+    id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("kotlinx-serialization")
     id("kotlin-kapt")
@@ -132,6 +133,3 @@ dependencies {
     androidTestImplementation(AppDependencies.Test.RUNNER)
     androidTestImplementation(AppDependencies.Test.ESPRESSO)
 }
-
-// Firebase config needs to put on bottom
-apply(plugin = "com.google.gms.google-services")
