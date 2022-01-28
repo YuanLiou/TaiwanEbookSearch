@@ -1,3 +1,4 @@
+import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -61,6 +62,10 @@ android {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
             resValue("string", "package_name", "liou.rayyuan.ebooksearchtaiwan.debug")
+
+            configure<CrashlyticsExtension> {
+                mappingFileUploadEnabled = false // to disable mapping file uploads (default=true if minifying)
+            }
         }
 
         getByName("release") {

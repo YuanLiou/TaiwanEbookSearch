@@ -220,6 +220,7 @@ class BookSearchViewModel(
                         // ServerResponseException == internal server error
                         // ClientRequestException == response.status.value to get response code
                         // RedirectResponseException
+                        this@BookSearchViewModel.previousKeyword = null
                         if (response.error is SocketTimeoutException) {
                             networkTimeout()
                         } else {
