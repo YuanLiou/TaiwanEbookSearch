@@ -1,6 +1,7 @@
 package liou.rayyuan.ebooksearchtaiwan
 
 import android.app.Application
+import com.google.firebase.analytics.FirebaseAnalytics
 import liou.rayyuan.ebooksearchtaiwan.di.appModules
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.logger.AndroidLogger
@@ -17,6 +18,7 @@ class EBookSearchApplication : Application() {
         startKoin {
             if (BuildConfig.DEBUG) {
                 AndroidLogger()
+                FirebaseAnalytics.getInstance(this@EBookSearchApplication).setAnalyticsCollectionEnabled(false)
             }
 
             androidContext(this@EBookSearchApplication)
