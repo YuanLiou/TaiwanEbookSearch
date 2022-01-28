@@ -52,6 +52,7 @@
             android:name=".booksearch.BookSearchActivity"
             android:windowSoftInputMode="adjustNothing"
             android:launchMode="singleTop"
+            android:exported="true"
             >
 
             <intent-filter>
@@ -85,17 +86,20 @@
                 android:name=".camerapreview.CameraPreviewActivity"
                 android:label="@string/barcode_scanner_title"
                 android:theme="@style/FullScreenTheme"
+                android:exported="false"
                 />
 
         <activity
                 android:name=".preferencesetting.PreferenceSettingsActivity"
                 android:label="@string/menu_setting"
-                />
+                android:exported="false"
+            />
 
         <activity
                 android:name=".bookstorereorder.BookStoreReorderActivity"
                 android:label="@string/activty_reorder_title"
-                />
+                android:exported="false"
+            />
 
     </application>
 </manifest>

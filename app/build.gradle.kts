@@ -25,7 +25,7 @@ android {
     defaultConfig {
         applicationId = "liou.rayyuan.ebooksearchtaiwan"
         minSdk = AppSettings.MIN_SDK_VERSION
-        targetSdk = AppSettings.MIN_SDK_VERSION
+        targetSdk = AppSettings.TARGET_SDK_VERSION
         versionCode = getVersionCodeTimeStamps()
         versionName = rootProject.extra.get("app_version").toString()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
