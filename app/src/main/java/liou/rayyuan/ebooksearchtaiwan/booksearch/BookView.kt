@@ -1,8 +1,8 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import android.content.Context
-import liou.rayyuan.ebooksearchtaiwan.R
 import com.rayliu.commonmain.domain.model.Book
+import liou.rayyuan.ebooksearchtaiwan.R
 
 class BookView(val book: Book) {
 
@@ -10,11 +10,10 @@ class BookView(val book: Book) {
         val counts = book.authors?.size ?: 0
         if (counts > 0) {
             val result = book.authors?.joinToString(", ")
-            result?.run {
-                return context.resources.getQuantityString(R.plurals.title_authors, counts, this)
+            if (result != null) {
+                return context.resources.getQuantityString(R.plurals.title_authors, counts, result)
             }
         }
         return null
     }
-
 }

@@ -287,7 +287,9 @@ class BookResultListFragment :
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.search_page, menu)
-        shareResultMenu = menu.findItem(R.id.search_page_menu_action_share)
+        shareResultMenu = menu.findItem(R.id.search_page_menu_action_share).also {
+            it.setVisible(bookSearchViewModel.hasPreviousSearch)
+        }
         super.onCreateOptionsMenu(menu, inflater)
     }
 

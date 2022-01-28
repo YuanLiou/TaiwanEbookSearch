@@ -79,6 +79,8 @@ class BookSearchViewModel(
     private var eggCount: Int = 0
     private var bookStores: BookStores? = null
     private var previousKeyword: String? = null
+    val hasPreviousSearch: Boolean
+        get() = bookStores != null
 
     private var lastScrollPosition: Int = 0
         set(value) {
@@ -234,6 +236,7 @@ class BookSearchViewModel(
     private inner class ShowSearchSnapshotAction(private val searchId: String) :
         suspend () -> SimpleResult<BookStores> {
         override suspend fun invoke(): SimpleResult<BookStores> {
+            this@BookSearchViewModel.previousKeyword = null
             return getSearchSnapshotUseCase(searchId)
         }
     }
