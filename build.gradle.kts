@@ -23,7 +23,7 @@ buildscript {
     }
 }
 
-val app_version by extra("2.0.0")
+val app_version by extra(AppSettings.VERSION_NAME)
 
 allprojects {
     repositories {

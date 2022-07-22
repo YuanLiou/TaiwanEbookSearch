@@ -1,4 +1,8 @@
 import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
+import java.io.File
+import java.io.FileInputStream
+import java.util.*
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -10,14 +14,18 @@ plugins {
 }
 apply(from = "../gradle/detekt.gradle")
 
-val keystorePath: String by project
-val keystoreAlias: String by project
-val storePass: String by project
-val keyPass: String by project
+val localProperties = Properties().apply {
+    load(FileInputStream(File(rootProject.rootDir, localPropertyFileName)))
+}
 
-val ADMOB_ID: String by project
-val ADMOB_TEST_DEVICE_ID: String by project
-val ADMOB_UNIT_ID: String by project
+val keystorePath: String = localProperties.getProperty("keystorePath")
+val keystoreAlias: String = localProperties.getProperty("keystoreAlias")
+val storePass: String = localProperties.getProperty("storePass")
+val keyPass: String = localProperties.getProperty("keyPass")
+
+val ADMOB_ID: String = localProperties.getProperty("ADMOB_ID")
+val ADMOB_TEST_DEVICE_ID: String = localProperties.getProperty("ADMOB_TEST_DEVICE_ID")
+val ADMOB_UNIT_ID: String = localProperties.getProperty("ADMOB_UNIT_ID")
 
 android {
     compileSdk = AppSettings.COMPILE_SDK_VERSION
@@ -26,7 +34,7 @@ android {
         applicationId = "liou.rayyuan.ebooksearchtaiwan"
         minSdk = AppSettings.MIN_SDK_VERSION
         targetSdk = AppSettings.TARGET_SDK_VERSION
-        versionCode = getVersionCodeTimeStamps()
+        versionCode = AppSettings.VERSION_CODE
         versionName = rootProject.extra.get("app_version").toString()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -96,10 +104,6 @@ android {
     }
 }
 
-tasks.register("checkVersionCode") {
-    println("Version Code is ${getVersionCodeTimeStamps()}")
-}
-
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:${AppSettings.DESUGAR_LIB_VERSION}")
@@ -135,6 +139,7 @@ dependencies {
     // Coil
     implementation(AppDependencies.COIL)
     testImplementation(AppDependencies.Test.JUNIT)
+    androidTestImplementation(AppDependencies.Test.CORE)
     androidTestImplementation(AppDependencies.Test.RUNNER)
     androidTestImplementation(AppDependencies.Test.ESPRESSO)
 }
