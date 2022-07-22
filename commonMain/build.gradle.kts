@@ -1,3 +1,7 @@
+import java.io.File
+import java.io.FileInputStream
+import java.util.*
+
 plugins {
     id("com.android.library")
     id("kotlin-android")
@@ -6,8 +10,12 @@ plugins {
     id("kotlin-kapt")
 }
 
-val HOST_STAGING: String by project
+val localProperties = Properties().apply {
+    load(FileInputStream(File(rootProject.rootDir, localPropertyFileName)))
+}
+
 val HOST: String by project
+val HOST_STAGING: String = localProperties.getProperty("HOST_STAGING") ?: HOST
 
 android {
     compileSdk = AppSettings.COMPILE_SDK_VERSION
