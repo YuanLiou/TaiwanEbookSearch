@@ -1,0 +1,14 @@
+An eBook search tool mainly for Taiwan.
+
+Search eBook on
+<ul>
+<li>Readmoo</li>
+<li>Taaze</li>
+<li>BOOKWALKER</li>
+<li>kobo</li>
+<li>Pubu</li>
+<li>HyRead</li>
+<li>Amazon Kindle</li>
+<li>Google Play Books</li>
+<li>books.com.tw</li>
+</ul>

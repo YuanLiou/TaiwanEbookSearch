@@ -1,0 +1,14 @@
+台湾电子书搜索工具。
+
+一次搜索九家台湾网上书店：
+<ul>
+<li>Readmoo 读墨</li>
+<li>Taaze 读册生活</li>
+<li>BOOKWALKER</li>
+<li>乐天 kobo</li>
+<li>Pubu 电子商城</li>
+<li>HyRead</li>
+<li>Amazon Kindle</li>
+<li>Google Play 图书</li>
+<li>博客来</li>
+</ul>

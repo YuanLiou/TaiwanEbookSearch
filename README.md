@@ -21,5 +21,3 @@ eBook search tool mainly for Taiwan.
 
 ### Links
 Send me to [Web version](https://focaaby.github.io/ebook-search/)
- 
-
