@@ -1,0 +1,14 @@
+台灣電子書搜尋工具。
+
+一次搜齊 9 間台灣線上書店：
+<ul>
+<li>Readmoo 讀墨</li>
+<li>Taaze 讀冊生活</li>
+<li>BOOKWALKER</li>
+<li>樂天 kobo</li>
+<li>Pubu 電子商城</li>
+<li>HyRead 电子书</li>
+<li>Amazon Kindle</li>
+<li>Google Play 圖書</li>
+<li>博客來</li>
+</ul>
