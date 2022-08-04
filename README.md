@@ -8,9 +8,14 @@ eBook search tool mainly for Taiwan.
 ### Screenshots
 ![Imgur](https://i.imgur.com/bhi6XPm.png?1) ![Imgur](https://i.imgur.com/p5fhQDh.png?1)
 
-### Google Play Store
-[Link](https://goo.gl/hgKiK4)
-<br> Public Beta is now opened.
+### Download
+
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/liou.rayyuan.ebooksearchtaiwan/)
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
+     alt="Get it on Google Play"
+     height="80">](https://play.google.com/store/apps/details?id=liou.rayyuan.ebooksearchtaiwan)
 
 ### Special Thanks
  - [@denkeni](https://twitter.com/denkeni): Come up with this idea and make it real
