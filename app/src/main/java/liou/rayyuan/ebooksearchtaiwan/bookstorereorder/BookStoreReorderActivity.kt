@@ -69,7 +69,7 @@ class BookStoreReorderActivity : BaseActivity(R.layout.activity_reorder_stores),
         menuInflater.inflate(R.menu.reorder_page, menu)
         val checkMarkerOption = menu.findItem(R.id.reorder_page_menu_action_check)
         if (!isDarkTheme()) {
-            checkMarkerOption.icon.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+            checkMarkerOption.icon?.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
                 ContextCompat.getColor(this, R.color.darker_gray_3B),
                 BlendModeCompat.SRC_ATOP
             )

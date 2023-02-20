@@ -704,7 +704,7 @@ class BookResultListFragment :
         animation.duration = 150
         animation.setInterpolator(DecelerateInterpolator())
         animation.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationStart(animation: Animator?) {
+            override fun onAnimationStart(animation: Animator) {
                 super.onAnimationStart(animation)
                 val isBackgroundVisible = searchRecordsBackground.visibility == View.VISIBLE
                 val isGoingToExpand = targetHeight > 0
