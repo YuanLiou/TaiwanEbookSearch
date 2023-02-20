@@ -65,6 +65,7 @@ dependencies {
     implementation(AppDependencies.Kotlin.COROUTINE)
     implementation(AppDependencies.Kotlin.SERIALIZATION)
     implementation(AppDependencies.Kotlin.KTOR_CLIENT_ANDROID)
+    implementation(AppDependencies.Kotlin.KTOR_CLIENT_CONTENT_NEGOTIATION)
     implementation(AppDependencies.Kotlin.KTOR_CLIENT_SERIALIZATION)
     implementation(AppDependencies.Kotlin.KTOR_CLIENT_LOGGING)
 
