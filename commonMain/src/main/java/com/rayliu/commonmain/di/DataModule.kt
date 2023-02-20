@@ -2,16 +2,19 @@ package liou.rayyuan.ebooksearchtaiwan.di
 
 import android.util.Log
 import com.rayliu.commonmain.BuildConfig
-import io.ktor.client.*
-import io.ktor.client.engine.android.*
-import io.ktor.client.features.*
-import io.ktor.client.features.json.*
-import io.ktor.client.features.json.serializer.*
-import io.ktor.client.features.logging.*
-import io.ktor.client.features.observer.*
-import io.ktor.client.request.*
 import com.rayliu.commonmain.SystemInfoCollector
 import com.rayliu.commonmain.data.api.BookSearchApi
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.android.Android
+import io.ktor.client.plugins.DefaultRequest
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.plugins.observer.ResponseObserver
+import io.ktor.client.request.header
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 
 private const val TIME_OUT = 60_000
@@ -21,15 +24,14 @@ val dataModule = module {
     // Provide: HttpClient
     single {
         HttpClient(Android) {
-            install(JsonFeature) {
-                serializer = KotlinxSerializer(
-                    kotlinx.serialization.json.Json {
+            install(ContentNegotiation) {
+                json(
+                    Json {
                         prettyPrint = true
                         isLenient = true
                         ignoreUnknownKeys = true
                     }
                 )
-
                 engine {
                     connectTimeout = TIME_OUT
                     socketTimeout = TIME_OUT

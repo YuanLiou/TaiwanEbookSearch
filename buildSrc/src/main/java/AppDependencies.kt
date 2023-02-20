@@ -49,11 +49,12 @@ object AppDependencies {
     }
 
     object Kotlin {
-        const val COROUTINE = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0"
-        const val SERIALIZATION = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.1"
-        private const val ktorVersion = "1.6.0"
+        const val COROUTINE = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+        const val SERIALIZATION = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
+        private const val ktorVersion = "2.2.3"
         const val KTOR_CLIENT_ANDROID = "io.ktor:ktor-client-android:$ktorVersion"
-        const val KTOR_CLIENT_SERIALIZATION = "io.ktor:ktor-client-serialization:$ktorVersion"
+        const val KTOR_CLIENT_CONTENT_NEGOTIATION = "io.ktor:ktor-client-content-negotiation:$ktorVersion"
+        const val KTOR_CLIENT_SERIALIZATION = "io.ktor:ktor-serialization-kotlinx-json:$ktorVersion"
         const val KTOR_CLIENT_LOGGING = "io.ktor:ktor-client-logging:$ktorVersion"
     }
 
