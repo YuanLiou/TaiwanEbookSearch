@@ -73,7 +73,7 @@ object AppDependencies {
     }
 
     object Koin {
-        private const val koin_version = "3.1.5"
+        private const val koin_version = "3.3.3"
         const val ANDROID = "io.insert-koin:koin-android:$koin_version"
     }
 
