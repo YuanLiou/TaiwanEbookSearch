@@ -59,11 +59,11 @@ object AppDependencies {
     }
 
     object Firebase {
-        const val BOM = "com.google.firebase:firebase-bom:28.2.0"
-        const val CORE = "com.google.firebase:firebase-core"
-        const val CRASHLYTICS = "com.google.firebase:firebase-crashlytics"
+        const val BOM = "com.google.firebase:firebase-bom:31.2.2"
+        const val ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
+        const val CRASHLYTICS = "com.google.firebase:firebase-crashlytics-ktx"
         val Libs = listOf(
-            CORE,
+            ANALYTICS,
             CRASHLYTICS
         )
     }
