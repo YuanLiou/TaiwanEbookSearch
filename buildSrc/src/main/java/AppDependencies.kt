@@ -1,6 +1,6 @@
 object AppDependencies {
     const val CUSTOM_TAB = "com.github.YuanLiou:chrome-custom-tab-helper:1.1.1"
-    const val COIL = "io.coil-kt:coil:1.4.0"
+    const val COIL = "io.coil-kt:coil:2.2.2"
 
     object JetPacks {
         const val APPCOMPAT = "androidx.appcompat:appcompat:1.6.1"
@@ -59,23 +59,21 @@ object AppDependencies {
     }
 
     object Firebase {
-        const val BOM = "com.google.firebase:firebase-bom:28.2.0"
-        const val CORE = "com.google.firebase:firebase-core"
-        const val CRASHLYTICS = "com.google.firebase:firebase-crashlytics"
+        const val BOM = "com.google.firebase:firebase-bom:31.2.2"
+        const val ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
+        const val CRASHLYTICS = "com.google.firebase:firebase-crashlytics-ktx"
         val Libs = listOf(
-            CORE,
+            ANALYTICS,
             CRASHLYTICS
         )
     }
 
     object GooglePlayService {
-        const val ADMOB = "com.google.android.gms:play-services-ads-lite:20.5.0"
-        const val CORE = "com.google.android.play:core:1.10.0"
-        const val CORE_KTX = "com.google.android.play:core-ktx:1.8.1"
+        const val ADMOB = "com.google.android.gms:play-services-ads-lite:21.5.0"
     }
 
     object Koin {
-        private const val koin_version = "3.1.5"
+        private const val koin_version = "3.3.3"
         const val ANDROID = "io.insert-koin:koin-android:$koin_version"
     }
 
@@ -85,9 +83,9 @@ object AppDependencies {
     }
 
     object Test {
-        const val JUNIT = "junit:junit:4.12"
-        const val RUNNER = "androidx.test:runner:1.4.0"
-        const val CORE = "androidx.test:core:1.4.0"
-        const val ESPRESSO = "androidx.test.espresso:espresso-core:3.1.0"
+        const val JUNIT = "androidx.test.ext:junit-ktx:1.1.5"
+        const val RUNNER = "androidx.test:runner:1.5.2"
+        const val CORE = "androidx.test:core-ktx:1.5.0"
+        const val ESPRESSO = "androidx.test.espresso:espresso-core:3.5.1"
     }
 }
