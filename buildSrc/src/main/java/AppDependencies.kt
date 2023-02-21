@@ -83,9 +83,9 @@ object AppDependencies {
     }
 
     object Test {
-        const val JUNIT = "junit:junit:4.12"
-        const val RUNNER = "androidx.test:runner:1.4.0"
-        const val CORE = "androidx.test:core:1.4.0"
-        const val ESPRESSO = "androidx.test.espresso:espresso-core:3.1.0"
+        const val JUNIT = "androidx.test.ext:junit-ktx:1.1.5"
+        const val RUNNER = "androidx.test:runner:1.5.2"
+        const val CORE = "androidx.test:core-ktx:1.5.0"
+        const val ESPRESSO = "androidx.test.espresso:espresso-core:3.5.1"
     }
 }
