@@ -69,9 +69,7 @@ object AppDependencies {
     }
 
     object GooglePlayService {
-        const val ADMOB = "com.google.android.gms:play-services-ads-lite:20.5.0"
-        const val CORE = "com.google.android.play:core:1.10.0"
-        const val CORE_KTX = "com.google.android.play:core-ktx:1.8.1"
+        const val ADMOB = "com.google.android.gms:play-services-ads-lite:21.5.0"
     }
 
     object Koin {
