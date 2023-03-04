@@ -6,15 +6,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Lifecycle
 import androidx.paging.PagedList
-import androidx.paging.PagedListAdapter
+import androidx.paging.PagingData
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import liou.rayyuan.ebooksearchtaiwan.BR
 import liou.rayyuan.ebooksearchtaiwan.R
 import com.rayliu.commonmain.domain.model.SearchRecord
 
-class SearchRecordAdapter(private var listener: OnSearchRecordsClickListener?): PagedListAdapter<SearchRecord,
+class SearchRecordAdapter(private var listener: OnSearchRecordsClickListener?): PagingDataAdapter<SearchRecord,
         SearchRecordAdapter.SearchRecordViewHolder>(SearchRecordDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchRecordViewHolder {
@@ -31,8 +33,8 @@ class SearchRecordAdapter(private var listener: OnSearchRecordsClickListener?): 
         }
     }
 
-    fun addItems(searchRecords: PagedList<SearchRecord>?) {
-        submitList(searchRecords)
+    fun addItems(lifecycle: Lifecycle, searchRecords: PagingData<SearchRecord>) {
+        submitData(lifecycle, searchRecords)
         notifyDataSetChanged()
     }
 

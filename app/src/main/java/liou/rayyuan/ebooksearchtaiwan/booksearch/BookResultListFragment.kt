@@ -440,7 +440,9 @@ class BookResultListFragment :
                 bookSearchViewModel.searchRecordLiveData.observe(
                     viewLifecycleOwner
                 ) { searchRecords ->
-                    searchRecordsAdapter.addItems(searchRecords)
+                    if (searchRecords != null) {
+                        searchRecordsAdapter.addItems(viewLifecycleOwner.lifecycle, searchRecords)
+                    }
                 }
             }
             BookResultViewState.HideSearchRecordList -> {
