@@ -663,7 +663,7 @@ class BookResultListFragment :
         sendUserIntent(BookSearchUserIntent.ShowSearchSnapshot(searchId))
     }
 
-    fun onBackPressed(): Boolean {
+    fun backPressed(): Boolean {
         if (searchEditText.isFocused) {
             searchEditText.clearFocus()
             return true

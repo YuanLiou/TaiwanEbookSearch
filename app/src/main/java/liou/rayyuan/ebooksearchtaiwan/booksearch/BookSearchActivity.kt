@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.preference.PreferenceManager
 import com.google.zxing.client.android.Intents
@@ -55,6 +56,8 @@ class BookSearchActivity :
         } else {
             Router(supportFragmentManager, R.id.activity_book_search_nav_host_container)
         }
+
+        setupBackGesture()
 
         if (savedInstanceState == null) {
             val appLinkKeyword = deeplinkHelper.getSearchKeyword(intent)
@@ -177,6 +180,14 @@ class BookSearchActivity :
         super.onActivityResult(requestCode, resultCode, data)
     }
 
+    private fun setupBackGesture() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                backPressed()
+            }
+        })
+    }
+
     //region ChromeCustomTabsHelper.Fallback
     override fun openWithWebView(activity: Activity?, uri: Uri?) {
         val intent = Intent(Intent.ACTION_VIEW)
@@ -225,7 +236,7 @@ class BookSearchActivity :
         }
     }
 
-    override fun onBackPressed() {
+    private fun backPressed() {
         if (contentRouter.findTopFragment() is SimpleWebViewFragment) {
             val canGoBack = (contentRouter.findTopFragment() as SimpleWebViewFragment).goBack()
             if (canGoBack) {
@@ -234,14 +245,14 @@ class BookSearchActivity :
         }
 
         getBookResultFragment()?.let {
-            val isConsumed = it.onBackPressed()
+            val isConsumed = it.backPressed()
             if (isConsumed) {
                 return
             }
         }
 
         if (!contentRouter.backToPreviousFragment()) {
-            super.onBackPressed()
+            finish()
         }
     }
 

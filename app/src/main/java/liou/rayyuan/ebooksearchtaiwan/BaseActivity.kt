@@ -56,16 +56,4 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int) : AppCompatActivity
         return resources.configuration.uiMode and
                 Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
     }
-
-    protected fun logThemeChangedEvent(isDarkThemeEnabled: Boolean) {
-        val themeResult = if (isDarkThemeEnabled) {
-            "dark"
-        } else {
-            "light"
-        }
-
-        eventTracker.logEvent(EventTracker.USER_THEME_CHOSEN, Bundle().apply {
-            putString("theme", themeResult)
-        })
-    }
 }
