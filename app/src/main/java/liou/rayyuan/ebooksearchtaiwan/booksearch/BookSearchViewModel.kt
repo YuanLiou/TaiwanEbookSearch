@@ -22,7 +22,6 @@ import java.net.SocketTimeoutException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -39,7 +38,7 @@ import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import liou.rayyuan.ebooksearchtaiwan.utils.ResourceHelper
 import liou.rayyuan.ebooksearchtaiwan.view.ViewEffect
 import liou.rayyuan.ebooksearchtaiwan.view.getStringResource
-import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
+import liou.rayyuan.ebooksearchtaiwan.uimodel.BookUiModel
 
 /**
  * Created by louis383 on 2017/12/2.
@@ -311,7 +310,7 @@ class BookSearchViewModel(
                 )
 
                 adapterItems.addAll(
-                    books.map { BookViewModel(it) }
+                    books.map { BookUiModel(it) }
                 )
             }
 
@@ -321,14 +320,14 @@ class BookSearchViewModel(
     private fun generateBestItems(
         defaultSort: List<DefaultStoreNames>,
         bookItems: Map<DefaultStoreNames, BookResult>
-    ): List<BookViewModel> {
-        val bestItems = mutableListOf<BookViewModel>()
+    ): List<BookUiModel> {
+        val bestItems = mutableListOf<BookUiModel>()
         bookItems.forEach { (key, value) ->
             if (defaultSort.contains(key)) {
                 val book = value.books.firstOrNull()
                 book?.let { currentBook ->
                     currentBook.isFirstChoice = true
-                    bestItems.add(BookViewModel(currentBook))
+                    bestItems.add(BookUiModel(currentBook))
                 }
             }
         }

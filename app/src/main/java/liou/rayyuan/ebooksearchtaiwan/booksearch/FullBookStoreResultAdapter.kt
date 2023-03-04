@@ -1,5 +1,6 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +20,7 @@ import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
 import com.rayliu.commonmain.domain.model.Book
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookHeader
-import liou.rayyuan.ebooksearchtaiwan.viewmodel.BookViewModel
+import liou.rayyuan.ebooksearchtaiwan.uimodel.BookUiModel
 
 /**
  * Created by louis383 on 2018/1/7.
@@ -69,7 +70,7 @@ class FullBookStoreResultAdapter(
             is BookCardViewHolder -> {
                 val index: Int = (holder.absoluteAdapterPosition - 1)    // minus a position for header
                 if (index < items.size && index != RecyclerView.NO_POSITION) {
-                    val book = items[index] as BookViewModel
+                    val book = items[index] as BookUiModel
                     bindBook(holder, book)
                 }
             }
@@ -123,16 +124,16 @@ class FullBookStoreResultAdapter(
 
     private fun bindBook(
         holder: BookCardViewHolder,
-        bookViewModel: BookViewModel
+        uiModel: BookUiModel
     ) {
         with(holder) {
-            val shopName = bookViewModel.getShopName(holder.itemView.context)
+            val shopName = uiModel.getShopName(holder.itemView.context)
             setTextOnViewHolder(bookShopName, shopName)
-            setTextOnViewHolder(bookTitle, bookViewModel.getTitle())
-            setTextOnViewHolder(bookDescription, bookViewModel.getDescription())
-            setTextOnViewHolder(bookPrice, bookViewModel.getPrice())
+            setTextOnViewHolder(bookTitle, uiModel.getTitle())
+            setTextOnViewHolder(bookDescription, uiModel.getDescription())
+            setTextOnViewHolder(bookPrice, uiModel.getPrice())
 
-            bookImage.load(bookViewModel.getImage()) {
+            bookImage.load(uiModel.getImage()) {
                 lifecycle(lifecycleOwner)
                 crossfade(true)
                 placeholder(R.drawable.book_image_placeholder)
@@ -140,7 +141,7 @@ class FullBookStoreResultAdapter(
                 transformations(RoundedCornersTransformation(holder.getRoundedCornerValue()))
             }
 
-            val book = bookViewModel.book
+            val book = uiModel.book
             bookResultBody.setOnClickListener {
                 clickHandler?.onBookCardClicked(book)
             }
@@ -176,7 +177,7 @@ class FullBookStoreResultAdapter(
         val adapterItem = items[(position - 1)]    // minus a position for header
         if (adapterItem is BookHeader) {
             return storeTitle
-        } else if (adapterItem is BookViewModel) {
+        } else if (adapterItem is BookUiModel) {
             return bookItem
         }
         return super.getItemViewType(position)

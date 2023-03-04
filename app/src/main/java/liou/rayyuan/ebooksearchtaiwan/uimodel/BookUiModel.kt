@@ -1,4 +1,4 @@
-package liou.rayyuan.ebooksearchtaiwan.viewmodel
+package liou.rayyuan.ebooksearchtaiwan.uimodel
 
 import android.content.Context
 import com.rayliu.commonmain.domain.model.Book
@@ -9,14 +9,14 @@ import liou.rayyuan.ebooksearchtaiwan.view.getLocalizedName
 /**
  * Created by louis383 on 2017/12/4.
  */
-data class BookViewModel(val book: Book) : AdapterItem {
+data class BookUiModel(val book: Book) : AdapterItem {
 
     fun getTitle(): String {
-        return book.title
+        return book.title.removeSpaces()
     }
 
     fun getDescription(): String {
-        return book.about
+        return book.about.removeSpaces()
     }
 
     fun getImage(): String {
@@ -36,5 +36,11 @@ data class BookViewModel(val book: Book) : AdapterItem {
         DefaultStoreNames.values()
                 .find { enumValues -> enumValues == it }
                 ?.run { getLocalizedName(context)} ?: ""
+    }
+
+    private fun String.removeSpaces(): String {
+        return this.trim()
+            .replace("　", "")
+            .replace(" ", "")
     }
 }
