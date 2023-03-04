@@ -31,6 +31,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -67,6 +70,8 @@ class BookResultListFragment :
     IView<BookResultViewState> {
 
     companion object {
+        private const val BUNDLE_RECYCLERVIEW_STATE = "BUNDLE_RECYCLERVIEW_STATE"
+        private const val KEY_RECYCLERVIEW_POSITION = "KEY_RECYCLERVIEW_POSITION"
         fun newInstance(defaultKeyword: String?, defaultSnapshotSearchId: String?) =
             BookResultListFragment().apply {
                 this.defaultSearchKeyword = defaultKeyword.orEmpty()
@@ -75,9 +80,6 @@ class BookResultListFragment :
 
         const val TAG = "book-result-list-fragment"
     }
-
-    private val BUNDLE_RECYCLERVIEW_STATE: String = "BUNDLE_RECYCLERVIEW_STATE"
-    private val KEY_RECYCLERVIEW_POSITION: String = "KEY_RECYCLERVIEW_POSITION"
     private val bookSearchViewModel: BookSearchViewModel by viewModel()
 
     private val viewBinding: FragmentSearchListBinding by FragmentViewBinding(
@@ -109,17 +111,13 @@ class BookResultListFragment :
     private val searchRecordsAdapter = SearchRecordAdapter(this)
     //endregion
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val toolbar = viewBinding.searchViewToolbar
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
         bindViews(view)
         init()
+        setupOptionMenu()
 
         fullBookStoreResultsAdapter = FullBookStoreResultAdapter(this, this)
         resultsRecyclerView.adapter = fullBookStoreResultsAdapter
@@ -285,28 +283,34 @@ class BookResultListFragment :
         sendUserIntent(BookSearchUserIntent.SearchBook(keyword))
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.search_page, menu)
-        shareResultMenu = menu.findItem(R.id.search_page_menu_action_share).also {
-            it.setVisible(bookSearchViewModel.hasPreviousSearch)
-        }
-        super.onCreateOptionsMenu(menu, inflater)
-    }
+    private fun setupOptionMenu() {
+        (requireActivity() as? MenuHost)?.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.search_page, menu)
+            }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.search_page_menu_action_setting -> {
-                if (isAdded) {
-                    (requireActivity() as? BookSearchActivity)?.openPreferenceActivity()
+            override fun onPrepareMenu(menu: Menu) {
+                shareResultMenu = menu.findItem(R.id.search_page_menu_action_share).also {
+                    it.isVisible = bookSearchViewModel.hasPreviousSearch
                 }
-                true
             }
-            R.id.search_page_menu_action_share -> {
-                sendUserIntent(BookSearchUserIntent.ShareSnapshot)
-                true
+
+            override fun onMenuItemSelected(item: MenuItem): Boolean {
+                return when (item.itemId) {
+                    R.id.search_page_menu_action_setting -> {
+                        if (isAdded) {
+                            (requireActivity() as? BookSearchActivity)?.openPreferenceActivity()
+                        }
+                        true
+                    }
+                    R.id.search_page_menu_action_share -> {
+                        sendUserIntent(BookSearchUserIntent.ShareSnapshot)
+                        true
+                    }
+                    else -> true
+                }
             }
-            else -> true
-        }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     private fun loadAds() {
