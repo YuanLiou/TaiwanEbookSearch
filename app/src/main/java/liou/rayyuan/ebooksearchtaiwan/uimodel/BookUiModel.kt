@@ -39,7 +39,7 @@ data class BookUiModel(val book: Book) : AdapterItem {
                 ?.run { getLocalizedName(context)} ?: ""
     }
 
-    private val chineseCharacterPattern = Pattern.compile("([\\u4E00-\\u9FFF]|[：|？])\\s+([\\u4E00-\\u9FFF]|[：|？])")
+    private val chineseCharacterPattern = Pattern.compile("([\\u4E00-\\u9FFF]|([：？！]))\\s+([\\u4E00-\\u9FFF]|([：？！]))")
     private fun String.removeSpaces(): String {
         val trimmedString = this.trim()
         return chineseCharacterPattern.matcher(trimmedString).replaceAll("$1$2")
