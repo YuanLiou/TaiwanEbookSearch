@@ -3,6 +3,7 @@ package liou.rayyuan.ebooksearchtaiwan.uimodel
 import android.content.Context
 import com.rayliu.commonmain.domain.model.Book
 import com.rayliu.commonmain.data.DefaultStoreNames
+import java.util.regex.Pattern
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
 import liou.rayyuan.ebooksearchtaiwan.view.getLocalizedName
 
@@ -38,9 +39,9 @@ data class BookUiModel(val book: Book) : AdapterItem {
                 ?.run { getLocalizedName(context)} ?: ""
     }
 
+    private val chineseCharacterPattern = Pattern.compile("([\\u4E00-\\u9FFF]|[：|？])\\s+([\\u4E00-\\u9FFF]|[：|？])")
     private fun String.removeSpaces(): String {
-        return this.trim()
-            .replace("　", "")
-            .replace(" ", "")
+        val trimmedString = this.trim()
+        return chineseCharacterPattern.matcher(trimmedString).replaceAll("$1$2")
     }
 }
