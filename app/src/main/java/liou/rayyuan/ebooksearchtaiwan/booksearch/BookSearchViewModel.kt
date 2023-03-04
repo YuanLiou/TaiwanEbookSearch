@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.rayliu.commonmain.data.DefaultStoreNames
 import com.rayliu.commonmain.domain.Result
 import com.rayliu.commonmain.domain.SimpleResult
@@ -70,7 +71,7 @@ class BookSearchViewModel(
         get() = _screenViewState
 
     val searchRecordLiveData by lazy {
-        getSearchRecordsUseCase()
+        getSearchRecordsUseCase().cachedIn(viewModelScope)
     }
 
     private var networkJob: Job? = null

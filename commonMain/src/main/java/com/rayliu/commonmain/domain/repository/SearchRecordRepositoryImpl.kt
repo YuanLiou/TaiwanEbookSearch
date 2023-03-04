@@ -3,6 +3,10 @@ package com.rayliu.commonmain.domain.repository
 import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.rayliu.commonmain.data.dao.SearchRecordDao
 import com.rayliu.commonmain.data.dto.LocalSearchRecord
 import com.rayliu.commonmain.data.mapper.LocalSearchRecordMapper
@@ -19,18 +23,22 @@ class SearchRecordRepositoryImpl(
     val localSearchRecordMapper: LocalSearchRecordMapper,
     val searchRecordDao: SearchRecordDao
 ) : SearchRecordRepository {
-    override fun getPagingSearchRecordsFactory(): LiveData<PagedList<SearchRecord>> {
-        val factory = searchRecordDao.getSearchRecordsPaged().map {
-            searchRecordMapper.map(it)
-        }
-        val config = PagedList.Config.Builder()
-            .setEnablePlaceholders(true)
-            .setInitialLoadSizeHint(10)
-            .setPageSize(10)
-            .build()
 
-        val pagedListBuilder = LivePagedListBuilder<Int, SearchRecord>(factory, config)
-        return pagedListBuilder.build()
+    private val pageSize = 10
+
+    override fun getPagingSearchRecordsFactory(): LiveData<PagingData<SearchRecord>> {
+        val pager = Pager(
+            config = PagingConfig(
+                pageSize = pageSize,
+                initialLoadSize = pageSize,
+                enablePlaceholders = true
+            ),
+            pagingSourceFactory = searchRecordDao.getSearchRecordsPaged().map {
+                searchRecordMapper.map(it)
+            }.asPagingSourceFactory()
+
+        )
+        return pager.liveData
     }
 
     override suspend fun getSearchRecordsCounts(): SimpleResult<Int> = withContext(Dispatchers.IO) {
