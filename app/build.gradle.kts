@@ -37,6 +37,7 @@ android {
         versionCode = AppSettings.VERSION_CODE
         versionName = rootProject.extra.get("app_version").toString()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        resourceConfigurations += listOf("en", "zh-rTW", "zh-rCN")
 
         javaCompileOptions {
             annotationProcessorOptions {
