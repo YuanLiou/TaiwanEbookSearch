@@ -31,7 +31,7 @@ import org.koin.android.ext.android.inject
 class BookSearchActivity :
     BaseActivity(R.layout.activity_book_search),
     ChromeCustomTabsHelper.Fallback,
-    SimpleWebViewFragment.OnSimpleWebviewActionListener {
+    SimpleWebViewFragment.OnSimpleWebViewActionListener {
 
     private val KEY_LAST_FRAGMENT_TAG = "key-last-fragment-tag"
     private val scanningBarcodeRequestCode = 1002
@@ -76,7 +76,7 @@ class BookSearchActivity :
             if (savedInstanceState.getString(KEY_LAST_FRAGMENT_TAG) != null) {
                 val lastFragmentTag = savedInstanceState.getString(KEY_LAST_FRAGMENT_TAG) ?: return
                 val lastFragment = contentRouter.findFragmentByTag(lastFragmentTag)
-                (lastFragment as? SimpleWebViewFragment)?.onSimpleWebviewActionListener = this
+                (lastFragment as? SimpleWebViewFragment)?.onSimpleWebViewActionListener = this
             }
         }
     }
@@ -227,12 +227,9 @@ class BookSearchActivity :
             )
         } else {
             val isTablet = quickChecker.isTabletSize()
-            val resultFragment = contentRouter.findFragmentByTag(SimpleWebViewFragment.TAG) as? SimpleWebViewFragment
-            resultFragment?.loadBookResult(book) ?: run {
-                val webViewFragment = SimpleWebViewFragment.newInstance(book, !isTablet)
-                webViewFragment.onSimpleWebviewActionListener = this
-                contentRouter.addView(webViewFragment, SimpleWebViewFragment.TAG, true)
-            }
+            val webViewFragment = SimpleWebViewFragment.newInstance(book, !isTablet)
+            webViewFragment.onSimpleWebViewActionListener = this
+            contentRouter.addView(webViewFragment, SimpleWebViewFragment.TAG + book.id, true)
         }
     }
 

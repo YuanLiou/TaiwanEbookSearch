@@ -48,7 +48,7 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int) : AppCompatActivity
         return shouldFollowSystemTheme != isOpenWithFollowSystemTheme
     }
 
-    fun isSystemInNightMode(): Boolean {
+    private fun isSystemInNightMode(): Boolean {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
             return false
         }
