@@ -43,7 +43,7 @@ class PreferenceSettingsActivity : BaseActivity(R.layout.activity_preference), P
         item.run {
             return when (this.itemId) {
                 android.R.id.home -> {
-                    onBackPressed()
+                    onBackPressedDispatcher.onBackPressed()
                     true
                 }
                 else -> super.onOptionsItemSelected(this)

@@ -284,7 +284,7 @@ class BookResultListFragment :
     }
 
     private fun setupOptionMenu() {
-        (requireActivity() as? MenuHost)?.addMenuProvider(object : MenuProvider {
+        (activity as? MenuHost)?.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.search_page, menu)
             }
