@@ -4,29 +4,28 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.text.TextUtils
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.appcompat.widget.ShareActionProvider
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import androidx.core.view.MenuItemCompat
 import com.google.android.material.appbar.MaterialToolbar
 import liou.rayyuan.ebooksearchtaiwan.BaseFragment
 import liou.rayyuan.ebooksearchtaiwan.R
-import liou.rayyuan.ebooksearchtaiwan.booksearch.BookView
 import liou.rayyuan.ebooksearchtaiwan.databinding.FragmentSimpleWebviewBinding
 import com.rayliu.commonmain.domain.model.Book
+import liou.rayyuan.ebooksearchtaiwan.uimodel.BookUiModel
+import liou.rayyuan.ebooksearchtaiwan.uimodel.asUiModel
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
 
 class SimpleWebViewFragment: BaseFragment(R.layout.fragment_simple_webview), Toolbar.OnMenuItemClickListener {
     companion object {
         const val TAG = "SimpleWebViewFragment"
+        private const val KEY_BOOK = "key-book"
+        private const val KEY_SHOW_CLOSE_BUTTON = "key-show-close-button"
         fun newInstance(book: Book, showCloseButton: Boolean): SimpleWebViewFragment {
             return SimpleWebViewFragment().apply {
                 this.book = book
@@ -35,15 +34,12 @@ class SimpleWebViewFragment: BaseFragment(R.layout.fragment_simple_webview), Too
         }
     }
 
-    private val KEY_BOOK = "key-book"
-    private val KEY_SHOW_CLOSE_BUTTON = "key-show-close-button"
     private val viewBinding: FragmentSimpleWebviewBinding by FragmentViewBinding(FragmentSimpleWebviewBinding::bind)
     private var book by FragmentArgumentsDelegate<Book>()
     private var showCloseButton by FragmentArgumentsDelegate<Boolean>()
-    private val bookHistory = mutableListOf<Book>()
     private val customWebViewClient = CustomWebViewClient()
 
-    var onSimpleWebviewActionListener: OnSimpleWebviewActionListener? = null
+    var onSimpleWebViewActionListener: OnSimpleWebViewActionListener? = null
     private lateinit var toolbar: MaterialToolbar
     private lateinit var webView: WebView
 
@@ -76,8 +72,7 @@ class SimpleWebViewFragment: BaseFragment(R.layout.fragment_simple_webview), Too
                 toolbar.setNavigationIconTint(ContextCompat.getColor(requireContext(), R.color.darker_gray_3B))
             }
         }
-        bookHistory.add(book)
-        setBookInfo(book)
+        setBookInfo(book.asUiModel())
         initWebView()
         if (savedInstanceState != null) {
             webView.restoreState(savedInstanceState)
@@ -87,7 +82,7 @@ class SimpleWebViewFragment: BaseFragment(R.layout.fragment_simple_webview), Too
     }
 
     override fun onDestroy() {
-        onSimpleWebviewActionListener = null
+        onSimpleWebViewActionListener = null
         super.onDestroy()
     }
 
@@ -108,22 +103,11 @@ class SimpleWebViewFragment: BaseFragment(R.layout.fragment_simple_webview), Too
         webView.webViewClient = customWebViewClient
     }
 
-    private fun setBookInfo(book: Book) {
-        toolbar.title = book.title
-        val bookView = BookView(book)
-        val authorText = bookView.getAuthors(requireContext())
-        if (!TextUtils.isEmpty(authorText)) {
+    private fun setBookInfo(uiModel: BookUiModel) {
+        toolbar.title = uiModel.getTitle()
+        val authorText = uiModel.getAuthors(requireContext())
+        if (!authorText.isNullOrEmpty()) {
             toolbar.subtitle = authorText
-        }
-    }
-
-    fun loadBookResult(book: Book) {
-        if (isAdded) {
-            this.book = book
-            bookHistory.add(book)
-            setBookInfo(book)
-            customWebViewClient.cleanHistory()
-            webView.loadUrl(book.link)
         }
     }
 
@@ -164,14 +148,12 @@ class SimpleWebViewFragment: BaseFragment(R.layout.fragment_simple_webview), Too
     }
 
     fun goBack(): Boolean {
-        if (this::webView.isInitialized && webView.canGoBack()) {
-            webView.goBack()
+        if (!this::webView.isInitialized) {
+            return false
+        }
 
-            Log.i("SimpleWebViewFragment", "Book History Size = ${bookHistory.size}")
-            if (bookHistory.size > 1) {
-                bookHistory.removeAt(bookHistory.lastIndex)
-                setBookInfo(bookHistory.last())
-            }
+        if (webView.canGoBack()) {
+            webView.goBack()
             return true
         }
         return false
@@ -179,7 +161,7 @@ class SimpleWebViewFragment: BaseFragment(R.layout.fragment_simple_webview), Too
 
     //region View.OnClickListener
     private fun onCloseButtonClick() {
-        onSimpleWebviewActionListener?.onSimpleWebViewClose(tag ?: javaClass.simpleName)
+        onSimpleWebViewActionListener?.onSimpleWebViewClose(tag ?: javaClass.simpleName)
     }
     //endregion
 
@@ -200,14 +182,13 @@ class SimpleWebViewFragment: BaseFragment(R.layout.fragment_simple_webview), Too
                 if (cleanHistory) {
                     cleanHistory = false
                     contentView.clearHistory()
-                    bookHistory.clear()
                 }
                 progressBarView.visibility = View.GONE
             }
         }
     }
 
-    interface OnSimpleWebviewActionListener {
+    interface OnSimpleWebViewActionListener {
         fun onSimpleWebViewClose(tag: String)
     }
 }

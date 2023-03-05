@@ -19,8 +19,14 @@ class Router(private val fragmentManager: FragmentManager,
             return
         }
 
-        val transaction = fragmentManager.beginTransaction()
+        if (!tag.isNullOrEmpty()) {
+            val targetFragment = findFragmentByTag(tag)
+            if (targetFragment != null) {
+                return
+            }
+        }
 
+        val transaction = fragmentManager.beginTransaction()
         val duplicateFragment = findFragmentByTag(fragment.tag ?: fragment.javaClass.simpleName)
         if (duplicateFragment != null) {
             transaction.attach(duplicateFragment)

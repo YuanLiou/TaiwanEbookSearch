@@ -4,6 +4,7 @@ import android.content.Context
 import com.rayliu.commonmain.domain.model.Book
 import com.rayliu.commonmain.data.DefaultStoreNames
 import java.util.regex.Pattern
+import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
 import liou.rayyuan.ebooksearchtaiwan.view.getLocalizedName
 
@@ -39,9 +40,22 @@ data class BookUiModel(val book: Book) : AdapterItem {
                 ?.run { getLocalizedName(context)} ?: ""
     }
 
+    fun getAuthors(context: Context): String? {
+        val counts = book.authors?.size ?: 0
+        if (counts > 0) {
+            val result = book.authors?.joinToString(", ")
+            if (result != null) {
+                return context.resources.getQuantityString(R.plurals.title_authors, counts, result)
+            }
+        }
+        return null
+    }
+
     private val chineseCharacterPattern = Pattern.compile("([\\u4E00-\\u9FFF]|([：？！]))\\s+([\\u4E00-\\u9FFF]|([：？！]))")
     private fun String.removeSpaces(): String {
         val trimmedString = this.trim()
         return chineseCharacterPattern.matcher(trimmedString).replaceAll("$1$2")
     }
 }
+
+internal fun Book.asUiModel() = BookUiModel(this)

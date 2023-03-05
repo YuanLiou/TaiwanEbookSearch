@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.preference.PreferenceManager
 import com.google.zxing.client.android.Intents
@@ -30,7 +31,7 @@ import org.koin.android.ext.android.inject
 class BookSearchActivity :
     BaseActivity(R.layout.activity_book_search),
     ChromeCustomTabsHelper.Fallback,
-    SimpleWebViewFragment.OnSimpleWebviewActionListener {
+    SimpleWebViewFragment.OnSimpleWebViewActionListener {
 
     private val KEY_LAST_FRAGMENT_TAG = "key-last-fragment-tag"
     private val scanningBarcodeRequestCode = 1002
@@ -56,6 +57,8 @@ class BookSearchActivity :
             Router(supportFragmentManager, R.id.activity_book_search_nav_host_container)
         }
 
+        setupBackGesture()
+
         if (savedInstanceState == null) {
             val appLinkKeyword = deeplinkHelper.getSearchKeyword(intent)
             val appLinkSnapshotSearchId = deeplinkHelper.getSearchId(intent)
@@ -73,7 +76,7 @@ class BookSearchActivity :
             if (savedInstanceState.getString(KEY_LAST_FRAGMENT_TAG) != null) {
                 val lastFragmentTag = savedInstanceState.getString(KEY_LAST_FRAGMENT_TAG) ?: return
                 val lastFragment = contentRouter.findFragmentByTag(lastFragmentTag)
-                (lastFragment as? SimpleWebViewFragment)?.onSimpleWebviewActionListener = this
+                (lastFragment as? SimpleWebViewFragment)?.onSimpleWebViewActionListener = this
             }
         }
     }
@@ -177,6 +180,14 @@ class BookSearchActivity :
         super.onActivityResult(requestCode, resultCode, data)
     }
 
+    private fun setupBackGesture() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                backPressed()
+            }
+        })
+    }
+
     //region ChromeCustomTabsHelper.Fallback
     override fun openWithWebView(activity: Activity?, uri: Uri?) {
         val intent = Intent(Intent.ACTION_VIEW)
@@ -216,16 +227,13 @@ class BookSearchActivity :
             )
         } else {
             val isTablet = quickChecker.isTabletSize()
-            val resultFragment = contentRouter.findFragmentByTag(SimpleWebViewFragment.TAG) as? SimpleWebViewFragment
-            resultFragment?.loadBookResult(book) ?: run {
-                val webViewFragment = SimpleWebViewFragment.newInstance(book, !isTablet)
-                webViewFragment.onSimpleWebviewActionListener = this
-                contentRouter.addView(webViewFragment, SimpleWebViewFragment.TAG, true)
-            }
+            val webViewFragment = SimpleWebViewFragment.newInstance(book, !isTablet)
+            webViewFragment.onSimpleWebViewActionListener = this
+            contentRouter.addView(webViewFragment, SimpleWebViewFragment.TAG + book.id, true)
         }
     }
 
-    override fun onBackPressed() {
+    private fun backPressed() {
         if (contentRouter.findTopFragment() is SimpleWebViewFragment) {
             val canGoBack = (contentRouter.findTopFragment() as SimpleWebViewFragment).goBack()
             if (canGoBack) {
@@ -234,14 +242,14 @@ class BookSearchActivity :
         }
 
         getBookResultFragment()?.let {
-            val isConsumed = it.onBackPressed()
+            val isConsumed = it.backPressed()
             if (isConsumed) {
                 return
             }
         }
 
         if (!contentRouter.backToPreviousFragment()) {
-            super.onBackPressed()
+            finish()
         }
     }
 

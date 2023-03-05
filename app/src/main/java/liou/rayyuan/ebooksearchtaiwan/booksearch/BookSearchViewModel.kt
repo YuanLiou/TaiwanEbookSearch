@@ -40,6 +40,7 @@ import liou.rayyuan.ebooksearchtaiwan.utils.ResourceHelper
 import liou.rayyuan.ebooksearchtaiwan.view.ViewEffect
 import liou.rayyuan.ebooksearchtaiwan.view.getStringResource
 import liou.rayyuan.ebooksearchtaiwan.uimodel.BookUiModel
+import liou.rayyuan.ebooksearchtaiwan.uimodel.asUiModel
 
 /**
  * Created by louis383 on 2017/12/2.
@@ -311,7 +312,7 @@ class BookSearchViewModel(
                 )
 
                 adapterItems.addAll(
-                    books.map { BookUiModel(it) }
+                    books.map { it.asUiModel() }
                 )
             }
 
@@ -328,7 +329,7 @@ class BookSearchViewModel(
                 val book = value.books.firstOrNull()
                 book?.let { currentBook ->
                     currentBook.isFirstChoice = true
-                    bestItems.add(BookUiModel(currentBook))
+                    bestItems.add(currentBook.asUiModel())
                 }
             }
         }
