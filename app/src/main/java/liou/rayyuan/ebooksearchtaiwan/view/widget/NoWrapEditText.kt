@@ -1,9 +1,7 @@
 package liou.rayyuan.ebooksearchtaiwan.view.widget
 
 import android.content.Context
-import android.text.TextUtils
 import android.util.AttributeSet
-import androidx.appcompat.widget.AppCompatEditText
 import com.google.android.material.textfield.TextInputEditText
 
 class NoWrapEditText(context: Context, attrs: AttributeSet): TextInputEditText(context, attrs) {
@@ -22,7 +20,7 @@ class NoWrapEditText(context: Context, attrs: AttributeSet): TextInputEditText(c
     }
 
     private fun cleanAllWrapSigns() {
-        if (TextUtils.isEmpty(text)) {
+        if (text.isNullOrEmpty()) {
             return
         }
 
