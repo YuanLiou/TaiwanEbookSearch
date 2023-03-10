@@ -132,10 +132,7 @@ dependencies {
     implementation(AppDependencies.Koin.ANDROID)
 
     // Zxing
-    implementation(AppDependencies.Zxing.ZXING_ANDROID) {
-        isTransitive = false
-    }
-    implementation(AppDependencies.Zxing.ZXING_CORE)
+    implementation(AppDependencies.Zxing.ZXING_ANDROID)
 
     // Coil
     implementation(AppDependencies.COIL)

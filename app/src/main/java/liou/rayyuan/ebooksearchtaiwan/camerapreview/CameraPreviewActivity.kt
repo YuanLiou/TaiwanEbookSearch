@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.View
 import android.widget.TextView
-import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -28,7 +27,7 @@ class CameraPreviewActivity : AppCompatActivity() {
     private val cameraPermissionRequestCode = 1001
 
     private lateinit var captureManager: CaptureManager
-    private lateinit var manualEnablePermissionsResult: ActivityResultLauncher<Intent>
+    private lateinit var manualEnablePermissionsLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +47,7 @@ class CameraPreviewActivity : AppCompatActivity() {
             startDecodeBarcode(savedInstanceState)
         }
 
-        manualEnablePermissionsResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        manualEnablePermissionsLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (shouldRequestCameraPermission()) {
                 requestCameraPermission()
             } else {
@@ -127,7 +126,7 @@ class CameraPreviewActivity : AppCompatActivity() {
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
         val uri = Uri.fromParts("package", packageName, null)
         intent.data = uri
-        manualEnablePermissionsResult.launch(intent)
+        manualEnablePermissionsLauncher.launch(intent)
     }
 
     private fun shouldRequestCameraPermission(): Boolean =

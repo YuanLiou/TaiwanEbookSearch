@@ -13,7 +13,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.preference.PreferenceManager
 import com.google.zxing.client.android.Intents
-import com.google.zxing.integration.android.IntentIntegrator
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanOptions
 import com.rayliu.commonmain.domain.model.Book
 import liou.rayyuan.chromecustomtabhelper.ChromeCustomTabsHelper
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
@@ -44,7 +45,8 @@ class BookSearchActivity :
     private lateinit var contentRouter: Router
     private lateinit var chromeCustomTabHelper: ChromeCustomTabsHelper
 
-    private lateinit var themeChangedResult: ActivityResultLauncher<Intent>
+    private lateinit var barcodeScanningLauncher: ActivityResultLauncher<ScanOptions>
+    private lateinit var changeThemeLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +63,7 @@ class BookSearchActivity :
         }
 
         setupBackGesture()
-        setupIntentCallbacks()
+        setupLauncherCallbacks()
 
         if (savedInstanceState == null) {
             val appLinkKeyword = deeplinkHelper.getSearchKeyword(intent)
@@ -85,8 +87,21 @@ class BookSearchActivity :
         }
     }
 
-    private fun setupIntentCallbacks() {
-        themeChangedResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+    private fun setupLauncherCallbacks() {
+        barcodeScanningLauncher = registerForActivityResult(ScanContract()) { result ->
+            if (result.contents == null) {
+                val originalIntent = result.originalIntent
+                if (originalIntent?.hasExtra(Intents.Scan.MISSING_CAMERA_PERMISSION) == true) {
+                    showToastMessage(R.string.permission_required_camera)
+                }
+            } else {
+                val resultText = result.contents
+                val bookResultFragment = getBookResultFragment()
+                bookResultFragment?.searchWithText(resultText)
+            }
+        }
+
+        changeThemeLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (isThemeChanged() || isStartToFollowSystemTheme()) {
                 recreate()
             }
@@ -168,25 +183,6 @@ class BookSearchActivity :
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when (requestCode) {
-            scanningBarcodeRequestCode -> {
-                val result = IntentIntegrator.parseActivityResult(resultCode, data)
-                if (result.contents == null) {
-                    val originalIntent = result.originalIntent
-                    if (originalIntent?.hasExtra(Intents.Scan.MISSING_CAMERA_PERMISSION) == true) {
-                        showToastMessage(R.string.permission_required_camera)
-                    }
-                } else {
-                    val resultText = result.contents
-                    val bookResultFragment = getBookResultFragment()
-                    bookResultFragment?.searchWithText(resultText)
-                }
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data)
-    }
-
     private fun setupBackGesture() {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -210,17 +206,16 @@ class BookSearchActivity :
     }
 
     internal fun openCameraPreviewActivity() {
-        IntentIntegrator(this)
+        val scanOptions = ScanOptions()
             .setOrientationLocked(false)
-            .setDesiredBarcodeFormats(IntentIntegrator.EAN_13)
-            .setRequestCode(scanningBarcodeRequestCode)
+            .setDesiredBarcodeFormats(ScanOptions.EAN_13)
             .setCaptureActivity(CameraPreviewActivity::class.java)
-            .initiateScan()
+        barcodeScanningLauncher.launch(scanOptions)
     }
 
     internal fun openPreferenceActivity() {
         val intent = Intent(this, PreferenceSettingsActivity::class.java)
-        themeChangedResult.launch(intent)
+        changeThemeLauncher.launch(intent)
     }
 
     internal fun openBookLink(book: Book) {
