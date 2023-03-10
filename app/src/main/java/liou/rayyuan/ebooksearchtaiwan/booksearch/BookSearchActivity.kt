@@ -8,6 +8,8 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.preference.PreferenceManager
 import com.google.zxing.client.android.Intents
@@ -35,13 +37,14 @@ class BookSearchActivity :
 
     private val KEY_LAST_FRAGMENT_TAG = "key-last-fragment-tag"
     private val scanningBarcodeRequestCode = 1002
-    private val preferenceSettingsRequestCode = 1003
 
     private val quickChecker: QuickChecker by inject()
     private val deeplinkHelper = DeeplinkHelper()
     private var isDualPane: Boolean = false
     private lateinit var contentRouter: Router
     private lateinit var chromeCustomTabHelper: ChromeCustomTabsHelper
+
+    private lateinit var themeChangedResult: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +61,7 @@ class BookSearchActivity :
         }
 
         setupBackGesture()
+        setupIntentCallbacks()
 
         if (savedInstanceState == null) {
             val appLinkKeyword = deeplinkHelper.getSearchKeyword(intent)
@@ -78,6 +82,15 @@ class BookSearchActivity :
                 val lastFragment = contentRouter.findFragmentByTag(lastFragmentTag)
                 (lastFragment as? SimpleWebViewFragment)?.onSimpleWebViewActionListener = this
             }
+        }
+    }
+
+    private fun setupIntentCallbacks() {
+        themeChangedResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (isThemeChanged() || isStartToFollowSystemTheme()) {
+                recreate()
+            }
+            getBookResultFragment()?.toggleSearchRecordView(false)
         }
     }
 
@@ -170,12 +183,6 @@ class BookSearchActivity :
                     bookResultFragment?.searchWithText(resultText)
                 }
             }
-            preferenceSettingsRequestCode -> {
-                if (isThemeChanged() || isStartToFollowSystemTheme()) {
-                    recreate()
-                }
-                getBookResultFragment()?.toggleSearchRecordView(false)
-            }
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
@@ -213,7 +220,7 @@ class BookSearchActivity :
 
     internal fun openPreferenceActivity() {
         val intent = Intent(this, PreferenceSettingsActivity::class.java)
-        startActivityForResult(intent, preferenceSettingsRequestCode)
+        themeChangedResult.launch(intent)
     }
 
     internal fun openBookLink(book: Book) {
