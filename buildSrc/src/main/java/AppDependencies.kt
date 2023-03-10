@@ -78,8 +78,7 @@ object AppDependencies {
     }
 
     object Zxing {
-        const val ZXING_CORE = "com.google.zxing:core:3.3.0"
-        const val ZXING_ANDROID = "com.journeyapps:zxing-android-embedded:4.1.0"
+        const val ZXING_ANDROID = "com.journeyapps:zxing-android-embedded:4.3.0"
     }
 
     object Test {

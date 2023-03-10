@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.View
 import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -23,9 +25,9 @@ class CameraPreviewActivity : AppCompatActivity() {
     private val authText: TextView by bindView(R.id.activity_camera_preview_auth_text)
 
     private val cameraPermissionRequestCode = 1001
-    private val cameraPermissionManuallyEnable = 1002
 
     private lateinit var captureManager: CaptureManager
+    private lateinit var manualEnablePermissionsLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +45,14 @@ class CameraPreviewActivity : AppCompatActivity() {
             statusText.text = getString(R.string.camera_permission_waiting)
         } else {
             startDecodeBarcode(savedInstanceState)
+        }
+
+        manualEnablePermissionsLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (shouldRequestCameraPermission()) {
+                requestCameraPermission()
+            } else {
+                readyToShowCameraView()
+            }
         }
     }
 
@@ -71,19 +81,6 @@ class CameraPreviewActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         captureManager.onSaveInstanceState(outState)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when (requestCode) {
-            cameraPermissionManuallyEnable -> {
-                if (shouldRequestCameraPermission()) {
-                    requestCameraPermission()
-                } else {
-                    readyToShowCameraView()
-                }
-            }
-            else -> super.onActivityResult(requestCode, resultCode, data)
-        }
     }
 
     private fun requestCameraPermission() {
@@ -129,7 +126,7 @@ class CameraPreviewActivity : AppCompatActivity() {
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
         val uri = Uri.fromParts("package", packageName, null)
         intent.data = uri
-        startActivityForResult(intent, cameraPermissionManuallyEnable)
+        manualEnablePermissionsLauncher.launch(intent)
     }
 
     private fun shouldRequestCameraPermission(): Boolean =
