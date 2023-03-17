@@ -1,8 +1,6 @@
 package com.rayliu.commonmain.domain.repository
 
 import androidx.lifecycle.LiveData
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -19,9 +17,9 @@ import kotlinx.coroutines.withContext
 import java.time.OffsetDateTime
 
 class SearchRecordRepositoryImpl(
-    val searchRecordMapper: SearchRecordMapper,
-    val localSearchRecordMapper: LocalSearchRecordMapper,
-    val searchRecordDao: SearchRecordDao
+    private val searchRecordMapper: SearchRecordMapper,
+    private val localSearchRecordMapper: LocalSearchRecordMapper,
+    private val searchRecordDao: SearchRecordDao
 ) : SearchRecordRepository {
 
     private val pageSize = 10
