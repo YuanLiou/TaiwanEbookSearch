@@ -1,6 +1,6 @@
 package com.rayliu.commonmain.domain.usecase
 
-import com.rayliu.commonmain.domain.Result
+import com.rayliu.commonmain.domain.TaskResult
 import com.rayliu.commonmain.domain.SimpleResult
 import com.rayliu.commonmain.domain.model.BookStores
 import com.rayliu.commonmain.domain.repository.BookRepository
@@ -14,14 +14,14 @@ class GetSearchSnapshotUseCase(
     suspend operator fun invoke(searchId: String): SimpleResult<BookStores> {
         val result = bookRepository.getSearchSnapshot(searchId)
         return when (result) {
-            is Result.Success -> {
+            is TaskResult.Success -> {
                 val keyword = result.value.searchKeyword
                 if (keyword.isNotEmpty()) {
                     saveKeyword(keyword)
                 }
-                Result.Success(result.value)
+                TaskResult.Success(result.value)
             }
-            is Result.Failed -> Result.Failed(result.error)
+            is TaskResult.Failed -> TaskResult.Failed(result.error)
         }
     }
 

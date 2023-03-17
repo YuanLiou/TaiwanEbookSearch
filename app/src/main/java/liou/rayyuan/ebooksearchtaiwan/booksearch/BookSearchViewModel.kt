@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.rayliu.commonmain.data.DefaultStoreNames
-import com.rayliu.commonmain.domain.Result
+import com.rayliu.commonmain.domain.TaskResult
 import com.rayliu.commonmain.domain.SimpleResult
 import com.rayliu.commonmain.domain.model.BookResult
 import com.rayliu.commonmain.domain.model.BookStores
@@ -214,10 +214,10 @@ class BookSearchViewModel(
             val response = action.invoke()
             withContext(Dispatchers.Main) {
                 when (response) {
-                    is Result.Success -> {
+                    is TaskResult.Success -> {
                         networkRequestSuccess(response.value)
                     }
-                    is Result.Failed -> {
+                    is TaskResult.Failed -> {
                         // ServerResponseException == internal server error
                         // ClientRequestException == response.status.value to get response code
                         // RedirectResponseException
@@ -348,11 +348,6 @@ class BookSearchViewModel(
             val targetUrl = resourceHelper.getString(R.string.ebook_snapshot_url, searchId)
             updateScreen(BookResultViewState.ShareCurrentPageSnapshot(targetUrl))
         }
-    }
-
-    // FIXME:: reimplement this event
-    fun logISBNScanningSucceed() {
-        eventTracker.logEvent(EventTracker.SCANNED_ISBN)
     }
 
     private fun isRequestingBookData(): Boolean {

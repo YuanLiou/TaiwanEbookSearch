@@ -1,6 +1,6 @@
 package com.rayliu.commonmain.domain.usecase
 
-import com.rayliu.commonmain.domain.Result
+import com.rayliu.commonmain.domain.TaskResult
 import com.rayliu.commonmain.domain.SimpleResult
 import com.rayliu.commonmain.domain.model.BookStores
 import com.rayliu.commonmain.domain.repository.BookRepository
@@ -16,8 +16,8 @@ class GetBooksWithStoresUseCase(
         saveKeyword(keyword)
         val result = bookRepository.getBooksWithStores(bookStores, keyword)
         return when (result) {
-            is Result.Success -> Result.Success(result.value)
-            is Result.Failed -> Result.Failed(result.error)
+            is TaskResult.Success -> TaskResult.Success(result.value)
+            is TaskResult.Failed -> TaskResult.Failed(result.error)
         }
     }
 

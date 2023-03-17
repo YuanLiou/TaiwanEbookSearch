@@ -9,7 +9,7 @@ import com.rayliu.commonmain.Utils
 import com.rayliu.commonmain.data.api.BookSearchService
 import com.rayliu.commonmain.data.dto.NetworkCrawerResult
 import com.rayliu.commonmain.data.mapper.BookStoresMapper
-import com.rayliu.commonmain.domain.Result
+import com.rayliu.commonmain.domain.TaskResult
 import com.rayliu.commonmain.domain.SimpleResult
 import com.rayliu.commonmain.domain.model.BookStores
 import com.rayliu.commonmain.data.DefaultStoreNames
@@ -30,9 +30,9 @@ class BookRepositoryImpl(
     override suspend fun getBooks(keyword: String): SimpleResult<BookStores> {
         return try {
             val response = bookSearchService.postBooks(keyword)
-            Result.Success(mapBookStores(response))
+            TaskResult.Success(mapBookStores(response))
         } catch (exception: Exception) {
-            Result.Failed(BookResultException("Response is failed, exception is $exception", exception))
+            TaskResult.Failed(BookResultException("Response is failed, exception is $exception", exception))
         }
     }
 
@@ -43,9 +43,9 @@ class BookRepositoryImpl(
         val storeStringList = stores.map { it.defaultName }
         return try {
             val response = bookSearchService.postBooks(storeStringList, keyword)
-            Result.Success(mapBookStores(response))
+            TaskResult.Success(mapBookStores(response))
         } catch (exception: Exception) {
-            Result.Failed(BookResultException("Response is failed, exception is $exception", exception))
+            TaskResult.Failed(BookResultException("Response is failed, exception is $exception", exception))
         }
     }
 
@@ -89,9 +89,9 @@ class BookRepositoryImpl(
     override suspend fun getSearchSnapshot(searchId: String): SimpleResult<BookStores> {
         return try {
             val response = bookSearchService.getSearchSnapshot(searchId)
-            Result.Success(mapBookStores(response))
+            TaskResult.Success(mapBookStores(response))
         } catch (exception: Exception) {
-            Result.Failed(BookResultException("Response is failed, exception is $exception", exception))
+            TaskResult.Failed(BookResultException("Response is failed, exception is $exception", exception))
         }
     }
 

@@ -9,7 +9,7 @@ import com.rayliu.commonmain.data.dao.SearchRecordDao
 import com.rayliu.commonmain.data.dto.LocalSearchRecord
 import com.rayliu.commonmain.data.mapper.LocalSearchRecordMapper
 import com.rayliu.commonmain.data.mapper.SearchRecordMapper
-import com.rayliu.commonmain.domain.Result
+import com.rayliu.commonmain.domain.TaskResult
 import com.rayliu.commonmain.domain.SimpleResult
 import com.rayliu.commonmain.domain.model.SearchRecord
 import kotlinx.coroutines.Dispatchers
@@ -41,7 +41,7 @@ class SearchRecordRepositoryImpl(
 
     override suspend fun getSearchRecordsCounts(): SimpleResult<Int> = withContext(Dispatchers.IO) {
         val counts = searchRecordDao.getSearchRecordsCounts()
-        Result.Success(counts)
+        TaskResult.Success(counts)
     }
 
     override suspend fun saveKeywordToLocal(keyword: String) = withContext(Dispatchers.IO) {
