@@ -7,8 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.rayliu.commonmain.data.DefaultStoreNames
-import com.rayliu.commonmain.domain.TaskResult
-import com.rayliu.commonmain.domain.SimpleResult
 import com.rayliu.commonmain.domain.model.BookResult
 import com.rayliu.commonmain.domain.model.BookStores
 import com.rayliu.commonmain.domain.model.SearchRecord
@@ -159,14 +157,14 @@ class BookSearchViewModel(
         if (isFocus) {
             viewModelScope.launch {
                 getSearchRecordsCountsUseCase().fold(
-                    success = { recordCounts ->
+                    onSuccess = { recordCounts ->
                         if (recordCounts > 0) {
                             updateScreen(BookResultViewState.ShowSearchRecordList(recordCounts))
                         } else {
                             updateScreen(BookResultViewState.HideSearchRecordList)
                         }
                     },
-                    failure = {
+                    onFailure = {
                         updateScreen(BookResultViewState.HideSearchRecordList)
                     }
                 )
@@ -190,15 +188,15 @@ class BookSearchViewModel(
     }
 
     private inner class SearchBookAction(private val keyword: String) :
-        suspend () -> SimpleResult<BookStores> {
-        override suspend fun invoke(): SimpleResult<BookStores> {
+        suspend () -> Result<BookStores> {
+        override suspend fun invoke(): Result<BookStores> {
             this@BookSearchViewModel.previousKeyword = keyword
             val defaultSort = getDefaultBookSortUseCase().first()
             return getBooksWithStoresUseCase(defaultSort, keyword)
         }
     }
 
-    private fun fetchBookResult(action: suspend () -> SimpleResult<BookStores>) {
+    private fun fetchBookResult(action: suspend () -> Result<BookStores>) {
         if (!quickChecker.isInternetConnectionAvailable()) {
             sendViewEffect(ScreenState.NoInternetConnection)
             return
@@ -213,31 +211,31 @@ class BookSearchViewModel(
         networkJob = viewModelScope.launch(Dispatchers.IO) {
             val response = action.invoke()
             withContext(Dispatchers.Main) {
-                when (response) {
-                    is TaskResult.Success -> {
-                        networkRequestSuccess(response.value)
-                    }
-                    is TaskResult.Failed -> {
+                response.fold(
+                    onSuccess = {
+                        networkRequestSuccess(it)
+                    },
+                    onFailure = {
                         // ServerResponseException == internal server error
                         // ClientRequestException == response.status.value to get response code
                         // RedirectResponseException
                         this@BookSearchViewModel.previousKeyword = null
-                        if (response.error is SocketTimeoutException) {
+                        if (it is SocketTimeoutException) {
                             networkTimeout()
                         } else {
-                            val message = response.error.localizedMessage ?: GENERIC_NETWORK_ISSUE
+                            val message = it.localizedMessage ?: GENERIC_NETWORK_ISSUE
                             networkExceptionOccurred(message)
                         }
                     }
-                }
+                )
             }
         }
         updateScreen(BookResultViewState.HideSearchRecordList)
     }
 
     private inner class ShowSearchSnapshotAction(private val searchId: String) :
-        suspend () -> SimpleResult<BookStores> {
-        override suspend fun invoke(): SimpleResult<BookStores> {
+        suspend () -> Result<BookStores> {
+        override suspend fun invoke(): Result<BookStores> {
             this@BookSearchViewModel.previousKeyword = null
             return getSearchSnapshotUseCase(searchId)
         }

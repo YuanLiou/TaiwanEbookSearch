@@ -9,8 +9,6 @@ import com.rayliu.commonmain.data.dao.SearchRecordDao
 import com.rayliu.commonmain.data.dto.LocalSearchRecord
 import com.rayliu.commonmain.data.mapper.LocalSearchRecordMapper
 import com.rayliu.commonmain.data.mapper.SearchRecordMapper
-import com.rayliu.commonmain.domain.TaskResult
-import com.rayliu.commonmain.domain.SimpleResult
 import com.rayliu.commonmain.domain.model.SearchRecord
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -39,9 +37,8 @@ class SearchRecordRepositoryImpl(
         return pager.liveData
     }
 
-    override suspend fun getSearchRecordsCounts(): SimpleResult<Int> = withContext(Dispatchers.IO) {
-        val counts = searchRecordDao.getSearchRecordsCounts()
-        TaskResult.Success(counts)
+    override suspend fun getSearchRecordsCounts(): Result<Int> = withContext(Dispatchers.IO) {
+        runCatching { searchRecordDao.getSearchRecordsCounts() }
     }
 
     override suspend fun saveKeywordToLocal(keyword: String) = withContext(Dispatchers.IO) {
