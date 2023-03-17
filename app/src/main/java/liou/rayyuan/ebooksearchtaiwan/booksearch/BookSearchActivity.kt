@@ -37,7 +37,6 @@ class BookSearchActivity :
     SimpleWebViewFragment.OnSimpleWebViewActionListener {
 
     private val KEY_LAST_FRAGMENT_TAG = "key-last-fragment-tag"
-    private val scanningBarcodeRequestCode = 1002
 
     private val quickChecker: QuickChecker by inject()
     private val deeplinkHelper = DeeplinkHelper()

@@ -9,8 +9,6 @@ import com.rayliu.commonmain.Utils
 import com.rayliu.commonmain.data.api.BookSearchService
 import com.rayliu.commonmain.data.dto.NetworkCrawerResult
 import com.rayliu.commonmain.data.mapper.BookStoresMapper
-import com.rayliu.commonmain.domain.Result
-import com.rayliu.commonmain.domain.SimpleResult
 import com.rayliu.commonmain.domain.model.BookStores
 import com.rayliu.commonmain.data.DefaultStoreNames
 import kotlinx.coroutines.flow.Flow
@@ -27,25 +25,19 @@ class BookRepositoryImpl(
         private const val KEY_BOOK_STORE_SORT = "key-book-store-sort"
     }
 
-    override suspend fun getBooks(keyword: String): SimpleResult<BookStores> {
-        return try {
-            val response = bookSearchService.postBooks(keyword)
-            Result.Success(mapBookStores(response))
-        } catch (exception: Exception) {
-            Result.Failed(BookResultException("Response is failed, exception is $exception", exception))
+    override suspend fun getBooks(keyword: String): Result<BookStores> {
+        return runCatching {
+            mapBookStores(bookSearchService.postBooks(keyword))
         }
     }
 
     override suspend fun getBooksWithStores(
         stores: List<DefaultStoreNames>,
         keyword: String
-    ): SimpleResult<BookStores> {
+    ): Result<BookStores> {
         val storeStringList = stores.map { it.defaultName }
-        return try {
-            val response = bookSearchService.postBooks(storeStringList, keyword)
-            Result.Success(mapBookStores(response))
-        } catch (exception: Exception) {
-            Result.Failed(BookResultException("Response is failed, exception is $exception", exception))
+        return runCatching {
+            mapBookStores(bookSearchService.postBooks(storeStringList, keyword))
         }
     }
 
@@ -86,14 +78,9 @@ class BookRepositoryImpl(
         }
     }
 
-    override suspend fun getSearchSnapshot(searchId: String): SimpleResult<BookStores> {
-        return try {
-            val response = bookSearchService.getSearchSnapshot(searchId)
-            Result.Success(mapBookStores(response))
-        } catch (exception: Exception) {
-            Result.Failed(BookResultException("Response is failed, exception is $exception", exception))
+    override suspend fun getSearchSnapshot(searchId: String): Result<BookStores> {
+        return runCatching {
+            mapBookStores(bookSearchService.getSearchSnapshot(searchId))
         }
     }
-
-    class BookResultException(message: String, exception: Exception) : Throwable(message)
 }

@@ -1,8 +1,6 @@
 package com.rayliu.commonmain.domain.repository
 
 import androidx.lifecycle.LiveData
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -11,17 +9,15 @@ import com.rayliu.commonmain.data.dao.SearchRecordDao
 import com.rayliu.commonmain.data.dto.LocalSearchRecord
 import com.rayliu.commonmain.data.mapper.LocalSearchRecordMapper
 import com.rayliu.commonmain.data.mapper.SearchRecordMapper
-import com.rayliu.commonmain.domain.Result
-import com.rayliu.commonmain.domain.SimpleResult
 import com.rayliu.commonmain.domain.model.SearchRecord
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.OffsetDateTime
 
 class SearchRecordRepositoryImpl(
-    val searchRecordMapper: SearchRecordMapper,
-    val localSearchRecordMapper: LocalSearchRecordMapper,
-    val searchRecordDao: SearchRecordDao
+    private val searchRecordMapper: SearchRecordMapper,
+    private val localSearchRecordMapper: LocalSearchRecordMapper,
+    private val searchRecordDao: SearchRecordDao
 ) : SearchRecordRepository {
 
     private val pageSize = 10
@@ -41,9 +37,8 @@ class SearchRecordRepositoryImpl(
         return pager.liveData
     }
 
-    override suspend fun getSearchRecordsCounts(): SimpleResult<Int> = withContext(Dispatchers.IO) {
-        val counts = searchRecordDao.getSearchRecordsCounts()
-        Result.Success(counts)
+    override suspend fun getSearchRecordsCounts(): Result<Int> = withContext(Dispatchers.IO) {
+        runCatching { searchRecordDao.getSearchRecordsCounts() }
     }
 
     override suspend fun saveKeywordToLocal(keyword: String) = withContext(Dispatchers.IO) {
