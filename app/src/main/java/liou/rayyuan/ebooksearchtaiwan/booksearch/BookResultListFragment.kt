@@ -103,6 +103,7 @@ class BookResultListFragment :
     private val searchRecordsAdapter = SearchRecordAdapter(this)
     //endregion
 
+    private var hasUserSeenRankWindow = false
     private var openResultCounts = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -149,6 +150,10 @@ class BookResultListFragment :
         sendUserIntent(BookSearchUserIntent.OnViewReadyToServe)
         setupUI()
         handleInitialDeepLink()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            hasUserSeenRankWindow = bookSearchViewModel.checkUserHasSeenRankWindow()
+        }
     }
 
     private fun handleInitialDeepLink() {
@@ -497,6 +502,9 @@ class BookResultListFragment :
             is ScreenState.ShowUserRankingDialog -> {
                 viewLifecycleOwner.lifecycleScope.launch {
                     playStoreReviewHelper.showReviewDialog(requireActivity(), screenState.reviewInfo)
+                    // Reset counts and flags
+                    hasUserSeenRankWindow = true
+                    openResultCounts = 0
                 }
             }
         }
@@ -509,15 +517,35 @@ class BookResultListFragment :
     private fun openBook(book: Book) {
         if (isAdded) {
             (requireActivity() as? BookSearchActivity)?.openBookLink(book)
-            prepareRankWindow()
+            if (!hasUserSeenRankWindow) {
+                openResultCounts++
+            }
         }
     }
 
-    private fun prepareRankWindow() {
-        openResultCounts++
-        if (openResultCounts == POPUP_REVIEW_WINDOW_THRESHOLD) {
-            viewLifecycleOwner.lifecycleScope.launch {
-                val reviewInfo = playStoreReviewHelper.prepareReviewInfo()
+    fun checkShouldAskUserRankApp() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            if (openResultCounts < POPUP_REVIEW_WINDOW_THRESHOLD) {
+                return@launch
+            }
+
+            val hasUserSeenRankWindow = bookSearchViewModel.checkUserHasSeenRankWindow().also {
+                this@BookResultListFragment.hasUserSeenRankWindow = it
+            }
+
+            if (hasUserSeenRankWindow) {
+                return@launch
+            }
+
+            if (BuildConfig.DEBUG) {
+                Toast.makeText(requireContext(), "Rank Window Should Popup", Toast.LENGTH_SHORT).show()
+            }
+
+            val reviewInfo = runCatching {
+                playStoreReviewHelper.prepareReviewInfo()
+            }.getOrNull()
+
+            if (reviewInfo != null) {
                 sendUserIntent(BookSearchUserIntent.AskUserRankApp(reviewInfo))
             }
         }

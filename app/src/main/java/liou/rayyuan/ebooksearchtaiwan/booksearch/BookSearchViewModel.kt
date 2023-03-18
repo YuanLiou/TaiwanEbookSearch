@@ -35,12 +35,12 @@ import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
 import liou.rayyuan.ebooksearchtaiwan.interactor.UserRankingWindowFacade
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
+import liou.rayyuan.ebooksearchtaiwan.uimodel.BookUiModel
+import liou.rayyuan.ebooksearchtaiwan.uimodel.asUiModel
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import liou.rayyuan.ebooksearchtaiwan.utils.ResourceHelper
 import liou.rayyuan.ebooksearchtaiwan.view.ViewEffect
 import liou.rayyuan.ebooksearchtaiwan.view.getStringResource
-import liou.rayyuan.ebooksearchtaiwan.uimodel.BookUiModel
-import liou.rayyuan.ebooksearchtaiwan.uimodel.asUiModel
 
 /**
  * Created by louis383 on 2017/12/2.
@@ -124,7 +124,7 @@ class BookSearchViewModel(
                     }
                     is BookSearchUserIntent.AskUserRankApp -> {
                         val hasUserSeenRankWindow = runCatching {
-                            rankingWindowFacade.isUserSeenRankWindow().firstOrNull() ?: false
+                            checkUserHasSeenRankWindow()
                         }.getOrDefault(false)
 
                         if (!hasUserSeenRankWindow) {
@@ -391,6 +391,10 @@ class BookSearchViewModel(
 
     private fun sendViewEffect(screenState: ScreenState) {
         _screenViewState.value = ViewEffect(screenState)
+    }
+
+    suspend fun checkUserHasSeenRankWindow(): Boolean {
+        return rankingWindowFacade.isUserSeenRankWindow().firstOrNull() ?: false
     }
 
     /***

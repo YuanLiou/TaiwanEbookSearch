@@ -4,6 +4,8 @@ import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.callbackFlow
 
 class Router(private val fragmentManager: FragmentManager,
              @IdRes private val containerId: Int) {
@@ -55,6 +57,17 @@ class Router(private val fragmentManager: FragmentManager,
 
     fun findFragmentByTag(tag: String): Fragment? {
         return fragmentManager.findFragmentByTag(tag)
+    }
+
+    fun backStackCountsPublisher() = callbackFlow {
+        val listener = FragmentManager.OnBackStackChangedListener {
+            trySend(fragmentManager.backStackEntryCount)
+        }
+        fragmentManager.addOnBackStackChangedListener(listener)
+
+        awaitClose {
+            fragmentManager.removeOnBackStackChangedListener(listener)
+        }
     }
 
     fun findTopFragment(): Fragment? = fragmentManager.findFragmentById(containerId)

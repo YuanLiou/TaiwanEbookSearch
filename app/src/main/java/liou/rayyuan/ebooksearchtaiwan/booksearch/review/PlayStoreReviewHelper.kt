@@ -17,11 +17,11 @@ class PlayStoreReviewHelper(context: Context) {
 
     suspend fun prepareReviewInfo() = suspendCoroutine<ReviewInfo> { continuation ->
         val task = reviewManager.requestReviewFlow()
-        task.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                continuation.resume(task.result)
+        task.addOnCompleteListener {
+            if (it.isSuccessful) {
+                continuation.resume(it.result)
             } else {
-                val throwable = task.exception ?: IllegalStateException("Prepare Review Manager Failed")
+                val throwable = it.exception ?: IllegalStateException("Prepare Review Manager Failed")
                 continuation.resumeWithException(throwable)
             }
         }
