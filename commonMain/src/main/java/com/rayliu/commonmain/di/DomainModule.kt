@@ -82,20 +82,20 @@ val domainModule = module {
         GetBooksWithStoresUseCase(get<BookRepository>(), get<SearchRecordRepository>())
     }
 
-    factory {
-        GetSearchRecordsUseCase(get<SearchRecordRepository>())
+    factory<GetSearchRecordsUseCase> {
+        GetSearchRecordsUseCase(get<SearchRecordRepository>()::getPagingSearchRecordsFactory)
     }
 
-    factory {
-        GetSearchRecordsCountsUseCase(get<SearchRecordRepository>())
+    factory<GetSearchRecordsCountsUseCase> {
+        GetSearchRecordsCountsUseCase(get<SearchRecordRepository>()::getSearchRecordsCounts)
     }
 
     factory {
         DeleteSearchRecordUseCase(get<SearchRecordRepository>())
     }
 
-    factory {
-        GetDefaultBookSortUseCase(get<BookRepository>())
+    factory<GetDefaultBookSortUseCase> {
+        GetDefaultBookSortUseCase(get<BookRepository>()::getDefaultResultSort)
     }
 
     factory {

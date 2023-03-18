@@ -1,7 +1,6 @@
 package com.rayliu.commonmain.domain.usecase
 
-import com.rayliu.commonmain.domain.repository.BookRepository
+import com.rayliu.commonmain.data.DefaultStoreNames
+import kotlinx.coroutines.flow.Flow
 
-class GetDefaultBookSortUseCase(private val bookRepository: BookRepository) {
-    operator fun invoke() = bookRepository.getDefaultResultSort()
-}
+fun interface GetDefaultBookSortUseCase : () -> Flow<List<DefaultStoreNames>>

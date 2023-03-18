@@ -8,7 +8,6 @@ import com.rayliu.commonmain.data.DefaultStoreNames
 import com.rayliu.commonmain.domain.usecase.GetDefaultBookSortUseCase
 import com.rayliu.commonmain.domain.usecase.SaveDefaultBookSortUseCase
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
