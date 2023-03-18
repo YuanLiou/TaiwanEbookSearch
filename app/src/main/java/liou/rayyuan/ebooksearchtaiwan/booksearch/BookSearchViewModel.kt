@@ -99,13 +99,13 @@ class BookSearchViewModel(
 
     private fun setupUserIntentHanding() {
         viewModelScope.launch {
-            userIntents.consumeAsFlow().collect {
-                when (it) {
+            userIntents.consumeAsFlow().collect { userIntent ->
+                when (userIntent) {
                     is BookSearchUserIntent.DeleteSearchRecord -> {
-                        deleteRecords(it.searchRecord)
+                        deleteRecords(userIntent.searchRecord)
                     }
                     is BookSearchUserIntent.FocusOnTextEditing -> {
-                        focusOnEditText(it.isFocus)
+                        focusOnEditText(userIntent.isFocus)
                     }
                     BookSearchUserIntent.OnViewReadyToServe -> {
                         ready()
@@ -114,21 +114,21 @@ class BookSearchViewModel(
                         hintPressed()
                     }
                     is BookSearchUserIntent.SearchBook -> {
-                        searchBook(it.keywords)
+                        searchBook(userIntent.keywords)
                     }
                     is BookSearchUserIntent.ShowSearchSnapshot -> {
-                        requestSearchSnapshot(it.searchId)
+                        requestSearchSnapshot(userIntent.searchId)
                     }
                     BookSearchUserIntent.ShareSnapshot -> {
                         shareCurrentSnapshot()
                     }
-                    BookSearchUserIntent.AskUserRankApp -> {
+                    is BookSearchUserIntent.AskUserRankApp -> {
                         val hasUserSeenRankWindow = runCatching {
                             rankingWindowFacade.isUserSeenRankWindow().firstOrNull() ?: false
                         }.getOrDefault(false)
 
                         if (!hasUserSeenRankWindow) {
-                            sendViewEffect(ScreenState.ShowUserRankingDialog)
+                            sendViewEffect(ScreenState.ShowUserRankingDialog(userIntent.reviewInfo))
                         }
                     }
                     BookSearchUserIntent.RankAppWindowHasShown -> {

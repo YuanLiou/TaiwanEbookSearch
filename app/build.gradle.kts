@@ -127,6 +127,7 @@ dependencies {
         implementation(it)
     }
     implementation(AppDependencies.GooglePlayService.ADMOB)
+    implementation(AppDependencies.GooglePlayService.IN_APP_REVIEW)
 
     // Koin
     implementation(AppDependencies.Koin.ANDROID)
