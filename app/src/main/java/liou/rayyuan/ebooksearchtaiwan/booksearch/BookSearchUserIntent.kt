@@ -11,4 +11,6 @@ sealed class BookSearchUserIntent : IUserIntent {
     object OnViewReadyToServe : BookSearchUserIntent()
     object PressHint : BookSearchUserIntent()
     object ShareSnapshot: BookSearchUserIntent()
+    object AskUserRankApp : BookSearchUserIntent()
+    object RankAppWindowHasShown : BookSearchUserIntent()
 }

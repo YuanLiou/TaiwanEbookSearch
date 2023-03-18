@@ -500,6 +500,9 @@ class BookResultListFragment :
             ScreenState.NoSharingContentAvailable -> {
                 showToast(getString(R.string.no_shareable_content))
             }
+            ScreenState.ShowUserRankingDialog -> {
+                // TODO
+            }
         }
     }
 

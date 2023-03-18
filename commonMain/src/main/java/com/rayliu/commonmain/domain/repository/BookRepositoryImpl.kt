@@ -50,7 +50,7 @@ class BookRepositoryImpl(
         return userPreferences.data
             .catch { exception ->
                 if (exception is IOException) {
-                    emptyPreferences()
+                    emit(emptyPreferences())
                 } else {
                     throw exception
                 }

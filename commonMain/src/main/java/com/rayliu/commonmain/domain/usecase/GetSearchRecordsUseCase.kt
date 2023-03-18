@@ -1,9 +1,7 @@
 package com.rayliu.commonmain.domain.usecase
 
-import com.rayliu.commonmain.domain.repository.SearchRecordRepository
+import androidx.lifecycle.LiveData
+import androidx.paging.PagingData
+import com.rayliu.commonmain.domain.model.SearchRecord
 
-class GetSearchRecordsUseCase(
-    private val searchRecordRepository: SearchRecordRepository
-) {
-    operator fun invoke() = searchRecordRepository.getPagingSearchRecordsFactory()
-}
+fun interface GetSearchRecordsUseCase : () -> LiveData<PagingData<SearchRecord>>

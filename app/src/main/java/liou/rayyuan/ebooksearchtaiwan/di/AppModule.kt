@@ -2,6 +2,7 @@ package liou.rayyuan.ebooksearchtaiwan.di
 
 import liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchViewModel
 import liou.rayyuan.ebooksearchtaiwan.bookstorereorder.BookStoreReorderViewModel
+import liou.rayyuan.ebooksearchtaiwan.interactor.UserRankingWindowFacade
 import liou.rayyuan.ebooksearchtaiwan.model.*
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import liou.rayyuan.ebooksearchtaiwan.utils.ResourceHelper
@@ -26,13 +27,22 @@ val appModule = module {
         eventTracker = get(),
         quickChecker = get(),
         deleteSearchRecordUseCase = get(),
-        resourceHelper = get()
+        resourceHelper = get(),
+        rankingWindowFacade = get()
     ) }
 
     viewModel {
         BookStoreReorderViewModel(
             getDefaultBookSortUseCase = get(),
             saveDefaultBookBookSortUseCase = get()
+        )
+    }
+
+    // Interactors
+    factory {
+        UserRankingWindowFacade(
+            isUserSeenRankWindow = get(),
+            saveUserHasSeenRankWindow = get()
         )
     }
 }

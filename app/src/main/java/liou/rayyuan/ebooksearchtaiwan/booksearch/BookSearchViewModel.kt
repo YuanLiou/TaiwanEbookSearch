@@ -23,6 +23,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import liou.rayyuan.ebooksearchtaiwan.R
@@ -32,6 +33,7 @@ import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookHeader
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.SiteInfo
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
+import liou.rayyuan.ebooksearchtaiwan.interactor.UserRankingWindowFacade
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import liou.rayyuan.ebooksearchtaiwan.utils.ResourceHelper
@@ -52,7 +54,8 @@ class BookSearchViewModel(
     private val eventTracker: EventTracker,
     private val quickChecker: QuickChecker,
     private val deleteSearchRecordUseCase: DeleteSearchRecordUseCase,
-    private val resourceHelper: ResourceHelper
+    private val resourceHelper: ResourceHelper,
+    private val rankingWindowFacade: UserRankingWindowFacade
 ) : ViewModel(),
     IModel<BookResultViewState, BookSearchUserIntent> {
     companion object {
@@ -118,6 +121,18 @@ class BookSearchViewModel(
                     }
                     BookSearchUserIntent.ShareSnapshot -> {
                         shareCurrentSnapshot()
+                    }
+                    BookSearchUserIntent.AskUserRankApp -> {
+                        val hasUserSeenRankWindow = runCatching {
+                            rankingWindowFacade.isUserSeenRankWindow().firstOrNull() ?: false
+                        }.getOrDefault(false)
+
+                        if (!hasUserSeenRankWindow) {
+                            sendViewEffect(ScreenState.ShowUserRankingDialog)
+                        }
+                    }
+                    BookSearchUserIntent.RankAppWindowHasShown -> {
+                        rankingWindowFacade.saveUserHasSeenRankWindow()
                     }
                 }
             }
