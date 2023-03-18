@@ -123,20 +123,16 @@ class BookSearchViewModel(
                         shareCurrentSnapshot()
                     }
                     BookSearchUserIntent.AskUserRankApp -> {
-                        viewModelScope.launch {
-                            val hasUserSeenRankWindow = runCatching {
-                                rankingWindowFacade.isUserSeenRankWindow().firstOrNull() ?: false
-                            }.getOrDefault(false)
+                        val hasUserSeenRankWindow = runCatching {
+                            rankingWindowFacade.isUserSeenRankWindow().firstOrNull() ?: false
+                        }.getOrDefault(false)
 
-                            if (!hasUserSeenRankWindow) {
-                                sendViewEffect(ScreenState.ShowUserRankingDialog)
-                            }
+                        if (!hasUserSeenRankWindow) {
+                            sendViewEffect(ScreenState.ShowUserRankingDialog)
                         }
                     }
                     BookSearchUserIntent.RankAppWindowHasShown -> {
-                        viewModelScope.launch {
-                            rankingWindowFacade.saveUserHasSeenRankWindow()
-                        }
+                        rankingWindowFacade.saveUserHasSeenRankWindow()
                     }
                 }
             }
