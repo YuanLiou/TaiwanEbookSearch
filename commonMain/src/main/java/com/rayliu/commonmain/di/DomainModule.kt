@@ -106,12 +106,12 @@ val domainModule = module {
         GetSearchSnapshotUseCase(get<BookRepository>(), get<SearchRecordRepository>())
     }
 
-    factory {
-        GetIsUserSeenRankWindowUseCase(get<BrowseHistoryRepository>())
+    factory<GetIsUserSeenRankWindowUseCase> {
+        GetIsUserSeenRankWindowUseCase(get<BrowseHistoryRepository>()::isUserSeenRankWindow)
     }
 
-    factory {
-        SaveUserHasSeenRankWindowUseCase(get<BrowseHistoryRepository>())
+    factory<SaveUserHasSeenRankWindowUseCase> {
+        SaveUserHasSeenRankWindowUseCase(get<BrowseHistoryRepository>()::setUserHasSeenRankWindow)
     }
 
     // Service (Application)

@@ -23,6 +23,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import liou.rayyuan.ebooksearchtaiwan.R
@@ -123,7 +124,10 @@ class BookSearchViewModel(
                     }
                     BookSearchUserIntent.AskUserRankApp -> {
                         viewModelScope.launch {
-                            val hasUserSeenRankWindow = rankingWindowFacade.isUserSeenRankWindow().getOrDefault(false)
+                            val hasUserSeenRankWindow = runCatching {
+                                rankingWindowFacade.isUserSeenRankWindow().firstOrNull() ?: false
+                            }.getOrDefault(false)
+
                             if (!hasUserSeenRankWindow) {
                                 sendViewEffect(ScreenState.ShowUserRankingDialog)
                             }

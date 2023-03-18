@@ -1,12 +1,5 @@
 package com.rayliu.commonmain.domain.usecase
 
-import com.rayliu.commonmain.domain.repository.BrowseHistoryRepository
-import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.Flow
 
-class GetIsUserSeenRankWindowUseCase(
-    private val browseHistoryRepository: BrowseHistoryRepository
-) {
-    suspend operator fun invoke() = runCatching {
-        browseHistoryRepository.isUserSeenRankWindow().firstOrNull() ?: false
-    }
-}
+fun interface GetIsUserSeenRankWindowUseCase : suspend () -> Flow<Boolean>
