@@ -9,5 +9,6 @@ sealed class ScreenState {
     object EmptyKeyword : ScreenState()
     object NoInternetConnection : ScreenState()
     object NoSharingContentAvailable : ScreenState()
+    object ShowUserRankingDialog : ScreenState()
     class ShowToastMessage(@StringRes val stringResId: Int = -1, val message: String) : ScreenState()
 }

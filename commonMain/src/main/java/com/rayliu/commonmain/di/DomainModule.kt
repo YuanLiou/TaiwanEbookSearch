@@ -8,6 +8,8 @@ import com.rayliu.commonmain.data.api.BookSearchApi
 import com.rayliu.commonmain.data.dao.SearchRecordDao
 import com.rayliu.commonmain.domain.repository.BookRepository
 import com.rayliu.commonmain.domain.repository.BookRepositoryImpl
+import com.rayliu.commonmain.domain.repository.BrowseHistoryRepository
+import com.rayliu.commonmain.domain.repository.BrowseHistoryRepositoryImpl
 import com.rayliu.commonmain.domain.repository.SearchRecordRepository
 import com.rayliu.commonmain.domain.repository.SearchRecordRepositoryImpl
 import com.rayliu.commonmain.domain.usecase.*
@@ -71,6 +73,10 @@ val domainModule = module {
         SearchRecordRepositoryImpl(get<SearchRecordMapper>(), get<LocalSearchRecordMapper>(), get<SearchRecordDao>())
     }
 
+    factory<BrowseHistoryRepository> {
+        BrowseHistoryRepositoryImpl(androidContext().userDataStore)
+    }
+
     // UseCases
     factory {
         GetBooksWithStoresUseCase(get<BookRepository>(), get<SearchRecordRepository>())
@@ -98,6 +104,14 @@ val domainModule = module {
 
     factory {
         GetSearchSnapshotUseCase(get<BookRepository>(), get<SearchRecordRepository>())
+    }
+
+    factory {
+        GetIsUserSeenRankWindowUseCase(get<BrowseHistoryRepository>())
+    }
+
+    factory {
+        SaveUserHasSeenRankWindowUseCase(get<BrowseHistoryRepository>())
     }
 
     // Service (Application)
