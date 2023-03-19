@@ -30,13 +30,7 @@ val dataModule = module {
     single {
         HttpClient(CIO) {
             install(ContentNegotiation) {
-                json(
-                    Json {
-                        prettyPrint = true
-                        isLenient = true
-                        ignoreUnknownKeys = true
-                    }
-                )
+                json(get<Json>())
             }
 
             engine {

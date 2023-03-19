@@ -20,4 +20,8 @@ data class NetworkCrawerResult(
     val searchDateTime: String? = null,
     @SerialName("totalQuantity")
     val totalQuantity: Int? = null,
-)
+) {
+    companion object {
+        val NOT_FOUND = NetworkCrawerResult()
+    }
+}

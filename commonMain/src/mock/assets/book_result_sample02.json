@@ -1,0 +1,2749 @@
+{
+	"keywords": "過得還不錯的一年",
+	"searchDateTime": "2023/03/19 20:44:56",
+	"processTime": 4932.564832,
+	"userAgent": {
+		"ua": "PostmanRuntime/7.31.3",
+		"browser": {
+			"name": null,
+			"version": null,
+			"major": null
+		},
+		"engine": {
+			"name": null,
+			"version": null
+		},
+		"os": {
+			"name": null,
+			"version": null
+		},
+		"device": {
+			"vendor": null,
+			"model": null,
+			"type": null
+		},
+		"cpu": {
+			"architecture": null
+		}
+	},
+	"totalQuantity": 213,
+	"results": [
+		{
+			"bookstore": {
+				"website": "https://readmoo.com/",
+				"displayName": "Readmoo 讀墨",
+				"id": "readmoo",
+				"status": "Active",
+				"isOnline": true
+			},
+			"isOkay": true,
+			"status": "Crawler success.",
+			"processTime": 2249.7313679999997,
+			"books": [
+				{
+					"id": "210265600000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/62/f1abg8c_210x315.jpg?v=1678687791",
+					"title": "\n        過得還不錯的一年【10週年紀念版】        ：我的快樂生活提案      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDI2NTYwMDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 298,
+					"about": "\n      向達賴喇嘛、歐普拉、梭羅學習快樂，為自己寫一份Happiness Project！\n一場喚醒百萬人的生活實驗！\n《紐約時報》暢銷榜第一名！年度10大影響力好書\n \n活得很悶?一成不變?\n日子一團糟，老是疲於奔命?\n幸福快樂，好像都沒有降臨在你身上?    ",
+					"authors": [
+						"葛瑞琴．魯賓"
+					],
+					"publisher": "早安財經文化有限公司"
+				},
+				{
+					"id": "210134910000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/qn/grqnvoh_210x315.jpg?v=1585647978",
+					"title": "\n        過得還不錯的人生        ：運用幸福心理學的智慧，避開不幸的陷阱，成就愉快而滿足的生活      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDEzNDkxMDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 269,
+					"about": "\n      所謂平順、美好的生活\n並非全無意外、沒有變化的人生\n而是隨事隨在，都能用好的框架看世界\n無論缺乏時還是豐富時，都擁有平靜穩妥的好心情    ",
+					"authors": [
+						"崔仁哲"
+					],
+					"publisher": "遠流出版"
+				},
+				{
+					"id": "210210261000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ci/ahhejid_210x315.jpg?v=1639625738",
+					"title": "\n        過得還不錯的謊言              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDIxMDI2MTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 252,
+					"about": "\n      「你最近過得如何？」\n從什麼時候開始，「還不錯」變成唯一的答案了呢？\n \n致每一個厭倦了在生活中跌倒後裝作若無其事的你\n這一次，先不用急著跟自己說加油    ",
+					"authors": [
+						"金利率"
+					],
+					"publisher": "高寶"
+				},
+				{
+					"id": "210265606000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ec/hbihnkl_210x315.jpg?v=1678687737",
+					"title": "\n        待在家裡也不錯        ：過得還不錯的一年2      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDI2NTYwNjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 249,
+					"about": "\n      你停駐之處，便是我心愛的家！\n\n快樂回家小秘訣：\n壞掉的傘千萬別留、學會自己開車、回家跳一跳、出門前抱一抱……    ",
+					"authors": [
+						"葛瑞琴．魯賓"
+					],
+					"publisher": "早安財經文化有限公司"
+				},
+				{
+					"id": "210128913000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/7b/c2e1h7a_210x315.jpg?v=1580889923",
+					"title": "\n        這樣開始也不錯，擺脫束縛的一年              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDEyODkxMzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 266,
+					"about": "\n      ✽《過得還不錯的一年》作者最新力作\n\n開始整理的最佳時間，永遠是現在。\n\n擺脫那些惱人的雜亂吧，\n讓自己鬆一口氣，重新面對生命中更重要的挑戰。    ",
+					"authors": [
+						"葛瑞琴．魯賓"
+					],
+					"publisher": "親子天下"
+				},
+				{
+					"id": "210101583000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/pp/rgqoufi_210x315.jpg?v=1641177626",
+					"title": "\n        最棒的一年        ：5個步驟，100%實現目標，讓計畫不再是空話      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDEwMTU4MzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 284,
+					"about": "\n      有了這本書，你大可以貪心一點，\n為自己預約一個嶄新的人生，全面進化！\n \n★這是一封邀請函，邀請你在未來一年裡，體驗這輩子最有意義也最重要的十二個月\n     ",
+					"authors": [
+						"麥可‧海亞特"
+					],
+					"publisher": "遠流出版",
+					"publishDate": "2018-12-01"
+				},
+				{
+					"id": "210133471000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/pp/hmrrukg_210x315.jpg?v=1583919365",
+					"title": "\n        1949石破天驚的一年              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDEzMzQ3MTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 224,
+					"about": "\n      在石破天驚的歷史轉折中，多少冷戰往事已變成過眼雲煙，多少冷戰危機已成為雪泥鴻爪，多少冷戰人物已全都隨風而逝。    ",
+					"authors": [
+						"林博文"
+					],
+					"publisher": "時報出版"
+				},
+				{
+					"id": "210205062000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/e9/87hendc_210x315.jpg?v=1640058963",
+					"title": "\n        德意的一年              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDIwNTA2MjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 273,
+					"about": "\n      失戀宅男的德國流浪記！\n這是一本理工人所寫的德國觀察日記，\n也是一段突破自我、找回真愛的成長旅程。\n​\n有一種失戀，是把自己丟到飛行時間15個小時，\n距離家鄉1萬公里的遠方，然後重新開始！\n\n \n\n➜Readmoo讀者獨家試讀心得     ",
+					"authors": [
+						"賴以威"
+					],
+					"publisher": "時報出版"
+				},
+				{
+					"id": "210265608000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ha/l9nko8k_210x315.jpg?v=1678687694",
+					"title": "\n        烏托邦的日常        ：習慣改變了，生活就輕鬆了      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDI2NTYwODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 259,
+					"about": "\n      《過得還不錯的一年》葛瑞琴．魯賓新作！ 紐約時報暢銷書！\n天底下沒有改不掉的習慣\n別讓拖拖拉拉，毀了你的美好生活！\n\n想養成每天看書的習慣，為什麼總是不成功？\n想養成定期運動的習慣，為什麼總是那麼難？\n想養成早睡早起的習慣，為什麼常會被破功？\n這，就是人氣作家葛瑞琴．魯賓這本書大受歡迎...    ",
+					"authors": [
+						"葛瑞琴．魯賓"
+					],
+					"publisher": "早安財經文化有限公司"
+				},
+				{
+					"id": "210148800000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/64/22e3gcc_210x315.jpg?v=1592624274",
+					"title": "\n        如夢的一年              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE0ODgwMDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 255,
+					"about": "\n      從我的青春時代起，她就是那顆最燦爛的星，她就是女性創作者不馴形象的化身。\n──《時間裡的癡人》作者 珍妮佛．伊根\n\n「我聽到笑聲、鈴鐺聲、赤足跑過寺廟階梯的聲音。\n一縷縷陽光、甜蜜的滋味，那樣近，卻是一去不返的時光。」──佩蒂‧史密斯\n\n在黑暗中懷抱傷痛前行的一段旅程\n《只是孩子》美國...    ",
+					"authors": [
+						"佩蒂．史密斯"
+					],
+					"publisher": "新經典文化"
+				},
+				{
+					"id": "210153826000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/92/2h9eld2_210x315.jpg?v=1597892903",
+					"title": "\n        我睡不著的那一年        ：獻給無眠者的自癒之書，與你一起擁抱那份無形的不安      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE1MzgyNjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 266,
+					"about": "\n      　　致那些晚上醒著的人：\n\n　　這就是治療失眠的方法：沒有什麼事是恆長不變的。\n　　一切都會過去，這個也是。\n　　有一天，當你受夠了它，它會失去立足點並且消逝，\n　　你將每晚入睡，不記得自己曾經覺得這是如何不可能。    ",
+					"authors": [
+						"薩曼莎．哈維"
+					],
+					"publisher": "堡壘文化"
+				},
+				{
+					"id": "210066252000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/nk/dlepzqd_210x315.jpg?v=0",
+					"title": "\n        最有生產力的一年              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA2NjI1MjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 242,
+					"about": "\n      ★ 引起全球超過250,000人感興趣的「生產力報告」，提供25個證實最有效提升讀書、工作，以及生活效率的方法！\n★ TED、多位暢銷書作家聯合推薦！\n\n克里斯．貝利被封為史上最有生產力的人，利用整整一年的時間，試驗各種提升效率的方法。\n你只需要花費兩小時的時間，便能吸收本書精華；\n從此不...    ",
+					"authors": [
+						"克里斯．貝利"
+					],
+					"publisher": "天下文化"
+				},
+				{
+					"id": "210251739000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/jg/cmemrpg_210x315.jpg?v=1665994029",
+					"title": "\n        練習善良的一年        ：能夠改變你的人生以及周遭世界的美好決定      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDI1MTczOTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 238,
+					"about": "\n      想改變人生、改變全世界嗎？選擇善良，是最好的起點。\n一本聰明、富有洞察力的指南，也是送給世界的即時禮物。    ",
+					"authors": [
+						"唐娜．卡麥蓉"
+					],
+					"publisher": "凱特文化創意股份有限公司"
+				},
+				{
+					"id": "210000021000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/cl/7gehj67_210x315.jpg?v=1574305980",
+					"title": "\n        1949石破天驚的一年              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDAwMDAyMTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 200,
+					"about": "\n      在石破天驚的歷史轉折中，多少冷戰往事已變成過眼雲煙，\n\n多少冷戰危機已成為雪泥鴻爪，多少冷戰人物已全都隨風而逝。\n\n1949是狂飆年代！它不僅改變了亞洲的政治地圖，亦肇始了全球的動亂歲月。自由世界對抗共產集團，第三世界尋求脫離殖民桎梏，舉世在驚濤駭浪中翻滾前進！\n\n涓滴之流常能影響時代的...    ",
+					"authors": [
+						"林博文"
+					],
+					"publisher": "時報出版"
+				},
+				{
+					"id": "210085256000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/h8/bmcbobj_210x315.jpg?v=1520950929",
+					"title": "\n        一年三季              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA4NTI1NjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 105,
+					"about": "\n      本書為舞台劇劇本。劇中描述從七○年代至九○年代末期在台南海安路做洋裁的女孩子的人生，以刻劃台灣女子的各種風貌，以及在社會轉型、全球躍進的未來中所扮演的角色，同時象徵台灣文化的盈滿與更迭。\n \n    ",
+					"authors": [
+						"汪其楣"
+					],
+					"publisher": "遠流出版",
+					"publishDate": "2000-04-14"
+				},
+				{
+					"id": "210191075000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/a4/73adilg_210x315.jpg?v=1628666579",
+					"title": "\n        與神對話的一年        ：寫給女人的52則聖經啟示      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE5MTA3NTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 293,
+					"about": "\n      ～在神沒有難成的事～\n專為女性策畫的一趟聖經互動之旅\n獻給所有堅強、傑出、勇敢無懼的妳\n★亞馬遜新約聖經學習NO.1，至高4.7星，12000多條好評！    ",
+					"authors": [
+						"金柏莉．摩爾"
+					],
+					"publisher": "楓書坊"
+				},
+				{
+					"id": "210099326000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ql/mqgtvkl_210x315.jpg?v=1543741116",
+					"title": "\n        一年的距離(01)              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA5OTMyNjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 69,
+					"about": "\n      「我想成為和阿橋同年的女孩子。」\n    ",
+					"authors": [
+						"蒼井守"
+					],
+					"publisher": "尖端出版",
+					"publishDate": "2016-06-21"
+				},
+				{
+					"id": "210127585000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/79/5gd1hb9_210x315.jpg?v=1579230925",
+					"title": "\n        這樣的我，也是不錯        ：即使人生不那麼閃閃發光，你也能好好愛自己      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDEyNzU4NTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 269,
+					"about": "\n      ★美國心理學大師馬克‧利瑞（Mark Leary）特別推薦，讀者好評不斷\n★最深入人心的心理學短篇文集，獻給所有應該善待自己的你\n \n「即使人生不那麼閃閃發光，我還是很喜歡我自己。」\n——踏出自我寬容的第一步，療癒自己的心    ",
+					"authors": [
+						"朴珍英"
+					],
+					"publisher": "遠流出版"
+				},
+				{
+					"id": "210230163000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/a4/gbelicf_210x315.jpg?v=1653027440",
+					"title": "\n        媽媽不在家的一年              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDIzMDE2MzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 250,
+					"about": "\n      媽媽不在的時候，更自由了，但害怕的時間該怎麼辦……\n一部對於長大藏著溫暖盼望的圖像小說！    ",
+					"authors": [
+						"達莎．托爾斯提科娃"
+					],
+					"publisher": "小麥田"
+				},
+				{
+					"id": "210208158000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/qh/kolrver_210x315.jpg?v=1638290939",
+					"title": "\n        禪宗一年        ：52週的修行筆記      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDIwODE1ODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 247,
+					"about": "\n      ～為期一年的禪宗靜思書寫～\n自7大領域切入，每日親身實踐自我探索、反思和正念練習    ",
+					"authors": [
+						"邦妮．米奧泰．崔斯"
+					],
+					"publisher": "楓樹林"
+				},
+				{
+					"id": "210122547000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/a7/6eegi6f_210x315.jpg?v=1628843445",
+					"title": "\n        那一年的夏日池畔              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDEyMjU0NzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 266,
+					"about": "\n      追求幸福的你，踐踏幸福的你，都是同一個你，\n其實，你遠比你想像的更危險……\n\n荷蘭當代最重要的作家，直指人性欲望的最高傑作！\n出版家週刊2014年度最佳作品！紐約時報暢銷書！\n荷蘭狂銷突破40萬冊！已售出22國版權！    ",
+					"authors": [
+						"荷曼‧柯赫"
+					],
+					"publisher": "皇冠文化有限公司",
+					"publishDate": "2016-07-11"
+				},
+				{
+					"id": "210255444000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/bd/dcdlkga_210x315.jpg?v=1669281668",
+					"title": "\n        最有專注力的一年        ：在斜槓世代，把每件重要的事做得又快又好，讓你一心不亂的高效提案      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDI1NTQ0NDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 315,
+					"about": "\n      專心，\n是各界菁英一致認同的成功關鍵，\n但身處最容易分心的斜槓時代，\n提升專注力的方法推陳出新，\n到底哪些才真正有效？    ",
+					"authors": [
+						"艾瑞克．奎爾曼"
+					],
+					"publisher": "采實文化",
+					"publishDate": "2022-11-24"
+				},
+				{
+					"id": "210233014000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/e9/87jknij_210x315.jpg?v=1664160354",
+					"title": "\n        婚前一年              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDIzMzAxNDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 180,
+					"about": "\n      男人都會犯錯，對吧？\n\n★作品接連售出海外版權！韓國影視改編計畫啟動中！\n★「或許小說裡的女人每一個都是妳！」\n「真的！我們總是會跟渣男扯上關係！」\n絕命律師 x 華燈初上 的渣男集合體！\nGoogle Play Book 臺港兩地推理小說銷售TOP1！\n《親愛的你》《歡迎光臨康堤紐斯...    ",
+					"authors": [
+						"李柏青"
+					],
+					"publisher": "尖端出版",
+					"publishDate": "2022-06-14"
+				},
+				{
+					"id": "210187912000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/hc/elkkolj_210x315.jpg?v=1678434905",
+					"title": "\n        京都一年              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE4NzkxMjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 278,
+					"about": "\n      本書收錄了作者一九七○年遊學日本京都十月間所創作的散文作品。由於作者深諳日本語言、文化，長時居留，故能深入古都的多種層面，以細微的觀察，娓娓的敘述，呈現了她個人對於京都的體會。    ",
+					"authors": [
+						"林文月"
+					],
+					"publisher": "三民書局",
+					"publishDate": "2020-01-14"
+				},
+				{
+					"id": "210074060000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/nl/pgnmzpo_210x315.jpg?v=1503976164",
+					"title": "\n        即使如此，這一天也不錯              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA3NDA2MDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 224,
+					"about": "\n      韓國超過10萬人同時被感動！\n2015年韓國最大網路書店YES24－讀者票選最感人圖文書之一\n\n不管聽得見聽不見\n不管看得見看不見\n我還是喜歡自己，和這個世界\n我要每天做一件讓自己想起來都會嘴角翹翹的小事\n把灰灰的每一天，都變成很不錯的一天！\n    ",
+					"authors": [
+						"具鏡善"
+					],
+					"publisher": "春光",
+					"publishDate": "2017-08-28"
+				},
+				{
+					"id": "210139685000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/d5/gki8j57_210x315.jpg?v=1589514889",
+					"title": "\n        暖活：愛得還不錯的那些故事              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDEzOTY4NTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 224,
+					"about": "\n      只要相信幸福、希望與溫暖，你的故事就會有美好的結局\n真心看見別人的存在，對生命熱情以待，你就走在「暖活」的路上\n    ",
+					"authors": [
+						"劉中薇"
+					],
+					"publisher": "聯合文學",
+					"publishDate": "2014-09-01"
+				},
+				{
+					"id": "210025849000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ll/jlb9qc9_210x315.jpg?v=0",
+					"title": "\n        我的生命只剩下一年        ：罹癌其實是一件幸運的事      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDAyNTg0OTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 224,
+					"about": "\n      對於前往死後世界的旅程，我已有了萬全的準備。\n我也會親身實踐我提倡至今的離世之姿，面帶笑容、滿心喜樂地邁向往生。\n　　\n通向死亡的疾病中，癌症可以說是最好的選擇。治癒後便可活跳跳地過日子；即使惡化，也不是馬上會過世，有機會善用剩下的時間，為今生劃下幸福的句點。\n\n朝日俊彥醫師是日本臨終醫療觀念重要的...    ",
+					"authors": [
+						"朝日俊彥"
+					],
+					"publisher": "華滋出版"
+				},
+				{
+					"id": "210041359000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/pq/ogjjuhk_210x315.jpg?v=0",
+					"title": "\n        一年12國的華麗冒險              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA0MTM1OTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 288,
+					"about": "\n      一個熱血青年，在一年之初對自己訂下邊工作邊完成一年旅行12國的華麗挑戰！\n\n這一年，他沒有怠惰工作，只是盡可能撥出額外的時間為旅行做行前準備與規畫；他沒有看輕旅行，期許自己能在每一個國家發現這個世界的動人樣貌；他沒有失信於自己，熱血執著領著他完成一年12國的出走夢想。\n    ",
+					"authors": [
+						"無敵小恩恩"
+					],
+					"publisher": "流行風",
+					"publishDate": "2012-06-19"
+				},
+				{
+					"id": "210227824000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/64/237cg76_210x315.jpg?v=1651550645",
+					"title": "\n        不用完美，做個還不錯的人就好        ：韓國腦科學專家革命性療癒聖經，寫給每個感到自卑、焦慮、挫折、痛苦的你！      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDIyNzgyNDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 225,
+					"about": "\n      痛苦、疲憊、焦慮……都不是你的錯，\n而是你的「大腦」受傷了！\n\n臨床心理實例＋腦認知科學，助你徹底解決情緒難題！\n暢銷突破100,000冊！韓國Yes24網路書店讀者9.2分、教保文庫網9.8分極度好評！    ",
+					"authors": [
+						"許智元"
+					],
+					"publisher": "平安文化"
+				},
+				{
+					"id": "210238010000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ik/qlqkpch_210x315.jpg?v=1658124908",
+					"title": "\n        學會飛之前，走走也不錯              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDIzODAxMDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 224,
+					"about": "\n      一個人的成長，就像小小鳥學飛\n持續探索與嘗試，讓下一次起飛擁有充足的能量    ",
+					"authors": [
+						"卡洛琳．納斯特羅"
+					],
+					"publisher": "奧林文化",
+					"publishDate": "2022-07-11"
+				},
+				{
+					"id": "210166338000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/8f/36g8l35_210x315.jpg?v=1611225023",
+					"title": "\n        一年頂十年        ：在驟變的時代，用正確的策略，讓自己的成長速度比過去快十倍      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE2NjMzODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 245,
+					"about": "\n      給自己一年的時間，\n用對方法，打基礎再大升級，\n讓你的一年，等於別人十年的努力！    ",
+					"authors": [
+						"剽悍一隻貓"
+					],
+					"publisher": "采實文化",
+					"publishDate": "2021-01-07"
+				},
+				{
+					"id": "210156839000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/fk/kkd9mgg_210x315.jpg?v=1600849698",
+					"title": "\n        一哥行攝天下 中國篇 【壹】              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE1NjgzOTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 790,
+					"about": "\n      《一哥行攝天下》是一套系列叢書，本分冊為其一。顧名思義已知，不是一般的旅遊書，而是結合了旅行與攝影雙重特點。    ",
+					"authors": [
+						"陳一年"
+					],
+					"publisher": "中國旅遊",
+					"publishDate": "2020-09-08"
+				},
+				{
+					"id": "210102369000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/78/2g2dh5b_210x315.jpg?v=1549870753",
+					"title": "\n        一年一班，天兵天將！              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDEwMjM2OTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 189,
+					"about": "\n      園裡，每一天都有各種千奇百怪的事件發生 偌大的校園，我是哪一班？ 在樓梯間摔倒該怎麼辦？打預防針好可怕！ 孩子從備受照顧的幼兒園進入到小學， 生活變得艱辛與緊湊， 看小一新鮮人逐步克服挑戰， 自信迎向快樂的校園生活！！\n    ",
+					"authors": [
+						"李光福"
+					],
+					"publisher": "小魯文化",
+					"publishDate": "2019-02-01"
+				},
+				{
+					"id": "210099327000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/pq/oglnuni_210x315.jpg?v=1543741110",
+					"title": "\n        一年的距離(2)完              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA5OTMyNzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 69,
+					"about": "\n      「這一切都是被年齡差距給侷限住的我不對。我明明就知道，可是……」\n夢中的初吻是否能夠成真？\n    ",
+					"authors": [
+						"蒼井守"
+					],
+					"publisher": "尖端出版",
+					"publishDate": "2016-06-21"
+				},
+				{
+					"id": "210140578000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/8g/67hdlb5_210x315.jpg?v=1588839009",
+					"title": "\n        希望老後的我，看起來還不錯！        ：寫給準老人的30篇優老計畫      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE0MDU3ODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 250,
+					"about": "\n      未老先修、初老選修、老後必修\n沒有人可以永遠年輕，讓我們一起啟動「優老計畫」，\n成為一個自在自愛、人見人愛的質感老人。\n     ",
+					"authors": [
+						"萬子綾"
+					],
+					"publisher": "時報出版"
+				},
+				{
+					"id": "210211638000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ec/hc7gn9i_210x315.jpg?v=1647585310",
+					"title": "\n        一年投資5分鐘        ：打造每月3萬被動收入，免看盤、不選股的最強小資理財法      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDIxMTYzODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 284,
+					"about": "\n      ★選對方式，讓你投資賺錢就像呼吸一樣自然\n★365天錢滾錢全攻略，睡覺時也能自動進帳\n★超越通膨，讓你不用擔心資產貶值\n★擁有更多時間享受生活，追求夢想\n \n找飆股、看線圖，投資何必那麼累？\n免看盤、不選股，還能勝出專業經理人！    ",
+					"authors": [
+						"陳逸朴（小資YP）"
+					],
+					"publisher": "遠流出版"
+				},
+				{
+					"id": "210076358000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ea/klcfnhh_210x315.jpg?v=1538378116",
+					"title": "\n        股市致富之路這樣走        ：一生中難得的財富重分配機會，錯過這次，再等10年！      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA3NjM1ODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 70,
+					"about": "\n      每天茫茫然地過日子,領著吃不飽,餓不死的薪水,過著日月光的生活,不知道未來在哪裡嗎? 不知不覺中,多少個寒暑過去了,一個即將改變你一生的機會即將來臨,你準備好了嗎? 股市致富之路這樣走,請不要走錯了!!\n    ",
+					"authors": [
+						"黃金人"
+					],
+					"publisher": "黃金人"
+				},
+				{
+					"id": "210157076000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/bb/7adek99_210x315.jpg?v=1602154182",
+					"title": "\n        畢業那一年：石縫裡的信              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE1NzA3NjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 182,
+					"about": "\n      十來歲的少年少女，有點獨角獸的味道，額頭頂著犄角，背上長著翅膀，迫不及待想飛上天……\n\n本書用日記方式寫出小女生妞妞成長的心事，很多都是無解的人生習題，答案只能用生命去體會。    ",
+					"authors": [
+						"蔡宜容"
+					],
+					"publisher": "小兵出版社"
+				},
+				{
+					"id": "210095003000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/jb/qpffrcd_210x315.jpg?v=1535096679",
+					"title": "\n        理想生活的起點        ：善用四種天生傾向，改變習慣與人際關係，讓日子越過越輕鬆      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA5NTAwMzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 260,
+					"about": "\n      個簡單問題的背後，\n隱藏著徹底顛覆你在家中、工作以及生活行為的答案。\n \n繼《過得還不錯的一年》、《待在家裡也不錯》、《烏托邦的日常》後，\n「美好生活大使」葛瑞琴‧魯賓最新力作！\n\n＊美國Amazon逾250位讀者熱烈迴響，平均近五顆星好評\n＊逾1,000,000網友熱烈響應，下載次數破6,000,...    ",
+					"authors": [
+						"葛瑞琴．魯賓"
+					],
+					"publisher": "商周出版"
+				},
+				{
+					"id": "210024719000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/pr/vlrpurk_210x315.jpg?v=0",
+					"title": "\n        分居一年不靠你              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDAyNDcxOTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 86,
+					"about": "\n      \n 他們兩人的結合，其實有跌破過一堆人的眼鏡說，只因──他是個典型大男人主義者，認定妻子就只要乖乖聽他的；而她，是個十足十的女強人典範，說什麼都不肯當個深宮怨婦，以致當時他倆結婚，說真的，應該是不被看好的！\n    ",
+					"authors": [
+						"莫霖"
+					],
+					"publisher": "希代",
+					"publishDate": "2014-10-29"
+				},
+				{
+					"id": "210102235000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/jd/dbneril_210x315.jpg?v=1548758556",
+					"title": "\n        離開公司，我過得還不錯        ：成為自由工作者的理想生活提案      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDEwMjIzNTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 224,
+					"about": "\n      搞不好每個人的生涯都應該「自由」一兩次，\n花幾年時間為自己而活，\n才是未來職涯的常態吧。\n\n我該上班還是自由工作？\n我也想自由接案，但我要做什麼？案子要從哪裡來？\n    ",
+					"authors": [
+						"劉揚銘"
+					],
+					"publisher": "時報出版"
+				},
+				{
+					"id": "210156840000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/hb/j9nco8l_210x315.jpg?v=1600849740",
+					"title": "\n        一哥行攝天下 世界篇              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE1Njg0MDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 790,
+					"about": "\n      著名「旅攝人」陳一年（一哥），及旅行家、攝影家、記者於一身，與旅遊、攝影結為旅伴，形影不離。他的旅行無遠弗屆，即有深度有充滿精彩。    ",
+					"authors": [
+						"陳一年"
+					],
+					"publisher": "中國旅遊",
+					"publishDate": "2020-09-08"
+				},
+				{
+					"id": "210151867000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/jg/nfifrpf_210x315.jpg?v=1596011153",
+					"title": "\n        一哥攝影講堂              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE1MTg2NzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 790,
+					"about": "\n      有朋友調侃說：旅遊，就是離開自己過膩了的地方，到別人過膩的地方去；旅遊攝影，就是把別人看膩而自己看得新鮮的東西帶回來。    ",
+					"authors": [
+						"陳一年"
+					],
+					"publisher": "中國旅遊",
+					"publishDate": "2020-07-22"
+				},
+				{
+					"id": "210258984000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/hc/ei9mo8a_210x315.jpg?v=1672392369",
+					"title": "\n        不消費的一年（暢銷新版）        ：戰勝衝動購物，存款、人生大翻身的小資女重生記      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDI1ODk4NDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 292,
+					"about": "\n      無痛的第一桶金\n\n整理你的財務也整理你的內心\n\n★平均月儲蓄率從10%以下，提升到31%的奇蹟蛻變★\n\n★引起國內外社群實驗旋風的暢銷書★\n\n★亞馬遜2千多筆心得4.4星好評★    ",
+					"authors": [
+						"凱特‧弗蘭德斯"
+					],
+					"publisher": "遠流出版",
+					"publishDate": "2023-01-01"
+				},
+				{
+					"id": "210185744000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/63/8adeg00_210x315.jpg?v=1625125952",
+					"title": "\n        那一年，那些沒人說的故事              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE4NTc0NDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 224,
+					"about": "\n      關於疫情我們每天都在閱聽，但那些真正關於人的故事卻很少被提起\n有人失去了工作、有人無法跟家人告別、有人找到脫罪的漏洞……\n透過這場瘟疫，世界變得緩慢卻清晰明亮，\n我們開始真正看見，那些曾經蒙上灰塵的真實    ",
+					"authors": [
+						"少女老王"
+					],
+					"publisher": "圓神出版"
+				},
+				{
+					"id": "210089407000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/pp/horzutm_210x315.jpg?v=1531887827",
+					"title": "\n        我和殺人魔相處的那一年        ：精神科醫師與真實世界的人魔面對面、教人大開眼界的黑暗實錄      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA4OTQwNzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 210,
+					"about": "\n      \n「這裡誰沒殺過人？」\n殘暴‧每天一觸即發！\n◆「蛾摩拉」是一間無法醫療的醫院、一所沒有警衛的監獄。\n透過一位勇敢的醫生，我們打開這座罪惡之城的大門，直視所謂的「異常」。\n\n◆納帕州立醫院是美國最大的司法精神病院之一，院內一千兩百名病患皆為精神異常犯罪者，不只有大規模殺人犯，還有性犯罪者...    ",
+					"authors": [
+						"史蒂芬‧席格"
+					],
+					"publisher": "大塊文化",
+					"publishDate": "2016-01-31"
+				},
+				{
+					"id": "210146784000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/63/8ae1gc4_210x315.jpg?v=1592300722",
+					"title": "\n        那一年，162場雨              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE0Njc4NDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 465,
+					"about": "\n      初夏的一場雨，預演了西武高中的李旭海與陳震宇兩人的相識，讓彼此成為形影不離的好哥們，當時的他們從未想過，愛情竟會以如此輕柔的方式降臨......\n\n而校花林芸潔意外成為旭海的女朋友、轉學生韓森因為對震宇的迷戀，這份情感要如何跨越多角關係的阻礙與內心的糾結？    ",
+					"authors": [
+						"孫瑋廷"
+					],
+					"publisher": "馬棋朵數位影像製作有限公司"
+				},
+				{
+					"id": "210110547000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/a7/6ee8i95_210x315.jpg?v=1560768559",
+					"title": "\n        那一年我在西非              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDExMDU0NzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 140,
+					"about": "\n      ◎滿懷熱忱的婦產科醫師，為了圓夢勇敢踏上非洲大地，自我實現醫師最大的價值。\n◎奇妙的非洲世界、動盪的世界局勢、親手迎來骨肉的喜悅，譜成人生中最華麗的樂章。\n◎珍藏多年的照片全收錄，配合點滴在心頭的敘述，重現當年鄭醫師記憶中的西非。\n\n     ",
+					"authors": [
+						"鄭明豐"
+					],
+					"publisher": "白象文化"
+				},
+				{
+					"id": "210258980000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/bg/d6ilkg6_210x315.jpg?v=1672387629",
+					"title": "\n        穿越到古希臘過一年        ：逃奴、新娘、運動員，八方職人討生活，親臨古奧運會前的群像日常      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDI1ODk4MDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 340,
+					"about": "\n      一覽古希臘世界精采的生活群像！\n\n倒帶穿越兩千年，歡迎蒞臨西元前248年的古希臘世界，\n\n此刻距離第133屆古奧林匹克運動會的舉辦僅剩一年時光……\n\n \n\n農婦、新娘、外交官、建築師、商賈、樂手、逃奴、運動員\n\n在命運之神引領之下，\n\n八位身分境遇大不相同的角色，\n\n這一...    ",
+					"authors": [
+						"菲利浦．馬提札克"
+					],
+					"publisher": "遠流出版",
+					"publishDate": "2023-01-01"
+				},
+				{
+					"id": "210192173000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/mp/kgnethl_210x315.jpg?v=1629094640",
+					"title": "\n        人生沒有最好，不錯就好              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE5MjE3MzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 284,
+					"about": "\n      愈是想找到「最好」的，\n就會讓你愈失望、愈後悔、愈痛苦。\n人生哪，需要的不是最好，不錯就好！\n\n\n \n\n     ",
+					"authors": [
+						"王溢嘉"
+					],
+					"publisher": "有鹿文化事業有限公司"
+				},
+				{
+					"id": "210156986000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ka/fhcgpoo_210x315.jpg?v=1602671348",
+					"title": "\n        我想成為不錯的人 雖然這並不容易              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE1Njk4NjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 266,
+					"about": "\n      我希望成為說出讓人有所共鳴故事的人。\n我希望我是不懂就說不懂的人，\n對錢的態度能夠坦白的人。\n比起擅長旅行，我更希望是懂得好好生活的人，\n比起想做好的野心，更想知道如果做到剛好的方法。\n我想成為這樣的人。\n還有最重要的是，成為對自己來說是個不錯的人。\n雖然這並不容易。\n    ",
+					"authors": [
+						"洪和廷"
+					],
+					"publisher": "大田出版",
+					"publishDate": "2020-10-01"
+				},
+				{
+					"id": "210112306000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/8f/36aal3g_210x315.jpg?v=1564027966",
+					"title": "\n        環保一年不會死！        ：不用衛生紙的紐約客零碳生活實驗，連包尿布的小孩和狗都在做的永續溫柔革命！（二版）      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDExMjMwNjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 266,
+					"about": "\n      本書是柯林．貝文為期一年的「零碳生活實驗」精采全紀錄！瘋狂的柯林打算在物質消費最鼎盛的紐約市中心，過上整整一年「絕對不傷害地球」的生活。不只如此，他還拉上千金出身的老婆、包著尿布的一歲女兒，還有搞不清楚狀況的狗，共同實踐這項實驗。    ",
+					"authors": [
+						"柯林．貝文"
+					],
+					"publisher": "野人"
+				},
+				{
+					"id": "210159849000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ll/jlc9qeb_210x315.jpg?v=1630026583",
+					"title": "\n        不思華年        ：關於一場無法，也不願錯過的單戀。      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE1OTg0OTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 30,
+					"about": "\n      誰沒有過一種初戀，\n像霧像雨，像蝴蝶撲向網，\n像著魔，又像中邪。\n如果可以就這樣擁有著死去，是不是就不用放手了？\n\n莊生如楊過，遇上他的人總寧可錯愛，也不願錯過。\n\n本書沒有人會死。\n而且其實偏歡樂（？）\n    ",
+					"authors": [
+						"oPtt"
+					],
+					"publisher": "恃愛妄行"
+				},
+				{
+					"id": "210059946000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ka/fhdcpdo_210x315.jpg?v=0",
+					"title": "\n        滅育 續 一年三班              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA1OTk0NjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 156,
+					"about": "\n      ★華文驚悚小說NO.1！讀者瘋狂推薦必看《滅育》！\n★驚悚小說創作鬼才 羅三 醞釀數年全新作品\n★蘋果日報排行榜！金石堂、博客來網路書店好評上市！\n\n滅育，是發生在塔文高中的神祕事件，學生被強迫在極端狀態下進行各種課程，得到或失去專有的分數。\n只要分數一降到零，學生即刻會以退學之名賜死。\n無法逃走，...    ",
+					"authors": [
+						"羅三"
+					],
+					"publisher": "尖端出版"
+				},
+				{
+					"id": "210066906000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ka/fhcgpln_210x315.jpg?v=0",
+					"title": "\n        日子過得空白一點也不錯．邢悅三行詩              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA2NjkwNjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 120,
+					"about": "\n      一百首三行詩，\n一百次未知又剛剛發生的當下。\n從2014年秋冬開始，\n近乎日記式的寫作，\n記錄起居、工作、愛情、家庭、旅行、散步，                        \n剎那的，暖感的私密情話。\n    ",
+					"authors": [
+						"邢悅"
+					],
+					"publisher": "斑馬線文庫"
+				},
+				{
+					"id": "210087348000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/bd/44efkeg_210x315.jpg?v=1640856494",
+					"title": "\n        HYGGE！丹麥一年：我的快樂調查報告              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA4NzM0ODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 277,
+					"about": "\n      ★英、美、日亞馬遜網站讀者五星評價★\n★美國亞馬遜網站社會科學／文化研究類暢銷書 TOP 1★\n\n比Lonely Planet更真實的丹麥！\n\n你或許知道這樣的丹麥：\n\n全世界快樂指數最高的國家；\n一周工作34小時，每月平均工作18天；\n風靡全球的北歐美學與設計師家具；\n最多米其...    ",
+					"authors": [
+						"海倫．羅素"
+					],
+					"publisher": "地平線文化"
+				},
+				{
+					"id": "210069859000102",
+					"thumbnail": "https://cdn.readmoo.com/cover/a9/38hcilc_210x315.jpg?v=1495166858",
+					"title": "\n        83¼歲皺紋小朋友最瘋的一年              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA2OTg1OTAwMDEwMg",
+					"priceCurrency": "TWD",
+					"price": 285,
+					"about": "\n      ＊如果我老了，我希望成為像亨利一樣的老人。──《穿條紋衣的男孩》作者／約翰．波恩\n\n＊亨利．戈恩無人可比！我那高齡七十八的失智母親已不再看報章雜誌，但戈恩的書卻逗得她哈哈大笑！──《陪妳到最後》作者／瑞．科倫\n\n★售出35國版權\n\n★荷蘭出版社應皺紋小朋友熱情要求推出大字版和有聲版\n\n淡定面對穿尿布...    ",
+					"authors": [
+						"亨利．戈恩"
+					],
+					"publisher": "天下文化",
+					"publishDate": "2017-05-18"
+				},
+				{
+					"id": "210166149000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/cl/had8j79_210x315.jpg?v=1610338945",
+					"title": "\n        Hey！大隻佬(3)              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE2NjE0OTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 70,
+					"about": "\n      早乙女力和花椿高中的男子漢們對於天坊高工的挑釁，已經忍無可忍了!!然而，天坊的老大是個拳擊高手，阿力面對如此強敵能否獲得勝利呢？一場壯烈的對決即將展開……。極具壓倒性破壞力的第3卷！千萬不要錯過喔!!\n    ",
+					"authors": [
+						"永田晃一"
+					],
+					"publisher": "長鴻出版社"
+				},
+				{
+					"id": "210259018000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ik/qkdgpkd_210x315.jpg?v=1672825560",
+					"title": "\n        今天天氣不錯，我打算把上司幹掉              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDI1OTAxODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 256,
+					"about": "\n      引爆熱烈話題\n日本熱賣緊急再版！\n好希望有人可以幫我殺了上司……\n那闇黑的欲望，用本書實現吧！    ",
+					"authors": [
+						"夕鷺叶"
+					],
+					"publisher": "春天出版",
+					"publishDate": "2023-01-05"
+				},
+				{
+					"id": "210059677000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/od/izgjtpe_210x315.jpg?v=0",
+					"title": "\n        心動那一年（上）              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA1OTY3NzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 90,
+					"about": "\n      人家在舞會遇見的是白馬王子，她遇見的卻是無敵大英雄。出色優秀的他，身形瘦削卻結實，微鬈的短髮俐落有型，整個人帶著些慵懶迷人又桀驁不馴的氣質！他嘴角微彎、笑容晏晏，那模樣擺明了是在戲弄她，卻依然讓人心動，害她的一顆心怦怦亂跳……而這樣完美的男人竟然對她說：「我們交往吧，舞冬...    ",
+					"authors": [
+						"宋雨桐"
+					],
+					"publisher": "狗屋出版"
+				},
+				{
+					"id": "210164831000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/pz/mphqukl_210x315.jpg?v=1608084109",
+					"title": "\n        監獄學園 2        ：第一集推出佳評如潮，還請不要錯過這笑料又達到另一高點的第二集！      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE2NDgzMTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 84,
+					"about": "\n      第一集推出佳評如潮，還請不要錯過這笑料又達到另一高點的第二集！    ",
+					"authors": [
+						"平本AKIRA"
+					],
+					"publisher": "台灣東販",
+					"publishDate": "2020-11-10"
+				},
+				{
+					"id": "210162187000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/jc/iihnrhi_210x315.jpg?v=1606352474",
+					"title": "\n        刻意學，一年頂十年        ：喜歡的事和賺錢的事如何兩全？職場贏家從不優先考慮興趣，他們怎麼學、怎麼正確選擇？      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE2MjE4NzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 245,
+					"about": "\n      這是一本寫給正在找工作、想換工作、懷疑自己該不該繼續做這工作的人的人生解答書。\n\n作者孫瑞希，美國諮詢師認證委員會（NBCC）認證的生涯諮詢師，\n14年職場歷練、5年生涯諮詢實戰經驗，她要用上千例案例經驗告訴你：\n職場贏家是怎麼「刻意學」，而能一年頂十年，毋須投對胎、抱對大腿。\n    ",
+					"authors": [
+						"孫瑞希"
+					],
+					"publisher": "大是文化"
+				},
+				{
+					"id": "210059678000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/qk/kilevzf_210x315.jpg?v=0",
+					"title": "\n        心動那一年（下）              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA1OTY3ODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 90,
+					"about": "\n      遇見她不是個意外，愛上她才是。天真陽光的舞冬末，是個直率可愛又迷人的少女，喜怒哀樂全都不加隱藏，還比旁人多了一點正義感，但如此單純善良的她，終究只是個十八歲的少女，正是輕易便能被撩撥心思，也很容易被欺騙的青澀年紀！\n    ",
+					"authors": [
+						"宋雨桐"
+					],
+					"publisher": "狗屋出版"
+				},
+				{
+					"id": "210085358000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ql/mqkrvrr_210x315.jpg?v=1521000683",
+					"title": "\n        這一年中國有三個皇帝              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA4NTM1ODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 196,
+					"about": "\n      公元一六四四年，一個天翻地覆的年代。\n\n崇禎、李自成、順治在這關鍵性的一年裡，決定了天命所歸。\n\n一六四四年頭一百天裡，被稱為「流寇」的大順朝，兵不血刃地攻下了大明朝帝都──北京城，崇禎皇帝自縊身亡。\n \n    ",
+					"authors": [
+						"丁燕石"
+					],
+					"publisher": "遠流出版",
+					"publishDate": "1999-08-31"
+				},
+				{
+					"id": "210259714000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/8h/98chlg5_210x315.jpg?v=1673576990",
+					"title": "\n        這一年，我看的（平面）設計              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDI1OTcxNDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 99,
+					"about": "\n      這一年，我看見了（平面）設計的「什麽」？\n—— 12 篇精選的平面設計領域報導，\n希望讓你跳脫出「美，但不懂爲什麽」的表面性，\n取得發表和評論平面設計的勇氣。\n    ",
+					"authors": [
+						"甄健恆"
+					],
+					"publisher": "賞物誌OOTP"
+				},
+				{
+					"id": "210158402000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/8f/cebblh8_210x315.jpg?v=1602645690",
+					"title": "\n        那一年我們在杏林裡找人文              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE1ODQwMjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 252,
+					"about": "\n      印度聖雄甘地吃素，但如何維持充沛的體力呢？\n你知道人道主義醫師史懷哲博士的國籍嗎？\n巴拿馬運河除了工程以外，還碰到什麼更大的障礙？\n哥白尼畫像中常拿著天文器材，為什麼也有拿著植物的畫像呢？\n為何醫生也會成為推理小說的作家？\n醫學標誌上為什麼會出現蛇？\n我們一起來找答案吧！    ",
+					"authors": [
+						"曾思文"
+					],
+					"publisher": "致出版"
+				},
+				{
+					"id": "210073651000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/a7/g69gi46_210x315.jpg?v=1503284979",
+					"title": "\n        那一年，我在劍橋揭下佛地魔的面具              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA3MzY1MTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 315,
+					"about": "\n      ※奇幻魔法x劍橋學記x勵志成長，透過作者魔法般的文字，帶領讀者深入淺出的增廣見聞、體驗留學生活、認識劍橋人文 ※多達十八位來自媒體、文化與企業等各界人士熱情推薦\n    ",
+					"authors": [
+						"許復"
+					],
+					"publisher": "釀出版",
+					"publishDate": "2016-09-30"
+				},
+				{
+					"id": "210008723000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/a8/9f97il5_210x315.jpg?v=0",
+					"title": "\n        跟你結婚也不錯【愛神打瞌睡之二】              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDAwODcyMzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 90,
+					"about": "\n      \n 「娶個花瓶我也不在乎，反正一開始我就不期待妳會是個好老婆。而且婚姻本來就是『墳墓』，跟誰綁在一起都一樣。」這男人真不會說話！他的意思是誰娶了她，日子也跟地獄差不多嗎？！如果不是老爸臨終前偷偷將她託付給他，還使了個詭計，立了遺囑，逼她不得不答應嫁給他，她也不想跟這個很愛機會教育她的男人有什麼交集啊...    ",
+					"authors": [
+						"香奈兒"
+					],
+					"publisher": "狗屋出版",
+					"publishDate": "2013-10-02"
+				},
+				{
+					"id": "210260304000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/61/2870gc4_210x315.jpg?v=1675221078",
+					"title": "\n        在都市窩居10年，我過得還不錯        ：只是維持最低限度的工作量和人際關係，九成的焦慮也遠離了      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDI2MDMwNDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 231,
+					"about": "\n      「我不是躺平，只是想活得更寬鬆！」\n\n從「朝九晚九」到「周休五日」，\n我透過一場都市窩居實驗，\n擺脫了身心俱疲、壓力山大的厭世人生……\n​\n同年齡朋友個個結婚生子、年薪百萬；\nFB、IG上大家拼命曬出國玩樂照，\n總是覺得自己低人一等、擔心跟不上別人，一直活得焦慮不已？    ",
+					"authors": [
+						"大原扁理"
+					],
+					"publisher": "采實文化",
+					"publishDate": "2023-01-17"
+				},
+				{
+					"id": "290208503000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/fi/89limlf_210x315.jpg?v=1638340577",
+					"title": "\n        希望老後的我看起來還不錯（有聲書）        ：寫給退休族的30堂優老計畫課！      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzI5MDIwODUwMzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 360,
+					"about": "\n      未老先修、初老選修、老後必修\n沒有人可以永遠年輕\n讓我們一起啟動「優老計畫」，成為一個自在自愛、人見人愛的質感老人。\n\n由6位作者依不同的專業領域及體悟分別親聲朗讀，將退休族必學的30堂優老計畫課，以簡單易懂的說明，提供涵蓋生理、心理、生活、財務、法律、醫療、保險……等全面的超前部署建議。\n...    ",
+					"authors": [
+						"萬子綾博士"
+					],
+					"publisher": "時報出版",
+					"publishDate": "2021-11-05"
+				},
+				{
+					"id": "210118365000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/mr/mlfgtjh_210x315.jpg?v=1572251904",
+					"title": "\n        盲點效應        ：從此不再錯過眼前對的選擇      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDExODM2NTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 266,
+					"about": "\n      你有權利選擇更好的人生版本!\n在每個時刻感知自己更多的潛能\n     ",
+					"authors": [
+						"凱莉‧波伊斯"
+					],
+					"publisher": "三采文化股份有限公司"
+				},
+				{
+					"id": "210231233000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/77/96a9h12_210x315.jpg?v=1655351537",
+					"title": "\n        驚人發現！你的基因有25%和香蕉一樣        ：孩子絕不可錯過的第一本演化遺傳學繪本      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDIzMTIzMzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 245,
+					"about": "\n      所有生物，包括水果和人，都有內建的食譜，稱之為「基因」。基因主宰我們的髮色、我們的腿（還有脖子）有多長……以及決定你會長出一雙腳或是一根樹幹。基因會做很多、很多的工作，並指揮身體各個部位如何運作和發育。\n\n \n\n但是，你知道嗎？在「你」這本精采絕倫的食譜書中，大約有四分之一和製造香蕉的食譜相...    ",
+					"authors": [
+						"蘇西．布魯克斯"
+					],
+					"publisher": "小熊出版"
+				},
+				{
+					"id": "210149716000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/bf/a6fikd9_210x315.jpg?v=1594340377",
+					"title": "\n        這一年吃些什麼好？東京家庭的四季飲食故事              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE0OTcxNjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 266,
+					"about": "\n      食物是跨越時間與空間，愛情的紀錄\n春夏秋冬，因為「吃」更豐富，更有趣，更有記憶。\n\n新井一二三東京家庭的飯桌上，每年每天重複的一頓飯，有四季節令，有小時候的回憶，有東西方，在地日本的雜食活力。\n    ",
+					"authors": [
+						"新井一二三"
+					],
+					"publisher": "大田出版"
+				},
+				{
+					"id": "210182172000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ni/iqkjzem_210x315.jpg?v=1622181858",
+					"title": "\n        如果一年後，我已不在世上        ：凝視死亡，就是凝視該怎麼活著！日本心理腫瘤科名醫與3500位患者的生命對話，教你活出不後悔的人生！      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE4MjE3MjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 196,
+					"about": "\n      凝視死亡，\n就是凝視該怎麼活著！    ",
+					"authors": [
+						"清水研"
+					],
+					"publisher": "平安文化"
+				},
+				{
+					"id": "210116872000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/hb/jabao8d_210x315.jpg?v=1569493097",
+					"title": "\n        張天捷在台北繞了一年都沒遇到蔡依林              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDExNjg3MjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 210,
+					"about": "\n      張天捷作為「一年期專職作家完結收錄」的111則極短篇+詩，以及附錄一篇未完待續的小說。\n全部都是愛情。包括男生說，也包括女生說。\n三言兩語說盡一個愛的宇宙，瘋狂而執著，痴傻年幼，完完全全恨之，愛之，笑之，交雜的情緒五味雜陳。    ",
+					"authors": [
+						"張天捷"
+					],
+					"publisher": "大田出版",
+					"publishDate": "2019-09-01"
+				},
+				{
+					"id": "210170366000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ql/mqepvme_210x315.jpg?v=1612280157",
+					"title": "\n        56歲這一年的56天 : 一個畫家機車環島寫生的記憶              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE3MDM2NjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 175,
+					"about": "\n      機車環島寫生　我已經遲了30年\n畫下完整的海岸美景 台灣已經遲了500年\n洪東標說環島寫生他已經遲了30年，但畫下海岸之美的台灣已經遲了500年，機車環島很容易，但機車環島的同時畫100張以上寫生作品就不容易，環島公路1200公里很好走，但貼近海岸的環海小路3000公里就不好走，環島一圈5天很愉...    ",
+					"authors": [
+						"洪東標"
+					],
+					"publisher": "金塊文化"
+				},
+				{
+					"id": "210164835000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/a9/386dic6_210x315.jpg?v=1608084110",
+					"title": "\n        監獄學園 6        ：ＤＴＯ篇最高潮就在第６集，還請不要錯過渾身噴汗的副會長英姿！      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE2NDgzNTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 84,
+					"about": "\n      ＤＴＯ篇最高潮就在第６集，還請不要錯過渾身噴汗的副會長英姿！    ",
+					"authors": [
+						"平本AKIRA"
+					],
+					"publisher": "台灣東販",
+					"publishDate": "2020-11-10"
+				},
+				{
+					"id": "210001026000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/8d/6ce2l6c_210x315.jpg?v=0",
+					"title": "\n        那一年被迫嫁給野霸王（限）              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDAwMTAyNjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 99,
+					"about": "\n      \n 絕對情色！絕非色情！\n 百萬點閱率見證！\n 優美、浪漫的文字，挑逗出您心靈及感官最大的滿足！\n 曲折、多變且玄幻的故事情節，讓您驚心動魄又嬌羞喜閱！\n 兩岸真正第一人氣情慾作家──「天使戀」、《烈焰星光下的溫柔》作者C.H（C大），滿足您內心最深層及最原始的慾念，也啟發您最冒險、刺激的心靈與肉體...    ",
+					"authors": [
+						"C.H（Chiang）"
+					],
+					"publisher": "丹陽文化"
+				},
+				{
+					"id": "210072960000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/64/bb62g9c_210x315.jpg?v=1502086291",
+					"title": "\n        一雙慢跑鞋：一年內完成42K馬拉松訓練計畫              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA3Mjk2MDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 224,
+					"about": "\n      自我挑戰：選擇自己可承受的里程數，為自己設定目標。\n\n平時練習該怎麼練？該如何選擇適合的練習場地？撞牆期怎麼突破？\n\n從心理到生理層面全面剖析，跑者不藏私通通大公開！\n    ",
+					"authors": [
+						"高志明"
+					],
+					"publisher": "創意市集"
+				},
+				{
+					"id": "210166147000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/a4/gca6i37_210x315.jpg?v=1610338960",
+					"title": "\n        Hey！大隻佬(1)              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE2NjE0NzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 70,
+					"about": "\n      惡名昭彰的流氓學校‧花椿高中２年級的早乙女力 ，號稱是打架最厲害的天下第一的不良少年。看似兇惡的他，其實有顆溫柔善良的心……且看他和小弟三郎如何在男子漢路上勇往直前!!渾身是勁的第一集，震撼登場!!\n    ",
+					"authors": [
+						"永田晃一"
+					],
+					"publisher": "長鴻出版社"
+				},
+				{
+					"id": "210166148000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/bb/gibfk58_210x315.jpg?v=1610338953",
+					"title": "\n        Hey！大隻佬(2)              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE2NjE0ODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 70,
+					"about": "\n      \"終於成為花椿高中老大的早乙女力仍舊是個漫不經心又不會擺架子的人！\n因為某個事件，他單槍匹馬闖入宿敵‧天坊高工大開殺戒!?情勢一觸即發!!\n霸氣十足的第２集！精彩的故事內容千萬不要錯過喔!!\"\n    ",
+					"authors": [
+						"永田晃一"
+					],
+					"publisher": "長鴻出版社"
+				},
+				{
+					"id": "210163547000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/je/qjmkrfm_210x315.jpg?v=1610091277",
+					"title": "\n        寬恕的一年：《奇蹟課程》學員每日練習‧耶穌釋義版              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE2MzU0NzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 456,
+					"about": "\n      21世紀影響最大的經典智慧之書《奇蹟課程》\n全新耶穌評注版，透過365日的學員練習，活出奇蹟的生命。\n\n本書為《奇蹟課程》的伴讀本，收錄2019年耶穌透過蒂娜‧司帕爾汀所傳導的《奇蹟課程》每日一課評註。    ",
+					"authors": [
+						"蒂娜‧司帕爾汀"
+					],
+					"publisher": "一中心有限公司"
+				},
+				{
+					"id": "220127606000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ec/hbk9n96_210x315.jpg?v=1579171724",
+					"title": "\n        食力專題報導vol.27        ：過動、致癌，千錯萬錯都是色素的錯，是真的嗎？      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIyMDEyNzYwNjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": -1,
+					"about": "\n      過動、致癌，千錯萬錯都是色素的錯，是真的嗎？\n如果馬卡龍或棒棒糖失去了繽紛的色彩，你還會買單嗎？ 「色素」賦予食品美麗的色澤，進一步刺激了食慾與購買慾。 但是你是否也擔心色素不健康，可能會引發過動症、甚至致癌？！事實上，色素真的如此不堪嗎？如果真的有問題，為什麼還被允許使用呢？就讓《食力》為你揭開...    ",
+					"authors": [
+						"食力編輯室"
+					],
+					"publisher": "厚策思維有限公司"
+				},
+				{
+					"id": "210166154000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ij/iccepmf_210x315.jpg?v=1610338938",
+					"title": "\n        Hey！大隻佬(4)              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE2NjE1NDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 70,
+					"about": "\n      阿力雖然打敗了天坊高工的神谷，但是為了心儀的女高中生而苦惱中。另一方面，天坊高工裡面，決定下一任首領的「2年級最強決定戰」開始了，奪冠呼聲最高的矢澤和李開始了命運的對決…！力與力的衝突!!千萬不要錯過!!\n    ",
+					"authors": [
+						"永田晃一"
+					],
+					"publisher": "長鴻出版社"
+				},
+				{
+					"id": "210114933000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/d7/de99jh6_210x315.jpg?v=1580723744",
+					"title": "\n        我的職業是電影字幕翻譯師：一年翻50部電影的祕密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDExNDkzMzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 270,
+					"about": "\n      《冰雪奇緣》、《醉後大丈夫》、《星際效應》、《一級玩家》的指定翻譯師！\n15年翻譯老手的教戰手冊！一次揭開這個夢幻又神祕的職業內幕！\n從入行、接案、收費、翻譯技巧到譯者心態，完整揭露！\n    ",
+					"authors": [
+						"陳家倩"
+					],
+					"publisher": "眾文圖書股份有限公司"
+				},
+				{
+					"id": "210174119000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/fg/l8akmcl_210x315.jpg?v=1614312197",
+					"title": "\n        異世界歸來的舅舅 (4)              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE3NDExOTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 100,
+					"about": "\n      ★點閱率超過三百萬次！備受矚目的折斷旗幟型喜劇書籍化!!\n★喜愛SE●A的讀者們絕對不容錯過！    ",
+					"authors": [
+						"殆ど死んでいる"
+					],
+					"publisher": "台灣角川",
+					"publishDate": "2021-02-19"
+				},
+				{
+					"id": "210121790000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/qk/tpjtvzm_210x315.jpg?v=1576235595",
+					"title": "\n        我的英雄學院(17)              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDEyMTc5MDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 55,
+					"about": "\n      看著妳渾身顫抖，在黑暗的小巷中被帶走，我卻無法為妳做些什麼。這件事讓我相當後悔。……我一直明白，自己其實很弱。但是，我絕對不會再讓妳難過了！壞理！我會成為妳的英雄！“ Plus Ultra＂！    ",
+					"authors": [
+						"堀越耕平"
+					],
+					"publisher": "東立出版社",
+					"publishDate": "2019-12-01"
+				},
+				{
+					"id": "210178288000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/60/9095g72_210x315.jpg?v=1665039579",
+					"title": "\n        聰明工作者都會的防呆技術        ：出錯時最糟的回應是「我下次會注意」！看看工程專家如何設計工作機制，犯錯不會被罵還能獲得好評。      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE3ODI4ODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 245,
+					"about": "\n      本書作者飯野謙次是史丹佛大學工學博士，是工學專家，\n專長為改變工程的基礎與結構，直到不再重複過去的錯誤。\n（核能發電能容許哪種出錯？可以「下次會注意」嗎？）\n    \n飯野指出，工程學上的這套方法反而更適用於一般職場工作者，\n因為世上沒有「零失誤」這回事，只要是人就一定會出錯，\n那些就算...    ",
+					"authors": [
+						"飯野謙次"
+					],
+					"publisher": "大是文化"
+				},
+				{
+					"id": "210263697000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/79/f9a7h46_210x315.jpg?v=1677220555",
+					"title": "\n        打開藝術致富門道，買對一年半漲10倍        ：專業藝術經紀人教你欣賞→收藏→投資三部曲      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDI2MzY5NzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 350,
+					"about": "\n      藝術收藏，是富豪的專利嗎？\n月薪族想踏入藝術投資的殿堂，是不可能的事？\n\n專業藝術經紀人告訴你：\n事實上，30 歲左右開始有點經濟基礎的上班族，\n是最適合開始接觸藝術蒐藏的族群！    ",
+					"authors": [
+						"王玉齡"
+					],
+					"publisher": "麥浩斯"
+				},
+				{
+					"id": "210161928000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/hc/eihmogl_210x315.jpg?v=1606867502",
+					"title": "\n        威士忌品鑑指南        ：Whisky入門必懂！你不該錯過的101經典酒款      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE2MTkyODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 245,
+					"about": "\n      威士忌全球TOP 101選，你的人生暢飲清單\n\n這是一趟穿越時空的微醺旅行，帶你暢遊威士忌產地，一窺生產工藝及酒廠歷史：低地區的花草芬芳、高地區的寂冷甘烈、艾雷島的泥煤海風、肯塔基的粗獷豪邁……，不需長途跋涉，只要輕搖酒杯就能隨著香氣心馳神往。    ",
+					"authors": [
+						"陳馨儀"
+					],
+					"publisher": "晨星出版有限公司"
+				},
+				{
+					"id": "210193109000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/cl/haccjdb_210x315.jpg?v=1633626584",
+					"title": "\n        無痛儲蓄助你一年獲得 3個月額外工資        ：要有財可理 先要做好儲蓄      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE5MzEwOTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 79,
+					"about": "\n      戶口長期入不敷支，每個月錢包乾枯，想儲蓄但坊間千百種方法，根本不知道應該如何選擇。\n這本書會深入淺出助你找到合適方法，擺脫月光族，一年獲得3個月額外工資。\n\n書本特色:\n1.顯淺易明\n2.有實際例子提供，不是紙上談兵\n3.設有後續儲蓄指導協作方案可供選購，不會讓你自己一個傍徨無助\n\n...    ",
+					"authors": [
+						"TimetoInvestNow"
+					],
+					"publisher": "TimetoInvestNow再不起行就太遲"
+				},
+				{
+					"id": "210158480000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/61/c089gde_210x315.jpg?v=1603342110",
+					"title": "\n        依舊對自己陌生的30歲        ：不懂大人的世界也無所謂，年過30還是可以繼續耍廢，但不畫地自限！      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE1ODQ4MDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 245,
+					"about": "\n      這本書，獻給過了30歲，依舊對自己陌生的你。\n\n作者是BOTA，知名插畫作家，一開始只是將自己和朋友的故事描繪出來，\n想不到從第一個作品開始就得到讀者們熱烈的反應，\n讀者說，超有感、超療癒，不知不覺間已連載了兩年，共創作了兩百集的內容。\n    ",
+					"authors": [
+						"BOTA"
+					],
+					"publisher": "任性出版"
+				},
+				{
+					"id": "210184005000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/cl/7h9djf9_210x315.jpg?v=1624027550",
+					"title": "\n        排球少年!!小說版!!(8)        ：舊的一年與新的一年      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE4NDAwNTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 125,
+					"about": "\n      告別過往，迎接新的開始一舉收錄少年們春高開幕前的日常生活!!    ",
+					"authors": [
+						"星希代子"
+					],
+					"publisher": "東立出版社"
+				},
+				{
+					"id": "220099865000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ll/jhlcqnh_210x315.jpg?v=1544522097",
+					"title": "\n        大師輕鬆讀 2018/12/12 No.700 預約最棒的一年              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIyMDA5OTg2NTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 90,
+					"about": "\n      **No.700 預約最棒的一年｜中英對照 **\n不再錯過夢想到現實之間的5個步驟\n我們總是想活得精采、有意義,也很希望自己在個人能力、人際關係、財務、事業等等,愈來愈進步、愈來愈有發展。換句話說,如何讓夢想成真是人生必經的修練。\n    ",
+					"authors": [
+						"大師輕鬆讀編譯小組"
+					],
+					"publisher": "大師輕鬆讀股份有限公司"
+				},
+				{
+					"id": "210171052000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/nl/pgppzmi_210x315.jpg?v=1612542095",
+					"title": "\n        一串銅錢              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE3MTA1MjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 240,
+					"about": "\n      　　廟門關上的一刻，艾成看著刷黑的天，腦中突然一片混亂，斷片記憶交錯閃過，尹和月的聲音忽近忽遠、夾雜著過去與現今。\n　　一柱香後，想起一切的艾成抓緊袖襬滿身冷汗，拖著虛浮的步伐往廟外走去。\n　\n　　這一次，他不能再遲了。\n　　否則他將生生錯過那個人。\n    ",
+					"authors": [
+						"不精明"
+					],
+					"publisher": "四方行工作室"
+				},
+				{
+					"id": "210167209000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/lf/ceiaqhh_210x315.jpg?v=1612797198",
+					"title": "\n        美國高中生存指南：一年內，從ESOL到AP Lang的台灣小高一奮鬥史              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE2NzIwOTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 224,
+					"about": "\n      本書記載許捷在WJHS 就讀時遇到的大小事，希望可以幫助正要出國讀書、或是純粹想了解美國的你，對於美國高中文化有進一步的認識。\n　　    ",
+					"authors": [
+						"許捷（ChiehHsu）"
+					],
+					"publisher": "大好文化企業社"
+				},
+				{
+					"id": "290224366000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ql/mqfpvkg_210x315.jpg?v=1650253620",
+					"title": "\n        鹿港少女1：一年櫻班 開學了（有聲書）              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzI5MDIyNDM2NjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 360,
+					"about": "\n      　　小惠明天就要上學去了。她有很多不安和困惑：她擔心自己太笨，讓家人丟臉，因為她家可是鹿港的書香門第，哥哥姊姊都當班長，爸爸是老師，爺爺的爸爸以前是進士呢。她也困惑，明明她的日文程度和其他日本小孩一樣好，為什麼爸爸堅持要她們去上臺灣小孩讀的國民學校……？    ",
+					"authors": [
+						"嶺月"
+					],
+					"publisher": "字畝"
+				},
+				{
+					"id": "210231001000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/le/9cbdqnm_210x315.jpg?v=1653633228",
+					"title": "\n        對別人說不出口的，也不要對自己說        ：29個自我對話練習，遠離自我批判，找回還不錯的自己      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDIzMTAwMTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 245,
+					"about": "\n      \n「你太廢了！」「你好胖！」「怎麼這麼笨！」\n面對越是親密的自己，\n我們說著越過分的話語。\n \n其實，你不必對自己嚴厲，\n也能成為一個不錯的人。    ",
+					"authors": [
+						"鄭宰榮"
+					],
+					"publisher": "采實文化",
+					"publishDate": "2022-05-25"
+				},
+				{
+					"id": "210177341000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/mr/mhjgtni_210x315.jpg?v=1617869189",
+					"title": "\n        在React生態圈打滾的一年feat.TypeScript（iT邦幫忙鐵人賽系列書）              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE3NzM0MTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 420,
+					"about": "\n      一本記載了關於React開發生態圈的技術書籍\n不只說明應該下載哪些工具以及如何使用，更要你了解為何需要它！    ",
+					"authors": [
+						"黃冠霖（神Q超人）"
+					],
+					"publisher": "博碩文化"
+				},
+				{
+					"id": "210122090000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ik/qlocpfb_210x315.jpg?v=1576122775",
+					"title": "\n        異世界歸來的舅舅 (1)              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDEyMjA5MDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 100,
+					"about": "\n      ★點閱率超過三百萬次！備受矚目的折斷旗幟型喜劇書籍化!!\n★喜愛SE●A的讀者們絕對不容錯過！    ",
+					"authors": [
+						"殆ど死んでいる"
+					],
+					"publisher": "台灣角川",
+					"publishDate": "2019-11-22"
+				}
+			],
+			"quantity": 100
+		},
+		{
+			"bookstore": {
+				"website": "https://www.taaze.tw/",
+				"displayName": "Taaze 讀冊生活",
+				"id": "taaze",
+				"isOnline": true,
+				"status": "Active"
+			},
+			"isOkay": true,
+			"status": "Crawler success.",
+			"processTime": 1014.125787,
+			"books": [],
+			"quantity": 0
+		},
+		{
+			"bookstore": {
+				"website": "https://www.bookwalker.com.tw/",
+				"displayName": "BOOKWALKER",
+				"id": "bookWalker",
+				"status": "Active",
+				"isOnline": true
+			},
+			"isOkay": true,
+			"status": "Crawler success.",
+			"processTime": 4655.064832,
+			"books": [
+				{
+					"id": "158595",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/158595/158595_1.jpg",
+					"title": "待在家裡也不錯 / 過得還不錯的一年2",
+					"link": "https://www.bookwalker.com.tw/product/158595",
+					"priceCurrency": "TWD",
+					"price": 249,
+					"about": "你停駐之處，即是我心愛的家！快樂回家小秘訣：壞掉的傘千萬別留、學會自己開車、回家跳一跳、出門前抱一抱……\n                                    自從第一個「快樂生活提案」實驗之後，葛瑞琴知道自己真的變得更快樂了。沒錯，她的生活還是一樣：同樣的老\n                                    ",
+					"authors": [
+						"葛瑞琴‧魯賓"
+					],
+					"translators": [
+						"尤傳莉"
+					]
+				},
+				{
+					"id": "158594",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/158594/158594_1.jpg",
+					"title": "過得還不錯的一年（10週年紀念版） / 我的快樂生活提案",
+					"link": "https://www.bookwalker.com.tw/product/158594",
+					"priceCurrency": "TWD",
+					"price": 298,
+					"about": "向達賴喇嘛、歐普拉、梭羅學習快樂，為自己寫一份Happiness Project！一場喚醒百萬人的生活實驗！\n                                    《紐約時報》暢銷榜第一名！年度10大影響力好書活得很悶?一成不變?日子一團糟，老是疲於奔命?幸福快樂\n                                    ",
+					"authors": [
+						"葛瑞琴．魯賓"
+					],
+					"translators": [
+						"尤傳莉"
+					]
+				},
+				{
+					"id": "56649",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/56649/56649_1.jpg",
+					"title": "離開公司，我過得還不錯 / 成為自由工作者的理想生活提案",
+					"link": "https://www.bookwalker.com.tw/product/56649",
+					"priceCurrency": "TWD",
+					"price": 224,
+					"about": "搞不好每個人的生涯都應該「自由」一兩次，花幾年時間為自己而活，才是未來職涯的常態吧。\n                                    我該上班還是自由工作？我也想自由接案，但我要做什麼？案子要從哪裡來？離開公司與職位後，如何重新打造自\n                                    ",
+					"authors": [
+						"劉揚銘"
+					]
+				},
+				{
+					"id": "85844",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/85844/85844_1.jpg",
+					"title": "過得還不錯的人生：運用幸福心理學的智慧，避開不幸的陷阱，成就愉快而滿足的生活",
+					"link": "https://www.bookwalker.com.tw/product/85844",
+					"priceCurrency": "TWD",
+					"price": 269,
+					"about": "過得還不錯的人生：運用幸福心理學的智慧，避開不幸的陷阱，成就愉快而滿足的生活\n                                    所謂平順、美好的生活並非全無意外、沒有變化的人生而是隨事隨在，都能用好的框架看世界無論缺乏時還是豐富\n                                    ",
+					"authors": [
+						"崔仁哲"
+					],
+					"translators": [
+						"陳品芳"
+					]
+				},
+				{
+					"id": "155640",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/155640/155640_1.jpg",
+					"title": "在都市窩居10年，我過得還不錯 / 只是維持最低限度的工作量和人際關係，九成的焦慮也遠離了",
+					"link": "https://www.bookwalker.com.tw/product/155640",
+					"priceCurrency": "TWD",
+					"price": 231,
+					"about": "「我不是躺平，只是想活得更寬鬆！」\n                                    從「朝九晚九」到「周休五日」，我透過一場都市窩居實驗，擺脫了身心俱疲、壓力山大的厭世人生……  同年\n                                    ",
+					"authors": [
+						"大原扁理"
+					],
+					"translators": [
+						"姜柏如"
+					]
+				},
+				{
+					"id": "93713",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/93713/93713_1.jpg",
+					"title": "暖活：愛得還不錯的那些故事",
+					"link": "https://www.bookwalker.com.tw/product/93713",
+					"priceCurrency": "TWD",
+					"price": 224,
+					"about": "只要相信幸福、希望與溫暖，你的故事就會有美好的結局\n                                      一個愛說故事的天使，教我們遇到困難的時候，擁抱正向能量，不開心的時候，就用微笑抵抗。她大方攤開自\n                                    ",
+					"authors": [
+						"劉中薇"
+					]
+				},
+				{
+					"id": "82774",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/82774/82774_1.jpg",
+					"title": "這樣開始也不錯，擺脫束縛的一年",
+					"link": "https://www.bookwalker.com.tw/product/82774",
+					"priceCurrency": "TWD",
+					"price": 266,
+					"about": "  ✽《過得還不錯的一年》作者最新力作  ✽ 榮登亞馬遜暢銷榜，讀者★★★★好評推薦  這本書宛如生命指導手冊，帶領你向理想生活邁進。－－《紐約時報》書評\n                                      誰不想掌控自己的人生呢？  生命中有太多事情不是我們能掌控的，  但是生活可以。  如果能掌控好\n                                    ",
+					"authors": [
+						"葛瑞琴・魯賓"
+					],
+					"translators": [
+						"周宜芳"
+					],
+					"painters": [
+						"三人制創"
+					]
+				},
+				{
+					"id": "140200",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/140200/140200_1.jpg",
+					"title": "對別人說不出口的，也不要對自己說 / 29個自我對話練習，遠離自我批判，找回還不錯的自己",
+					"link": "https://www.bookwalker.com.tw/product/140200",
+					"priceCurrency": "TWD",
+					"price": 245,
+					"about": "\n                                    「你太廢了！」「你好胖！」「怎麼這麼笨！」面對越是親密的自己，我們說著越過分的話語。其實，你不必對自\n                                    ",
+					"authors": [
+						"鄭宰榮",
+						"劉小妮 (監製)"
+					],
+					"translators": [
+						"劉小妮"
+					]
+				},
+				{
+					"id": "139028",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/139028/139028_1.jpg",
+					"title": "不用完美，做個還不錯的人就好：韓國腦科學專家革命性療癒聖經，寫給每個感到自卑、焦慮、挫折、痛苦的你！",
+					"link": "https://www.bookwalker.com.tw/product/139028",
+					"priceCurrency": "TWD",
+					"price": 225,
+					"about": "痛苦、疲憊、焦慮……都不是你的錯，而是你的「大腦」受傷了！\n                                    臨床心理實例＋腦認知科學，助你徹底解決情緒難題！暢銷突破100,000冊！韓國Yes24網路書店讀者\n                                    ",
+					"authors": [
+						"許智元"
+					],
+					"translators": [
+						"邱琡涵"
+					]
+				},
+				{
+					"id": "54900",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/54900/54900_1.jpg",
+					"title": "斷開糖尿病，從好好刷牙開始！ / 日本糖尿病專科醫生親身驗證：只要一年，解決高血壓、高血糖、心律不整，還成功減重18公斤",
+					"link": "https://www.bookwalker.com.tw/product/54900",
+					"priceCurrency": "TWD",
+					"price": 231,
+					"about": "隨著糖尿病年輕化，幾乎每小時奪一命！而這樣致命的危機，就可能來自你輕忽的口腔健康！\n                                    糖尿病是台灣十大死因之一，每年近萬人因糖尿病死亡糖尿病不僅好發於老年人身上，連青少年都有可能是糖尿病\n                                    ",
+					"authors": [
+						"西田 亙"
+					]
+				},
+				{
+					"id": "88102",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/88102/88102_1.jpg",
+					"title": "希望老後的我，看起來還不錯！ / 寫給準老人的30篇優老計畫",
+					"link": "https://www.bookwalker.com.tw/product/88102",
+					"priceCurrency": "TWD",
+					"price": 252,
+					"about": "未老先修、初老選修、老後必修沒有人可以永遠年輕，讓我們一起啟動「優老計畫」，成為一個自在自愛、人見人愛的質感老人。\n                                    「照顧家人」和「照顧自己」是老天給每個人的考試，只有準備好的人才能考得好成績。衝鋒職場的我們曾經無畏\n                                    ",
+					"authors": [
+						"萬子綾博士",
+						"黃淑君",
+						"楊婷雅",
+						"蔡麗瓊",
+						"楊香容",
+						"鄭惠文"
+					],
+					"painters": [
+						"周詠詩"
+					]
+				},
+				{
+					"id": "52097",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/52097/52097_1.jpg",
+					"title": "一年的距離(02)完",
+					"link": "https://www.bookwalker.com.tw/product/52097",
+					"priceCurrency": "TWD",
+					"price": 69,
+					"about": "比自己小１歲的男朋友‧阿橋\n                                    可喜可賀地與久?美進入同一所高中就讀。但兩人卻因為阿橋的同學‧蓮見和柳井學長的介入，讓彼此的關係顯得\n                                    ",
+					"authors": [
+						"蒼井守"
+					]
+				},
+				{
+					"id": "52096",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/52096/52096_1.jpg",
+					"title": "一年的距離(01)",
+					"link": "https://www.bookwalker.com.tw/product/52096",
+					"priceCurrency": "TWD",
+					"price": 69,
+					"about": "「我想成為和阿橋同年的女孩子。」\n                                    退出社團活動，已經過了３個月。久違的阿橋還是一如往常的囂張，但他似乎也變得更像大人一點了。而我，果然\n                                    ",
+					"authors": [
+						"蒼井守"
+					]
+				},
+				{
+					"id": "127938",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/127938/127938_1.jpg",
+					"title": "德意的一年",
+					"link": "https://www.bookwalker.com.tw/product/127938",
+					"priceCurrency": "TWD",
+					"price": 273,
+					"about": "失戀宅男的德國流浪記！\n                                    這是一本理工人所寫的德國觀察日記，也是一段突破自我、找回真愛的成長旅程。  有一種失戀，是把自己丟到\n                                    ",
+					"authors": [
+						"賴以威"
+					],
+					"painters": [
+						"HOM"
+					]
+				},
+				{
+					"id": "108280",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/108280/108280_1.jpg",
+					"title": "你的演技不錯，尤其是假裝快樂：別跟自己過不去",
+					"link": "https://www.bookwalker.com.tw/product/108280",
+					"priceCurrency": "TWD",
+					"price": 196,
+					"about": "你的演技不錯，尤其是假裝快樂：別跟自己過不去\n                                    人生已經如此不易，你又何苦為難自己？  自己那麼努力工作，卻無法得到主管的青睞；  儘管說話的時候謹\n                                    ",
+					"authors": [
+						"阿潔"
+					]
+				},
+				{
+					"id": "131644",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/131644/131644_1.jpg",
+					"title": "不要在最好的年紀，吃得隨便、過得廉價",
+					"link": "https://www.bookwalker.com.tw/product/131644",
+					"priceCurrency": "TWD",
+					"price": 240,
+					"about": "人生沒有平衡，只有取捨。唯有讓自己更有價值，你才能悟得快樂的道理。\n                                    ★ ★ ★誰說30歲，就不能談論「夢想」？你嚮往何種工作，就能擁有何種人生！現在的你，是否正為了工作\n                                    ",
+					"authors": [
+						"蔡侑霖"
+					]
+				},
+				{
+					"id": "85022",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/85022/85022_1.jpg",
+					"title": "1949石破天驚的一年",
+					"link": "https://www.bookwalker.com.tw/product/85022",
+					"priceCurrency": "TWD",
+					"price": 224,
+					"about": "在石破天驚的歷史轉折中，多少冷戰往事已變成過眼雲煙，多少冷戰危機已成為雪泥鴻爪，多少冷戰人物已全都隨風而逝。\n                                    1949是狂飆年代！它不僅改變了亞洲的政治地圖，亦肇始了全球的動亂歲月。自由世界對抗共產集團，第三世\n                                    ",
+					"authors": [
+						"林博文"
+					]
+				},
+				{
+					"id": "117714",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/117714/117714_1.jpg",
+					"title": "排球少年!!小說版!!(8) / 舊的一年與新的一年",
+					"link": "https://www.bookwalker.com.tw/product/117714",
+					"priceCurrency": "TWD",
+					"price": 125,
+					"about": "告別過往，迎接新的開始一舉收錄少年們春高開幕前的日常生活!!\n                                    春季高中排球賽即將開打，參賽的學校成員年假中也努力練習＆集訓。這段期間內，聖誕節、除夕、新年參拜等，\n                                    ",
+					"authors": [
+						"星希代子",
+						"古舘春一 (原作)"
+					],
+					"translators": [
+						"張紹仁"
+					],
+					"painters": [
+						"古舘春一"
+					]
+				},
+				{
+					"id": "26227",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/26227/26227_1.jpg",
+					"title": "一年十組の奮闘",
+					"link": "https://www.bookwalker.com.tw/product/26227",
+					"priceCurrency": "TWD",
+					"price": 183,
+					"about": "底辺異能の青春闘争！　ハイテンション・クラスバトコメ、堂々開演!!\n                                    学生のすべてが何らかの“能力”を有する特別な学校、私立天命学園。「人をなごませる程度の能力」を持つ花\n                                    ",
+					"authors": [
+						"十文字青"
+					],
+					"painters": [
+						"しらび"
+					]
+				},
+				{
+					"id": "137719",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/137719/137719_1.jpg",
+					"title": "如夢的一年",
+					"link": "https://www.bookwalker.com.tw/product/137719",
+					"priceCurrency": "TWD",
+					"price": 255,
+					"about": "2010年，佩蒂‧史密斯以《只是孩子》書寫與已故攝影師羅柏在紐約相識相戀並投身創作的故事。\n                                    接著，她在《時光列車》回到公寓對街的咖啡館，回憶亡夫、青春與所愛。而後，2015年邁入2016年的跨\n                                    ",
+					"authors": [
+						"佩蒂．史密斯"
+					],
+					"translators": [
+						"何穎怡"
+					]
+				},
+				{
+					"id": "26228",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/26228/26228_1.jpg",
+					"title": "一年十組の奮闘 2",
+					"link": "https://www.bookwalker.com.tw/product/26228",
+					"priceCurrency": "TWD",
+					"price": 183,
+					"about": "本当の“仲間”とはなんなのか？　笑いと涙のハイテンション・クラスコメディ、第二弾！\n                                    学生のすべてが何らかの“能力”を有する特別な学校、私立天命学園。今日も一年十組の面々は、バカバカしい\n                                    ",
+					"authors": [
+						"十文字青"
+					],
+					"painters": [
+						"しらび"
+					]
+				},
+				{
+					"id": "23180",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/23180/23180_1.jpg",
+					"title": "第一次也不錯 (全)",
+					"link": "https://www.bookwalker.com.tw/product/23180",
+					"priceCurrency": "TWD",
+					"price": 55,
+					"about": "第一次也不錯\n                                    (全一冊)美有從高中時代就喜歡的深園直人當上公司社長，而她透過介紹去上班的第一天就被叫去社長室，並被\n                                    ",
+					"authors": [
+						"金井康絵"
+					]
+				},
+				{
+					"id": "101077",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/101077/101077_1.jpg",
+					"title": "弄丟自己的你，過得有點辛苦吧 / 當你開始愛自己，全世界都會來愛你",
+					"link": "https://www.bookwalker.com.tw/product/101077",
+					"priceCurrency": "TWD",
+					"price": 231,
+					"about": "致被掩蓋的自己──我們都有堅強癮、獨立癮、付出癮、懂事癮，而忘了真正的自己\n                                    你是不是，努力朝著大家眼裡那個優秀的樣子前進？可能也曾經，害怕別人看你的眼光中出現質疑。選擇扮演一個\n                                    ",
+					"authors": [
+						"周梵"
+					]
+				},
+				{
+					"id": "89333",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/89333/89333_1.jpg",
+					"title": "不是生活無趣，是你過得乏味 / 在不變的日常找變化，過你喜歡的日子。",
+					"link": "https://www.bookwalker.com.tw/product/89333",
+					"priceCurrency": "TWD",
+					"price": 231,
+					"about": "你的人生要自帶光芒！\n                                    最惋惜的事，莫過於明明不喜歡現在的生活，卻又一成不變過一生。百萬粉絲轉發認證、讀者★★★★★評價，4\n                                    ",
+					"authors": [
+						"聶向榮"
+					]
+				}
+			],
+			"quantity": 24
+		},
+		{
+			"bookstore": {
+				"website": "https://www.kobo.com/",
+				"displayName": "樂天 kobo",
+				"id": "kobo",
+				"status": "Active",
+				"isOnline": true
+			},
+			"isOkay": true,
+			"status": "Crawler success.",
+			"processTime": 1136.05638,
+			"books": [
+				{
+					"id": "7352869932981",
+					"thumbnail": "https://kbimages1-a.akamaihd.net/cadb53f3-ddc6-4ff2-b855-aeb108896da1/180/1000/False/sQuf0ZF-LzOeMJIVUxdb7Q.jpg",
+					"title": "過得還不錯的一年：我的快樂生活提案（10週年紀念版）",
+					"link": "https://www.kobo.com/tw/zh/ebook/sQuf0ZF-LzOeMJIVUxdb7Q",
+					"priceCurrency": "",
+					"price": 268,
+					"about": "向達賴喇嘛、歐普拉、梭羅學習快樂，為自己寫一份Happiness Project！一場喚醒百萬人的生活實驗！《紐約時報》暢銷榜第一名！年度10大影響力好書活得很悶?一成不變?日子一團糟，老是疲於奔命?幸福快樂，好像都沒有降臨在你身上?她沒有憂鬱症，也沒有中年危機，只是覺得自己老是處於人生週期性的不滿足感。她想改變自己，卻也想接受自己；她不希望把自己看得太重，但又很看重自己；她想善加利用時間，做點有意義的大事，卻也想隨性地晃蕩、玩耍、無所是事；結果呢？她總是生活在瑣碎的抱怨和叫囂中，無法領略自己所擁有的一切美好。作者葛瑞琴‧魯賓，幫別人寫過一份又一份漂亮的提案，自己卻深陷一團混亂、不開心的生活中。夠了！這一年，她決定為了自己的幸福，寫一份「快樂生活提案」，提案目標，是要在一年之內，讓自己快樂起來！... ...",
+					"authors": [
+						"葛瑞琴‧魯賓Gretchen Rubin"
+					]
+				},
+				{
+					"id": "7352866613685",
+					"thumbnail": "https://kbimages1-a.akamaihd.net/8f0a9f53-f681-40a4-8366-f438e2be3985/180/1000/False/OP7v22-6OT2MALDCxfSDVQ.jpg",
+					"title": "待在家裡也不錯：過得還不錯的一年2",
+					"link": "https://www.kobo.com/tw/zh/ebook/OP7v22-6OT2MALDCxfSDVQ",
+					"priceCurrency": "",
+					"price": 224,
+					"about": "你停駐之處，即是我心愛的家！快樂回家小秘訣：   壞掉的傘千萬別留、學會自己開車、回家跳一跳、出門前抱一抱……自從第一個「快樂生活提案」實驗之後，葛瑞琴知道自己真的變得更快樂了。沒錯，她的生活還是一樣：同樣的老公、女兒、工作，住同一棟公寓，日常作息也一樣。但是一年的實驗下來，她不需要數字化的衡量表，就知道自己改變了多少。那場喚醒葛瑞琴的生活實驗，已經深深烙印在她的生命裡。（詳見《過得還不錯的一年》）這一次，不同於上次在公車上的靈光乍現，葛瑞琴是在某個周日午后，手上收拾著碗盤時，被一股突如其來的「想家」情緒所觸動。因為前一次非常成功的實驗，讓她毫不猶豫就採取行動，再次為自己寫下一份「快樂生活提案」。這回，葛瑞琴把重心放在她的宇宙中心──也就是她的「家」。她發現，在眾多影響快樂的因素中，「家」都是最重要的。因此，她決定花點時間，專注在家庭生活，從早晚親親抱一抱、給家人溫暖地迎接與道別、與父母. ...",
+					"authors": [
+						"葛瑞琴‧魯賓Gretchen Rubin"
+					]
+				},
+				{
+					"id": "9789865062637",
+					"thumbnail": "https://kbimages1-a.akamaihd.net/3a8ae6b6-754c-41cd-b04d-573189bea72d/180/1000/False/xHLr1EYUATGNnwTdKWlUKw.jpg",
+					"title": "過得還不錯的謊言",
+					"link": "https://www.kobo.com/tw/zh/ebook/xHLr1EYUATGNnwTdKWlUKw",
+					"priceCurrency": "",
+					"price": 252,
+					"about": "「你最近過得如何？」從什麼時候開始，「還不錯」變成唯一的答案了呢？致每一個厭倦了在生活中跌倒後裝作若無其事的你這一次，先不用急著跟自己說加油★每一句都讓人感到被救贖，韓國讀者譽為「情感流氓」之作★影視版權已售出，韓國網路劇製作中你一定也有過這樣的時刻吧？就算不舒服，也不敢直接說出內心的感受；就算很痛苦，也要微笑著揮手告別；就算想哭，也不敢讓別人看到自己流下眼淚。為了在這個世界上生活，我們一步步遺忘了自己原來的樣子。我們總是習慣戴著面具，努力想要扮演一個理想的人生；我們總是拚了命想理解他人，卻總是習慣性壓抑、委屈自己。這本書，正是為了這麼努力活著的我們而寫... ...",
+					"authors": [
+						"金利率"
+					]
+				},
+				{
+					"id": "3099573287445",
+					"thumbnail": "https://kbimages1-a.akamaihd.net/d421f81c-bea4-4e71-8ba7-0f940a2a7f2b/180/1000/False/s8mlXV0_vjaHNDhQF2uBHg.jpg",
+					"title": "過得還不錯的人生：運用幸福心理學的智慧，避開不幸的陷阱，成就愉快而滿足的生活",
+					"link": "https://www.kobo.com/tw/zh/ebook/s8mlXV0_vjaHNDhQF2uBHg",
+					"priceCurrency": "",
+					"price": 229,
+					"about": "所謂平順、美好的生活並非全無意外、沒有變化的人生而是隨事隨在，都能用好的框架看世界無論缺乏時還是豐富時，都擁有平靜穩妥的好心情本書作者在心理學的研究當中，經常觀察到與「幸福」相關的有趣人性。例如一項針對首爾大學學生的調查詢問：要給你多少錢，你才肯放棄與密友出遊或共赴音樂會的機會。結果發現，幸福感較高的學生的開價，竟然超過幸福感較低的學生四倍以上。這表示，在人生中享有較高幸福感的人，會更珍視人際關係，因此要用更大的金錢代價才能讓他們放棄與密友相處的機會。這是幸福的人所使用的生活方法之一。那麼，要如何讓自己的人生更幸福呢？作者引用了大量心理學研究，搭配韓國詩文、流行歌、劇集的內容，為我們指出享有美好人生的心理技巧與環境技巧，包含：◆ 利用PANAS量表，測量自己的幸福◆ 生命中正面事件與負面事件的完美比例應該是多少</... ...",
+					"authors": [
+						"崔仁哲（최인철）"
+					]
+				},
+				{
+					"id": "9786263491366",
+					"thumbnail": "https://kbimages1-a.akamaihd.net/f1726bda-008f-410a-9990-66f93801439a/180/1000/False/iRu7pEEh9TmfMuQP-jpk-w.jpg",
+					"title": "在都市窩居10年，我過得還不錯 - 只是維持最低限度的工作量和人際關係，九成的焦慮也遠離了",
+					"link": "https://www.kobo.com/tw/zh/ebook/iRu7pEEh9TmfMuQP-jpk-w",
+					"priceCurrency": "",
+					"price": 231,
+					"about": "「我不是躺平，只是想活得更寬鬆！」從「朝九晚九」到「周休五日」，我透過一場都市窩居實驗，擺脫了身心俱疲、壓力山大的厭世人生……同年齡朋友個個結婚生子、年薪百萬；FB、IG上大家拼命曬出國玩樂照，總是覺得自己低人一等、擔心跟不上別人，一直活得焦慮不已？一場都市窩居實驗，徹底改變他的人生在成為都市窩居者之前，作者大原扁理也和一般人一樣，大學畢業後，他成為來到東京的北漂族，為了居住在這個高消費的城市，他拼命工作，卻讓自己陷入窮忙的泥淖中，身心都糟糕到極點。就在此時，他決定用自己做實驗，只上最少的班、只花最少的錢、把自己的感受放在第一位，竟發現自己不但沒餓死，還擺脫了長... ...",
+					"authors": [
+						"大原扁理Ohara Henri"
+					]
+				},
+				{
+					"id": "3039571376769",
+					"thumbnail": "https://kbimages1-a.akamaihd.net/2b84ea7b-ae98-45dc-9b4e-ae996f75272e/180/1000/False/Hwy77z5r4zyPk_xqWWvfkg.jpg",
+					"title": "離開公司，我過得還不錯： 成為自由工作者的理想生活提案",
+					"link": "https://www.kobo.com/tw/zh/ebook/Hwy77z5r4zyPk_xqWWvfkg",
+					"priceCurrency": "",
+					"price": 224,
+					"about": "搞不好每個人的生涯都應該「自由」一兩次，花幾年時間為自己而活，才是未來職涯的常態吧。**我該上班還是自由工作？我也想自由接案，但我要做什麼？案子要從哪裡來？離開公司與職位後，如何重新打造自己的名片？如何做自己想做的事情，還能自在存活？**大多數人都曾經歷「工作失戀」的時刻，我們總會思考除了現在這份工作，自己還能做些什麼？也設想要如何挽回工作的心（或讓工作挽回自己的心）？在公司體制內，我們要如何與工作相處？如何重新思考工作的意義，個人與組織、想追求什麼樣的幸福？離開公司和職位之後，如何從喜歡的事情中創造出自己的工作，還能維持生活品質自在存活？這些我們都有答案了嗎？──不上班，也能選擇想要的生活──把喜歡的事情做成工作，很多好事就開始發生了！從工作開始改變的、自由生活的提案只要能維持一定的工作紀律和品質，自由工作者就有... ...",
+					"authors": [
+						"劉揚銘"
+					]
+				},
+				{
+					"id": "7263863230847",
+					"thumbnail": "https://kbimages1-a.akamaihd.net/b9859060-fccb-4b6b-8fd3-16a46947b816/180/1000/False/cJHcmMY07DGQBtwCWZTzSg.jpg",
+					"title": "暖活：愛得還不錯的那些故事",
+					"link": "https://www.kobo.com/tw/zh/ebook/cJHcmMY07DGQBtwCWZTzSg",
+					"priceCurrency": "",
+					"price": 224,
+					"about": "暖活是一種信仰！「我願意相信，這個世界上的好人多過壞人。我願意相信，善良多於邪惡。我願意書寫生命的溫暖，人性的省思，我願意鼓勵夢想與勇氣。我願意開放自己，並且真心接納別人。」——劉中薇只要相信幸福、希望與溫暖，你的故事就會有美好的結局真心看見別人的存在，對生命熱情以待，你就走在「暖活」的路上王珮華 「犀利」製作人吳森基 和築建設 總經理吳錫坤 總太建設 董事長李四端 公視《爸媽冏很大》主持人沈方正 礁溪老爺大酒店執行長陳秉良 遊戲橘子創意總監彭樹君 作家楊雅喆 電影《男朋友 女朋友》編劇／導演葉建漢 時間軸創辦人膝關節 影評人蔡素芬 作家藍祖蔚 作家／影評人 （按姓名筆畫順序）——相信推薦無論寫作、演講、創意課、偶像劇、連續劇，偶像級創意人劉中薇都是頂尖高手。一... ...",
+					"authors": [
+						"劉中薇"
+					]
+				},
+				{
+					"id": "9789865078409",
+					"thumbnail": "https://kbimages1-a.akamaihd.net/5c606ef0-f16a-483a-92e2-458533fb125c/180/1000/False/OMIMkoDezzG_3ffD4r1psw.jpg",
+					"title": "對別人說不出口的，也不要對自己說 - 29個自我對話練習，遠離自我批判，找回還不錯的自己",
+					"link": "https://www.kobo.com/tw/zh/ebook/OMIMkoDezzG_3ffD4r1psw",
+					"priceCurrency": "",
+					"price": 245,
+					"about": "「你太廢了！」「你好胖！」「怎麼這麼笨！」面對越是親密的自己，我們說著越過分的話語。其實，你不必對自己嚴厲，也能成為一個不錯的人。朋友面試不順時，我會說：「沒關係，你已經盡力了。」自己面試不順時，我會說：「我表現這麼糟，有哪間公司會要我？」朋友打破杯子，我會說：「沒事，沒有受傷就好。」家人打破杯子，我會說：「吼，真煩！」我們對別人溫柔、有禮、充滿同理心，卻總是對自己特別無情，甚至也用同樣嚴苛的態度對待自己的家人和朋友。你對自己說的話，深深影響了你的人生你的內心是否有過這些自我批評：「我每次都失敗。」→這句話隱含著「我整個人都很失... ...",
+					"authors": [
+						"鄭宰榮"
+					]
+				},
+				{
+					"id": "9789865596866",
+					"thumbnail": "https://kbimages1-a.akamaihd.net/4c368f48-09bd-451a-963c-3fa86d0d2fca/180/1000/False/FCkUUfzUtzCxYbjBPE4QHw.jpg",
+					"title": "不用完美，做個還不錯的人就好：韓國腦科學專家革命性療癒聖經，寫給每個感到自卑、焦慮、挫折、痛苦的你！ - 나도 아직 나를 모른다",
+					"link": "https://www.kobo.com/tw/zh/ebook/FCkUUfzUtzCxYbjBPE4QHw",
+					"priceCurrency": "",
+					"price": 225,
+					"about": "痛苦、疲憊、焦慮……都不是你的錯，而是你的「大腦」受傷了！臨床心理實例＋腦認知科學，助你徹底解決情緒難題！暢銷突破100,000冊！韓國Yes24網路書店讀者9.2分、教保文庫網9.8分極度好評！完美並不存在，也沒有意義。它只是你大腦中的一種「過度反應」。關掉腦中的開關，停止對完美的執著，「適度」就是人生最舒適的溫度。當我們的身體疲倦時，會很快感覺到自己狀態不好，該休息了。但當情緒欠佳時，卻不會選擇讓大腦放鬆，而是把負面情緒歸咎在自己和他人身上，深陷在憂鬱的泥淖之中，無法自拔。韓國腦科學權威許智元博士認為，「大腦」是一個會受傷的器官，我們常見的低自尊、憂鬱、焦慮、沮喪等情緒問題，都與它的狀態習習相關。當我們在生活中遭遇挫折，感覺到強烈的負面情緒時，大腦其實已經受傷了！唯有了解大腦的運作機制，才能破除迷思、對症下藥。這本書從專業臨床案例出發，詳細分析日... ...",
+					"authors": [
+						"許智元"
+					]
+				},
+				{
+					"id": "3200000001521",
+					"thumbnail": "https://kbimages1-a.akamaihd.net/bf72885a-06a0-4b3c-9007-9d8387ea9e23/180/1000/False/Jux5juQirzKl4_XkU5CQeg.jpg",
+					"title": "商業周刊 第1521期 【經濟大預言】2017不錯的一年",
+					"link": "https://www.kobo.com/tw/zh/ebook/Jux5juQirzKl4_XkU5CQeg",
+					"priceCurrency": "",
+					"price": 80,
+					"about": "【經濟大預言】2017不錯的一年高盛、瑞銀、瑞士信貸、野村4大重量級外資報告解讀國際股匯債市及油價走勢》27份權威報告：「川普新政、中國19大、德國大選」影響下的全球景氣 ...",
+					"authors": [
+						"商業周刊"
+					]
+				},
+				{
+					"id": "3039571381527",
+					"thumbnail": "https://kbimages1-a.akamaihd.net/efb89f74-4214-4d61-86a9-57406ef93284/180/1000/False/FtUUlmyp4TqJrv3UQu4qSQ.jpg",
+					"title": "希望老後的我，看起來還不錯！ - 寫給準老人的30篇優老計畫",
+					"link": "https://www.kobo.com/tw/zh/ebook/FtUUlmyp4TqJrv3UQu4qSQ",
+					"priceCurrency": "",
+					"price": 252,
+					"about": "未老先修、初老選修、老後必修沒有人可以永遠年輕，讓我們一起啟動「優老計畫」，成為一個自在自愛、人見人愛的質感老人。「照顧家人」和「照顧自己」是老天給每個人的考試，只有準備好的人才能考得好成績。衝鋒職場的我們曾經無畏無懼，但當照顧議題來到眼前時，才發現自己有多脆弱，懊惱知道的太少、準備的太少……＼銀髮人數持續增長／2025年台灣將進入超高齡社會，每五人就有一人是老人，銀髮議題將更為重要台灣在2018年進入高齡社會，預估在2025年進入超高齡社會，每五人就有一位65歲以上的老人，長照需求逐年攀升，但現行制度與實際落實上仍有極大的努力空間，照顧者與被照顧者的身心靈如何得到安頓，仍是目前長照制度最大挑戰。＼降低長照壓力／學習成為優雅迷人的大人，由長輩自身做起，讓晚輩照護時也能喘息本書便是在這樣的時空背景下誕生，六位作者皆是五、六年級的中壯年... ...",
+					"authors": [
+						"萬子綾博士"
+					]
+				},
+				{
+					"id": "9789575035501",
+					"thumbnail": "https://kbimages1-a.akamaihd.net/d18dd87b-0ceb-4a98-b630-71e7da29ca7d/180/1000/False/jHhAxEDLozK4-vxoEGcTvg.jpg",
+					"title": "這樣開始也不錯，擺脫束縛的一年",
+					"link": "https://www.kobo.com/tw/zh/ebook/jHhAxEDLozK4-vxoEGcTvg",
+					"priceCurrency": "",
+					"price": 266,
+					"about": "**　　✽《過得還不錯的一年》作者最新力作　　✽ 榮登亞馬遜暢銷榜，讀者★★★★好評推薦　　這本書宛如生命指導手冊，帶領你向理想生活邁進。－－《紐約時報》書評　　魯賓憑藉強大的實驗精神，耗時一年，親身測試了每一條通往幸福道路的成果－－《時代雜誌》**　　誰不想掌控自己的人生呢？　　生命中有太多事情不是我們能掌控的，　　但是生活可以。　　如果能掌控好生活裡的東西，　　通常會讓你覺得比較能掌握自己的人生。　　這不是自我安慰，而是對自己的信心，　　就從打理雜物開始吧。　　放眼望去，覺得阿雜的東西就丟棄吧，　　擺脫不用、不需要、不喜歡、不能用、不搭調或不適合的物品，　　不只為生活騰出空間，更能釋放情緒，　　把空間留給真正珍視的東西，無論是實體或是心靈的。**　　開始整理的最佳時間，永遠是現在。**　　「我被一團雜亂包圍時會坐立不安、心... ...",
+					"authors": [
+						"葛瑞琴•魯賓"
+					]
+				}
+			],
+			"quantity": 12
+		},
+		{
+			"bookstore": {
+				"website": "https://www.pubu.com.tw/",
+				"displayName": "Pubu 電子商城",
+				"id": "pubu",
+				"status": "Active",
+				"isOnline": true
+			},
+			"isOkay": true,
+			"status": "Crawler success.",
+			"processTime": 872.647846,
+			"books": [],
+			"quantity": 0
+		},
+		{
+			"bookstore": {
+				"website": "https://ebook.hyread.com.tw/",
+				"displayName": "HyRead 電子書",
+				"id": "hyread",
+				"status": "Active",
+				"isOnline": true
+			},
+			"isOkay": true,
+			"status": "Crawler success.",
+			"processTime": 484.48213699999997,
+			"books": [],
+			"quantity": 0
+		},
+		{
+			"bookstore": {
+				"displayName": "Amazon Kindle",
+				"id": "kindle",
+				"website": "https://www.amazon.com/Kindle-eBooks/",
+				"status": "Active",
+				"isOnline": true
+			},
+			"isOkay": true,
+			"status": "Crawler success.",
+			"processTime": 1894.06745,
+			"books": [
+				{
+					"id": "B09S6F3HC7",
+					"title": "週末改造計畫：讓身心關機2天，打造快樂的365天（週休快樂升級版）: The Weekend Effect: The Life-Changing Benefits of Taking Two Days off (Traditional Chinese Edition)",
+					"price": 8.2,
+					"priceCurrency": "USD",
+					"link": "https://www.amazon.com/%E9%80%B1%E6%9C%AB%E6%94%B9%E9%80%A0%E8%A8%88%E7%95%AB%EF%BC%9A%E8%AE%93%E8%BA%AB%E5%BF%83%E9%97%9C%E6%A9%9F2%E5%A4%A9%EF%BC%8C%E6%89%93%E9%80%A0%E5%BF%AB%E6%A8%82%E7%9A%84365%E5%A4%A9%EF%BC%88%E9%80%B1%E4%BC%91%E5%BF%AB%E6%A8%82%E5%8D%87%E7%B4%9A%E7%89%88%EF%BC%89-Weekend-Life-Changing-Benefits-Traditional-ebook/dp/B09S6F3HC7/ref=sr_1_1?keywords=%E9%81%8E%E5%BE%97%E9%82%84%E4%B8%8D%E9%8C%AF%E7%9A%84%E4%B8%80%E5%B9%B4&qid=1679229897&s=digital-text&sr=1-1",
+					"thumbnail": "https://m.media-amazon.com/images/I/71DcwcBjvsL._AC_UY218_.jpg"
+				},
+				{
+					"id": "B094V19WL4",
+					"title": "找到我的歸屬感：建立連結，尋求認同，擁有存在感的心靈探尋（探索真我升級版）: Count Me In: How I Stepped Off the Sidelines, Created Connection, and Built a Fuller, Richer, More Lived-in Life (Traditional Chinese Edition)",
+					"price": 8.4,
+					"priceCurrency": "USD",
+					"link": "https://www.amazon.com/%E6%89%BE%E5%88%B0%E6%88%91%E7%9A%84%E6%AD%B8%E5%B1%AC%E6%84%9F%EF%BC%9A%E5%BB%BA%E7%AB%8B%E9%80%A3%E7%B5%90%EF%BC%8C%E5%B0%8B%E6%B1%82%E8%AA%8D%E5%90%8C%EF%BC%8C%E6%93%81%E6%9C%89%E5%AD%98%E5%9C%A8%E6%84%9F%E7%9A%84%E5%BF%83%E9%9D%88%E6%8E%A2%E5%B0%8B%EF%BC%88%E6%8E%A2%E7%B4%A2%E7%9C%9F%E6%88%91%E5%8D%87%E7%B4%9A%E7%89%88%EF%BC%89-Sidelines-Connection-Lived-Traditional-ebook/dp/B094V19WL4/ref=sr_1_2?keywords=%E9%81%8E%E5%BE%97%E9%82%84%E4%B8%8D%E9%8C%AF%E7%9A%84%E4%B8%80%E5%B9%B4&qid=1679229897&s=digital-text&sr=1-2",
+					"thumbnail": "https://m.media-amazon.com/images/I/71epTRwyvvS._AC_UY218_.jpg"
+				},
+				{
+					"id": "B08RNGR3TX",
+					"title": "寬恕的一年: 《奇蹟課程》學員每日練習．耶穌釋義版 (Traditional Chinese Edition)",
+					"price": 15.2,
+					"priceCurrency": "USD",
+					"link": "https://www.amazon.com/%E5%AF%AC%E6%81%95%E7%9A%84%E4%B8%80%E5%B9%B4-%E3%80%8A%E5%A5%87%E8%B9%9F%E8%AA%B2%E7%A8%8B%E3%80%8B%E5%AD%B8%E5%93%A1%E6%AF%8F%E6%97%A5%E7%B7%B4%E7%BF%92%EF%BC%8E%E8%80%B6%E7%A9%8C%E9%87%8B%E7%BE%A9%E7%89%88-Traditional-Chinese-%E8%92%82%E5%A8%9C%EF%BC%8E%E5%8F%B8%E5%B8%95%E7%88%BE%E6%B1%80-ebook/dp/B08RNGR3TX/ref=sr_1_3?keywords=%E9%81%8E%E5%BE%97%E9%82%84%E4%B8%8D%E9%8C%AF%E7%9A%84%E4%B8%80%E5%B9%B4&qid=1679229897&s=digital-text&sr=1-3",
+					"thumbnail": "https://m.media-amazon.com/images/I/71xFkIfcY8L._AC_UY218_.jpg"
+				}
+			],
+			"quantity": 3
+		},
+		{
+			"bookstore": {
+				"website": "https://play.google.com/store/books",
+				"displayName": "Google Play 圖書",
+				"id": "playStore",
+				"status": "Active",
+				"isOnline": true
+			},
+			"isOkay": true,
+			"status": "Crawler success.",
+			"processTime": 1708.668451,
+			"books": [
+				{
+					"id": "18lECwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/18lECwAAQBAJ?fife=w256-h256",
+					"title": "男人40",
+					"link": "https://play.google.com/store/books/details/%E5%AD%90%E9%B3%B4_%E7%94%B7%E4%BA%BA40?id=18lECwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 157
+				},
+				{
+					"id": "reSzEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/reSzEAAAQBAJ?fife=w256-h256",
+					"title": "過得還不錯的一年（10週年紀念版）: 我的快樂生活提案",
+					"link": "https://play.google.com/store/books/details/%E8%91%9B%E7%91%9E%E7%90%B4_%E9%AD%AF%E8%B3%93_%E9%81%8E%E5%BE%97%E9%82%84%E4%B8%8D%E9%8C%AF%E7%9A%84%E4%B8%80%E5%B9%B4_10%E9%80%B1%E5%B9%B4%E7%B4%80%E5%BF%B5%E7%89%88?id=reSzEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 213
+				},
+				{
+					"id": "-RiUDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/-RiUDwAAQBAJ?fife=w256-h256",
+					"title": "脆弱的力量",
+					"link": "https://play.google.com/store/books/details/%E5%B8%83%E8%8A%AE%E5%B0%BC_%E5%B8%83%E6%9C%97_Bren%C3%A9_Brown_%E8%84%86%E5%BC%B1%E7%9A%84%E5%8A%9B%E9%87%8F?id=-RiUDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 178
+				},
+				{
+					"id": "bCihDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/bCihDwAAQBAJ?fife=w256-h256",
+					"title": "起床後的黃金1小時：揭開64位成功人士培養高效率的祕密時光，從他們的創意晨型活動中，建立屬於自己的高生產力、高抗壓生活習慣",
+					"link": "https://play.google.com/store/books/details/%E7%8F%AD%E5%82%91%E6%98%8E_%E5%8F%B2%E9%AE%91_Benjamin_Spall_%E9%BA%A5%E5%8F%AF_%E6%A1%91%E5%BE%B7_Michael_Xander_%E8%B5%B7%E5%BA%8A%E5%BE%8C%E7%9A%84%E9%BB%83%E9%87%911?id=bCihDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 189
+				},
+				{
+					"id": "SYPADwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/SYPADwAAQBAJ?fife=w256-h256",
+					"title": "安靜，就是力量：內向者如何發揮積極的力量",
+					"link": "https://play.google.com/store/books/details/%E8%98%87%E7%8F%8A_%E5%9D%8E%E6%81%A9_Susan_Cain_%E5%AE%89%E9%9D%9C_%E5%B0%B1%E6%98%AF%E5%8A%9B%E9%87%8F_%E5%85%A7%E5%90%91%E8%80%85%E5%A6%82%E4%BD%95%E7%99%BC%E6%8F%AE%E7%A9%8D%E6%A5%B5%E7%9A%84%E5%8A%9B%E9%87%8F?id=SYPADwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 214
+				},
+				{
+					"id": "w4OFDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/w4OFDwAAQBAJ?fife=w256-h256",
+					"title": "離開公司，我過得還不錯: 成為自由工作者的理想生活提案",
+					"link": "https://play.google.com/store/books/details/%E5%8A%89%E6%8F%9A%E9%8A%98_%E9%9B%A2%E9%96%8B%E5%85%AC%E5%8F%B8_%E6%88%91%E9%81%8E%E5%BE%97%E9%82%84%E4%B8%8D%E9%8C%AF?id=w4OFDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 218
+				},
+				{
+					"id": "OuGqDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/OuGqDwAAQBAJ?fife=w256-h256",
+					"title": "程式快手: To be the fast of the best",
+					"link": "https://play.google.com/store/books/details/%E9%8D%BE%E4%BB%81%E7%83%88_%E7%A8%8B%E5%BC%8F%E5%BF%AB%E6%89%8B?id=OuGqDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 220
+				},
+				{
+					"id": "zlGxCwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/zlGxCwAAQBAJ?fife=w256-h256",
+					"title": "【當和尚遇到鑽石4】愛的業力法則: 西藏的古老智慧，讓愛情心想事成",
+					"link": "https://play.google.com/store/books/details/%E9%BA%A5%E5%8F%AF_%E7%BE%85%E5%8D%80%E6%A0%BC%E8%A5%BF_Geshe_Michael_Roach_%E7%95%B6%E5%92%8C%E5%B0%9A%E9%81%87%E5%88%B0%E9%91%BD%E7%9F%B34_%E6%84%9B%E7%9A%84%E6%A5%AD%E5%8A%9B%E6%B3%95%E5%89%87?id=zlGxCwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 272
+				},
+				{
+					"id": "unkmEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/unkmEAAAQBAJ?fife=w256-h256",
+					"title": "設計你的小習慣: 史丹佛大學行為設計實驗室精研，全球瘋IG背後的行為設計學家教你慣性動作養成的技術",
+					"link": "https://play.google.com/store/books/details/BJ_%E7%A6%8F%E6%A0%BC_%E5%8D%9A%E5%A3%AB_BJ_Fogg_PhD_%E8%A8%AD%E8%A8%88%E4%BD%A0%E7%9A%84%E5%B0%8F%E7%BF%92%E6%85%A3?id=unkmEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 200
+				},
+				{
+					"id": "XZZXEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/XZZXEAAAQBAJ?fife=w256-h256",
+					"title": "ETF實戰週記：樂活大叔的52個叮嚀",
+					"link": "https://play.google.com/store/books/details/%E6%96%BD%E6%98%87%E8%BC%9D_ETF%E5%AF%A6%E6%88%B0%E9%80%B1%E8%A8%98_%E6%A8%82%E6%B4%BB%E5%A4%A7%E5%8F%94%E7%9A%8452%E5%80%8B%E5%8F%AE%E5%9A%80?id=XZZXEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 266
+				},
+				{
+					"id": "hP-EDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/hP-EDwAAQBAJ?fife=w256-h256",
+					"title": "選３哲學：聚焦３件事，解決工作生活兩難，搞定你的超載人生: Pick Three: You Can Have It All (Just Not Every Day)",
+					"link": "https://play.google.com/store/books/details/%E8%98%AD%E8%92%82_%E7%A5%96%E5%85%8B%E6%9F%8F_Randi_Zuckerberg_%E9%81%B8%EF%BC%93%E5%93%B2%E5%AD%B8_%E8%81%9A%E7%84%A6%EF%BC%93%E4%BB%B6%E4%BA%8B_%E8%A7%A3%E6%B1%BA%E5%B7%A5%E4%BD%9C%E7%94%9F%E6%B4%BB%E5%85%A9%E9%9B%A3_%E6%90%9E%E5%AE%9A%E4%BD%A0%E7%9A%84%E8%B6%85%E8%BC%89?id=hP-EDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 203
+				},
+				{
+					"id": "h-qEDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/h-qEDwAAQBAJ?fife=w256-h256",
+					"title": "英文單字語源圖鑑: 看圖秒懂，最高效的單字記憶法",
+					"link": "https://play.google.com/store/books/details/%E6%B8%85%E6%B0%B4%E5%BB%BA%E4%BA%8C_%E8%8B%B1%E6%96%87%E5%96%AE%E5%AD%97%E8%AA%9E%E6%BA%90%E5%9C%96%E9%91%91?id=h-qEDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 176
+				},
+				{
+					"id": "EmryDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/EmryDwAAQBAJ?fife=w256-h256",
+					"title": "斜槓青年【實踐版】: 成為內控者，建立幸福人生的正向迴圈",
+					"link": "https://play.google.com/store/books/details/Susan_Kuang_%E6%96%9C%E6%A7%93%E9%9D%92%E5%B9%B4_%E5%AF%A6%E8%B8%90%E7%89%88?id=EmryDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 176
+				},
+				{
+					"id": "L9HNDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/L9HNDwAAQBAJ?fife=w256-h256",
+					"title": "這樣開始也不錯，擺脫束縛的一年",
+					"link": "https://play.google.com/store/books/details/%E8%91%9B%E7%91%9E%E7%90%B4_%E9%AD%AF%E8%B3%93_Gretchen_Rubin_%E9%80%99%E6%A8%A3%E9%96%8B%E5%A7%8B%E4%B9%9F%E4%B8%8D%E9%8C%AF_%E6%93%BA%E8%84%AB%E6%9D%9F%E7%B8%9B%E7%9A%84%E4%B8%80%E5%B9%B4?id=L9HNDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 190
+				},
+				{
+					"id": "2YhqDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/2YhqDwAAQBAJ?fife=w256-h256",
+					"title": "理想生活的起點：善用四種天生傾向，改變習慣與人際關係，讓日子越過越輕鬆",
+					"link": "https://play.google.com/store/books/details/%E8%91%9B%E7%91%9E%E7%90%B4_%E9%AD%AF%E8%B3%93_Gretchen_Rubin_%E7%90%86%E6%83%B3%E7%94%9F%E6%B4%BB%E7%9A%84%E8%B5%B7%E9%BB%9E_%E5%96%84%E7%94%A8%E5%9B%9B%E7%A8%AE%E5%A4%A9%E7%94%9F%E5%82%BE%E5%90%91_%E6%94%B9%E8%AE%8A%E7%BF%92%E6%85%A3%E8%88%87%E4%BA%BA%E9%9A%9B%E9%97%9C%E4%BF%82_%E8%AE%93?id=2YhqDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 195
+				},
+				{
+					"id": "rtSnEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/rtSnEAAAQBAJ?fife=w256-h256",
+					"title": "在都市窩居10年，我過得還不錯: 只是維持最低限度的工作量和人際關係，九成的焦慮也遠離了",
+					"link": "https://play.google.com/store/books/details/%E5%A4%A7%E5%8E%9F%E6%89%81%E7%90%86_%E5%9C%A8%E9%83%BD%E5%B8%82%E7%AA%A9%E5%B1%8510%E5%B9%B4_%E6%88%91%E9%81%8E%E5%BE%97%E9%82%84%E4%B8%8D%E9%8C%AF?id=rtSnEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 182
+				},
+				{
+					"id": "8gWvEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/8gWvEAAAQBAJ?fife=w256-h256",
+					"title": "強效顯化的8個祕密：讓夢想成為現實，取回你應得的人生: 8 Secrets to Powerful Manifesting: How to Create the Reality of Your Dreams",
+					"link": "https://play.google.com/store/books/details/%E6%9B%BC%E8%92%82_%E8%8E%AB%E9%87%8C%E6%96%AF_Mandy_Morris_%E5%BC%B7%E6%95%88%E9%A1%AF%E5%8C%96%E7%9A%848%E5%80%8B%E7%A5%95%E5%AF%86_%E8%AE%93%E5%A4%A2%E6%83%B3%E6%88%90%E7%82%BA%E7%8F%BE%E5%AF%A6_%E5%8F%96%E5%9B%9E%E4%BD%A0%E6%87%89%E5%BE%97%E7%9A%84%E4%BA%BA%E7%94%9F?id=8gWvEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 196
+				},
+				{
+					"id": "CX41EAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/CX41EAAAQBAJ?fife=w256-h256",
+					"title": "高效人生的清單整理術：一張清單做完所有事，工作、生活、理財通通搞定",
+					"link": "https://play.google.com/store/books/details/%E5%AF%B6%E6%8B%89_%E9%87%8C%E4%BD%90_Paula_Rizzo_%E9%AB%98%E6%95%88%E4%BA%BA%E7%94%9F%E7%9A%84%E6%B8%85%E5%96%AE%E6%95%B4%E7%90%86%E8%A1%93_%E4%B8%80%E5%BC%B5%E6%B8%85%E5%96%AE%E5%81%9A%E5%AE%8C%E6%89%80%E6%9C%89%E4%BA%8B_%E5%B7%A5%E4%BD%9C_%E7%94%9F%E6%B4%BB_%E7%90%86%E8%B2%A1%E9%80%9A%E9%80%9A%E6%90%9E?id=CX41EAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 266
+				},
+				{
+					"id": "61nUDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/61nUDwAAQBAJ?fife=w256-h256",
+					"title": "第一次工作就該懂: 人生是永遠的測試版，組合被需要的優勢，培養盟友，每次轉換都加分（新編版）",
+					"link": "https://play.google.com/store/books/details/%E9%9B%B7%E5%BE%B7_%E9%9C%8D%E5%A4%AB%E6%9B%BC_Reid_Hoffman_%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%B7%A5%E4%BD%9C%E5%B0%B1%E8%A9%B2%E6%87%82?id=61nUDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 176
+				},
+				{
+					"id": "QfrEDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/QfrEDwAAQBAJ?fife=w256-h256",
+					"title": "老年的意義：我和那些老人共處的一年",
+					"link": "https://play.google.com/store/books/details/%E7%B4%84%E7%BF%B0_%E5%88%A9%E8%98%AD_John_Leland_%E8%80%81%E5%B9%B4%E7%9A%84%E6%84%8F%E7%BE%A9_%E6%88%91%E5%92%8C%E9%82%A3%E4%BA%9B%E8%80%81%E4%BA%BA%E5%85%B1%E8%99%95%E7%9A%84%E4%B8%80%E5%B9%B4?id=QfrEDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 190
+				},
+				{
+					"id": "g1NSEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/g1NSEAAAQBAJ?fife=w256-h256",
+					"title": "關係結束後，成為更好的自己【薩提爾專文推薦暢銷經典版】: 分手、離婚、喪偶，重建自我的19段旅程",
+					"link": "https://play.google.com/store/books/details/%E5%B8%83%E9%AD%AF%E6%96%AF_%E8%B2%BB%E9%9B%AA_Bruce_Fisher_%E7%BE%85%E4%BC%AF%E7%89%B9_%E8%89%BE%E4%BC%AF%E6%8F%90_Robert_Alberti_%E9%97%9C%E4%BF%82%E7%B5%90%E6%9D%9F%E5%BE%8C_%E6%88%90?id=g1NSEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 280
+				},
+				{
+					"id": "9N2kEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/9N2kEAAAQBAJ?fife=w256-h256",
+					"title": "更快樂的選擇: 哈佛史上最受歡迎的正向心理學，5個面向鍛造反脆弱韌性，建立心理復原力！",
+					"link": "https://play.google.com/store/books/details/%E5%A1%94%E7%88%BE_%E7%8F%AD%E5%A4%8F%E5%93%88_Tal_Ben_Shahar_%E6%9B%B4%E5%BF%AB%E6%A8%82%E7%9A%84%E9%81%B8%E6%93%87?id=9N2kEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 200
+				},
+				{
+					"id": "k2M-DwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/k2M-DwAAQBAJ?fife=w256-h256",
+					"title": "眾神的食物：食氣三部曲1: The Food of Gods: Devine Nutrition",
+					"link": "https://play.google.com/store/books/details/%E6%BD%94%E7%B5%B2%E6%85%95%E9%9F%B3_Jasmuheen_%E7%9C%BE%E7%A5%9E%E7%9A%84%E9%A3%9F%E7%89%A9_%E9%A3%9F%E6%B0%A3%E4%B8%89%E9%83%A8%E6%9B%B21?id=k2M-DwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 198
+				},
+				{
+					"id": "gpgCEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/gpgCEAAAQBAJ?fife=w256-h256",
+					"title": "大地能量綠魔法: 獲取大地七福澤，身心靈療癒師、藥草師與自然能量掌握者的修業課",
+					"link": "https://play.google.com/store/books/details/%E8%89%BE%E7%90%B3_%E5%A2%A8%E8%8F%B2_%E5%B8%8C%E6%96%AF%E8%80%83%E5%85%8B_Arin_Murphy_Hiscock_%E5%A4%A7%E5%9C%B0%E8%83%BD%E9%87%8F%E7%B6%A0%E9%AD%94%E6%B3%95?id=gpgCEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 271
+				},
+				{
+					"id": "GYCcDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/GYCcDwAAQBAJ?fife=w256-h256",
+					"title": "深度洞察力: 克服認知偏見，喚醒自我覺察，看清內在的自己，也了解別人如何看待你",
+					"link": "https://play.google.com/store/books/details/%E5%A1%94%E8%8E%8E_%E6%AD%90%E9%87%8C%E5%B8%8C_%E6%B7%B1%E5%BA%A6%E6%B4%9E%E5%AF%9F%E5%8A%9B?id=GYCcDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 272
+				},
+				{
+					"id": "vQV2DwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/vQV2DwAAQBAJ?fife=w256-h256",
+					"title": "暖活：愛得還不錯的那些故事",
+					"link": "https://play.google.com/store/books/details/%E5%8A%89%E4%B8%AD%E8%96%87_%E6%9A%96%E6%B4%BB_%E6%84%9B%E5%BE%97%E9%82%84%E4%B8%8D%E9%8C%AF%E7%9A%84%E9%82%A3%E4%BA%9B%E6%95%85%E4%BA%8B?id=vQV2DwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 176
+				},
+				{
+					"id": "Qaa-DQAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/Qaa-DQAAQBAJ?fife=w256-h256",
+					"title": "食氣三部曲 1：眾神的食物: 橡實文化BX0011E, 第 1 卷",
+					"link": "https://play.google.com/store/books/details/%E6%BD%94%E7%B5%B2%E6%85%95%E9%9F%B3_Jasmuheen_%E9%A3%9F%E6%B0%A3%E4%B8%89%E9%83%A8%E6%9B%B2_1_%E7%9C%BE%E7%A5%9E%E7%9A%84%E9%A3%9F%E7%89%A9?id=Qaa-DQAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 210
+				},
+				{
+					"id": "VKxuEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/VKxuEAAAQBAJ?fife=w256-h256",
+					"title": "華嚴經淨行品淺釋",
+					"link": "https://play.google.com/store/books/details/%E5%AE%A3%E5%8C%96%E4%B8%8A%E4%BA%BA%E8%AC%9B%E8%BF%B0_%E8%8F%AF%E5%9A%B4%E7%B6%93%E6%B7%A8%E8%A1%8C%E5%93%81%E6%B7%BA%E9%87%8B?id=VKxuEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 0
+				},
+				{
+					"id": "q-SzEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/q-SzEAAAQBAJ?fife=w256-h256",
+					"title": "待在家裡也不錯: 過得還不錯的一年2",
+					"link": "https://play.google.com/store/books/details/%E8%91%9B%E7%91%9E%E7%90%B4_%E9%AD%AF%E8%B3%93_%E5%BE%85%E5%9C%A8%E5%AE%B6%E8%A3%A1%E4%B9%9F%E4%B8%8D%E9%8C%AF?id=q-SzEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 196
+				},
+				{
+					"id": "Gm2BEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/Gm2BEAAAQBAJ?fife=w256-h256",
+					"title": "第一本全方位機能提升肉食生酮全攻略: 少病減脂更有效！專業級生酮教練帶你生酮再進級！",
+					"link": "https://play.google.com/store/books/details/%E9%99%B3%E4%B8%96%E4%BF%AE_Martyn_%E7%AC%AC%E4%B8%80%E6%9C%AC%E5%85%A8%E6%96%B9%E4%BD%8D%E6%A9%9F%E8%83%BD%E6%8F%90%E5%8D%87%E8%82%89%E9%A3%9F%E7%94%9F%E9%85%AE%E5%85%A8%E6%94%BB%E7%95%A5?id=Gm2BEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 285
+				},
+				{
+					"id": "gQCsDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/gQCsDwAAQBAJ?fife=w256-h256",
+					"title": "越無聊，越開竅: 無所事事更能釋放你的創意與效率",
+					"link": "https://play.google.com/store/books/details/%E7%91%AA%E8%AB%BE%E4%BB%80_%E4%BD%90%E6%91%A9%E7%BE%85%E8%BF%AA_Manoush_Zomorodi_%E8%B6%8A%E7%84%A1%E8%81%8A_%E8%B6%8A%E9%96%8B%E7%AB%85?id=gQCsDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 199
+				},
+				{
+					"id": "h3AtEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/h3AtEAAAQBAJ?fife=w256-h256",
+					"title": "奇蹟英語會話100天訓練法: 熱銷40萬冊！只要3個月，立即擁有超自然口語力，聽說讀寫全面助攻！（附QR碼線上音檔）",
+					"link": "https://play.google.com/store/books/details/%E6%96%87%E7%9B%9B%E9%89%89_%E5%A5%87%E8%B9%9F%E8%8B%B1%E8%AA%9E%E6%9C%83%E8%A9%B1100%E5%A4%A9%E8%A8%93%E7%B7%B4%E6%B3%95?id=h3AtEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 176
+				},
+				{
+					"id": "RukWEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/RukWEAAAQBAJ?fife=w256-h256",
+					"title": "準媽媽心靈解憂書: 備孕、待產到育嬰，來自孕產醫師的70個減壓處方",
+					"link": "https://play.google.com/store/books/details/%E4%BA%9E%E6%AD%B7%E5%B1%B1%E5%BE%B7%E6%8B%89_%E8%96%A9%E5%85%8B%E6%96%AF%E9%86%AB%E5%B8%AB_Alexandra_Sacks_MD_%E6%BA%96%E5%AA%BD%E5%AA%BD%E5%BF%83%E9%9D%88%E8%A7%A3%E6%86%82%E6%9B%B8?id=RukWEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 200
+				},
+				{
+					"id": "b27IDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/b27IDwAAQBAJ?fife=w256-h256",
+					"title": "斜槓時代的高效閱讀法: 用乘法讀書法建構跨界知識網，提升自我戰力，拓展成功人生",
+					"link": "https://play.google.com/store/books/details/%E5%B1%B1%E5%8F%A3_%E5%91%A8_%E6%96%9C%E6%A7%93%E6%99%82%E4%BB%A3%E7%9A%84%E9%AB%98%E6%95%88%E9%96%B1%E8%AE%80%E6%B3%95?id=b27IDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 165
+				},
+				{
+					"id": "TP-nEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/TP-nEAAAQBAJ?fife=w256-h256",
+					"title": "給焦慮世代的哲學處方：跟著塞內卡、西塞羅、叔本華等10位斯多葛思想家，學習面對不確定年代的生命智慧",
+					"link": "https://play.google.com/store/books/details/%E6%B2%83%E5%BE%B7_%E6%B3%95%E6%81%A9%E6%96%AF%E6%B2%83%E6%96%AF_Ward_Farnsworth_%E7%B5%A6%E7%84%A6%E6%85%AE%E4%B8%96%E4%BB%A3%E7%9A%84%E5%93%B2%E5%AD%B8%E8%99%95%E6%96%B9_%E8%B7%9F%E8%91%97%E5%A1%9E%E5%85%A7%E5%8D%A1_%E8%A5%BF%E5%A1%9E%E7%BE%85_%E5%8F%94%E6%9C%AC%E8%8F%AF%E7%AD%89?id=TP-nEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 237
+				},
+				{
+					"id": "1HfTDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/1HfTDwAAQBAJ?fife=w256-h256",
+					"title": "彭建文PJ法：高效工作者的問題分析與決策：世界級的企業這樣子解決問題，透過PJ法的「步驟＋工具表格＋思維＋心法」，快速提升解決問題的能力！",
+					"link": "https://play.google.com/store/books/details/%E5%BD%AD%E5%BB%BA%E6%96%87_%E5%BD%AD%E5%BB%BA%E6%96%87PJ%E6%B3%95_%E9%AB%98%E6%95%88%E5%B7%A5%E4%BD%9C%E8%80%85%E7%9A%84%E5%95%8F%E9%A1%8C%E5%88%86%E6%9E%90%E8%88%87%E6%B1%BA%E7%AD%96_%E4%B8%96%E7%95%8C%E7%B4%9A%E7%9A%84%E4%BC%81%E6%A5%AD%E9%80%99%E6%A8%A3%E5%AD%90%E8%A7%A3%E6%B1%BA%E5%95%8F%E9%A1%8C_%E9%80%8F%E9%81%8EPJ%E6%B3%95%E7%9A%84_%E6%AD%A5%E9%A9%9F_%E5%B7%A5?id=1HfTDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 272
+				},
+				{
+					"id": "_KtHEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/_KtHEAAAQBAJ?fife=w256-h256",
+					"title": "賺錢，也賺幸福：讓你累積財富、享受人生的理財魔法書",
+					"link": "https://play.google.com/store/books/details/%E9%BA%A5%E5%8F%AF_%E5%8B%92%E5%B7%B4%E5%A4%AB_Michael_LeBoeuf_%E8%B3%BA%E9%8C%A2_%E4%B9%9F%E8%B3%BA%E5%B9%B8%E7%A6%8F_%E8%AE%93%E4%BD%A0%E7%B4%AF%E7%A9%8D%E8%B2%A1%E5%AF%8C_%E4%BA%AB%E5%8F%97%E4%BA%BA%E7%94%9F%E7%9A%84%E7%90%86%E8%B2%A1%E9%AD%94%E6%B3%95%E6%9B%B8?id=_KtHEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 252
+				},
+				{
+					"id": "hOiLDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/hOiLDwAAQBAJ?fife=w256-h256",
+					"title": "共好與同贏: 哈佛快樂專家教你把個人潛力變成集體能力，擴散成功與快樂的傳染力",
+					"link": "https://play.google.com/store/books/details/%E5%B0%9A%E6%81%A9_%E8%89%BE%E7%A7%91%E7%88%BE_%E5%85%B1%E5%A5%BD%E8%88%87%E5%90%8C%E8%B4%8F?id=hOiLDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 224
+				},
+				{
+					"id": "9sVdEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/9sVdEAAAQBAJ?fife=w256-h256",
+					"title": "週末改造計畫：讓身心關機2天，打造快樂的365天（週休快樂升級版）",
+					"link": "https://play.google.com/store/books/details/%E5%8D%A1%E7%89%B9%E9%87%8C%E5%A8%9C_%E7%BF%81%E6%96%AF%E5%A1%94_%E9%80%B1%E6%9C%AB%E6%94%B9%E9%80%A0%E8%A8%88%E7%95%AB_%E8%AE%93%E8%BA%AB%E5%BF%83%E9%97%9C%E6%A9%9F2%E5%A4%A9_%E6%89%93%E9%80%A0%E5%BF%AB%E6%A8%82%E7%9A%84365%E5%A4%A9_%E9%80%B1%E4%BC%91%E5%BF%AB%E6%A8%82%E5%8D%87%E7%B4%9A%E7%89%88?id=9sVdEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 238
+				},
+				{
+					"id": "DV8zCwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/DV8zCwAAQBAJ?fife=w256-h256",
+					"title": "火星任務: The Martian",
+					"link": "https://play.google.com/store/books/details/%E5%AE%89%E8%BF%AA_%E5%A8%81%E7%88%BEAndy_Weir_%E7%81%AB%E6%98%9F%E4%BB%BB%E5%8B%99?id=DV8zCwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 190
+				},
+				{
+					"id": "dcE0EAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/dcE0EAAAQBAJ?fife=w256-h256",
+					"title": "「我反對！」不恐龍大法官RBG第一手珍貴訪談錄：橫跨近30年，13場關於愛、自由、人生及法律的對話",
+					"link": "https://play.google.com/store/books/details/%E5%82%91%E4%BD%9B%E7%91%9E_%E7%BE%85%E6%A3%AE_Jeffrey_Rosen_%E6%88%91%E5%8F%8D%E5%B0%8D_%E4%B8%8D%E6%81%90%E9%BE%8D%E5%A4%A7%E6%B3%95%E5%AE%98RBG%E7%AC%AC%E4%B8%80%E6%89%8B%E7%8F%8D%E8%B2%B4%E8%A8%AA%E8%AB%87%E9%8C%84_%E6%A9%AB%E8%B7%A8%E8%BF%9130%E5%B9%B4?id=dcE0EAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 200
+				},
+				{
+					"id": "_cQ_DwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/_cQ_DwAAQBAJ?fife=w256-h256",
+					"title": "人性的優點",
+					"link": "https://play.google.com/store/books/details/%E6%88%B4%E7%88%BE%E5%8D%A1%E8%80%90%E5%9F%BA_%E4%BA%BA%E6%80%A7%E7%9A%84%E5%84%AA%E9%BB%9E?id=_cQ_DwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 195
+				},
+				{
+					"id": "4hEVEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/4hEVEAAAQBAJ?fife=w256-h256",
+					"title": "開始Podcast: 千萬收聽製作人教你內容規劃、主持、上架指南",
+					"link": "https://play.google.com/store/books/details/%E5%85%8B%E8%8E%89%E7%B5%B2%E6%B1%80_%E6%A2%85%E5%9B%A0%E6%BE%A4_Kristen_Meinzer_%E9%96%8B%E5%A7%8BPodcast?id=4hEVEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 280
+				},
+				{
+					"id": "EJNyDgAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/EJNyDgAAQBAJ?fife=w256-h256",
+					"title": "即使如此，這一天也不錯",
+					"link": "https://play.google.com/store/books/details/%E5%85%B7%E9%8F%A1%E5%96%84_Gu_GyungSeon_%E5%8D%B3%E4%BD%BF%E5%A6%82%E6%AD%A4_%E9%80%99%E4%B8%80%E5%A4%A9%E4%B9%9F%E4%B8%8D%E9%8C%AF?id=EJNyDgAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 168
+				},
+				{
+					"id": "pr80EAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/pr80EAAAQBAJ?fife=w256-h256",
+					"title": "我想過得比去年好一點:每個月改變一件小事, 讓自己更健康、更快樂的生活提案",
+					"link": "https://play.google.com/store/books/details/%E7%8F%8D%E5%A6%AE%E4%BD%9B_%E8%89%BE%E5%B8%8C%E9%A0%93_Jennifer_Ashton_%E6%88%91%E6%83%B3%E9%81%8E%E5%BE%97%E6%AF%94%E5%8E%BB%E5%B9%B4%E5%A5%BD%E4%B8%80%E9%BB%9E_%E6%AF%8F%E5%80%8B%E6%9C%88%E6%94%B9%E8%AE%8A%E4%B8%80%E4%BB%B6%E5%B0%8F%E4%BA%8B_%E8%AE%93%E8%87%AA%E5%B7%B1%E6%9B%B4%E5%81%A5?id=pr80EAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 245
+				},
+				{
+					"id": "uF1ADwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/uF1ADwAAQBAJ?fife=w256-h256",
+					"title": "情緒靈敏力: 哈佛心理學家教你4步驟與情緒脫鉤",
+					"link": "https://play.google.com/store/books/details/%E8%98%87%E7%8F%8A_%E5%A4%A7%E8%A1%9B_Susan_David_PhD_%E6%83%85%E7%B7%92%E9%9D%88%E6%95%8F%E5%8A%9B?id=uF1ADwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 258
+				},
+				{
+					"id": "0URtDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/0URtDwAAQBAJ?fife=w256-h256",
+					"title": "調好五臟保健康——道家養生精粹",
+					"link": "https://play.google.com/store/books/details/%E5%BC%B5%E6%8C%AF%E5%BC%B7_%E8%AA%BF%E5%A5%BD%E4%BA%94%E8%87%9F%E4%BF%9D%E5%81%A5%E5%BA%B7_%E9%81%93%E5%AE%B6%E9%A4%8A%E7%94%9F%E7%B2%BE%E7%B2%B9?id=0URtDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 48
+				},
+				{
+					"id": "TRD5DwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/TRD5DwAAQBAJ?fife=w256-h256",
+					"title": "「懂事」總經理的30個思考：工作不是湯，不能用熬的",
+					"link": "https://play.google.com/store/books/details/%E8%AC%9D%E9%A6%A8%E6%85%A7_%E6%87%82%E4%BA%8B_%E7%B8%BD%E7%B6%93%E7%90%86%E7%9A%8430%E5%80%8B%E6%80%9D%E8%80%83_%E5%B7%A5%E4%BD%9C%E4%B8%8D%E6%98%AF%E6%B9%AF_%E4%B8%8D%E8%83%BD%E7%94%A8%E7%86%AC%E7%9A%84?id=TRD5DwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 258
+				},
+				{
+					"id": "UY2sDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/UY2sDwAAQBAJ?fife=w256-h256",
+					"title": "過你的第二人生: 你要留在這裡，還是往前走？（暢銷改版）",
+					"link": "https://play.google.com/store/books/details/%E5%BC%B7_%E9%AB%98%E7%99%BB_Jon_Gordon_%E9%81%8E%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%BA%8C%E4%BA%BA%E7%94%9F?id=UY2sDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 165
+				},
+				{
+					"id": "lCD_DwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/lCD_DwAAQBAJ?fife=w256-h256",
+					"title": "創意電力公司：讓創意與商業完美結合、企業永續成功的祕密",
+					"link": "https://play.google.com/store/books/details/%E8%89%BE%E5%BE%B7_%E5%8D%A1%E7%89%B9%E8%8E%AB%E7%88%BE_Ed_Catmull_%E8%89%BE%E7%BE%8E_%E8%8F%AF%E8%90%8A%E5%A3%AB_Amy_Wallace_%E5%89%B5%E6%84%8F%E9%9B%BB%E5%8A%9B%E5%85%AC%E5%8F%B8_%E8%AE%93%E5%89%B5%E6%84%8F%E8%88%87%E5%95%86?id=lCD_DwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 237
+				}
+			],
+			"quantity": 50
+		},
+		{
+			"bookstore": {
+				"website": "https://www.books.com.tw/",
+				"displayName": "博客來",
+				"id": "booksCompany",
+				"isOnline": true,
+				"status": "Active"
+			},
+			"isOkay": true,
+			"status": "Crawler success.",
+			"processTime": 2296.190812,
+			"books": [
+				{
+					"id": "E050155024",
+					"thumbnail": "https://www.books.com.tw/img/E05/015/50/E050155024.jpg",
+					"title": "過得還不錯的一年：我的快樂生活提案(10週年紀念版) (電子書)",
+					"link": "https://www.books.com.tw/products/E050155024",
+					"priceCurrency": "TWD",
+					"price": 262,
+					"about": "、玩耍、無所是事；   結果呢?她總是生活在瑣碎的抱怨和叫囂中，無法領略自己所擁有的一切美好。    作者葛瑞琴‧魯賓，幫別人寫過一份又一份漂亮的提案，自己卻深陷一團混亂、不開心的生活中。夠了!這一年，她決定為了自己的幸福，寫一份「快樂生活提案...... more",
+					"publisher": null,
+					"authors": [
+						"葛瑞琴．魯賓",
+						"尤傳莉"
+					]
+				},
+				{
+					"id": "E050155022",
+					"thumbnail": "https://www.books.com.tw/img/E05/015/50/E050155022.jpg",
+					"title": "待在家裡也不錯：過得還不錯的一年2 (電子書)",
+					"link": "https://www.books.com.tw/products/E050155022",
+					"priceCurrency": "TWD",
+					"price": 219,
+					"about": "、工作，住同一棟公寓，日常作息也一樣。但是一年的實驗下來，她不需要數字化的衡量表，就知道自己改變了多少。那場喚醒葛瑞琴的生活實驗，已經深深烙印在她的生命裡。(詳見《過得還不錯的一年》)   這一次，不同於上次在公車上的靈光乍現，葛瑞琴是在...... more",
+					"publisher": null,
+					"authors": [
+						"葛瑞琴‧魯賓",
+						"尤傳莉"
+					]
+				},
+				{
+					"id": "E050062113",
+					"thumbnail": "https://www.books.com.tw/img/E05/006/21/E050062113.jpg",
+					"title": "這樣開始也不錯，擺脫束縛的一年 (電子書)",
+					"link": "https://www.books.com.tw/products/E050062113",
+					"priceCurrency": "TWD",
+					"price": 266,
+					"about": "✽《過得還不錯的一年》作者最新力作   ✽ 榮登亞馬遜暢銷榜，讀者★★★★好評推薦   這本書宛如生命指導手冊，帶領你向理想生活邁進。--《紐約時報》書評   魯賓憑藉強大的實驗精神，耗時一年，親身測試了每一條通往幸福道路的成果--《時代...... more",
+					"publisher": null,
+					"authors": [
+						"葛瑞琴•魯賓",
+						"周宜芳",
+						"三人制創"
+					]
+				},
+				{
+					"id": "E050090682",
+					"thumbnail": "https://www.books.com.tw/img/E05/009/06/E050090682.jpg",
+					"title": "我想過得比去年好一點：每個月改變一件小事，讓自己更健康、更快樂的生活提案 (電子書)",
+					"link": "https://www.books.com.tw/products/E050090682",
+					"priceCurrency": "TWD",
+					"price": 227,
+					"about": "日子難過時其實更需要照顧自我 媲美《過得還不錯的一年》，醫師專業建議實踐版!   ★全美第一大新聞網的健康活招牌和代言人   ★每天花幾分鐘的時間照顧自己   ★利用時間複利的力量，一年後變身更好的自己     上一年，你是否過得不怎麼好...... more",
+					"publisher": null,
+					"authors": [
+						"珍妮佛‧艾希頓",
+						"莎拉‧托蘭德",
+						"蔡心語"
+					]
+				},
+				{
+					"id": "E050061381",
+					"thumbnail": "https://www.books.com.tw/img/E05/006/13/E050061381.jpg",
+					"title": "老年的意義：我和那些老人共處的一年 (電子書)",
+					"link": "https://www.books.com.tw/products/E050061381",
+					"priceCurrency": "TWD",
+					"price": 226,
+					"about": "帶領我們過得更快樂——無論你現在幾歲。」——葛瑞琴.魯賓(Gretchen Rubin)，暢銷書《過得還不錯的一年》作者   本書作者約翰.利蘭是紐約時報記者，他55歲時離婚，人生首次單身一人，他必須獨自照顧年邁母親，而她最大的願望就是去死。如果...... more",
+					"publisher": null,
+					"authors": [
+						"約翰．利蘭",
+						"周沛郁"
+					]
+				},
+				{
+					"id": "E050118870",
+					"thumbnail": "https://www.books.com.tw/img/E05/011/88/E050118870.jpg",
+					"title": "ETF實戰週記：樂活大叔的52個叮嚀 (電子書)",
+					"link": "https://www.books.com.tw/products/E050118870",
+					"priceCurrency": "TWD",
+					"price": 266,
+					"about": "在新的一年 不焦慮‧安心買‧睡得著 市面上唯一!股市進出場邏輯實戰操演 讓你戰勝心魔，利多利空都能賺!    每天打開看盤軟體，過著終日殺進殺出的忙碌股海人生，就是容易迷失心性的時刻。心志一旦動搖，便會迷失在數字當中。而選股的人始終在焦慮...... more",
+					"publisher": null,
+					"authors": [
+						"施昇輝"
+					]
+				},
+				{
+					"id": "E050043266",
+					"thumbnail": "https://www.books.com.tw/img/E05/004/32/E050043266.jpg",
+					"title": "脆弱的力量 (電子書)",
+					"link": "https://www.books.com.tw/products/E050043266",
+					"priceCurrency": "TWD",
+					"price": 209,
+					"about": " ★勇奪2013年「美好人生書獎」 ★《讓天賦自由》肯.羅賓森，《過得還不錯的一年》葛瑞琴.魯賓聯袂強推! 每天問自己三個問題： 生涯遭逢瓶頸、創新可能失敗，令你不敢冒險突破舒適圈嗎? 社會瀰漫批判，教育缺乏對話，人際充滿比較，讓你更加冷漠自保嗎...... more",
+					"publisher": null,
+					"authors": [
+						"布芮尼．布朗",
+						"洪慧芳"
+					]
+				},
+				{
+					"id": "E050035875",
+					"thumbnail": "https://www.books.com.tw/img/E05/003/58/E050035875.jpg",
+					"title": "深度洞察力：克服認知偏見，喚醒自我覺察，看清內在的自己，也了解別人如何看待你 (電子書)",
+					"link": "https://www.books.com.tw/products/E050035875",
+					"priceCurrency": "TWD",
+					"price": 280,
+					"about": "   「我們很容易被期望中的自己、或認為自己應該是什麼樣的人，又或是別人認為我們是怎樣的人而轉移注意力，最後看不到真正的自我。本書提供突破性的策略與祕訣，讓人們看清自己。」-《紐約時報》暢銷書《過得還不錯的一年》作者 格雷琴.魯賓   「我從事高階...... more",
+					"publisher": null,
+					"authors": [
+						"塔莎．歐里希",
+						"錢基蓮"
+					]
+				},
+				{
+					"id": "E050060390",
+					"thumbnail": "https://www.books.com.tw/img/E05/006/03/E050060390.jpg",
+					"title": "安靜，就是力量：內向者如何發揮積極的力量 (電子書)",
+					"link": "https://www.books.com.tw/products/E050060390",
+					"priceCurrency": "TWD",
+					"price": 264,
+					"about": "淇銘|國立台北教育大學教授   黑幼龍|大中華地區卡內基訓練負責人   魏德聖|導演劇作家   盧智芳|Cheers雜誌總編輯  好評推薦   你絕對不能錯過的好書!──葛瑞琴‧魯賓/《過得還不錯的一年》作者    這本書只能以傑作來形容...... more",
+					"publisher": null,
+					"authors": [
+						"蘇珊．坎恩",
+						"李斯毅",
+						"沈耿立"
+					]
+				},
+				{
+					"id": "E050090094",
+					"thumbnail": "https://www.books.com.tw/img/E05/009/00/E050090094.jpg",
+					"title": "設計你的小習慣：史丹佛大學行為設計實驗室精研全球瘋IG背後的行為設計學家教你慣性動作養成的技術 (電子書)",
+					"link": "https://www.books.com.tw/products/E050090094",
+					"priceCurrency": "TWD",
+					"price": 252,
+					"about": "可以做出改變。——企業講師、作家、主持人 謝文憲    本書經過深度研究、且高度實用，對於有意改變行為的人，這都是一本珍貴的寶典。——《過得還不錯的一年》(The Happiness Project)作者 葛瑞琴.魯賓(Gretchen Rubin...... more",
+					"publisher": null,
+					"authors": [
+						"BJ．福格",
+						"劉復苓"
+					]
+				},
+				{
+					"id": "E050023201",
+					"thumbnail": "https://www.books.com.tw/img/E05/002/32/E050023201.jpg",
+					"title": "你可以不只是上班族：斜槓創業，複業多賺多自由的27天行動計畫 (電子書)",
+					"link": "https://www.books.com.tw/products/E050023201",
+					"priceCurrency": "TWD",
+					"price": 196,
+					"about": "加上行動更好。』本書兩者都提供，同時指出實用的訣竅和策略——以引人入勝的真實複業故事加以說明——鼓舞讀者現在就開始發展複業。」——格瑞琴.魯賓(Gretchen Rubin)，《過得還不錯的一年：我的快樂生活提案》作者   「人們忍不住會想...... more",
+					"publisher": null,
+					"authors": [
+						"克里斯‧古利博",
+						"羅耀宗"
+					]
+				},
+				{
+					"id": "E050066073",
+					"thumbnail": "https://www.books.com.tw/img/E05/006/60/E050066073.jpg",
+					"title": "專注力協定 (電子書)",
+					"link": "https://www.books.com.tw/products/E050066073",
+					"priceCurrency": "TWD",
+					"price": 265,
+					"about": "人。-《Deep Work 深度工作力》作者/卡爾.紐波特   這本書裡滿滿都是深刻的見解、故事、最新的研究──還有最有幫助的是，具體、容易上手的策略，讓自己可以變得心無旁騖。-《過得還不錯的一年：我的快樂生活提案》作者/葛瑞琴.魯賓   我很期待這本書...... more",
+					"publisher": null,
+					"authors": [
+						"尼爾．艾歐",
+						"李茱莉",
+						"陳映竹"
+					]
+				},
+				{
+					"id": "E050149997",
+					"thumbnail": "https://www.books.com.tw/img/E05/014/99/E050149997.jpg",
+					"title": "更快樂的選擇：哈佛史上最受歡迎的正向心理學，5個面向鍛造反脆弱韌性，建立心理復原力! (電子書)",
+					"link": "https://www.books.com.tw/products/E050149997",
+					"priceCurrency": "TWD",
+					"price": 246,
+					"about": "章節將激發讀者更深入地思考他們的人生，並採取行動把這些想法化為現實。──葛瑞琴.魯賓(Gretchen Rubin)，《過得還不錯的一年：我的快樂生活提案》(The Happiness Project)的作者...... more",
+					"publisher": null,
+					"authors": [
+						"塔爾．班夏哈",
+						"朱靜女"
+					]
+				},
+				{
+					"id": "E050014297",
+					"thumbnail": "https://www.books.com.tw/img/E05/001/42/E050014297.jpg",
+					"title": "情緒靈敏力:哈佛心理學家教你4步驟與情緒脫鉤 (電子書)",
+					"link": "https://www.books.com.tw/products/E050014297",
+					"priceCurrency": "TWD",
+					"price": 257,
+					"about": "》作者   丹尼爾。高曼 《EQ》作者   亞當。格蘭特 《給予：華頓商學院最啟發人心的一堂課》作者   葛瑞琴。魯賓 《過得還不錯的一年》作者   派特。米契爾 日舞影展協會理事長、TEDWomen編輯總監   彼得。沙洛維 社會心理學權威暨...... more",
+					"publisher": null,
+					"authors": [
+						"蘇珊‧大衛",
+						"齊若蘭"
+					]
+				},
+				{
+					"id": "E050095389",
+					"thumbnail": "https://www.books.com.tw/img/E05/009/53/E050095389.jpg",
+					"title": "高效人生的清單整理術：一張清單做完所有事，工作、生活、理財通通搞定 (電子書)",
+					"link": "https://www.books.com.tw/products/E050095389",
+					"priceCurrency": "TWD",
+					"price": 239,
+					"about": "!這就是為什麼你需要製作清單、需要這本書。    ★歐普拉網站、《富比士》、《福斯商業網》 一致讚賞   ★《搞定》作者大衛‧艾倫、《過得還不錯的一年》作者葛瑞琴.魯賓、生產力專家朱莉·摩根斯坦 好評推薦!   ★出版至今，美國最大的零售連鎖書店...... more",
+					"publisher": null,
+					"authors": [
+						"寶拉‧里佐",
+						"駱香潔"
+					]
+				},
+				{
+					"id": "E050069750",
+					"thumbnail": "https://www.books.com.tw/img/E05/006/97/E050069750.jpg",
+					"title": "給予：華頓商學院最啟發人心的一堂課 (電子書)",
+					"link": "https://www.books.com.tw/products/E050069750",
+					"priceCurrency": "TWD",
+					"price": 245,
+					"about": "。這部作品十分重要且極具可讀性，相信讀者一定會喜歡!──《過得還不錯的一年》作者/葛瑞琴.魯賓   亞當.格蘭特是正向心理學的明日之星!他在本書中完美地結合了科學與商場成敗的故事，說服我們以長期眼光來看，「給予」才是商場上的必勝之道。閱讀...... more",
+					"publisher": null,
+					"authors": [
+						"亞當‧格蘭特",
+						"汪芃"
+					]
+				},
+				{
+					"id": "E050068589",
+					"thumbnail": "https://www.books.com.tw/img/E05/006/85/E050068589.jpg",
+					"title": "當上主管後，難道只能默默崩潰? (電子書)",
+					"link": "https://www.books.com.tw/products/E050068589",
+					"priceCurrency": "TWD",
+					"price": 265,
+					"about": "(Gretchen Rubin)，《過得還不錯的一年》(The Happiness Project)作者   新創公司的成員當上主管時，很少有人已經做好準備。本書作者卓茱莉提供新手管理者需要的工具，協助他們將部屬與公司帶向成功。──山姆.奧特曼(Sam...... more",
+					"publisher": null,
+					"authors": [
+						"卓茱莉",
+						"許恬寧"
+					]
+				},
+				{
+					"id": "E050061282",
+					"thumbnail": "https://www.books.com.tw/img/E05/006/12/E050061282.jpg",
+					"title": "生時間：高績效時間管理術 (電子書)",
+					"link": "https://www.books.com.tw/products/E050061282",
+					"priceCurrency": "TWD",
+					"price": 242,
+					"about": " Rubin)，暢銷作家，著有《過得還不錯的一年》(The Happiness Project)、《理想生活的起點》(The Four Tendencies)   「身為一個對時間充滿執念、亟欲了解該如何加以明智運用的人，我好喜歡這本有趣又實用的...... more",
+					"publisher": null,
+					"authors": [
+						"傑克‧納普",
+						"約翰‧澤拉斯基",
+						"洪世民"
+					]
+				},
+				{
+					"id": "E050082823",
+					"thumbnail": "https://www.books.com.tw/img/E05/008/28/E050082823.jpg",
+					"title": "開始Podcast：千萬收聽製作人教你內容規劃、主持、上架指南 (電子書)",
+					"link": "https://www.books.com.tw/products/E050082823",
+					"priceCurrency": "TWD",
+					"price": 252,
+					"about": " Rubin)《過得還不錯的一年：我的快樂生活提案》作者   「克莉絲汀・梅因澤(Kristen Meinzer)知道Podcast的大小事，不論內外、上下或是任何捷徑，克莉絲汀都知道。而且她很可能掌握了我所不知道的Podcast第四維度。這是真的...... more",
+					"publisher": null,
+					"authors": [
+						"克莉絲汀．梅因澤",
+						"曾琳之"
+					]
+				},
+				{
+					"id": "E050040083",
+					"thumbnail": "https://www.books.com.tw/img/E05/004/00/E050040083.jpg",
+					"title": "共好與同贏：哈佛快樂專家教你把個人潛力變成集體能力，擴散成功與快樂的傳染力 (電子書)",
+					"link": "https://www.books.com.tw/products/E050040083",
+					"priceCurrency": "TWD",
+					"price": 231,
+					"about": "我們揭示了用來達成自身最大潛能的新策略。」──《紐約時報》暢銷書《過得還不錯的一年》作者 葛瑞琴.魯賓   「本書揭示我們作為領導人的真正潛能，在於去教導、啟發並強化他人成為領導人的能力。當我們將自身力量和影響擴展到身邊人時，會釋放出巨大的潛能...... more",
+					"publisher": null,
+					"authors": [
+						"尚恩．艾科爾",
+						"歐陽端端"
+					]
+				},
+				{
+					"id": "E050073245",
+					"thumbnail": "https://www.books.com.tw/img/E05/007/32/E050073245.jpg",
+					"title": "人生賽局：我如何學習專注、掌握先機、贏得勝利 (電子書)",
+					"link": "https://www.books.com.tw/products/E050073245",
+					"priceCurrency": "TWD",
+					"price": 233,
+					"about": "譯者魯宓專文推薦   馮勃翰|臺大經濟系副教授   蔡宇哲|臺灣應用心理學會理事長   丹尼爾・品克|知名趨勢寫手   亞當・格蘭特|華頓商學院教授   葛瑞琴・魯賓|《過得還不錯的一年》作者   查爾斯・杜希格|《為什麼我們這樣生活，那樣...... more",
+					"publisher": null,
+					"authors": [
+						"瑪莉亞．柯妮可娃",
+						"魯宓"
+					]
+				},
+				{
+					"id": "E050122013",
+					"thumbnail": "https://www.books.com.tw/img/E05/012/20/E050122013.jpg",
+					"title": "週末改造計畫：讓身心關機2天，打造快樂的365天(週休快樂升級版) (電子書)",
+					"link": "https://www.books.com.tw/products/E050122013",
+					"priceCurrency": "TWD",
+					"price": 221,
+					"about": "。   真正的休閒不只是不工作，更要「創造意義」。   周末是讓我們放下壓力，記起重要事物的時候。   如果能偶爾利用一點空檔回饋社會，我們的週末感覺會變得更長、更好。  好評推薦    本書提供強而有力的論證和實用的建議，證明拿回空閒時間，過更充實...... more",
+					"publisher": null,
+					"authors": [
+						"卡特里娜・翁斯塔",
+						"胡琦君"
+					]
+				},
+				{
+					"id": "E050041054",
+					"thumbnail": "https://www.books.com.tw/img/E05/004/10/E050041054.jpg",
+					"title": "徹底坦率：一種有溫度而真誠的領導 (電子書)",
+					"link": "https://www.books.com.tw/products/E050041054",
+					"priceCurrency": "TWD",
+					"price": 287,
+					"about": "還不錯的一年》作者   「關於如何提供(與接受)反饋、如何做出明智決策、如何激勵大家繼續前進，無論你是一個人或一千人的主管，你都需要這本書。現在就去讀。」──丹尼爾‧品克(Daniel Pink)，紐時暢銷書《動機，單純的力量》作者   「本書...... more",
+					"publisher": null,
+					"authors": [
+						"金‧史考特",
+						"吳書榆"
+					]
+				},
+				{
+					"id": "E050073153",
+					"thumbnail": "https://www.books.com.tw/img/E05/007/31/E050073153.jpg",
+					"title": "「懂事」總經理的30個思考：工作不是湯，不能用熬的 (電子書)",
+					"link": "https://www.books.com.tw/products/E050073153",
+					"priceCurrency": "TWD",
+					"price": 239,
+					"about": "，她找到適才適性的熱情所在。   謝馨慧並非一帆風順──她自嘲自己大概是奧美做得最久的AE(公關專員)，從AE到資深AE，人家花一年多，她卻花了近三年，中間更因不諳工作與調配，最後壓力病倒，經歷離職再回鍋。若用龜兔賽跑來比喻，她感覺自己更像烏龜...... more",
+					"publisher": null,
+					"authors": [
+						"謝馨慧"
+					]
+				}
+			],
+			"quantity": 24
+		}
+	],
+	"apiVersion": "1.1.4",
+	"id": "5Sm5fJBbhB9yGOEJH6eY"
+}

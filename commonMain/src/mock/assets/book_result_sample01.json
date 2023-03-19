@@ -1,0 +1,2710 @@
+{
+	"keywords": "快樂的秘密",
+	"searchDateTime": "2023/03/19 20:20:20",
+	"processTime": 4545.835105,
+	"userAgent": {
+		"ua": "PostmanRuntime/7.31.0",
+		"browser": {
+			"name": null,
+			"version": null,
+			"major": null
+		},
+		"engine": {
+			"name": null,
+			"version": null
+		},
+		"os": {
+			"name": null,
+			"version": null
+		},
+		"device": {
+			"vendor": null,
+			"model": null,
+			"type": null
+		},
+		"cpu": {
+			"architecture": null
+		}
+	},
+	"totalQuantity": 212,
+	"results": [
+		{
+			"bookstore": {
+				"website": "https://readmoo.com/",
+				"displayName": "Readmoo 讀墨",
+				"id": "readmoo",
+				"status": "Active",
+				"isOnline": true
+			},
+			"isOkay": true,
+			"status": "Crawler success.",
+			"processTime": 2362.5650689999998,
+			"books": [
+				{
+					"id": "220087819000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/jg/nfqjrek_210x315.jpg?v=1524558752",
+					"title": "\n        食力專題報導vol.01        ：破解速食的「快秘密」      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIyMDA4NzgxOTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": -1,
+					"about": "\n      速食的快速與美味蘊藏著經過設計的食物製備方式，每種食物在上桌前看似簡單，其實都有不簡單的原理與細節。愛吃速食享受酥炸療癒感的你，一起來暸解快速與美味背後的精心設計！\n    ",
+					"authors": [
+						"食力編輯室"
+					],
+					"publisher": "厚策思維有限公司"
+				},
+				{
+					"id": "210134054000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/e9/8868ncd_210x315.jpg?v=1585238050",
+					"title": "\n        快樂的讀書人              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDEzNDA1NDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 158,
+					"about": "\n      生活是一面網，你一旦投身其間，就很難脫身。\n人由於受到環境、興趣、職業以及種種因素的支配，而產生了不同的生活方式。\n讀書，原是件快樂的事，書中世界多采多姿，一書在握，其樂無窮。    ",
+					"authors": [
+						"隱地"
+					],
+					"publisher": "爾雅出版社"
+				},
+				{
+					"id": "210020158000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/qh/kogrvfm_210x315.jpg?v=1539919593",
+					"title": "\n        快樂的死              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDAyMDE1ODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 175,
+					"about": "\n      一個人要怎麼活，才能快樂的死？\n《異鄉人》創作原型 卡繆二十歲的生死學\n《異鄉人》作者 存在主義大師 諾貝爾文學獎得主卡繆首部小說經典問世\n\n「我確信人沒有錢不可能快樂。就是這樣。我不喜歡方便行事，也不喜歡多愁善感。我喜歡把事情看得清清楚楚。所以呢，我發現某些菁英份子，他們有一種精神上的自命清高，以...    ",
+					"authors": [
+						"卡繆"
+					],
+					"publisher": "麥田"
+				},
+				{
+					"id": "210078215000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/fh/bgbdmke_210x315.jpg?v=1537871845",
+					"title": "\n        不合理的快樂        ：存在的喜悅      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA3ODIxNTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 315,
+					"about": "\n      你快樂嗎？」\n財權名利所帶來的快樂，總是短暫而不永久，\n快樂，是否有公式可以依循？\n本書從哲學、靈性層面切入，\n和你一起練習，把快樂找回來。\n\n我們天生本來就是快樂，而且腦和生理架構就是支持快樂。可惜，現代人長期的失衡，過度偏重頭腦，透過人生和環境帶來的經驗，讓我們變得不快樂。\n\n世...    ",
+					"authors": [
+						"楊定一"
+					],
+					"publisher": "天下生活出版股份有限公司"
+				},
+				{
+					"id": "210253661000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/od/irgktqj_210x315.jpg?v=1667788206",
+					"title": "\n        超級學霸讀書法        ：揭開上百位學霸考試高分的學習框架      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDI1MzY2MTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 210,
+					"about": "\n      像超級學霸一樣思考，\n讓你的大腦徹底升級，讀書快、狠、準！\n\n★從學習的三步驟具體分析，一樣是在讀書，人家哪裡讀得跟你不一樣★\n●精準輸入：讀書講求高效，就要學得準、學得對、學得好。學霸們會先立下目標，再倒推實現的路徑。\n●深度消化：讀書要能滴水不漏。除了心態上的準備，還要懂得確實有效的自...    ",
+					"authors": [
+						"廖恒"
+					],
+					"publisher": "樂金文化"
+				},
+				{
+					"id": "210263875000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/a9/386ai46_210x315.jpg?v=1677813876",
+					"title": "\n        快樂的貓咪皮皮        ：快樂的貓咪皮皮      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDI2Mzg3NTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 100,
+					"about": "\n      快樂的小貓咪皮皮一直都很快樂，其他動物都非常好奇，小貓咪皮皮為何總是如此有活力又快樂，讓我們來看看小貓咪皮皮快樂的原因吧!    ",
+					"authors": [
+						"AtsuChen"
+					],
+					"publisher": "AtsuChen米籽羊工作室"
+				},
+				{
+					"id": "210263952000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/64/bbb5g61_210x315.jpg?v=1677635468",
+					"title": "\n        未竟的快樂時代        ：香港民主回歸世代精神史      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDI2Mzk1MjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 420,
+					"about": "\n      　　獨力開拓了香港國族史寫作的醫生學者徐承恩，繼《香港，鬱躁的家邦》書寫香港共同體有異於中國的綿遠過去，新書《未盡的快樂時代》則將焦點放在香港一段令人困惑的近代史，對民主回歸世代的功過作出了率直的診斷與公允的評價。    ",
+					"authors": [
+						"徐承恩"
+					],
+					"publisher": "左岸"
+				},
+				{
+					"id": "210139459000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/a6/d6c3i6l_210x315.jpg?v=1588141934",
+					"title": "\n        真正的快樂處方        ：瑞典國民書！腦科學實證的健康生活提案      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDEzOTQ1OTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 238,
+					"about": "\n      ★熱銷50萬本以上，風靡瑞典的超級暢銷書！\n★世界級研究者的傾力之作，全球 16國搶購版權！\n★與《真確》作者漢斯．羅斯林齊名的瑞典重量級作家！\n★洛桑加參、許瑞云、謝伯讓──快樂推薦！    ",
+					"authors": [
+						"安德斯．韓森"
+					],
+					"publisher": "究竟出版"
+				},
+				{
+					"id": "210246702000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/qk/tpzgvee_210x315.jpg?v=1670471312",
+					"title": "\n        親愛的快樂先生              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDI0NjcwMjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 154,
+					"about": "\n      親愛的快樂先生，就像孩子的好朋友，總是不厭其煩的回覆小男孩阿丹的問題。任何芝麻綠豆小事或是關心地球災難頻繁、疑惑這個世界上有沒有快樂……這位筆友，都會針對來信提出的問題，用幽默輕鬆的口吻，給他一點想法與建議，讓小讀者在閱讀他們往返的信件中，看見彼此真情的聊天對話，體驗「快樂」是什麼的感受，學習表達自...    ",
+					"authors": [
+						"亞喬"
+					],
+					"publisher": "信誼基金出版社",
+					"publishDate": "2022-08-01"
+				},
+				{
+					"id": "210258991000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/pt/hlzfuzl_210x315.jpg?v=1675042966",
+					"title": "\n        更快樂的選擇        ：哈佛史上最受歡迎的正向心理學，5個面向鍛造反脆弱韌性，建立心理復原力！      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDI1ODk5MTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 280,
+					"about": "\n      快樂，不是來自完美無傷，而是取決於行動選擇\n讓我們從波動中復原的反脆弱力量\n \n哈佛人讚譽改變人生的一堂課，哈佛史上最受歡迎正向心理學的教授班夏哈，再次指引我們更快樂的途徑。\n從5個面向鍛鍊心力量，每一天都比過去更完整、更有力量。    ",
+					"authors": [
+						"塔爾．班夏哈"
+					],
+					"publisher": "天下雜誌出版"
+				},
+				{
+					"id": "210177081000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/le/9ccjqai_210x315.jpg?v=1617356603",
+					"title": "\n        爸爸的秘密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE3NzA4MTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 50,
+					"about": "\n      姐姐死後，葉毓嵐領養了她的遺孤，成為單親爸爸，一路將孩子養大。\n他有個秘密，誰都不能說。\n然而，這個秘密卻隨著兒子的大學學長出現而可能曝光。\n    ",
+					"authors": [
+						"悍兔"
+					],
+					"publisher": "悍兔"
+				},
+				{
+					"id": "210031218000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/8e/9e5dla9_210x315.jpg?v=0",
+					"title": "\n        最快樂的歌              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDAzMTIxODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 175,
+					"about": "\n      這是一本以「音樂」為主題的童話作品。書中描述兩個男孩因為逃學而結交了一群奇奇怪怪的朋友──長得像猩猩的鋼琴高手、高興起來把整條街都畫上花蝴蝶的畫家、有著世界上最好歌喉的斷臂少年......他們一起展開了一段曲折離奇的「音樂之旅」，最後讓整座城市都為他們瘋狂......\n    ",
+					"authors": [
+						"哲也"
+					],
+					"publisher": "天衛文化",
+					"publishDate": "2010-10-01"
+				},
+				{
+					"id": "210205672000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ha/l989off_210x315.jpg?v=1637910975",
+					"title": "\n        北漂的秘密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDIwNTY3MjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 139,
+					"about": "\n      我與女友黃韻姬進行開放式性關係十一年了；而黃韻姬一開始就告訴我她最終還是會去跟男人結婚。但我覺得這世界上沒有人比我更愛她，不會有那樣的男人出現。\n我以為我們會一直這樣下去，就跟我喜歡在壞女兒BBS上跟Sister告解吐苦水一樣。\n結果她在我們認識20年的時候跟男人結婚，而我也才發現一個個秘密，從...    ",
+					"authors": [
+						"白薔薇"
+					],
+					"publisher": "三絲文創"
+				},
+				{
+					"id": "210228061000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/mq/pmqhtgf_210x315.jpg?v=1652238060",
+					"title": "\n        生命的秘密        ：The Secret of Life      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDIyODA2MTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 300,
+					"about": "\n      禪宗第八十五代宗師悟覺妙天禪師，接受美國傳媒的邀請，於2017年7月前往美國加州大學爾灣校區進行演講，本書收錄全程的演講內容。禪師在演講中講述了人類生命的奧秘，以及人類靈性回歸上帝國度的方法，同時分享能夠見證靈性最高境界、轉凡人為聖人的修行方式，內容見解精闢、震撼人心。\n    ",
+					"authors": [
+						"悟覺妙天禪師"
+					],
+					"publisher": "禪天下股份有限公司"
+				},
+				{
+					"id": "210176964000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/bg/d7d6kl4_210x315.jpg?v=1618114148",
+					"title": "\n        金錢的秘密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE3Njk2NDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 100,
+					"about": "\n      為什麼有的人賺錢輕而易舉，而有的人賺錢卻難上加難呢？為什麼有的人賺錢十分瀟灑，花錢也非常大方，賺錢也是花錢，花錢也是賺錢呢？\n\n金錢是力量的象徵。人們不會專門因為錢而去賺錢，他們去賺錢，是因為金錢是他們能力的實際體現。賺錢維持生計是一條使用人類力量的自然的、安全的途徑。不能夠賺錢維持生計的人，對...    ",
+					"authors": [
+						"馬誠"
+					],
+					"publisher": "華夏出版"
+				},
+				{
+					"id": "210117341000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/mr/mhjgtlm_210x315.jpg?v=1577696332",
+					"title": "\n        黑眼圈的秘密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDExNzM0MTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 314,
+					"about": "\n      2013年b.wing最新中英雙語作品The secret of my dark circles 《黑眼圈的秘密》 內含67幅畫作，36句句子和一篇密語，尋找A仔黑眼圈的秘密。\n     ",
+					"authors": [
+						"b.wing"
+					],
+					"publisher": "Kubrick"
+				},
+				{
+					"id": "210057191000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/fg/l787m9a_210x315.jpg?v=0",
+					"title": "\n        邪惡的秘密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA1NzE5MTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 108,
+					"about": "\n      他堂堂藍貓護法幾曾那麼好心想救人，\n料不到第一次善心大發——\n呃，他其實並不是那麼清楚是善心還是玩心，\n或許是因為這個闖入私人海灘的女人有著一頭誘人飄逸長髮，\n以及渾圓挺翹的臀部吧——卻被大大戲弄了！\n    ",
+					"authors": [
+						"星星"
+					],
+					"publisher": "飛田文化",
+					"publishDate": "2016-05-12"
+				},
+				{
+					"id": "210234020000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/bb/79e8kcc_210x315.jpg?v=1655824086",
+					"title": "\n        愛與快樂的條件              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDIzNDAyMDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 100,
+					"about": "\n      自從和上班族軍司一夜春宵後，模特兒環就再也提不起被男人擁抱的心思。年紀輕輕就已經不行了嗎？環每天都這麼煩惱著。然而某一天，環碰巧在路上和軍司遇個正著後，久違的慾火竟然熊熊燃起……!?現在立刻碰我、抱我，沒有你我就活不下去了!!    ",
+					"authors": [
+						"神田猫"
+					],
+					"publisher": "悅文社",
+					"publishDate": "2022-06-10"
+				},
+				{
+					"id": "210172683000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/jf/idnprnd_210x315.jpg?v=1614576664",
+					"title": "\n        千金小姐的秘密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE3MjY4MzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 70,
+					"about": "\n      從貴族千金學校轉學來的晴，給人嫻靜又溫柔的感覺，其氣質宛如一位高貴的千金大小姐。這樣的她，卻有個天大的秘密困擾著她，甚至還害得她交不到朋友!?而唯一知道這個秘密的，是同班同學永瀨。個性冷酷的他會如何對待晴呢…!?\n    ",
+					"authors": [
+						"白石由希"
+					],
+					"publisher": "長鴻出版社"
+				},
+				{
+					"id": "210033640000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ha/l8llojl_210x315.jpg?v=0",
+					"title": "\n        Doala的秘密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDAzMzY0MDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 211,
+					"about": "\n      名古屋的人氣吉祥動物，全國的偶像!即使是在動畫投稿網站也是出乎意料地大受歡迎!目前人氣最旺的吉祥動物Doala，由於噁心又可愛的特質，讓即使不是棒球迷的人們也非常喜歡。本書收錄Doala的各種想法，戀愛，煩惱，體型，睫毛，食物，冬日生活，這個國家的未來，海的對岸等…。Doala還幫忙做...    ",
+					"authors": [
+						"DOALA"
+					],
+					"publisher": "華雲數位",
+					"publishDate": "2015-09-24"
+				},
+				{
+					"id": "210085231000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/po/vnqjutp_210x315.jpg?v=1518760590",
+					"title": "\n        煙囪的秘密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA4NTIzMTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 175,
+					"about": "\n      一座私人莊園，因豪門紳士、政府要人出入頻煩而名噪英倫。\n某小國的王位繼承人流亡至此後，竟被暗殺身亡，於是該國的石油開採權及其所擁有的珍珠財寶，成了眾人關心的焦點，而想當然耳也是野心者覬覦的對象。\n \n    ",
+					"authors": [
+						"阿嘉莎‧克莉絲蒂"
+					],
+					"publisher": "遠流出版",
+					"publishDate": "2003-10-31"
+				},
+				{
+					"id": "210114440000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/h9/emgao9a_210x315.jpg?v=1567009871",
+					"title": "\n        時間的秘密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDExNDQ0MDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 90,
+					"about": "\n      《時間的秘密》這本小書所收錄的，是作者向日葵為其部落格「陽光下的聲音」所寫的四十篇文藝評論。毎篇評論的結尾都註明了網路的刊載日期，然而它們在這本書中的排列順序，卻因為全書文氣順暢的要求而和現實的刊載順序有些微的不同。    ",
+					"authors": [
+						"向日葵"
+					],
+					"publisher": "電書朝代(eBookDynasty)"
+				},
+				{
+					"id": "210008910000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/qn/grpjvpf_210x315.jpg?v=0",
+					"title": "\n        娘子的秘密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDAwODkxMDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 90,
+					"about": "\n      \n 墨青雲，北方鉅富嚴府的大管家，掌管著嚴府大小事務，此外，他還有一個秘密身分──嚴霸天的「影子」。當嚴霸天不在時，他就是嚴府的老大，得代他處理事情，自然，嚴霸天即將納進門的第五名小妾如何處理也歸他管，但……見到本尊後，他不禁懷疑定是哪個環節出了錯！明明負責說媒的五弟說了...    ",
+					"authors": [
+						"莫顏"
+					],
+					"publisher": "狗屋出版",
+					"publishDate": "2013-10-02"
+				},
+				{
+					"id": "210071360000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/61/27d7gb4_210x315.jpg?v=1498465507",
+					"title": "\n        最快樂的幽默口才              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA3MTM2MDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 160,
+					"about": "\n      這套「中學生悅讀書系共六冊，分別是《最有影響的名言佳句》、《最有震撼力的格言警句》、《最感動的贈言祝詞》、《最常見的花季心語》、《最轟動的名人演講》、《最快樂的幽默口才》。希望這套「悅讀」叢書能為青少年朋友們在課堂之餘補充一些社會知識和人生學問，以適應社會生活並應對各種人生問題。\n    ",
+					"authors": [
+						"陳櫟宇主編"
+					],
+					"publisher": "方集出版社",
+					"publishDate": "2016-01-31"
+				},
+				{
+					"id": "210236082000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/8d/6c5al9g_210x315.jpg?v=1657189397",
+					"title": "\n        菁英的秘密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDIzNjA4MjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 100,
+					"about": "\n      「金卡」，是唯有特權階級方被允許通過「合格之門」的證明，尾崎和同事篠田為了得到那個門卡通行證而在工作上努力邁進。尾崎一直暗戀樸素不起眼、工作上卻很能幹為人又溫柔的篠田。就在這時，上司強迫尾崎為了篠田出賣身體接待高層人士，所幸在千鈞一髮之際被篠田救出，但意外得知原來篠田不但是金卡合格者，還是未來的董事...    ",
+					"authors": [
+						"西村しゅうこ"
+					],
+					"publisher": "悅文社",
+					"publishDate": "2022-06-22"
+				},
+				{
+					"id": "210166267000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/jd/dcccrih_210x315.jpg?v=1610338824",
+					"title": "\n        秘密的炮友哥              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE2NjI2NzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 70,
+					"about": "\n      \"當人生跌落到谷底時所看見的是……夢想和希望!?\n在37歲壯年時遭到裁員的夜晚，因失去一切而借酒澆愁、喝得爛醉，結果被男人撿走，回過神後發現自己不知為何竟然跟那個男人發生了關係。而那男人竟是國民偶像團體「ＲＥＡＬ５」的一員！被年輕又有著明星光環的他看上，被他牽著鼻子走，沒想到從此踏上同志這條不歸路!...    ",
+					"authors": [
+						"ヤマヲミ"
+					],
+					"publisher": "長鴻出版社"
+				},
+				{
+					"id": "210125764000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/bf/a6a5kga_210x315.jpg?v=1580383691",
+					"title": "\n        上司的秘密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDEyNTc2NDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 70,
+					"about": "\n      名越至今都以天使般的笑容過著順遂的人生。誰知出社會之後，他卻遇到了無法用那張可愛臉蛋應付的美男子上司，每天過著被嚴格對待的日子。某天，他前往表哥所開的酒吧吐苦水，結果卻發現上司以不得了的模樣出現在那裡——!? 這是超越常識的辦公室喜劇漫畫決定版！另外也收錄了落魄武士、人妖、小學生×受到極度寵愛的男人...    ",
+					"authors": [
+						"新也美樹"
+					],
+					"publisher": "長鴻出版社",
+					"publishDate": "2014-10-01"
+				},
+				{
+					"id": "210073177000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/le/ljijqoe_210x315.jpg?v=1503385463",
+					"title": "\n        不敗的秘密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA3MzE3NzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 238,
+					"about": "\n      蕭華心中的疙瘩卻一直未解開，四年大學即將畢業，他將獨自面臨市場，但他始終無法明白那家生意清淡的糖炒栗子店為啥能保持不敗，這不符合市場行銷學原理。為了弄清楚這家店背後的秘密和生存之道，他決定再次一探究竟……\n    ",
+					"authors": [
+						"梁剛"
+					],
+					"publisher": "釀出版",
+					"publishDate": "2013-02-28"
+				},
+				{
+					"id": "210233320000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/h8/jengoa8_210x315.jpg?v=1655535364",
+					"title": "\n        甜蜜快樂的小白臉生活              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDIzMzMyMDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 39,
+					"about": "\n      「抱歉我先走了，家裡有小貓在等我。」又帥又能幹的上班族・北山航，今天他也為了照顧在家中等他的小貓趕回家。為了那名小白臉・阿三――…。阿三是名很邋遢，腦海裡只有藝術的沒用男人，不過他某些地方卻又很貼心，今天航的身體也被阿三所療癒。邋遢的小白臉藝術家×能幹帥哥營業上班族的甜蜜快樂同居物語!!    ",
+					"authors": [
+						"FUJIKAWARURI"
+					],
+					"publisher": "悅文社",
+					"publishDate": "2022-06-17"
+				},
+				{
+					"id": "210071534000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/qi/pqzzvtf_210x315.jpg?v=1498456652",
+					"title": "\n        快樂也是自找的              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA3MTUzNDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 165,
+					"about": "\n      經歷大喜大悲的感動，回味無窮的哲思，感受文清字麗的愉悅，您會發展，蓓蕾初開、芙蕖臨波、金秋染金、梅映雪香……生命，美得像花美得像畫。你我共同享受這詩畫的人生！\n    ",
+					"authors": [
+						"黃義龍主編"
+					],
+					"publisher": "方集出版社",
+					"publishDate": "2016-01-31"
+				},
+				{
+					"id": "210177822000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/qj/mijpvgl_210x315.jpg?v=1618552658",
+					"title": "\n        當快樂成為負擔，不快樂就是你的權利              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE3NzgyMjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 200,
+					"about": "\n      快樂這條路，跪著也要走完？為什麼難受卻不敢說出口？難道不快樂都是我的錯？\n放過自己吧！當快樂成為負擔，不快樂就是你的權利！    ",
+					"authors": [
+						"迪克．德．瓦赫特"
+					],
+					"publisher": "商周出版"
+				},
+				{
+					"id": "210260608000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/62/f2d0g84_210x315.jpg?v=1674110744",
+					"title": "\n        失戀快樂，祝我快樂        ：唯有愛與傷能帶我們抵達幸福的彼方      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDI2MDYwODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 277,
+					"about": "\n      養成新習慣至少需要21天，\n那麼，走出失戀呢？\n16萬粉絲引頸期盼．「失戀女王」小日刀口首部著作\n你會遇見新的人、看見新的風景、去新蓋的樂園、滑新的雪，\n你不會永遠停留在原地。    ",
+					"authors": [
+						"小日刀口"
+					],
+					"publisher": "悅知文化"
+				},
+				{
+					"id": "290234713000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ll/boljqcg_210x315.jpg?v=1656399996",
+					"title": "\n        分享的快樂加倍多              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzI5MDIzNDcxMzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 180,
+					"about": "\n      小朋友，你喜歡與人分享嗎？當我們幫助別人、與人分享時，我們的心情是愉快的，那是一種特別的快樂和滿足，還能交到更多的好朋友，你願意試試看嗎？    ",
+					"authors": [
+						"糖果姐姐"
+					],
+					"publisher": "愛播聽書FM"
+				},
+				{
+					"id": "210094204000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/nk/dlihzfn_210x315.jpg?v=1534076727",
+					"title": "\n        鷹爸的快樂教養法              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA5NDIwNDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 253,
+					"about": "\n      誰能教導我們成為一個好的父親或母親？\n \n如何讓父母的心轉向子女，子女的心轉向父母？\n    ",
+					"authors": [
+						"徐柏岳"
+					],
+					"publisher": "遠流出版",
+					"publishDate": "2018-06-30"
+				},
+				{
+					"id": "210043483000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/je/gckhrci_210x315.jpg?v=0",
+					"title": "\n        逆境裏的快樂智慧              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA0MzQ4MzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 96,
+					"about": "\n      作者在寫作過程中，腦海不期然湧現一個又一個昔日的自己：勤於做兼職爭取經驗的大學生、在求職路上屢碰釘子的畢業生、初嚐人情冷暖而失落的社會新鮮人、努力適應辦公室環境的上班一族、單打獨鬥的創作個體戶……\n角色的轉變，環境的好壞，是每個人都會經歷的，上天沒有偏心，給我們各種試練，...    ",
+					"authors": [
+						"黃擎天"
+					],
+					"publisher": "紅出版",
+					"publishDate": "2014-03-05"
+				},
+				{
+					"id": "210003527000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/fi/8abbmhh_210x315.jpg?v=0",
+					"title": "\n        快樂是我的奢侈品              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDAwMzUyNzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 175,
+					"about": "\n      《快樂是我的奢侈品》藉由真實的個案故事，輔以專業醫學知識，從人性關懷的角度來探討憂鬱症患者的心路歷程，它讓人對此一病症有更進一步的了解，能以同理心去感受病友的喜怒哀樂；同時書中所述個案苦盡甘來的經歷，也為所有關懷生命、或身受憂鬱症之苦的朋友開啟了一扇希望之窗。\n    ",
+					"authors": [
+						"蔡香蘋、李文瑄"
+					],
+					"publisher": "心靈工坊"
+				},
+				{
+					"id": "290178347000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/jd/nkjproq_210x315.jpg?v=1620144948",
+					"title": "\n        大自然的小秘密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzI5MDE3ODM0NzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 280,
+					"about": "\n      人的一生中要讀兩本書，一本是自己，一本是自然。但人們似乎已經很久沒有好好閱讀這兩本書了。尤其人們類對於自然的陌生或無感，對於自然資源的虛耗與破壞，都實在令人心痛。\n在這裡，可以用輕鬆愉快的方式，從自然界的物種出發，透過瞭解自然生命的奧妙、認識其在生態系中扮演的角色價值與其所面臨的生存危機與威脅。另...    ",
+					"authors": [
+						"王書貞(書子)"
+					],
+					"publisher": "愛播聽書FM"
+				},
+				{
+					"id": "210159420000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/nj/gidjzoc_210x315.jpg?v=1604038096",
+					"title": "\n        烏龜的七個秘密        ：歐陸最暢銷自我凝聚練習，讓平靜安穩由內而生      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE1OTQyMDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 253,
+					"about": "\n      ★德國經典暢銷書籍，穩居亞馬遜心理勵志類排行榜13年！\n★歐陸最受歡迎靜心抒壓著作，讓人平靜穩妥的生活原則\n★向烏龜學習7個大智慧，在庸碌的世界中找回內心    ",
+					"authors": [
+						"龍悠"
+					],
+					"publisher": "遠流出版"
+				},
+				{
+					"id": "210084551000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/fi/89cjmfc_210x315.jpg?v=1520226187",
+					"title": "\n        黃色房間的秘密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA4NDU1MTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 196,
+					"about": "\n      法國著名物理學家的女兒瑪蒂.桑傑森在遺世獨立的葛龍迪椰城堡遭人殺害，時間是夜晚十二點半，桑傑森先生及其忠實僕人就在案發現場[黃色房間]的隔壁。事發時，黃色房間門窗緊閉，只聽到桌椅翻倒，槍枝發射以及小姐微弱的呼喊聲，而大夥兒破門而入時，竟尋不到有人出入的蹤跡，更遑論兇手的影子。\n\n \n    ",
+					"authors": [
+						"GastonLeroux"
+					],
+					"publisher": "遠流出版",
+					"publishDate": "2007-05-31"
+				},
+				{
+					"id": "210252503000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/fi/89hcmeh_210x315.jpg?v=1666777959",
+					"title": "\n        更快樂的1小時        ：UCLA爆紅的時間幸福學，教你聚焦於最重要的事      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDI1MjUwMzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 287,
+					"about": "\n      這本書確實是一本投資指南，只不過不是投資金錢，\n而是你最寶貴的資源──時間。\n這堂加州大學洛杉磯校區最受歡迎的MBA課程，\n從時間幸福學理論出發，搭配實際練習，\n教你如何精準投資時間，獲利一生的幸福感。\n\n★《富比士》雜誌2022年必讀著作\n★《逆思維》作者亞當．格蘭特、《恆毅力》作者安琪拉．達克沃...    ",
+					"authors": [
+						"凱西．霍姆斯"
+					],
+					"publisher": "先覺出版",
+					"publishDate": "2022-11-01"
+				},
+				{
+					"id": "210110745000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ll/boniqdb_210x315.jpg?v=1561973065",
+					"title": "\n        世上最快樂的工作        ：神經顯微重建手術權威杜元坤的行醫哲學      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDExMDc0NTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 250,
+					"about": "\n      杜元坤，猶如「醫界賈伯斯」，也是最快樂工作的醫師，\n\n不斷在醫學領域持續創新，只為了幫助更多病人。\n\n他，明明是個骨科醫師，卻自學顯微手術，鑽研臂神經叢手術、脊椎重建手術。\n\n他，拿手術刀的手，也能拉得一手好琴，還能在橄欖球場上衝鋒陷陣。    ",
+					"authors": [
+						"杜元坤"
+					],
+					"publisher": "好人出版"
+				},
+				{
+					"id": "210075378000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/8f/36g3lf7_210x315.jpg?v=1507212477",
+					"title": "\n        如何快樂        ：關於愛、性，與青春的迷惘      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA3NTM3ODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 224,
+					"about": "\n      我無法告訴你如何快樂起來，\n有些時候，我還是會陷入掙扎，會出現焦慮和憂鬱的時刻。\n可是我同時擁有許多快樂的時光。\n\n★  作家 林蔚昀、番紅花、親職教育專家 楊俐容  溫暖推薦 ★\n★  奪得澳洲青少年文學大獎 Text Prize ★\n★  貼近青少年心情的最佳作品  ★\n★  如果...    ",
+					"authors": [
+						"大衛．伯頓"
+					],
+					"publisher": "時報出版"
+				},
+				{
+					"id": "210246323000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/a6/3d37i45_210x315.jpg?v=1663744045",
+					"title": "\n        可不可以買你的不快樂              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDI0NjMyMzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 182,
+					"about": "\n      「如果明天我還活著，\n我要用我的所有去買葉子哥哥的不快樂，\n關心他，抱著他，陪著他，就像現在的他陪著我一樣。」\n宇初擎從商業大樓拉下好似要尋短的葉暉，\n眼睛發紅地盯著他下巴的那顆黑痣，這個少年身上有他想要追尋的真相。    ",
+					"authors": [
+						"撿寒枝"
+					],
+					"publisher": "威向文化",
+					"publishDate": "2022-09-01"
+				},
+				{
+					"id": "210113194000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ij/icblpoq_210x315.jpg?v=1564633697",
+					"title": "\n        學生會長的秘密願望              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDExMzE5NDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 70,
+					"about": "\n      在人前總是認真、嚴謹的學生會長‧涼葉有個不可告人的秘密，\n那就是她其實是個被虐狂!!某天，她的欲望被輕浮又秉持享樂主義的副會長‧津田發現了!!並且遭到威脅說「想要我閉嘴的話，就乖乖照我說的做。」，涼葉的本能開始暴走！隨著放學後的密會次數增加，兩人的關係也因此漸入佳境──!?\n    ",
+					"authors": [
+						"響愛"
+					],
+					"publisher": "長鴻出版社",
+					"publishDate": "2013-02-07"
+				},
+				{
+					"id": "210176527000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/pp/rhkoufr_210x315.jpg?v=1617161914",
+					"title": "\n        四個神聖的秘密        ：關於愛與富足      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE3NjUyNzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 332,
+					"about": "\n      本書能指引讀者\n有意識地創造財富\n對愛喚醒，療癒傷痛\n讓長期的挑戰獲得解方\n並與真正的自我和好。    ",
+					"authors": [
+						"普瑞塔吉"
+					],
+					"publisher": "遠流出版"
+				},
+				{
+					"id": "210173225000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/lf/cdoeqkd_210x315.jpg?v=1614883452",
+					"title": "\n        我的秘密葛格              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE3MzIyNTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 70,
+					"about": "\n      由於爸爸的再婚，我突然多了一個「葛格」。而且我的這位葛格竟然就是班上的資優生兼〝王子殿下〞的小椿！原以為自己近水樓臺，對往後的相處充滿幻想與期待，誰知竟是苦難（!!）的開始!?甜蜜的戀愛真的與我無緣…!?\n    ",
+					"authors": [
+						"蒔田奈緒"
+					],
+					"publisher": "長鴻出版社"
+				},
+				{
+					"id": "210104592000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/62/595egad_210x315.jpg?v=1594174256",
+					"title": "\n        我的秘密好友              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDEwNDU5MjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 120,
+					"about": "\n      我的秘密好友    ",
+					"authors": [
+						"劉怡廷"
+					],
+					"publisher": "角川平方",
+					"publishDate": "2019-01-06"
+				},
+				{
+					"id": "210020008000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/gm/8nd8ohc_210x315.jpg?v=0",
+					"title": "\n        快樂的人看書並喝咖啡              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDAyMDAwODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 182,
+					"about": "\n      \n 法國自費出版奇蹟！一鳴驚人話題之作！\n\n 亞馬遜Kindle銷售第一名！高踞網路書店TOP 5！\n\n 一本關於哀悼、自我重建與愛的小說。\n\n 「他們下樓的時候在樓梯間裡嘻嘻鬧鬧，我後來聽說當卡車撞上他們的時候，他們還在車子裡玩鬧。我對自己說，他們死的時候是笑著的。我對自己說，我真恨不得跟他們在一...    ",
+					"authors": [
+						"阿涅伊絲．馬丹-呂崗"
+					],
+					"publisher": "愛米粒"
+				},
+				{
+					"id": "210085974000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ee/djb6nfj_210x315.jpg?v=1524642638",
+					"title": "\n        解剖師的秘密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA4NTk3NDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 279,
+					"about": "\n      一本結合了驚悚、犯罪、歷史、愛情的推理小說！\n融入真實場景、歷史事件及傳奇人物，引領讀者進入如同穿越劇般的氛圍！\n堪稱外科醫學界的《達文西密碼 》！\n真實歷史與虛構推理交織而成，再創《風之影》旋風！\n擁有《白城魔鬼》的博覽會謀殺案，以及《科學怪人》的永生禁忌。\n授權美國、英國、葡萄牙、德國...    ",
+					"authors": [
+						"喬迪．尤布雷卡特"
+					],
+					"publisher": "悅知文化",
+					"publishDate": "2018-03-06"
+				},
+				{
+					"id": "210219995000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/jh/fmqmroe_210x315.jpg?v=1649664219",
+					"title": "\n        琴弦四季豆的秘密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDIxOTk5NTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 299,
+					"about": "\n      台灣有一家廠商販售一種稱為琴弦四季豆的產品，號稱只要在提琴尾板處加裝四顆豆子就能大幅改善提琴音色；而且不論大中小提琴均適用。根據廠家提供資料四季豆的形狀為不規則球型；尺寸：直徑1.2公分；重量：每顆豆小於0.2公克；主要承載材料：PU。它的科學原理是甚麼？需要花那麼多錢買那東西嗎？\n    ",
+					"authors": [
+						"丁致良"
+					],
+					"publisher": "傳說中的落魄秀才書屋"
+				},
+				{
+					"id": "210262556000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/nj/pcirzmj_210x315.jpg?v=1676515839",
+					"title": "\n        敦煌壁畫的秘密        ：蜥蜴人崛起      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDI2MjU1NjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 280,
+					"about": "\n      借由敦煌壁畫所隱藏的的秘密，逐步破解線索，阻止一場足以毀滅人類文明的奇幻旅程。\n    ",
+					"authors": [
+						"郭思宏"
+					],
+					"publisher": "閒雲野鶴"
+				},
+				{
+					"id": "210241133000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/mp/kgjptjo_210x315.jpg?v=1664173986",
+					"title": "\n        紅樓夢的養生秘密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDI0MTEzMzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 224,
+					"about": "\n      《紅樓夢》既代表了古典文學的最高成就，同時也飽含了中國包含文化和養生理念的精粹。    ",
+					"authors": [
+						"安濤"
+					],
+					"publisher": "御璽動向育樂有限公司",
+					"publishDate": "2021-08-01"
+				},
+				{
+					"id": "210173629000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/od/iziztzh_210x315.jpg?v=1614880580",
+					"title": "\n        羽鳥家的秘密夜晚              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE3MzYyOTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 70,
+					"about": "\n      雛子因為某個原因，來到超級有錢的羽鳥家打工，幫忙家管。在那邊等著她的是羽鳥家的帥哥３兄弟!!但是當她知道幫忙家管＝陪睡時，她整個人陷入大混亂!!對於這樣的雛子，這３人用盡粉紅甜蜜招數逼近她…？心跳不停ＭＡＸ的型男愛情故事♥    ",
+					"authors": [
+						"桃井薰"
+					],
+					"publisher": "長鴻出版社"
+				},
+				{
+					"id": "210140960000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/64/bb5bg12_210x315.jpg?v=1589168978",
+					"title": "\n        芭比娃娃的秘密檔案              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE0MDk2MDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 210,
+					"about": "\n      本書通過闡述20世紀最廣為人知及最暢銷的玩偶──芭比娃娃的誕生和其發展歷程，以及其創造者美國最成功的女性企業家之一露絲漢德勒不斷探索的經歷。    ",
+					"authors": [
+						"代安榮編著"
+					],
+					"publisher": "方集出版社",
+					"publishDate": "2020-03-01"
+				},
+				{
+					"id": "210113212000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/nk/dlefzgi_210x315.jpg?v=1564816972",
+					"title": "\n        違規的秘密情事              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDExMzIxMjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 70,
+					"about": "\n      由真和最喜歡的男朋友一起享受著大學生活。但這對極為普通的情侶後來居然發展出一段禁斷的關係…!! 我已經無法變回普通女孩了…!! 拋開常識，沉淪在甜美的快感中!! 不流於形式，描述絕對快感與愛的四個物語!!    ",
+					"authors": [
+						"お湯かけご飯"
+					],
+					"publisher": "長鴻出版社",
+					"publishDate": "2015-09-02"
+				},
+				{
+					"id": "210103953000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/7b/c2cdhe2_210x315.jpg?v=1551886066",
+					"title": "\n        犹太人不死的秘密        ：从亡国流放万国到复国      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDEwMzk1MzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 100,
+					"about": "\n      本书探讨圣经中述及犹太人及以色列国在神末世计划中所要扮演的角色，并比较详细地提供关于犹太人在我们的世代复国的历史事实。这些历史事实能帮助我们确定现代以色列的复国是神的工作。在本书中，我们也将探讨以色列的复国的属灵意义，以及作为基督徒，我们当如何回应神在末世的这个大工。 本书共有五章：如下 第一章 神...    ",
+					"authors": [
+						"陈业宏"
+					],
+					"publisher": "NgetHongTan"
+				},
+				{
+					"id": "210097340000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/nk/npimzfl_210x315.jpg?v=1595477108",
+					"title": "\n        我的秘密男友              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA5NzM0MDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 120,
+					"about": "\n      我的秘密男友    ",
+					"authors": [
+						"劉怡廷"
+					],
+					"publisher": "角川平方"
+				},
+				{
+					"id": "210024488000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/h9/f8ilobk_210x315.jpg?v=0",
+					"title": "\n        總裁的秘密情人              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDAyNDQ4ODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 54,
+					"about": "\n      \n 沒看過這麼寶的秘書，只要拿起電話，就可以天花亂墜的猛拍馬屁，讓他見識「睜眼說瞎話」的必殺功力；一掛下電話，就不顧形象的做鬼臉、吐舌頭，甚至……對旁邊的鏡子比中指！\n    ",
+					"authors": [
+						"水渝"
+					],
+					"publisher": "希代",
+					"publishDate": "2014-10-29"
+				},
+				{
+					"id": "210151595000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/je/qjlergl_210x315.jpg?v=1596090510",
+					"title": "\n        內在小孩快樂，你才快樂              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE1MTU5NTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 231,
+					"about": "\n      如果你覺得「找不到自己真正的歸屬」「不管在哪都無法融入」，\n希望這本書能為你煩躁的情緒帶來解決的端倪，\n進而湧現帶給周遭的人愛與幸福的力量。──吉本芭娜娜    ",
+					"authors": [
+						"吉本芭娜娜"
+					],
+					"publisher": "方智出版"
+				},
+				{
+					"id": "210222936000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/hc/eiddogm_210x315.jpg?v=1648451454",
+					"title": "\n        快樂王子              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDIyMjkzNjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 210,
+					"about": "\n      因為這世界不夠可愛，才需要更多的良善來對待\n王爾德經典童話，以圖像語言重新詮釋的絕佳版本！\n\n★第六屆「波隆那SM國際插畫獎」大獎作品。\n★王爾德最雋永的童話，百年來感動無數讀者的精采之作。    ",
+					"authors": [
+						"奧斯卡．王爾德"
+					],
+					"publisher": "聯經出版"
+				},
+				{
+					"id": "210179001000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/le/9cdcqmb_210x315.jpg?v=1620754496",
+					"title": "\n        109學年-快樂的旅途        ：中正國小 吳宥均      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE3OTAwMTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": -1,
+					"about": "\n      中華數位人文關懷協會109學年度寒假營隊6天5夜都會小學中正國小吳宥均活動繪本成果發表\n參加學校:新北市新店區中正國小.新北市新店區崇光女中翡翠扶少團.花蓮縣卓楓國小.花蓮縣古風國小\n中華數位人文關懷協會 www.dihca.org\n    ",
+					"authors": [
+						"吳宥均"
+					],
+					"publisher": "110學年度瓦祿團隊"
+				},
+				{
+					"id": "210204889000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ll/jlanq99_210x315.jpg?v=1636686622",
+					"title": "\n        快樂醫學        ：藏傳身心靈預防醫學書      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDIwNDg4OTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 280,
+					"about": "\n      快樂不是目標，是健康指標！\n保持快樂狀態的時間越長，預防感染的效果越強。\n     ",
+					"authors": [
+						"洛桑加參"
+					],
+					"publisher": "時報出版"
+				},
+				{
+					"id": "210179074000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/8d/6cb4l3b_210x315.jpg?v=1620202805",
+					"title": "\n        快樂錢商              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE3OTA3NDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 280,
+					"about": "\n      　　本書帶我們檢視自己與金錢的關係，每個人的用錢方式深受成長背景的影響，你和金錢的關係不只受到父母、甚至祖父母的影響。金錢就是能量，不論你過去的人生經驗為何，找出你的金錢心靈創傷，以Happy Money禪心，重新與金錢建立良好的健全關係。\n    ",
+					"authors": [
+						"本田健"
+					],
+					"publisher": "星出版"
+				},
+				{
+					"id": "210134631000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/fi/hhncmac_210x315.jpg?v=1586939175",
+					"title": "\n        啟發女人快樂的能量配方：學會尋找快樂是生活的一種智慧              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDEzNDYzMTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 210,
+					"about": "\n      本書是一本女性的心靈成長，關照女性的內心成長，涵蓋一個女人生活中所有當關心也須關心的內容。    ",
+					"authors": [
+						"江秀華"
+					],
+					"publisher": "菁品文化事業有限公司"
+				},
+				{
+					"id": "210255424000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/61/c11agc4_210x315.jpg?v=1669602069",
+					"title": "\n        快樂成癮        ：不費力的練習，從此幸福戒不掉      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDI1NTQyNDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 294,
+					"about": "\n      ★國際知名心理治療大師親身驗證，快速有效的快樂養成法\n★運用大腦成癮機制輕鬆養成好習慣，效果永久持續\n★完成本書的22個趣味小活動，12份簡易問卷題，從此幸福戒不掉    ",
+					"authors": [
+						"傑弗瑞．薩德"
+					],
+					"publisher": "心靈工坊"
+				},
+				{
+					"id": "210229949000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/of/gnhotej_210x315.jpg?v=1652780567",
+					"title": "\n        快樂工程              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDIyOTk0OTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 210,
+					"about": "\n      蕭蕭以抒情幽默的文字，書寫香港大學駐校和明道大學住校期間深入觀察的所見所聞。出走和離開，才能看到同中有異。以另類的思考角度、出人意表的創意解讀詩詞，讓讀者感受閱讀的趣味。    ",
+					"authors": [
+						"蕭蕭"
+					],
+					"publisher": "九歌"
+				},
+				{
+					"id": "210171098000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ik/qkbhpbj_210x315.jpg?v=1614591992",
+					"title": "\n        快樂協定              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE3MTA5ODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 70,
+					"about": "\n      這個秘密既甜美又邪惡，我被它迷惑、被它囚俘，已經成了習慣…麻侑為了繼續和真人之間的〝秘密的遊戲〞，而和他的弟弟？英斗開始交往了。那是調劑品不能多也不能少，為了讓這個〝秘密的遊戲〞更有趣所尋找的一點刺激。可是已經…無法滿足了，還想要更多更多…這個欲望的出口究竟是在哪裡…!?\n    ",
+					"authors": [
+						"渡邊志穗"
+					],
+					"publisher": "長鴻出版社"
+				},
+				{
+					"id": "210185326000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ql/mqgevfz_210x315.jpg?v=1662096974",
+					"title": "\n        猶太人不死的秘密        ：從亡國、流放萬國到復國      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE4NTMyNjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 175,
+					"about": "\n      到底“猶太人不死”的秘密是什麼？\n\n作者在書中探討聖經述及猶太人及以色列國在神末世計劃中所扮演的角色，並詳細地提​​供關於猶太人在我們的世代復國的歷史事實。這些歷史事實能幫助我們確定現代以色列的複國是神的工作。\n\n在本書中，也探討以色列復國的屬靈意義，以及作為基督徒，我們當如何回應神在末世的這個大工...    ",
+					"authors": [
+						"陳業宏"
+					],
+					"publisher": "文桥传播中心"
+				},
+				{
+					"id": "210178043000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/jb/qpgbrcq_210x315.jpg?v=1620146088",
+					"title": "\n        犹太人不死的秘密        ：从亡国、流放万国到复国      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE3ODA0MzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 175,
+					"about": "\n      到底“犹太人不死”的秘密是什么？\n\n作者在书中探讨圣经述及犹太人及以色列国在神末世计划中所扮演的角色，并详细地提供关于犹太人在我们的世代复国的历史事实。这些历史事实能帮助我们确定现代以色列的复国是神的工作。\n\n在本书中，也探讨以色列复国的属灵意义，以及作为基督徒，我们当如何回应神在末世的这个大工。\n    ",
+					"authors": [
+						"陈业宏"
+					],
+					"publisher": "文桥传播中心"
+				},
+				{
+					"id": "210095423000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/pp/hohhugi_210x315.jpg?v=1595476999",
+					"title": "\n        我的秘密保鏢              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA5NTQyMzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 120,
+					"about": "\n      我的秘密保鏢    ",
+					"authors": [
+						"劉怡廷"
+					],
+					"publisher": "角川平方",
+					"publishDate": "2018-08-01"
+				},
+				{
+					"id": "210023158000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/e9/hh96ni7_210x315.jpg?v=1523960453",
+					"title": "\n        網站排名的秘密        ：最多人想知道的SEO關鍵問答      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDAyMzE1ODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 350,
+					"about": "\n      最多人想知道的SEO關鍵問答！\n\n老闆、高階經理、專案經理、行銷人員、文案人員、網路工程師、網站管理員、網頁設計師、程式設計師，都能滿載而歸！\n\n為什麼要做SEO？\n各行各業必懂的SEO！\nSEO該做哪些是有效的？\n量身訂做的檢測工具有哪些？\nQ&A為你快速提供解答！\n    ",
+					"authors": [
+						"嚴家成"
+					],
+					"publisher": "PCuSER電腦人"
+				},
+				{
+					"id": "210240865000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/7b/2a7ah57_210x315.jpg?v=1659688840",
+					"title": "\n        秘密        ：秘密收藏家アボガド6全彩畫集      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDI0MDg2NTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 265,
+					"about": "\n      能聽聽\n我的秘密嗎？\n\n秘密收藏家 アボガド6 全彩畫集，\n承受不住的時候，就到這裡放下吧。    ",
+					"authors": [
+						"Avogado6"
+					],
+					"publisher": "平裝本"
+				},
+				{
+					"id": "210239573000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/d5/7bkijha_210x315.jpg?v=1658817399",
+					"title": "\n        成為讓別人快樂的人        ：母親留給我唯一重要的東西      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDIzOTU3MzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 238,
+					"about": "\n      日台出版社編哭編笑五回！\n接地氣的成功學！\n我的媽媽，讓衰神也破涕為笑！\n繼《佐賀的超級阿嬤》後最溫馨感人之作\n日本百萬暢銷書作家，最動人的真實故事    ",
+					"authors": [
+						"永松茂久"
+					],
+					"publisher": "圓神出版"
+				},
+				{
+					"id": "210171071000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/pm/rjjquqo_210x315.jpg?v=1612151979",
+					"title": "\n        為什麼你無法真正的快樂        ：運用選擇的力量，找出你的人生使命，成就真實的自己      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE3MTA3MTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 245,
+					"about": "\n      當你遇到困難時，如果你心裡想的是：「為什麼上天這麼不公平？」\n或者「這又不是我的錯！」或者「我就是這樣子，這有甚麼辦法呢？」\n如果你這樣面對自己，那麼你永遠也無法快樂。\n我們永遠有能力把生活打造成心中想要的樣子。\n於人生所有的一切，我們都應該具備選擇的能力，並勇於為自己負責。\n這樣，就沒有...    ",
+					"authors": [
+						"偉恩．戴爾"
+					],
+					"publisher": "如果出版"
+				},
+				{
+					"id": "210116368000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/61/2923ge4_210x315.jpg?v=1573083391",
+					"title": "\n        一個人的快樂蔬食餐              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDExNjM2ODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 180,
+					"about": "\n      不用在意另一個人的眼光，一個人每天吃到飽吧！\n單身沒有好，也沒有壞\n一個人沒有伴，卻也自由自在    ",
+					"authors": [
+						"王舒俞"
+					],
+					"publisher": "養沛文化"
+				},
+				{
+					"id": "210112022000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/e9/87glnc6_210x315.jpg?v=1563180179",
+					"title": "\n        改變20萬人的快樂學              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDExMjAyMjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 295,
+					"about": "\n      COURSERA最受歡迎的課程TOP 10！\n2015年度最佳MOOC課程！\n\n華頓商學院教授亞當．格蘭特大力推薦！\n臨床心理師李介文、作家御姊愛、閱讀人社群主編鄭俊德快樂好評！\nAmazon書店讀者★★★★☆一生受用！\n你是否常常覺得不快樂？工作忙碌、生活失控、力不從心、疲憊不堪，整個...    ",
+					"authors": [
+						"拉伊‧拉赫胡納森"
+					],
+					"publisher": "平安文化",
+					"publishDate": "2017-11-27"
+				},
+				{
+					"id": "210225090000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/8d/6bg8l8f_210x315.jpg?v=1649991980",
+					"title": "\n        什麼都不是的人才是快樂的        ：克里希那穆提寫給年輕人的24封信      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDIyNTA5MDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 240,
+					"about": "\n      達賴喇嘛稱克里希那穆提為「這個時代最偉大的思想家」\n《時代》雜誌讚譽為「二十世紀五大聖人」\n全球超過50個國家，4,000,000萬人聆聽他的教導\n\n本書是克里希那穆提與年輕朋友往來的信札\n文字間流露了無限慈悲和善喻善證；療癒和教導攜手並行\n娓娓道來關於生命的一切，像是聆聽一首詩或一個人...    ",
+					"authors": [
+						"克里希那穆提"
+					],
+					"publisher": "商周出版"
+				},
+				{
+					"id": "210172958000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/qn/gzzmvjt_210x315.jpg?v=1614883103",
+					"title": "\n        告訴妳我的秘密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE3Mjk1ODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 70,
+					"about": "\n      第一次去聽「Brash」的Live便對「學」一見鍾情的甘築奈帆，17歲。有八卦說學會把看上眼的女生帶出場…奈帆正如這八卦所說被學帶出場，可是沒想到學的真面目竟然是…!?花緒莉的愛情故事短篇集，邀妳一起共賞…!!\n    ",
+					"authors": [
+						"花緒莉"
+					],
+					"publisher": "長鴻出版社"
+				},
+				{
+					"id": "210163992000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/hc/elijo89_210x315.jpg?v=1607592726",
+					"title": "\n        秦謎：秦始皇的秘密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE2Mzk5MjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 254,
+					"about": "\n      都是司馬遷惹的禍\n讀《史記》一頭霧水\n有讀懂　沒讀通　看《史記》霧煞煞！\n繼《秦崩》後，「歷史福爾摩斯」李開元教授再次開講\n中國古代偉人──秦始皇的祕密！\n    ",
+					"authors": [
+						"李開元"
+					],
+					"publisher": "聯經出版"
+				},
+				{
+					"id": "210021485000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/mz/gpnrtlh_210x315.jpg?v=0",
+					"title": "\n        快樂錢        ：買家和賣家必讀的金錢心理學      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDAyMTQ4NTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 225,
+					"about": "\n      有了錢，卻買不到幸福？花了錢，為什麼還不快樂？\n沒搞懂影響快樂指數的金錢心理學，\n不管是消費或銷售，都少一片拼圖！\n\n本書中，一位心理學家和一位行銷學教授帶我們展開一場消費與快樂的探索之旅，一窺金錢裡的人性心理，揭開花錢快樂的五大心法：　　\n\n　　◎花錢買體驗；\n　　◎樂在難得；\n　　◎花錢買時間；...    ",
+					"authors": [
+						"伊莉莎白．鄧恩"
+					],
+					"publisher": "天下文化"
+				},
+				{
+					"id": "210179407000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/pp/hortuih_210x315.jpg?v=1620876173",
+					"title": "\n        六天快樂五夜        ：春日國小陳瑋倫繪本      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE3OTQwNzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": -1,
+					"about": "\n      織羅部落城鄉交流-(春日國小陳瑋倫繪本)\n中華數位人文關懷協會109學年度營隊活動繪本成果發表\nDIHCA協會官網: www.dihca.org\n    ",
+					"authors": [
+						"陳瑋倫"
+					],
+					"publisher": "白雲國小"
+				},
+				{
+					"id": "210152530000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/8g/66eclgb_210x315.jpg?v=1597141572",
+					"title": "\n        無限快樂空間              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE1MjUzMDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 198,
+					"about": "\n      每個人有遇上逆境的時候，大部分人會勇敢面對。然而，當不幸的事情沒有停止，反而變本加厲，甚至破壞力遠遠超乎想像範圍，幾多人仍然能夠處之泰然？有人可能會埋怨，討厭自己的人生，甚至咒罵上帝沒有在當中帶領和保守，李望龍就是其中一位。\n\n他對於自己遇上的「超級不幸」破口大罵，甚至希望有一天能夠與上帝對質。...    ",
+					"authors": [
+						"安也之"
+					],
+					"publisher": "夢企劃出版"
+				},
+				{
+					"id": "210087545000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/lg/omjhqgj_210x315.jpg?v=1523977052",
+					"title": "\n        動，找回身體的快樂        ：結合呼吸、筋膜釋放與感知的練習，打開身心的結，進行覺知之旅      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA4NzU0NTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 196,
+					"about": "\n      動，不只是為了健康、瘦身或鍛鍊肌力，\n更是開啟身心覺知與豐富感受的起點。\n12個結合筋膜、呼吸與感知的練習，\n讓你打開身心的結，以動療癒身心，\n重新找到與身體自由、毫無疼痛的喜悅關係。\n \n    ",
+					"authors": [
+						"RachelTsai"
+					],
+					"publisher": "時報出版"
+				},
+				{
+					"id": "210224410000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/im/fjeephm_210x315.jpg?v=1650018246",
+					"title": "\n        最高快樂人生        ：通往真正快樂的十大步驟      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDIyNDQxMDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 368,
+					"about": "\n      比爾．蓋茲強力推薦！\n我並不常讀心理勵志書，但即使你從來不讀這類的書，我強力推薦你應該讀讀這本！\n     ",
+					"authors": [
+						"詹姆斯．巴拉茲"
+					],
+					"publisher": "春天出版"
+				},
+				{
+					"id": "210084643000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/a7/g6eli57_210x315.jpg?v=1520240676",
+					"title": "\n        快樂如何追求              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA4NDY0MzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 112,
+					"about": "\n      使自己不快樂的八種方法\n\n快樂不快樂完全是「個人主觀經驗」的認知問題。如果有了健全的「認知」，那麼在「追尋快樂」的途徑上，你已經踏出了正確的第一步。所以使自己不快樂的八種方法，其實指的就是八種錯誤的認知，八個情緒的陷阱！只要反其道而行，就能逐漸接近快樂的目標、掌握快樂的真義了。\n\n你快樂嗎？...    ",
+					"authors": [
+						"楊國樞．吳靜吉"
+					],
+					"publisher": "遠流出版",
+					"publishDate": "1994-07-31"
+				},
+				{
+					"id": "210084558000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/qi/ppmkvti_210x315.jpg?v=1520226200",
+					"title": "\n        活得更快樂              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA4NDU1ODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 140,
+					"about": "\n      要活得快樂，須先從認識自己開始，了解自己的秉性，培養一個健全的自我。愛別之前，須先從愛自己做起，自愛而後愛人。多用點心，放下心頭牽掛，常貼近大自然，心中感性的喜悅將被觸發，我們周遭美的事物，俯拾即是。\n \n    ",
+					"authors": [
+						"楊翠屏"
+					],
+					"publisher": "遠流出版",
+					"publishDate": "1997-02-28"
+				},
+				{
+					"id": "210071521000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/79/5g1dhd1_210x315.jpg?v=1498529523",
+					"title": "\n        快樂育兒寶典              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA3MTUyMTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 220,
+					"about": "\n      嬰兒出生時，體重若在2.5千克以上，算過了人生第一關。\n    ",
+					"authors": [
+						"張家林"
+					],
+					"publisher": "方集出版社",
+					"publishDate": "2016-02-29"
+				},
+				{
+					"id": "210128580000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/be/74e8k84_210x315.jpg?v=1580456823",
+					"title": "\n        真實的快樂（全新改版）              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDEyODU4MDAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 277,
+					"about": "\n      正向心理學（Positive Psychology）之父 塞利格曼博士\n\n指出正向情緒的特質和策略，告訴你如何培養真實的快樂，\n如何更常感受到這種快樂的心情。    ",
+					"authors": [
+						"馬汀．塞利格曼"
+					],
+					"publisher": "遠流出版"
+				},
+				{
+					"id": "210148791000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/fk/baglmdc_210x315.jpg?v=1593766740",
+					"title": "\n        兼職不能說的秘密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE0ODc5MTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 150,
+					"about": "\n      我做了一個夢，夢裡有個老人說他也是公務員，過去做過許多項目，也遇過許多難處，所幸結果都能逢凶化吉，他將種種心得分享給我，並要我將他的話紀錄下來。老人說的包括...\n    ",
+					"authors": [
+						"待雨晴"
+					],
+					"publisher": "待雨晴"
+				},
+				{
+					"id": "210008957000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/of/gjzjtgl_210x315.jpg?v=0",
+					"title": "\n        秘密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDAwODk1NzAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 90,
+					"about": "\n      \n 他們的戀情本是一個遊戲──她被逼玩真心話大冒險，跑到他面前問他願不願意當她男友，他應該要拒絕，怎知答應得很乾脆，教她傻眼；戀愛就這麼誤打誤撞地開始，謝天謝地地進行下去，曾以為他是個木訥寡言、不擅表達的男人，現在才知他的追求全表現在那些貼心細膩的小細節上……\n    ",
+					"authors": [
+						"樓雨晴"
+					],
+					"publisher": "狗屋出版",
+					"publishDate": "2013-10-02"
+				},
+				{
+					"id": "210173295000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/po/vmlpupp_210x315.jpg?v=1615132933",
+					"title": "\n        極品牛肉咖哩的秘密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE3MzI5NTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 70,
+					"about": "\n      祕密這東西，大部分都是本人以為是「祕密」，但周圍的人都知道其內容。這種事情就算是我也明白得很。但是，我還是要繼續堅持說「這是祕密」，因為這是無能為力的我最後的抵抗。    ",
+					"authors": [
+						"藤緒愛"
+					],
+					"publisher": "長鴻出版社"
+				},
+				{
+					"id": "210176539000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/je/qnderdo_210x315.jpg?v=1617123569",
+					"title": "\n        滾床單的性福秘密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE3NjUzOTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 168,
+					"about": "\n      深入兩性祕境，探索性愛不可或缺的高潮密碼\n什麼是滾床單？簡單的說，就是性愛！作者以幽默的筆調，旁徵博引，穿梭古今，深入淺出介紹各種性愛的知識和觀念，讓我們知道，性愛不僅是「只要我喜歡，有什麼不可以」的片刻歡愉而已，而是結合生理、心理、技術、責任和愛的生活藝術。\n告子說：「食色性也」，孔老夫子也說...    ",
+					"authors": [
+						"梁曼"
+					],
+					"publisher": "金塊文化"
+				},
+				{
+					"id": "210173718000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ed/akhenc9_210x315.jpg?v=1615008191",
+					"title": "\n        和社長的秘密情事              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE3MzcxODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 70,
+					"about": "\n      \"千夜子是花藝公司的社長秘書，\n社長表面上看似是個爽朗的帥哥，\n實際上卻是超愛肢體接觸、對人上下其手的問題份子！\n而且，自從夢見被社長告白的那天起，他不知為何比以往更加甜言蜜語，對千夜子窮追不捨…!?\n而就在這時，公司忽然發生狀況!?\n包括標題作品在內，一共收錄志賀乃創作的5則超甜蜜愛情故...    ",
+					"authors": [
+						"志賀乃夷織"
+					],
+					"publisher": "長鴻出版社"
+				},
+				{
+					"id": "210100846000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/qj/mitpvpn_210x315.jpg?v=1586227150",
+					"title": "\n        臥底身邊的科學秘密        ：選錯車廂，危險多出好幾倍！      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDEwMDg0NjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 203,
+					"about": "\n      高鐵前車廂遠比後車廂危險、\n筆記型電腦內藏強大的炸藥威力、\n想節省時間，步伐大比跨步快更有效……\n這些你知道嗎？ NASA太空中心科學家，\n帶你直擊潛伏四周的生活科學法則\n情境圖解，一次就懂    ",
+					"authors": [
+						"小谷太郎博士"
+					],
+					"publisher": "方言文化",
+					"publishDate": "2017-11-01"
+				},
+				{
+					"id": "210173932000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/no/gegdzch_210x315.jpg?v=1615014184",
+					"title": "\n        保健室裡的小秘密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE3MzkzMjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 70,
+					"about": "\n      \"老師，\n我該怎麼做，\n才能變成一個成熟大人呢？\n在我們的學校裡，\n穿水手服沒有繫領巾\n有經驗的證明。\n我也想早點拿下領巾，\n於是拜託全校有名的萬人迷保健室醫生\n黑井老師對我進行個人授課，\n教導我如何成為一位成熟女性。\n不過他的課程非常危險…\n我這樣，應該很不妙…吧!?\"    ",
+					"authors": [
+						"島袋裕美"
+					],
+					"publisher": "長鴻出版社"
+				},
+				{
+					"id": "210157099000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/jb/pbehril_210x315.jpg?v=1600920407",
+					"title": "\n        人類大腦的秘密世界              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE1NzA5OTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": -1,
+					"about": "\n      腦科學的議題太有趣了，例如人類文明如何靠「洗腦」維持，人類的大腦又有多喜歡編造故事，童年經驗如何影響我們如何選擇對象，為什麼有些人的「愛」執著不移、可以延續好多年？為什麼有些人可以不帶愧疚地說謊、周旋在許多情人中間？為什麼你會對這個人容易有好感、對其他人卻不會？人的記憶可信嗎？「自我感覺良好」又是怎...    ",
+					"authors": [
+						"陳豐偉"
+					],
+					"publisher": "絕望森林"
+				},
+				{
+					"id": "210221808000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/64/2401g44_210x315.jpg?v=1648439768",
+					"title": "\n        創造快樂大腦        ：重塑大腦快樂習慣–提升血清素、多巴胺、催產素、腦內啡      ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDIyMTgwODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 252,
+					"about": "\n      每個人都想尋找快樂，卻無法經常如願。有時只是雞毛蒜皮的小事，像是約會遲到、髮型不好看，都會讓人心情起伏不定，甚至覺得生死攸關。\n《創造快樂大腦》為讀者提供了解答：人不只受心理因素的影響，更受大腦快樂化學物質的影響，能夠了解並駕馭這些物質，就能建立更多元的大腦快樂路徑和習慣，享受更美好的生活。\n    ",
+					"authors": [
+						"羅瑞塔．葛蕾吉亞諾．布魯寧"
+					],
+					"publisher": "閱樂國際文化股份有限公司"
+				},
+				{
+					"id": "210085652000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/be/gdbgkih_210x315.jpg?v=1519293490",
+					"title": "\n        快樂綠背包              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDA4NTY1MjAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 196,
+					"about": "\n      最值得珍藏劉克襄的全台綠色旅行和生態觀察紀錄。喜愛劉克襄旅行散文者，絕不容錯過的經典好書。全書更收錄劉克襄親手繪製的自然素描及生動有趣的觀察筆記。\n    ",
+					"authors": [
+						"劉克襄"
+					],
+					"publisher": "晨星出版有限公司"
+				},
+				{
+					"id": "210151455000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/pp/hojfuzl_210x315.jpg?v=1595579601",
+					"title": "\n        質子水的養生秘密              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE1MTQ1NTAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 100,
+					"about": "\n      質子水不僅是水而已，而且有多種療效，在醫學臨床上有數據可証實，質子水與質子療法將是未來人類養生保健新利器，本書係針對質子水及其相關產品而撰寫，主要作為科普教育，將好產品推廣之用。    ",
+					"authors": [
+						"江晃榮"
+					],
+					"publisher": "華夏出版",
+					"publishDate": "2009-09-10"
+				},
+				{
+					"id": "210143978000101",
+					"thumbnail": "https://cdn.readmoo.com/cover/ka/fhgipej_210x315.jpg?v=1590746343",
+					"title": "\n        把快樂分享給傷心的你              ",
+					"link": "https://readmoo.com/ap/target/1apyEN?url=aHR0cHM6Ly9yZWFkbW9vLmNvbS9ib29rLzIxMDE0Mzk3ODAwMDEwMQ",
+					"priceCurrency": "TWD",
+					"price": 224,
+					"about": "\n      在傾盆大雨的世界裡，\n讓我為你撐一把傘。\n \n22萬粉絲熱烈期待，\n暖心系插畫家捲捲第一本圖文創作！    ",
+					"authors": [
+						"捲捲"
+					],
+					"publisher": "平裝本"
+				}
+			],
+			"quantity": 100
+		},
+		{
+			"bookstore": {
+				"website": "https://www.taaze.tw/",
+				"displayName": "Taaze 讀冊生活",
+				"id": "taaze",
+				"isOnline": true,
+				"status": "Active"
+			},
+			"isOkay": true,
+			"status": "Crawler success.",
+			"processTime": 1707.489143,
+			"books": [
+				{
+					"id": "14100080087",
+					"thumbnail": "https://media.taaze.tw/showLargeImage.html?sc=14100080087",
+					"title": "別讓大腦不開心：神經科學家告訴你「快樂」的祕密，讓我們打造更美滿的生活",
+					"link": "https://www.taaze.tw/goods/14100080087.html",
+					"priceCurrency": "TWD",
+					"about": "我們天性就想追尋快樂，\n可是我們為什麼還經常感到不快樂？\n這是一本解答快樂是什麼的非典型勵志書！\n\n一本讓琥碧．戈柏又笑又長知識的「快樂」全書。\n\n多巴胺、腦內啡、催產素 ...",
+					"publisher": "馬可孛羅",
+					"publishDate": "2022-01-06",
+					"price": 298,
+					"translator": "鄧子衿",
+					"translators": [
+						"鄧子衿"
+					]
+				}
+			],
+			"quantity": 1
+		},
+		{
+			"bookstore": {
+				"website": "https://www.bookwalker.com.tw/",
+				"displayName": "BOOKWALKER",
+				"id": "bookWalker",
+				"status": "Active",
+				"isOnline": true
+			},
+			"isOkay": true,
+			"status": "Crawler success.",
+			"processTime": 4315.1795649999995,
+			"books": [
+				{
+					"id": "131965",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/131965/131965_1.jpg",
+					"title": "別讓大腦不開心 / 神經科學家告訴你「快樂」的祕密，讓我們打造更美滿的生活",
+					"link": "https://www.bookwalker.com.tw/product/131965",
+					"priceCurrency": "TWD",
+					"price": 336,
+					"about": "我們天性就想追尋快樂，可是我們為什麼還經常感到不快樂？這是一本解答快樂是什麼的非典型勵志書！\n                                    一本讓琥碧‧戈柏又笑又長知識的「快樂」全書。多巴胺、腦內啡、催產素、血清素、吻胜肽素、神經傳遞、大腦\n                                    ",
+					"authors": [
+						"迪恩．柏奈特"
+					],
+					"translators": [
+						"鄧子衿"
+					]
+				},
+				{
+					"id": "113070",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/113070/113070_1.jpg",
+					"title": "快樂錢商 / 一瞬で人生を変える お金の秘密 happy money",
+					"link": "https://www.bookwalker.com.tw/product/113070",
+					"priceCurrency": "TWD",
+					"price": 280,
+					"about": "構思二十年，執筆三年寫成日本累計銷售800萬冊的作者，與你分享創造Happy Money金流的訣竅\n                                    本書以英文首次出版，在美國、英國、澳洲同步發行歐洲、亞洲、中南美洲等超過25國販售  每個人都想提早\n                                    ",
+					"authors": [
+						"本田健"
+					],
+					"translators": [
+						"張婷婷"
+					]
+				},
+				{
+					"id": "67212",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/67212/67212_1.jpg",
+					"title": "快樂只有自己能給：42個讓快樂不請自來的人生哲學",
+					"link": "https://www.bookwalker.com.tw/product/67212",
+					"priceCurrency": "TWD",
+					"price": 154,
+					"about": "★百萬暢銷書心靈作家 何權峰 最新感人力作！\n                                    ★以其溫暖動人卻又精闢入裡的文字，感動海、內外無數華文讀者，帶領他們走過生命的低潮。★十多年來收到上\n                                    ",
+					"authors": [
+						"何權峰"
+					]
+				},
+				{
+					"id": "118085",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/118085/118085_1_mask.jpg",
+					"title": "甜蜜快樂的小白臉生活(第1話)",
+					"link": "https://www.bookwalker.com.tw/product/118085",
+					"priceCurrency": "TWD",
+					"price": 31,
+					"about": "甜蜜快樂的小白臉生活\n                                    「抱歉我先走了，家裡有小貓在等我。」又帥又能幹的上班族・北山航，今天他也為了照顧在家中等他的小貓趕回\n                                    ",
+					"authors": [
+						"FUJIKAWA RURI"
+					]
+				},
+				{
+					"id": "68577",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/68577/68577_1.jpg",
+					"title": "單身再快樂，永遠無法取代幸福的快樂",
+					"link": "https://www.bookwalker.com.tw/product/68577",
+					"priceCurrency": "TWD",
+					"price": 238,
+					"about": "每天早晚燒香膜拜這本書，我敢發誓，就算妳和月下老人或邱比特不熟，照樣擁有甜蜜蜜的愛情證書。\n                                    單身再快樂，永遠無法取代相愛的幸福......妳可以不要男人，自信地走完人生，妳可以不要家累，享受時\n                                    ",
+					"authors": [
+						"羅夫曼"
+					]
+				},
+				{
+					"id": "79668",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/79668/79668_1.jpg",
+					"title": "妳可以狼狽跌倒，但一定要優雅起身 / 法國大齡女子快樂X自信的祕密，關於愛情、生活與家庭",
+					"link": "https://www.bookwalker.com.tw/product/79668",
+					"priceCurrency": "TWD",
+					"price": 315,
+					"about": "大齡女子們，該怎麼看待「年紀」這回事？本書與妳分享不一樣的法國大齡女子樣貌，看她們如何擺脫年齡束縛，過得自在且優雅。\n                                    大齡女子們，該怎麼看待「年紀」這回事？時光帶來的是限制，還是禮物？該如何追尋快樂及自由，且保有年輕的\n                                    ",
+					"authors": [
+						"米蓮．德克洛（Mylène Desclaux）"
+					],
+					"translators": [
+						"思謐嘉"
+					]
+				},
+				{
+					"id": "131167",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/131167/131167_1_mask.jpg",
+					"title": "魔法少女的沉淪～一時的快樂、永遠的愛～ 08",
+					"link": "https://www.bookwalker.com.tw/product/131167",
+					"priceCurrency": "TWD",
+					"price": 45,
+					"about": "魔法少女的沉淪～一時的快樂、永遠的愛～ 08\n                                    花菜子正在被黑貓給凌辱時，百合子聽到花菜子還是處女，她突然發現被黑貓給騙了!?\n                                    ",
+					"authors": [
+						"ハルサワ"
+					]
+				},
+				{
+					"id": "131166",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/131166/131166_1_mask.jpg",
+					"title": "魔法少女的沉淪～一時的快樂、永遠的愛～ 07",
+					"link": "https://www.bookwalker.com.tw/product/131166",
+					"priceCurrency": "TWD",
+					"price": 45,
+					"about": "魔法少女的沉淪～一時的快樂、永遠的愛～ 07\n                                    花菜子被黑貓玩弄，他把變身的寶珠塞在花菜子的下體內，讓她無法變身……沒想到，黑貓把祐稀給綁架了，拿他\n                                    ",
+					"authors": [
+						"ハルサワ"
+					]
+				},
+				{
+					"id": "131165",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/131165/131165_1_mask.jpg",
+					"title": "魔法少女的沉淪～一時的快樂、永遠的愛～ 06",
+					"link": "https://www.bookwalker.com.tw/product/131165",
+					"priceCurrency": "TWD",
+					"price": 45,
+					"about": "魔法少女的沉淪～一時的快樂、永遠的愛～ 06\n                                    黑貓煽動少女心中的黑暗面，讓她們都墮入了絕望之中……花菜子成為希望戰士後，越來越上手，她打算把全部的\n                                    ",
+					"authors": [
+						"ハルサワ"
+					]
+				},
+				{
+					"id": "131164",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/131164/131164_1_mask.jpg",
+					"title": "魔法少女的沉淪～一時的快樂、永遠的愛～ 05",
+					"link": "https://www.bookwalker.com.tw/product/131164",
+					"priceCurrency": "TWD",
+					"price": 45,
+					"about": "魔法少女的沉淪～一時的快樂、永遠的愛～ 05\n                                    麻友的母親離家出走，家裡剩下她和爸爸兩人生活。這天放學回家後，看見墮落的母親掐著爸爸……墮落的小葵要\n                                    ",
+					"authors": [
+						"ハルサワ"
+					]
+				},
+				{
+					"id": "131163",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/131163/131163_1_mask.jpg",
+					"title": "魔法少女的沉淪～一時的快樂、永遠的愛～ 04",
+					"link": "https://www.bookwalker.com.tw/product/131163",
+					"priceCurrency": "TWD",
+					"price": 45,
+					"about": "魔法少女的沉淪～一時的快樂、永遠的愛～ 04\n                                    小堇學姊已經墮落，花菜子她們也遇見了百合子，但百合子也已經墮落了……這時，小葵面前出現了變成人的黑貓\n                                    ",
+					"authors": [
+						"ハルサワ"
+					]
+				},
+				{
+					"id": "131162",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/131162/131162_1_mask.jpg",
+					"title": "魔法少女的沉淪～一時的快樂、永遠的愛～ 03",
+					"link": "https://www.bookwalker.com.tw/product/131162",
+					"priceCurrency": "TWD",
+					"price": 45,
+					"about": "魔法少女的沉淪～一時的快樂、永遠的愛～ 03\n                                    小堇學姊被救出時，百合子已經又消失了……之後，希望戰士們和被大量「墮人」所包圍，小堇學姊被黑暗給吞食\n                                    ",
+					"authors": [
+						"ハルサワ"
+					]
+				},
+				{
+					"id": "131161",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/131161/131161_1_mask.jpg",
+					"title": "魔法少女的沉淪～一時的快樂、永遠的愛～ 02",
+					"link": "https://www.bookwalker.com.tw/product/131161",
+					"priceCurrency": "TWD",
+					"price": 45,
+					"about": "魔法少女的沉淪～一時的快樂、永遠的愛～ 02\n                                    姊姊──百合子已經失蹤一個多月了，突然有一隻說人話的貓出現在花菜子面前，要她狩獵「絕望」要她變身成希\n                                    ",
+					"authors": [
+						"ハルサワ"
+					]
+				},
+				{
+					"id": "131160",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/131160/131160_1_mask.jpg",
+					"title": "魔法少女的沉淪～一時的快樂、永遠的愛～ 01",
+					"link": "https://www.bookwalker.com.tw/product/131160",
+					"priceCurrency": "TWD",
+					"price": 45,
+					"about": "魔法少女的沉淪～一時的快樂、永遠的愛～ 01\n                                    我喜歡的人，是妹妹的男朋友。為了守護他們的幸福，我成為了魔法少女。沒有經歷過告白、接吻或其他過程，直\n                                    ",
+					"authors": [
+						"ハルサワ"
+					]
+				},
+				{
+					"id": "147636",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/147636/147636_1.jpg",
+					"title": "昆蟲老師x法布爾的快樂昆蟲記1：糞金龜的大便球",
+					"link": "https://www.bookwalker.com.tw/product/147636",
+					"priceCurrency": "TWD",
+					"price": 196,
+					"about": "★★全新閱讀感受的圖文小說★★超人氣昆蟲老師吳沁婕X最知名的昆蟲學家法布爾最歡樂的跨世代合作！\n                                    昆蟲教我們的事情真的好多不能只有少數人知道啊！沒有人像法布爾一樣，花了一輩子，用無比的熱情，每天都在\n                                    ",
+					"authors": [
+						"吳沁婕"
+					],
+					"painters": [
+						"吳沁婕"
+					]
+				},
+				{
+					"id": "148867",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/148867/148867_1.jpg",
+					"title": "啟發女人快樂的能量配方：學會尋找快樂是生活的一種智慧",
+					"link": "https://www.bookwalker.com.tw/product/148867",
+					"priceCurrency": "TWD",
+					"price": 210,
+					"about": "\n                                    一個女人有沒有智慧，就看她的內心豐不豐盈，只有靈魂裡有香氣，才會有強大的氣場和永恆的魅力。本書是一本\n                                    ",
+					"authors": [
+						"江秀華"
+					]
+				},
+				{
+					"id": "18259",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/18259/18259_1.jpg",
+					"title": "Kiss in The Garden～吻在快樂的天堂~",
+					"link": "https://www.bookwalker.com.tw/product/18259",
+					"priceCurrency": "TWD",
+					"price": 70,
+					"about": "為了公司頂樓的花園設計，麻友美和超人氣的園藝師怜兒一同共事。\n                                    怜兒外型俊美、造景技術一流，但偏偏他的個性很難搞，麻友美老是被這位任性的王子耍得團團轉，吃盡不少悶虧\n                                    ",
+					"authors": [
+						"星野正美"
+					]
+				},
+				{
+					"id": "131168",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/131168/131168_1_mask.jpg",
+					"title": "魔法少女的沉淪～一時的快樂、永遠的愛～ 09",
+					"link": "https://www.bookwalker.com.tw/product/131168",
+					"priceCurrency": "TWD",
+					"price": 45,
+					"about": "魔法少女的沉淪～一時的快樂、永遠的愛～ 09\n                                    【完結】白貓用盡最後的力量，讓百合子再次變身，為了對抗黑貓要借助花菜子的力量。但花菜子被黑貓玩弄，漸\n                                    ",
+					"authors": [
+						"ハルサワ"
+					]
+				},
+				{
+					"id": "137216",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/137216/137216_1.jpg",
+					"title": "最高快樂人生 / 通往真正快樂的十大步驟",
+					"link": "https://www.bookwalker.com.tw/product/137216",
+					"priceCurrency": "TWD",
+					"price": 368,
+					"about": "比爾．蓋茲強力推薦！  我並不常讀心理勵志書，但即使你從來不讀這類的書，我強力推薦你應該讀讀這本！   你可以決定要過著快樂生活\n                                    在這本好用又樸實的指引當中，你將會學習到：  ●靠著心靈逐步接近快樂的方式，讓幸福成為一種習慣  ●\n                                    ",
+					"authors": [
+						"詹姆斯．巴拉茲",
+						"索夏娜．亞歷山大"
+					],
+					"translators": [
+						"吳宗璘"
+					]
+				},
+				{
+					"id": "158695",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/158695/158695_1.jpg",
+					"title": "失戀快樂，祝我快樂：唯有愛與傷能帶我們抵達幸福的彼方",
+					"link": "https://www.bookwalker.com.tw/product/158695",
+					"priceCurrency": "TWD",
+					"price": 277,
+					"about": "養成新習慣至少需要21天，那麼，走出失戀呢？16萬粉絲引頸期盼．「失戀女王」小日刀口首部著作\n                                    你會遇見新的人、看見新的風景、去新蓋的樂園、滑新的雪，  你不會永遠停留在原地。   ──讓失戀不只\n                                    ",
+					"authors": [
+						"小日刀口"
+					]
+				},
+				{
+					"id": "147637",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/147637/147637_1.jpg",
+					"title": "昆蟲老師x法布爾的快樂昆蟲記2：帶刺的泥蜂與蠍子",
+					"link": "https://www.bookwalker.com.tw/product/147637",
+					"priceCurrency": "TWD",
+					"price": 196,
+					"about": "★★全新閱讀感受的圖文小說★★超人氣昆蟲老師吳沁婕X最知名的昆蟲學家法布爾最歡樂的跨世代合作！\n                                    昆蟲教我們的事情真的好多不能只有少數人知道啊！沒有人像法布爾一樣，花了一輩子，用無比的熱情，每天都在\n                                    ",
+					"authors": [
+						"吳沁婕"
+					],
+					"painters": [
+						"吳沁婕"
+					]
+				},
+				{
+					"id": "60677",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/60677/60677_1.jpg",
+					"title": "是誰偷走我的快樂  / 扭轉我執思考，三步驟找回與生俱來的快樂",
+					"link": "https://www.bookwalker.com.tw/product/60677",
+					"priceCurrency": "TWD",
+					"price": 224,
+					"about": "移除自我、找回信念馴服內在的力量，找回真正的平靜與快樂\n                                    暢銷書《死前一定要懂的五件事》作者約翰‧伊佐（John Izzo），他發現人們不斷在尋找快樂，卻不得\n                                    ",
+					"authors": [
+						"約翰．伊佐（John Izzo）"
+					],
+					"translators": [
+						"張家綺"
+					]
+				},
+				{
+					"id": "127009",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/127009/127009_1.jpg",
+					"title": "快樂至上的經營之道 The Snow Peak Way Ⅱ",
+					"link": "https://www.bookwalker.com.tw/product/127009",
+					"priceCurrency": "TWD",
+					"price": 245,
+					"about": "★新潟三條市的五金批發商行如何轉型成露營登山品牌露營、登山愛好者必用品牌？由Snow Peak社長親筆撰寫，描述以「快樂至上」的理念，挑戰無數的不可能！\n                                    ※成為掛牌上市企業，開拓非露營客源2018年，Snow Peak營業額達到120億圓，透過上市的契機\n                                    ",
+					"authors": [
+						"山井 太"
+					]
+				},
+				{
+					"id": "56163",
+					"thumbnail": "https://taiwan-image.bookwalker.com.tw/product/56163/56163_1.jpg",
+					"title": "練習不快樂?! / 不快樂是一種本能，快樂是一種選擇",
+					"link": "https://www.bookwalker.com.tw/product/56163",
+					"priceCurrency": "TWD",
+					"price": 238,
+					"about": "什麼？為什麼要練習不快樂？活著已經夠辛苦啦，這本書到底想做什麼？其實，真正的快樂常藏在我們意想不到的地方。\n                                    我們總是認真地尋找快樂，卻忘了問問自己，這些方法有效嗎？為什麼認真之後，快樂壞掉了、痛苦更苦了？本書\n                                    ",
+					"authors": [
+						"蘇益賢"
+					]
+				}
+			],
+			"quantity": 24
+		},
+		{
+			"bookstore": {
+				"website": "https://www.kobo.com/",
+				"displayName": "樂天 kobo",
+				"id": "kobo",
+				"status": "Active",
+				"isOnline": true
+			},
+			"isOkay": true,
+			"status": "Crawler success.",
+			"processTime": 1163.392233,
+			"books": [
+				{
+					"id": "1230006057374",
+					"thumbnail": "https://kbimages1-a.akamaihd.net/280d0318-aa53-493c-b0fa-44f8a4774dae/180/1000/False/64x5dcI6RjuBpUxHRl513g.jpg",
+					"title": "飼養家貓和讓它們快樂的秘訣 - 了解和愛貓的最佳指南",
+					"link": "https://www.kobo.com/tw/zh/ebook/64x5dcI6RjuBpUxHRl513g",
+					"priceCurrency": "",
+					"price": 279,
+					"about": "大多數貓都出人意料地走進我們的生活，我們突然墜入愛河，有一種特殊的聯繫。其他時候，我們不知何故覺得我們想要公司貓，這就是許多關於如何以及在哪裡找到貓的疑問的地方，以及它是否適合我們公司，是否會出現問題以及我們將如何處理它們如果我們對貓一無所知，請解決。有了這本書，我們將學習帶小貓時相關和重要的一切對我們的生活，我們需要知道的一切，應用和教我們的小貓，如果我們申請這些頁面中所說的一切都將幫助我們擁有一隻情緒和身體健康的貓。讓它成為我們完美的生活伴侶，最重要的是它擁有我們理解愛和尊重。 ...",
+					"authors": [
+						"Edwin Pinto"
+					]
+				},
+				{
+					"id": "7414865988753",
+					"thumbnail": "https://kbimages1-a.akamaihd.net/a810977a-b05e-4b72-b2a6-510139c2e30e/180/1000/False/SJeZ7FVaqTGTdsUafi2d8Q.jpg",
+					"title": "快樂的祕密",
+					"link": "https://www.kobo.com/tw/zh/ebook/SJeZ7FVaqTGTdsUafi2d8Q",
+					"priceCurrency": "",
+					"price": 98,
+					"about": "大家都知道，螞蟻是一種合群的動物，他們總是分工合作，有福同享，有難同當。可是阿威不喜歡這樣，他覺得什麼都要跟別人分來分去，擠來擠去，實在很不快樂，於是決定搬離螞蟻窩，找一個安靜的地方居住。他的新家附近有一把大傘，在外覓食很疲累時，他都會在那把傘下休息。想不到日子久了，竟然出現不速之客，「占領」阿威的大傘！阿威會怎麼做呢？他會把他們趕走嗎？快來看看這本書，希望你能和阿威一樣，體會與人分享的美好感受！ ...",
+					"authors": [
+						"阿德蝸"
+					]
+				},
+				{
+					"id": "9789860767568",
+					"thumbnail": "https://kbimages1-a.akamaihd.net/de152a34-0013-49a6-ba9d-a659288d45aa/180/1000/False/hvWLtKBldDGFRZKORkTV_A.jpg",
+					"title": "別讓大腦不開心：神經科學家告訴你「快樂」的祕密，讓我們打造更美滿的生活 - The Happy Brain: The Science of Where Happiness Comes From, and Why",
+					"link": "https://www.kobo.com/tw/zh/ebook/hvWLtKBldDGFRZKORkTV_A",
+					"priceCurrency": "",
+					"price": 336,
+					"about": "我們天性就想追尋快樂，可是我們為什麼還經常感到不快樂？這是一本解答快樂是什麼的非典型勵志書！一本讓琥碧‧戈柏又笑又長知識的「快樂」全書。多巴胺、腦內啡、催產素、血清素、吻胜肽素、神經傳遞、大腦反應，原來快樂在我們體內還真的有個生成途徑！不過......這趟路程遠比你想像中的還「艱辛」。什麼事能讓我們快樂？回到你一塵不染或雜亂骯髒的床單？好吃的食物？是偶像劇般的夢幻戀愛？還是萬人的崇拜追蹤？迪恩‧柏奈特從神經科學的角度剖析快樂，提供最幽默又具啟發性的見解。大腦關於「快樂」的運作機制是什麼？透過最新腦科學研究，以及關係專家、心理學教授、性愛專欄作家、喜劇表演者、名人等相關訪談，說明快樂是什麼、快樂從何而來，最重要的是──當我們感到快樂時，大腦裡頭到底發生了什麼事。難道快樂跟神經傳導物質與激素有關嗎？大腦是否有特定區域負責「快樂」的感覺呢？但其運作的複雜程度，遠超想像。壓力大的時候，偶爾一兩.. ...",
+					"authors": [
+						"迪恩．柏奈特(Dean Burnett)"
+					]
+				},
+				{
+					"id": "7362863720966",
+					"thumbnail": "https://kbimages1-a.akamaihd.net/09d2e380-48ad-4d31-a14f-07bf94c7ef00/180/1000/False/jZGxOJbsvj-xD5vkd2F34A.jpg",
+					"title": "快樂的讀書人",
+					"link": "https://www.kobo.com/tw/zh/ebook/jZGxOJbsvj-xD5vkd2F34A",
+					"priceCurrency": "",
+					"price": 158,
+					"about": "生活是一面網，你一旦投身其間，就很難脫身。人由於受到環境、興趣、職業以及種種因素的支配，而產生了不同的生活方式。讀書，原是件快樂的事，書中世界多采多姿，一書在握，其樂無窮。【作者簡介】隱地本名柯青華，浙江永嘉人。1937年生於上海，1947年來台。曾編過多本雜誌，任《純文學》月刊助理編輯、《書評書目》總編輯，1975年創辦爾雅出版社，迄今已出版六百多種書，並持續三十一年出版「年度小說選」。曾獲文復會主編獎，被票選為出版風雲人物。早年從事小說創作，後寫作散文小品，71歲時開始寫詩，曾獲「年度詩獎」。著有小說集《幻想的男子》、《碎心簷》，散文集《現代人生》、《歐遊隨筆》、《愛喝咖啡的人》、《我的宗教我的廟》，詩集《法式裸睡》、《生命曠野》，自傳《漲潮日》，評論《隱地看小說》等六十多種。其代表作《心的掙扎》、《人啊人》、《眾生》被稱為「人性三書」系列，曾被翻譯為韓文出版。 ...",
+					"authors": [
+						"隱地"
+					]
+				},
+				{
+					"id": "3120000000639",
+					"thumbnail": "https://kbimages1-a.akamaihd.net/57e8ecec-6b0d-4586-882a-1f7699f9b494/180/1000/False/gnS7T3tgLTS1t3eLSRBEeA.jpg",
+					"title": "快樂的死",
+					"link": "https://www.kobo.com/tw/zh/ebook/gnS7T3tgLTS1t3eLSRBEeA",
+					"priceCurrency": "",
+					"price": 175,
+					"about": "◆《異鄉人》創作原型 卡繆二十歲的生死學◆《異鄉人》作者 存在主義大師 諾貝爾文學獎得主卡繆首部小說經典問世一個人要怎麼活，才能快樂的死？「我確信人沒有錢不可能快樂。就是這樣。我不喜歡方便行事，也不喜歡多愁善感。我喜歡把事情看得清清楚楚。所以呢，我發現某些菁英份子，他們有一種精神上的自命清高，以為金錢不是快樂所必要的。那樣很蠢，那不是真的，而且某種程度上，那樣是懦弱的。」在一樁精心設計的謀殺案之後，梅爾索獲得了人人羨慕的財富，過著財富與時間都有充分餘裕的生活。然而，梅爾索仍然不幸福。不滿足的他，企圖尋找人生下一個快樂的來源。在一生中，一個人如何感覺自我的滿足、生命的喜悅？因為穩定的情感關係、激情的性愛，抑或個人不受拘束的自由？一九三八年，卡繆擱置自己的第一本小說《快樂的死》，開始撰寫《異鄉人》。本書直至他逝世後才出版。這本處女作小說富含對大自然栩栩如生的描述和對既有常規的批判省思 ...",
+					"authors": [
+						"卡繆(Albert Camus)"
+					]
+				},
+				{
+					"id": "6713548230000",
+					"thumbnail": "https://kbimages1-a.akamaihd.net/81ee0eeb-d661-4a69-8916-3c027df460d2/180/1000/False/ECl2_5oq_zyVohi6ZMo6AQ.jpg",
+					"title": "愛與快樂的條件(全)",
+					"link": "https://www.kobo.com/tw/zh/ebook/ECl2_5oq_zyVohi6ZMo6AQ",
+					"priceCurrency": "",
+					"price": 100,
+					"about": "自從和上班族軍司一夜春宵後，模特兒環就再也提不起被男人擁抱的心思。年紀輕輕就已經不行了嗎？環每天都這麼煩惱著。然而某一天，環碰巧在路上和軍司遇個正著後，久違的慾火竟然熊熊燃起……!?現在立刻碰我,抱我，沒有你我就活不下去了!! ...",
+					"authors": [
+						"神田猫"
+					]
+				},
+				{
+					"id": "7357574902996",
+					"thumbnail": "https://kbimages1-a.akamaihd.net/46313eef-6355-47a6-843d-23015c5cb802/180/1000/False/uX1x08_x4zuhoUTJ6Sp3Fw.jpg",
+					"title": "最快樂的歌",
+					"link": "https://www.kobo.com/tw/zh/ebook/uX1x08_x4zuhoUTJ6Sp3Fw",
+					"priceCurrency": "",
+					"price": 175,
+					"about": "這是一本以「音樂」為主題的童話作品。書中描述兩個男孩因為逃學，而結交了一群奇奇怪怪的朋友──長得像猩猩的鋼琴高手、高興起來把整條街都畫上花蝴蝶的畫家、有著世界上最好歌喉的斷臂少年……他們一起展開了一段曲折離奇的「音樂之旅」，最後讓整座城市都為他們瘋狂……    全書氣氛活潑，想像力豐富，充滿了趣味、巧思與赤子之心，處處提醒讀者求真、求善、求美的生活態度。 ...",
+					"authors": [
+						"哲也",
+						"史玉琪"
+					]
+				},
+				{
+					"id": "7365864710034",
+					"thumbnail": "https://kbimages1-a.akamaihd.net/05bb2152-8527-4722-b9f7-216b1fc145d4/180/1000/False/niEC5EbWGDWfJVf3XOIwTQ.jpg",
+					"title": "最快樂的幽默口才",
+					"link": "https://www.kobo.com/tw/zh/ebook/niEC5EbWGDWfJVf3XOIwTQ",
+					"priceCurrency": "",
+					"price": 182,
+					"about": "希望這套「悅讀」叢書能為青少年朋友們在課堂之餘補充一些社會知識和人生學問，以適應社會生活並應對各種人生問題。這套書不僅精選了充滿人間真情的各種溫馨美好的關愛——贈言祝詞和花季心語，而且還有彙集了古今中外，凝聚著人類文明智慧的名言佳句和格言警句。這些話語，字字珠璣，記載了前輩對人生的感受、思考和領悟，映照著真理的彩虹，煥發著思想的光輝，的確值得朋友們銘記深思。 ...",
+					"authors": [
+						"陳櫟宇"
+					]
+				},
+				{
+					"id": "3470000002770",
+					"thumbnail": "https://kbimages1-a.akamaihd.net/a4f8a9bb-bc40-4bf3-aa8e-8d29f26060d9/180/1000/False/1wV8kF02cjGiLpCWekQuwA.jpg",
+					"title": "放下煩惱，遇見快樂的自己",
+					"link": "https://www.kobo.com/tw/zh/ebook/1wV8kF02cjGiLpCWekQuwA",
+					"priceCurrency": "",
+					"price": 250,
+					"about": "每個人對生活都懷有美好的憧憬，甚至都為此努力奮鬥過，可並不是每個人的努力都會得到“幸運之神”的眷顧，讓自己的需求得到滿足，這讓很多人鬱悶、糾結，開始痛苦起來。其實，幸福和快樂的方法非常簡單。人獲得快樂的方法有兩種：一是去除自己的壞情緒，二是學會快樂的技巧。陳德軍編著的《放下煩惱，遇見快樂的自己》從兩方面出發：一方面是如何去掉那些容易引起人們不愉快的壞情緒，即擺脫憂鬱、去除貪婪、學會寬容、弄清問題根源、克服消極心理；另一方面是教給人們獲得快樂的方法，即正確認識人生、培養快樂性格、讓家庭保持幸福、掌握快樂訣竅、培養人生樂趣。願《放下煩惱，遇見快樂的自己》為全天下的讀者洗滌心靈，樹立正確的人生觀和生活價值觀，從而擁有一個幸福快樂的人生。 ...",
+					"authors": [
+						"陳德軍"
+					]
+				},
+				{
+					"id": "6880000000001",
+					"thumbnail": "https://kbimages1-a.akamaihd.net/dad1201c-a5b3-4668-b4b4-fd92e7c7f6fa/180/1000/False/Oi9vIlsLRj2jp7wD42cxAA.jpg",
+					"title": "抑鬱症《別做不快樂的人，從此告別抑鬱症》",
+					"link": "https://www.kobo.com/tw/zh/ebook/Oi9vIlsLRj2jp7wD42cxAA",
+					"priceCurrency": "",
+					"price": 110,
+					"about": "你是真的抑鬱了嗎？世界衛生組織統計，全世界抑鬱症患者達3.5億人。預計到2020年，抑鬱症將躍至全球第二大疾病。抑鬱的絕望感是否將你緊緊勒住快要窒息，陷入抑鬱的沼澤是否讓你覺得生命如灰？很多人不快樂，是因為內心的抑鬱。自己不承認，外人不理解。作為抑鬱症或者潛在的抑鬱症人群，應該怎麼辦呢？本書從“未病先防，既病防變”的理念出發，重點介紹了抑鬱症的常識、病因、症狀、診斷與鑒別診斷、治療以及預防保健。內容系統、詳盡、實用、深入淺出，可供臨床醫生、心理從業人員、抑鬱症患者和家屬以及健康人群閱讀參考。抑鬱不是病，而是我們人生旅行中不期而遇的旅伴。它會讓我們痛苦、煩惱，也會桎梏我們的精神和思想。通過這本書，每個人都可以成為自己的心靈導師，通過自身的表現和癥結，不斷地進行自我調節，走出抑鬱的泥潭，從此做個快樂的人。抑鬱症是有希望的，抑鬱症是可以治療的。※※※※※《歡迎投稿》詳見本公司臉書：http:/ ...",
+					"authors": [
+						"李易智"
+					]
+				},
+				{
+					"id": "7404869595452",
+					"thumbnail": "https://kbimages1-a.akamaihd.net/b8d771c8-9f3d-45eb-a8cd-a073e640c032/180/1000/False/2N4qU8mQBz-4Osfxl0AYEw.jpg",
+					"title": "自我覺察：朝向內在快樂的過程",
+					"link": "https://www.kobo.com/tw/zh/ebook/2N4qU8mQBz-4Osfxl0AYEw",
+					"priceCurrency": "",
+					"price": 288,
+					"about": "　　自我覺察就是面對自己的獨特性與個人性　　什麼是覺察？覺察後能帶來什麼樣的改變？覺察後命運或實相會有多大的不同？簡單來說，覺察會讓你從一個不快樂的人變成快樂的人，會開始有意識地去創造你的實相，可以翻轉所有你想翻轉的命運。　　談到自我覺察，很重要的部分就是面對，傳統的心理學與宗教經常會說我們是不夠好的，以至於我們很難面對自己，也不容易真的接納自己。有時候其實我們是不想自我覺察的，更不想自我面對，只想掩飾真實的自己、自我逃避。每個人或多或少都在逃避，重點是你開始覺察到自已在逃避什麼了嗎？有時候是在逃避面對父母、有時候在逃避面對該盡的責任、有時候在逃避面對一個不夠好的自己、有時候在逃避自己的挫折與失敗，甚至有時候是在逃避自己的力量，拒絕擔負起自己的角色。　　遇到痛苦一定會學習逃避，這是本能。逃避之後確實暫時變得比較不痛苦了，然而，痛苦解決了嗎？並沒有。喝酒是逃避、憂鬱症是逃避 ...",
+					"authors": [
+						"許添盛"
+					]
+				},
+				{
+					"id": "3039571381695",
+					"thumbnail": "https://kbimages1-a.akamaihd.net/80928c56-c890-49ab-9f1e-2b2792029b1a/180/1000/False/LqoEO_l6DTiqhQSGH0EaEw.jpg",
+					"title": "樂活一生：有尊嚴又快樂的活一輩子",
+					"link": "https://www.kobo.com/tw/zh/ebook/LqoEO_l6DTiqhQSGH0EaEw",
+					"priceCurrency": "",
+					"price": 224,
+					"about": "有尊嚴地活到最後一刻「老」、「末期疾病」、「長期照顧」、「病人自主權利」人生的必經課題，自己人生，自己做主！◤這是中國時報廣受好評「樂活一生」的系列專題改編集結，書中提到關於緩和醫療、失智症病人、日間照顧、居家照護、居家安寧……等末期疾病的照護的問題，全是來自臺灣都會區及偏鄉部落的真實故事。這裡有醫師及照護團隊的經驗分享，也有病人及家屬的心內話。◤有助於每個人了解關於「老」，以及「末期疾病」、「長期照顧」、「病人自主權利」……等人生必經的課題，是人人必經的歷程。◎衛福部長陳時中在醫院為臨終的父親拔掉呼吸器，父親牙齒一時間崩落，讓他自責，為何沒讓父親選擇在家走完人生最後一程。◎萬芳醫院居家安寧團隊不惜路途遙遠，來到貢寮雙溪肺癌病患盧張雪子的家，不但為她帶來止痛藥物，更為她帶來信任與關心。◎失智的李瑞... ...",
+					"authors": [
+						"中國時報"
+					]
+				}
+			],
+			"quantity": 12
+		},
+		{
+			"bookstore": {
+				"website": "https://www.pubu.com.tw/",
+				"displayName": "Pubu 電子商城",
+				"id": "pubu",
+				"status": "Active",
+				"isOnline": true
+			},
+			"isOkay": true,
+			"status": "Crawler success.",
+			"processTime": 792.947175,
+			"books": [],
+			"quantity": 0
+		},
+		{
+			"bookstore": {
+				"website": "https://ebook.hyread.com.tw/",
+				"displayName": "HyRead 電子書",
+				"id": "hyread",
+				"status": "Active",
+				"isOnline": true
+			},
+			"isOkay": true,
+			"status": "Crawler success.",
+			"processTime": 565.858971,
+			"books": [],
+			"quantity": 0
+		},
+		{
+			"bookstore": {
+				"displayName": "Amazon Kindle",
+				"id": "kindle",
+				"website": "https://www.amazon.com/Kindle-eBooks/",
+				"status": "Active",
+				"isOnline": true
+			},
+			"isOkay": true,
+			"status": "Crawler success.",
+			"processTime": 1895.009945,
+			"books": [
+				{
+					"id": "B07HNDXHNB",
+					"title": "快樂，不用理由：練習．七個由內而生的快樂法則: Happy for No Reason: 7 Steps to Being Happy from the Inside Out (Traditional Chinese Edition)",
+					"price": 6.14,
+					"priceCurrency": "USD",
+					"link": "https://www.amazon.com/%E5%BF%AB%E6%A8%82%EF%BC%8C%E4%B8%8D%E7%94%A8%E7%90%86%E7%94%B1%EF%BC%9A%E7%B7%B4%E7%BF%92%E2%80%A7%E4%B8%83%E5%80%8B%E7%94%B1%E5%85%A7%E8%80%8C%E7%94%9F%E7%9A%84%E5%BF%AB%E6%A8%82%E6%B3%95%E5%89%87-Happy-Reason-Inside-Traditional_chinese-ebook/dp/B07HNDXHNB/ref=sr_1_1?keywords=%E5%BF%AB%E6%A8%82%E7%9A%84%E7%A7%98%E5%AF%86&qid=1679228420&s=digital-text&sr=1-1",
+					"thumbnail": "https://m.media-amazon.com/images/I/71OemE-GJ4L._AC_UY218_.jpg"
+				}
+			],
+			"quantity": 1
+		},
+		{
+			"bookstore": {
+				"website": "https://play.google.com/store/books",
+				"displayName": "Google Play 圖書",
+				"id": "playStore",
+				"status": "Active",
+				"isOnline": true
+			},
+			"isOkay": true,
+			"status": "Crawler success.",
+			"processTime": 1688.037979,
+			"books": [
+				{
+					"id": "gPIUEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/gPIUEAAAQBAJ?fife=w256-h256",
+					"title": "三界 LUCIFER 10",
+					"link": "https://play.google.com/store/books/details/%E4%B8%89%E5%B3%B6%E6%82%A0%E4%BA%9E_%E4%B8%89%E7%95%8C_LUCIFER_10?id=gPIUEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 37
+				},
+				{
+					"id": "18lECwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/18lECwAAQBAJ?fife=w256-h256",
+					"title": "男人40",
+					"link": "https://play.google.com/store/books/details/%E5%AD%90%E9%B3%B4_%E7%94%B7%E4%BA%BA40?id=18lECwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 157
+				},
+				{
+					"id": "qfVhDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/qfVhDwAAQBAJ?fife=w256-h256",
+					"title": "賺錢的科學練習：如何善用祕密法則來創造財富: The Science of Getting Rich",
+					"link": "https://play.google.com/store/books/details/%E8%8F%AF%E8%90%8A%E5%A3%AB_%E8%8F%AF%E7%89%B9%E6%96%AF_Wallace_D_Wattles_%E8%B3%BA%E9%8C%A2%E7%9A%84%E7%A7%91%E5%AD%B8%E7%B7%B4%E7%BF%92_%E5%A6%82%E4%BD%95%E5%96%84%E7%94%A8%E7%A5%95%E5%AF%86%E6%B3%95%E5%89%87%E4%BE%86%E5%89%B5%E9%80%A0%E8%B2%A1%E5%AF%8C?id=qfVhDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 74
+				},
+				{
+					"id": "0TNaEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/0TNaEAAAQBAJ?fife=w256-h256",
+					"title": "別讓大腦不開心：神經科學家告訴你「快樂」的祕密，讓我們打造更美滿的生活",
+					"link": "https://play.google.com/store/books/details/%E8%BF%AA%E6%81%A9_%E6%9F%8F%E5%A5%88%E7%89%B9_Dean_Burnett_%E5%88%A5%E8%AE%93%E5%A4%A7%E8%85%A6%E4%B8%8D%E9%96%8B%E5%BF%83_%E7%A5%9E%E7%B6%93%E7%A7%91%E5%AD%B8%E5%AE%B6%E5%91%8A%E8%A8%B4%E4%BD%A0_%E5%BF%AB%E6%A8%82_%E7%9A%84%E7%A5%95%E5%AF%86_%E8%AE%93%E6%88%91%E5%80%91%E6%89%93%E9%80%A0%E6%9B%B4?id=0TNaEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 228
+				},
+				{
+					"id": "cZZdDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/cZZdDwAAQBAJ?fife=w256-h256",
+					"title": "4年贏300倍的秘密",
+					"link": "https://play.google.com/store/books/details/%E9%AD%8F%E5%8A%9B_4%E5%B9%B4%E8%B4%8F300%E5%80%8D%E7%9A%84%E7%A7%98%E5%AF%86?id=cZZdDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 443
+				},
+				{
+					"id": "1f9nBwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/1f9nBwAAQBAJ?fife=w256-h256",
+					"title": "不開會的CEO",
+					"link": "https://play.google.com/store/books/details/%E8%8E%8A%E5%81%89%E5%BF%A0_%E4%B8%8D%E9%96%8B%E6%9C%83%E7%9A%84CEO?id=1f9nBwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 443
+				},
+				{
+					"id": "0MG9DwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/0MG9DwAAQBAJ?fife=w256-h256",
+					"title": "妳可以狼狽跌倒，但一定要優雅起身：法國大齡女子快樂 ╳ 自信的祕密，關於愛情、生活與家庭",
+					"link": "https://play.google.com/store/books/details/%E7%B1%B3%E8%93%AE_%E5%BE%B7%E5%85%8B%E6%B4%9B_Myl%C3%A8ne_Desclaux_%E5%A6%B3%E5%8F%AF%E4%BB%A5%E7%8B%BC%E7%8B%BD%E8%B7%8C%E5%80%92_%E4%BD%86%E4%B8%80%E5%AE%9A%E8%A6%81%E5%84%AA%E9%9B%85%E8%B5%B7%E8%BA%AB_%E6%B3%95%E5%9C%8B%E5%A4%A7%E9%BD%A1%E5%A5%B3%E5%AD%90%E5%BF%AB%E6%A8%82_%E8%87%AA?id=0MG9DwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 210
+				},
+				{
+					"id": "KyiqDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/KyiqDwAAQBAJ?fife=w256-h256",
+					"title": "一流的人如何保持顛峰",
+					"link": "https://play.google.com/store/books/details/%E5%B8%83%E8%90%8A%E5%BE%B7_%E5%8F%B2%E6%89%98%E4%BC%AF%E6%A0%BC_Brad_Stulberg_%E4%B8%80%E6%B5%81%E7%9A%84%E4%BA%BA%E5%A6%82%E4%BD%95%E4%BF%9D%E6%8C%81%E9%A1%9B%E5%B3%B0?id=KyiqDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 210
+				},
+				{
+					"id": "rJN0DwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/rJN0DwAAQBAJ?fife=w256-h256",
+					"title": "6分鐘日記的魔法: 最簡單的書寫，改變你的一生",
+					"link": "https://play.google.com/store/books/details/%E5%A4%9A%E6%98%8E%E5%B0%BC%E5%85%8B_%E6%96%AF%E8%B3%93%E6%96%AF%E7%89%B9_6%E5%88%86%E9%90%98%E6%97%A5%E8%A8%98%E7%9A%84%E9%AD%94%E6%B3%95?id=rJN0DwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 199
+				},
+				{
+					"id": "iHmXDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/iHmXDwAAQBAJ?fife=w256-h256",
+					"title": "人生幸福的四大秘密：愛．財富．健康．快樂",
+					"link": "https://play.google.com/store/books/details/%E7%94%B0_%E4%BA%BA%E7%94%9F%E5%B9%B8%E7%A6%8F%E7%9A%84%E5%9B%9B%E5%A4%A7%E7%A7%98%E5%AF%86_%E6%84%9B_%E8%B2%A1%E5%AF%8C_%E5%81%A5%E5%BA%B7_%E5%BF%AB%E6%A8%82?id=iHmXDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 82
+				},
+				{
+					"id": "yTtBDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/yTtBDwAAQBAJ?fife=w256-h256",
+					"title": "乃木坂春香的秘密 (4)",
+					"link": "https://play.google.com/store/books/details/%E4%BA%94%E5%8D%81%E5%B5%90%E9%9B%84%E7%AD%96_%E4%B9%83%E6%9C%A8%E5%9D%82%E6%98%A5%E9%A6%99%E7%9A%84%E7%A7%98%E5%AF%86_4?id=yTtBDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 118
+				},
+				{
+					"id": "hpcFEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/hpcFEAAAQBAJ?fife=w256-h256",
+					"title": "烏龜的七個秘密: 歐陸最暢銷自我凝聚練習，讓平靜安穩由內而生",
+					"link": "https://play.google.com/store/books/details/%E9%BE%8D%E6%82%A0_Aljoscha_Schwarz_%E6%9C%97%E8%AB%BE%E5%BE%B7_%E5%8F%B2%E5%A8%81%E6%99%AE_Ronald_Schweppe_%E7%83%8F%E9%BE%9C%E7%9A%84%E4%B8%83%E5%80%8B%E7%A7%98?id=hpcFEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 200
+				},
+				{
+					"id": "xgXgDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/xgXgDwAAQBAJ?fife=w256-h256",
+					"title": "真正的快樂處方: 瑞典國民書！腦科學實證的健康生活提案（HJ?RNSTARK: Hur motion och tr?ning st?rker din hj?rna）",
+					"link": "https://play.google.com/store/books/details/%E5%AE%89%E5%BE%B7%E6%96%AF_%E9%9F%93%E6%A3%AE_%E7%9C%9F%E6%AD%A3%E7%9A%84%E5%BF%AB%E6%A8%82%E8%99%95%E6%96%B9?id=xgXgDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 188
+				},
+				{
+					"id": "S3qFDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/S3qFDwAAQBAJ?fife=w256-h256",
+					"title": "花掉的錢都會自己流回來：啟動「金錢螺旋」，用錢越多反而更有錢",
+					"link": "https://play.google.com/store/books/details/Mentalist_DaiGo_%E8%8A%B1%E6%8E%89%E7%9A%84%E9%8C%A2%E9%83%BD%E6%9C%83%E8%87%AA%E5%B7%B1%E6%B5%81%E5%9B%9E%E4%BE%86_%E5%95%9F%E5%8B%95_%E9%87%91%E9%8C%A2%E8%9E%BA%E6%97%8B_%E7%94%A8%E9%8C%A2%E8%B6%8A%E5%A4%9A%E5%8F%8D%E8%80%8C%E6%9B%B4%E6%9C%89%E9%8C%A2?id=S3qFDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 165
+				},
+				{
+					"id": "KhKvDgAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/KhKvDgAAQBAJ?fife=w256-h256",
+					"title": "幸福人生，很容易──成功學大師卡內基寫給女人的快樂魔法書2: 智慧系列A10",
+					"link": "https://play.google.com/store/books/details/%E6%88%B4%E7%88%BE_%E5%8D%A1%E5%85%A7%E5%9F%BA_%E5%B9%B8%E7%A6%8F%E4%BA%BA%E7%94%9F_%E5%BE%88%E5%AE%B9%E6%98%93_%E6%88%90%E5%8A%9F%E5%AD%B8%E5%A4%A7%E5%B8%AB%E5%8D%A1%E5%85%A7%E5%9F%BA%E5%AF%AB%E7%B5%A6%E5%A5%B3%E4%BA%BA%E7%9A%84%E5%BF%AB%E6%A8%82%E9%AD%94%E6%B3%95%E6%9B%B82?id=KhKvDgAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 40
+				},
+				{
+					"id": "eT1BDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/eT1BDwAAQBAJ?fife=w256-h256",
+					"title": "改造生命的自我形象整容術：整形醫師驚人發現──心靈容貌決定你的人生: Psycho-Cybernetics",
+					"link": "https://play.google.com/store/books/details/%E9%BA%A5%E6%96%AF%E5%A8%81%E7%88%BE_%E9%A6%AC%E7%88%BE%E8%8C%B2_Maxwell_Maltz_%E6%94%B9%E9%80%A0%E7%94%9F%E5%91%BD%E7%9A%84%E8%87%AA%E6%88%91%E5%BD%A2%E8%B1%A1%E6%95%B4%E5%AE%B9%E8%A1%93_%E6%95%B4%E5%BD%A2%E9%86%AB%E5%B8%AB%E9%A9%9A%E4%BA%BA%E7%99%BC%E7%8F%BE_%E5%BF%83%E9%9D%88%E5%AE%B9%E8%B2%8C%E6%B1%BA?id=eT1BDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 100
+				},
+				{
+					"id": "w21yEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/w21yEAAAQBAJ?fife=w256-h256",
+					"title": "最高致富秘密",
+					"link": "https://play.google.com/store/books/details/%E6%9D%8E%E5%8F%99%E7%8E%A7_%E6%9C%80%E9%AB%98%E8%87%B4%E5%AF%8C%E7%A7%98%E5%AF%86?id=w21yEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 202
+				},
+				{
+					"id": "TEaEEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/TEaEEAAAQBAJ?fife=w256-h256",
+					"title": "活用卡內基訓練，帶出快樂成功的孩子: 黑幼龍說感動故事，為你親解正向教養的關鍵",
+					"link": "https://play.google.com/store/books/details/%E9%BB%91%E5%B9%BC%E9%BE%8D_%E6%B4%BB%E7%94%A8%E5%8D%A1%E5%85%A7%E5%9F%BA%E8%A8%93%E7%B7%B4_%E5%B8%B6%E5%87%BA%E5%BF%AB%E6%A8%82%E6%88%90%E5%8A%9F%E7%9A%84%E5%AD%A9%E5%AD%90?id=TEaEEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 199
+				},
+				{
+					"id": "ZGxCEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/ZGxCEAAAQBAJ?fife=w256-h256",
+					"title": "被遺忘的快樂祕密",
+					"link": "https://play.google.com/store/books/details/%E5%AE%89%E5%87%B1%E8%8E%89_%E8%A2%AB%E9%81%BA%E5%BF%98%E7%9A%84%E5%BF%AB%E6%A8%82%E7%A5%95%E5%AF%86?id=ZGxCEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 173
+				},
+				{
+					"id": "yM17DwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/yM17DwAAQBAJ?fife=w256-h256",
+					"title": "可複製的領導力: 300萬付費會員推崇，樊登的九堂商業課",
+					"link": "https://play.google.com/store/books/details/%E6%A8%8A%E7%99%BB_%E5%8F%AF%E8%A4%87%E8%A3%BD%E7%9A%84%E9%A0%98%E5%B0%8E%E5%8A%9B?id=yM17DwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 165
+				},
+				{
+					"id": "hm2VDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/hm2VDwAAQBAJ?fife=w256-h256",
+					"title": "單身再快樂，永遠無法取代相愛的幸福",
+					"link": "https://play.google.com/store/books/details/%E7%BE%85%E5%A4%AB%E6%9B%BC_%E5%96%AE%E8%BA%AB%E5%86%8D%E5%BF%AB%E6%A8%82_%E6%B0%B8%E9%81%A0%E7%84%A1%E6%B3%95%E5%8F%96%E4%BB%A3%E7%9B%B8%E6%84%9B%E7%9A%84%E5%B9%B8%E7%A6%8F?id=hm2VDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 188
+				},
+				{
+					"id": "Q-47DwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/Q-47DwAAQBAJ?fife=w256-h256",
+					"title": "你的無形力量：最好的一切，最後都是你的: Your Invisible Power",
+					"link": "https://play.google.com/store/books/details/%E7%8F%8D%E5%A8%9C%E7%B6%AD%E5%BC%97_%E8%B2%9D%E5%80%AB%E5%BE%B7_Genevi%C3%A8ve_Behrend_%E4%BD%A0%E7%9A%84%E7%84%A1%E5%BD%A2%E5%8A%9B%E9%87%8F_%E6%9C%80%E5%A5%BD%E7%9A%84%E4%B8%80%E5%88%87_%E6%9C%80%E5%BE%8C%E9%83%BD%E6%98%AF%E4%BD%A0%E7%9A%84?id=Q-47DwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 68
+				},
+				{
+					"id": "iGqVEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/iGqVEAAAQBAJ?fife=w256-h256",
+					"title": "勝出99%人的成癮式學習法: 同步提升邏輯思維、記憶力和專注力，輕鬆成為「會學習的人」",
+					"link": "https://play.google.com/store/books/details/%E7%B2%82%E5%8E%9F%E5%9C%AD%E5%A4%AA%E9%83%8E_%E5%8B%9D%E5%87%BA99_%E4%BA%BA%E7%9A%84%E6%88%90%E7%99%AE%E5%BC%8F%E5%AD%B8%E7%BF%92%E6%B3%95?id=iGqVEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 187
+				},
+				{
+					"id": "Dz1BDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/Dz1BDwAAQBAJ?fife=w256-h256",
+					"title": "乃木坂春香的秘密 (4)",
+					"link": "https://play.google.com/store/books/details/%E6%B7%B1%E5%B1%B1%E9%9D%96%E5%AE%99_%E4%B9%83%E6%9C%A8%E5%9D%82%E6%98%A5%E9%A6%99%E7%9A%84%E7%A7%98%E5%AF%86_4?id=Dz1BDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 25
+				},
+				{
+					"id": "hOiLDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/hOiLDwAAQBAJ?fife=w256-h256",
+					"title": "共好與同贏: 哈佛快樂專家教你把個人潛力變成集體能力，擴散成功與快樂的傳染力",
+					"link": "https://play.google.com/store/books/details/%E5%B0%9A%E6%81%A9_%E8%89%BE%E7%A7%91%E7%88%BE_%E5%85%B1%E5%A5%BD%E8%88%87%E5%90%8C%E8%B4%8F?id=hOiLDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 224
+				},
+				{
+					"id": "DbxmEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/DbxmEAAAQBAJ?fife=w256-h256",
+					"title": "快樂實現自主富有: 傳奇創投創業大師拉維肯的投資智慧與人生哲學",
+					"link": "https://play.google.com/store/books/details/%E8%89%BE%E7%91%9E%E5%85%8B_%E5%96%AC%E6%A0%B9%E6%A3%AEEric_Jorgenson_%E5%BF%AB%E6%A8%82%E5%AF%A6%E7%8F%BE%E8%87%AA%E4%B8%BB%E5%AF%8C%E6%9C%89?id=DbxmEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 225
+				},
+				{
+					"id": "kuWvDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/kuWvDwAAQBAJ?fife=w256-h256",
+					"title": "力挺自己的12個練習: 腦科學X正向心理學，改變大腦負向思維，建立逆境挫折都打不倒的內在力量",
+					"link": "https://play.google.com/store/books/details/%E7%91%9E%E5%85%8B_%E9%9F%93%E6%A3%AE%E5%8D%9A%E5%A3%AB_%E5%8A%9B%E6%8C%BA%E8%87%AA%E5%B7%B1%E7%9A%8412%E5%80%8B%E7%B7%B4%E7%BF%92?id=kuWvDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 190
+				},
+				{
+					"id": "o8cyEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/o8cyEAAAQBAJ?fife=w256-h256",
+					"title": "告別成長的煩惱3：幸福女孩的秘密",
+					"link": "https://play.google.com/store/books/details/%E9%97%9C%E9%BA%97%E7%8F%8A_%E5%91%8A%E5%88%A5%E6%88%90%E9%95%B7%E7%9A%84%E7%85%A9%E6%83%B13_%E5%B9%B8%E7%A6%8F%E5%A5%B3%E5%AD%A9%E7%9A%84%E7%A7%98%E5%AF%86?id=o8cyEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 161
+				},
+				{
+					"id": "bCihDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/bCihDwAAQBAJ?fife=w256-h256",
+					"title": "起床後的黃金1小時：揭開64位成功人士培養高效率的祕密時光，從他們的創意晨型活動中，建立屬於自己的高生產力、高抗壓生活習慣",
+					"link": "https://play.google.com/store/books/details/%E7%8F%AD%E5%82%91%E6%98%8E_%E5%8F%B2%E9%AE%91_Benjamin_Spall_%E9%BA%A5%E5%8F%AF_%E6%A1%91%E5%BE%B7_Michael_Xander_%E8%B5%B7%E5%BA%8A%E5%BE%8C%E7%9A%84%E9%BB%83%E9%87%911?id=bCihDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 189
+				},
+				{
+					"id": "IYVTDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/IYVTDwAAQBAJ?fife=w256-h256",
+					"title": "超越地表最強小編！社群創業時代: FB＋IG經營這本就夠，百萬網紅的實戰筆記",
+					"link": "https://play.google.com/store/books/details/%E5%86%92%E7%89%8C%E7%94%9F_%E8%B6%85%E8%B6%8A%E5%9C%B0%E8%A1%A8%E6%9C%80%E5%BC%B7%E5%B0%8F%E7%B7%A8_%E7%A4%BE%E7%BE%A4%E5%89%B5%E6%A5%AD%E6%99%82%E4%BB%A3?id=IYVTDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 154
+				},
+				{
+					"id": "odnYDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/odnYDwAAQBAJ?fife=w256-h256",
+					"title": "祕密: The Secret",
+					"link": "https://play.google.com/store/books/details/%E6%9C%97%E9%81%94_%E6%8B%9C%E6%81%A9_%E7%A5%95%E5%AF%86?id=odnYDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 138
+				},
+				{
+					"id": "hjlLDgAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/hjlLDgAAQBAJ?fife=w256-h256",
+					"title": "疾病是堵出來的：身心靈健康合一的秘密",
+					"link": "https://play.google.com/store/books/details/%E6%A5%8A%E4%B8%AD%E6%AD%A6_%E9%9F%93%E8%AC%B9%E9%B4%BF_%E7%96%BE%E7%97%85%E6%98%AF%E5%A0%B5%E5%87%BA%E4%BE%86%E7%9A%84_%E8%BA%AB%E5%BF%83%E9%9D%88%E5%81%A5%E5%BA%B7%E5%90%88%E4%B8%80%E7%9A%84%E7%A7%98%E5%AF%86?id=hjlLDgAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 138
+				},
+				{
+					"id": "9oI5DwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/9oI5DwAAQBAJ?fife=w256-h256",
+					"title": "向上思考的祕密：奇蹟製造者的困境突破術: The Power of Positive Thinking",
+					"link": "https://play.google.com/store/books/details/%E8%AB%BE%E6%9B%BC_%E6%96%87%E7%94%9F_%E7%9A%AE%E7%88%BE_Norman_Vincent_Peale_%E5%90%91%E4%B8%8A%E6%80%9D%E8%80%83%E7%9A%84%E7%A5%95%E5%AF%86_%E5%A5%87%E8%B9%9F%E8%A3%BD%E9%80%A0%E8%80%85%E7%9A%84%E5%9B%B0%E5%A2%83%E7%AA%81%E7%A0%B4%E8%A1%93?id=9oI5DwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 94
+				},
+				{
+					"id": "Z3X8DwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/Z3X8DwAAQBAJ?fife=w256-h256",
+					"title": "我只是好好生活，工作竟然變順了: 讓工作和生活相輔相成，解決人生卡關、突破困頓的翻轉指南",
+					"link": "https://play.google.com/store/books/details/%E5%85%8B%E8%8E%89%E7%B5%B2%E5%9D%A6_%E6%89%8E%E6%B2%83_Kristen_J_Zavo_%E6%88%91%E5%8F%AA%E6%98%AF%E5%A5%BD%E5%A5%BD%E7%94%9F%E6%B4%BB_%E5%B7%A5%E4%BD%9C%E7%AB%9F%E7%84%B6%E8%AE%8A%E9%A0%86%E4%BA%86?id=Z3X8DwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 176
+				},
+				{
+					"id": "5NNWEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/5NNWEAAAQBAJ?fife=w256-h256",
+					"title": "史賓塞的快樂教育（暢銷珍藏版）：尊重孩子權利、避免過度學習的107個快樂提案，培養 自主學習．獨立思考．同理他人 的特質",
+					"link": "https://play.google.com/store/books/details/%E8%B5%AB%E4%BC%AF%E7%89%B9_%E5%8F%B2%E8%B3%93%E5%A1%9E_Herbert_Spencer_%E5%8F%B2%E8%B3%93%E5%A1%9E%E7%9A%84%E5%BF%AB%E6%A8%82%E6%95%99%E8%82%B2_%E6%9A%A2%E9%8A%B7%E7%8F%8D%E8%97%8F%E7%89%88_%E5%B0%8A%E9%87%8D%E5%AD%A9%E5%AD%90%E6%AC%8A%E5%88%A9_%E9%81%BF%E5%85%8D%E9%81%8E%E5%BA%A6?id=5NNWEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 202
+				},
+				{
+					"id": "MpDICgAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/MpDICgAAQBAJ?fife=w256-h256",
+					"title": "一個人住的第N年 1",
+					"link": "https://play.google.com/store/books/details/%E6%A5%A0%E5%9F%8E%E8%91%89%E5%AD%90_%E4%B8%80%E5%80%8B%E4%BA%BA%E4%BD%8F%E7%9A%84%E7%AC%ACN%E5%B9%B4_1?id=MpDICgAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 16
+				},
+				{
+					"id": "rYLADwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/rYLADwAAQBAJ?fife=w256-h256",
+					"title": "賺錢的科學練習(EPUB版): 如何善用祕密法則來創造財富",
+					"link": "https://play.google.com/store/books/details/%E8%8F%AF%E8%90%8A%E5%A3%AB_%E8%8F%AF%E7%89%B9%E6%96%AF_Warace_D_Wattles_1860_1911_%E8%B3%BA%E9%8C%A2%E7%9A%84%E7%A7%91%E5%AD%B8%E7%B7%B4%E7%BF%92_EPUB%E7%89%88?id=rYLADwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 190
+				},
+				{
+					"id": "tpSsEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/tpSsEAAAQBAJ?fife=w256-h256",
+					"title": "打造第二大腦：多一個數位大腦，資訊超載時代的高效能知識管理術",
+					"link": "https://play.google.com/store/books/details/%E6%8F%90%E4%BA%9E%E6%88%88_%E4%BD%9B%E7%89%B9_Tiago_Forte_%E6%89%93%E9%80%A0%E7%AC%AC%E4%BA%8C%E5%A4%A7%E8%85%A6_%E5%A4%9A%E4%B8%80%E5%80%8B%E6%95%B8%E4%BD%8D%E5%A4%A7%E8%85%A6_%E8%B3%87%E8%A8%8A%E8%B6%85%E8%BC%89%E6%99%82%E4%BB%A3%E7%9A%84%E9%AB%98%E6%95%88%E8%83%BD%E7%9F%A5%E8%AD%98%E7%AE%A1%E7%90%86%E8%A1%93?id=tpSsEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 266
+				},
+				{
+					"id": "h0qqDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/h0qqDwAAQBAJ?fife=w256-h256",
+					"title": "艾熙的減重甜點：5種超級食物，打造讓身體吃得快樂、滿足的美味配方",
+					"link": "https://play.google.com/store/books/details/%E9%99%B3%E8%89%BE%E7%86%99_%E8%89%BE%E7%86%99%E7%9A%84%E6%B8%9B%E9%87%8D%E7%94%9C%E9%BB%9E_5%E7%A8%AE%E8%B6%85%E7%B4%9A%E9%A3%9F%E7%89%A9_%E6%89%93%E9%80%A0%E8%AE%93%E8%BA%AB%E9%AB%94%E5%90%83%E5%BE%97%E5%BF%AB%E6%A8%82_%E6%BB%BF%E8%B6%B3%E7%9A%84%E7%BE%8E%E5%91%B3%E9%85%8D%E6%96%B9?id=h0qqDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 238
+				},
+				{
+					"id": "Y7_RDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/Y7_RDwAAQBAJ?fife=w256-h256",
+					"title": "每種情緒都是天賦: 讓悲傷保護你、恐懼提醒你、欲望推動你……如何善用情緒與生俱來的好處與優勢？",
+					"link": "https://play.google.com/store/books/details/%E8%98%AD%E8%BF%AA_%E5%A1%94%E8%98%AD_Randy_Taran_%E6%AF%8F%E7%A8%AE%E6%83%85%E7%B7%92%E9%83%BD%E6%98%AF%E5%A4%A9%E8%B3%A6?id=Y7_RDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 190
+				},
+				{
+					"id": "bFRWEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/bFRWEAAAQBAJ?fife=w256-h256",
+					"title": "我也要當 YouTuber(第二版)：百萬粉絲網紅不能說的秘密 - 拍片、剪輯、直播與宣傳實戰大揭密(電子書)",
+					"link": "https://play.google.com/store/books/details/%E9%84%A7%E6%96%87%E6%B7%B5_%E7%B8%BD%E7%9B%A3%E8%A3%BD_%E6%96%87%E6%B7%B5%E9%96%A3%E5%B7%A5%E4%BD%9C%E5%AE%A4_%E7%B7%A8%E8%91%97_%E6%88%91%E4%B9%9F%E8%A6%81%E7%95%B6_YouTuber_%E7%AC%AC%E4%BA%8C%E7%89%88_%E7%99%BE%E8%90%AC%E7%B2%89%E7%B5%B2%E7%B6%B2%E7%B4%85%E4%B8%8D%E8%83%BD%E8%AA%AA%E7%9A%84%E7%A7%98%E5%AF%86_%E6%8B%8D?id=bFRWEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 258
+				},
+				{
+					"id": "f5rbAwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/f5rbAwAAQBAJ?fife=w256-h256",
+					"title": "活出股市生命力(全彩增訂版): 高勝算股票期貨趨勢操作法",
+					"link": "https://play.google.com/store/books/details/%E8%B3%B4%E5%AE%A3%E5%90%8D_%E7%BE%85%E5%A8%81_%E6%B4%BB%E5%87%BA%E8%82%A1%E5%B8%82%E7%94%9F%E5%91%BD%E5%8A%9B_%E5%85%A8%E5%BD%A9%E5%A2%9E%E8%A8%82%E7%89%88?id=f5rbAwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 347
+				},
+				{
+					"id": "k5vODwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/k5vODwAAQBAJ?fife=w256-h256",
+					"title": "不減肥才能瘦: 用心吃、慢健身、不靠意志力，身心平衡瘦一輩子",
+					"link": "https://play.google.com/store/books/details/%E9%BB%83%E6%83%A0%E5%A6%82_%E4%B8%8D%E6%B8%9B%E8%82%A5%E6%89%8D%E8%83%BD%E7%98%A6?id=k5vODwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 190
+				},
+				{
+					"id": "cQKGDwAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/cQKGDwAAQBAJ?fife=w256-h256",
+					"title": "很冷很冷的冷知識",
+					"link": "https://play.google.com/store/books/details/%E9%BB%83%E8%93%89_%E5%BE%88%E5%86%B7%E5%BE%88%E5%86%B7%E7%9A%84%E5%86%B7%E7%9F%A5%E8%AD%98?id=cQKGDwAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 200
+				},
+				{
+					"id": "mCpiEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/mCpiEAAAQBAJ?fife=w256-h256",
+					"title": "智商前2％的天才都在使用、「OK」「YES」點頭率超高: 最強「人心」操控心理學",
+					"link": "https://play.google.com/store/books/details/%E5%B1%B1%E6%9C%AC%E6%98%8C%E5%93%89_%E6%99%BA%E5%95%86%E5%89%8D2_%E7%9A%84%E5%A4%A9%E6%89%8D%E9%83%BD%E5%9C%A8%E4%BD%BF%E7%94%A8_OK_YES_%E9%BB%9E%E9%A0%AD%E7%8E%87%E8%B6%85%E9%AB%98?id=mCpiEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 199
+				},
+				{
+					"id": "RLc0EAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/RLc0EAAAQBAJ?fife=w256-h256",
+					"title": "最大的祕密",
+					"link": "https://play.google.com/store/books/details/%E6%9C%97%E9%81%94_%E6%8B%9C%E6%81%A9_Rhonda_Byrne_%E6%9C%80%E5%A4%A7%E7%9A%84%E7%A5%95%E5%AF%86?id=RLc0EAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 196
+				},
+				{
+					"id": "hMIXEAAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/hMIXEAAAQBAJ?fife=w256-h256",
+					"title": "巴比倫最有錢的人，刻字匠阿卡德的財富自由之路: 傳承百年，獲得財富與幸福的五大黃金法則",
+					"link": "https://play.google.com/store/books/details/%E5%96%AC%E6%B2%BB_%E5%B1%B1%E7%B9%86_%E5%85%8B%E6%8B%89%E6%A3%AE_George_Samuel_Clason_%E5%B7%B4%E6%AF%94%E5%80%AB%E6%9C%80%E6%9C%89%E9%8C%A2%E7%9A%84%E4%BA%BA_%E5%88%BB%E5%AD%97%E5%8C%A0%E9%98%BF%E5%8D%A1%E5%BE%B7%E7%9A%84%E8%B2%A1%E5%AF%8C%E8%87%AA?id=hMIXEAAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 165
+				},
+				{
+					"id": "oR0wBQAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/oR0wBQAAQBAJ?fife=w256-h256",
+					"title": "逆齡肌密—醫學美容抗衰老之奧秘",
+					"link": "https://play.google.com/store/books/details/%E9%99%B3%E6%B0%B8%E5%B4%87_%E9%80%86%E9%BD%A1%E8%82%8C%E5%AF%86_%E9%86%AB%E5%AD%B8%E7%BE%8E%E5%AE%B9%E6%8A%97%E8%A1%B0%E8%80%81%E4%B9%8B%E5%A5%A7%E7%A7%98?id=oR0wBQAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 331
+				},
+				{
+					"id": "6I_ICgAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/6I_ICgAAQBAJ?fife=w256-h256",
+					"title": "探索宇宙的奧秘：神秘的宇宙究竟有多大？",
+					"link": "https://play.google.com/store/books/details/Chenggong_Li_%E6%8E%A2%E7%B4%A2%E5%AE%87%E5%AE%99%E7%9A%84%E5%A5%A7%E7%A7%98_%E7%A5%9E%E7%A7%98%E7%9A%84%E5%AE%87%E5%AE%99%E7%A9%B6%E7%AB%9F%E6%9C%89%E5%A4%9A%E5%A4%A7?id=6I_ICgAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 32
+				},
+				{
+					"id": "RLFvAgAAQBAJ",
+					"thumbnail": "https://play.google.com/books/publisher/content/images/frontcover/RLFvAgAAQBAJ?fife=w256-h256",
+					"title": "密技偷偷報【密】字第柒拾號",
+					"link": "https://play.google.com/store/books/details/PCuSER%E7%A0%94%E7%A9%B6%E5%AE%A4_%E5%AF%86%E6%8A%80%E5%81%B7%E5%81%B7%E5%A0%B1_%E5%AF%86_%E5%AD%97%E7%AC%AC%E6%9F%92%E6%8B%BE%E8%99%9F?id=RLFvAgAAQBAJ&gl=tw&hl=zh-tw",
+					"priceCurrency": "TWD",
+					"price": 115
+				}
+			],
+			"quantity": 50
+		},
+		{
+			"bookstore": {
+				"website": "https://www.books.com.tw/",
+				"displayName": "博客來",
+				"id": "booksCompany",
+				"isOnline": true,
+				"status": "Active"
+			},
+			"isOkay": true,
+			"status": "Crawler success.",
+			"processTime": 1751.703781,
+			"books": [
+				{
+					"id": "E050119515",
+					"thumbnail": "https://www.books.com.tw/img/E05/011/95/E050119515.jpg",
+					"title": "別讓大腦不開心：神經科學家告訴你「快樂」的祕密，讓我們打造更美滿的生活 (電子書)",
+					"link": "https://www.books.com.tw/products/E050119515",
+					"priceCurrency": "TWD",
+					"price": 296,
+					"about": "讓你更煩惱。經營社群、變成大明星，感覺又快樂又有錢賺，但是一旦有負評、有醜聞、被厭棄，小小的事情都有可能讓你的地位與心情萬劫不復。 所以人天生就想要快樂，但是快樂卻不容易獲致。柏奈特不只談快樂的好處，也從「不快樂」來探討「快樂」的本質；加上現代社會的...... more",
+					"publisher": null,
+					"authors": [
+						"迪恩．柏奈特",
+						"鄧子衿"
+					]
+				},
+				{
+					"id": "E050015365",
+					"thumbnail": "https://www.books.com.tw/img/E05/001/53/E050015365.jpg",
+					"title": "幸福好日子：向全世界最快樂的丹麥人學習滿意生活的10項祕訣 (電子書)",
+					"link": "https://www.books.com.tw/products/E050015365",
+					"priceCurrency": "TWD",
+					"price": 196,
+					"about": "豐富的人生閱歷之後，她在本書分享自己在丹麥成長、生活的經驗，告訴我們丹麥人民幸福、快樂的原因，包括：   • 信任：丹麥擁有全球最高的信任度，78%的人相信周遭人。數百件大衣掛在無人看守的置物間，也不擔心有人會偷。   • 教育：以培養學生的...... more",
+					"publisher": null,
+					"authors": [
+						"瑪琳娜．希達樂",
+						"顧淑馨"
+					]
+				},
+				{
+					"id": "E050040083",
+					"thumbnail": "https://www.books.com.tw/img/E05/004/00/E050040083.jpg",
+					"title": "共好與同贏：哈佛快樂專家教你把個人潛力變成集體能力，擴散成功與快樂的傳染力 (電子書)",
+					"link": "https://www.books.com.tw/products/E050040083",
+					"priceCurrency": "TWD",
+					"price": 231,
+					"about": "實例，告訴你如何能藉由提高別人的潛能、幸福安康和快樂的上限，進而使自己的潛力不再受限，打造出一個更好、更快樂且更繁榮的世界。 好評推薦   「本書翻轉我們對於成功的觀念。它告訴我們，獲得成就的秘密不在於關注自身，而在於提振他人的生活。它同時...... more",
+					"publisher": null,
+					"authors": [
+						"尚恩．艾科爾",
+						"歐陽端端"
+					]
+				},
+				{
+					"id": "E050139715",
+					"thumbnail": "https://www.books.com.tw/img/E05/013/97/E050139715.jpg",
+					"title": "秒懂具有XX染色體的人類：心因性疼痛、情感建構、心理障礙、婚姻心理調適、親子心靈溝通，揭開妳內心深處的祕密! (電子書)",
+					"link": "https://www.books.com.tw/products/E050139715",
+					"priceCurrency": "TWD",
+					"price": 132,
+					"about": "妳消除迷茫與困惑，從而在生活中譜寫美好而快樂的篇章。...... more",
+					"publisher": null,
+					"authors": [
+						"宋心田",
+						"恩茜"
+					]
+				},
+				{
+					"id": "E050011282",
+					"thumbnail": "https://www.books.com.tw/img/E05/001/12/E050011282.jpg",
+					"title": "你在渴求什麼? 揭開理想體重、生活幸福、身心平衡的秘密 (電子書)",
+					"link": "https://www.books.com.tw/products/E050011282",
+					"priceCurrency": "TWD",
+					"price": 227,
+					"about": "模式?辨別出原因，你就可以找出替代的活動，延緩吃的欲望。    覺察你的身體，覺察你的情緒，覺察你的選擇，覺察自我真實的渴望，   會引導你前往正確的方向，找到讓自己快樂的生活方式。  名人推薦   ●王浩威(精神科醫師)   ●許皓宜(諮商...... more",
+					"publisher": null,
+					"authors": [
+						"狄帕克．喬布拉",
+						"李明芝"
+					]
+				},
+				{
+					"id": "E050035142",
+					"thumbnail": "https://www.books.com.tw/img/E05/003/51/E050035142.jpg",
+					"title": "人生的四大祕密(暢銷改版) (電子書)",
+					"link": "https://www.books.com.tw/products/E050035142",
+					"priceCurrency": "TWD",
+					"price": 197,
+					"about": "把愛帶入你的人生、豐富你的生命。 快樂，讓你的人生充滿活力 讓快樂的十個法則，為你創造無限活力， 告訴你如何活在當下、消解壓力， 為你的生命注入源源不斷的喜悅與幸福。 健康，為你創造無限遠景 讓健康的十個法則，平衡你的身心， 不僅能讓你過...... more",
+					"publisher": null,
+					"authors": [
+						"亞當．傑克遜",
+						"周思芸"
+					]
+				},
+				{
+					"id": "E050056987",
+					"thumbnail": "https://www.books.com.tw/img/E05/005/69/E050056987.jpg",
+					"title": "尋找全球幸福關鍵字：學會世界30國的快樂祕方 (電子書)",
+					"link": "https://www.books.com.tw/products/E050056987",
+					"priceCurrency": "TWD",
+					"price": 235,
+					"about": "探訪這些國度、訪問當地人、請教朋友、專家，並請他們用最簡單的方式，詮釋專屬於該國文化的幸福關鍵。 從澳洲到威爾斯，從不丹到巴西，從敘利亞到俄羅斯，羅素細細梳理深埋在各國文化、風俗背後的幸福祕密，揭開讓全世界人民快樂的終極祕方!  Plus...... more",
+					"publisher": null,
+					"authors": [
+						"海倫‧羅素",
+						"高霈芬"
+					]
+				},
+				{
+					"id": "E050040547",
+					"thumbnail": "https://www.books.com.tw/img/E05/004/05/E050040547.jpg",
+					"title": "向上思考的祕密：奇蹟製造者的困境突破術 (電子書)",
+					"link": "https://www.books.com.tw/products/E050040547",
+					"priceCurrency": "TWD",
+					"price": 281,
+					"about": "存的主控權，然後改善人際關係，成為受人喜愛的人。最終擁有全新幸福快樂的感受。   親愛的朋友們，你還在等待什麼?快拿起本書，和我們一起修練幸福人生之道吧!──上官昭儀 色彩能量管理學創辦人，資深心理諮詢督導   諾曼‧文生‧皮爾博士這本書...... more",
+					"publisher": null,
+					"authors": [
+						"諾曼‧文生‧皮爾",
+						"陳昭如"
+					]
+				},
+				{
+					"id": "E050090934",
+					"thumbnail": "https://www.books.com.tw/img/E05/009/09/E050090934.jpg",
+					"title": "作家的祕密地圖：從中土世界，到劫盜地圖，走訪經典文學中的想像疆土 (電子書)",
+					"link": "https://www.books.com.tw/products/E050090934",
+					"priceCurrency": "TWD",
+					"price": 530,
+					"about": "源自於何處，以及這些地圖最終如何在他們的作品中被體現出來。──《華爾街日報》(Wall Street Journal) 【外國讀者精彩好評】 地圖是我的人生中，最能使我快樂的事物之一。我從五歲開始，就熱愛世界地圖的拼圖，小學三年級就仔細研究課本...... more",
+					"publisher": null,
+					"authors": [
+						"休．路易斯─瓊斯",
+						"清揚"
+					]
+				},
+				{
+					"id": "E050139172",
+					"thumbnail": "https://www.books.com.tw/img/E05/013/91/E050139172.jpg",
+					"title": "超萌鸚鵡飼育圖鑑：詳細解說身體構造、心情、行為，打造健康快樂的鸚鵡好日子! (電子書)",
+					"link": "https://www.books.com.tw/products/E050139172",
+					"priceCurrency": "TWD",
+					"price": 227,
+					"about": "!可愛又好懂!   飼主不可不知，關於鸚鵡的125個小祕密!   這個動作好可愛、竟然還會有這樣的表情?!   平時疼愛的寵物，其實還有更多有趣的「真相」等著你發現!    全圖解!   詳解鸚鵡的情緒、身體構造，   趣味學習與鸚鵡長久...... more",
+					"publisher": null,
+					"authors": [
+						"三輪恭嗣",
+						"曹茹蘋",
+						"kanmiQ"
+					]
+				},
+				{
+					"id": "E050095380",
+					"thumbnail": "https://www.books.com.tw/img/E05/009/53/E050095380.jpg",
+					"title": "船到荷蘭自然直!樂天卻務實，慢活更快活，地表最高民族的幸福人生秘方 (電子書)",
+					"link": "https://www.books.com.tw/products/E050095380",
+					"priceCurrency": "TWD",
+					"price": 227,
+					"about": "窺看尼德蘭最真實相貌，旅歐教育學家的第一手文化解析! 從慢式哲學到60分剛剛好的教養思維，荷蘭比你想得更有意思! ●精打細算、心直口快!熱愛統計數字，想要說服他們，拿出數據是成功的一半! ●Gezellig生活主張，舒服自在滿足的正向...... more",
+					"publisher": null,
+					"authors": [
+						"任恩儀"
+					]
+				},
+				{
+					"id": "E050153081",
+					"thumbnail": "https://www.books.com.tw/img/E05/015/30/E050153081.jpg",
+					"title": "我是對的!為什麼我不快樂?：終結煩煩惱惱的幸福密碼 (電子書)",
+					"link": "https://www.books.com.tw/products/E050153081",
+					"priceCurrency": "TWD",
+					"price": 304,
+					"about": "\\\\出版一個月，緊急七刷// 有時候，不是身邊沒有好事， 而是我們總聚焦在別人的缺失。 當你看見美好，那一切都會很好!  人生路上，我們總想證明自己是對的。 連續假期在高速公路遇到惡意逼車，你破口大罵，對方揚長而去後，你在車上繼續痛罵...... more",
+					"publisher": null,
+					"authors": [
+						"江宏志"
+					]
+				},
+				{
+					"id": "E050065116",
+					"thumbnail": "https://www.books.com.tw/img/E05/006/51/E050065116.jpg",
+					"title": "世界少年文學必讀經典60-祕密花園 (電子書)",
+					"link": "https://www.books.com.tw/products/E050065116",
+					"priceCurrency": "TWD",
+					"price": 154,
+					"about": "撫慰心靈的大自然魔法      瑪麗因失去雙親而住到從未見過面的舅舅家。她每天都到戶外玩耍，想找到被舅舅鎖住的祕密花園。新鮮空氣和探索祕密的好奇心，讓她變得不再彆扭，還認識了荒原上的男孩迪克，他開朗的個性也影響了瑪麗，使她成長...... more",
+					"publisher": null,
+					"authors": [
+						"劉惠媛",
+						"法蘭西絲‧霍森‧柏納特",
+						"樂本漾"
+					]
+				},
+				{
+					"id": "E050030596",
+					"thumbnail": "https://www.books.com.tw/img/E05/003/05/E050030596.jpg",
+					"title": "乃木坂春香的秘密 (4) (電子書)",
+					"link": "https://www.books.com.tw/products/E050030596",
+					"priceCurrency": "TWD",
+					"price": 80,
+					"about": "原本束縛著春香的秘密升等為「我和春香兩人共有的秘密」之後，以為接下來就可以過著幸福快樂的日子，但事情總是沒那麼簡單，之前曾經偶然相遇的椎菜，不僅轉學到我們學校，還和我一起擔任校慶執行委員，而且還不知是誰的主意，我們班的校慶活動竟然是...... more",
+					"publisher": null,
+					"authors": [
+						"深山靖宙/作畫",
+						"五十嵐雄策/原作"
+					]
+				},
+				{
+					"id": "E050105684",
+					"thumbnail": "https://www.books.com.tw/img/E05/010/56/E050105684.jpg",
+					"title": "神的祕密：革命之後 (電子書)",
+					"link": "https://www.books.com.tw/products/E050105684",
+					"priceCurrency": "TWD",
+					"price": 210,
+					"about": "、每個人都有祕密……     在革命英雄凱薩琳帶領的革命戰爭結束後，革命元老們結盟建成聯合帝國，由紅盾家族、唐國、沃姆溫特家族、艾西尼部落聯盟、自治區最高議會所共同治理。推翻王朝後的承平時期裡看似平靜，實則檯面下暗潮洶湧。    本被尊為「神之子」的...... more",
+					"publisher": null,
+					"authors": [
+						"大漠倉鼠"
+					]
+				},
+				{
+					"id": "E050033069",
+					"thumbnail": "https://www.books.com.tw/img/E05/003/30/E050033069.jpg",
+					"title": "野獸的祕密~他的祕密之四 (電子書)",
+					"link": "https://www.books.com.tw/products/E050033069",
+					"priceCurrency": "TWD",
+					"price": 72,
+					"about": "她這回招惹的究竟是個男人還是隻野獸?! 瞧他那蠻橫霸道的個性和死纏爛打的舉止 想要單方面打破遊戲規則的意味顯而易見 不知道的人還以為她欠了他數不清的債務 事實上她不過是從他身上「借」了個東西 用來實現成為瀟灑快樂的單身媽媽的心願…… 厚...... more",
+					"publisher": null,
+					"authors": [
+						"樂顏"
+					]
+				},
+				{
+					"id": "E050040209",
+					"thumbnail": "https://www.books.com.tw/img/E05/004/02/E050040209.jpg",
+					"title": "乃木坂春香的秘密 (11) (電子書)",
+					"link": "https://www.books.com.tw/products/E050040209",
+					"priceCurrency": "TWD",
+					"price": 125,
+					"about": "總算盼到了教育旅行這個學生生涯中最引人期待的活動。一想到能和最近感覺變得稍微積極的春香共度一個禮拜，堅忍如我也壓抑不住心中的各種期待……此外和我一樣將一切賭在這場教育旅行的椎菜，也私下展開了行動──?!   在這趟旅程中讓我獲得了不少快樂的...... more",
+					"publisher": null,
+					"authors": [
+						"五十嵐雄策"
+					]
+				},
+				{
+					"id": "E050040108",
+					"thumbnail": "https://www.books.com.tw/img/E05/004/01/E050040108.jpg",
+					"title": "乃木坂春香的秘密 (4) (電子書)",
+					"link": "https://www.books.com.tw/products/E050040108",
+					"priceCurrency": "TWD",
+					"price": 150,
+					"about": "乃木(土反)春香是位容貌娟秀、才貌雙全，甚至還有「白銀星屑」這個稱號的超級名媛千金。當束縛著她的「那個秘密」升等成為「只有我和春香的秘密」之後，接下來就可以每天過著幸福快樂的日子……不過正當我這麼想的時候，事情就發生了。   那位椎菜不僅...... more",
+					"publisher": null,
+					"authors": [
+						"五十嵐雄策",
+						"深山靖宙"
+					]
+				},
+				{
+					"id": "E050020259",
+					"thumbnail": "https://www.books.com.tw/img/E05/002/02/E050020259.jpg",
+					"title": "大海王的10個祕密 (電子書)",
+					"link": "https://www.books.com.tw/products/E050020259",
+					"priceCurrency": "TWD",
+					"price": 140,
+					"about": "掉進海，這些都是美麗快樂的事。   喔，對了，我叫丁船一，倒過來唸只是一個船丁，怎樣都贏不過大海王。大海王是我的朋友，他很愛笑，個子很高大，說的話很好玩，喜歡送我「祕密」，他還聽得懂海說的話!   沒有人知道大海王從哪裡來，村裡的大人...... more",
+					"publisher": null,
+					"authors": [
+						"林加春"
+					]
+				},
+				{
+					"id": "E050096656",
+					"thumbnail": "https://www.books.com.tw/img/E05/009/66/E050096656.jpg",
+					"title": "改變人生的大腦鍛鍊： 日本腦科學博士親授活化腦島皮質6大法則，教你用意念扭轉命運，變得更快樂 (電子書)",
+					"link": "https://www.books.com.tw/products/E050096656",
+					"priceCurrency": "TWD",
+					"price": 294,
+					"about": "效果 ▍內容特色 ▍ 彷彿是「秘密」Step by step版的人生實用手冊，本書倡議以腦部鍛鍊打造出全新的思考迴路，以帶來幸福感，進而扭轉人生，羅列出本書特色如下： 實用：以科學角度加上簡單的教學，教導大家脆弱時快速轉念的方法 稀缺：挾帶...... more",
+					"publisher": null,
+					"authors": [
+						"岩崎一郎",
+						"林佩蓉",
+						"許郁文"
+					]
+				},
+				{
+					"id": "E050067563",
+					"thumbnail": "https://www.books.com.tw/img/E05/006/75/E050067563.jpg",
+					"title": "真正的快樂處方：瑞典國民書!腦科學實證的健康生活提案 (電子書)",
+					"link": "https://www.books.com.tw/products/E050067563",
+					"priceCurrency": "TWD",
+					"price": 214,
+					"about": ")   ・洛桑加參(洛桑預防醫學集團創辦人)   我常勸病人，你快樂活一天，等於賺到一天。但多數人很難真正開心起來。現在，問題輕鬆解決了，獲得快樂的方法不再是祕密，處方詳錄於書中。教人如何動得更有意義也更健康，又怎樣透過運動令人壓力釋放、注意力集中...... more",
+					"publisher": null,
+					"authors": [
+						"安德斯・韓森",
+						"張雪瑩"
+					]
+				},
+				{
+					"id": "E050140083",
+					"thumbnail": "https://www.books.com.tw/img/E05/014/00/E050140083.jpg",
+					"title": "活用卡內基訓練，帶出快樂成功的孩子：黑幼龍說感動故事，為你親解正向教養的關鍵 (電子書)",
+					"link": "https://www.books.com.tw/products/E050140083",
+					"priceCurrency": "TWD",
+					"price": 214,
+					"about": "那麼操勞。 但願你跟孩子之間能互談心事、擁抱彼此。 但願我們都能掌握快樂與幸福的秘密。  黑幼龍用他的人生與真實的感動故事，告訴你「正向教養」的關鍵。 從這本書開始，讓我們活用卡內基訓練，帶出快樂成功的孩子!  ※※※ 【5大特色】 1. 黑...... more",
+					"publisher": null,
+					"authors": [
+						"黑幼龍"
+					]
+				},
+				{
+					"id": "E050135943",
+					"thumbnail": "https://www.books.com.tw/img/E05/013/59/E050135943.jpg",
+					"title": "大人的幸福學：蓄積能量，找回由谷底反彈的快樂，走出上揚的幸福曲線 (電子書)",
+					"link": "https://www.books.com.tw/products/E050135943",
+					"priceCurrency": "TWD",
+					"price": 239,
+					"about": "。——喬治.華倫特，哈佛醫學博士，哈佛大學〈成人發展研究〉負責人，《幸福老年的祕密》作者    每個有思想的成年人，都應該細讀這本發人深省的智力探索之書，它也是一本真正實用的人生指南。——史考特.史塔索，《我的焦慮歲月》作者    本書具有充分可信...... more",
+					"publisher": null,
+					"authors": [
+						"強納森‧勞赫",
+						"汪春沂"
+					]
+				},
+				{
+					"id": "E050117367",
+					"thumbnail": "https://www.books.com.tw/img/E05/011/73/E050117367.jpg",
+					"title": "0~5歲寶寶大腦活力手冊(增訂版)：大腦科學家告訴你如何教養出聰明、快樂、有品德的好寶寶 (電子書)",
+					"link": "https://www.books.com.tw/products/E050117367",
+					"priceCurrency": "TWD",
+					"price": 277,
+					"about": "研究和令人莞爾的小故事中，沉浸於父親角色的腦科學專家麥迪納，聚焦在0~5歲的嬰幼兒成長階段，將孩子大腦發展的祕密展現給我們看，同時也提供實用的點子給父母參考。   你會從全新的觀點來看孩子，並調整教養方針：   →為什麼你不需要浪費錢去買增進...... more",
+					"publisher": null,
+					"authors": [
+						"John Medina",
+						"洪蘭"
+					]
+				}
+			],
+			"quantity": 24
+		}
+	],
+	"apiVersion": "1.1.4",
+	"id": "MfKOVymxFYc6GjTAYC8r"
+}
