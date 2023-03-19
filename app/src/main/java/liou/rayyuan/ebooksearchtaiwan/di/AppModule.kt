@@ -1,5 +1,7 @@
 package liou.rayyuan.ebooksearchtaiwan.di
 
+import com.rayliu.commonmain.di.dataModule
+import com.rayliu.commonmain.di.jsonModule
 import liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchViewModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.review.PlayStoreReviewHelper
 import liou.rayyuan.ebooksearchtaiwan.bookstorereorder.BookStoreReorderViewModel
@@ -61,5 +63,6 @@ val appModules = listOf(
     appModule,
     appUtilsModule,
     domainModule,
-    dataModule
+    dataModule,
+    jsonModule
 )

@@ -1,40 +1,57 @@
-package liou.rayyuan.ebooksearchtaiwan.di
+package com.rayliu.commonmain.di
 
 import android.util.Log
 import com.rayliu.commonmain.BuildConfig
 import com.rayliu.commonmain.SystemInfoCollector
 import com.rayliu.commonmain.data.api.BookSearchApi
+import com.rayliu.commonmain.data.api.BookSearchService
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.android.Android
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.engine.cio.endpoint
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.observer.ResponseObserver
 import io.ktor.client.request.header
+import io.ktor.http.URLProtocol
+import io.ktor.http.path
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 
-private const val TIME_OUT = 60_000
+private const val apiVersion = "v1"
 
 val dataModule = module {
 
     // Provide: HttpClient
     single {
-        HttpClient(Android) {
+        HttpClient(CIO) {
             install(ContentNegotiation) {
-                json(
-                    Json {
-                        prettyPrint = true
-                        isLenient = true
-                        ignoreUnknownKeys = true
+                json(get<Json>())
+            }
+
+            engine {
+                maxConnectionsCount = 30
+                endpoint {
+                    maxConnectionsPerRoute = 100
+                    pipelineMaxSize = 20
+                    keepAliveTime = 5000
+                    connectTimeout = 5000
+                    connectAttempts = 5
+                }
+            }
+
+            defaultRequest {
+                url {
+                    protocol = URLProtocol.HTTPS
+                    host = BuildConfig.HOST_URL
+                    if (BuildConfig.DEBUG) {
+                        port = BuildConfig.HOST_PORT
                     }
-                )
-                engine {
-                    connectTimeout = TIME_OUT
-                    socketTimeout = TIME_OUT
+                    path("$apiVersion/")
                 }
             }
 
@@ -62,7 +79,7 @@ val dataModule = module {
     }
 
     // Provide: BookSearchService
-    factory {
+    factory<BookSearchService> {
         BookSearchApi(get<HttpClient>())
     }
 }

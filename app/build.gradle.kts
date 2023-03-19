@@ -64,6 +64,16 @@ android {
         }
     }
 
+    flavorDimensions.add("data_source")
+    productFlavors {
+        create("api") {
+            dimension = "data_source"
+        }
+        create("mock") {
+            dimension = "data_source"
+        }
+    }
+
     buildTypes {
         getByName("debug") {
             isDebuggable = true
@@ -84,6 +94,16 @@ android {
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             resValue("string", "package_name", "liou.rayyuan.ebooksearchtaiwan")
+        }
+    }
+
+    androidComponents {
+        beforeVariants(
+            selector()
+                .withFlavor(Pair("data_source", "mock"))
+                .withBuildType("release")
+        ) { variantBuilder ->
+            variantBuilder.enable = false
         }
     }
 
