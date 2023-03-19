@@ -1,4 +1,3 @@
-import com.android.build.api.variant.AndroidComponentsExtension
 import java.io.File
 import java.io.FileInputStream
 import java.util.Properties
@@ -17,6 +16,7 @@ val localProperties = Properties().apply {
 
 val HOST: String by project
 val HOST_STAGING: String = localProperties.getProperty("HOST_STAGING") ?: HOST
+val HOST_PORT: String = localProperties.getProperty("HOST_PORT") ?: "80"
 
 android {
     compileSdk = AppSettings.COMPILE_SDK_VERSION
@@ -49,18 +49,16 @@ android {
             isMinifyEnabled = false
 
             buildConfigField("String", "HOST_URL", HOST_STAGING)
+            buildConfigField("int", "HOST_PORT", HOST_PORT)
         }
 
         getByName("release") {
             isMinifyEnabled = true
             buildConfigField("String", "HOST_URL", HOST)
+            buildConfigField("int", "HOST_PORT", HOST_PORT)
             consumerProguardFiles("consumer-rules.pro")
         }
     }
-
-    val androidComponents = project.extensions.getByType(
-        AndroidComponentsExtension::class.java
-    )
 
     androidComponents {
         beforeVariants(
@@ -91,7 +89,7 @@ dependencies {
     // Kotlin
     implementation(AppDependencies.Kotlin.COROUTINE)
     implementation(AppDependencies.Kotlin.SERIALIZATION)
-    implementation(AppDependencies.Kotlin.KTOR_CLIENT_ANDROID)
+    implementation(AppDependencies.Kotlin.KTOR_CLIENT)
     implementation(AppDependencies.Kotlin.KTOR_CLIENT_CONTENT_NEGOTIATION)
     implementation(AppDependencies.Kotlin.KTOR_CLIENT_SERIALIZATION)
     implementation(AppDependencies.Kotlin.KTOR_CLIENT_LOGGING)
