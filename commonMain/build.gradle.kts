@@ -1,6 +1,7 @@
+import com.android.build.api.variant.AndroidComponentsExtension
 import java.io.File
 import java.io.FileInputStream
-import java.util.*
+import java.util.Properties
 
 plugins {
     id("com.android.library")
@@ -33,6 +34,16 @@ android {
         }
     }
 
+    flavorDimensions.add("data_source")
+    productFlavors {
+        create("api") {
+            dimension = "data_source"
+        }
+        create("mock") {
+            dimension = "data_source"
+        }
+    }
+
     buildTypes {
         getByName("debug") {
             isMinifyEnabled = false
@@ -46,11 +57,27 @@ android {
             consumerProguardFiles("consumer-rules.pro")
         }
     }
+
+    val androidComponents = project.extensions.getByType(
+        AndroidComponentsExtension::class.java
+    )
+
+    androidComponents {
+        beforeVariants(
+            selector()
+                .withFlavor(Pair("data_source", "mock"))
+                .withBuildType("release")
+        ) { variantBuilder ->
+            variantBuilder.enable = false
+        }
+    }
+
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjvm-default=all")
         jvmTarget = "11"
