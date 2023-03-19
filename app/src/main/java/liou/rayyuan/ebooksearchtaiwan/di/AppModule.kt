@@ -1,5 +1,6 @@
 package liou.rayyuan.ebooksearchtaiwan.di
 
+import com.rayliu.commonmain.di.dataModule
 import liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchViewModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.review.PlayStoreReviewHelper
 import liou.rayyuan.ebooksearchtaiwan.bookstorereorder.BookStoreReorderViewModel

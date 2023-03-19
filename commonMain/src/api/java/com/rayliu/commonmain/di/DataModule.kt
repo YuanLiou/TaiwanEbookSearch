@@ -1,9 +1,10 @@
-package liou.rayyuan.ebooksearchtaiwan.di
+package com.rayliu.commonmain.di
 
 import android.util.Log
 import com.rayliu.commonmain.BuildConfig
 import com.rayliu.commonmain.SystemInfoCollector
 import com.rayliu.commonmain.data.api.BookSearchApi
+import com.rayliu.commonmain.data.api.BookSearchService
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.engine.cio.endpoint
@@ -84,7 +85,7 @@ val dataModule = module {
     }
 
     // Provide: BookSearchService
-    factory {
+    factory<BookSearchService> {
         BookSearchApi(get<HttpClient>())
     }
 }

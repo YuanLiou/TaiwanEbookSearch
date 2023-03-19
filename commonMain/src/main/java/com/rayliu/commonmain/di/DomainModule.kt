@@ -4,7 +4,7 @@ import androidx.room.Room
 import com.rayliu.commonmain.domain.service.DatabaseManager
 import com.rayliu.commonmain.domain.service.UserPreferenceManager
 import com.rayliu.commonmain.data.mapper.*
-import com.rayliu.commonmain.data.api.BookSearchApi
+import com.rayliu.commonmain.data.api.BookSearchService
 import com.rayliu.commonmain.data.dao.SearchRecordDao
 import com.rayliu.commonmain.domain.repository.BookRepository
 import com.rayliu.commonmain.domain.repository.BookRepositoryImpl
@@ -59,7 +59,7 @@ val domainModule = module {
     // Repositories
     factory<BookRepository> {
         BookRepositoryImpl(
-            get<BookSearchApi>(),
+            get<BookSearchService>(),
             get<BookStoresMapper>(),
             androidContext().userDataStore
         )
