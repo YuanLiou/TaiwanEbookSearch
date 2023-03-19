@@ -52,6 +52,7 @@ import liou.rayyuan.ebooksearchtaiwan.BaseFragment
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.arch.IView
+import liou.rayyuan.ebooksearchtaiwan.booksearch.review.PlayStoreReviewHelper
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
 import liou.rayyuan.ebooksearchtaiwan.databinding.FragmentSearchListBinding
@@ -60,6 +61,7 @@ import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
 import liou.rayyuan.ebooksearchtaiwan.view.ViewEffectObserver
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BookResultListFragment :
@@ -69,18 +71,8 @@ class BookResultListFragment :
     SearchRecordAdapter.OnSearchRecordsClickListener,
     IView<BookResultViewState> {
 
-    companion object {
-        private const val BUNDLE_RECYCLERVIEW_STATE = "BUNDLE_RECYCLERVIEW_STATE"
-        private const val KEY_RECYCLERVIEW_POSITION = "KEY_RECYCLERVIEW_POSITION"
-        fun newInstance(defaultKeyword: String?, defaultSnapshotSearchId: String?) =
-            BookResultListFragment().apply {
-                this.defaultSearchKeyword = defaultKeyword.orEmpty()
-                this.defaultSnapshotSearchId = defaultSnapshotSearchId.orEmpty()
-            }
-
-        const val TAG = "book-result-list-fragment"
-    }
     private val bookSearchViewModel: BookSearchViewModel by viewModel()
+    private val playStoreReviewHelper: PlayStoreReviewHelper by inject()
 
     private val viewBinding: FragmentSearchListBinding by FragmentViewBinding(
         FragmentSearchListBinding::bind
@@ -110,6 +102,9 @@ class BookResultListFragment :
     private lateinit var searchRecordsBackground: View
     private val searchRecordsAdapter = SearchRecordAdapter(this)
     //endregion
+
+    private var hasUserSeenRankWindow = false
+    private var openResultCounts = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -155,6 +150,10 @@ class BookResultListFragment :
         sendUserIntent(BookSearchUserIntent.OnViewReadyToServe)
         setupUI()
         handleInitialDeepLink()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            hasUserSeenRankWindow = bookSearchViewModel.checkUserHasSeenRankWindow()
+        }
     }
 
     private fun handleInitialDeepLink() {
@@ -500,8 +499,13 @@ class BookResultListFragment :
             ScreenState.NoSharingContentAvailable -> {
                 showToast(getString(R.string.no_shareable_content))
             }
-            ScreenState.ShowUserRankingDialog -> {
-                // TODO
+            is ScreenState.ShowUserRankingDialog -> {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    playStoreReviewHelper.showReviewDialog(requireActivity(), screenState.reviewInfo)
+                    // Reset counts and flags
+                    hasUserSeenRankWindow = true
+                    openResultCounts = 0
+                }
             }
         }
     }
@@ -513,6 +517,37 @@ class BookResultListFragment :
     private fun openBook(book: Book) {
         if (isAdded) {
             (requireActivity() as? BookSearchActivity)?.openBookLink(book)
+            if (!hasUserSeenRankWindow) {
+                openResultCounts++
+            }
+        }
+    }
+
+    fun checkShouldAskUserRankApp() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            if (openResultCounts < POPUP_REVIEW_WINDOW_THRESHOLD) {
+                return@launch
+            }
+
+            val hasUserSeenRankWindow = bookSearchViewModel.checkUserHasSeenRankWindow().also {
+                this@BookResultListFragment.hasUserSeenRankWindow = it
+            }
+
+            if (hasUserSeenRankWindow) {
+                return@launch
+            }
+
+            if (BuildConfig.DEBUG) {
+                Toast.makeText(requireContext(), "Rank Window Should Popup", Toast.LENGTH_SHORT).show()
+            }
+
+            val reviewInfo = runCatching {
+                playStoreReviewHelper.prepareReviewInfo()
+            }.getOrNull()
+
+            if (reviewInfo != null) {
+                sendUserIntent(BookSearchUserIntent.AskUserRankApp(reviewInfo))
+            }
         }
     }
 
@@ -772,5 +807,18 @@ class BookResultListFragment :
         lifecycleScope.launch {
             bookSearchViewModel.userIntents.send(userIntent)
         }
+    }
+
+    companion object {
+        private const val BUNDLE_RECYCLERVIEW_STATE = "BUNDLE_RECYCLERVIEW_STATE"
+        private const val KEY_RECYCLERVIEW_POSITION = "KEY_RECYCLERVIEW_POSITION"
+        private const val POPUP_REVIEW_WINDOW_THRESHOLD = 5
+        fun newInstance(defaultKeyword: String?, defaultSnapshotSearchId: String?) =
+            BookResultListFragment().apply {
+                this.defaultSearchKeyword = defaultKeyword.orEmpty()
+                this.defaultSnapshotSearchId = defaultSnapshotSearchId.orEmpty()
+            }
+
+        const val TAG = "book-result-list-fragment"
     }
 }

@@ -1,12 +1,14 @@
 package liou.rayyuan.ebooksearchtaiwan.di
 
 import liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchViewModel
+import liou.rayyuan.ebooksearchtaiwan.booksearch.review.PlayStoreReviewHelper
 import liou.rayyuan.ebooksearchtaiwan.bookstorereorder.BookStoreReorderViewModel
 import liou.rayyuan.ebooksearchtaiwan.interactor.UserRankingWindowFacade
 import liou.rayyuan.ebooksearchtaiwan.model.*
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import liou.rayyuan.ebooksearchtaiwan.utils.ResourceHelper
 import org.koin.android.ext.koin.androidApplication
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -50,6 +52,9 @@ val appModule = module {
 val appUtilsModule = module {
     factory { ResourceHelper(androidApplication()) }
     factory { QuickChecker(androidApplication()) }
+    single {
+        PlayStoreReviewHelper(androidContext())
+    }
 }
 
 val appModules = listOf(

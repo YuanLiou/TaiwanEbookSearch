@@ -70,6 +70,7 @@ object AppDependencies {
 
     object GooglePlayService {
         const val ADMOB = "com.google.android.gms:play-services-ads-lite:21.5.0"
+        const val IN_APP_REVIEW = "com.google.android.play:review-ktx:2.0.1"
     }
 
     object Koin {

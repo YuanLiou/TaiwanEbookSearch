@@ -4,18 +4,19 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import com.google.zxing.client.android.Intents
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
 import com.rayliu.commonmain.domain.model.Book
+import kotlinx.coroutines.launch
 import liou.rayyuan.chromecustomtabhelper.ChromeCustomTabsHelper
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.R
@@ -42,6 +43,7 @@ class BookSearchActivity :
     private val deeplinkHelper = DeeplinkHelper()
     private var isDualPane: Boolean = false
     private lateinit var contentRouter: Router
+    private var dualPaneSubRouter: Router? = null
     private lateinit var chromeCustomTabHelper: ChromeCustomTabsHelper
 
     private lateinit var barcodeScanningLauncher: ActivityResultLauncher<ScanOptions>
@@ -69,11 +71,12 @@ class BookSearchActivity :
             val appLinkSnapshotSearchId = deeplinkHelper.getSearchId(intent)
             val bookResultListFragment = BookResultListFragment.newInstance(appLinkKeyword, appLinkSnapshotSearchId)
             if (isDualPane) {
-                val subRouter = Router(
+                dualPaneSubRouter = Router(
                     supportFragmentManager,
                     R.id.activity_book_search_nav_host_container
-                )
-                subRouter.addView(bookResultListFragment, BookResultListFragment.TAG, false)
+                ).also {
+                    it.addView(bookResultListFragment, BookResultListFragment.TAG, false)
+                }
             } else {
                 contentRouter.addView(bookResultListFragment, BookResultListFragment.TAG, false)
             }
@@ -82,6 +85,16 @@ class BookSearchActivity :
                 val lastFragmentTag = savedInstanceState.getString(KEY_LAST_FRAGMENT_TAG) ?: return
                 val lastFragment = contentRouter.findFragmentByTag(lastFragmentTag)
                 (lastFragment as? SimpleWebViewFragment)?.onSimpleWebViewActionListener = this
+            }
+        }
+
+        if (!userPreferenceManager.isPreferCustomTab()) {
+            lifecycleScope.launch {
+                contentRouter.backStackCountsPublisher().collect { backStackCounts ->
+                    if (backStackCounts == 0) {
+                        checkShouldAskUserRankApp()
+                    }
+                }
             }
         }
     }
@@ -116,10 +129,7 @@ class BookSearchActivity :
 
     private fun handleIntent() {
         val searchKeyword = deeplinkHelper.getSearchKeyword(intent)
-        Log.i("BookSearchActivity", "Search Keyword is = $searchKeyword")
-
         val searchId = deeplinkHelper.getSearchId(intent)
-        Log.i("BookSearchActivity", "Search Id is = $searchId")
 
         if (!searchKeyword.isNullOrEmpty()) {
             searchBook(searchKeyword)
@@ -130,11 +140,7 @@ class BookSearchActivity :
 
     private fun showSearchSnapshot(searchId: String) {
         if (isDualPane) {
-            val subRouter = Router(
-                supportFragmentManager,
-                R.id.activity_book_search_nav_host_container
-            )
-            val bookSearchFragment = subRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
+            val bookSearchFragment = dualPaneSubRouter?.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
             bookSearchFragment?.showSearchSnapshot(searchId)
         } else {
             val bookSearchFragment = contentRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
@@ -144,11 +150,7 @@ class BookSearchActivity :
 
     private fun searchBook(keyword: String) {
         if (isDualPane) {
-            val subRouter = Router(
-                supportFragmentManager,
-                R.id.activity_book_search_nav_host_container
-            )
-            val bookSearchFragment = subRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
+            val bookSearchFragment = dualPaneSubRouter?.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
             bookSearchFragment?.searchWithText(keyword)
         } else {
             val bookSearchFragment = contentRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
@@ -164,6 +166,7 @@ class BookSearchActivity :
                 userPreferenceManager.getPreferBrowser(),
                 "https://taiwan-ebook-lover.github.io"
             )
+            checkShouldAskUserRankApp()
         }
     }
 
@@ -197,6 +200,18 @@ class BookSearchActivity :
         startActivity(intent)
     }
     //endregion
+
+    private fun checkShouldAskUserRankApp() {
+        if (isDualPane) {
+            val bookSearchFragment =
+                dualPaneSubRouter?.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
+            bookSearchFragment?.checkShouldAskUserRankApp()
+        } else {
+            val bookSearchFragment =
+                contentRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
+            bookSearchFragment?.checkShouldAskUserRankApp()
+        }
+    }
 
     private fun getThemePrimaryColor(): Int {
         val typedValue = TypedValue()
@@ -256,11 +271,7 @@ class BookSearchActivity :
 
     private fun getBookResultFragment(): BookResultListFragment? {
         return if (isDualPane) {
-            val subRouter = Router(
-                supportFragmentManager,
-                R.id.activity_book_search_nav_host_container
-            )
-            subRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
+            dualPaneSubRouter?.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
         } else {
             contentRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
         }
