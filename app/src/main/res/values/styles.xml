@@ -1,12 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/blue_green_you</item>
         <item name="colorPrimaryDark">@color/blue_green_dark_you</item>
         <item name="colorAccent">@color/blue_green_you</item>
         <item name="searchBoxColor">@color/pure_white</item>
-        <item name="android:textViewStyle">@style/CustomLightTextViewStyle</item>
+        <item name="android:textViewStyle">@style/CustomTextViewStyle</item>
         <item name="reorderListBackgroundColor">@color/pure_white</item>
         <item name="reorderHandlerItemDrawable">@drawable/ic_baseline_reorder_24px</item>
         <item name="android:windowLightStatusBar">true</item>
@@ -21,14 +21,14 @@
         <item name="checkboxStyle">@style/CustomCheckBoxStyle</item>
         <item name="android:statusBarColor">@color/light_blue_green_you</item>
         <item name="alertDialogTheme">@style/AppTheme.AlertDialogTheme</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MaterialAlertDialog.Rounded</item>
+        <item name="materialAlertDialogTheme">@style/AppTheme.AlertDialogTheme</item>
     </style>
 
     <style name="FullScreenTheme" parent="AppTheme" >
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
-    <style name="NightTheme" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="NightTheme" parent="Theme.Material3.Dark.NoActionBar">
         <item name="colorPrimary">@color/blue_green_you</item>
         <item name="colorPrimaryDark">@color/blue_green_dark_you</item>
         <item name="colorAccent">@color/blue_green_you</item>
@@ -46,26 +46,22 @@
         <item name="toolbarStyle">@style/Widget.App.Dark.Toolbar</item>
         <item name="android:statusBarColor">@color/darker_gray_28</item>
         <item name="alertDialogTheme">@style/AppTheme.AlertDialogTheme</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MaterialAlertDialog.Rounded</item>
+        <item name="materialAlertDialogTheme">@style/AppTheme.AlertDialogTheme</item>
     </style>
 
     <!-- TextView Styles -->
-    <style name="CustomTextViewStyle" parent="android:Widget.Material.TextView">
-        <item name="android:hyphenationFrequency" tools:targetApi="m">none</item>
-    </style>
-
-    <style name="CustomLightTextViewStyle" parent="android:Widget.Material.Light.TextView">
-        <item name="android:hyphenationFrequency" tools:targetApi="m">none</item>
+    <style name="CustomTextViewStyle" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:hyphenationFrequency">none</item>
     </style>
 
     <!-- Alert Dialog -->
-    <style name="ThemeOverlay.MaterialAlertDialog.Rounded" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+    <style name="ThemeOverlay.MaterialAlertDialog.Rounded" parent="@style/ThemeOverlay.Material3.MaterialAlertDialog">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearance.MaterialAlertDialog.Rounded</item>
         <item name="shapeAppearance">@style/ShapeAppearance.MaterialAlertDialog.Rounded</item>
         <item name="alertDialogStyle">@style/MaterialAlertDialog.Rounded</item>
     </style>
 
-    <style name="MaterialAlertDialog.Rounded" parent="MaterialAlertDialog.MaterialComponents">
+    <style name="MaterialAlertDialog.Rounded" parent="MaterialAlertDialog.Material3">
         <item name="shapeAppearance">@style/ShapeAppearance.MaterialAlertDialog.Rounded</item>
     </style>
 
@@ -75,23 +71,23 @@
     </style>
 
     <!-- Legacy AlertDialog -->
-    <style name="AppTheme.AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+    <style name="AppTheme.AlertDialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog.Centered">
         <item name="dialogCornerRadius">@dimen/round_corner</item>
     </style>
 
     <!-- Light theme -->
     <!-- Toolbar theme -->
-    <style name="Widget.App.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+    <style name="Widget.App.Toolbar" parent="Widget.Material3.Toolbar.Surface">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.Toolbar</item>
         <item name="titleTextAppearance">@style/TextAppearance.App.Headline6</item>
         <item name="subtitleTextAppearance">@style/TextAppearance.App.Subtitle1</item>
     </style>
 
-    <style name="TextAppearance.App.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
+    <style name="TextAppearance.App.Headline6" parent="TextAppearance.Material3.HeadlineSmall">
         <item name="android:textColor">@color/darker_gray_3B</item>
     </style>
 
-    <style name="TextAppearance.App.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="TextAppearance.App.Subtitle1" parent="TextAppearance.Material3.ActionBar.Subtitle">
         <item name="android:textColor">@color/darker_gray_3B</item>
     </style>
 
@@ -102,23 +98,23 @@
     </style>
 
     <!-- checkbox -->
-    <style name="CustomCheckBoxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
+    <style name="CustomCheckBoxStyle" parent="Widget.Material3.CompoundButton.CheckBox">
         <item name="buttonTint">@color/custom_check_box</item>
     </style>
 
     <!-- dark theme -->
     <!-- Toolbar theme -->
-    <style name="Widget.App.Dark.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+    <style name="Widget.App.Dark.Toolbar" parent="Widget.Material3.Toolbar.Surface">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.Dark.Toolbar</item>
         <item name="titleTextAppearance">@style/TextAppearance.App.Dark.Headline6</item>
         <item name="subtitleTextAppearance">@style/TextAppearance.App.Dark.Subtitle1</item>
     </style>
 
-    <style name="TextAppearance.App.Dark.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
+    <style name="TextAppearance.App.Dark.Headline6" parent="TextAppearance.Material3.HeadlineSmall">
         <item name="android:textColor">@color/pure_white</item>
     </style>
 
-    <style name="TextAppearance.App.Dark.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="TextAppearance.App.Dark.Subtitle1" parent="TextAppearance.Material3.ActionBar.Subtitle">
         <item name="android:textColor">@color/pure_white</item>
         <item name="android:textSize">14sp</item>
     </style>
@@ -130,7 +126,7 @@
     </style>
 
     <!-- checkbox -->
-    <style name="CustomNightCheckBoxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
+    <style name="CustomNightCheckBoxStyle" parent="Widget.Material3.CompoundButton.CheckBox">
         <item name="buttonTint">@color/custom_dark_check_box</item>
     </style>
 
