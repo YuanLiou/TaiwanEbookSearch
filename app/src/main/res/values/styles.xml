@@ -5,6 +5,10 @@
         <item name="colorPrimary">@color/blue_green_you</item>
         <item name="colorPrimaryDark">@color/blue_green_dark_you</item>
         <item name="colorAccent">@color/blue_green_you</item>
+
+        <item name="colorSecondary">@color/blue_green_you</item>
+        <item name="colorPrimaryVariant">@color/blue_green_dark_you</item>
+
         <item name="searchBoxColor">@color/pure_white</item>
         <item name="android:textViewStyle">@style/CustomTextViewStyle</item>
         <item name="reorderListBackgroundColor">@color/pure_white</item>
@@ -20,8 +24,9 @@
         <item name="colorControlNormal">@color/darker_gray_3B</item>
         <item name="checkboxStyle">@style/CustomCheckBoxStyle</item>
         <item name="android:statusBarColor">@color/light_blue_green_you</item>
-        <item name="alertDialogTheme">@style/AppTheme.AlertDialogTheme</item>
-        <item name="materialAlertDialogTheme">@style/AppTheme.AlertDialogTheme</item>
+        <item name="alertDialogTheme">@style/ThemeOverlay.MaterialAlertDialog.Rounded</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MaterialAlertDialog.Rounded</item>
+        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle.Light</item>
     </style>
 
     <style name="FullScreenTheme" parent="AppTheme" >
@@ -32,6 +37,10 @@
         <item name="colorPrimary">@color/blue_green_you</item>
         <item name="colorPrimaryDark">@color/blue_green_dark_you</item>
         <item name="colorAccent">@color/blue_green_you</item>
+
+        <item name="colorSecondary">@color/blue_green_you</item>
+        <item name="colorPrimaryVariant">@color/blue_green_dark_you</item>
+
         <item name="android:textColorTertiary">@color/white_BD</item>
         <item name="searchBoxColor">@color/gray</item>
         <item name="android:textViewStyle">@style/CustomTextViewStyle</item>
@@ -45,8 +54,9 @@
         <item name="checkboxStyle">@style/CustomNightCheckBoxStyle</item>
         <item name="toolbarStyle">@style/Widget.App.Dark.Toolbar</item>
         <item name="android:statusBarColor">@color/darker_gray_28</item>
-        <item name="alertDialogTheme">@style/AppTheme.AlertDialogTheme</item>
-        <item name="materialAlertDialogTheme">@style/AppTheme.AlertDialogTheme</item>
+        <item name="alertDialogTheme">@style/ThemeOverlay.MaterialAlertDialog.Rounded</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MaterialAlertDialog.Rounded</item>
+        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle.Dark</item>
     </style>
 
     <!-- TextView Styles -->
@@ -55,7 +65,7 @@
     </style>
 
     <!-- Alert Dialog -->
-    <style name="ThemeOverlay.MaterialAlertDialog.Rounded" parent="@style/ThemeOverlay.Material3.MaterialAlertDialog">
+    <style name="ThemeOverlay.MaterialAlertDialog.Rounded" parent="@style/ThemeOverlay.Material3.MaterialAlertDialog.Centered">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearance.MaterialAlertDialog.Rounded</item>
         <item name="shapeAppearance">@style/ShapeAppearance.MaterialAlertDialog.Rounded</item>
         <item name="alertDialogStyle">@style/MaterialAlertDialog.Rounded</item>
@@ -68,11 +78,6 @@
     <style name="ShapeAppearance.MaterialAlertDialog.Rounded" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">@dimen/round_corner</item>
-    </style>
-
-    <!-- Legacy AlertDialog -->
-    <style name="AppTheme.AlertDialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog.Centered">
-        <item name="dialogCornerRadius">@dimen/round_corner</item>
     </style>
 
     <!-- Light theme -->
@@ -94,12 +99,18 @@
     <style name="ThemeOverlay.App.Toolbar" parent="">
         <item name="colorPrimary">@color/light_blue_green_you</item> <!-- brand color -->
         <item name="colorPrimaryVariant">@color/light_blue_green_you</item> <!-- brand color in a light one -->
+        <item name="colorSurface">@color/light_blue_green_you</item> <!-- M3 brand color -->
         <item name="colorOnPrimary">@color/darker_gray_3B</item> <!-- options and text colors -->
     </style>
 
     <!-- checkbox -->
     <style name="CustomCheckBoxStyle" parent="Widget.Material3.CompoundButton.CheckBox">
         <item name="buttonTint">@color/custom_check_box</item>
+    </style>
+
+    <!-- Dropdown menu -->
+    <style name="OverflowMenuStyle.Light" parent="Widget.MaterialComponents.PopupMenu.Overflow">
+        <item name="android:popupBackground">@drawable/menu_dropdown_background</item>
     </style>
 
     <!-- dark theme -->
@@ -123,11 +134,17 @@
         <item name="colorPrimary">?android:attr/colorBackground</item>
         <item name="colorPrimaryVariant">@color/light_blue_green_you</item>
         <item name="colorOnPrimary">@color/pure_white</item>
+        <item name="colorSurface">?android:attr/colorBackground</item>
     </style>
 
     <!-- checkbox -->
     <style name="CustomNightCheckBoxStyle" parent="Widget.Material3.CompoundButton.CheckBox">
         <item name="buttonTint">@color/custom_dark_check_box</item>
+    </style>
+
+    <!-- Dropdown menu -->
+    <style name="OverflowMenuStyle.Dark" parent="Widget.MaterialComponents.PopupMenu.Overflow">
+        <item name="android:popupBackground">@drawable/menu_dropdown_dark_background</item>
     </style>
 
 </resources>
