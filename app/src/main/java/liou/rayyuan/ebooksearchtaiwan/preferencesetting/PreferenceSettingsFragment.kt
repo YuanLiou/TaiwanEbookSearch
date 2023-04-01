@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -14,6 +15,7 @@ import kotlinx.coroutines.*
 import liou.rayyuan.ebooksearchtaiwan.R
 import com.rayliu.commonmain.domain.service.UserPreferenceManager
 import com.rayliu.commonmain.data.dao.SearchRecordDao
+import liou.rayyuan.ebooksearchtaiwan.preferencesetting.widget.MaterialListPreference
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import org.koin.android.ext.android.inject
 
@@ -136,6 +138,25 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
     override fun onDestroy() {
         callback = null
         super.onDestroy()
+    }
+
+    override fun onDisplayPreferenceDialog(preference: Preference) {
+        if (preference is ListPreference) {
+            showListPreferenceDialog(preference)
+        } else {
+            super.onDisplayPreferenceDialog(preference)
+        }
+    }
+
+    private fun showListPreferenceDialog(preference: ListPreference) {
+        val dialogFragment = MaterialListPreference()
+        dialogFragment.arguments = bundleOf(
+            "key" to preference.key
+        )
+        // We must call setTargetFragment in PreferenceFragment
+        //  issue: https://issuetracker.google.com/issues/181793702
+        dialogFragment.setTargetFragment(this, 0)
+        dialogFragment.show(parentFragmentManager, "androidx.preference.PreferenceFragment.DIALOG")
     }
 
     //region SharedPreferences.OnSharedPreferenceChangeListener
