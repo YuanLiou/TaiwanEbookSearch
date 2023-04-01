@@ -53,7 +53,7 @@
         <item name="backToTopButtonDrawable">@drawable/material_rounded_button_dark_mode</item>
         <item name="checkboxStyle">@style/CustomNightCheckBoxStyle</item>
         <item name="toolbarStyle">@style/Widget.App.Dark.Toolbar</item>
-        <item name="android:statusBarColor">@color/darker_gray_28</item>
+        <item name="android:statusBarColor">?android:attr/colorBackground</item>
         <item name="alertDialogTheme">@style/ThemeOverlay.MaterialAlertDialog.Rounded</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.MaterialAlertDialog.Rounded</item>
         <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle.Dark</item>
