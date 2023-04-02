@@ -130,6 +130,7 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:${AppSettings.DESUGAR_LIB_VERSION}")
     implementation(project(":commonMain"))
     implementation(AppDependencies.CUSTOM_TAB)
+    implementation(AppDependencies.THREE_TEN)
 
     // region Android X Libraries
     AppDependencies.JetPacks.Libs.forEach {

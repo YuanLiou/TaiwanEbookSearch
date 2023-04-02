@@ -12,7 +12,7 @@ import com.rayliu.commonmain.data.mapper.SearchRecordMapper
 import com.rayliu.commonmain.domain.model.SearchRecord
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.time.OffsetDateTime
+import org.threeten.bp.OffsetDateTime
 
 class SearchRecordRepositoryImpl(
     private val searchRecordMapper: SearchRecordMapper,

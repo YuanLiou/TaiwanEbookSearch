@@ -85,6 +85,7 @@ android {
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:${AppSettings.DESUGAR_LIB_VERSION}")
     implementation(AppDependencies.CUSTOM_TAB)
+    implementation(AppDependencies.THREE_TEN)
 
     // Kotlin
     implementation(AppDependencies.Kotlin.COROUTINE)
@@ -102,8 +103,5 @@ dependencies {
 
     // Koin
     implementation(AppDependencies.Koin.ANDROID)
-
     testImplementation(AppDependencies.Test.JUNIT)
-    androidTestImplementation(AppDependencies.Test.RUNNER)
-    androidTestImplementation(AppDependencies.Test.ESPRESSO)
 }

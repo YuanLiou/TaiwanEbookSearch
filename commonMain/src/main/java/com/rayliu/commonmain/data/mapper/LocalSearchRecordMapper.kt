@@ -3,7 +3,6 @@ package com.rayliu.commonmain.data.mapper
 import com.rayliu.commonmain.data.dto.LocalSearchRecord
 import com.rayliu.commonmain.data.mapper.basic.Mapper
 import com.rayliu.commonmain.domain.model.SearchRecord
-import java.time.OffsetDateTime
 
 class LocalSearchRecordMapper : Mapper<SearchRecord, LocalSearchRecord> {
     override fun map(input: SearchRecord): LocalSearchRecord {

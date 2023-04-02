@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.room.*
 import com.rayliu.commonmain.data.dto.LocalSearchRecord
-import java.time.OffsetDateTime
+import org.threeten.bp.OffsetDateTime
 
 @Dao
 interface SearchRecordDao {
