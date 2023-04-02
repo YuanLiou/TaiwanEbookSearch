@@ -1,13 +1,12 @@
 package com.rayliu.commonmain.data.dto
 
 import android.os.Parcelable
-import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
-import java.time.OffsetDateTime
 import kotlinx.parcelize.IgnoredOnParcel
+import org.threeten.bp.OffsetDateTime
 
 @Parcelize
 @Entity(tableName = "search_records")

@@ -1,8 +1,8 @@
 package com.rayliu.commonmain
 
 import androidx.room.TypeConverter
-import java.time.OffsetDateTime
-import java.time.format.DateTimeFormatter
+import org.threeten.bp.OffsetDateTime
+import org.threeten.bp.format.DateTimeFormatter
 
 object OffsetDateTypeConverter {
     private val formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
