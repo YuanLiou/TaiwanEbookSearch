@@ -5,6 +5,7 @@ object AppSettings {
     const val MIN_SDK_VERSION = 23
     const val TARGET_SDK_VERSION = 33
     const val AGP_VERSION = "7.4.2"
-    const val KOTLIN_VERSION = "1.8.10"
+    const val KOTLIN_VERSION = "1.8.20"
     const val DESUGAR_LIB_VERSION = "2.0.3"
+    const val KSP_VERSION = "1.8.20-1.0.11"
 }

@@ -1,44 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/adapter_search_record_rootview"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/search_records_item_height"
+    android:background="?selectableItemBackground"
     >
 
-    <data>
-        <variable
-            name="search_record"
-            type="com.rayliu.commonmain.domain.model.SearchRecord"
-            />
-    </data>
-
-    <FrameLayout
-        android:id="@+id/adapter_search_record_rootview"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/adapter_search_record_text"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/search_records_item_height"
-        android:background="?selectableItemBackground"
-        >
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textSize="16sp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@{search_record.text}"
+        tools:text="@tools:sample/cities"
+        />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/adapter_search_record_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textSize="16sp"
-            android:paddingStart="16dp"
-            android:text="@{search_record.text}"
-            tools:text="@tools:sample/cities"
-            />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/adapter_search_record_close_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|center_vertical"
+        android:padding="12dp"
+        android:src="@drawable/ic_baseline_clear_24px"
+        android:background="?selectableItemBackgroundBorderless"
+        app:tint="@color/dark_gray"
+        />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/adapter_search_record_close_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
-            android:padding="12dp"
-            android:src="@drawable/ic_baseline_clear_24px"
-            android:background="?selectableItemBackgroundBorderless"
-            app:tint="@color/dark_gray"
-            />
-
-    </FrameLayout>
-</layout>
+</FrameLayout>

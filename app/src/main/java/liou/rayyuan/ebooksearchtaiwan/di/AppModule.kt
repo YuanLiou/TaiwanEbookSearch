@@ -1,5 +1,7 @@
 package liou.rayyuan.ebooksearchtaiwan.di
 
+import android.content.ClipboardManager
+import android.content.Context
 import com.rayliu.commonmain.di.dataModule
 import com.rayliu.commonmain.di.jsonModule
 import liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchViewModel
@@ -7,6 +9,7 @@ import liou.rayyuan.ebooksearchtaiwan.booksearch.review.PlayStoreReviewHelper
 import liou.rayyuan.ebooksearchtaiwan.bookstorereorder.BookStoreReorderViewModel
 import liou.rayyuan.ebooksearchtaiwan.interactor.UserRankingWindowFacade
 import liou.rayyuan.ebooksearchtaiwan.model.*
+import liou.rayyuan.ebooksearchtaiwan.utils.ClipboardHelper
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import liou.rayyuan.ebooksearchtaiwan.utils.ResourceHelper
 import org.koin.android.ext.koin.androidApplication
@@ -32,7 +35,8 @@ val appModule = module {
         quickChecker = get(),
         deleteSearchRecordUseCase = get(),
         resourceHelper = get(),
-        rankingWindowFacade = get()
+        rankingWindowFacade = get(),
+        clipboardHelper = get()
     ) }
 
     viewModel {
@@ -56,6 +60,10 @@ val appUtilsModule = module {
     factory { QuickChecker(androidApplication()) }
     single {
         PlayStoreReviewHelper(androidContext())
+    }
+    factory {
+        val clipboardManager = androidContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        ClipboardHelper(clipboardManager)
     }
 }
 

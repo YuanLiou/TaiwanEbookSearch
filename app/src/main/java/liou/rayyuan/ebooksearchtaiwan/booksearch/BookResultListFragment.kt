@@ -95,6 +95,7 @@ class BookResultListFragment :
     private lateinit var hintText: TextView
     private lateinit var backToTopButton: ImageButton
     private lateinit var shareResultMenu: MenuItem
+    private lateinit var copyUrlMenu: MenuItem
 
     private lateinit var searchRecordsRootView: FrameLayout
     private lateinit var searchRecordsCardView: CardView
@@ -292,6 +293,9 @@ class BookResultListFragment :
                 shareResultMenu = menu.findItem(R.id.search_page_menu_action_share).also {
                     it.isVisible = bookSearchViewModel.hasPreviousSearch
                 }
+                copyUrlMenu = menu.findItem(R.id.search_page_menu_action_copy_url).also {
+                    it.isVisible = bookSearchViewModel.hasPreviousSearch
+                }
             }
 
             override fun onMenuItemSelected(item: MenuItem): Boolean {
@@ -304,6 +308,10 @@ class BookResultListFragment :
                     }
                     R.id.search_page_menu_action_share -> {
                         sendUserIntent(BookSearchUserIntent.ShareSnapshot)
+                        true
+                    }
+                    R.id.search_page_menu_action_copy_url -> {
+                        sendUserIntent(BookSearchUserIntent.CopySnapshotUrlToClipboard)
                         true
                     }
                     else -> true
@@ -325,6 +333,12 @@ class BookResultListFragment :
 
     private fun initScrollToTopButton() {
         backToTopButton.setOnClickListener(this)
+        backToTopButton.setOnLongClickListener(object : View.OnLongClickListener {
+            override fun onLongClick(view: View?): Boolean {
+                focusAndCleanBookSearchEditText()
+                return true
+            }
+        })
 
         if (!isAdded) {
             return
@@ -377,6 +391,10 @@ class BookResultListFragment :
                     shareResultMenu.setVisible(false)
                 }
 
+                if (this::copyUrlMenu.isInitialized) {
+                    copyUrlMenu.setVisible(false)
+                }
+
                 if (bookResultViewState.scrollToTop) {
                     scrollToTop()
                 }
@@ -406,6 +424,10 @@ class BookResultListFragment :
                     shareResultMenu.setVisible(true)
                 }
 
+                if (this::copyUrlMenu.isInitialized) {
+                    copyUrlMenu.setVisible(true)
+                }
+
                 if (bookResultViewState.scrollPosition > 0) {
                     scrollToPosition(bookResultViewState.scrollPosition)
                 }
@@ -422,6 +444,10 @@ class BookResultListFragment :
 
                 if (this::shareResultMenu.isInitialized) {
                     shareResultMenu.setVisible(false)
+                }
+
+                if (this::copyUrlMenu.isInitialized) {
+                    copyUrlMenu.setVisible(false)
                 }
             }
             is BookResultViewState.ShowSearchRecordList -> {
@@ -492,7 +518,9 @@ class BookResultListFragment :
             is ScreenState.ShowToastMessage -> {
                 if (screenState.stringResId != BookSearchViewModel.NO_MESSAGE) {
                     showToast(getString(screenState.stringResId))
-                } else {
+                    return
+                }
+                if (screenState.message != null) {
                     showToast(screenState.message)
                 }
             }
@@ -579,6 +607,13 @@ class BookResultListFragment :
             val inputManager: InputMethodManager =
                 requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputManager.hideSoftInputFromWindow(searchEditText.windowToken, 0)
+        }
+    }
+
+    private fun focusAndCleanBookSearchEditText() {
+        if (isAdded) {
+            searchEditText.setText("")
+            focusBookSearchEditText()
         }
     }
 

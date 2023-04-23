@@ -4,8 +4,15 @@
     >
 
     <item
-        android:id="@+id/search_page_menu_action_share"
+        android:id="@+id/search_page_menu_action_copy_url"
         android:orderInCategory="101"
+        app:showAsAction="never"
+        android:title="@string/menu_copy_snapshot"
+        />
+
+    <item
+        android:id="@+id/search_page_menu_action_share"
+        android:orderInCategory="102"
         app:showAsAction="never"
         android:title="@string/menu_share_result"
         />
@@ -14,7 +21,7 @@
         android:id="@+id/search_page_menu_action_setting"
         app:showAsAction="never"
         android:title="@string/menu_setting"
-        android:orderInCategory="102"
+        android:orderInCategory="103"
         />
 
 </menu>

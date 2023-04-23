@@ -22,8 +22,8 @@ class ViewEffect<out T>(private val content: T) {
 }
 
 class ViewEffectObserver<T>(private val onEventUnhandledContent: (T) -> Unit) : Observer<ViewEffect<T>> {
-    override fun onChanged(effect: ViewEffect<T>?) {
-        effect?.getContentIfNotHandled()?.let {
+    override fun onChanged(value: ViewEffect<T>) {
+        value.getContentIfNotHandled()?.let {
             onEventUnhandledContent(it)
         }
     }
