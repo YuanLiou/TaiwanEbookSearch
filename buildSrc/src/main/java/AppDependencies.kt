@@ -1,27 +1,26 @@
 object AppDependencies {
     const val CUSTOM_TAB = "com.github.YuanLiou:chrome-custom-tab-helper:1.1.1"
-    const val COIL = "io.coil-kt:coil:2.2.2"
+    const val COIL = "io.coil-kt:coil:2.3.0"
     const val THREE_TEN = "com.jakewharton.threetenabp:threetenabp:1.4.6"
 
     object JetPacks {
         const val APPCOMPAT = "androidx.appcompat:appcompat:1.6.1"
-        const val CORE = "androidx.core:core-ktx:1.9.0"
-        const val FRAGMENT = "androidx.fragment:fragment-ktx:1.5.5"
-        const val ACTIVITY = "androidx.activity:activity-ktx:1.6.1"
-        const val RECYCELRVIEW = "androidx.recyclerview:recyclerview:1.2.1"
-        const val CARDVIEW = "androidx.cardview:cardview:1.0.0"
+        const val CORE = "androidx.core:core-ktx:1.10.0"
+        const val FRAGMENT = "androidx.fragment:fragment-ktx:1.5.7"
+        const val ACTIVITY = "androidx.activity:activity-ktx:1.7.1"
+        const val RECYCELRVIEW = "androidx.recyclerview:recyclerview:1.3.0"
         const val PREFERENCE = "androidx.preference:preference-ktx:1.2.0"
         const val MATERIAL_DESIGN = "com.google.android.material:material:1.8.0"
         const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:2.1.4"
         const val DATASTORE_PREFERENCE = "androidx.datastore:datastore-preferences:1.0.0"
         // ViewModel and LiveData
-        private const val lifecycleLibraryVersion = "2.5.1"
+        private const val lifecycleLibraryVersion = "2.6.1"
         const val LIFECYCLE = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleLibraryVersion"
         // Java8 support for Lifecycles
         const val LIFECYCLE_JAVA8 = "androidx.lifecycle:lifecycle-common-java8:$lifecycleLibraryVersion"
 
         // Room
-        private const val roomVersion = "2.5.0"
+        private const val roomVersion = "2.5.1"
         const val ROOM = "androidx.room:room-runtime:$roomVersion"
         const val ROOM_COMPILER = "androidx.room:room-compiler:$roomVersion"
         const val PAGING = "androidx.paging:paging-runtime:3.1.1"
@@ -31,7 +30,6 @@ object AppDependencies {
             FRAGMENT,
             ACTIVITY,
             RECYCELRVIEW,
-            CARDVIEW,
             PREFERENCE,
             MATERIAL_DESIGN,
             CONSTRAINT_LAYOUT,
@@ -51,8 +49,8 @@ object AppDependencies {
 
     object Kotlin {
         const val COROUTINE = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
-        const val SERIALIZATION = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
-        private const val ktorVersion = "2.2.4"
+        const val SERIALIZATION = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
+        private const val ktorVersion = "2.3.0"
         const val KTOR_CLIENT = "io.ktor:ktor-client-cio:$ktorVersion"
         const val KTOR_CLIENT_CONTENT_NEGOTIATION = "io.ktor:ktor-client-content-negotiation:$ktorVersion"
         const val KTOR_CLIENT_SERIALIZATION = "io.ktor:ktor-serialization-kotlinx-json:$ktorVersion"
@@ -60,7 +58,7 @@ object AppDependencies {
     }
 
     object Firebase {
-        const val BOM = "com.google.firebase:firebase-bom:31.2.2"
+        const val BOM = "com.google.firebase:firebase-bom:31.5.0"
         const val ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
         const val CRASHLYTICS = "com.google.firebase:firebase-crashlytics-ktx"
         val Libs = listOf(
@@ -70,12 +68,12 @@ object AppDependencies {
     }
 
     object GooglePlayService {
-        const val ADMOB = "com.google.android.gms:play-services-ads-lite:21.5.0"
+        const val ADMOB = "com.google.android.gms:play-services-ads-lite:22.0.0"
         const val IN_APP_REVIEW = "com.google.android.play:review-ktx:2.0.1"
     }
 
     object Koin {
-        private const val koin_version = "3.3.3"
+        private const val koin_version = "3.4.0"
         const val ANDROID = "io.insert-koin:koin-android:$koin_version"
     }
 

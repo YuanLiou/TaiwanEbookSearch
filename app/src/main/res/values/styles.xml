@@ -27,6 +27,7 @@
         <item name="alertDialogTheme">@style/ThemeOverlay.MaterialAlertDialog.Rounded</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.MaterialAlertDialog.Rounded</item>
         <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle.Light</item>
+        <item name="materialCardViewStyle">@style/BookCardView</item>
     </style>
 
     <style name="FullScreenTheme" parent="AppTheme" >
@@ -57,6 +58,7 @@
         <item name="alertDialogTheme">@style/ThemeOverlay.MaterialAlertDialog.Rounded</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.MaterialAlertDialog.Rounded</item>
         <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle.Dark</item>
+        <item name="materialCardViewStyle">@style/BookCardView.Dark</item>
     </style>
 
     <!-- TextView Styles -->
@@ -126,6 +128,10 @@
         <item name="android:popupBackground">@drawable/menu_dropdown_background</item>
     </style>
 
+    <style name="BookCardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/pure_white</item>
+    </style>
+
     <!-- dark theme -->
     <!-- Toolbar theme -->
     <style name="Widget.App.Dark.Toolbar" parent="Widget.Material3.Toolbar.Surface">
@@ -160,4 +166,7 @@
         <item name="android:popupBackground">@drawable/menu_dropdown_dark_background</item>
     </style>
 
+    <style name="BookCardView.Dark" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/tundora</item>
+    </style>
 </resources>
