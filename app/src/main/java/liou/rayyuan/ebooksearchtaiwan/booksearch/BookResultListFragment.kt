@@ -325,6 +325,12 @@ class BookResultListFragment :
 
     private fun initScrollToTopButton() {
         backToTopButton.setOnClickListener(this)
+        backToTopButton.setOnLongClickListener(object : View.OnLongClickListener {
+            override fun onLongClick(view: View?): Boolean {
+                focusAndCleanBookSearchEditText()
+                return true
+            }
+        })
 
         if (!isAdded) {
             return
@@ -579,6 +585,13 @@ class BookResultListFragment :
             val inputManager: InputMethodManager =
                 requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputManager.hideSoftInputFromWindow(searchEditText.windowToken, 0)
+        }
+    }
+
+    private fun focusAndCleanBookSearchEditText() {
+        if (isAdded) {
+            searchEditText.setText("")
+            focusBookSearchEditText()
         }
     }
 
