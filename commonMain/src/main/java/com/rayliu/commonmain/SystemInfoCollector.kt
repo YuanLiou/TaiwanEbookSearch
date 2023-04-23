@@ -12,5 +12,5 @@ object SystemInfoCollector {
 
     private fun getAndroidDeviceName(): String = Build.MODEL
 
-    private fun getApplicationVersionName(): String = "2.1.0"
+    private fun getApplicationVersionName(): String = "2.1.1"
 }
