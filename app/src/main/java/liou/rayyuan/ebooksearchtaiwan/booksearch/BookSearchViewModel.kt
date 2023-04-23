@@ -37,6 +37,7 @@ import liou.rayyuan.ebooksearchtaiwan.interactor.UserRankingWindowFacade
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.uimodel.BookUiModel
 import liou.rayyuan.ebooksearchtaiwan.uimodel.asUiModel
+import liou.rayyuan.ebooksearchtaiwan.utils.ClipboardHelper
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import liou.rayyuan.ebooksearchtaiwan.utils.ResourceHelper
 import liou.rayyuan.ebooksearchtaiwan.view.ViewEffect
@@ -55,7 +56,8 @@ class BookSearchViewModel(
     private val quickChecker: QuickChecker,
     private val deleteSearchRecordUseCase: DeleteSearchRecordUseCase,
     private val resourceHelper: ResourceHelper,
-    private val rankingWindowFacade: UserRankingWindowFacade
+    private val rankingWindowFacade: UserRankingWindowFacade,
+    private val clipboardHelper: ClipboardHelper
 ) : ViewModel(),
     IModel<BookResultViewState, BookSearchUserIntent> {
     companion object {
@@ -133,6 +135,9 @@ class BookSearchViewModel(
                     }
                     BookSearchUserIntent.RankAppWindowHasShown -> {
                         rankingWindowFacade.saveUserHasSeenRankWindow()
+                    }
+                    BookSearchUserIntent.CopySnapshotUrlToClipboard -> {
+                        copySnapshotToClipboard()
                     }
                 }
             }
@@ -351,6 +356,19 @@ class BookSearchViewModel(
     }
 
     private fun shareCurrentSnapshot() {
+        generateSnapshotUrl { targetUrl ->
+            updateScreen(BookResultViewState.ShareCurrentPageSnapshot(targetUrl))
+        }
+    }
+
+    private fun copySnapshotToClipboard() {
+        generateSnapshotUrl { targetUrl ->
+            clipboardHelper.addToClipboard(targetUrl)
+            sendViewEffect(ScreenState.ShowToastMessage(R.string.add_to_clipboard_successful))
+        }
+    }
+
+    private fun generateSnapshotUrl(action: (String) -> Unit) {
         val currentBookStore = bookStores ?: run {
             sendViewEffect(ScreenState.NoSharingContentAvailable)
             return
@@ -359,7 +377,7 @@ class BookSearchViewModel(
         val searchId = currentBookStore.searchId
         if (searchId.isNotEmpty()) {
             val targetUrl = resourceHelper.getString(R.string.ebook_snapshot_url, searchId)
-            updateScreen(BookResultViewState.ShareCurrentPageSnapshot(targetUrl))
+            action(targetUrl)
         }
     }
 

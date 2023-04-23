@@ -70,4 +70,6 @@
     <string name="error_site_is_not_online">目前搜尋服務異常</string>
     <string name="error_result_is_failed">此次搜尋任務失敗</string>
     <string name="no_shareable_content">沒有可以分享的結果</string>
+    <string name="menu_copy_snapshot">複製快照網址</string>
+    <string name="add_to_clipboard_successful">已將快照網址加入剪貼簿</string>
 </resources>

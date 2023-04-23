@@ -10,6 +10,7 @@ sealed class BookSearchUserIntent : IUserIntent {
     data class ShowSearchSnapshot(val searchId: String) : BookSearchUserIntent()
     data class DeleteSearchRecord(val searchRecord: SearchRecord) : BookSearchUserIntent()
     data class AskUserRankApp(val reviewInfo: ReviewInfo) : BookSearchUserIntent()
+    object CopySnapshotUrlToClipboard : BookSearchUserIntent()
     object OnViewReadyToServe : BookSearchUserIntent()
     object PressHint : BookSearchUserIntent()
     object ShareSnapshot: BookSearchUserIntent()
