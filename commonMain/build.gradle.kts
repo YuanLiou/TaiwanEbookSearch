@@ -7,7 +7,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-parcelize")
     id("kotlinx-serialization")
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp").version(AppSettings.KSP_VERSION)
 }
 
 val localProperties = Properties().apply {
@@ -99,7 +99,7 @@ dependencies {
     AppDependencies.JetPacks.common.forEach {
         implementation(it)
     }
-    kapt(AppDependencies.JetPacks.ROOM_COMPILER)
+    ksp(AppDependencies.JetPacks.ROOM_COMPILER)
 
     // Koin
     implementation(AppDependencies.Koin.ANDROID)

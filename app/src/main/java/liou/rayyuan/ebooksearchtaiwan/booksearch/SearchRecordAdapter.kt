@@ -1,29 +1,24 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
-import androidx.paging.PagedList
 import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import liou.rayyuan.ebooksearchtaiwan.BR
-import liou.rayyuan.ebooksearchtaiwan.R
 import com.rayliu.commonmain.domain.model.SearchRecord
+import liou.rayyuan.ebooksearchtaiwan.R
 
 class SearchRecordAdapter(private var listener: OnSearchRecordsClickListener?): PagingDataAdapter<SearchRecord,
         SearchRecordAdapter.SearchRecordViewHolder>(SearchRecordDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchRecordViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val listItemBinding: ViewDataBinding = DataBindingUtil.inflate(inflater,
-                R.layout.adapter_search_record, parent, false)
-        return SearchRecordViewHolder(listItemBinding, listener)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.adapter_search_record, parent, false)
+        return SearchRecordViewHolder(itemView, listener)
     }
 
     override fun onBindViewHolder(holder: SearchRecordViewHolder, position: Int) {
@@ -52,15 +47,15 @@ class SearchRecordAdapter(private var listener: OnSearchRecordsClickListener?): 
         }
     }
 
-    class SearchRecordViewHolder(private val itemBindingView: ViewDataBinding,
-                                 private val listener: OnSearchRecordsClickListener?): RecyclerView.ViewHolder(itemBindingView.root) {
-        val searchRecordText: TextView = itemView.findViewById(R.id.adapter_search_record_text)
-        val searchRecordCloseImage: ImageView = itemView.findViewById(R.id.adapter_search_record_close_image)
+    class SearchRecordViewHolder(
+        itemView: View,
+        private val listener: OnSearchRecordsClickListener?
+    ): RecyclerView.ViewHolder(itemView) {
+        private val searchRecordText: TextView = itemView.findViewById(R.id.adapter_search_record_text)
+        private val searchRecordCloseImage: ImageView = itemView.findViewById(R.id.adapter_search_record_close_image)
 
         fun bind(searchRecord: SearchRecord) {
-            itemBindingView.setVariable(BR.search_record, searchRecord)
-            itemBindingView.executePendingBindings()
-
+            searchRecordText.text = searchRecord.text
             itemView.setOnClickListener { listener?.onSearchRecordClicked(searchRecord) }
             searchRecordCloseImage.setOnClickListener { listener?.onSearchRecordCloseImageClicked(searchRecord, absoluteAdapterPosition) }
         }

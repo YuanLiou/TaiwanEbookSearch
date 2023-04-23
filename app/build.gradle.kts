@@ -10,7 +10,6 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("kotlinx-serialization")
-    id("kotlin-kapt")
 }
 apply(from = "../gradle/detekt.gradle")
 
@@ -47,7 +46,6 @@ android {
     }
 
     buildFeatures {
-        dataBinding = true
         viewBinding = true
     }
 
