@@ -6,11 +6,11 @@ import java.util.*
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.android.application)
-    id("kotlin-android")
-    id("kotlin-parcelize")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
-    id("kotlinx-serialization")
+    alias(libs.plugins.kotlin)
+    id(libs.plugins.kotlin.parcelize.get().pluginId)
+    alias(libs.plugins.gms)
+    alias(libs.plugins.firebase.crashlytics)
+    alias(libs.plugins.kotlin.serialization)
 }
 apply(from = "../gradle/detekt.gradle")
 
