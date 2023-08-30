@@ -3,8 +3,9 @@ import java.io.File
 import java.io.FileInputStream
 import java.util.*
 
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    id("com.android.application")
+    alias(libs.plugins.android.application)
     id("kotlin-android")
     id("kotlin-parcelize")
     id("com.google.gms.google-services")

@@ -1,7 +1,7 @@
 apply plugin: "io.gitlab.arturbosch.detekt"
 
 detekt {
-    toolVersion = detekt_version
+    toolVersion = libs.versions.detektVersion
     input = files("src/main/java")
     config = files("$project.rootDir/deteket-config.yml")
     filters = ".*test.*,.*/resources/.*,.*/tmp/.*"

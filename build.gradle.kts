@@ -1,8 +1,15 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+@Suppress("DSL_SCOPE_VIOLATION")
+plugins {
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.kotlin) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
+    alias(libs.plugins.gms) apply false
+    alias(libs.plugins.firebase.crashlytics) apply false
+    alias(libs.plugins.detekt) apply false
+}
 
 buildscript {
-    val detekt_version by extra("1.0.0.RC9.2")
-
     val isUseUnstableBuildTool = (project.properties["useUnstableGradleBuildTool"] as? String)?.toBoolean()
         ?: false
     println("is use unstable build tool = $isUseUnstableBuildTool")
@@ -12,14 +19,6 @@ buildscript {
         mavenCentral()
         maven(url = "https://plugins.gradle.org/m2/")
         maven(url = "https://jitpack.io")
-    }
-    dependencies {
-        classpath("com.android.tools.build:gradle:${AppSettings.AGP_VERSION}")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${AppSettings.KOTLIN_VERSION}")
-        classpath("org.jetbrains.kotlin:kotlin-serialization:${AppSettings.KOTLIN_VERSION}")
-        classpath("com.google.gms:google-services:4.3.15")
-        classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.4")
-        classpath("gradle.plugin.io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detekt_version")
     }
 }
 
