@@ -126,37 +126,44 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:${AppSettings.DESUGAR_LIB_VERSION}")
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(project(":commonMain"))
-    implementation(AppDependencies.CUSTOM_TAB)
-    implementation(AppDependencies.THREE_TEN)
+    implementation(libs.custom.tab)
+    implementation(libs.threetenabp)
 
     // region Android X Libraries
-    AppDependencies.JetPacks.Libs.forEach {
-        implementation(it)
-    }
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.preference.ktx)
+    implementation(libs.material)
+    implementation(libs.constraintlayout)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.livedata.java8)
+    implementation(libs.paging.runtime)
     // endregion of Android X Libraries
 
     // Kotlin
-    implementation(AppDependencies.Kotlin.COROUTINE)
-    implementation(AppDependencies.Kotlin.SERIALIZATION)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.serialization.json)
 
     // Firebase and GMS
-    implementation(platform(AppDependencies.Firebase.BOM))
-    AppDependencies.Firebase.Libs.forEach {
-        implementation(it)
-    }
-    implementation(AppDependencies.GooglePlayService.ADMOB)
-    implementation(AppDependencies.GooglePlayService.IN_APP_REVIEW)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.admob)
+    implementation(libs.play.review.ktx)
 
     // Koin
-    implementation(AppDependencies.Koin.ANDROID)
+    implementation(libs.koin.android)
 
     // Zxing
     implementation(AppDependencies.Zxing.ZXING_ANDROID)
 
     // Coil
-    implementation(AppDependencies.COIL)
+    implementation(libs.coil.kt)
     testImplementation(AppDependencies.Test.JUNIT)
     androidTestImplementation(AppDependencies.Test.CORE)
     androidTestImplementation(AppDependencies.Test.RUNNER)
