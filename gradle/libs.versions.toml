@@ -5,6 +5,7 @@ desugarLibVersion = "2.0.3"
 customTabHelper = "1.1.1"
 threeTen = "1.4.6"
 koin = "3.4.0"
+zxing = "4.3.0"
 
 #  Google Libraries
 androidxAppCompat = "1.6.1"
@@ -30,6 +31,12 @@ inAppReview = "2.0.1"
 #  Google Service and Firebase Libraries
 firebaseBom = "31.5.0"
 
+#  Test related
+androidxTestExt = "1.1.5"
+androidxTestRunner = "1.5.2"
+androidxTestCore = "1.5.0"
+androidxEspresso = "3.5.1"
+
 # plugins versions
 androidGradlePlugin = "7.4.2"
 kotlin = "1.8.20"
@@ -43,8 +50,9 @@ coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 custom-tab = { group = "com.github.YuanLiou", name = "chrome-custom-tab-helper", version.ref = "customTabHelper" }
 threetenabp = { group = "com.jakewharton.threetenabp", name = "threetenabp", version.ref = "threeTen" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
+zxing-android = { group = "com.journeyapps", name = "zxing-android-embedded", version.ref = "zxing" }
 
-# Google
+#  Google
 desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugarLibVersion" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
@@ -60,19 +68,27 @@ androidx-lifecycle-livedata-java8 = { group = "androidx.lifecycle", name = "life
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
-# Kotlin
+
+#  Kotlin
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 ktor-client = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
 ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-client-serialization = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
-# Google Service and Firebase
+
+#  Google Service and Firebase
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
 admob = { group = "com.google.android.gms", name = "play-services-ads-lite", version.ref = "admob" }
 play-review-ktx = { group = "com.google.android.play", name = "review-ktx", version.ref = "inAppReview" }
+
+#  Test related
+androidx-test-ext = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "androidxTestExt" }
+androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidxTestRunner" }
+androidx-test-core = { group = "androidx.test", name = "core-ktx", version.ref = "androidxTestCore" }
+androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidxEspresso" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

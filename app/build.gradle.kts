@@ -160,12 +160,12 @@ dependencies {
     implementation(libs.koin.android)
 
     // Zxing
-    implementation(AppDependencies.Zxing.ZXING_ANDROID)
+    implementation(libs.zxing.android)
 
     // Coil
     implementation(libs.coil.kt)
-    testImplementation(AppDependencies.Test.JUNIT)
-    androidTestImplementation(AppDependencies.Test.CORE)
-    androidTestImplementation(AppDependencies.Test.RUNNER)
-    androidTestImplementation(AppDependencies.Test.ESPRESSO)
+    testImplementation(libs.androidx.test.ext)
+    androidTestImplementation(libs.androidx.test.core)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.test.espresso.core)
 }

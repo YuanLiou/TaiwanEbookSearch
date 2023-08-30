@@ -106,5 +106,5 @@ dependencies {
 
     // Koin
     implementation(libs.koin.android)
-    testImplementation(AppDependencies.Test.JUNIT)
+    testImplementation(libs.androidx.test.ext)
 }
