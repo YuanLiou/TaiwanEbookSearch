@@ -3,13 +3,14 @@ import java.io.File
 import java.io.FileInputStream
 import java.util.*
 
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    id("kotlin-parcelize")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
-    id("kotlinx-serialization")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin)
+    id(libs.plugins.kotlin.parcelize.get().pluginId)
+    alias(libs.plugins.gms)
+    alias(libs.plugins.firebase.crashlytics)
+    alias(libs.plugins.kotlin.serialization)
 }
 apply(from = "../gradle/detekt.gradle")
 
@@ -125,39 +126,46 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:${AppSettings.DESUGAR_LIB_VERSION}")
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(project(":commonMain"))
-    implementation(AppDependencies.CUSTOM_TAB)
-    implementation(AppDependencies.THREE_TEN)
+    implementation(libs.custom.tab)
+    implementation(libs.threetenabp)
 
     // region Android X Libraries
-    AppDependencies.JetPacks.Libs.forEach {
-        implementation(it)
-    }
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.preference.ktx)
+    implementation(libs.material)
+    implementation(libs.constraintlayout)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.livedata.java8)
+    implementation(libs.paging.runtime)
     // endregion of Android X Libraries
 
     // Kotlin
-    implementation(AppDependencies.Kotlin.COROUTINE)
-    implementation(AppDependencies.Kotlin.SERIALIZATION)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.serialization.json)
 
     // Firebase and GMS
-    implementation(platform(AppDependencies.Firebase.BOM))
-    AppDependencies.Firebase.Libs.forEach {
-        implementation(it)
-    }
-    implementation(AppDependencies.GooglePlayService.ADMOB)
-    implementation(AppDependencies.GooglePlayService.IN_APP_REVIEW)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.admob)
+    implementation(libs.play.review.ktx)
 
     // Koin
-    implementation(AppDependencies.Koin.ANDROID)
+    implementation(libs.koin.android)
 
     // Zxing
-    implementation(AppDependencies.Zxing.ZXING_ANDROID)
+    implementation(libs.zxing.android)
 
     // Coil
-    implementation(AppDependencies.COIL)
-    testImplementation(AppDependencies.Test.JUNIT)
-    androidTestImplementation(AppDependencies.Test.CORE)
-    androidTestImplementation(AppDependencies.Test.RUNNER)
-    androidTestImplementation(AppDependencies.Test.ESPRESSO)
+    implementation(libs.coil.kt)
+    testImplementation(libs.androidx.test.ext)
+    androidTestImplementation(libs.androidx.test.core)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.test.espresso.core)
 }

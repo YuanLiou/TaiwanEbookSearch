@@ -2,12 +2,13 @@ import java.io.File
 import java.io.FileInputStream
 import java.util.Properties
 
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-parcelize")
-    id("kotlinx-serialization")
-    id("com.google.devtools.ksp").version(AppSettings.KSP_VERSION)
+    id(libs.plugins.android.library.get().pluginId)
+    alias(libs.plugins.kotlin)
+    id(libs.plugins.kotlin.parcelize.get().pluginId)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
 }
 
 val localProperties = Properties().apply {
@@ -83,25 +84,27 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:${AppSettings.DESUGAR_LIB_VERSION}")
-    implementation(AppDependencies.CUSTOM_TAB)
-    implementation(AppDependencies.THREE_TEN)
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
+    implementation(libs.custom.tab)
+    implementation(libs.threetenabp)
 
     // Kotlin
-    implementation(AppDependencies.Kotlin.COROUTINE)
-    implementation(AppDependencies.Kotlin.SERIALIZATION)
-    implementation(AppDependencies.Kotlin.KTOR_CLIENT)
-    implementation(AppDependencies.Kotlin.KTOR_CLIENT_CONTENT_NEGOTIATION)
-    implementation(AppDependencies.Kotlin.KTOR_CLIENT_SERIALIZATION)
-    implementation(AppDependencies.Kotlin.KTOR_CLIENT_LOGGING)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.ktor.client)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.client.serialization)
+    implementation(libs.ktor.client.logging)
 
     // JetPacks
-    AppDependencies.JetPacks.common.forEach {
-        implementation(it)
-    }
-    ksp(AppDependencies.JetPacks.ROOM_COMPILER)
+    implementation(libs.room.runtime)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.preference.ktx)
+    implementation(libs.paging.runtime)
+    implementation(libs.androidx.dataStore.core)
+    ksp(libs.room.compiler)
 
     // Koin
-    implementation(AppDependencies.Koin.ANDROID)
-    testImplementation(AppDependencies.Test.JUNIT)
+    implementation(libs.koin.android)
+    testImplementation(libs.androidx.test.ext)
 }
