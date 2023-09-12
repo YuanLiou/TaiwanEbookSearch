@@ -122,6 +122,7 @@ android {
         freeCompilerArgs = listOf("-Xjvm-default=all")
         jvmTarget = "11"
     }
+    namespace = "liou.rayyuan.ebooksearchtaiwan"
 }
 
 dependencies {

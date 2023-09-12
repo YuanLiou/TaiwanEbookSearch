@@ -22,9 +22,9 @@ room = "2.5.1"
 paging = "3.1.1"
 
 #  Kotlin Libraries
-kotlinxCoroutines = "1.6.4"
-kotlinxSerializationJson = "1.5.0"
-ktor = "2.3.0"
+kotlinxCoroutines = "1.7.3"
+kotlinxSerializationJson = "1.6.0"
+ktor = "2.3.4"
 admob = "22.0.0"
 inAppReview = "2.0.1"
 
@@ -38,12 +38,12 @@ androidxTestCore = "1.5.0"
 androidxEspresso = "3.5.1"
 
 # plugins versions
-androidGradlePlugin = "7.4.2"
-kotlin = "1.8.20"
+androidGradlePlugin = "8.1.1"
+kotlin = "1.9.10"
 gmsPlugin = "4.3.15"
 firebaseCrashlyticsPlugin = "2.9.4"
 detektVersion = "1.0.0.RC9.2"
-ksp = "1.8.20-1.0.11"
+ksp = "1.9.10-1.0.13"
 
 [libraries]
 coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
