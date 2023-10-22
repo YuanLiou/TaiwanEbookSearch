@@ -1,12 +1,16 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.ColorInt
+import androidx.browser.customtabs.CustomTabColorSchemeParams
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import com.google.zxing.client.android.Intents
@@ -31,8 +35,6 @@ import org.koin.android.ext.android.inject
 class BookSearchActivity :
     BaseActivity(R.layout.activity_book_search),
     SimpleWebViewFragment.OnSimpleWebViewActionListener {
-
-    private val KEY_LAST_FRAGMENT_TAG = "key-last-fragment-tag"
 
     private val quickChecker: QuickChecker by inject()
     private val deeplinkHelper = DeeplinkHelper()
@@ -62,7 +64,10 @@ class BookSearchActivity :
         if (savedInstanceState == null) {
             val appLinkKeyword = deeplinkHelper.getSearchKeyword(intent)
             val appLinkSnapshotSearchId = deeplinkHelper.getSearchId(intent)
-            val bookResultListFragment = BookResultListFragment.newInstance(appLinkKeyword, appLinkSnapshotSearchId)
+            val bookResultListFragment = BookResultListFragment.newInstance(
+                appLinkKeyword,
+                appLinkSnapshotSearchId
+            )
             if (isDualPane) {
                 dualPaneSubRouter = Router(
                     supportFragmentManager,
@@ -106,7 +111,9 @@ class BookSearchActivity :
             }
         }
 
-        changeThemeLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        changeThemeLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
             if (isThemeChanged() || isStartToFollowSystemTheme()) {
                 recreate()
             }
@@ -133,7 +140,9 @@ class BookSearchActivity :
 
     private fun showSearchSnapshot(searchId: String) {
         if (isDualPane) {
-            val bookSearchFragment = dualPaneSubRouter?.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
+            val bookSearchFragment = dualPaneSubRouter?.findFragmentByTag(
+                BookResultListFragment.TAG
+            ) as? BookResultListFragment
             bookSearchFragment?.showSearchSnapshot(searchId)
         } else {
             val bookSearchFragment = contentRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
@@ -143,7 +152,9 @@ class BookSearchActivity :
 
     private fun searchBook(keyword: String) {
         if (isDualPane) {
-            val bookSearchFragment = dualPaneSubRouter?.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
+            val bookSearchFragment = dualPaneSubRouter?.findFragmentByTag(
+                BookResultListFragment.TAG
+            ) as? BookResultListFragment
             bookSearchFragment?.searchWithText(keyword)
         } else {
             val bookSearchFragment = contentRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
@@ -167,11 +178,14 @@ class BookSearchActivity :
     }
 
     private fun setupBackGesture() {
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                backPressed()
+        onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    backPressed()
+                }
             }
-        })
+        )
     }
 
     private fun checkShouldAskUserRankApp() {
@@ -186,9 +200,10 @@ class BookSearchActivity :
         }
     }
 
+    @ColorInt
     private fun getThemePrimaryColor(): Int {
         val typedValue = TypedValue()
-        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
+        theme.resolveAttribute(R.attr.customTabHeaderColor, typedValue, true)
         return typedValue.data
     }
 
@@ -207,7 +222,13 @@ class BookSearchActivity :
 
     internal fun openBookLink(book: Book) {
         if (!quickChecker.isTabletSize() && userPreferenceManager.isPreferCustomTab()) {
-            // TODO:: open custom tabs
+            val colorParams = CustomTabColorSchemeParams.Builder()
+                .setToolbarColor(getThemePrimaryColor())
+                .build()
+            val intent = CustomTabsIntent.Builder()
+                .setDefaultColorSchemeParams(colorParams)
+                .build()
+            intent.launchUrl(this, Uri.parse(book.link))
         } else {
             val isTablet = quickChecker.isTabletSize()
             val webViewFragment = SimpleWebViewFragment.newInstance(book, !isTablet)
@@ -249,4 +270,8 @@ class BookSearchActivity :
         contentRouter.backToPreviousFragment()
     }
     //endregion
+
+    companion object {
+        private const val KEY_LAST_FRAGMENT_TAG = "key-last-fragment-tag"
+    }
 }

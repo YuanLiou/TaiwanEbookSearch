@@ -28,6 +28,7 @@
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.MaterialAlertDialog.Rounded</item>
         <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle.Light</item>
         <item name="materialCardViewStyle">@style/BookCardView</item>
+        <item name="customTabHeaderColor">@color/blue_green_dark_you</item>
     </style>
 
     <style name="FullScreenTheme" parent="AppTheme" >
@@ -59,6 +60,7 @@
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.MaterialAlertDialog.Rounded</item>
         <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle.Dark</item>
         <item name="materialCardViewStyle">@style/BookCardView.Dark</item>
+        <item name="customTabHeaderColor">@color/darker_gray_28</item>
     </style>
 
     <!-- TextView Styles -->
