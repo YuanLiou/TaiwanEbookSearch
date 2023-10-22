@@ -3,7 +3,7 @@
 coil = "2.3.0"
 desugarLibVersion = "2.0.3"
 threeTen = "1.4.6"
-koin = "3.4.0"
+koin = "3.5.0"
 zxing = "4.3.0"
 
 #  Google Libraries

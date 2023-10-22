@@ -24,6 +24,7 @@ import liou.rayyuan.ebooksearchtaiwan.camerapreview.CameraPreviewActivity
 import liou.rayyuan.ebooksearchtaiwan.model.DeeplinkHelper
 import liou.rayyuan.ebooksearchtaiwan.preferencesetting.PreferenceSettingsActivity
 import liou.rayyuan.ebooksearchtaiwan.simplewebview.SimpleWebViewFragment
+import liou.rayyuan.ebooksearchtaiwan.utils.CustomTabSessionManager
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastMessage
 import liou.rayyuan.ebooksearchtaiwan.view.Router
@@ -37,6 +38,7 @@ class BookSearchActivity :
     SimpleWebViewFragment.OnSimpleWebViewActionListener {
 
     private val quickChecker: QuickChecker by inject()
+    private val customTabSessionManager: CustomTabSessionManager by inject()
     private val deeplinkHelper = DeeplinkHelper()
     private var isDualPane: Boolean = false
     private lateinit var contentRouter: Router
@@ -86,8 +88,10 @@ class BookSearchActivity :
             }
         }
 
-        if (!userPreferenceManager.isPreferCustomTab()) {
-            lifecycleScope.launch {
+        lifecycleScope.launch {
+            if (userPreferenceManager.isPreferCustomTab()) {
+                customTabSessionManager.bindCustomTabService(this@BookSearchActivity)
+            } else {
                 contentRouter.backStackCountsPublisher().collect { backStackCounts ->
                     if (backStackCounts == 0) {
                         checkShouldAskUserRankApp()
@@ -225,7 +229,8 @@ class BookSearchActivity :
             val colorParams = CustomTabColorSchemeParams.Builder()
                 .setToolbarColor(getThemePrimaryColor())
                 .build()
-            val intent = CustomTabsIntent.Builder()
+            val intent = CustomTabsIntent.Builder(customTabSessionManager.customTabsSession)
+                .setShowTitle(true)
                 .setDefaultColorSchemeParams(colorParams)
                 .build()
             intent.launchUrl(this, Uri.parse(book.link))

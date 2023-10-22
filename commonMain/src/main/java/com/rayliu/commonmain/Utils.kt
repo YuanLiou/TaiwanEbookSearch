@@ -3,8 +3,6 @@ package com.rayliu.commonmain
 import com.rayliu.commonmain.data.DefaultStoreNames
 
 object Utils {
-
-    @JvmStatic
     fun getDefaultSort(): List<DefaultStoreNames> {
         return listOf(
             DefaultStoreNames.READMOO,
