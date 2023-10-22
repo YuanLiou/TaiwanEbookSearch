@@ -86,7 +86,6 @@ android {
 
 dependencies {
     coreLibraryDesugaring(libs.desugar.jdk.libs)
-    implementation(libs.custom.tab)
     implementation(libs.threetenabp)
 
     // Kotlin

@@ -1,15 +1,12 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
-import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import com.google.zxing.client.android.Intents
@@ -17,7 +14,6 @@ import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
 import com.rayliu.commonmain.domain.model.Book
 import kotlinx.coroutines.launch
-import liou.rayyuan.chromecustomtabhelper.ChromeCustomTabsHelper
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.CameraPreviewActivity
@@ -34,7 +30,6 @@ import org.koin.android.ext.android.inject
  */
 class BookSearchActivity :
     BaseActivity(R.layout.activity_book_search),
-    ChromeCustomTabsHelper.Fallback,
     SimpleWebViewFragment.OnSimpleWebViewActionListener {
 
     private val KEY_LAST_FRAGMENT_TAG = "key-last-fragment-tag"
@@ -44,7 +39,6 @@ class BookSearchActivity :
     private var isDualPane: Boolean = false
     private lateinit var contentRouter: Router
     private var dualPaneSubRouter: Router? = null
-    private lateinit var chromeCustomTabHelper: ChromeCustomTabsHelper
 
     private lateinit var barcodeScanningLauncher: ActivityResultLauncher<ScanOptions>
     private lateinit var changeThemeLauncher: ActivityResultLauncher<Intent>
@@ -52,7 +46,6 @@ class BookSearchActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
-        chromeCustomTabHelper = ChromeCustomTabsHelper()
 
         val secondContainer: View? = findViewById(R.id.activity_book_search_content_container)
         isDualPane = secondContainer?.visibility == View.VISIBLE
@@ -161,11 +154,6 @@ class BookSearchActivity :
     override fun onResume() {
         super.onResume()
         if (userPreferenceManager.isPreferCustomTab()) {
-            chromeCustomTabHelper.bindCustomTabsServices(
-                this,
-                userPreferenceManager.getPreferBrowser(),
-                "https://taiwan-ebook-lover.github.io"
-            )
             checkShouldAskUserRankApp()
         }
     }
@@ -178,13 +166,6 @@ class BookSearchActivity :
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        if (userPreferenceManager.isPreferCustomTab()) {
-            chromeCustomTabHelper.unbindCustomTabsServices(this)
-        }
-    }
-
     private fun setupBackGesture() {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -192,14 +173,6 @@ class BookSearchActivity :
             }
         })
     }
-
-    //region ChromeCustomTabsHelper.Fallback
-    override fun openWithWebView(activity: Activity?, uri: Uri?) {
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = uri
-        startActivity(intent)
-    }
-    //endregion
 
     private fun checkShouldAskUserRankApp() {
         if (isDualPane) {
@@ -234,13 +207,7 @@ class BookSearchActivity :
 
     internal fun openBookLink(book: Book) {
         if (!quickChecker.isTabletSize() && userPreferenceManager.isPreferCustomTab()) {
-            val builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder()
-            builder.setToolbarColor(getThemePrimaryColor())
-            val chromeCustomTabIntent: CustomTabsIntent = builder.build()
-            ChromeCustomTabsHelper.openCustomTab(
-                this, userPreferenceManager.getPreferBrowser(),
-                chromeCustomTabIntent, Uri.parse(book.link), this
-            )
+            // TODO:: open custom tabs
         } else {
             val isTablet = quickChecker.isTabletSize()
             val webViewFragment = SimpleWebViewFragment.newInstance(book, !isTablet)
