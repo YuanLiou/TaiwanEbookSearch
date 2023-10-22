@@ -2,9 +2,8 @@
 # Library versions
 coil = "2.3.0"
 desugarLibVersion = "2.0.3"
-customTabHelper = "1.1.1"
 threeTen = "1.4.6"
-koin = "3.4.0"
+koin = "3.5.0"
 zxing = "4.3.0"
 
 #  Google Libraries
@@ -14,6 +13,7 @@ androidxFragment = "1.5.7"
 androidxActivity = "1.7.1"
 androidxRecyclerview = "1.3.0"
 androidxPreference = "1.2.0"
+androidxBrowser = "1.5.0"
 materialDesign = "1.8.0"
 constraintlayoutVersion = "2.1.4"
 androidxDataStore = "1.0.0"
@@ -38,7 +38,7 @@ androidxTestCore = "1.5.0"
 androidxEspresso = "3.5.1"
 
 # plugins versions
-androidGradlePlugin = "8.1.1"
+androidGradlePlugin = "8.1.2"
 kotlin = "1.9.10"
 gmsPlugin = "4.3.15"
 firebaseCrashlyticsPlugin = "2.9.4"
@@ -47,7 +47,6 @@ ksp = "1.9.10-1.0.13"
 
 [libraries]
 coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
-custom-tab = { group = "com.github.YuanLiou", name = "chrome-custom-tab-helper", version.ref = "customTabHelper" }
 threetenabp = { group = "com.jakewharton.threetenabp", name = "threetenabp", version.ref = "threeTen" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 zxing-android = { group = "com.journeyapps", name = "zxing-android-embedded", version.ref = "zxing" }
@@ -60,6 +59,7 @@ androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", ve
 androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidxActivity" }
 androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "androidxRecyclerview" }
 androidx-preference-ktx = { group = "androidx.preference", name = "preference-ktx", version.ref = "androidxPreference" }
+androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "androidxBrowser" }
 material = { group = "com.google.android.material", name = "material", version.ref = "materialDesign" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayoutVersion" }
 androidx-dataStore-core = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDataStore" }

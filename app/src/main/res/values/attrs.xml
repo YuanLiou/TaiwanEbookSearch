@@ -7,6 +7,7 @@
     <attr name="reorderListBackgroundColor" format="color" />
     <attr name="backToTopButtonDrawable" format="reference" />
     <attr name="reorderHandlerItemDrawable" format="reference" />
+    <attr name="customTabHeaderColor" format="color" />
 
     <bool name="isTabletSize">false</bool>
 </resources>

@@ -8,8 +8,9 @@ import liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchViewModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.review.PlayStoreReviewHelper
 import liou.rayyuan.ebooksearchtaiwan.bookstorereorder.BookStoreReorderViewModel
 import liou.rayyuan.ebooksearchtaiwan.interactor.UserRankingWindowFacade
-import liou.rayyuan.ebooksearchtaiwan.model.*
+import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.utils.ClipboardHelper
+import liou.rayyuan.ebooksearchtaiwan.utils.CustomTabSessionManager
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import liou.rayyuan.ebooksearchtaiwan.utils.ResourceHelper
 import org.koin.android.ext.koin.androidApplication
@@ -25,19 +26,21 @@ val appModule = module {
     factory { EventTracker(androidApplication()) }
 
     // ViewModels
-    viewModel { BookSearchViewModel(
-        getBooksWithStoresUseCase = get(),
-        getSearchRecordsUseCase = get(),
-        getSearchRecordsCountsUseCase = get(),
-        getDefaultBookSortUseCase = get(),
-        getSearchSnapshotUseCase = get(),
-        eventTracker = get(),
-        quickChecker = get(),
-        deleteSearchRecordUseCase = get(),
-        resourceHelper = get(),
-        rankingWindowFacade = get(),
-        clipboardHelper = get()
-    ) }
+    viewModel {
+        BookSearchViewModel(
+            getBooksWithStoresUseCase = get(),
+            getSearchRecordsUseCase = get(),
+            getSearchRecordsCountsUseCase = get(),
+            getDefaultBookSortUseCase = get(),
+            getSearchSnapshotUseCase = get(),
+            eventTracker = get(),
+            quickChecker = get(),
+            deleteSearchRecordUseCase = get(),
+            resourceHelper = get(),
+            rankingWindowFacade = get(),
+            clipboardHelper = get()
+        )
+    }
 
     viewModel {
         BookStoreReorderViewModel(
@@ -62,8 +65,12 @@ val appUtilsModule = module {
         PlayStoreReviewHelper(androidContext())
     }
     factory {
-        val clipboardManager = androidContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipboardManager = androidContext().getSystemService(Context.CLIPBOARD_SERVICE)
+            as ClipboardManager
         ClipboardHelper(clipboardManager)
+    }
+    factory {
+        CustomTabSessionManager(getDefaultBookSortUseCase = get())
     }
 }
 

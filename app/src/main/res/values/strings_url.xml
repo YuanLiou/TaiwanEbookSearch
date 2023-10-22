@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="ebook_snapshot_url" translatable="false">https://taiwan-ebook-lover.github.io/searches/%1$s</string>
+    <string name="url_book_company" translatable="false">https://www.books.com.tw/</string>
+    <string name="url_amazon" translatable="false">https://www.amazon.com</string>
+    <string name="url_readmoo" translatable="false">https://readmoo.com/</string>
+    <string name="url_kobo" translatable="false">https://www.kobo.com/tw/zh</string>
+    <string name="url_taaze" translatable="false">https://www.taaze.tw/</string>
+    <string name="url_bookwalker" translatable="false">https://www.bookwalker.com.tw/</string>
+    <string name="url_playstore" translatable="false">https://play.google.com/store/books?hl=zh_TW</string>
+    <string name="url_pubu" translatable="false">https://www.pubu.com.tw/</string>
+    <string name="url_hyread" translatable="false">https://ebook.hyread.com.tw/</string>
 </resources>

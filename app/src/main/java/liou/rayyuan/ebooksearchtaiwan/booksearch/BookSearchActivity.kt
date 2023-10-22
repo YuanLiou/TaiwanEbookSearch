@@ -1,6 +1,5 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
-import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -9,6 +8,8 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.ColorInt
+import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
@@ -17,13 +18,13 @@ import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
 import com.rayliu.commonmain.domain.model.Book
 import kotlinx.coroutines.launch
-import liou.rayyuan.chromecustomtabhelper.ChromeCustomTabsHelper
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.CameraPreviewActivity
 import liou.rayyuan.ebooksearchtaiwan.model.DeeplinkHelper
 import liou.rayyuan.ebooksearchtaiwan.preferencesetting.PreferenceSettingsActivity
 import liou.rayyuan.ebooksearchtaiwan.simplewebview.SimpleWebViewFragment
+import liou.rayyuan.ebooksearchtaiwan.utils.CustomTabSessionManager
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastMessage
 import liou.rayyuan.ebooksearchtaiwan.view.Router
@@ -34,17 +35,14 @@ import org.koin.android.ext.android.inject
  */
 class BookSearchActivity :
     BaseActivity(R.layout.activity_book_search),
-    ChromeCustomTabsHelper.Fallback,
     SimpleWebViewFragment.OnSimpleWebViewActionListener {
 
-    private val KEY_LAST_FRAGMENT_TAG = "key-last-fragment-tag"
-
     private val quickChecker: QuickChecker by inject()
+    private val customTabSessionManager: CustomTabSessionManager by inject()
     private val deeplinkHelper = DeeplinkHelper()
     private var isDualPane: Boolean = false
     private lateinit var contentRouter: Router
     private var dualPaneSubRouter: Router? = null
-    private lateinit var chromeCustomTabHelper: ChromeCustomTabsHelper
 
     private lateinit var barcodeScanningLauncher: ActivityResultLauncher<ScanOptions>
     private lateinit var changeThemeLauncher: ActivityResultLauncher<Intent>
@@ -52,7 +50,6 @@ class BookSearchActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
-        chromeCustomTabHelper = ChromeCustomTabsHelper()
 
         val secondContainer: View? = findViewById(R.id.activity_book_search_content_container)
         isDualPane = secondContainer?.visibility == View.VISIBLE
@@ -69,7 +66,10 @@ class BookSearchActivity :
         if (savedInstanceState == null) {
             val appLinkKeyword = deeplinkHelper.getSearchKeyword(intent)
             val appLinkSnapshotSearchId = deeplinkHelper.getSearchId(intent)
-            val bookResultListFragment = BookResultListFragment.newInstance(appLinkKeyword, appLinkSnapshotSearchId)
+            val bookResultListFragment = BookResultListFragment.newInstance(
+                appLinkKeyword,
+                appLinkSnapshotSearchId
+            )
             if (isDualPane) {
                 dualPaneSubRouter = Router(
                     supportFragmentManager,
@@ -88,8 +88,10 @@ class BookSearchActivity :
             }
         }
 
-        if (!userPreferenceManager.isPreferCustomTab()) {
-            lifecycleScope.launch {
+        lifecycleScope.launch {
+            if (userPreferenceManager.isPreferCustomTab()) {
+                customTabSessionManager.bindCustomTabService(this@BookSearchActivity)
+            } else {
                 contentRouter.backStackCountsPublisher().collect { backStackCounts ->
                     if (backStackCounts == 0) {
                         checkShouldAskUserRankApp()
@@ -113,7 +115,9 @@ class BookSearchActivity :
             }
         }
 
-        changeThemeLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        changeThemeLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
             if (isThemeChanged() || isStartToFollowSystemTheme()) {
                 recreate()
             }
@@ -140,7 +144,9 @@ class BookSearchActivity :
 
     private fun showSearchSnapshot(searchId: String) {
         if (isDualPane) {
-            val bookSearchFragment = dualPaneSubRouter?.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
+            val bookSearchFragment = dualPaneSubRouter?.findFragmentByTag(
+                BookResultListFragment.TAG
+            ) as? BookResultListFragment
             bookSearchFragment?.showSearchSnapshot(searchId)
         } else {
             val bookSearchFragment = contentRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
@@ -150,7 +156,9 @@ class BookSearchActivity :
 
     private fun searchBook(keyword: String) {
         if (isDualPane) {
-            val bookSearchFragment = dualPaneSubRouter?.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
+            val bookSearchFragment = dualPaneSubRouter?.findFragmentByTag(
+                BookResultListFragment.TAG
+            ) as? BookResultListFragment
             bookSearchFragment?.searchWithText(keyword)
         } else {
             val bookSearchFragment = contentRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
@@ -161,11 +169,6 @@ class BookSearchActivity :
     override fun onResume() {
         super.onResume()
         if (userPreferenceManager.isPreferCustomTab()) {
-            chromeCustomTabHelper.bindCustomTabsServices(
-                this,
-                userPreferenceManager.getPreferBrowser(),
-                "https://taiwan-ebook-lover.github.io"
-            )
             checkShouldAskUserRankApp()
         }
     }
@@ -178,28 +181,16 @@ class BookSearchActivity :
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        if (userPreferenceManager.isPreferCustomTab()) {
-            chromeCustomTabHelper.unbindCustomTabsServices(this)
-        }
-    }
-
     private fun setupBackGesture() {
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                backPressed()
+        onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    backPressed()
+                }
             }
-        })
+        )
     }
-
-    //region ChromeCustomTabsHelper.Fallback
-    override fun openWithWebView(activity: Activity?, uri: Uri?) {
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = uri
-        startActivity(intent)
-    }
-    //endregion
 
     private fun checkShouldAskUserRankApp() {
         if (isDualPane) {
@@ -213,9 +204,10 @@ class BookSearchActivity :
         }
     }
 
+    @ColorInt
     private fun getThemePrimaryColor(): Int {
         val typedValue = TypedValue()
-        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
+        theme.resolveAttribute(R.attr.customTabHeaderColor, typedValue, true)
         return typedValue.data
     }
 
@@ -234,13 +226,14 @@ class BookSearchActivity :
 
     internal fun openBookLink(book: Book) {
         if (!quickChecker.isTabletSize() && userPreferenceManager.isPreferCustomTab()) {
-            val builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder()
-            builder.setToolbarColor(getThemePrimaryColor())
-            val chromeCustomTabIntent: CustomTabsIntent = builder.build()
-            ChromeCustomTabsHelper.openCustomTab(
-                this, userPreferenceManager.getPreferBrowser(),
-                chromeCustomTabIntent, Uri.parse(book.link), this
-            )
+            val colorParams = CustomTabColorSchemeParams.Builder()
+                .setToolbarColor(getThemePrimaryColor())
+                .build()
+            val intent = CustomTabsIntent.Builder(customTabSessionManager.customTabsSession)
+                .setShowTitle(true)
+                .setDefaultColorSchemeParams(colorParams)
+                .build()
+            intent.launchUrl(this, Uri.parse(book.link))
         } else {
             val isTablet = quickChecker.isTabletSize()
             val webViewFragment = SimpleWebViewFragment.newInstance(book, !isTablet)
@@ -282,4 +275,8 @@ class BookSearchActivity :
         contentRouter.backToPreviousFragment()
     }
     //endregion
+
+    companion object {
+        private const val KEY_LAST_FRAGMENT_TAG = "key-last-fragment-tag"
+    }
 }

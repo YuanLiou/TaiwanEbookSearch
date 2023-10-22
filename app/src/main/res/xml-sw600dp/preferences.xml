@@ -54,18 +54,6 @@
             tools:defaultValue="false"
             />
 
-        <ListPreference
-            android:key="preference_custom_tab_prefer_browser"
-            android:title="@string/preference_custom_tab_prefer_browser"
-            android:summary="@string/preference_custom_tab_prefer_browser_summary"
-            android:entries="@array/browser_options"
-            android:entryValues="@array/browser_options_values"
-            android:defaultValue="chrome"
-            android:dialogTitle="@string/preference_custom_tab_prefer_browser"
-            android:enabled="false"
-            android:shouldDisableView="true"
-            />
-
         <Preference
             android:key="key-reorder-bookstores"
             android:title="@string/activty_reorder_title"

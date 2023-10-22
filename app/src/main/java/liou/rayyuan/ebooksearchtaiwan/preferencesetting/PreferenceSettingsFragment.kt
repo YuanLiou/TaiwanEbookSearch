@@ -11,10 +11,10 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.rayliu.commonmain.data.dao.SearchRecordDao
+import com.rayliu.commonmain.domain.service.UserPreferenceManager
 import kotlinx.coroutines.*
 import liou.rayyuan.ebooksearchtaiwan.R
-import com.rayliu.commonmain.domain.service.UserPreferenceManager
-import com.rayliu.commonmain.data.dao.SearchRecordDao
 import liou.rayyuan.ebooksearchtaiwan.preferencesetting.widget.MaterialListPreference
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import org.koin.android.ext.android.inject
@@ -34,11 +34,10 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
         val themeChooser = findPreference(UserPreferenceManager.KEY_USER_THEME) as? ListPreference
         val followSystemTheme = findPreference(UserPreferenceManager.KEY_USER_SYSTEM_THEME) as? SwitchPreferenceCompat
         val preferCustomTabs = findPreference(UserPreferenceManager.KEY_USE_CHROME_CUSTOM_VIEW) as? SwitchPreferenceCompat
-        val choosePreferBrowser = findPreference(UserPreferenceManager.KEY_PREFER_BROWSER) as? ListPreference
         val cleanSearchRecord = findPreference(UserPreferenceManager.KEY_CLEAN_SEARCH_RECORD) as? Preference
 
-        if (preferCustomTabs != null && choosePreferBrowser != null) {
-            initiateCustomTabOption(preferCustomTabs, choosePreferBrowser)
+        if (preferCustomTabs != null) {
+            initiateCustomTabOption(preferCustomTabs)
         }
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
@@ -71,29 +70,13 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
     }
 
     private fun initiateCustomTabOption(
-        preferCustomTabs: SwitchPreferenceCompat,
-        choosePreferBrowser: ListPreference
+        preferCustomTabs: SwitchPreferenceCompat
     ) {
         if (quickChecker.isTabletSize()) {
             with(preferCustomTabs) {
                 isChecked = false
                 isEnabled = false
                 setShouldDisableView(true)
-            }
-
-            with(choosePreferBrowser) {
-                isEnabled = false
-                setShouldDisableView(true)
-            }
-        } else {
-            if (preferCustomTabs.isChecked) {
-                choosePreferBrowser.summary = choosePreferBrowser.entry
-            } else {
-                with(choosePreferBrowser) {
-                    isEnabled = false
-                    setShouldDisableView(true)
-                    summary = getString(R.string.preference_custom_tab_prefer_browser_summary)
-                }
             }
         }
     }
@@ -115,12 +98,12 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
         if (isAdded && isResumed) {
             requireContext().run {
                 MaterialAlertDialogBuilder(this)
-                        .setTitle(R.string.preference_clean_all_records)
-                        .setMessage(R.string.dialog_clean_all_records_cleaned)
-                        .setPositiveButton(R.string.dialog_ok) { dialog, _ ->
-                            dialog.dismiss()
-                        }
-                        .create().show()
+                    .setTitle(R.string.preference_clean_all_records)
+                    .setMessage(R.string.dialog_clean_all_records_cleaned)
+                    .setPositiveButton(R.string.dialog_ok) { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .create().show()
             }
         }
     }
@@ -180,27 +163,6 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
             }
             UserPreferenceManager.KEY_USER_THEME -> {
                 callback?.onThemeChanged()
-            }
-            UserPreferenceManager.KEY_USE_CHROME_CUSTOM_VIEW -> {
-                val preferCustomTabs = findPreference(UserPreferenceManager.KEY_USE_CHROME_CUSTOM_VIEW) as? SwitchPreferenceCompat
-                val choosePreferBrowser = findPreference(UserPreferenceManager.KEY_PREFER_BROWSER) as? ListPreference
-                if (preferCustomTabs?.isChecked == true) {
-                    choosePreferBrowser?.run {
-                        isEnabled = true
-                        setShouldDisableView(false)
-                        summary = entry
-                    }
-                } else {
-                    choosePreferBrowser?.run {
-                        isEnabled = false
-                        setShouldDisableView(true)
-                        summary = getString(R.string.preference_custom_tab_prefer_browser_summary)
-                    }
-                }
-            }
-            UserPreferenceManager.KEY_PREFER_BROWSER -> {
-                val choosePreferBrowser = findPreference(UserPreferenceManager.KEY_PREFER_BROWSER) as? ListPreference
-                choosePreferBrowser?.summary = choosePreferBrowser?.entry
             }
             else -> {
                 Log.i("PreferenceSettings", "The value of $key changed")

@@ -129,11 +129,11 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(project(":commonMain"))
-    implementation(libs.custom.tab)
     implementation(libs.threetenabp)
 
     // region Android X Libraries
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.browser)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.activity.ktx)
