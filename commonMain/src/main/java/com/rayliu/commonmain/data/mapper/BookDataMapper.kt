@@ -1,16 +1,21 @@
 package com.rayliu.commonmain.data.mapper
 
+import com.rayliu.commonmain.data.DefaultStoreNames
 import com.rayliu.commonmain.data.dto.NetworkBook
 import com.rayliu.commonmain.data.mapper.basic.Mapper
 import com.rayliu.commonmain.domain.model.Book
-import com.rayliu.commonmain.data.DefaultStoreNames
 
 class BookDataMapper : Mapper<NetworkBook, Book> {
 
     private var currentBookStore: DefaultStoreNames = DefaultStoreNames.UNKNOWN
+    private var keywords: String = ""
 
     fun setupBookStore(store: DefaultStoreNames) {
         currentBookStore = store
+    }
+
+    fun setupKeywords(keywords: String) {
+        this.keywords = keywords
     }
 
     override fun map(input: NetworkBook): Book {

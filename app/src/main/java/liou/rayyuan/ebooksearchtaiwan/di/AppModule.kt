@@ -3,6 +3,7 @@ package liou.rayyuan.ebooksearchtaiwan.di
 import android.content.ClipboardManager
 import android.content.Context
 import com.rayliu.commonmain.di.dataModule
+import com.rayliu.commonmain.di.domainModule
 import com.rayliu.commonmain.di.jsonModule
 import liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchViewModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.review.PlayStoreReviewHelper

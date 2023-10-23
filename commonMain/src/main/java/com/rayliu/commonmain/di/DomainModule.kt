@@ -1,18 +1,34 @@
-package liou.rayyuan.ebooksearchtaiwan.di
+package com.rayliu.commonmain.di
 
 import androidx.room.Room
-import com.rayliu.commonmain.domain.service.DatabaseManager
-import com.rayliu.commonmain.domain.service.UserPreferenceManager
-import com.rayliu.commonmain.data.mapper.*
 import com.rayliu.commonmain.data.api.BookSearchService
 import com.rayliu.commonmain.data.dao.SearchRecordDao
+import com.rayliu.commonmain.data.mapper.BookDataMapper
+import com.rayliu.commonmain.data.mapper.BookListMapper
+import com.rayliu.commonmain.data.mapper.BookStoreDetailsMapper
+import com.rayliu.commonmain.data.mapper.BookStoreListMapper
+import com.rayliu.commonmain.data.mapper.BookStoreMapper
+import com.rayliu.commonmain.data.mapper.BookStoresMapper
+import com.rayliu.commonmain.data.mapper.LocalSearchRecordMapper
+import com.rayliu.commonmain.data.mapper.SearchRecordMapper
+import com.rayliu.commonmain.data.mapper.SearchResultMapper
 import com.rayliu.commonmain.domain.repository.BookRepository
 import com.rayliu.commonmain.domain.repository.BookRepositoryImpl
 import com.rayliu.commonmain.domain.repository.BrowseHistoryRepository
 import com.rayliu.commonmain.domain.repository.BrowseHistoryRepositoryImpl
 import com.rayliu.commonmain.domain.repository.SearchRecordRepository
 import com.rayliu.commonmain.domain.repository.SearchRecordRepositoryImpl
-import com.rayliu.commonmain.domain.usecase.*
+import com.rayliu.commonmain.domain.service.DatabaseManager
+import com.rayliu.commonmain.domain.service.UserPreferenceManager
+import com.rayliu.commonmain.domain.usecase.DeleteSearchRecordUseCase
+import com.rayliu.commonmain.domain.usecase.GetBooksWithStoresUseCase
+import com.rayliu.commonmain.domain.usecase.GetDefaultBookSortUseCase
+import com.rayliu.commonmain.domain.usecase.GetIsUserSeenRankWindowUseCase
+import com.rayliu.commonmain.domain.usecase.GetSearchRecordsCountsUseCase
+import com.rayliu.commonmain.domain.usecase.GetSearchRecordsUseCase
+import com.rayliu.commonmain.domain.usecase.GetSearchSnapshotUseCase
+import com.rayliu.commonmain.domain.usecase.SaveDefaultBookSortUseCase
+import com.rayliu.commonmain.domain.usecase.SaveUserHasSeenRankWindowUseCase
 import com.rayliu.commonmain.userDataStore
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
@@ -70,7 +86,11 @@ val domainModule = module {
     }
 
     factory<SearchRecordRepository> {
-        SearchRecordRepositoryImpl(get<SearchRecordMapper>(), get<LocalSearchRecordMapper>(), get<SearchRecordDao>())
+        SearchRecordRepositoryImpl(
+            get<SearchRecordMapper>(),
+            get<LocalSearchRecordMapper>(),
+            get<SearchRecordDao>()
+        )
     }
 
     factory<BrowseHistoryRepository> {
@@ -117,9 +137,11 @@ val domainModule = module {
     // Service (Application)
     // Database related and Daos
     single {
-        Room.databaseBuilder(androidApplication(),
+        Room.databaseBuilder(
+            androidApplication(),
             DatabaseManager::class.java,
-            DatabaseManager.DATABASE_NAME)
+            DatabaseManager.DATABASE_NAME
+        )
             .build()
     }
 

@@ -5,6 +5,7 @@ desugarLibVersion = "2.0.3"
 threeTen = "1.4.6"
 koin = "3.5.0"
 zxing = "4.3.0"
+commons-lang3 = "3.13.0"
 
 #  Google Libraries
 androidxAppCompat = "1.6.1"
@@ -50,6 +51,7 @@ coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 threetenabp = { group = "com.jakewharton.threetenabp", name = "threetenabp", version.ref = "threeTen" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 zxing-android = { group = "com.journeyapps", name = "zxing-android-embedded", version.ref = "zxing" }
+apache-commons-lang3 = { group = "org.apache.commons", name = "commons-lang3", version.ref = "commons-lang3" }
 
 #  Google
 desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugarLibVersion" }
