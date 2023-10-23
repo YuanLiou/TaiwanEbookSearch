@@ -5,6 +5,7 @@ import android.content.Context
 import com.rayliu.commonmain.di.dataModule
 import com.rayliu.commonmain.di.domainModule
 import com.rayliu.commonmain.di.jsonModule
+import com.rayliu.commonmain.di.miscModule
 import liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchViewModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.review.PlayStoreReviewHelper
 import liou.rayyuan.ebooksearchtaiwan.bookstorereorder.BookStoreReorderViewModel
@@ -80,5 +81,6 @@ val appModules = listOf(
     appUtilsModule,
     domainModule,
     dataModule,
-    jsonModule
+    jsonModule,
+    miscModule
 )
