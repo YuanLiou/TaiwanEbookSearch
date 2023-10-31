@@ -143,7 +143,7 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
     }
 
     //region SharedPreferences.OnSharedPreferenceChangeListener
-    override fun onSharedPreferenceChanged(sharedPreference: SharedPreferences, key: String) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             UserPreferenceManager.KEY_USER_SYSTEM_THEME -> {
                 val themeChooser = findPreference(UserPreferenceManager.KEY_USER_THEME) as? ListPreference
@@ -151,12 +151,12 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
                 if (followSystemTheme?.isChecked == true) {
                     themeChooser?.run {
                         isEnabled = false
-                        setShouldDisableView(true)
+                        shouldDisableView = true
                     }
                 } else {
                     themeChooser?.run {
                         isEnabled = true
-                        setShouldDisableView(false)
+                        shouldDisableView = false
                     }
                 }
                 callback?.onThemeChanged()
