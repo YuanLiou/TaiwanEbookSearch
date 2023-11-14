@@ -1,12 +1,11 @@
 package com.rayliu.commonmain.di
 
-import org.apache.commons.text.similarity.LevenshteinDistance
+import com.rayliu.commonmain.LevenshteinDistanceHelper
+import com.rayliu.commonmain.LevenshteinDistanceHelperImpl
 import org.koin.dsl.module
 
-private const val SIMILARITY_THRESHOLD = 7
-
 val miscModule = module {
-    single<LevenshteinDistance> {
-        LevenshteinDistance(SIMILARITY_THRESHOLD)
+    factory<LevenshteinDistanceHelper> {
+        LevenshteinDistanceHelperImpl()
     }
 }

@@ -314,7 +314,9 @@ class BookSearchViewModel(
                 }.run {
                     take(maxListNumber)
                 }.run {
-                    sortedWith(compareBy { book -> book.price })
+                    // TODO:: 增加開關：用價格排序
+//                    sortedWith(compareBy { book -> book.titleKeywordSimilarity })
+                    sortedByDescending { it.titleKeywordSimilarity }
                 }
 
                 adapterItems.add(
@@ -325,7 +327,7 @@ class BookSearchViewModel(
                             isOnline = bookResult.isOnline,
                             isResultOkay = bookResult.isOkay,
                             status = bookResult.status
-                        ),
+                        )
                     )
                 )
 

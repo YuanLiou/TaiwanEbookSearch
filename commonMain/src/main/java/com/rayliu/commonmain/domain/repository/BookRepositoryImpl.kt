@@ -6,15 +6,17 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.rayliu.commonmain.Utils
+import com.rayliu.commonmain.data.DefaultStoreNames
 import com.rayliu.commonmain.data.api.BookSearchService
 import com.rayliu.commonmain.data.dto.NetworkCrawerResult
 import com.rayliu.commonmain.data.mapper.BookStoresMapper
 import com.rayliu.commonmain.domain.model.BookStores
-import com.rayliu.commonmain.data.DefaultStoreNames
+import java.io.IOException
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
-import java.io.IOException
+import kotlinx.coroutines.withContext
 
 class BookRepositoryImpl(
     private val bookSearchService: BookSearchService,
@@ -41,9 +43,10 @@ class BookRepositoryImpl(
         }
     }
 
-    private fun mapBookStores(input: NetworkCrawerResult): BookStores {
-        return bookStoresMapper.map(input)
-    }
+    private suspend fun mapBookStores(input: NetworkCrawerResult): BookStores =
+        withContext(Dispatchers.IO) {
+            bookStoresMapper.map(input)
+        }
 
     override fun getDefaultResultSort(): Flow<List<DefaultStoreNames>> {
         val key = stringPreferencesKey(KEY_BOOK_STORE_SORT)

@@ -37,7 +37,7 @@ import org.koin.dsl.module
 val domainModule = module {
     // Mappers
     factory {
-        BookDataMapper()
+        BookDataMapper(get())
     }
 
     factory {
