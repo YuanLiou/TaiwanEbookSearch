@@ -27,6 +27,7 @@ class BookDataMapper(
 
     override fun map(input: NetworkBook): Book {
         return with(input) {
+            val bookTitle = title?.removeSpaces() ?: ""
             Book(
                 thumbnail = thumbnail.orEmpty(),
                 priceCurrency = priceCurrency ?: "TWD",
@@ -34,12 +35,11 @@ class BookDataMapper(
                 link = link.orEmpty(),
                 about = about?.removeSpaces() ?: "",
                 id = id.orEmpty(),
-                title = title?.removeSpaces() ?: "",
+                title = bookTitle,
                 authors = authors.orEmpty(),
                 bookStore = currentBookStore,
                 titleKeywordSimilarity = run {
-                    val bookTitle = title ?: return@run null
-                    if (keywords.isEmpty()) {
+                    if (keywords.isEmpty() || bookTitle.isEmpty()) {
                         return@run null
                     }
                     levenshteinDistance.check(original = keywords, target = bookTitle)

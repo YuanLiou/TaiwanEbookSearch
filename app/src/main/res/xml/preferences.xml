@@ -40,8 +40,12 @@
         <SwitchPreferenceCompat
             app:key="app_option_preference_sort_by_book_price"
             app:title="@string/preference_sort_by_book_price"
+            app:summaryOn="@string/preference_sort_by_book_price_on_summary"
+            app:summaryOff="@string/preference_sort_by_book_price_off_summary"
             app:defaultValue="true"
             tools:title="@string/preference_sort_by_book_price"
+            tools:summaryOn="@string/preference_sort_by_book_price_on_summary"
+            tools:summaryOff="@string/preference_sort_by_book_price_off_summary"
             tools:defaultValue="false"
             />
 

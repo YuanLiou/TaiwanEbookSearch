@@ -45,6 +45,8 @@
     <string name="preference_custom_tab_on_summary">現在使用瀏覽器分頁來開啟結果頁面</string>
     <string name="preference_custom_tab_off_summary">現在在 App 內開啟結果頁面</string>
     <string name="preference_sort_by_book_price">用價格排序結果</string>
+    <string name="preference_sort_by_book_price_on_summary">下次結果將以價格排序</string>
+    <string name="preference_sort_by_book_price_off_summary">下次結果將以相關性排序</string>
 
     <plurals name="title_authors">
         <item quantity="other">作者: %1$s</item>
