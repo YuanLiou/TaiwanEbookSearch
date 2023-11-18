@@ -20,9 +20,10 @@ import io.ktor.http.URLProtocol
 import io.ktor.http.path
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import org.koin.core.scope.get
 import org.koin.dsl.module
 
-private const val apiVersion = "v1"
+private const val API_VERSION = "v1"
 
 val dataModule = module {
 
@@ -51,12 +52,13 @@ val dataModule = module {
                     if (BuildConfig.DEBUG) {
                         port = BuildConfig.HOST_PORT
                     }
-                    path("$apiVersion/")
+                    path("$API_VERSION/")
                 }
             }
 
             install(DefaultRequest) {
-                header("User-Agent", SystemInfoCollector.getUserAgent())
+                val systemInfoCollector: SystemInfoCollector = get()
+                header("User-Agent", systemInfoCollector.getUserAgent())
             }
 
             if (BuildConfig.DEBUG) {

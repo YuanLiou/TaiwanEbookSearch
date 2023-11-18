@@ -2,6 +2,7 @@ package liou.rayyuan.ebooksearchtaiwan.di
 
 import android.content.ClipboardManager
 import android.content.Context
+import com.rayliu.commonmain.SystemInfoCollector
 import com.rayliu.commonmain.di.dataModule
 import com.rayliu.commonmain.di.domainModule
 import com.rayliu.commonmain.di.jsonModule
@@ -16,6 +17,7 @@ import liou.rayyuan.ebooksearchtaiwan.utils.ClipboardHelper
 import liou.rayyuan.ebooksearchtaiwan.utils.CustomTabSessionManager
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import liou.rayyuan.ebooksearchtaiwan.utils.ResourceHelper
+import liou.rayyuan.ebooksearchtaiwan.utils.SystemInfoCollectorImpl
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -75,6 +77,9 @@ val appUtilsModule = module {
     }
     factory {
         CustomTabSessionManager(getDefaultBookSortUseCase = get())
+    }
+    factory<SystemInfoCollector> {
+        SystemInfoCollectorImpl()
     }
 }
 
