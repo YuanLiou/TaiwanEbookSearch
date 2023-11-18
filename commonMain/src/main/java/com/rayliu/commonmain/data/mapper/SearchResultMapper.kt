@@ -9,8 +9,10 @@ class SearchResultMapper(
 ) : Mapper<NetworkCrawerResult, SearchResult> {
 
     override fun map(input: NetworkCrawerResult): SearchResult {
+        val keywords = input.keywords.orEmpty()
+        bookStoreListMapper.setKeywords(keywords)
         return SearchResult(
-            keyword = input.keywords ?: "",
+            keyword = keywords,
             apiVersion = input.apiVersion ?: "",
             bookStores = bookStoreListMapper.map(input.networkResults),
             totalBookCounts = input.totalQuantity ?: 0

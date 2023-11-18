@@ -1,6 +1,5 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,9 +15,9 @@ import coil.transform.RoundedCornersTransformation
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
+import com.rayliu.commonmain.domain.model.Book
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
-import com.rayliu.commonmain.domain.model.Book
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookHeader
 import liou.rayyuan.ebooksearchtaiwan.uimodel.BookUiModel
 
@@ -29,7 +28,7 @@ class FullBookStoreResultAdapter(
     private var clickHandler: BookResultClickHandler?,
     private val lifecycleOwner: LifecycleOwner
 ) :
-        RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+    RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     BookResultClickHandler {
 
     private val header = 1001
@@ -42,16 +41,28 @@ class FullBookStoreResultAdapter(
         return when (viewType) {
             header -> {
                 MobileAds.initialize(parent.context)
-                val headerView: View = LayoutInflater.from(parent.context).inflate(R.layout.admob_view_header, parent, false)
+                val headerView: View = LayoutInflater.from(parent.context).inflate(
+                    R.layout.admob_view_header,
+                    parent,
+                    false
+                )
                 AdViewHolder(headerView)
             }
             storeTitle -> {
-                val storeTitleView: View = LayoutInflater.from(parent.context).inflate(R.layout.adapter_header, parent, false)
+                val storeTitleView: View = LayoutInflater.from(parent.context).inflate(
+                    R.layout.adapter_header,
+                    parent,
+                    false
+                )
                 BookStoreTitleViewHolder(storeTitleView)
             }
             else -> {
                 // Default viewType is bookItem
-                val bookCardView: View = LayoutInflater.from(parent.context).inflate(R.layout.book_card_view, parent, false)
+                val bookCardView: View = LayoutInflater.from(parent.context).inflate(
+                    R.layout.book_card_view,
+                    parent,
+                    false
+                )
                 BookCardViewHolder(bookCardView)
             }
         }
@@ -61,14 +72,14 @@ class FullBookStoreResultAdapter(
         when (holder) {
             is AdViewHolder -> return
             is BookStoreTitleViewHolder -> {
-                val adapterPosition = (holder.absoluteAdapterPosition - 1)    // minus a position for header
+                val adapterPosition = (holder.absoluteAdapterPosition - 1) // minus a position for header
                 if (adapterPosition != RecyclerView.NO_POSITION) {
                     val bookHeader = items[adapterPosition] as BookHeader
                     bindHeader(holder, bookHeader)
                 }
             }
             is BookCardViewHolder -> {
-                val index: Int = (holder.absoluteAdapterPosition - 1)    // minus a position for header
+                val index: Int = (holder.absoluteAdapterPosition - 1) // minus a position for header
                 if (index < items.size && index != RecyclerView.NO_POSITION) {
                     val book = items[index] as BookUiModel
                     bindBook(holder, book)
@@ -98,14 +109,18 @@ class FullBookStoreResultAdapter(
         }
 
         if (!isSiteOnline) {
-            holder.bookResultStatusText.text = holder.itemView.context.getText(R.string.error_site_is_not_online)
+            holder.bookResultStatusText.text = holder.itemView.context.getText(
+                R.string.error_site_is_not_online
+            )
             holder.bookResultStatusText.visibility = View.VISIBLE
         } else if (!isResultOkay) {
             val failedMessage = holder.itemView.context.getText(R.string.error_result_is_failed).toString() + "\n" + searchResultMessage
             holder.bookResultStatusText.text = failedMessage
             holder.bookResultStatusText.visibility = View.VISIBLE
         } else if (isResultEmpty) {
-            holder.bookResultStatusText.text = holder.itemView.context.getText(R.string.result_nothing)
+            holder.bookResultStatusText.text = holder.itemView.context.getText(
+                R.string.result_nothing
+            )
             holder.bookResultStatusText.visibility = View.VISIBLE
         }
     }
@@ -115,7 +130,9 @@ class FullBookStoreResultAdapter(
         holder: BookStoreTitleViewHolder
     ) {
         if (bookHeader.isEmptyResult) {
-            holder.bookResultStatusText.text = holder.itemView.context.getText(R.string.result_nothing)
+            holder.bookResultStatusText.text = holder.itemView.context.getText(
+                R.string.result_nothing
+            )
             holder.bookResultStatusText.visibility = View.VISIBLE
         } else {
             holder.bookResultStatusText.visibility = View.GONE
@@ -157,8 +174,13 @@ class FullBookStoreResultAdapter(
     }
 
     private fun setTextOnViewHolder(textView: AppCompatTextView, content: String) {
-        textView.setTextFuture(PrecomputedTextCompat.getTextFuture(
-            content, TextViewCompat.getTextMetricsParams(textView), null))
+        textView.setTextFuture(
+            PrecomputedTextCompat.getTextFuture(
+                content,
+                TextViewCompat.getTextMetricsParams(textView),
+                null
+            )
+        )
     }
 
     override fun getItemCount(): Int {
@@ -166,7 +188,7 @@ class FullBookStoreResultAdapter(
             return 0
         }
 
-        return items.size + 1    // plus a position for header
+        return items.size + 1 // plus a position for header
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -174,7 +196,7 @@ class FullBookStoreResultAdapter(
             return header
         }
 
-        val adapterItem = items[(position - 1)]    // minus a position for header
+        val adapterItem = items[(position - 1)] // minus a position for header
         if (adapterItem is BookHeader) {
             return storeTitle
         } else if (adapterItem is BookUiModel) {

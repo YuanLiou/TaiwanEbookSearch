@@ -5,9 +5,14 @@ import com.rayliu.commonmain.data.mapper.basic.Mapper
 import com.rayliu.commonmain.domain.model.BookStore
 
 class BookStoreMapper(
-    val bookListMapper: BookListMapper,
-    val bookStoreDetailsMapper: BookStoreDetailsMapper
+    private val bookListMapper: BookListMapper,
+    private val bookStoreDetailsMapper: BookStoreDetailsMapper
 ) : Mapper<NetworkResult, BookStore> {
+
+    fun setKeywords(keywords: String) {
+        bookListMapper.setupKeywords(keywords)
+    }
+
     override fun map(input: NetworkResult): BookStore {
         val bookStoreId = input.bookstore.id
         bookListMapper.setupBookStore(bookStoreId)

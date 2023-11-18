@@ -5,13 +5,10 @@ import android.os.Build
 import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
-import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import com.rayliu.commonmain.domain.service.UserPreferenceManager
+import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import org.koin.android.ext.android.inject
 
-/**
- * Created by louis383 on 2018/9/29.
- */
 abstract class BaseActivity(@LayoutRes contentLayoutId: Int) : AppCompatActivity(contentLayoutId) {
 
     protected val userPreferenceManager: UserPreferenceManager by inject()
@@ -38,7 +35,7 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int) : AppCompatActivity
     fun isDarkTheme(): Boolean {
         val shouldFollowSystemTheme = userPreferenceManager.isFollowSystemTheme()
         return (isSystemInNightMode() && shouldFollowSystemTheme) ||
-                (userPreferenceManager.isDarkTheme() && !shouldFollowSystemTheme)
+            (userPreferenceManager.isDarkTheme() && !shouldFollowSystemTheme)
     }
 
     protected fun isThemeChanged(): Boolean = isOpenWithDarkTheme != isDarkTheme()
@@ -54,6 +51,6 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int) : AppCompatActivity
         }
 
         return resources.configuration.uiMode and
-                Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+            Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
     }
 }

@@ -87,6 +87,7 @@ android {
 dependencies {
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(libs.threetenabp)
+    implementation(libs.fuzzywuzzy)
 
     // Kotlin
     implementation(libs.kotlinx.coroutines.android)

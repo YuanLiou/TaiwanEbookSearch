@@ -44,6 +44,9 @@
     <string name="preference_custom_tab_description">Use Browser Tab</string>
     <string name="preference_custom_tab_on_summary">Now use browser Tab to open result</string>
     <string name="preference_custom_tab_off_summary">Now open the result in app</string>
+    <string name="preference_sort_by_book_price">Sort results by book prices</string>
+    <string name="preference_sort_by_book_price_on_summary">Next results will be sorted by its price</string>
+    <string name="preference_sort_by_book_price_off_summary">Next results will be sorted by its name</string>
 
     <plurals name="title_authors">
         <item quantity="one">Author: %1$s</item>

@@ -44,6 +44,9 @@
     <string name="preference_custom_tab_description">使用浏览器分页</string>
     <string name="preference_custom_tab_on_summary">现在使用浏览器分页来开启结果页面</string>
     <string name="preference_custom_tab_off_summary">现在在应用内打开结果页面</string>
+    <string name="preference_sort_by_book_price">用价格排序结果</string>
+    <string name="preference_sort_by_book_price_on_summary">下次结果将以价格排序</string>
+    <string name="preference_sort_by_book_price_off_summary">下次结果将以相关性排序</string>
 
     <plurals name="title_authors">
         <item quantity="other">作者: %1$s</item>

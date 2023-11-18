@@ -5,14 +5,15 @@ desugarLibVersion = "2.0.3"
 threeTen = "1.4.6"
 koin = "3.5.0"
 zxing = "4.3.0"
+fuzzywuzzy = "1.4.0"
 
 #  Google Libraries
 androidxAppCompat = "1.6.1"
-androidxCore = "1.10.0"
+androidxCore = "1.12.0"
 androidxFragment = "1.5.7"
-androidxActivity = "1.7.1"
+androidxActivity = "1.8.0"
 androidxRecyclerview = "1.3.0"
-androidxPreference = "1.2.0"
+androidxPreference = "1.2.1"
 androidxBrowser = "1.5.0"
 materialDesign = "1.8.0"
 constraintlayoutVersion = "2.1.4"
@@ -50,6 +51,7 @@ coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 threetenabp = { group = "com.jakewharton.threetenabp", name = "threetenabp", version.ref = "threeTen" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 zxing-android = { group = "com.journeyapps", name = "zxing-android-embedded", version.ref = "zxing" }
+fuzzywuzzy = { group = "me.xdrop", name = "fuzzywuzzy", version.ref = "fuzzywuzzy" }
 
 #  Google
 desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugarLibVersion" }
