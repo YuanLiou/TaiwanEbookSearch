@@ -22,7 +22,9 @@ import org.koin.android.ext.android.inject
 /**
  * Created by louis383 on 2018/9/29.
  */
-class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
+class PreferenceSettingsFragment :
+    PreferenceFragmentCompat(),
+    SharedPreferences.OnSharedPreferenceChangeListener {
 
     private val quickChecker: QuickChecker by inject()
     private val searchRecordDao: SearchRecordDao by inject()
@@ -32,9 +34,12 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
         val themeChooser = findPreference(UserPreferenceManager.KEY_USER_THEME) as? ListPreference
-        val followSystemTheme = findPreference(UserPreferenceManager.KEY_USER_SYSTEM_THEME) as? SwitchPreferenceCompat
-        val preferCustomTabs = findPreference(UserPreferenceManager.KEY_USE_CHROME_CUSTOM_VIEW) as? SwitchPreferenceCompat
-        val cleanSearchRecord = findPreference(UserPreferenceManager.KEY_CLEAN_SEARCH_RECORD) as? Preference
+        val followSystemTheme =
+            findPreference(UserPreferenceManager.KEY_USER_SYSTEM_THEME) as? SwitchPreferenceCompat
+        val preferCustomTabs =
+            findPreference(UserPreferenceManager.KEY_USE_CHROME_CUSTOM_VIEW) as? SwitchPreferenceCompat
+        val cleanSearchRecord =
+            findPreference(UserPreferenceManager.KEY_CLEAN_SEARCH_RECORD) as? Preference
 
         if (preferCustomTabs != null) {
             initiateCustomTabOption(preferCustomTabs)
@@ -44,13 +49,13 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
             followSystemTheme?.run {
                 isChecked = false
                 isEnabled = false
-                setShouldDisableView(true)
+                shouldDisableView = true
             }
         }
         if (followSystemTheme?.isChecked == true) {
             themeChooser?.run {
                 isEnabled = false
-                setShouldDisableView(true)
+                shouldDisableView = true
             }
         }
 
@@ -76,7 +81,7 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
             with(preferCustomTabs) {
                 isChecked = false
                 isEnabled = false
-                setShouldDisableView(true)
+                shouldDisableView = true
             }
         }
     }
@@ -146,8 +151,10 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             UserPreferenceManager.KEY_USER_SYSTEM_THEME -> {
-                val themeChooser = findPreference(UserPreferenceManager.KEY_USER_THEME) as? ListPreference
-                val followSystemTheme = findPreference(UserPreferenceManager.KEY_USER_SYSTEM_THEME) as? SwitchPreferenceCompat
+                val themeChooser =
+                    findPreference(UserPreferenceManager.KEY_USER_THEME) as? ListPreference
+                val followSystemTheme =
+                    findPreference(UserPreferenceManager.KEY_USER_SYSTEM_THEME) as? SwitchPreferenceCompat
                 if (followSystemTheme?.isChecked == true) {
                     themeChooser?.run {
                         isEnabled = false
@@ -161,9 +168,11 @@ class PreferenceSettingsFragment : PreferenceFragmentCompat(), SharedPreferences
                 }
                 callback?.onThemeChanged()
             }
+
             UserPreferenceManager.KEY_USER_THEME -> {
                 callback?.onThemeChanged()
             }
+
             else -> {
                 Log.i("PreferenceSettings", "The value of $key changed")
             }

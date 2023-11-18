@@ -38,6 +38,14 @@
         >
 
         <SwitchPreferenceCompat
+            app:key="app_option_preference_sort_by_book_price"
+            app:title="@string/preference_sort_by_book_price"
+            app:defaultValue="true"
+            tools:title="@string/preference_sort_by_book_price"
+            tools:defaultValue="false"
+            />
+
+        <SwitchPreferenceCompat
             app:key="app_option_preference__use_chrome_custom_view"
             app:title="@string/preference_custom_tab_description"
             app:summaryOn="@string/preference_custom_tab_on_summary"

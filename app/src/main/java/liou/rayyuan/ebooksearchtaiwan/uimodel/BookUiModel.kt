@@ -26,7 +26,10 @@ data class BookUiModel(val book: Book) : AdapterItem {
 
     fun getPrice(): String {
         if (book.priceCurrency == "TWD") {
-            val price: Int = book.price.toInt()
+            var price: Int = book.price.toInt()
+            if (price < 0) {
+                price = 0
+            }
             return "$" + price + " " + book.priceCurrency
         }
 

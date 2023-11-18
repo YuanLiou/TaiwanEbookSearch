@@ -10,6 +10,7 @@ import com.rayliu.commonmain.data.DefaultStoreNames
 import com.rayliu.commonmain.domain.model.BookResult
 import com.rayliu.commonmain.domain.model.BookStores
 import com.rayliu.commonmain.domain.model.SearchRecord
+import com.rayliu.commonmain.domain.service.UserPreferenceManager
 import com.rayliu.commonmain.domain.usecase.DeleteSearchRecordUseCase
 import com.rayliu.commonmain.domain.usecase.GetBooksWithStoresUseCase
 import com.rayliu.commonmain.domain.usecase.GetDefaultBookSortUseCase
@@ -57,7 +58,8 @@ class BookSearchViewModel(
     private val deleteSearchRecordUseCase: DeleteSearchRecordUseCase,
     private val resourceHelper: ResourceHelper,
     private val rankingWindowFacade: UserRankingWindowFacade,
-    private val clipboardHelper: ClipboardHelper
+    private val clipboardHelper: ClipboardHelper,
+    private val userPreferenceManager: UserPreferenceManager
 ) : ViewModel(),
     IModel<BookResultViewState, BookSearchUserIntent> {
     companion object {
@@ -314,9 +316,11 @@ class BookSearchViewModel(
                 }.run {
                     take(maxListNumber)
                 }.run {
-                    // TODO:: 增加開關：用價格排序
-//                    sortedWith(compareBy { book -> book.titleKeywordSimilarity })
-                    sortedByDescending { it.titleKeywordSimilarity }
+                    if (userPreferenceManager.isSearchResultSortByPrice()) {
+                        sortedBy { it.price }
+                    } else {
+                        sortedByDescending { it.titleKeywordSimilarity }
+                    }
                 }
 
                 adapterItems.add(

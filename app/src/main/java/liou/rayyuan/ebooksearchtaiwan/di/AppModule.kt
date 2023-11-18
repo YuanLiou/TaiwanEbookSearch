@@ -6,6 +6,7 @@ import com.rayliu.commonmain.di.dataModule
 import com.rayliu.commonmain.di.domainModule
 import com.rayliu.commonmain.di.jsonModule
 import com.rayliu.commonmain.di.miscModule
+import com.rayliu.commonmain.domain.service.UserPreferenceManager
 import liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchViewModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.review.PlayStoreReviewHelper
 import liou.rayyuan.ebooksearchtaiwan.bookstorereorder.BookStoreReorderViewModel
@@ -40,7 +41,8 @@ val appModule = module {
             deleteSearchRecordUseCase = get(),
             resourceHelper = get(),
             rankingWindowFacade = get(),
-            clipboardHelper = get()
+            clipboardHelper = get(),
+            userPreferenceManager = get()
         )
     }
 
