@@ -138,7 +138,7 @@ tasks.register<Detekt>("detektAll") {
     setSource(projectDir)
     include("**/*.kt", "**/*.kts")
     exclude("**/resources/**", "**/build/**")
-    config.setFrom(files("$project.rootDir/deteket-config.yml"))
+    config.setFrom(project.file("../deteket-config.yml"))
     reports {
         xml.required.set(true)
         html.required.set(true)
