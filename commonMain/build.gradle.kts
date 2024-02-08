@@ -1,3 +1,4 @@
+import io.gitlab.arturbosch.detekt.Detekt
 import java.io.File
 import java.io.FileInputStream
 import java.util.Properties
@@ -9,6 +10,7 @@ plugins {
     id(libs.plugins.kotlin.parcelize.get().pluginId)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
+    id(libs.plugins.detekt.get().pluginId)
 }
 
 val localProperties = Properties().apply {
@@ -84,6 +86,29 @@ android {
     namespace = "com.rayliu.commonmain"
 }
 
+detekt {
+    toolVersion = libs.versions.detektVersion.toString()
+    config.setFrom(files("$project.rootDir/deteket-config.yml"))
+    buildUponDefaultConfig = true
+    parallel = true
+}
+
+tasks.register<Detekt>("detektAll") {
+    description = "Runs Detekt on the whole project at once."
+    parallel = true
+    setSource(projectDir)
+    include("**/*.kt", "**/*.kts")
+    exclude("**/resources/**", "**/build/**")
+    config.setFrom(files("$project.rootDir/deteket-config.yml"))
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        txt.required.set(true)
+        sarif.required.set(true)
+        md.required.set(true)
+    }
+}
+
 dependencies {
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(libs.threetenabp)
@@ -108,4 +133,8 @@ dependencies {
     // Koin
     implementation(libs.koin.android)
     testImplementation(libs.androidx.test.ext)
+
+    // Detekt
+    detekt(libs.detekt.cli)
+    detektPlugins(libs.detekt.ktlint.formatting)
 }

@@ -43,7 +43,7 @@ androidGradlePlugin = "8.3.2"
 kotlin = "1.9.23"
 gmsPlugin = "4.4.1"
 firebaseCrashlyticsPlugin = "2.9.9"
-detektVersion = "1.0.0.RC9.2"
+detektVersion = "1.23.5"
 ksp = "1.9.23-1.0.20"
 
 [libraries]
@@ -52,6 +52,8 @@ threetenabp = { group = "com.jakewharton.threetenabp", name = "threetenabp", ver
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 zxing-android = { group = "com.journeyapps", name = "zxing-android-embedded", version.ref = "zxing" }
 fuzzywuzzy = { group = "me.xdrop", name = "fuzzywuzzy", version.ref = "fuzzywuzzy" }
+detekt-ktlint-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detektVersion" }
+detekt-cli = { group = "io.gitlab.arturbosch.detekt", name = "detekt-cli", version.ref = "detektVersion" }
 
 #  Google
 desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugarLibVersion" }
