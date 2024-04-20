@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.gms) apply false
     alias(libs.plugins.firebase.crashlytics) apply false
     alias(libs.plugins.detekt) apply false
+    alias(libs.plugins.ktlintGradle) apply false
 }
 
 buildscript {
@@ -35,7 +36,7 @@ allprojects {
 tasks {
     val clean by registering(Delete::class) {
         println("Start cleaning... build Dir")
-        delete(rootProject.buildDir)
+        delete(rootProject.layout.buildDirectory)
         println("Clean finished")
     }
 }

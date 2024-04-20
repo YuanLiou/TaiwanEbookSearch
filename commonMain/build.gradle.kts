@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     id(libs.plugins.detekt.get().pluginId)
+    id(libs.plugins.ktlintGradle.get().pluginId)
 }
 
 val localProperties = Properties().apply {

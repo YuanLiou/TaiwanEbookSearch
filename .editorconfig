@@ -10,3 +10,5 @@ ktlint_experimental = enabled
 
 # disable rules
 ktlint_standard_import-ordering = disabled
+ktlint_standard_trailing-comma-on-call-site = disabled
+ktlint_standard_trailing-comma-on-declaration-site = disabled
