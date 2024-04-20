@@ -40,11 +40,11 @@ androidxEspresso = "3.5.1"
 
 # plugins versions
 androidGradlePlugin = "8.1.4"
-kotlin = "1.9.22"
+kotlin = "1.9.23"
 gmsPlugin = "4.4.0"
 firebaseCrashlyticsPlugin = "2.9.9"
 detektVersion = "1.0.0.RC9.2"
-ksp = "1.9.22-1.0.17"
+ksp = "1.9.23-1.0.20"
 
 [libraries]
 coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
