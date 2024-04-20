@@ -43,7 +43,7 @@ androidGradlePlugin = "8.3.2"
 kotlin = "1.9.23"
 gmsPlugin = "4.4.1"
 firebaseCrashlyticsPlugin = "2.9.9"
-detektVersion = "1.23.5"
+detektVersion = "1.23.6"
 ksp = "1.9.23-1.0.20"
 
 [libraries]
