@@ -31,10 +31,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.os.BundleCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.withResumed
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -123,8 +125,10 @@ class BookResultListFragment :
         super.onViewStateRestored(savedInstanceState)
         if (savedInstanceState != null) {
             val recyclerViewState =
-                savedInstanceState.getParcelable<Parcelable>(BUNDLE_RECYCLERVIEW_STATE)
-            resultsRecyclerView.layoutManager?.onRestoreInstanceState(recyclerViewState)
+                BundleCompat.getParcelable(savedInstanceState, BUNDLE_RECYCLERVIEW_STATE, Parcelable::class.java)
+            if (recyclerViewState != null) {
+                resultsRecyclerView.layoutManager?.onRestoreInstanceState(recyclerViewState)
+            }
 
             val recyclerViewPosition = savedInstanceState.getInt(KEY_RECYCLERVIEW_POSITION, 0)
             (resultsRecyclerView.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(
@@ -158,13 +162,15 @@ class BookResultListFragment :
     }
 
     private fun handleInitialDeepLink() {
-        lifecycleScope.launchWhenResumed {
-            if (defaultSearchKeyword.isNotBlank()) {
-                searchWithText(defaultSearchKeyword)
-                defaultSearchKeyword = ""
-            } else if (defaultSnapshotSearchId.isNotBlank()) {
-                showSearchSnapshot(defaultSnapshotSearchId)
-                defaultSnapshotSearchId = ""
+        lifecycleScope.launch {
+            withResumed {
+                if (defaultSearchKeyword.isNotBlank()) {
+                    searchWithText(defaultSearchKeyword)
+                    defaultSearchKeyword = ""
+                } else if (defaultSnapshotSearchId.isNotBlank()) {
+                    showSearchSnapshot(defaultSnapshotSearchId)
+                    defaultSnapshotSearchId = ""
+                }
             }
         }
     }

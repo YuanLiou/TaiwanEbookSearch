@@ -13,6 +13,7 @@ plugins {
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.kotlin.serialization)
     id(libs.plugins.detekt.get().pluginId)
+    id(libs.plugins.ktlintGradle.get().pluginId)
 }
 
 val localProperties = Properties().apply {
