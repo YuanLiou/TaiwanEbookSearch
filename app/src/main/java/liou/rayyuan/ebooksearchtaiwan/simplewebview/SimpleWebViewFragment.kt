@@ -11,6 +11,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.os.BundleCompat
 import com.google.android.material.appbar.MaterialToolbar
 import liou.rayyuan.ebooksearchtaiwan.BaseFragment
 import liou.rayyuan.ebooksearchtaiwan.R
@@ -21,7 +22,7 @@ import liou.rayyuan.ebooksearchtaiwan.uimodel.asUiModel
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
 
-class SimpleWebViewFragment: BaseFragment(R.layout.fragment_simple_webview), Toolbar.OnMenuItemClickListener {
+class SimpleWebViewFragment : BaseFragment(R.layout.fragment_simple_webview), Toolbar.OnMenuItemClickListener {
     companion object {
         const val TAG = "SimpleWebViewFragment"
         private const val KEY_BOOK = "key-book"
@@ -46,7 +47,10 @@ class SimpleWebViewFragment: BaseFragment(R.layout.fragment_simple_webview), Too
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState != null) {
-            book = savedInstanceState.getParcelable(KEY_BOOK)!!
+            val book = BundleCompat.getParcelable(savedInstanceState, KEY_BOOK, Book::class.java)
+            if (book != null) {
+                this.book = book
+            }
             showCloseButton = savedInstanceState.getBoolean(KEY_SHOW_CLOSE_BUTTON, false)
         }
     }
@@ -165,24 +169,13 @@ class SimpleWebViewFragment: BaseFragment(R.layout.fragment_simple_webview), Too
     }
     //endregion
 
-    inner class CustomWebViewClient: WebViewClient() {
-        private var cleanHistory = false
-
-        internal fun cleanHistory() {
-            cleanHistory = true
-        }
-
+    inner class CustomWebViewClient : WebViewClient() {
         override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
         }
 
         override fun onPageFinished(view: WebView?, url: String?) {
             if (isAdded) {
                 val progressBarView = viewBinding.simpleWebviewProgressBar
-                val contentView = viewBinding.simpleWebviewContent
-                if (cleanHistory) {
-                    cleanHistory = false
-                    contentView.clearHistory()
-                }
                 progressBarView.visibility = View.GONE
             }
         }

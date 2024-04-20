@@ -1,0 +1,12 @@
+# https://editorconfig.org
+root = true
+[*]
+charset = utf-8
+
+[*.{kt,kts}]
+ktlint_code_style = ktlint_official
+ktlint_standard = enabled
+ktlint_experimental = enabled
+
+# disable rules
+ktlint_standard_import-ordering = disabled
