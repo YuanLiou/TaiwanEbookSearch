@@ -7,10 +7,10 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.rayliu.commonmain.domain.service.UserPreferenceManager
 
-private const val dataStoreName = "UserDataStore"
+private const val DATA_STORE_NAME = "UserDataStore"
 
 internal val Context.userDataStore: DataStore<Preferences> by preferencesDataStore(
-    dataStoreName,
+    DATA_STORE_NAME,
     produceMigrations = { context ->
         listOf(
             SharedPreferencesMigration(context = context, sharedPreferencesName = UserPreferenceManager.USER_PREFERENCE_NAME)

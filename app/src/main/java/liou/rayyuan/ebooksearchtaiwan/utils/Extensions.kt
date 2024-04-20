@@ -5,16 +5,18 @@ import android.content.Context
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.IdRes
-import liou.rayyuan.ebooksearchtaiwan.R
-import com.rayliu.commonmain.data.DefaultStoreNames
 
-fun String?.showToastOn(context: Context, duration: Int = Toast.LENGTH_LONG): Toast {
+fun String?.showToastOn(
+    context: Context,
+    duration: Int = Toast.LENGTH_LONG
+): Toast {
     val message = this ?: ""
     return Toast.makeText(context, message, duration).apply { show() }
 }
 
-fun <T: View> Activity.bindView(@IdRes resId: Int): Lazy<T> =
-        lazy { findViewById<T>(resId) }
+fun <T : View> Activity.bindView(
+    @IdRes resId: Int
+): Lazy<T> = lazy { findViewById<T>(resId) }
 
 /***
  * Guard Let: Use this function to check all parameters is not null.
@@ -23,7 +25,10 @@ fun <T: View> Activity.bindView(@IdRes resId: Int): Lazy<T> =
  *
  * It's recommend to use this function to do **early return**.
  */
-inline fun <T : Any> guardLet(vararg elements: T?, abortAction: () -> Nothing): List<T> {
+inline fun <T : Any> guardLet(
+    vararg elements: T?,
+    abortAction: () -> Nothing
+): List<T> {
     val isAllElementsAvailable = elements.all { it != null }
     return if (isAllElementsAvailable) {
         elements.filterNotNull()
@@ -37,7 +42,10 @@ inline fun <T : Any> guardLet(vararg elements: T?, abortAction: () -> Nothing): 
  *
  * The passed action will be performed while all parameters are not null.
  */
-inline fun <T : Any> ifLet(vararg elements: T?, action: (List<T>) -> Unit) {
+inline fun <T : Any> ifLet(
+    vararg elements: T?,
+    action: (List<T>) -> Unit
+) {
     val isAllElementsAvailable = elements.all { it != null }
     if (isAllElementsAvailable) {
         action(elements.filterNotNull())

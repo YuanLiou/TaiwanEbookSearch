@@ -4,7 +4,6 @@ import com.rayliu.commonmain.domain.model.BookResult
 import com.rayliu.commonmain.domain.model.BookStores
 import com.rayliu.commonmain.data.DefaultStoreNames
 
-
 fun BookStores.generateBookStoresResultMap(sortedList: List<DefaultStoreNames>): Map<DefaultStoreNames, BookResult> {
     val map = mutableMapOf<DefaultStoreNames, BookResult>()
 

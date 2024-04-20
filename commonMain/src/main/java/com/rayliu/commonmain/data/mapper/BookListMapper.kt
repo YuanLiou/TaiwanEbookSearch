@@ -8,7 +8,6 @@ import com.rayliu.commonmain.domain.model.Book
 class BookListMapper(
     private val bookMapper: BookDataMapper
 ) : NullableInputListMapper<NetworkBook, Book> {
-
     fun setupBookStore(storeName: String?) {
         if (storeName == null) {
             return

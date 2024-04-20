@@ -13,22 +13,34 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rayliu.commonmain.domain.model.SearchRecord
 import liou.rayyuan.ebooksearchtaiwan.R
 
-class SearchRecordAdapter(private var listener: OnSearchRecordsClickListener?): PagingDataAdapter<SearchRecord,
-        SearchRecordAdapter.SearchRecordViewHolder>(SearchRecordDiffCallback()) {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchRecordViewHolder {
+class SearchRecordAdapter(
+    private var listener: OnSearchRecordsClickListener?
+) : PagingDataAdapter<
+        SearchRecord,
+        SearchRecordAdapter.SearchRecordViewHolder
+        >(SearchRecordDiffCallback()) {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): SearchRecordViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.adapter_search_record, parent, false)
         return SearchRecordViewHolder(itemView, listener)
     }
 
-    override fun onBindViewHolder(holder: SearchRecordViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: SearchRecordViewHolder,
+        position: Int
+    ) {
         val searchRecord = getItem(position)
         searchRecord?.let {
             holder.bind(it)
         }
     }
 
-    fun addItems(lifecycle: Lifecycle, searchRecords: PagingData<SearchRecord>) {
+    fun addItems(
+        lifecycle: Lifecycle,
+        searchRecords: PagingData<SearchRecord>
+    ) {
         submitData(lifecycle, searchRecords)
         notifyDataSetChanged()
     }
@@ -37,20 +49,22 @@ class SearchRecordAdapter(private var listener: OnSearchRecordsClickListener?): 
         listener = null
     }
 
-    class SearchRecordDiffCallback: DiffUtil.ItemCallback<SearchRecord>() {
-        override fun areItemsTheSame(oldItem: SearchRecord, newItem: SearchRecord): Boolean {
-            return oldItem.id == newItem.id
-        }
+    class SearchRecordDiffCallback : DiffUtil.ItemCallback<SearchRecord>() {
+        override fun areItemsTheSame(
+            oldItem: SearchRecord,
+            newItem: SearchRecord
+        ): Boolean = oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: SearchRecord, newItem: SearchRecord): Boolean {
-            return oldItem == newItem
-        }
+        override fun areContentsTheSame(
+            oldItem: SearchRecord,
+            newItem: SearchRecord
+        ): Boolean = oldItem == newItem
     }
 
     class SearchRecordViewHolder(
         itemView: View,
         private val listener: OnSearchRecordsClickListener?
-    ): RecyclerView.ViewHolder(itemView) {
+    ) : RecyclerView.ViewHolder(itemView) {
         private val searchRecordText: TextView = itemView.findViewById(R.id.adapter_search_record_text)
         private val searchRecordCloseImage: ImageView = itemView.findViewById(R.id.adapter_search_record_close_image)
 
@@ -63,7 +77,10 @@ class SearchRecordAdapter(private var listener: OnSearchRecordsClickListener?): 
 
     interface OnSearchRecordsClickListener {
         fun onSearchRecordClicked(searchRecord: SearchRecord)
-        fun onSearchRecordCloseImageClicked(searchRecord: SearchRecord, position: Int)
-    }
 
+        fun onSearchRecordCloseImageClicked(
+            searchRecord: SearchRecord,
+            position: Int
+        )
+    }
 }

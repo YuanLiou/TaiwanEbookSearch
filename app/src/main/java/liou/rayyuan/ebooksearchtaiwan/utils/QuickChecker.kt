@@ -6,8 +6,9 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import liou.rayyuan.ebooksearchtaiwan.R
 
-class QuickChecker(context: Context) {
-
+class QuickChecker(
+    context: Context
+) {
     private val context = context.applicationContext
 
     fun isTabletSize(): Boolean = context.resources.getBoolean(R.bool.isTabletSize)
@@ -31,5 +32,4 @@ class QuickChecker(context: Context) {
         }
         return false
     }
-
 }

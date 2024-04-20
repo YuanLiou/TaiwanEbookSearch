@@ -8,15 +8,13 @@ class GetSearchSnapshotUseCase(
     private val bookRepository: BookRepository,
     private val searchRecordRepository: SearchRecordRepository
 ) {
-
-    suspend operator fun invoke(searchId: String): Result<BookStores> {
-        return bookRepository.getSearchSnapshot(searchId).onSuccess {
+    suspend operator fun invoke(searchId: String): Result<BookStores> =
+        bookRepository.getSearchSnapshot(searchId).onSuccess {
             val keyword = it.searchKeyword
             if (keyword.isNotEmpty()) {
                 saveKeyword(keyword)
             }
         }
-    }
 
     private suspend fun saveKeyword(keyword: String) {
         searchRecordRepository.saveKeywordToLocal(keyword)

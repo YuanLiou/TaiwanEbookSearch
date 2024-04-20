@@ -15,27 +15,30 @@ import liou.rayyuan.ebooksearchtaiwan.R
 class CustomTabSessionManager(
     private val getDefaultBookSortUseCase: GetDefaultBookSortUseCase
 ) {
-
     private var customTabsClient: CustomTabsClient? = null
     var customTabsSession: CustomTabsSession? = null
         private set
     private var topSelectedBookStoreUrl: String? = null
 
-    private val connections = object : CustomTabsServiceConnection() {
-        override fun onServiceDisconnected(name: ComponentName?) {
-            customTabsClient = null
-            customTabsSession = null
-        }
+    private val connections =
+        object : CustomTabsServiceConnection() {
+            override fun onServiceDisconnected(name: ComponentName?) {
+                customTabsClient = null
+                customTabsSession = null
+            }
 
-        override fun onCustomTabsServiceConnected(name: ComponentName, client: CustomTabsClient) {
-            client.warmup(0)
-            customTabsSession = client.newSession(CustomTabsCallback())
-            customTabsClient = client
-            topSelectedBookStoreUrl?.let { url ->
-                customTabsSession?.mayLaunchUrl(Uri.parse(url), null, null)
+            override fun onCustomTabsServiceConnected(
+                name: ComponentName,
+                client: CustomTabsClient
+            ) {
+                client.warmup(0)
+                customTabsSession = client.newSession(CustomTabsCallback())
+                customTabsClient = client
+                topSelectedBookStoreUrl?.let { url ->
+                    customTabsSession?.mayLaunchUrl(Uri.parse(url), null, null)
+                }
             }
         }
-    }
 
     suspend fun bindCustomTabService(context: Context): Boolean {
         if (customTabsClient != null) {

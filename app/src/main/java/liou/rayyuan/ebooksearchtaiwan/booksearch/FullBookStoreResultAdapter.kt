@@ -27,48 +27,55 @@ import liou.rayyuan.ebooksearchtaiwan.uimodel.BookUiModel
 class FullBookStoreResultAdapter(
     private var clickHandler: BookResultClickHandler?,
     private val lifecycleOwner: LifecycleOwner
-) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     BookResultClickHandler {
-
     private val header = 1001
     private val storeTitle = 1002
     private val bookItem = 1003
 
     private val items = mutableListOf<AdapterItem>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): RecyclerView.ViewHolder {
         return when (viewType) {
             header -> {
                 MobileAds.initialize(parent.context)
-                val headerView: View = LayoutInflater.from(parent.context).inflate(
-                    R.layout.admob_view_header,
-                    parent,
-                    false
-                )
+                val headerView: View =
+                    LayoutInflater.from(parent.context).inflate(
+                        R.layout.admob_view_header,
+                        parent,
+                        false
+                    )
                 AdViewHolder(headerView)
             }
             storeTitle -> {
-                val storeTitleView: View = LayoutInflater.from(parent.context).inflate(
-                    R.layout.adapter_header,
-                    parent,
-                    false
-                )
+                val storeTitleView: View =
+                    LayoutInflater.from(parent.context).inflate(
+                        R.layout.adapter_header,
+                        parent,
+                        false
+                    )
                 BookStoreTitleViewHolder(storeTitleView)
             }
             else -> {
                 // Default viewType is bookItem
-                val bookCardView: View = LayoutInflater.from(parent.context).inflate(
-                    R.layout.book_card_view,
-                    parent,
-                    false
-                )
+                val bookCardView: View =
+                    LayoutInflater.from(parent.context).inflate(
+                        R.layout.book_card_view,
+                        parent,
+                        false
+                    )
                 BookCardViewHolder(bookCardView)
             }
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int
+    ) {
         when (holder) {
             is AdViewHolder -> return
             is BookStoreTitleViewHolder -> {
@@ -109,18 +116,20 @@ class FullBookStoreResultAdapter(
         }
 
         if (!isSiteOnline) {
-            holder.bookResultStatusText.text = holder.itemView.context.getText(
-                R.string.error_site_is_not_online
-            )
+            holder.bookResultStatusText.text =
+                holder.itemView.context.getText(
+                    R.string.error_site_is_not_online
+                )
             holder.bookResultStatusText.visibility = View.VISIBLE
         } else if (!isResultOkay) {
             val failedMessage = holder.itemView.context.getText(R.string.error_result_is_failed).toString() + "\n" + searchResultMessage
             holder.bookResultStatusText.text = failedMessage
             holder.bookResultStatusText.visibility = View.VISIBLE
         } else if (isResultEmpty) {
-            holder.bookResultStatusText.text = holder.itemView.context.getText(
-                R.string.result_nothing
-            )
+            holder.bookResultStatusText.text =
+                holder.itemView.context.getText(
+                    R.string.result_nothing
+                )
             holder.bookResultStatusText.visibility = View.VISIBLE
         }
     }
@@ -130,9 +139,10 @@ class FullBookStoreResultAdapter(
         holder: BookStoreTitleViewHolder
     ) {
         if (bookHeader.isEmptyResult) {
-            holder.bookResultStatusText.text = holder.itemView.context.getText(
-                R.string.result_nothing
-            )
+            holder.bookResultStatusText.text =
+                holder.itemView.context.getText(
+                    R.string.result_nothing
+                )
             holder.bookResultStatusText.visibility = View.VISIBLE
         } else {
             holder.bookResultStatusText.visibility = View.GONE
@@ -173,7 +183,10 @@ class FullBookStoreResultAdapter(
         }
     }
 
-    private fun setTextOnViewHolder(textView: AppCompatTextView, content: String) {
+    private fun setTextOnViewHolder(
+        textView: AppCompatTextView,
+        content: String
+    ) {
         textView.setTextFuture(
             PrecomputedTextCompat.getTextFuture(
                 content,
@@ -223,12 +236,16 @@ class FullBookStoreResultAdapter(
         clickHandler = null
     }
 
-    class BookStoreTitleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class BookStoreTitleViewHolder(
+        itemView: View
+    ) : RecyclerView.ViewHolder(itemView) {
         val bookStoreTitle: TextView = itemView.findViewById(R.id.search_result_subtitle_top)
         val bookResultStatusText: TextView = itemView.findViewById(R.id.search_result_message_text)
     }
 
-    class BookCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class BookCardViewHolder(
+        itemView: View
+    ) : RecyclerView.ViewHolder(itemView) {
         val bookShopName: AppCompatTextView = itemView.findViewById(R.id.book_card_shop_name)
         val bookTitle: AppCompatTextView = itemView.findViewById(R.id.book_card_title)
         val bookDescription: AppCompatTextView = itemView.findViewById(R.id.book_card_description)
@@ -237,12 +254,12 @@ class FullBookStoreResultAdapter(
         val bookImage: ImageView = itemView.findViewById(R.id.book_card_image)
         val bookResultBody: View = itemView.findViewById(R.id.book_card_item_body)
 
-        fun getRoundedCornerValue(): Float {
-            return itemView.context.resources.getDimension(R.dimen.image_round_corner)
-        }
+        fun getRoundedCornerValue(): Float = itemView.context.resources.getDimension(R.dimen.image_round_corner)
     }
 
-    class AdViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class AdViewHolder(
+        itemView: View
+    ) : RecyclerView.ViewHolder(itemView) {
         private val bookResultAdView: AdView = itemView.findViewById(R.id.admob_view_header_adview)
 
         init {

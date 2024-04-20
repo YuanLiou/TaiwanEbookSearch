@@ -13,7 +13,6 @@ import org.koin.core.context.startKoin
  */
 
 class EBookSearchApplication : Application() {
-
     override fun onCreate() {
         super.onCreate()
         AndroidThreeTen.init(this)

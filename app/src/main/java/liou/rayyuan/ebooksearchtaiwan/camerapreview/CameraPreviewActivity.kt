@@ -31,9 +31,10 @@ class CameraPreviewActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewBinding = ActivityCameraPreviewBinding.inflate(layoutInflater).also {
-            setContentView(it.root)
-        }
+        viewBinding =
+            ActivityCameraPreviewBinding.inflate(layoutInflater).also {
+                setContentView(it.root)
+            }
         captureManager = CaptureManager(this, viewBinding.zxingBarcodeScanner)
 
         authText.setOnClickListener {
@@ -47,13 +48,14 @@ class CameraPreviewActivity : AppCompatActivity() {
             startDecodeBarcode(savedInstanceState)
         }
 
-        manualEnablePermissionsLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (shouldRequestCameraPermission()) {
-                requestCameraPermission()
-            } else {
-                readyToShowCameraView()
+        manualEnablePermissionsLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (shouldRequestCameraPermission()) {
+                    requestCameraPermission()
+                } else {
+                    readyToShowCameraView()
+                }
             }
-        }
     }
 
     private fun startDecodeBarcode(savedInstanceState: Bundle?) {
@@ -87,7 +89,11 @@ class CameraPreviewActivity : AppCompatActivity() {
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), cameraPermissionRequestCode)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         when (requestCode) {
             cameraPermissionRequestCode -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -98,23 +104,24 @@ class CameraPreviewActivity : AppCompatActivity() {
                     authText.visibility = View.VISIBLE
                     if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
                         MaterialAlertDialogBuilder(this)
-                                .setTitle(R.string.permission_request_title)
-                                .setMessage(R.string.permission_required_camera)
-                                .setPositiveButton(R.string.dialog_auth) { _, _ ->  requestCameraPermission() }
-                                .setNegativeButton(R.string.dialog_cancel) { dialogInterface, _ -> dialogInterface.dismiss()
-                                }
-                                .create().show()
+                            .setTitle(R.string.permission_request_title)
+                            .setMessage(R.string.permission_required_camera)
+                            .setPositiveButton(R.string.dialog_auth) { _, _ -> requestCameraPermission() }
+                            .setNegativeButton(R.string.dialog_cancel) { dialogInterface, _ ->
+                                dialogInterface.dismiss()
+                            }
+                            .create().show()
                     } else {
                         val appName = getString(R.string.app_name)
                         val permissionName = getString(R.string.permission_camera_name)
                         val authYourselfMessage = getString(R.string.auth_yourself, appName, permissionName)
 
                         MaterialAlertDialogBuilder(this)
-                                .setTitle(R.string.permission_request_title)
-                                .setMessage(authYourselfMessage)
-                                .setNegativeButton(R.string.dialog_ok, { dialogInterface, _ -> dialogInterface.dismiss() })
-                                .setPositiveButton(R.string.auth_take_me_there, { _, _ -> openApplicationSetting() })
-                                .create().show()
+                            .setTitle(R.string.permission_request_title)
+                            .setMessage(authYourselfMessage)
+                            .setNegativeButton(R.string.dialog_ok, { dialogInterface, _ -> dialogInterface.dismiss() })
+                            .setPositiveButton(R.string.auth_take_me_there, { _, _ -> openApplicationSetting() })
+                            .create().show()
                     }
                 }
             }
@@ -130,7 +137,7 @@ class CameraPreviewActivity : AppCompatActivity() {
     }
 
     private fun shouldRequestCameraPermission(): Boolean =
-            ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+        ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
 
     private fun runWithCameraPermission(action: () -> Unit) {
         if (!shouldRequestCameraPermission()) {

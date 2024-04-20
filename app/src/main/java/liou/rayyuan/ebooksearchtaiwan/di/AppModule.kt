@@ -7,7 +7,6 @@ import com.rayliu.commonmain.di.dataModule
 import com.rayliu.commonmain.di.domainModule
 import com.rayliu.commonmain.di.jsonModule
 import com.rayliu.commonmain.di.miscModule
-import com.rayliu.commonmain.domain.service.UserPreferenceManager
 import liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchViewModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.review.PlayStoreReviewHelper
 import liou.rayyuan.ebooksearchtaiwan.bookstorereorder.BookStoreReorderViewModel
@@ -27,67 +26,71 @@ import org.koin.dsl.module
  * Created by louis383 on 2018/8/29.
  */
 
-val appModule = module {
-    factory { EventTracker(androidApplication()) }
+val appModule =
+    module {
+        factory { EventTracker(androidApplication()) }
 
-    // ViewModels
-    viewModel {
-        BookSearchViewModel(
-            getBooksWithStoresUseCase = get(),
-            getSearchRecordsUseCase = get(),
-            getSearchRecordsCountsUseCase = get(),
-            getDefaultBookSortUseCase = get(),
-            getSearchSnapshotUseCase = get(),
-            eventTracker = get(),
-            quickChecker = get(),
-            deleteSearchRecordUseCase = get(),
-            resourceHelper = get(),
-            rankingWindowFacade = get(),
-            clipboardHelper = get(),
-            userPreferenceManager = get()
-        )
+        // ViewModels
+        viewModel {
+            BookSearchViewModel(
+                getBooksWithStoresUseCase = get(),
+                getSearchRecordsUseCase = get(),
+                getSearchRecordsCountsUseCase = get(),
+                getDefaultBookSortUseCase = get(),
+                getSearchSnapshotUseCase = get(),
+                eventTracker = get(),
+                quickChecker = get(),
+                deleteSearchRecordUseCase = get(),
+                resourceHelper = get(),
+                rankingWindowFacade = get(),
+                clipboardHelper = get(),
+                userPreferenceManager = get()
+            )
+        }
+
+        viewModel {
+            BookStoreReorderViewModel(
+                getDefaultBookSortUseCase = get(),
+                saveDefaultBookBookSortUseCase = get()
+            )
+        }
+
+        // Interactors
+        factory {
+            UserRankingWindowFacade(
+                isUserSeenRankWindow = get(),
+                saveUserHasSeenRankWindow = get()
+            )
+        }
     }
 
-    viewModel {
-        BookStoreReorderViewModel(
-            getDefaultBookSortUseCase = get(),
-            saveDefaultBookBookSortUseCase = get()
-        )
+val appUtilsModule =
+    module {
+        factory { ResourceHelper(androidApplication()) }
+        factory { QuickChecker(androidApplication()) }
+        single {
+            PlayStoreReviewHelper(androidContext())
+        }
+        factory {
+            val clipboardManager =
+                androidContext().getSystemService(Context.CLIPBOARD_SERVICE)
+                    as ClipboardManager
+            ClipboardHelper(clipboardManager)
+        }
+        factory {
+            CustomTabSessionManager(getDefaultBookSortUseCase = get())
+        }
+        factory<SystemInfoCollector> {
+            SystemInfoCollectorImpl()
+        }
     }
 
-    // Interactors
-    factory {
-        UserRankingWindowFacade(
-            isUserSeenRankWindow = get(),
-            saveUserHasSeenRankWindow = get()
-        )
-    }
-}
-
-val appUtilsModule = module {
-    factory { ResourceHelper(androidApplication()) }
-    factory { QuickChecker(androidApplication()) }
-    single {
-        PlayStoreReviewHelper(androidContext())
-    }
-    factory {
-        val clipboardManager = androidContext().getSystemService(Context.CLIPBOARD_SERVICE)
-            as ClipboardManager
-        ClipboardHelper(clipboardManager)
-    }
-    factory {
-        CustomTabSessionManager(getDefaultBookSortUseCase = get())
-    }
-    factory<SystemInfoCollector> {
-        SystemInfoCollectorImpl()
-    }
-}
-
-val appModules = listOf(
-    appModule,
-    appUtilsModule,
-    domainModule,
-    dataModule,
-    jsonModule,
-    miscModule
-)
+val appModules =
+    listOf(
+        appModule,
+        appUtilsModule,
+        domainModule,
+        dataModule,
+        jsonModule,
+        miscModule
+    )

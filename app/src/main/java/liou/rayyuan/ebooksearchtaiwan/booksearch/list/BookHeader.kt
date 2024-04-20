@@ -9,7 +9,8 @@ data class BookHeader(
     @StringRes val stringId: Int,
     val isEmptyResult: Boolean,
     val siteInfo: SiteInfo?
-) : Parcelable, AdapterItem
+) : Parcelable,
+    AdapterItem
 
 @Parcelize
 data class SiteInfo(

@@ -6,13 +6,14 @@ import kotlinx.serialization.json.Json
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
-val dataModule = module {
+val dataModule =
+    module {
 
-    // Provide: BookSearchService
-    factory<BookSearchService> {
-        BookSearchApi(
-            androidApplication().assets,
-            get<Json>()
-        )
+        // Provide: BookSearchService
+        factory<BookSearchService> {
+            BookSearchApi(
+                androidApplication().assets,
+                get<Json>()
+            )
+        }
     }
-}

@@ -3,7 +3,6 @@ package liou.rayyuan.ebooksearchtaiwan.model
 import android.content.Intent
 
 class DeeplinkHelper {
-
     // Sample:
     // https://taiwan-ebook-lover.github.io/search?q=xxx
     // https://taiwan-ebook-lover.github.io/searches/bZwSu2Ecl0yzn2G3nkuv

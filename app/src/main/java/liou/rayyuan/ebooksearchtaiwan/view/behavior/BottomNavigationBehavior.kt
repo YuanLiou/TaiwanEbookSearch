@@ -9,16 +9,28 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import liou.rayyuan.ebooksearchtaiwan.R
 
 class BottomNavigationBehavior : CoordinatorLayout.Behavior<View> {
-
     constructor()
 
-    constructor(context: Context, attr: AttributeSet): super(context, attr)
+    constructor(context: Context, attr: AttributeSet) : super(context, attr)
 
-    override fun onStartNestedScroll(coordinatorLayout: CoordinatorLayout, child: View, directTargetChild: View, target: View, axes: Int, type: Int): Boolean {
-        return child is ImageButton && child.id == R.id.search_view_back_to_top_button && axes == View.SCROLL_AXIS_VERTICAL
-    }
+    override fun onStartNestedScroll(
+        coordinatorLayout: CoordinatorLayout,
+        child: View,
+        directTargetChild: View,
+        target: View,
+        axes: Int,
+        type: Int
+    ): Boolean = child is ImageButton && child.id == R.id.search_view_back_to_top_button && axes == View.SCROLL_AXIS_VERTICAL
 
-    override fun onNestedPreScroll(coordinatorLayout: CoordinatorLayout, child: View, target: View, dx: Int, dy: Int, consumed: IntArray, type: Int) {
+    override fun onNestedPreScroll(
+        coordinatorLayout: CoordinatorLayout,
+        child: View,
+        target: View,
+        dx: Int,
+        dy: Int,
+        consumed: IntArray,
+        type: Int
+    ) {
         val oldTranslation = child.translationY
         val newTranslation = oldTranslation + dy
 

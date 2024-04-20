@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.map
 class BrowseHistoryRepositoryImpl(
     private val userPreferences: DataStore<Preferences>
 ) : BrowseHistoryRepository {
-
     override suspend fun isUserSeenRankWindow(): Flow<Boolean> {
         val key = booleanPreferencesKey(KEY_USER_SEEN_RANK_WINDOW)
         return userPreferences.data

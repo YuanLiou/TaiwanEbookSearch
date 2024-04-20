@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.rayliu.commonmain.data.DefaultStoreNames
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.R
 import kotlinx.coroutines.launch
@@ -22,7 +21,8 @@ import liou.rayyuan.ebooksearchtaiwan.view.ListItemTouchCallback
 import liou.rayyuan.ebooksearchtaiwan.view.OnBookStoreItemChangedListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class BookStoreReorderActivity : BaseActivity(R.layout.activity_reorder_stores),
+class BookStoreReorderActivity :
+    BaseActivity(R.layout.activity_reorder_stores),
     OnBookStoreItemChangedListener,
     IView<BookStoreReorderViewState> {
     private val viewModel: BookStoreReorderViewModel by viewModel()
@@ -39,8 +39,12 @@ class BookStoreReorderActivity : BaseActivity(R.layout.activity_reorder_stores),
         initToolbar()
         with(recyclerView) {
             setHasFixedSize(true)
-            addItemDecoration(DividerItemDecoration(this@BookStoreReorderActivity,
-                    LinearLayoutManager.VERTICAL))
+            addItemDecoration(
+                DividerItemDecoration(
+                    this@BookStoreReorderActivity,
+                    LinearLayoutManager.VERTICAL
+                )
+            )
             adapter = this@BookStoreReorderActivity.adapter
         }
 
@@ -69,10 +73,11 @@ class BookStoreReorderActivity : BaseActivity(R.layout.activity_reorder_stores),
         menuInflater.inflate(R.menu.reorder_page, menu)
         val checkMarkerOption = menu.findItem(R.id.reorder_page_menu_action_check)
         if (!isDarkTheme()) {
-            checkMarkerOption.icon?.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
-                ContextCompat.getColor(this, R.color.darker_gray_3B),
-                BlendModeCompat.SRC_ATOP
-            )
+            checkMarkerOption.icon?.colorFilter =
+                BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+                    ContextCompat.getColor(this, R.color.darker_gray_3B),
+                    BlendModeCompat.SRC_ATOP
+                )
         }
         this.checkMarkerOption = checkMarkerOption
         return true
@@ -111,6 +116,7 @@ class BookStoreReorderActivity : BaseActivity(R.layout.activity_reorder_stores),
             checkMarkerOption.isVisible = true
         }
     }
+
     //endregion
     override fun render(viewState: BookStoreReorderViewState) {
         when (viewState) {

@@ -1,3 +1,3 @@
 package liou.rayyuan.ebooksearchtaiwan.camerapreview
 
-interface CameraPreviewView {}
+interface CameraPreviewView

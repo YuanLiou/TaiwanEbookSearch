@@ -25,63 +25,65 @@ import org.koin.dsl.module
 
 private const val API_VERSION = "v1"
 
-val dataModule = module {
+val dataModule =
+    module {
 
-    // Provide: HttpClient
-    single {
-        HttpClient(CIO) {
-            install(ContentNegotiation) {
-                json(get<Json>())
-            }
-
-            engine {
-                maxConnectionsCount = 30
-                endpoint {
-                    maxConnectionsPerRoute = 100
-                    pipelineMaxSize = 20
-                    keepAliveTime = 5000
-                    connectTimeout = 5000
-                    connectAttempts = 5
+        // Provide: HttpClient
+        single {
+            HttpClient(CIO) {
+                install(ContentNegotiation) {
+                    json(get<Json>())
                 }
-            }
 
-            defaultRequest {
-                url {
-                    protocol = URLProtocol.HTTPS
-                    host = BuildConfig.HOST_URL
-                    if (BuildConfig.DEBUG) {
-                        port = BuildConfig.HOST_PORT
+                engine {
+                    maxConnectionsCount = 30
+                    endpoint {
+                        maxConnectionsPerRoute = 100
+                        pipelineMaxSize = 20
+                        keepAliveTime = 5000
+                        connectTimeout = 5000
+                        connectAttempts = 5
                     }
-                    path("$API_VERSION/")
                 }
-            }
 
-            install(DefaultRequest) {
-                val systemInfoCollector: SystemInfoCollector = get()
-                header("User-Agent", systemInfoCollector.getUserAgent())
-            }
-
-            if (BuildConfig.DEBUG) {
-                install(Logging) {
-                    logger = object : Logger {
-                        override fun log(message: String) {
-                            Log.v("Logger Ktor ->", message)
+                defaultRequest {
+                    url {
+                        protocol = URLProtocol.HTTPS
+                        host = BuildConfig.HOST_URL
+                        if (BuildConfig.DEBUG) {
+                            port = BuildConfig.HOST_PORT
                         }
+                        path("$API_VERSION/")
                     }
-                    level = LogLevel.ALL
                 }
 
-                install(ResponseObserver) {
-                    onResponse { response ->
-                        Log.d("Http status:", "${response.status.value}")
+                install(DefaultRequest) {
+                    val systemInfoCollector: SystemInfoCollector = get()
+                    header("User-Agent", systemInfoCollector.getUserAgent())
+                }
+
+                if (BuildConfig.DEBUG) {
+                    install(Logging) {
+                        logger =
+                            object : Logger {
+                                override fun log(message: String) {
+                                    Log.v("Logger Ktor ->", message)
+                                }
+                            }
+                        level = LogLevel.ALL
+                    }
+
+                    install(ResponseObserver) {
+                        onResponse { response ->
+                            Log.d("Http status:", "${response.status.value}")
+                        }
                     }
                 }
             }
         }
-    }
 
-    // Provide: BookSearchService
-    factory<BookSearchService> {
-        BookSearchApi(get<HttpClient>())
+        // Provide: BookSearchService
+        factory<BookSearchService> {
+            BookSearchApi(get<HttpClient>())
+        }
     }
-}

@@ -36,7 +36,6 @@ import org.koin.android.ext.android.inject
 class BookSearchActivity :
     BaseActivity(R.layout.activity_book_search),
     SimpleWebViewFragment.OnSimpleWebViewActionListener {
-
     private val quickChecker: QuickChecker by inject()
     private val customTabSessionManager: CustomTabSessionManager by inject()
     private val deeplinkHelper = DeeplinkHelper()
@@ -54,11 +53,12 @@ class BookSearchActivity :
         val secondContainer: View? = findViewById(R.id.activity_book_search_content_container)
         isDualPane = secondContainer?.visibility == View.VISIBLE
 
-        contentRouter = if (isDualPane) {
-            Router(supportFragmentManager, R.id.activity_book_search_content_container)
-        } else {
-            Router(supportFragmentManager, R.id.activity_book_search_nav_host_container)
-        }
+        contentRouter =
+            if (isDualPane) {
+                Router(supportFragmentManager, R.id.activity_book_search_content_container)
+            } else {
+                Router(supportFragmentManager, R.id.activity_book_search_nav_host_container)
+            }
 
         setupBackGesture()
         setupLauncherCallbacks()
@@ -66,17 +66,19 @@ class BookSearchActivity :
         if (savedInstanceState == null) {
             val appLinkKeyword = deeplinkHelper.getSearchKeyword(intent)
             val appLinkSnapshotSearchId = deeplinkHelper.getSearchId(intent)
-            val bookResultListFragment = BookResultListFragment.newInstance(
-                appLinkKeyword,
-                appLinkSnapshotSearchId
-            )
+            val bookResultListFragment =
+                BookResultListFragment.newInstance(
+                    appLinkKeyword,
+                    appLinkSnapshotSearchId
+                )
             if (isDualPane) {
-                dualPaneSubRouter = Router(
-                    supportFragmentManager,
-                    R.id.activity_book_search_nav_host_container
-                ).also {
-                    it.addView(bookResultListFragment, BookResultListFragment.TAG, false)
-                }
+                dualPaneSubRouter =
+                    Router(
+                        supportFragmentManager,
+                        R.id.activity_book_search_nav_host_container
+                    ).also {
+                        it.addView(bookResultListFragment, BookResultListFragment.TAG, false)
+                    }
             } else {
                 contentRouter.addView(bookResultListFragment, BookResultListFragment.TAG, false)
             }
@@ -102,27 +104,29 @@ class BookSearchActivity :
     }
 
     private fun setupLauncherCallbacks() {
-        barcodeScanningLauncher = registerForActivityResult(ScanContract()) { result ->
-            if (result.contents == null) {
-                val originalIntent = result.originalIntent
-                if (originalIntent?.hasExtra(Intents.Scan.MISSING_CAMERA_PERMISSION) == true) {
-                    showToastMessage(R.string.permission_required_camera)
+        barcodeScanningLauncher =
+            registerForActivityResult(ScanContract()) { result ->
+                if (result.contents == null) {
+                    val originalIntent = result.originalIntent
+                    if (originalIntent?.hasExtra(Intents.Scan.MISSING_CAMERA_PERMISSION) == true) {
+                        showToastMessage(R.string.permission_required_camera)
+                    }
+                } else {
+                    val resultText = result.contents
+                    val bookResultFragment = getBookResultFragment()
+                    bookResultFragment?.searchWithText(resultText)
                 }
-            } else {
-                val resultText = result.contents
-                val bookResultFragment = getBookResultFragment()
-                bookResultFragment?.searchWithText(resultText)
             }
-        }
 
-        changeThemeLauncher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) {
-            if (isThemeChanged() || isStartToFollowSystemTheme()) {
-                recreate()
+        changeThemeLauncher =
+            registerForActivityResult(
+                ActivityResultContracts.StartActivityForResult()
+            ) {
+                if (isThemeChanged() || isStartToFollowSystemTheme()) {
+                    recreate()
+                }
+                getBookResultFragment()?.toggleSearchRecordView(false)
             }
-            getBookResultFragment()?.toggleSearchRecordView(false)
-        }
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -144,9 +148,10 @@ class BookSearchActivity :
 
     private fun showSearchSnapshot(searchId: String) {
         if (isDualPane) {
-            val bookSearchFragment = dualPaneSubRouter?.findFragmentByTag(
-                BookResultListFragment.TAG
-            ) as? BookResultListFragment
+            val bookSearchFragment =
+                dualPaneSubRouter?.findFragmentByTag(
+                    BookResultListFragment.TAG
+                ) as? BookResultListFragment
             bookSearchFragment?.showSearchSnapshot(searchId)
         } else {
             val bookSearchFragment = contentRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
@@ -156,9 +161,10 @@ class BookSearchActivity :
 
     private fun searchBook(keyword: String) {
         if (isDualPane) {
-            val bookSearchFragment = dualPaneSubRouter?.findFragmentByTag(
-                BookResultListFragment.TAG
-            ) as? BookResultListFragment
+            val bookSearchFragment =
+                dualPaneSubRouter?.findFragmentByTag(
+                    BookResultListFragment.TAG
+                ) as? BookResultListFragment
             bookSearchFragment?.searchWithText(keyword)
         } else {
             val bookSearchFragment = contentRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
@@ -212,10 +218,11 @@ class BookSearchActivity :
     }
 
     internal fun openCameraPreviewActivity() {
-        val scanOptions = ScanOptions()
-            .setOrientationLocked(false)
-            .setDesiredBarcodeFormats(ScanOptions.EAN_13)
-            .setCaptureActivity(CameraPreviewActivity::class.java)
+        val scanOptions =
+            ScanOptions()
+                .setOrientationLocked(false)
+                .setDesiredBarcodeFormats(ScanOptions.EAN_13)
+                .setCaptureActivity(CameraPreviewActivity::class.java)
         barcodeScanningLauncher.launch(scanOptions)
     }
 
@@ -226,13 +233,15 @@ class BookSearchActivity :
 
     internal fun openBookLink(book: Book) {
         if (!quickChecker.isTabletSize() && userPreferenceManager.isPreferCustomTab()) {
-            val colorParams = CustomTabColorSchemeParams.Builder()
-                .setToolbarColor(getThemePrimaryColor())
-                .build()
-            val intent = CustomTabsIntent.Builder(customTabSessionManager.customTabsSession)
-                .setShowTitle(true)
-                .setDefaultColorSchemeParams(colorParams)
-                .build()
+            val colorParams =
+                CustomTabColorSchemeParams.Builder()
+                    .setToolbarColor(getThemePrimaryColor())
+                    .build()
+            val intent =
+                CustomTabsIntent.Builder(customTabSessionManager.customTabsSession)
+                    .setShowTitle(true)
+                    .setDefaultColorSchemeParams(colorParams)
+                    .build()
             intent.launchUrl(this, Uri.parse(book.link))
         } else {
             val isTablet = quickChecker.isTabletSize()
@@ -262,13 +271,12 @@ class BookSearchActivity :
         }
     }
 
-    private fun getBookResultFragment(): BookResultListFragment? {
-        return if (isDualPane) {
+    private fun getBookResultFragment(): BookResultListFragment? =
+        if (isDualPane) {
             dualPaneSubRouter?.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
         } else {
             contentRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
         }
-    }
 
     //region SimpleWebViewFragment.OnSimpleWebviewActionListener
     override fun onSimpleWebViewClose(tag: String) {

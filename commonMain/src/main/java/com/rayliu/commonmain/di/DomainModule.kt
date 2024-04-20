@@ -34,116 +34,117 @@ import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
-val domainModule = module {
-    // Mappers
-    factory {
-        BookDataMapper(get())
-    }
+val domainModule =
+    module {
+        // Mappers
+        factory {
+            BookDataMapper(get())
+        }
 
-    factory {
-        BookListMapper(get<BookDataMapper>())
-    }
+        factory {
+            BookListMapper(get<BookDataMapper>())
+        }
 
-    factory {
-        BookStoreDetailsMapper()
-    }
+        factory {
+            BookStoreDetailsMapper()
+        }
 
-    factory {
-        BookStoreMapper(get<BookListMapper>(), get<BookStoreDetailsMapper>())
-    }
+        factory {
+            BookStoreMapper(get<BookListMapper>(), get<BookStoreDetailsMapper>())
+        }
 
-    factory {
-        BookStoreListMapper(get<BookStoreMapper>())
-    }
+        factory {
+            BookStoreListMapper(get<BookStoreMapper>())
+        }
 
-    factory {
-        SearchResultMapper(get<BookStoreListMapper>())
-    }
+        factory {
+            SearchResultMapper(get<BookStoreListMapper>())
+        }
 
-    factory {
-        BookStoresMapper(get<SearchResultMapper>())
-    }
+        factory {
+            BookStoresMapper(get<SearchResultMapper>())
+        }
 
-    factory {
-        SearchRecordMapper()
-    }
+        factory {
+            SearchRecordMapper()
+        }
 
-    factory {
-        LocalSearchRecordMapper()
-    }
+        factory {
+            LocalSearchRecordMapper()
+        }
 
-    // Repositories
-    factory<BookRepository> {
-        BookRepositoryImpl(
-            get<BookSearchService>(),
-            get<BookStoresMapper>(),
-            androidContext().userDataStore
-        )
-    }
+        // Repositories
+        factory<BookRepository> {
+            BookRepositoryImpl(
+                get<BookSearchService>(),
+                get<BookStoresMapper>(),
+                androidContext().userDataStore
+            )
+        }
 
-    single {
-        get<DatabaseManager>().searchRecordDao()
-    }
+        single {
+            get<DatabaseManager>().searchRecordDao()
+        }
 
-    factory<SearchRecordRepository> {
-        SearchRecordRepositoryImpl(
-            get<SearchRecordMapper>(),
-            get<LocalSearchRecordMapper>(),
-            get<SearchRecordDao>()
-        )
-    }
+        factory<SearchRecordRepository> {
+            SearchRecordRepositoryImpl(
+                get<SearchRecordMapper>(),
+                get<LocalSearchRecordMapper>(),
+                get<SearchRecordDao>()
+            )
+        }
 
-    factory<BrowseHistoryRepository> {
-        BrowseHistoryRepositoryImpl(androidContext().userDataStore)
-    }
+        factory<BrowseHistoryRepository> {
+            BrowseHistoryRepositoryImpl(androidContext().userDataStore)
+        }
 
-    // UseCases
-    factory {
-        GetBooksWithStoresUseCase(get<BookRepository>(), get<SearchRecordRepository>())
-    }
+        // UseCases
+        factory {
+            GetBooksWithStoresUseCase(get<BookRepository>(), get<SearchRecordRepository>())
+        }
 
-    factory<GetSearchRecordsUseCase> {
-        GetSearchRecordsUseCase(get<SearchRecordRepository>()::getPagingSearchRecordsFactory)
-    }
+        factory<GetSearchRecordsUseCase> {
+            GetSearchRecordsUseCase(get<SearchRecordRepository>()::getPagingSearchRecordsFactory)
+        }
 
-    factory<GetSearchRecordsCountsUseCase> {
-        GetSearchRecordsCountsUseCase(get<SearchRecordRepository>()::getSearchRecordsCounts)
-    }
+        factory<GetSearchRecordsCountsUseCase> {
+            GetSearchRecordsCountsUseCase(get<SearchRecordRepository>()::getSearchRecordsCounts)
+        }
 
-    factory {
-        DeleteSearchRecordUseCase(get<SearchRecordRepository>())
-    }
+        factory {
+            DeleteSearchRecordUseCase(get<SearchRecordRepository>())
+        }
 
-    factory<GetDefaultBookSortUseCase> {
-        GetDefaultBookSortUseCase(get<BookRepository>()::getDefaultResultSort)
-    }
+        factory<GetDefaultBookSortUseCase> {
+            GetDefaultBookSortUseCase(get<BookRepository>()::getDefaultResultSort)
+        }
 
-    factory {
-        SaveDefaultBookSortUseCase(get<BookRepository>())
-    }
+        factory {
+            SaveDefaultBookSortUseCase(get<BookRepository>())
+        }
 
-    factory {
-        GetSearchSnapshotUseCase(get<BookRepository>(), get<SearchRecordRepository>())
-    }
+        factory {
+            GetSearchSnapshotUseCase(get<BookRepository>(), get<SearchRecordRepository>())
+        }
 
-    factory<GetIsUserSeenRankWindowUseCase> {
-        GetIsUserSeenRankWindowUseCase(get<BrowseHistoryRepository>()::isUserSeenRankWindow)
-    }
+        factory<GetIsUserSeenRankWindowUseCase> {
+            GetIsUserSeenRankWindowUseCase(get<BrowseHistoryRepository>()::isUserSeenRankWindow)
+        }
 
-    factory<SaveUserHasSeenRankWindowUseCase> {
-        SaveUserHasSeenRankWindowUseCase(get<BrowseHistoryRepository>()::setUserHasSeenRankWindow)
-    }
+        factory<SaveUserHasSeenRankWindowUseCase> {
+            SaveUserHasSeenRankWindowUseCase(get<BrowseHistoryRepository>()::setUserHasSeenRankWindow)
+        }
 
-    // Service (Application)
-    // Database related and Daos
-    single {
-        Room.databaseBuilder(
-            androidApplication(),
-            DatabaseManager::class.java,
-            DatabaseManager.DATABASE_NAME
-        )
-            .build()
-    }
+        // Service (Application)
+        // Database related and Daos
+        single {
+            Room.databaseBuilder(
+                androidApplication(),
+                DatabaseManager::class.java,
+                DatabaseManager.DATABASE_NAME
+            )
+                .build()
+        }
 
-    factory { UserPreferenceManager(androidApplication()) }
-}
+        factory { UserPreferenceManager(androidApplication()) }
+    }

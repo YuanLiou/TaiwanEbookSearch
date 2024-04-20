@@ -3,7 +3,6 @@ package com.rayliu.commonmain.data.dto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-
 /*
 * {
     "id":"14100024612",
@@ -23,8 +22,8 @@ import kotlinx.serialization.Serializable
         "林俊宏"
      ]
 * }
+* Update Entity to API version: 20180806
 * */
-// Update Entity to API version: 20180806
 @Serializable
 data class NetworkBook(
     @SerialName("thumbnail")

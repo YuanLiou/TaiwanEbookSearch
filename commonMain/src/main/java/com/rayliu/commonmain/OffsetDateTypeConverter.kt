@@ -22,5 +22,4 @@ object OffsetDateTypeConverter {
             return it.format(formatter)
         }
     }
-
 }
