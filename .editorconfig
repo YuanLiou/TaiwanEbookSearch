@@ -12,3 +12,4 @@ ktlint_experimental = enabled
 ktlint_standard_import-ordering = disabled
 ktlint_standard_trailing-comma-on-call-site = disabled
 ktlint_standard_trailing-comma-on-declaration-site = disabled
+ktlint_standard_chain-method-continuation = disabled
