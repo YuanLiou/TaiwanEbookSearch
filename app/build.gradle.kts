@@ -1,4 +1,5 @@
 import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
+import io.gitlab.arturbosch.detekt.Detekt
 import java.io.File
 import java.io.FileInputStream
 import java.util.*
@@ -11,8 +12,8 @@ plugins {
     alias(libs.plugins.gms)
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.kotlin.serialization)
+    id(libs.plugins.detekt.get().pluginId)
 }
-apply(from = "../gradle/detekt.gradle")
 
 val localProperties = Properties().apply {
     load(FileInputStream(File(rootProject.rootDir, localPropertyFileName)))
@@ -125,6 +126,28 @@ android {
     namespace = "liou.rayyuan.ebooksearchtaiwan"
 }
 
+detekt {
+    toolVersion = libs.versions.detektVersion.toString()
+    config.setFrom(files("$project.rootDir/deteket-config.yml"))
+    buildUponDefaultConfig = true
+}
+
+tasks.register<Detekt>("detektAll") {
+    description = "Runs Detekt on the whole project at once."
+    parallel = true
+    setSource(projectDir)
+    include("**/*.kt", "**/*.kts")
+    exclude("**/resources/**", "**/build/**")
+    config.setFrom(project.file("../deteket-config.yml"))
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        txt.required.set(true)
+        sarif.required.set(true)
+        md.required.set(true)
+    }
+}
+
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     coreLibraryDesugaring(libs.desugar.jdk.libs)
@@ -169,4 +192,8 @@ dependencies {
     androidTestImplementation(libs.androidx.test.core)
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.androidx.test.espresso.core)
+
+    // Detekt
+    detekt(libs.detekt.cli)
+    detektPlugins(libs.detekt.ktlint.formatting)
 }
