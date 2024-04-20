@@ -22,12 +22,18 @@ import liou.rayyuan.ebooksearchtaiwan.uimodel.asUiModel
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
 
-class SimpleWebViewFragment : BaseFragment(R.layout.fragment_simple_webview), Toolbar.OnMenuItemClickListener {
+class SimpleWebViewFragment :
+    BaseFragment(R.layout.fragment_simple_webview),
+    Toolbar.OnMenuItemClickListener {
     companion object {
         const val TAG = "SimpleWebViewFragment"
         private const val KEY_BOOK = "key-book"
         private const val KEY_SHOW_CLOSE_BUTTON = "key-show-close-button"
-        fun newInstance(book: Book, showCloseButton: Boolean): SimpleWebViewFragment {
+
+        fun newInstance(
+            book: Book,
+            showCloseButton: Boolean
+        ): SimpleWebViewFragment {
             return SimpleWebViewFragment().apply {
                 this.book = book
                 this.showCloseButton = showCloseButton
@@ -55,7 +61,10 @@ class SimpleWebViewFragment : BaseFragment(R.layout.fragment_simple_webview), To
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
         super.onViewCreated(view, savedInstanceState)
         retrieveView(view)
 
@@ -66,11 +75,13 @@ class SimpleWebViewFragment : BaseFragment(R.layout.fragment_simple_webview), To
 
         if (showCloseButton) {
             toolbar.setNavigationIcon(R.drawable.ic_baseline_clear_24px)
-            toolbar.setNavigationOnClickListener(object : View.OnClickListener {
-                override fun onClick(view: View) {
-                    onCloseButtonClick()
+            toolbar.setNavigationOnClickListener(
+                object : View.OnClickListener {
+                    override fun onClick(view: View) {
+                        onCloseButtonClick()
+                    }
                 }
-            })
+            )
 
             if (!isDarkTheme()) {
                 toolbar.setNavigationIconTint(ContextCompat.getColor(requireContext(), R.color.darker_gray_3B))
@@ -95,15 +106,19 @@ class SimpleWebViewFragment : BaseFragment(R.layout.fragment_simple_webview), To
             javaScriptEnabled = true
         }
 
-        webView.webChromeClient = object : WebChromeClient() {
-            override fun onProgressChanged(view: WebView, newProgress: Int) {
-                if (isAdded) {
-                    val progressBarView = viewBinding.simpleWebviewProgressBar
-                    progressBarView.isIndeterminate = false
-                    progressBarView.setProgressCompat(newProgress, true)
+        webView.webChromeClient =
+            object : WebChromeClient() {
+                override fun onProgressChanged(
+                    view: WebView,
+                    newProgress: Int
+                ) {
+                    if (isAdded) {
+                        val progressBarView = viewBinding.simpleWebviewProgressBar
+                        progressBarView.isIndeterminate = false
+                        progressBarView.setProgressCompat(newProgress, true)
+                    }
                 }
             }
-        }
         webView.webViewClient = customWebViewClient
     }
 
@@ -170,10 +185,17 @@ class SimpleWebViewFragment : BaseFragment(R.layout.fragment_simple_webview), To
     //endregion
 
     inner class CustomWebViewClient : WebViewClient() {
-        override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+        override fun onPageStarted(
+            view: WebView?,
+            url: String?,
+            favicon: Bitmap?
+        ) {
         }
 
-        override fun onPageFinished(view: WebView?, url: String?) {
+        override fun onPageFinished(
+            view: WebView?,
+            url: String?
+        ) {
             if (isAdded) {
                 val progressBarView = viewBinding.simpleWebviewProgressBar
                 progressBarView.visibility = View.GONE

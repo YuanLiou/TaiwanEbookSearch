@@ -1,6 +1,5 @@
 package com.rayliu.commonmain.data.dto
 
-
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

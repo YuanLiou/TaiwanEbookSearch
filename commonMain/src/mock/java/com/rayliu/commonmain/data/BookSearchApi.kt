@@ -14,12 +14,14 @@ class BookSearchApi(
     private val assetManager: AssetManager,
     private val json: Json
 ) : BookSearchService {
-
     override suspend fun postBooks(keyword: String): NetworkCrawerResult {
         return NetworkCrawerResult.NOT_FOUND
     }
 
-    override suspend fun postBooks(stores: List<String>, keyword: String): NetworkCrawerResult {
+    override suspend fun postBooks(
+        stores: List<String>,
+        keyword: String
+    ): NetworkCrawerResult {
         val seconds = (5..20).random()
         delay(TimeUnit.SECONDS.toMillis(seconds.toLong()))
         val rawString = assetManager.loadJsonFromFile("book_result_sample01.json")
@@ -33,8 +35,8 @@ class BookSearchApi(
         return jsonToNetworkCrawerResult(rawString)
     }
 
-    private fun jsonToNetworkCrawerResult(rawString: String): NetworkCrawerResult {
-        return try {
+    private fun jsonToNetworkCrawerResult(rawString: String): NetworkCrawerResult =
+        try {
             json.decodeFromString(NetworkCrawerResult.serializer(), rawString)
         } catch (exception: SerializationException) {
             Log.e("BookSearchApi", Log.getStackTraceString(exception))
@@ -43,6 +45,4 @@ class BookSearchApi(
             Log.e("BookSearchApi", Log.getStackTraceString(exception))
             NetworkCrawerResult.NOT_FOUND
         }
-    }
 }
-

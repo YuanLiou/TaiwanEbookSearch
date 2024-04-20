@@ -7,16 +7,24 @@ import androidx.fragment.app.FragmentTransaction
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 
-class Router(private val fragmentManager: FragmentManager,
-             @IdRes private val containerId: Int) {
-
-    fun replaceView(fragment: Fragment, tag: String?) {
+class Router(
+    private val fragmentManager: FragmentManager,
+    @IdRes private val containerId: Int
+) {
+    fun replaceView(
+        fragment: Fragment,
+        tag: String?
+    ) {
         fragmentManager.beginTransaction()
-                .replace(containerId, fragment, tag)
-                .commit()
+            .replace(containerId, fragment, tag)
+            .commit()
     }
 
-    fun addView(fragment: Fragment, tag: String?, addToBackStack: Boolean) {
+    fun addView(
+        fragment: Fragment,
+        tag: String?,
+        addToBackStack: Boolean
+    ) {
         if (fragment.isSameFragment()) {
             return
         }
@@ -59,16 +67,18 @@ class Router(private val fragmentManager: FragmentManager,
         return fragmentManager.findFragmentByTag(tag)
     }
 
-    fun backStackCountsPublisher() = callbackFlow {
-        val listener = FragmentManager.OnBackStackChangedListener {
-            trySend(fragmentManager.backStackEntryCount)
-        }
-        fragmentManager.addOnBackStackChangedListener(listener)
+    fun backStackCountsPublisher() =
+        callbackFlow {
+            val listener =
+                FragmentManager.OnBackStackChangedListener {
+                    trySend(fragmentManager.backStackEntryCount)
+                }
+            fragmentManager.addOnBackStackChangedListener(listener)
 
-        awaitClose {
-            fragmentManager.removeOnBackStackChangedListener(listener)
+            awaitClose {
+                fragmentManager.removeOnBackStackChangedListener(listener)
+            }
         }
-    }
 
     fun findTopFragment(): Fragment? = fragmentManager.findFragmentById(containerId)
 
@@ -80,5 +90,4 @@ class Router(private val fragmentManager: FragmentManager,
             topFragmentTag == tag
         } ?: false
     }
-
 }

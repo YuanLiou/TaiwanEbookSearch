@@ -15,11 +15,13 @@ class ActivityViewBinding<T : ViewBinding>(
     private val bindingAction: (View) -> T,
     @IdRes private val rootViewId: Int
 ) : ReadOnlyProperty<ComponentActivity, T> {
-
     private var viewBinding: T? = null
     private val bindingLifecycleObserver = BindingLifecycleObserver()
 
-    override fun getValue(thisRef: ComponentActivity, property: KProperty<*>): T {
+    override fun getValue(
+        thisRef: ComponentActivity,
+        property: KProperty<*>
+    ): T {
         this.viewBinding?.let {
             return it
         }
@@ -32,7 +34,6 @@ class ActivityViewBinding<T : ViewBinding>(
     }
 
     private inner class BindingLifecycleObserver : DefaultLifecycleObserver {
-
         private val mainThreadHandler = Handler(Looper.getMainLooper())
 
         override fun onDestroy(owner: LifecycleOwner) {

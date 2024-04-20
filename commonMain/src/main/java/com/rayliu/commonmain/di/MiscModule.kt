@@ -4,8 +4,9 @@ import com.rayliu.commonmain.LevenshteinDistanceHelper
 import com.rayliu.commonmain.LevenshteinDistanceHelperImpl
 import org.koin.dsl.module
 
-val miscModule = module {
-    factory<LevenshteinDistanceHelper> {
-        LevenshteinDistanceHelperImpl()
+val miscModule =
+    module {
+        factory<LevenshteinDistanceHelper> {
+            LevenshteinDistanceHelperImpl()
+        }
     }
-}

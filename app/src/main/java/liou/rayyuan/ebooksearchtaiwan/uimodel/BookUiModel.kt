@@ -10,8 +10,9 @@ import liou.rayyuan.ebooksearchtaiwan.view.getLocalizedName
 /**
  * Created by louis383 on 2017/12/4.
  */
-data class BookUiModel(val book: Book) : AdapterItem {
-
+data class BookUiModel(
+    val book: Book
+) : AdapterItem {
     fun getTitle(): String {
         return book.title
     }
@@ -36,11 +37,12 @@ data class BookUiModel(val book: Book) : AdapterItem {
         return "$" + book.price + " " + book.priceCurrency
     }
 
-    fun getShopName(context: Context): String = book.bookStore.let {
-        DefaultStoreNames.values()
-            .find { enumValues -> enumValues == it }
-            ?.run { getLocalizedName(context) } ?: ""
-    }
+    fun getShopName(context: Context): String =
+        book.bookStore.let {
+            DefaultStoreNames.values()
+                .find { enumValues -> enumValues == it }
+                ?.run { getLocalizedName(context) } ?: ""
+        }
 
     fun getAuthors(context: Context): String? {
         val counts = book.authors?.size ?: 0

@@ -72,7 +72,6 @@ class BookResultListFragment :
     BookResultClickHandler,
     SearchRecordAdapter.OnSearchRecordsClickListener,
     IView<BookResultViewState> {
-
     private val bookSearchViewModel: BookSearchViewModel by viewModel()
     private val playStoreReviewHelper: PlayStoreReviewHelper by inject()
 
@@ -109,7 +108,10 @@ class BookResultListFragment :
     private var hasUserSeenRankWindow = false
     private var openResultCounts = 0
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
         super.onViewCreated(view, savedInstanceState)
         val toolbar = viewBinding.searchViewToolbar
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
@@ -240,9 +242,10 @@ class BookResultListFragment :
             }
         )
 
-        searchEditText.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            sendUserIntent(BookSearchUserIntent.FocusOnTextEditing(hasFocus))
-        }
+        searchEditText.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
+                sendUserIntent(BookSearchUserIntent.FocusOnTextEditing(hasFocus))
+            }
 
         with(searchRecordsRecyclerView) {
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
@@ -262,13 +265,19 @@ class BookResultListFragment :
         val linearLayoutManager = resultsRecyclerView.layoutManager as LinearLayoutManager
         linearLayoutManager.initialPrefetchItemCount = 6
 
-        resultsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (searchEditText.isFocused) {
-                    searchEditText.clearFocus()
+        resultsRecyclerView.addOnScrollListener(
+            object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(
+                    recyclerView: RecyclerView,
+                    dx: Int,
+                    dy: Int
+                ) {
+                    if (searchEditText.isFocused) {
+                        searchEditText.clearFocus()
+                    }
                 }
             }
-        })
+        )
         searchRecordsBackground.setOnClickListener(this)
 
         loadAds()
@@ -290,40 +299,49 @@ class BookResultListFragment :
     }
 
     private fun setupOptionMenu() {
-        (activity as? MenuHost)?.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.search_page, menu)
-            }
-
-            override fun onPrepareMenu(menu: Menu) {
-                shareResultMenu = menu.findItem(R.id.search_page_menu_action_share).also {
-                    it.isVisible = bookSearchViewModel.hasPreviousSearch
+        (activity as? MenuHost)?.addMenuProvider(
+            object : MenuProvider {
+                override fun onCreateMenu(
+                    menu: Menu,
+                    menuInflater: MenuInflater
+                ) {
+                    menuInflater.inflate(R.menu.search_page, menu)
                 }
-                copyUrlMenu = menu.findItem(R.id.search_page_menu_action_copy_url).also {
-                    it.isVisible = bookSearchViewModel.hasPreviousSearch
-                }
-            }
 
-            override fun onMenuItemSelected(item: MenuItem): Boolean {
-                return when (item.itemId) {
-                    R.id.search_page_menu_action_setting -> {
-                        if (isAdded) {
-                            (requireActivity() as? BookSearchActivity)?.openPreferenceActivity()
+                override fun onPrepareMenu(menu: Menu) {
+                    shareResultMenu =
+                        menu.findItem(R.id.search_page_menu_action_share).also {
+                            it.isVisible = bookSearchViewModel.hasPreviousSearch
                         }
-                        true
-                    }
-                    R.id.search_page_menu_action_share -> {
-                        sendUserIntent(BookSearchUserIntent.ShareSnapshot)
-                        true
-                    }
-                    R.id.search_page_menu_action_copy_url -> {
-                        sendUserIntent(BookSearchUserIntent.CopySnapshotUrlToClipboard)
-                        true
-                    }
-                    else -> true
+                    copyUrlMenu =
+                        menu.findItem(R.id.search_page_menu_action_copy_url).also {
+                            it.isVisible = bookSearchViewModel.hasPreviousSearch
+                        }
                 }
-            }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+                override fun onMenuItemSelected(item: MenuItem): Boolean {
+                    return when (item.itemId) {
+                        R.id.search_page_menu_action_setting -> {
+                            if (isAdded) {
+                                (requireActivity() as? BookSearchActivity)?.openPreferenceActivity()
+                            }
+                            true
+                        }
+                        R.id.search_page_menu_action_share -> {
+                            sendUserIntent(BookSearchUserIntent.ShareSnapshot)
+                            true
+                        }
+                        R.id.search_page_menu_action_copy_url -> {
+                            sendUserIntent(BookSearchUserIntent.CopySnapshotUrlToClipboard)
+                            true
+                        }
+                        else -> true
+                    }
+                }
+            },
+            viewLifecycleOwner,
+            Lifecycle.State.RESUMED
+        )
     }
 
     private fun loadAds() {
@@ -339,41 +357,51 @@ class BookResultListFragment :
 
     private fun initScrollToTopButton() {
         backToTopButton.setOnClickListener(this)
-        backToTopButton.setOnLongClickListener(object : View.OnLongClickListener {
-            override fun onLongClick(view: View?): Boolean {
-                focusAndCleanBookSearchEditText()
-                return true
+        backToTopButton.setOnLongClickListener(
+            object : View.OnLongClickListener {
+                override fun onLongClick(view: View?): Boolean {
+                    focusAndCleanBookSearchEditText()
+                    return true
+                }
             }
-        })
+        )
 
         if (!isAdded) {
             return
         }
 
         backToTopButton.setBackgroundResource(R.drawable.material_rounded_button_green)
-        resultsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (resultsRecyclerView.canScrollVertically(-1)) {
-                    backToTopButton.setImageResource(
-                        requireContext(),
-                        R.drawable.ic_keyboard_arrow_up_24dp
-                    )
-                } else {
-                    backToTopButton.setImageResource(
-                        requireContext(),
-                        R.drawable.ic_search_white_24dp
-                    )
+        resultsRecyclerView.addOnScrollListener(
+            object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(
+                    recyclerView: RecyclerView,
+                    dx: Int,
+                    dy: Int
+                ) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    if (resultsRecyclerView.canScrollVertically(-1)) {
+                        backToTopButton.setImageResource(
+                            requireContext(),
+                            R.drawable.ic_keyboard_arrow_up_24dp
+                        )
+                    } else {
+                        backToTopButton.setImageResource(
+                            requireContext(),
+                            R.drawable.ic_search_white_24dp
+                        )
+                    }
                 }
             }
-        })
+        )
     }
 
     private fun setupUI() {
-        val hintWithAppVersion = hintText.text.toString() + "\n" + resources.getString(
-            R.string.app_version,
-            BuildConfig.VERSION_NAME
-        )
+        val hintWithAppVersion =
+            hintText.text.toString() + "\n" +
+                resources.getString(
+                    R.string.app_version,
+                    BuildConfig.VERSION_NAME
+                )
         hintText.text = hintWithAppVersion
     }
 
@@ -458,15 +486,16 @@ class BookResultListFragment :
             }
             is BookResultViewState.ShowSearchRecordList -> {
                 val itemCounts = bookResultViewState.itemCounts
-                val heightPadding = if (itemCounts < 5) {
-                    TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP,
-                        (36f / itemCounts),
-                        resources.displayMetrics
-                    ).toInt()
-                } else {
-                    0
-                }
+                val heightPadding =
+                    if (itemCounts < 5) {
+                        TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_DIP,
+                            (36f / itemCounts),
+                            resources.displayMetrics
+                        ).toInt()
+                    } else {
+                        0
+                    }
 
                 val adapterItemHeight =
                     resources.getDimensionPixelSize(R.dimen.search_records_item_height)
@@ -563,9 +592,10 @@ class BookResultListFragment :
                 return@launch
             }
 
-            val hasUserSeenRankWindow = bookSearchViewModel.checkUserHasSeenRankWindow().also {
-                this@BookResultListFragment.hasUserSeenRankWindow = it
-            }
+            val hasUserSeenRankWindow =
+                bookSearchViewModel.checkUserHasSeenRankWindow().also {
+                    this@BookResultListFragment.hasUserSeenRankWindow = it
+                }
 
             if (hasUserSeenRankWindow) {
                 return@launch
@@ -575,9 +605,10 @@ class BookResultListFragment :
                 Toast.makeText(requireContext(), "Rank Window Should Popup", Toast.LENGTH_SHORT).show()
             }
 
-            val reviewInfo = runCatching {
-                playStoreReviewHelper.prepareReviewInfo()
-            }.getOrNull()
+            val reviewInfo =
+                runCatching {
+                    playStoreReviewHelper.prepareReviewInfo()
+                }.getOrNull()
 
             if (reviewInfo != null) {
                 sendUserIntent(BookSearchUserIntent.AskUserRankApp(reviewInfo))
@@ -714,7 +745,10 @@ class BookResultListFragment :
         return false
     }
 
-    private fun ImageButton.setImageResource(context: Context, @DrawableRes drawableId: Int) {
+    private fun ImageButton.setImageResource(
+        context: Context,
+        @DrawableRes drawableId: Int
+    ) {
         ContextCompat.getDrawable(context, drawableId)?.run {
             if (isDarkTheme()) {
                 DrawableCompat.setTint(this, ContextCompat.getColor(context, R.color.pure_dark))
@@ -751,7 +785,10 @@ class BookResultListFragment :
         return false
     }
 
-    fun toggleSearchRecordView(show: Boolean, targetHeight: Int = 0) {
+    fun toggleSearchRecordView(
+        show: Boolean,
+        targetHeight: Int = 0
+    ) {
         if (!this::searchRecordsRootView.isInitialized) {
             return
         }
@@ -763,13 +800,17 @@ class BookResultListFragment :
         }
     }
 
-    private fun expandSearchRecordView(view: FrameLayout, targetHeight: Int) {
+    private fun expandSearchRecordView(
+        view: FrameLayout,
+        targetHeight: Int
+    ) {
         val maxHeight = resources.getDimensionPixelSize(R.dimen.search_records_max_height)
-        val height = if (targetHeight > maxHeight) {
-            maxHeight
-        } else {
-            targetHeight
-        }
+        val height =
+            if (targetHeight > maxHeight) {
+                maxHeight
+            } else {
+                targetHeight
+            }
 
         animateViewHeight(view, height)
     }
@@ -778,7 +819,10 @@ class BookResultListFragment :
         animateViewHeight(view, 0)
     }
 
-    private fun animateViewHeight(view: FrameLayout, targetHeight: Int) {
+    private fun animateViewHeight(
+        view: FrameLayout,
+        targetHeight: Int
+    ) {
         searchRecordAnimator?.takeIf { it.isRunning }?.run {
             removeAllListeners()
             removeAllUpdateListeners()
@@ -788,23 +832,25 @@ class BookResultListFragment :
         val animation = ValueAnimator.ofInt(view.measuredHeightAndState, targetHeight)
         animation.duration = 150
         animation.setInterpolator(DecelerateInterpolator())
-        animation.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationStart(animation: Animator) {
-                super.onAnimationStart(animation)
-                val isBackgroundVisible = searchRecordsBackground.visibility == View.VISIBLE
-                val isGoingToExpand = targetHeight > 0
-                if (isBackgroundVisible && !isGoingToExpand) {
-                    searchRecordsBackground.visibility = View.GONE
-                    backToTopButton.visibility = View.VISIBLE
-                    return
-                }
+        animation.addListener(
+            object : AnimatorListenerAdapter() {
+                override fun onAnimationStart(animation: Animator) {
+                    super.onAnimationStart(animation)
+                    val isBackgroundVisible = searchRecordsBackground.visibility == View.VISIBLE
+                    val isGoingToExpand = targetHeight > 0
+                    if (isBackgroundVisible && !isGoingToExpand) {
+                        searchRecordsBackground.visibility = View.GONE
+                        backToTopButton.visibility = View.VISIBLE
+                        return
+                    }
 
-                if (!isBackgroundVisible && isGoingToExpand) {
-                    searchRecordsBackground.visibility = View.VISIBLE
-                    backToTopButton.visibility = View.GONE
+                    if (!isBackgroundVisible && isGoingToExpand) {
+                        searchRecordsBackground.visibility = View.VISIBLE
+                        backToTopButton.visibility = View.GONE
+                    }
                 }
             }
-        })
+        )
         animation.addUpdateListener { valueAnimator ->
             val value = valueAnimator.animatedValue as Int
             val layoutParams = view.layoutParams
@@ -826,7 +872,10 @@ class BookResultListFragment :
         searchWithText(searchRecord.text)
     }
 
-    override fun onSearchRecordCloseImageClicked(searchRecord: SearchRecord, position: Int) {
+    override fun onSearchRecordCloseImageClicked(
+        searchRecord: SearchRecord,
+        position: Int
+    ) {
         requireContext().let {
             val message =
                 getString(R.string.alert_dialog_delete_search_record_message, searchRecord.text)
@@ -854,11 +903,14 @@ class BookResultListFragment :
         private const val BUNDLE_RECYCLERVIEW_STATE = "BUNDLE_RECYCLERVIEW_STATE"
         private const val KEY_RECYCLERVIEW_POSITION = "KEY_RECYCLERVIEW_POSITION"
         private const val POPUP_REVIEW_WINDOW_THRESHOLD = 5
-        fun newInstance(defaultKeyword: String?, defaultSnapshotSearchId: String?) =
-            BookResultListFragment().apply {
-                this.defaultSearchKeyword = defaultKeyword.orEmpty()
-                this.defaultSnapshotSearchId = defaultSnapshotSearchId.orEmpty()
-            }
+
+        fun newInstance(
+            defaultKeyword: String?,
+            defaultSnapshotSearchId: String?
+        ) = BookResultListFragment().apply {
+            this.defaultSearchKeyword = defaultKeyword.orEmpty()
+            this.defaultSnapshotSearchId = defaultSnapshotSearchId.orEmpty()
+        }
 
         const val TAG = "book-result-list-fragment"
     }

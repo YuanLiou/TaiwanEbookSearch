@@ -14,13 +14,15 @@ plugins {
     id(libs.plugins.ktlintGradle.get().pluginId)
 }
 
-val localProperties = Properties().apply {
-    load(FileInputStream(File(rootProject.rootDir, localPropertyFileName)))
-}
+val localProperties =
+    Properties().apply {
+        load(FileInputStream(File(rootProject.rootDir, localPropertyFileName)))
+    }
 
+@Suppress("ktlint:standard:property-naming")
 val HOST: String by project
-val HOST_STAGING: String = localProperties.getProperty("HOST_STAGING") ?: HOST
-val HOST_PORT: String = localProperties.getProperty("HOST_PORT") ?: "80"
+val hostStaging: String = localProperties.getProperty("HOST_STAGING") ?: HOST
+val hostPort: String = localProperties.getProperty("HOST_PORT") ?: "80"
 
 android {
     compileSdk = AppSettings.COMPILE_SDK_VERSION
@@ -52,14 +54,14 @@ android {
         getByName("debug") {
             isMinifyEnabled = false
 
-            buildConfigField("String", "HOST_URL", HOST_STAGING)
-            buildConfigField("int", "HOST_PORT", HOST_PORT)
+            buildConfigField("String", "HOST_URL", hostStaging)
+            buildConfigField("int", "HOST_PORT", hostPort)
         }
 
         getByName("release") {
             isMinifyEnabled = true
             buildConfigField("String", "HOST_URL", HOST)
-            buildConfigField("int", "HOST_PORT", HOST_PORT)
+            buildConfigField("int", "HOST_PORT", hostPort)
             consumerProguardFiles("consumer-rules.pro")
         }
     }

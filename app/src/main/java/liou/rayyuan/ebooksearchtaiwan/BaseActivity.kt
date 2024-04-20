@@ -9,8 +9,9 @@ import com.rayliu.commonmain.domain.service.UserPreferenceManager
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import org.koin.android.ext.android.inject
 
-abstract class BaseActivity(@LayoutRes contentLayoutId: Int) : AppCompatActivity(contentLayoutId) {
-
+abstract class BaseActivity(
+    @LayoutRes contentLayoutId: Int
+) : AppCompatActivity(contentLayoutId) {
     protected val userPreferenceManager: UserPreferenceManager by inject()
     protected val eventTracker: EventTracker by inject()
 

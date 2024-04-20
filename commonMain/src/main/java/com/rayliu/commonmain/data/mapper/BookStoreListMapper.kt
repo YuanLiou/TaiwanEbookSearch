@@ -7,7 +7,6 @@ import com.rayliu.commonmain.domain.model.BookStore
 class BookStoreListMapper(
     private val bookStoreMapper: BookStoreMapper
 ) : NullableInputListMapper<NetworkResult, BookStore> {
-
     fun setKeywords(keywords: String) {
         bookStoreMapper.setKeywords(keywords)
     }

@@ -13,11 +13,12 @@ class MaterialListPreference : ListPreferenceDialogFragmentCompat() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val context = activity ?: return super.onCreateDialog(savedInstanceState)
         clickedButton = DialogInterface.BUTTON_NEGATIVE
-        val builder = MaterialAlertDialogBuilder(requireActivity())
-            .setTitle(preference.dialogTitle)
-            .setIcon(preference.dialogIcon)
-            .setPositiveButton(preference.positiveButtonText, this)
-            .setNegativeButton(preference.negativeButtonText, this)
+        val builder =
+            MaterialAlertDialogBuilder(requireActivity())
+                .setTitle(preference.dialogTitle)
+                .setIcon(preference.dialogIcon)
+                .setPositiveButton(preference.positiveButtonText, this)
+                .setNegativeButton(preference.negativeButtonText, this)
 
         val contentView = onCreateDialogView(context)
         if (contentView != null) {
@@ -30,7 +31,10 @@ class MaterialListPreference : ListPreferenceDialogFragmentCompat() {
         return builder.create()
     }
 
-    override fun onClick(dialog: DialogInterface, which: Int) {
+    override fun onClick(
+        dialog: DialogInterface,
+        which: Int
+    ) {
         clickedButton = which
     }
 

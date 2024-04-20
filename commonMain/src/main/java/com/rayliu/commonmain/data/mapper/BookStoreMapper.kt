@@ -8,7 +8,6 @@ class BookStoreMapper(
     private val bookListMapper: BookListMapper,
     private val bookStoreDetailsMapper: BookStoreDetailsMapper
 ) : Mapper<NetworkResult, BookStore> {
-
     fun setKeywords(keywords: String) {
         bookListMapper.setupKeywords(keywords)
     }

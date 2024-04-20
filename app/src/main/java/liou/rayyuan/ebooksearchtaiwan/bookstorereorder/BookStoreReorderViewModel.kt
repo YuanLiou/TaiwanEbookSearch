@@ -16,8 +16,8 @@ import liou.rayyuan.ebooksearchtaiwan.arch.IModel
 class BookStoreReorderViewModel(
     private val getDefaultBookSortUseCase: GetDefaultBookSortUseCase,
     private val saveDefaultBookBookSortUseCase: SaveDefaultBookSortUseCase
-) : ViewModel(), IModel<BookStoreReorderViewState, BookStoreReorderUserIntent> {
-
+) : ViewModel(),
+    IModel<BookStoreReorderViewState, BookStoreReorderUserIntent> {
     override val userIntents: Channel<BookStoreReorderUserIntent> = Channel(Channel.UNLIMITED)
     private val _bookStoreReorderViewState = MutableLiveData<BookStoreReorderViewState>()
     override val viewState: LiveData<BookStoreReorderViewState>

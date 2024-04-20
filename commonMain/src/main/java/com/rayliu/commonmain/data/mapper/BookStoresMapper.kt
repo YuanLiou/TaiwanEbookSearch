@@ -10,7 +10,6 @@ import com.rayliu.commonmain.domain.model.BookStores
 class BookStoresMapper(
     private val searchResultMapper: SearchResultMapper
 ) : Mapper<NetworkCrawerResult, BookStores> {
-
     override fun map(input: NetworkCrawerResult): BookStores {
         val convertedResult = searchResultMapper.map(input)
         val books = convertedResult.bookStores.associateBy { it.bookStoreDetails?.id }
@@ -30,12 +29,11 @@ class BookStoresMapper(
         )
     }
 
-    private fun BookStore.createBookResult(): BookResult {
-        return BookResult(
+    private fun BookStore.createBookResult(): BookResult =
+        BookResult(
             books = books,
             isOnline = bookStoreDetails?.isOnline ?: false,
             isOkay = isOkay,
             status = status
         )
-    }
 }

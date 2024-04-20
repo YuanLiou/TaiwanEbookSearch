@@ -13,7 +13,10 @@ import androidx.preference.SwitchPreferenceCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.rayliu.commonmain.data.dao.SearchRecordDao
 import com.rayliu.commonmain.domain.service.UserPreferenceManager
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.preferencesetting.widget.MaterialListPreference
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
@@ -25,13 +28,15 @@ import org.koin.android.ext.android.inject
 class PreferenceSettingsFragment :
     PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener {
-
     private val quickChecker: QuickChecker by inject()
     private val searchRecordDao: SearchRecordDao by inject()
 
     internal var callback: PreferencesChangeCallback? = null
 
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+    override fun onCreatePreferences(
+        savedInstanceState: Bundle?,
+        rootKey: String?
+    ) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
         val themeChooser = findPreference(UserPreferenceManager.KEY_USER_THEME) as? ListPreference
         val followSystemTheme =
@@ -74,9 +79,7 @@ class PreferenceSettingsFragment :
         }
     }
 
-    private fun initiateCustomTabOption(
-        preferCustomTabs: SwitchPreferenceCompat
-    ) {
+    private fun initiateCustomTabOption(preferCustomTabs: SwitchPreferenceCompat) {
         if (quickChecker.isTabletSize()) {
             with(preferCustomTabs) {
                 isChecked = false
@@ -87,9 +90,10 @@ class PreferenceSettingsFragment :
     }
 
     private fun deleteAllSearchRecords() {
-        val errorHandler = CoroutineExceptionHandler { _, throwable ->
-            Log.d("PreferenceFragment", Log.getStackTraceString(throwable))
-        }
+        val errorHandler =
+            CoroutineExceptionHandler { _, throwable ->
+                Log.d("PreferenceFragment", Log.getStackTraceString(throwable))
+            }
 
         lifecycleScope.launch(errorHandler) {
             withContext(Dispatchers.IO) {
@@ -138,9 +142,10 @@ class PreferenceSettingsFragment :
 
     private fun showListPreferenceDialog(preference: ListPreference) {
         val dialogFragment = MaterialListPreference()
-        dialogFragment.arguments = bundleOf(
-            "key" to preference.key
-        )
+        dialogFragment.arguments =
+            bundleOf(
+                "key" to preference.key
+            )
         // We must call setTargetFragment in PreferenceFragment
         //  issue: https://issuetracker.google.com/issues/181793702
         dialogFragment.setTargetFragment(this, 0)
@@ -148,7 +153,10 @@ class PreferenceSettingsFragment :
     }
 
     //region SharedPreferences.OnSharedPreferenceChangeListener
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+    override fun onSharedPreferenceChanged(
+        sharedPreferences: SharedPreferences?,
+        key: String?
+    ) {
         when (key) {
             UserPreferenceManager.KEY_USER_SYSTEM_THEME -> {
                 val themeChooser =

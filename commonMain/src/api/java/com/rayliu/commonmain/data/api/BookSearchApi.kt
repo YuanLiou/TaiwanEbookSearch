@@ -11,14 +11,14 @@ import io.ktor.http.appendPathSegments
 class BookSearchApi(
     private val httpClient: HttpClient
 ) : BookSearchService {
-
     private val service = "searches"
     private val searchRequestBuilder
-        get() = HttpRequestBuilder().also {
-            it.url {
-                appendPathSegments(service)
+        get() =
+            HttpRequestBuilder().also {
+                it.url {
+                    appendPathSegments(service)
+                }
             }
-        }
 
     override suspend fun postBooks(keyword: String): NetworkCrawerResult {
         val requestBuilder = searchRequestBuilder
@@ -28,7 +28,10 @@ class BookSearchApi(
         return httpClient.post(requestBuilder).body()
     }
 
-    override suspend fun postBooks(stores: List<String>, keyword: String): NetworkCrawerResult {
+    override suspend fun postBooks(
+        stores: List<String>,
+        keyword: String
+    ): NetworkCrawerResult {
         val requestBuilder = searchRequestBuilder
         requestBuilder.url {
             parameters.append("q", keyword)

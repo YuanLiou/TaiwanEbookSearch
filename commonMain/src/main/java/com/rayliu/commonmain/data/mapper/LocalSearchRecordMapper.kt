@@ -5,8 +5,8 @@ import com.rayliu.commonmain.data.mapper.basic.Mapper
 import com.rayliu.commonmain.domain.model.SearchRecord
 
 class LocalSearchRecordMapper : Mapper<SearchRecord, LocalSearchRecord> {
-    override fun map(input: SearchRecord): LocalSearchRecord {
-        return LocalSearchRecord(
+    override fun map(input: SearchRecord): LocalSearchRecord =
+        LocalSearchRecord(
             input.text,
             input.times,
             null
@@ -15,5 +15,4 @@ class LocalSearchRecordMapper : Mapper<SearchRecord, LocalSearchRecord> {
                 it.id = input.id
             }
         }
-    }
 }

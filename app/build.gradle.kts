@@ -2,7 +2,7 @@ import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
 import io.gitlab.arturbosch.detekt.Detekt
 import java.io.File
 import java.io.FileInputStream
-import java.util.*
+import java.util.Properties
 
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
@@ -16,18 +16,19 @@ plugins {
     id(libs.plugins.ktlintGradle.get().pluginId)
 }
 
-val localProperties = Properties().apply {
-    load(FileInputStream(File(rootProject.rootDir, localPropertyFileName)))
-}
+val localProperties =
+    Properties().apply {
+        load(FileInputStream(File(rootProject.rootDir, localPropertyFileName)))
+    }
 
 val keystorePath: String = localProperties.getProperty("keystorePath")
 val keystoreAlias: String = localProperties.getProperty("keystoreAlias")
 val storePass: String = localProperties.getProperty("storePass")
 val keyPass: String = localProperties.getProperty("keyPass")
 
-val ADMOB_ID: String = localProperties.getProperty("ADMOB_ID")
-val ADMOB_TEST_DEVICE_ID: String = localProperties.getProperty("ADMOB_TEST_DEVICE_ID")
-val ADMOB_UNIT_ID: String = localProperties.getProperty("ADMOB_UNIT_ID")
+val admobId: String = localProperties.getProperty("ADMOB_ID")
+val admobTestDeviceId: String = localProperties.getProperty("ADMOB_TEST_DEVICE_ID")
+val admobUnitId: String = localProperties.getProperty("ADMOB_UNIT_ID")
 
 android {
     compileSdk = AppSettings.COMPILE_SDK_VERSION
@@ -109,9 +110,9 @@ android {
     }
 
     buildTypes.all {
-        resValue("string", "AD_MOB_ID", ADMOB_ID)
-        buildConfigField("String", "ADMOB_TEST_DEVICE_ID", ADMOB_TEST_DEVICE_ID)
-        resValue("string", "AD_MOB_UNIT_ID", ADMOB_UNIT_ID)
+        resValue("string", "AD_MOB_ID", admobId)
+        buildConfigField("String", "ADMOB_TEST_DEVICE_ID", admobTestDeviceId)
+        resValue("string", "AD_MOB_UNIT_ID", admobUnitId)
     }
 
     compileOptions {

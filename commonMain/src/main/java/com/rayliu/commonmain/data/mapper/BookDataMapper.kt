@@ -10,12 +10,12 @@ import java.util.regex.Pattern
 class BookDataMapper(
     private val levenshteinDistance: LevenshteinDistanceHelper
 ) : Mapper<NetworkBook, Book> {
-
     private var currentBookStore: DefaultStoreNames = DefaultStoreNames.UNKNOWN
     private var keywords: String = ""
-    private val chineseCharacterPattern = Pattern.compile(
-        "([\\u4E00-\\u9FFF]|([：？！]))\\s+([\\u4E00-\\u9FFF]|([：？！]))"
-    )
+    private val chineseCharacterPattern =
+        Pattern.compile(
+            "([\\u4E00-\\u9FFF]|([：？！]))\\s+([\\u4E00-\\u9FFF]|([：？！]))"
+        )
 
     fun setupBookStore(store: DefaultStoreNames) {
         currentBookStore = store
@@ -38,12 +38,13 @@ class BookDataMapper(
                 title = bookTitle,
                 authors = authors.orEmpty(),
                 bookStore = currentBookStore,
-                titleKeywordSimilarity = run {
-                    if (keywords.isEmpty() || bookTitle.isEmpty()) {
-                        return@run null
+                titleKeywordSimilarity =
+                    run {
+                        if (keywords.isEmpty() || bookTitle.isEmpty()) {
+                            return@run null
+                        }
+                        levenshteinDistance.check(original = keywords, target = bookTitle)
                     }
-                    levenshteinDistance.check(original = keywords, target = bookTitle)
-                }
             )
         }
     }

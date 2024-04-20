@@ -4,8 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import com.google.android.material.textfield.TextInputEditText
 
-class NoWrapEditText(context: Context, attrs: AttributeSet): TextInputEditText(context, attrs) {
-
+class NoWrapEditText(
+    context: Context,
+    attrs: AttributeSet
+) : TextInputEditText(context, attrs) {
     private val pattern by lazy {
         "\\n+".toRegex()
     }

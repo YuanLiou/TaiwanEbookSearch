@@ -90,11 +90,12 @@ class BookSearchViewModel(
 
     private var lastScrollPosition: Int = 0
         set(value) {
-            field = if (!isRequestingBookData()) {
-                value
-            } else {
-                0
-            }
+            field =
+                if (!isRequestingBookData()) {
+                    value
+                } else {
+                    0
+                }
         }
 
     init {
@@ -127,9 +128,10 @@ class BookSearchViewModel(
                         shareCurrentSnapshot()
                     }
                     is BookSearchUserIntent.AskUserRankApp -> {
-                        val hasUserSeenRankWindow = runCatching {
-                            checkUserHasSeenRankWindow()
-                        }.getOrDefault(false)
+                        val hasUserSeenRankWindow =
+                            runCatching {
+                                checkUserHasSeenRankWindow()
+                            }.getOrDefault(false)
 
                         if (!hasUserSeenRankWindow) {
                             sendViewEffect(ScreenState.ShowUserRankingDialog(userIntent.reviewInfo))
@@ -209,8 +211,9 @@ class BookSearchViewModel(
         fetchBookResult(SearchBookAction(keyword))
     }
 
-    private inner class SearchBookAction(private val keyword: String) :
-        suspend () -> Result<BookStores> {
+    private inner class SearchBookAction(
+        private val keyword: String
+    ) : suspend () -> Result<BookStores> {
         override suspend fun invoke(): Result<BookStores> {
             this@BookSearchViewModel.previousKeyword = keyword
             val defaultSort = getDefaultBookSortUseCase().first()
@@ -230,33 +233,35 @@ class BookSearchViewModel(
 
         updateScreen(BookResultViewState.PrepareBookResult(true))
         bookStores = null // clean up
-        networkJob = viewModelScope.launch(Dispatchers.IO) {
-            val response = action.invoke()
-            withContext(Dispatchers.Main) {
-                response.fold(
-                    onSuccess = {
-                        networkRequestSuccess(it)
-                    },
-                    onFailure = {
-                        // ServerResponseException == internal server error
-                        // ClientRequestException == response.status.value to get response code
-                        // RedirectResponseException
-                        this@BookSearchViewModel.previousKeyword = null
-                        if (it is SocketTimeoutException) {
-                            networkTimeout()
-                        } else {
-                            val message = it.localizedMessage ?: GENERIC_NETWORK_ISSUE
-                            networkExceptionOccurred(message)
+        networkJob =
+            viewModelScope.launch(Dispatchers.IO) {
+                val response = action.invoke()
+                withContext(Dispatchers.Main) {
+                    response.fold(
+                        onSuccess = {
+                            networkRequestSuccess(it)
+                        },
+                        onFailure = {
+                            // ServerResponseException == internal server error
+                            // ClientRequestException == response.status.value to get response code
+                            // RedirectResponseException
+                            this@BookSearchViewModel.previousKeyword = null
+                            if (it is SocketTimeoutException) {
+                                networkTimeout()
+                            } else {
+                                val message = it.localizedMessage ?: GENERIC_NETWORK_ISSUE
+                                networkExceptionOccurred(message)
+                            }
                         }
-                    }
-                )
+                    )
+                }
             }
-        }
         updateScreen(BookResultViewState.HideSearchRecordList)
     }
 
-    private inner class ShowSearchSnapshotAction(private val searchId: String) :
-        suspend () -> Result<BookStores> {
+    private inner class ShowSearchSnapshotAction(
+        private val searchId: String
+    ) : suspend () -> Result<BookStores> {
         override suspend fun invoke(): Result<BookStores> {
             this@BookSearchViewModel.previousKeyword = null
             return getSearchSnapshotUseCase(searchId)
@@ -311,27 +316,29 @@ class BookSearchViewModel(
 
             for (storeName in defaultSort) {
                 val bookResult = groupedResults[storeName] ?: continue
-                val books = bookResult.books.run {
-                    drop(1)
-                }.run {
-                    take(maxListNumber)
-                }.run {
-                    if (userPreferenceManager.isSearchResultSortByPrice()) {
-                        sortedBy { it.price }
-                    } else {
-                        sortedByDescending { it.titleKeywordSimilarity }
+                val books =
+                    bookResult.books.run {
+                        drop(1)
+                    }.run {
+                        take(maxListNumber)
+                    }.run {
+                        if (userPreferenceManager.isSearchResultSortByPrice()) {
+                            sortedBy { it.price }
+                        } else {
+                            sortedByDescending { it.titleKeywordSimilarity }
+                        }
                     }
-                }
 
                 adapterItems.add(
                     BookHeader(
                         storeName.getStringResource(),
                         books.isEmpty(),
-                        siteInfo = SiteInfo(
-                            isOnline = bookResult.isOnline,
-                            isResultOkay = bookResult.isOkay,
-                            status = bookResult.status
-                        )
+                        siteInfo =
+                            SiteInfo(
+                                isOnline = bookResult.isOnline,
+                                isResultOkay = bookResult.isOkay,
+                                status = bookResult.status
+                            )
                     )
                 )
 
@@ -375,10 +382,11 @@ class BookSearchViewModel(
     }
 
     private fun generateSnapshotUrl(action: (String) -> Unit) {
-        val currentBookStore = bookStores ?: run {
-            sendViewEffect(ScreenState.NoSharingContentAvailable)
-            return
-        }
+        val currentBookStore =
+            bookStores ?: run {
+                sendViewEffect(ScreenState.NoSharingContentAvailable)
+                return
+            }
 
         val searchId = currentBookStore.searchId
         if (searchId.isNotEmpty()) {
@@ -387,9 +395,7 @@ class BookSearchViewModel(
         }
     }
 
-    private fun isRequestingBookData(): Boolean {
-        return networkJob?.isActive ?: false
-    }
+    private fun isRequestingBookData(): Boolean = networkJob?.isActive ?: false
 
     private fun forceStopRequestingBookData() {
         networkJob?.cancel()
@@ -417,9 +423,7 @@ class BookSearchViewModel(
         _screenViewState.value = ViewEffect(screenState)
     }
 
-    suspend fun checkUserHasSeenRankWindow(): Boolean {
-        return rankingWindowFacade.isUserSeenRankWindow().firstOrNull() ?: false
-    }
+    suspend fun checkUserHasSeenRankWindow(): Boolean = rankingWindowFacade.isUserSeenRankWindow().firstOrNull() ?: false
 
     /***
      * reduce

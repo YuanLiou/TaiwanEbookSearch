@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatCheckBox
@@ -15,21 +14,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.checkbox.MaterialCheckBox
 import liou.rayyuan.ebooksearchtaiwan.R
 import com.rayliu.commonmain.data.DefaultStoreNames
-import com.rayliu.commonmain.domain.model.Book
+import java.util.Collections
 import liou.rayyuan.ebooksearchtaiwan.view.ListDraggingViewHolderHelper
 import liou.rayyuan.ebooksearchtaiwan.view.ListItemTouchListener
 import liou.rayyuan.ebooksearchtaiwan.view.OnBookStoreItemChangedListener
 import liou.rayyuan.ebooksearchtaiwan.view.getStringResource
-import java.util.*
 
-class BookstoreNameAdapter(private var listener: OnBookStoreItemChangedListener?): RecyclerView.Adapter<BookstoreNameAdapter.BookstoreViewHolder>(),
-        ListItemTouchListener {
-
+class BookstoreNameAdapter(
+    private var listener: OnBookStoreItemChangedListener?
+) : RecyclerView.Adapter<BookstoreNameAdapter.BookstoreViewHolder>(),
+    ListItemTouchListener {
     private val bookStores = mutableListOf<SortedStore>()
     private val payloadCheckBoxStatus = "payload-check-box-status"
     private var lastLockedPosition: Int? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookstoreViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BookstoreViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_bookstores, parent, false)
         return BookstoreViewHolder(view)
     }
@@ -38,7 +40,11 @@ class BookstoreNameAdapter(private var listener: OnBookStoreItemChangedListener?
         return bookStores.size
     }
 
-    override fun onBindViewHolder(holder: BookstoreViewHolder, position: Int, payloads: MutableList<Any>) {
+    override fun onBindViewHolder(
+        holder: BookstoreViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
         if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)
             return
@@ -50,7 +56,10 @@ class BookstoreNameAdapter(private var listener: OnBookStoreItemChangedListener?
         }
     }
 
-    override fun onBindViewHolder(holder: BookstoreViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: BookstoreViewHolder,
+        position: Int
+    ) {
         val index = holder.absoluteAdapterPosition
         if (index == RecyclerView.NO_POSITION) {
             return
@@ -70,7 +79,10 @@ class BookstoreNameAdapter(private var listener: OnBookStoreItemChangedListener?
         holder.bookstoreCheckBox.jumpDrawablesToCurrentState()
     }
 
-    private fun toggleEdition(holder: BookstoreViewHolder, bookStore: SortedStore) {
+    private fun toggleEdition(
+        holder: BookstoreViewHolder,
+        bookStore: SortedStore
+    ) {
         val enableStoreCounts = bookStores.count { it.isVisible }
         toggleDraggable(holder, enableStoreCounts > 1)
 
@@ -78,7 +90,11 @@ class BookstoreNameAdapter(private var listener: OnBookStoreItemChangedListener?
         toggleVisibilityChange(holder, bookStore, !disableCheckBox)
     }
 
-    private fun toggleVisibilityChange(viewHolder: BookstoreViewHolder, bookStore: SortedStore, enable: Boolean) {
+    private fun toggleVisibilityChange(
+        viewHolder: BookstoreViewHolder,
+        bookStore: SortedStore,
+        enable: Boolean
+    ) {
         if (enable) {
             viewHolder.bookstoreCheckBox.isEnabled = true
             viewHolder.bookstoreCheckBox.isClickable = true
@@ -104,8 +120,9 @@ class BookstoreNameAdapter(private var listener: OnBookStoreItemChangedListener?
         handleCheckChanged(switchToResult, bookstore)
     }
 
-    private fun handleCheckChanged(isChecked: Boolean,
-                                   bookStore: SortedStore
+    private fun handleCheckChanged(
+        isChecked: Boolean,
+        bookStore: SortedStore
     ) {
         listener?.onStoreVisibilityChanged()
         if (isChecked) {
@@ -115,7 +132,7 @@ class BookstoreNameAdapter(private var listener: OnBookStoreItemChangedListener?
         }
     }
 
-    @SuppressLint("ClickableViewAccessibility")    // ignore onTouchListener implemented performClick request
+    @SuppressLint("ClickableViewAccessibility") // ignore onTouchListener implemented performClick request
     private fun toggleDraggable(viewHolder: BookstoreViewHolder, enable: Boolean) {
         if (enable) {
             viewHolder.bookstoreReorderImage.isEnabled = true
@@ -145,19 +162,22 @@ class BookstoreNameAdapter(private var listener: OnBookStoreItemChangedListener?
 
         if (disableStores.isNotEmpty()) {
             Log.i("BookstoreNameAdapter", "disabled bookstore are = $disableStores")
-            val disabledList = disableStores.map {
-                SortedStore(it, false)
-            }
+            val disabledList =
+                disableStores.map {
+                    SortedStore(it, false)
+                }
 
-            val bookStores = displayStores.map {
-                SortedStore(it, true)
-            }.toMutableList()
+            val bookStores =
+                displayStores.map {
+                    SortedStore(it, true)
+                }.toMutableList()
             bookStores.addAll(disabledList)
             this.bookStores.addAll(bookStores)
         } else {
-            val bookStores = displayStores.map {
-                SortedStore(it, true)
-            }
+            val bookStores =
+                displayStores.map {
+                    SortedStore(it, true)
+                }
             this.bookStores.addAll(bookStores)
         }
         notifyDataSetChanged()
@@ -188,7 +208,10 @@ class BookstoreNameAdapter(private var listener: OnBookStoreItemChangedListener?
         return false
     }
 
-    override fun onItemMove(fromPosition: Int, toPosition: Int) {
+    override fun onItemMove(
+        fromPosition: Int,
+        toPosition: Int
+    ) {
         if (fromPosition < toPosition) {
             for (i in fromPosition until toPosition) {
                 Collections.swap(bookStores, i, i + 1)
@@ -207,7 +230,10 @@ class BookstoreNameAdapter(private var listener: OnBookStoreItemChangedListener?
         listener = null
     }
 
-    class BookstoreViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), ListDraggingViewHolderHelper {
+    class BookstoreViewHolder(
+        itemView: View
+    ) : RecyclerView.ViewHolder(itemView),
+        ListDraggingViewHolderHelper {
         val bookstoreTitle = itemView.findViewById<TextView>(R.id.adapter_bookstore_name_textview)
         val bookstoreTouchZone = itemView.findViewById<View>(R.id.adapter_bookstore_touchzone)
         val bookstoreReorderImage = itemView.findViewById<ImageView>(R.id.adapter_bookstore_reorder_imageview)
@@ -224,5 +250,8 @@ class BookstoreNameAdapter(private var listener: OnBookStoreItemChangedListener?
         }
     }
 
-    data class SortedStore(val defaultStoreName: DefaultStoreNames, var isVisible: Boolean)
+    data class SortedStore(
+        val defaultStoreName: DefaultStoreNames,
+        var isVisible: Boolean
+    )
 }

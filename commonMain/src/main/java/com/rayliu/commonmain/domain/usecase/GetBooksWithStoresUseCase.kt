@@ -9,8 +9,10 @@ class GetBooksWithStoresUseCase(
     private val bookRepository: BookRepository,
     private val searchRecordRepository: SearchRecordRepository
 ) {
-
-    suspend operator fun invoke(bookStores: List<DefaultStoreNames>, keyword: String): Result<BookStores> {
+    suspend operator fun invoke(
+        bookStores: List<DefaultStoreNames>,
+        keyword: String
+    ): Result<BookStores> {
         saveKeyword(keyword)
         return bookRepository.getBooksWithStores(bookStores, keyword)
     }

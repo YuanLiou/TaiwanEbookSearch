@@ -12,13 +12,15 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 class FragmentViewBinding<T : ViewBinding>(
-    private val bindingAction : (View) -> T
+    private val bindingAction: (View) -> T
 ) : ReadOnlyProperty<Fragment, T> {
-
     private var viewBinding: T? = null
     private val lifecycleObserver = BindingLifecycleObserver()
 
-    override fun getValue(thisRef: Fragment, property: KProperty<*>): T {
+    override fun getValue(
+        thisRef: Fragment,
+        property: KProperty<*>
+    ): T {
         this.viewBinding?.let {
             return it
         }

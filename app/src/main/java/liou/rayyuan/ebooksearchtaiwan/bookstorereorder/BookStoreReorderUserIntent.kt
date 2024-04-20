@@ -5,5 +5,8 @@ import liou.rayyuan.ebooksearchtaiwan.arch.IUserIntent
 
 sealed class BookStoreReorderUserIntent : IUserIntent {
     object GetPreviousSavedSort : BookStoreReorderUserIntent()
-    data class UpdateSort(val bookSorts: List<DefaultStoreNames>) : BookStoreReorderUserIntent()
+
+    data class UpdateSort(
+        val bookSorts: List<DefaultStoreNames>
+    ) : BookStoreReorderUserIntent()
 }

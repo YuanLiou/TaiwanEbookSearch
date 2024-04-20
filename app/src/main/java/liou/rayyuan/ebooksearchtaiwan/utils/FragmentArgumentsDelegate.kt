@@ -6,21 +6,25 @@ import androidx.fragment.app.Fragment
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-class FragmentArgumentsDelegate<T: Any> : ReadWriteProperty<Fragment, T> {
-
+class FragmentArgumentsDelegate<T : Any> : ReadWriteProperty<Fragment, T> {
     var value: T? = null
 
-    @Suppress("UNCHECKED_CAST")    // Uncheck argument.get casting
+    @Suppress("UNCHECKED_CAST") // Uncheck argument.get casting
     override fun getValue(thisRef: Fragment, property: KProperty<*>): T {
         if (value == null) {
-            val argument = thisRef.arguments ?: throw IllegalStateException("Cannot read property ${property.name} if no argument have been set.")
+            val argument =
+                thisRef.arguments ?: throw IllegalStateException("Cannot read property ${property.name} if no argument have been set.")
             value = argument.get(property.name) as T
         }
 
         return value ?: throw IllegalStateException("Property ${property.name} could not be read.")
     }
 
-    override fun setValue(thisRef: Fragment, property: KProperty<*>, value: T) {
+    override fun setValue(
+        thisRef: Fragment,
+        property: KProperty<*>,
+        value: T
+    ) {
         if (thisRef.arguments == null) {
             thisRef.arguments = Bundle()
         }
@@ -30,5 +34,4 @@ class FragmentArgumentsDelegate<T: Any> : ReadWriteProperty<Fragment, T> {
 
         argument.putAll(bundleOf(key to value))
     }
-
 }

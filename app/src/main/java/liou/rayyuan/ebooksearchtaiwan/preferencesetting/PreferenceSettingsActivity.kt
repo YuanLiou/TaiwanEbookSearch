@@ -12,9 +12,13 @@ import liou.rayyuan.ebooksearchtaiwan.utils.ActivityViewBinding
 /**
  * Created by louis383 on 2018/9/29.
  */
-class PreferenceSettingsActivity : BaseActivity(R.layout.activity_preference), PreferenceSettingsFragment.PreferencesChangeCallback {
-
-    private val viewBinding: ActivityPreferenceBinding by ActivityViewBinding(ActivityPreferenceBinding::bind, R.id.preference_layout_rootView)
+class PreferenceSettingsActivity :
+    BaseActivity(R.layout.activity_preference),
+    PreferenceSettingsFragment.PreferencesChangeCallback {
+    private val viewBinding: ActivityPreferenceBinding by ActivityViewBinding(
+        ActivityPreferenceBinding::bind,
+        R.id.preference_layout_rootView
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,9 +32,12 @@ class PreferenceSettingsActivity : BaseActivity(R.layout.activity_preference), P
         }
 
         supportFragmentManager.commit {
-            replace(R.id.preference_layout_main_content, PreferenceSettingsFragment().apply {
-                callback = this@PreferenceSettingsActivity
-            })
+            replace(
+                R.id.preference_layout_main_content,
+                PreferenceSettingsFragment().apply {
+                    callback = this@PreferenceSettingsActivity
+                }
+            )
         }
     }
 

@@ -3,8 +3,8 @@ package com.rayliu.commonmain
 import com.rayliu.commonmain.data.DefaultStoreNames
 
 object Utils {
-    fun getDefaultSort(): List<DefaultStoreNames> {
-        return listOf(
+    fun getDefaultSort(): List<DefaultStoreNames> =
+        listOf(
             DefaultStoreNames.READMOO,
             DefaultStoreNames.KINDLE,
             DefaultStoreNames.KOBO,
@@ -15,5 +15,4 @@ object Utils {
             DefaultStoreNames.PUBU,
             DefaultStoreNames.HYREAD
         )
-    }
 }

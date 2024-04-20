@@ -4,5 +4,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface BrowseHistoryRepository {
     suspend fun isUserSeenRankWindow(): Flow<Boolean>
+
     suspend fun setUserHasSeenRankWindow()
 }

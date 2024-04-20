@@ -61,9 +61,10 @@ class BookRepositoryImpl(
             .map { preference ->
                 val userDefaultSort = preference[key] ?: ""
                 if (userDefaultSort.isNotBlank()) {
-                    val result = userDefaultSort.split(",").map {
-                        DefaultStoreNames.fromName(it)
-                    }
+                    val result =
+                        userDefaultSort.split(",").map {
+                            DefaultStoreNames.fromName(it)
+                        }
                     return@map result
                 }
 
@@ -81,9 +82,8 @@ class BookRepositoryImpl(
         }
     }
 
-    override suspend fun getSearchSnapshot(searchId: String): Result<BookStores> {
-        return runCatching {
+    override suspend fun getSearchSnapshot(searchId: String): Result<BookStores> =
+        runCatching {
             mapBookStores(bookSearchService.getSearchSnapshot(searchId))
         }
-    }
 }

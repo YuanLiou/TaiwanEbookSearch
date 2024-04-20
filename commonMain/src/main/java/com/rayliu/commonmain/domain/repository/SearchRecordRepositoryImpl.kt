@@ -19,38 +19,42 @@ class SearchRecordRepositoryImpl(
     private val localSearchRecordMapper: LocalSearchRecordMapper,
     private val searchRecordDao: SearchRecordDao
 ) : SearchRecordRepository {
-
     private val pageSize = 10
 
     override fun getPagingSearchRecordsFactory(): LiveData<PagingData<SearchRecord>> {
-        val pager = Pager(
-            config = PagingConfig(
-                pageSize = pageSize,
-                initialLoadSize = pageSize,
-                enablePlaceholders = true
-            ),
-            pagingSourceFactory = searchRecordDao.getSearchRecordsPaged().map {
-                searchRecordMapper.map(it)
-            }.asPagingSourceFactory()
-
-        )
+        val pager =
+            Pager(
+                config =
+                    PagingConfig(
+                        pageSize = pageSize,
+                        initialLoadSize = pageSize,
+                        enablePlaceholders = true
+                    ),
+                pagingSourceFactory =
+                    searchRecordDao.getSearchRecordsPaged().map {
+                        searchRecordMapper.map(it)
+                    }.asPagingSourceFactory()
+            )
         return pager.liveData
     }
 
-    override suspend fun getSearchRecordsCounts(): Result<Int> = withContext(Dispatchers.IO) {
-        runCatching { searchRecordDao.getSearchRecordsCounts() }
-    }
-
-    override suspend fun saveKeywordToLocal(keyword: String) = withContext(Dispatchers.IO) {
-        searchRecordDao.getSearchRecordWithTitle(keyword)?.let {
-            searchRecordDao.updateCounts(it.id, it.counts + 1, OffsetDateTime.now())
-        } ?: run {
-            val searchRecord = LocalSearchRecord(keyword, 1, OffsetDateTime.now())
-            searchRecordDao.insertRecords(listOf(searchRecord))
+    override suspend fun getSearchRecordsCounts(): Result<Int> =
+        withContext(Dispatchers.IO) {
+            runCatching { searchRecordDao.getSearchRecordsCounts() }
         }
-    }
 
-    override suspend fun deleteRecords(searchRecord: SearchRecord) = withContext(Dispatchers.IO) {
-        searchRecordDao.deleteRecord(localSearchRecordMapper.map(searchRecord))
-    }
+    override suspend fun saveKeywordToLocal(keyword: String) =
+        withContext(Dispatchers.IO) {
+            searchRecordDao.getSearchRecordWithTitle(keyword)?.let {
+                searchRecordDao.updateCounts(it.id, it.counts + 1, OffsetDateTime.now())
+            } ?: run {
+                val searchRecord = LocalSearchRecord(keyword, 1, OffsetDateTime.now())
+                searchRecordDao.insertRecords(listOf(searchRecord))
+            }
+        }
+
+    override suspend fun deleteRecords(searchRecord: SearchRecord) =
+        withContext(Dispatchers.IO) {
+            searchRecordDao.deleteRecord(localSearchRecordMapper.map(searchRecord))
+        }
 }

@@ -7,7 +7,6 @@ import com.rayliu.commonmain.domain.model.SearchResult
 class SearchResultMapper(
     private val bookStoreListMapper: BookStoreListMapper
 ) : Mapper<NetworkCrawerResult, SearchResult> {
-
     override fun map(input: NetworkCrawerResult): SearchResult {
         val keywords = input.keywords.orEmpty()
         bookStoreListMapper.setKeywords(keywords)
