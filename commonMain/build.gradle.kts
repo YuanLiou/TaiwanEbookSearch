@@ -11,7 +11,6 @@ plugins {
     id(libs.plugins.ktlintGradle.get().pluginId)
     alias(libs.plugins.kotlin)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.sqldelight)
 }
 
@@ -32,12 +31,6 @@ android {
         targetSdk = AppSettings.TARGET_SDK_VERSION
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += mapOf("room.schemaLocation" to "$projectDir/schemas")
-            }
-        }
     }
 
     flavorDimensions.add("data_source")
@@ -135,12 +128,10 @@ dependencies {
     implementation(libs.ktor.client.logging)
 
     // JetPacks
-    implementation(libs.room.runtime)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.preference.ktx)
     implementation(libs.paging.runtime)
     implementation(libs.androidx.dataStore.core)
-    ksp(libs.room.compiler)
 
     // Koin
     implementation(libs.koin.android)

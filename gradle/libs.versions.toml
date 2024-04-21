@@ -19,7 +19,6 @@ materialDesign = "1.11.0"
 constraintlayoutVersion = "2.1.4"
 androidxDataStore = "1.1.0"
 androidxLifecycle = "2.7.0"
-room = "2.6.1"
 paging = "3.2.1"
 
 #  Kotlin Libraries
@@ -74,8 +73,6 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 androidx-dataStore-core = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDataStore" }
 androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "androidxLifecycle" }
 androidx-lifecycle-livedata-java8 = { group = "androidx.lifecycle", name = "lifecycle-common-java8", version.ref = "androidxLifecycle" }
-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
 
 #  Kotlin

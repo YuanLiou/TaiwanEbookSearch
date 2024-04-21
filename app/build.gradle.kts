@@ -42,12 +42,6 @@ android {
         versionName = rootProject.extra.get("app_version").toString()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         resourceConfigurations += listOf("en", "zh-rTW", "zh-rCN")
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments.putAll(mapOf("room.schemaLocation" to "$projectDir/schemas", "room.incremental" to "true"))
-            }
-        }
     }
 
     buildFeatures {
