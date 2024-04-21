@@ -6,12 +6,13 @@ import java.util.Properties
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id(libs.plugins.android.library.get().pluginId)
-    alias(libs.plugins.kotlin)
     id(libs.plugins.kotlin.parcelize.get().pluginId)
-    alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.ksp)
     id(libs.plugins.detekt.get().pluginId)
     id(libs.plugins.ktlintGradle.get().pluginId)
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.sqldelight)
 }
 
 val localProperties =
@@ -19,7 +20,6 @@ val localProperties =
         load(FileInputStream(File(rootProject.rootDir, localPropertyFileName)))
     }
 
-@Suppress("ktlint:standard:property-naming")
 val HOST: String by project
 val hostStaging: String = localProperties.getProperty("HOST_STAGING") ?: HOST
 val hostPort: String = localProperties.getProperty("HOST_PORT") ?: "80"
@@ -89,6 +89,15 @@ android {
     namespace = "com.rayliu.commonmain"
 }
 
+sqldelight {
+    databases {
+        create("ebooktw_database") {
+            packageName.set("com.rayliu.commonmain.data.database")
+            verifyMigrations.set(true)
+        }
+    }
+}
+
 detekt {
     toolVersion = libs.versions.detektVersion.toString()
     config.setFrom(files("$project.rootDir/deteket-config.yml"))
@@ -136,6 +145,10 @@ dependencies {
     // Koin
     implementation(libs.koin.android)
     testImplementation(libs.androidx.test.ext)
+
+    // SQL Delight
+    implementation(libs.sqldelight.android.driver)
+    implementation(libs.sqldelight.coroutines.extensions)
 
     // Detekt
     detekt(libs.detekt.cli)

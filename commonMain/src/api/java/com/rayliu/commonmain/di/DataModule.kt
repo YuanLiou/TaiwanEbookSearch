@@ -20,7 +20,6 @@ import io.ktor.http.URLProtocol
 import io.ktor.http.path
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import org.koin.core.scope.get
 import org.koin.dsl.module
 
 private const val API_VERSION = "v1"

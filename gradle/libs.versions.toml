@@ -46,6 +46,7 @@ firebaseCrashlyticsPlugin = "2.9.9"
 detektVersion = "1.23.6"
 ksp = "1.9.23-1.0.20"
 ktlintGradle = "12.1.0"
+sqldelight = "2.0.2"
 
 [libraries]
 coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
@@ -55,6 +56,8 @@ zxing-android = { group = "com.journeyapps", name = "zxing-android-embedded", ve
 fuzzywuzzy = { group = "me.xdrop", name = "fuzzywuzzy", version.ref = "fuzzywuzzy" }
 detekt-ktlint-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detektVersion" }
 detekt-cli = { group = "io.gitlab.arturbosch.detekt", name = "detekt-cli", version.ref = "detektVersion" }
+sqldelight-android-driver = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqldelight" }
+sqldelight-coroutines-extensions = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqldelight" }
 
 #  Google
 desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugarLibVersion" }
@@ -106,3 +109,4 @@ firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detektVersion" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 ktlintGradle = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintGradle" }
+sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
