@@ -149,7 +149,6 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(project(":commonMain"))
-    implementation(libs.threetenabp)
 
     // region Android X Libraries
     implementation(libs.androidx.appcompat)
@@ -169,6 +168,7 @@ dependencies {
     // Kotlin
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.datetime)
 
     // Firebase and GMS
     implementation(platform(libs.firebase.bom))

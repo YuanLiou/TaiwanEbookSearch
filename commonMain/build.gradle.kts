@@ -116,12 +116,12 @@ tasks.register<Detekt>("detektAll") {
 
 dependencies {
     coreLibraryDesugaring(libs.desugar.jdk.libs)
-    implementation(libs.threetenabp)
     implementation(libs.fuzzywuzzy)
 
     // Kotlin
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.datetime)
     implementation(libs.ktor.client)
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.client.serialization)

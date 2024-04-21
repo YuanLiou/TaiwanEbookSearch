@@ -5,12 +5,13 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
+import com.rayliu.commonmain.OffsetDateTimeHelper
 import com.rayliu.commonmain.data.dao.SearchRecordDao
 import com.rayliu.commonmain.data.mapper.LocalSearchRecordMapper
 import com.rayliu.commonmain.domain.model.SearchRecord
-import org.threeten.bp.OffsetDateTime
 
 class SearchRecordRepositoryImpl(
+    private val offsetDateTimeHelper: OffsetDateTimeHelper,
     private val localSearchRecordMapper: LocalSearchRecordMapper,
     private val searchRecordDao: SearchRecordDao
 ) : SearchRecordRepository {
@@ -42,7 +43,7 @@ class SearchRecordRepositoryImpl(
                 searchRecordDao.updateCounts(
                     recordId,
                     record.counts + 1,
-                    OffsetDateTime.now()
+                    offsetDateTimeHelper.provideCurrentMoment()
                 )
             }
             return

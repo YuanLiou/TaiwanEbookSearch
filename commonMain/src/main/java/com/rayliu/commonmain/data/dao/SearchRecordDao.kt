@@ -4,7 +4,7 @@ import app.cash.paging.PagingSource
 import com.rayliu.commonmain.data.dto.LocalSearchRecord
 import com.rayliu.commonmain.domain.model.SearchRecord
 import kotlinx.coroutines.flow.Flow
-import org.threeten.bp.OffsetDateTime
+import kotlinx.datetime.LocalDateTime
 
 interface SearchRecordDao {
     fun getAllSearchRecords(): Flow<LocalSearchRecord>
@@ -24,7 +24,7 @@ interface SearchRecordDao {
     suspend fun updateCounts(
         id: Long,
         counts: Long,
-        timeStamp: OffsetDateTime?
+        timeStamp: LocalDateTime
     )
 
     suspend fun deleteAllRecords()

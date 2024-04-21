@@ -4,7 +4,7 @@ import app.cash.paging.PagingSource
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToOne
 import app.cash.sqldelight.paging3.QueryPagingSource
-import com.rayliu.commonmain.OffsetDateTypeConverter
+import com.rayliu.commonmain.OffsetDateTimeHelper
 import com.rayliu.commonmain.data.database.EbookTwDatabase
 import com.rayliu.commonmain.data.dto.LocalSearchRecord
 import com.rayliu.commonmain.data.mapper.SearchRecordMapper
@@ -13,10 +13,10 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import org.threeten.bp.OffsetDateTime
+import kotlinx.datetime.LocalDateTime
 
 class SearchRecordDaoImpl(
-    private val offsetDateTypeConverter: OffsetDateTypeConverter,
+    private val offsetDateTimeHelper: OffsetDateTimeHelper,
     private val searchRecordMapper: SearchRecordMapper,
     private val ioDispatcher: CoroutineDispatcher,
     private val defaultDispatcher: CoroutineDispatcher,
@@ -26,7 +26,12 @@ class SearchRecordDaoImpl(
 
     override fun getAllSearchRecords(): Flow<LocalSearchRecord> =
         queries.getAllSearchRecords().asFlow().mapToOne(defaultDispatcher).map {
-            val timeStamp = offsetDateTypeConverter.toOffsetDateTime(it.time_stamp)
+            val timeStamp =
+                if (it.time_stamp != null) {
+                    offsetDateTimeHelper.convertToLocalDateTime(it.time_stamp)
+                } else {
+                    offsetDateTimeHelper.provideCurrentMoment()
+                }
             LocalSearchRecord(it.result_text, it.counts, timeStamp).also { localSearchRecord ->
                 localSearchRecord.id = it.id
             }
@@ -39,8 +44,15 @@ class SearchRecordDaoImpl(
             context = ioDispatcher,
             queryProvider = { offset, limit ->
                 queries.getPagingSearchRecords(offset, limit) { id, resultText, timeStamps, counts ->
+                    val timeStamp =
+                        if (timeStamps != null) {
+                            offsetDateTimeHelper.convertToLocalDateTime(timeStamps)
+                        } else {
+                            offsetDateTimeHelper.provideCurrentMoment()
+                        }
+
                     val localSearchRecord =
-                        LocalSearchRecord(resultText, counts, offsetDateTypeConverter.toOffsetDateTime(timeStamps)).also {
+                        LocalSearchRecord(resultText, counts, timeStamp).also {
                             it.id = id
                         }
                     searchRecordMapper.map(localSearchRecord)
@@ -51,7 +63,12 @@ class SearchRecordDaoImpl(
     override suspend fun getSearchRecordWithTitle(passedRecord: String): LocalSearchRecord? =
         withContext(ioDispatcher) {
             queries.getSearchRecordWithTitle(passedRecord).executeAsOneOrNull()?.run {
-                val timeStamp = offsetDateTypeConverter.toOffsetDateTime(time_stamp)
+                val timeStamp =
+                    if (time_stamp != null) {
+                        offsetDateTimeHelper.convertToLocalDateTime(time_stamp)
+                    } else {
+                        offsetDateTimeHelper.provideCurrentMoment()
+                    }
                 LocalSearchRecord(result_text, counts, timeStamp).also { localSearchRecord ->
                     localSearchRecord.id = id
                 }
@@ -61,11 +78,15 @@ class SearchRecordDaoImpl(
     override suspend fun insertRecords(searchRecords: List<LocalSearchRecord>) =
         withContext(ioDispatcher) {
             for (record in searchRecords) {
+                if (record.timeStamps == null) {
+                    continue
+                }
+
                 queries.insertRecord(
                     id = null,
                     result_text = record.resultText,
                     counts = record.counts,
-                    time_stamp = offsetDateTypeConverter.fromOffsetDateTime(record.timeStamps)
+                    time_stamp = offsetDateTimeHelper.provideTimeStampString(record.timeStamps)
                 )
             }
         }
@@ -79,11 +100,12 @@ class SearchRecordDaoImpl(
     override suspend fun updateRecord(searchRecord: LocalSearchRecord) =
         withContext(ioDispatcher) {
             val id = searchRecord.id ?: return@withContext
+            val timeStamp = searchRecord.timeStamps ?: return@withContext
             queries.updateRecord(
                 id = id,
                 result_text = searchRecord.resultText,
                 counts = searchRecord.counts,
-                time_stamp = offsetDateTypeConverter.fromOffsetDateTime(searchRecord.timeStamps)
+                time_stamp = offsetDateTimeHelper.provideTimeStampString(timeStamp)
             )
         }
 
@@ -95,12 +117,12 @@ class SearchRecordDaoImpl(
     override suspend fun updateCounts(
         id: Long,
         counts: Long,
-        timeStamp: OffsetDateTime?
+        timeStamp: LocalDateTime
     ) = withContext(ioDispatcher) {
         queries.updateCounts(
             id = id,
             counts = counts,
-            timeStamp = offsetDateTypeConverter.fromOffsetDateTime(timeStamp)
+            timeStamp = offsetDateTimeHelper.provideTimeStampString(timeStamp)
         )
     }
 
