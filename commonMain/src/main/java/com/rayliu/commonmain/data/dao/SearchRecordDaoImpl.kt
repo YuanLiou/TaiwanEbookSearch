@@ -1,11 +1,14 @@
 package com.rayliu.commonmain.data.dao
 
-import androidx.paging.DataSource
+import app.cash.paging.PagingSource
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToOne
+import app.cash.sqldelight.paging3.QueryPagingSource
 import com.rayliu.commonmain.OffsetDateTypeConverter
 import com.rayliu.commonmain.data.database.EbookTwDatabase
 import com.rayliu.commonmain.data.dto.LocalSearchRecord
+import com.rayliu.commonmain.data.mapper.SearchRecordMapper
+import com.rayliu.commonmain.domain.model.SearchRecord
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -14,6 +17,7 @@ import org.threeten.bp.OffsetDateTime
 
 class SearchRecordDaoImpl(
     private val offsetDateTypeConverter: OffsetDateTypeConverter,
+    private val searchRecordMapper: SearchRecordMapper,
     private val ioDispatcher: CoroutineDispatcher,
     private val defaultDispatcher: CoroutineDispatcher,
     database: EbookTwDatabase,
@@ -28,9 +32,21 @@ class SearchRecordDaoImpl(
             }
         }
 
-    override fun getSearchRecordsPaged(): DataSource.Factory<Int, LocalSearchRecord> {
-        TODO("Not yet implemented")
-    }
+    override fun getSearchRecordsPaged(): PagingSource<Int, SearchRecord> =
+        QueryPagingSource(
+            countQuery = queries.getSearchRecordsCounts(),
+            transacter = queries,
+            context = ioDispatcher,
+            queryProvider = { offset, limit ->
+                queries.getPagingSearchRecords(offset, limit) { id, resultText, timeStamps, counts ->
+                    val localSearchRecord =
+                        LocalSearchRecord(resultText, counts, offsetDateTypeConverter.toOffsetDateTime(timeStamps)).also {
+                            it.id = id
+                        }
+                    searchRecordMapper.map(localSearchRecord)
+                }
+            },
+        )
 
     override suspend fun getSearchRecordWithTitle(passedRecord: String): LocalSearchRecord? =
         withContext(ioDispatcher) {

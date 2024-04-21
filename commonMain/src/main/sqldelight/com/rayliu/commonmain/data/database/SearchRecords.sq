@@ -18,6 +18,12 @@ SELECT *
 FROM search_records
 ORDER BY datetime(time_stamp) DESC;
 
+getPagingSearchRecords:
+SELECT *
+FROM search_records
+ORDER BY datetime(time_stamp) DESC
+LIMIT :limit OFFSET :offset;
+
 getSearchRecordWithTitle:
 SELECT * FROM search_records
 WHERE result_text = :passedRecord

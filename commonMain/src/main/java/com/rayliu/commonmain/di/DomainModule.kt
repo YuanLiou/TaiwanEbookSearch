@@ -90,6 +90,7 @@ val domainModule =
         single<SearchRecordDao> {
             SearchRecordDaoImpl(
                 get<OffsetDateTypeConverter>(),
+                get<SearchRecordMapper>(),
                 get<CoroutineDispatcher>(qualifier = named("IO")),
                 get<CoroutineDispatcher>(qualifier = named("Default")),
                 get<EbookTwDatabase>()
@@ -98,7 +99,6 @@ val domainModule =
 
         factory<SearchRecordRepository> {
             SearchRecordRepositoryImpl(
-                get<SearchRecordMapper>(),
                 get<LocalSearchRecordMapper>(),
                 get<SearchRecordDao>()
             )

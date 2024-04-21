@@ -149,6 +149,7 @@ dependencies {
     // SQL Delight
     implementation(libs.sqldelight.android.driver)
     implementation(libs.sqldelight.coroutines.extensions)
+    implementation(libs.sqldelight.paging3.extensions)
 
     // Detekt
     detekt(libs.detekt.cli)
