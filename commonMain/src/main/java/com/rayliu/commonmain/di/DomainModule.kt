@@ -1,7 +1,7 @@
 package com.rayliu.commonmain.di
 
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
-import com.rayliu.commonmain.OffsetDateTypeConverter
+import com.rayliu.commonmain.OffsetDateTimeHelper
 import com.rayliu.commonmain.data.api.BookSearchService
 import com.rayliu.commonmain.data.dao.SearchRecordDao
 import com.rayliu.commonmain.data.dao.SearchRecordDaoImpl
@@ -75,7 +75,7 @@ val domainModule =
         }
 
         factory {
-            LocalSearchRecordMapper()
+            LocalSearchRecordMapper(get<OffsetDateTimeHelper>())
         }
 
         // Repositories
@@ -89,7 +89,7 @@ val domainModule =
 
         single<SearchRecordDao> {
             SearchRecordDaoImpl(
-                get<OffsetDateTypeConverter>(),
+                get<OffsetDateTimeHelper>(),
                 get<SearchRecordMapper>(),
                 get<CoroutineDispatcher>(qualifier = named("IO")),
                 get<CoroutineDispatcher>(qualifier = named("Default")),
@@ -99,6 +99,7 @@ val domainModule =
 
         factory<SearchRecordRepository> {
             SearchRecordRepositoryImpl(
+                get<OffsetDateTimeHelper>(),
                 get<LocalSearchRecordMapper>(),
                 get<SearchRecordDao>()
             )

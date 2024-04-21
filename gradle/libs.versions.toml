@@ -24,6 +24,7 @@ paging = "3.2.1"
 #  Kotlin Libraries
 kotlinxCoroutines = "1.8.0"
 kotlinxSerializationJson = "1.6.3"
+datetime = "0.6.0-RC.2"
 ktor = "2.3.10"
 admob = "23.0.0"
 inAppReview = "2.0.1"
@@ -82,6 +83,7 @@ ktor-client = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor
 ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-client-serialization = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
+kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "datetime" }
 
 #  Google Service and Firebase
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
