@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.gms)
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.sqldelight)
     id(libs.plugins.detekt.get().pluginId)
     id(libs.plugins.ktlintGradle.get().pluginId)
 }
@@ -34,19 +35,13 @@ android {
     compileSdk = AppSettings.COMPILE_SDK_VERSION
 
     defaultConfig {
-        applicationId = "liou.rayyuan.ebooksearchtaiwan"
+        applicationId = AppSettings.APPLICATION_ID
         minSdk = AppSettings.MIN_SDK_VERSION
         targetSdk = AppSettings.TARGET_SDK_VERSION
         versionCode = AppSettings.VERSION_CODE
         versionName = rootProject.extra.get("app_version").toString()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         resourceConfigurations += listOf("en", "zh-rTW", "zh-rCN")
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments.putAll(mapOf("room.schemaLocation" to "$projectDir/schemas", "room.incremental" to "true"))
-            }
-        }
     }
 
     buildFeatures {

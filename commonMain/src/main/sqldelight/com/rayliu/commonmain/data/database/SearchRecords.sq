@@ -1,0 +1,57 @@
+-- CREATE TABLE IF NOT EXISTS `search_records`
+-- (
+--    `result_text` TEXT NOT NULL,
+--    `counts` INTEGER NOT NULL,
+--    `time_stamp` TEXT,
+--    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL
+-- )
+CREATE TABLE search_records (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    result_text TEXT NOT NULL,
+    time_stamp TEXT,
+    counts INTEGER NOT NULL
+);
+
+-- Methods
+getAllSearchRecords:
+SELECT *
+FROM search_records
+ORDER BY datetime(time_stamp) DESC;
+
+getPagingSearchRecords:
+SELECT *
+FROM search_records
+ORDER BY datetime(time_stamp) DESC
+LIMIT :limit OFFSET :offset;
+
+getSearchRecordWithTitle:
+SELECT * FROM search_records
+WHERE result_text = :passedRecord
+LIMIT 1;
+
+insertRecord:
+INSERT OR REPLACE
+INTO search_records (result_text, counts, time_stamp, id)
+VALUES (?,?,?,nullif(?, 0));
+
+deleteRecord:
+DELETE FROM search_records
+WHERE id = :id;
+
+updateRecord:
+UPDATE OR ABORT search_records
+SET result_text = ?, counts = ?, time_stamp = ?
+WHERE id = :id;
+
+getSearchRecordsCounts:
+SELECT count(*)
+FROM search_records;
+
+updateCounts:
+UPDATE search_records
+SET time_stamp = :timeStamp, counts = :counts
+WHERE id = :id;
+
+deleteAllRecords:
+DELETE FROM search_records;
+

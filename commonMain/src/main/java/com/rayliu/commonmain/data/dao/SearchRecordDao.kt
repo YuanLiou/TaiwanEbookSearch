@@ -1,57 +1,31 @@
 package com.rayliu.commonmain.data.dao
 
-import androidx.lifecycle.LiveData
-import androidx.paging.DataSource
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Update
+import app.cash.paging.PagingSource
 import com.rayliu.commonmain.data.dto.LocalSearchRecord
+import com.rayliu.commonmain.domain.model.SearchRecord
+import kotlinx.coroutines.flow.Flow
 import org.threeten.bp.OffsetDateTime
 
-@Dao
 interface SearchRecordDao {
-    @Query("SELECT * FROM search_records ORDER BY datetime(time_stamp) DESC")
-    fun getAllSearchRecords(): LiveData<List<LocalSearchRecord>>
+    fun getAllSearchRecords(): Flow<LocalSearchRecord>
 
-    @Query("SELECT * FROM search_records ORDER BY datetime(time_stamp) DESC")
-    fun getSearchRecordsPaged(): DataSource.Factory<Int, LocalSearchRecord>
+    fun getSearchRecordsPaged(): PagingSource<Int, SearchRecord>
 
-    @Query(
-        """
-        SELECT * FROM search_records
-        WHERE result_text = :passedRecord
-        LIMIT 1
-        """
-    )
-    fun getSearchRecordWithTitle(passedRecord: String): LocalSearchRecord?
+    suspend fun getSearchRecordWithTitle(passedRecord: String): LocalSearchRecord?
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertRecords(searchRecords: List<LocalSearchRecord>)
+    suspend fun insertRecords(searchRecords: List<LocalSearchRecord>)
 
-    @Delete
-    fun deleteRecord(searchRecord: LocalSearchRecord)
+    suspend fun deleteRecord(searchRecord: LocalSearchRecord)
 
-    @Update
-    fun updateRecord(searchRecord: LocalSearchRecord)
+    suspend fun updateRecord(searchRecord: LocalSearchRecord)
 
-    @Query("SELECT count(*) FROM search_records")
-    fun getSearchRecordsCounts(): Int
+    suspend fun getSearchRecordsCounts(): Int
 
-    @Query(
-        """
-        UPDATE search_records SET time_stamp = :timeStamp, counts = :counts
-        WHERE id = :id
-    """
-    )
-    fun updateCounts(
-        id: Int,
-        counts: Int,
-        timeStamp: OffsetDateTime
+    suspend fun updateCounts(
+        id: Long,
+        counts: Long,
+        timeStamp: OffsetDateTime?
     )
 
-    @Query("DELETE FROM search_records")
-    fun deleteAllRecords()
+    suspend fun deleteAllRecords()
 }

@@ -1,8 +1,11 @@
 package com.rayliu.commonmain.di
 
-import androidx.room.Room
+import app.cash.sqldelight.driver.android.AndroidSqliteDriver
+import com.rayliu.commonmain.OffsetDateTypeConverter
 import com.rayliu.commonmain.data.api.BookSearchService
 import com.rayliu.commonmain.data.dao.SearchRecordDao
+import com.rayliu.commonmain.data.dao.SearchRecordDaoImpl
+import com.rayliu.commonmain.data.database.EbookTwDatabase
 import com.rayliu.commonmain.data.mapper.BookDataMapper
 import com.rayliu.commonmain.data.mapper.BookListMapper
 import com.rayliu.commonmain.data.mapper.BookStoreDetailsMapper
@@ -18,7 +21,6 @@ import com.rayliu.commonmain.domain.repository.BrowseHistoryRepository
 import com.rayliu.commonmain.domain.repository.BrowseHistoryRepositoryImpl
 import com.rayliu.commonmain.domain.repository.SearchRecordRepository
 import com.rayliu.commonmain.domain.repository.SearchRecordRepositoryImpl
-import com.rayliu.commonmain.domain.service.DatabaseManager
 import com.rayliu.commonmain.domain.service.UserPreferenceManager
 import com.rayliu.commonmain.domain.usecase.DeleteSearchRecordUseCase
 import com.rayliu.commonmain.domain.usecase.GetBooksWithStoresUseCase
@@ -30,10 +32,13 @@ import com.rayliu.commonmain.domain.usecase.GetSearchSnapshotUseCase
 import com.rayliu.commonmain.domain.usecase.SaveDefaultBookSortUseCase
 import com.rayliu.commonmain.domain.usecase.SaveUserHasSeenRankWindowUseCase
 import com.rayliu.commonmain.userDataStore
+import kotlinx.coroutines.CoroutineDispatcher
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
+private const val DATABASE_NAME = "ebooktw_database"
 val domainModule =
     module {
         // Mappers
@@ -82,13 +87,18 @@ val domainModule =
             )
         }
 
-        single {
-            get<DatabaseManager>().searchRecordDao()
+        single<SearchRecordDao> {
+            SearchRecordDaoImpl(
+                get<OffsetDateTypeConverter>(),
+                get<SearchRecordMapper>(),
+                get<CoroutineDispatcher>(qualifier = named("IO")),
+                get<CoroutineDispatcher>(qualifier = named("Default")),
+                get<EbookTwDatabase>()
+            )
         }
 
         factory<SearchRecordRepository> {
             SearchRecordRepositoryImpl(
-                get<SearchRecordMapper>(),
                 get<LocalSearchRecordMapper>(),
                 get<SearchRecordDao>()
             )
@@ -137,13 +147,14 @@ val domainModule =
 
         // Service (Application)
         // Database related and Daos
-        single {
-            Room.databaseBuilder(
-                androidApplication(),
-                DatabaseManager::class.java,
-                DatabaseManager.DATABASE_NAME
-            )
-                .build()
+        single<EbookTwDatabase> {
+            val driver =
+                AndroidSqliteDriver(
+                    schema = EbookTwDatabase.Schema,
+                    context = androidContext(),
+                    name = DATABASE_NAME
+                )
+            EbookTwDatabase(driver)
         }
 
         factory { UserPreferenceManager(androidApplication()) }

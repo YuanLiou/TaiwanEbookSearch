@@ -6,12 +6,12 @@ import java.util.Properties
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id(libs.plugins.android.library.get().pluginId)
-    alias(libs.plugins.kotlin)
     id(libs.plugins.kotlin.parcelize.get().pluginId)
-    alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.ksp)
     id(libs.plugins.detekt.get().pluginId)
     id(libs.plugins.ktlintGradle.get().pluginId)
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.sqldelight)
 }
 
 val localProperties =
@@ -19,7 +19,6 @@ val localProperties =
         load(FileInputStream(File(rootProject.rootDir, localPropertyFileName)))
     }
 
-@Suppress("ktlint:standard:property-naming")
 val HOST: String by project
 val hostStaging: String = localProperties.getProperty("HOST_STAGING") ?: HOST
 val hostPort: String = localProperties.getProperty("HOST_PORT") ?: "80"
@@ -32,12 +31,6 @@ android {
         targetSdk = AppSettings.TARGET_SDK_VERSION
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += mapOf("room.schemaLocation" to "$projectDir/schemas")
-            }
-        }
     }
 
     flavorDimensions.add("data_source")
@@ -89,6 +82,15 @@ android {
     namespace = "com.rayliu.commonmain"
 }
 
+sqldelight {
+    databases {
+        create("EbookTwDatabase") {
+            packageName.set("com.rayliu.commonmain.data.database")
+            verifyMigrations.set(true)
+        }
+    }
+}
+
 detekt {
     toolVersion = libs.versions.detektVersion.toString()
     config.setFrom(files("$project.rootDir/deteket-config.yml"))
@@ -126,16 +128,19 @@ dependencies {
     implementation(libs.ktor.client.logging)
 
     // JetPacks
-    implementation(libs.room.runtime)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.preference.ktx)
     implementation(libs.paging.runtime)
     implementation(libs.androidx.dataStore.core)
-    ksp(libs.room.compiler)
 
     // Koin
     implementation(libs.koin.android)
     testImplementation(libs.androidx.test.ext)
+
+    // SQL Delight
+    implementation(libs.sqldelight.android.driver)
+    implementation(libs.sqldelight.coroutines.extensions)
+    implementation(libs.sqldelight.paging3.extensions)
 
     // Detekt
     detekt(libs.detekt.cli)
