@@ -64,13 +64,6 @@
 
 
 # ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
-## ThreeTen ABP
--keepclassmembers class org.threeten.bp.** { *; }
-# ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
-
-
-
-# ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
 ## Kotlin DateTime
 -dontwarn kotlinx.serialization.KSerializer
 -dontwarn kotlinx.serialization.Serializable

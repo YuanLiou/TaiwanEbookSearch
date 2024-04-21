@@ -2,7 +2,6 @@ package liou.rayyuan.ebooksearchtaiwan
 
 import android.app.Application
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.jakewharton.threetenabp.AndroidThreeTen
 import liou.rayyuan.ebooksearchtaiwan.di.appModules
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.logger.AndroidLogger
@@ -15,7 +14,6 @@ import org.koin.core.context.startKoin
 class EBookSearchApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        AndroidThreeTen.init(this)
         startKoin {
             if (BuildConfig.DEBUG) {
                 AndroidLogger()

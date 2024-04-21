@@ -22,6 +22,5 @@ class OffsetDateTimeHelper {
             }
         )
 
-    fun convertToLocalDateTime(timeStamps: String): LocalDateTime =
-        Instant.parse(timeStamps).toLocalDateTime(TimeZone.currentSystemDefault())
+    fun convertToLocalDateTime(timeStamp: String): LocalDateTime = Instant.parse(timeStamp).toLocalDateTime(TimeZone.currentSystemDefault())
 }

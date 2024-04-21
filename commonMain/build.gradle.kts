@@ -116,7 +116,6 @@ tasks.register<Detekt>("detektAll") {
 
 dependencies {
     coreLibraryDesugaring(libs.desugar.jdk.libs)
-    implementation(libs.threetenabp)
     implementation(libs.fuzzywuzzy)
 
     // Kotlin
