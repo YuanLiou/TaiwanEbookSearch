@@ -30,12 +30,12 @@ VALUES (?,?,?,nullif(?, 0));
 
 deleteRecord:
 DELETE FROM search_records
-WHERE id = ?;
+WHERE id = :id;
 
 updateRecord:
 UPDATE OR ABORT search_records
-SET result_text = ?, counts = ?, time_stamp = ?, id = ?
-WHERE `id` = ?;
+SET result_text = ?, counts = ?, time_stamp = ?
+WHERE id = :id;
 
 getSearchRecordsCounts:
 SELECT count(*)

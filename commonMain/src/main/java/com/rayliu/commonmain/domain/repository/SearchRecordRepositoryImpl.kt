@@ -6,12 +6,9 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.rayliu.commonmain.data.dao.SearchRecordDao
-import com.rayliu.commonmain.data.dto.LocalSearchRecord
 import com.rayliu.commonmain.data.mapper.LocalSearchRecordMapper
 import com.rayliu.commonmain.data.mapper.SearchRecordMapper
 import com.rayliu.commonmain.domain.model.SearchRecord
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.threeten.bp.OffsetDateTime
 
 class SearchRecordRepositoryImpl(
@@ -38,23 +35,31 @@ class SearchRecordRepositoryImpl(
         return pager.liveData
     }
 
-    override suspend fun getSearchRecordsCounts(): Result<Int> =
-        withContext(Dispatchers.IO) {
-            runCatching { searchRecordDao.getSearchRecordsCounts() }
-        }
+    override suspend fun getSearchRecordsCounts(): Result<Int> = runCatching { searchRecordDao.getSearchRecordsCounts() }
 
-    override suspend fun saveKeywordToLocal(keyword: String) =
-        withContext(Dispatchers.IO) {
-            searchRecordDao.getSearchRecordWithTitle(keyword)?.let {
-                searchRecordDao.updateCounts(it.id, it.counts + 1, OffsetDateTime.now())
-            } ?: run {
-                val searchRecord = LocalSearchRecord(keyword, 1, OffsetDateTime.now())
-                searchRecordDao.insertRecords(listOf(searchRecord))
+    override suspend fun saveKeywordToLocal(keyword: String) {
+        val record = searchRecordDao.getSearchRecordWithTitle(keyword)
+        if (record != null) {
+            val recordId = record.id
+            if (recordId != null) {
+                searchRecordDao.updateCounts(
+                    recordId,
+                    record.counts + 1,
+                    OffsetDateTime.now()
+                )
             }
+            return
         }
 
-    override suspend fun deleteRecords(searchRecord: SearchRecord) =
-        withContext(Dispatchers.IO) {
-            searchRecordDao.deleteRecord(localSearchRecordMapper.map(searchRecord))
-        }
+        val searchRecord = SearchRecord(null, 1, keyword)
+        searchRecordDao.insertRecords(
+            listOf(
+                localSearchRecordMapper.map(searchRecord)
+            )
+        )
+    }
+
+    override suspend fun deleteRecords(searchRecord: SearchRecord) {
+        searchRecordDao.deleteRecord(localSearchRecordMapper.map(searchRecord))
+    }
 }

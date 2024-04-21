@@ -91,7 +91,7 @@ android {
 
 sqldelight {
     databases {
-        create("ebooktw_database") {
+        create("EbookTwDatabase") {
             packageName.set("com.rayliu.commonmain.data.database")
             verifyMigrations.set(true)
         }

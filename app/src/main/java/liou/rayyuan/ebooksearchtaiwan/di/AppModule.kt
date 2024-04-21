@@ -4,6 +4,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import com.rayliu.commonmain.SystemInfoCollector
 import com.rayliu.commonmain.di.dataModule
+import com.rayliu.commonmain.di.dispatcherModule
 import com.rayliu.commonmain.di.domainModule
 import com.rayliu.commonmain.di.jsonModule
 import com.rayliu.commonmain.di.miscModule
@@ -92,5 +93,6 @@ val appModules =
         domainModule,
         dataModule,
         jsonModule,
-        miscModule
+        miscModule,
+        dispatcherModule
     )
