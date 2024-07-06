@@ -10,16 +10,16 @@ import android.view.View
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.journeyapps.barcodescanner.CaptureManager
+import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.databinding.ActivityCameraPreviewBinding
 import liou.rayyuan.ebooksearchtaiwan.utils.bindView
 
-class CameraPreviewActivity : AppCompatActivity() {
+class CameraPreviewActivity : BaseActivity(R.layout.activity_camera_preview) {
     private lateinit var viewBinding: ActivityCameraPreviewBinding
     private val statusText: TextView by bindView(R.id.zxing_status_view)
     private val authText: TextView by bindView(R.id.activity_camera_preview_auth_text)
@@ -31,10 +31,7 @@ class CameraPreviewActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewBinding =
-            ActivityCameraPreviewBinding.inflate(layoutInflater).also {
-                setContentView(it.root)
-            }
+        viewBinding = ActivityCameraPreviewBinding.bind(findViewById(R.id.activity_camera_preview_rootView))
         captureManager = CaptureManager(this, viewBinding.zxingBarcodeScanner)
 
         authText.setOnClickListener {
@@ -125,6 +122,7 @@ class CameraPreviewActivity : AppCompatActivity() {
                     }
                 }
             }
+
             else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
     }
