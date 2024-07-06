@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permission_required_camera">需要相機權限來辨識條碼</string>
+    <string name="permission_request_title">需要權限</string>
+    <string name="dialog_auth">授權</string>
+    <string name="dialog_cancel">取消</string>
+    <string name="permission_camera_name">相機</string>
+    <string name="auth_yourself">你可以至 設定 -> 應用程式 -> %1$S -> 權限 -> %2$s 來授權</string>
+    <string name="camera_is_opening">正在啟動相機</string>
+    <string name="camera_opening_failed">相機載入失敗，請再嘗試一次</string>
+    <string name="camera_opening_timeout">相機載入逾時，請再嘗試一次</string>
+    <string name="camera_scanning_result">掃描結果</string>
+    <string name="camera_permission_waiting">等待相機權限授權</string>
+    <string name="camera_permission_deny">事到如今，我也只能通靈</string>
+    <string name="auth_take_me_there">帶我去</string>
+</resources>

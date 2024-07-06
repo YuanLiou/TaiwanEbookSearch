@@ -88,13 +88,6 @@
 
         <!-- other components -->
         <activity
-                android:name=".camerapreview.CameraPreviewActivity"
-                android:label="@string/barcode_scanner_title"
-                android:theme="@style/FullScreenTheme"
-                android:exported="false"
-                />
-
-        <activity
                 android:name=".preferencesetting.PreferenceSettingsActivity"
                 android:label="@string/menu_setting"
                 android:exported="false"

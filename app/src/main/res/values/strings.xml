@@ -21,20 +21,8 @@
     <string name="result_nothing">Nothing found!</string>
     <string name="network_error_message">A network error happened. Please try again later.</string>
     <string name="advertisement_title">Advertisement</string>
-    <string name="barcode_scanner_title">Barcode Scanner</string>
     <string name="permission_required_camera">Camera permission is required to capture barcode image.</string>
-    <string name="permission_request_title">Permission Request</string>
-    <string name="dialog_auth">Auth</string>
     <string name="dialog_cancel">Cancel</string>
-    <string name="permission_camera_name">Camera</string>
-    <string name="auth_yourself">You can authorize manually. Simply go to Setting -> Apps -> %1$s -> Permissions -> Enable %2$s.</string>
-    <string name="camera_is_opening">Camera is opening...</string>
-    <string name="camera_opening_failed">Opening Camera is failed. Please try again.</string>
-    <string name="camera_opening_timeout">Opening Camera is timeout. Please try again.</string>
-    <string name="camera_scanning_result">Scanning Result</string>
-    <string name="camera_permission_waiting">Waiting for camera permission</string>
-    <string name="camera_permission_deny">Oh OK... Fine I\'m out.</string>
-    <string name="auth_take_me_there">Take me there</string>
     <string name="hyread_title">HyRead</string>
     <string name="menu_setting">Settings</string>
     <string name="preference_category_appearance">Appearance</string>
@@ -47,7 +35,7 @@
     <string name="preference_sort_by_book_price">Sort results by book prices</string>
     <string name="preference_sort_by_book_price_on_summary">Next results will be sorted by its price</string>
     <string name="preference_sort_by_book_price_off_summary">Next results will be sorted by its name</string>
-
+    <string name="barcode_scanner_title">Barcode Scanner</string>
     <plurals name="title_authors">
         <item quantity="one">Author: %1$s</item>
         <item quantity="other">Authors: %1$s</item>

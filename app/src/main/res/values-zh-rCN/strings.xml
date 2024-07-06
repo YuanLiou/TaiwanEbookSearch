@@ -21,20 +21,8 @@
     <string name="result_nothing">战队里面没人</string>
     <string name="network_error_message">连接发生错误，请稍后再尝试一次</string>
     <string name="advertisement_title">广告内容</string>
-    <string name="barcode_scanner_title">条码扫描</string>
     <string name="permission_required_camera">需要相机权限来辨识条码</string>
-    <string name="permission_request_title">需要权限</string>
-    <string name="dialog_auth">授权</string>
     <string name="dialog_cancel">取消</string>
-    <string name="permission_camera_name">相机</string>
-    <string name="auth_yourself">你可以至 设置 -> 应用 -> %1$S -> 权限 -> %2$s 来授权</string>
-    <string name="camera_is_opening">正在启动相机</string>
-    <string name="camera_opening_failed">相机加载失败，请再尝试一次</string>
-    <string name="camera_opening_timeout">相机加载逾时，请再尝试一次</string>
-    <string name="camera_scanning_result">扫描结果</string>
-    <string name="camera_permission_waiting">等待相机权限授权</string>
-    <string name="camera_permission_deny">事到如今，我也只能通灵</string>
-    <string name="auth_take_me_there">带我去</string>
     <string name="hyread_title">HyRead 电子书</string>
     <string name="menu_setting">设置</string>
     <string name="preference_category_appearance">外观</string>
@@ -47,7 +35,7 @@
     <string name="preference_sort_by_book_price">用价格排序结果</string>
     <string name="preference_sort_by_book_price_on_summary">下次结果将以价格排序</string>
     <string name="preference_sort_by_book_price_off_summary">下次结果将以相关性排序</string>
-
+    <string name="barcode_scanner_title">条码扫描</string>
     <plurals name="title_authors">
         <item quantity="other">作者: %1$s</item>
     </plurals>

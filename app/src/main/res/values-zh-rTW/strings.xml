@@ -22,20 +22,8 @@
     <string name="result_nothing">完全沒有畫面</string>
     <string name="network_error_message">連線發生錯誤，請稍後再嘗試一次</string>
     <string name="advertisement_title">廣告內容</string>
-    <string name="barcode_scanner_title">條碼掃描器</string>
     <string name="permission_required_camera">需要相機權限來辨識條碼</string>
-    <string name="permission_request_title">需要權限</string>
-    <string name="dialog_auth">授權</string>
     <string name="dialog_cancel">取消</string>
-    <string name="permission_camera_name">相機</string>
-    <string name="auth_yourself">你可以至 設定 -> 應用程式 -> %1$S -> 權限 -> %2$s 來授權</string>
-    <string name="camera_is_opening">正在啟動相機</string>
-    <string name="camera_opening_failed">相機載入失敗，請再嘗試一次</string>
-    <string name="camera_opening_timeout">相機載入逾時，請再嘗試一次</string>
-    <string name="camera_scanning_result">掃描結果</string>
-    <string name="camera_permission_waiting">等待相機權限授權</string>
-    <string name="camera_permission_deny">事到如今，我也只能通靈</string>
-    <string name="auth_take_me_there">帶我去</string>
     <string name="menu_setting">設定</string>
     <string name="preference_category_appearance">外觀</string>
     <string name="preference_appearance_theme_title">主題</string>
@@ -47,7 +35,7 @@
     <string name="preference_sort_by_book_price">用價格排序結果</string>
     <string name="preference_sort_by_book_price_on_summary">下次結果將以價格排序</string>
     <string name="preference_sort_by_book_price_off_summary">下次結果將以相關性排序</string>
-
+    <string name="barcode_scanner_title">條碼掃描器</string>
     <plurals name="title_authors">
         <item quantity="other">作者: %1$s</item>
     </plurals>
