@@ -8,6 +8,7 @@ app/schemas
 app/schemas/*
 commonMain/schemas
 commonMain/schemas/*
+.kotlin
 
 # Created by .ignore support plugin (hsz.mobi)
 ### JetBrains template

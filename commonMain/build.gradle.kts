@@ -79,6 +79,11 @@ android {
         freeCompilerArgs = listOf("-Xjvm-default=all")
         jvmTarget = "17"
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
     namespace = "com.rayliu.commonmain"
 }
 

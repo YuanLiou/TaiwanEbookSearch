@@ -46,6 +46,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     lint {
@@ -121,6 +122,12 @@ android {
         jvmTarget = "17"
     }
     namespace = "liou.rayyuan.ebooksearchtaiwan"
+
+    setDynamicFeatures(
+        setOf(
+            ":features:barcodeScanner"
+        )
+    )
 }
 
 detekt {
@@ -151,14 +158,16 @@ dependencies {
     implementation(project(":commonMain"))
 
     // region Android X Libraries
-    implementation(libs.androidx.appcompat)
+    //  Use `api` to expose dependencies to feature module
+    api(libs.androidx.appcompat)
+    api(libs.material)
+    api(libs.androidx.core.ktx)
+
     implementation(libs.androidx.browser)
-    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.preference.ktx)
-    implementation(libs.material)
     implementation(libs.constraintlayout)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.livedata.java8)
@@ -176,12 +185,13 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.admob)
     implementation(libs.play.review.ktx)
+    implementation(libs.feature.delivery.ktx)
 
     // Koin
     implementation(libs.koin.android)
 
     // Zxing
-    implementation(libs.zxing.android)
+    api(libs.zxing.android)
 
     // Coil
     implementation(libs.coil.kt)

@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,20 +14,15 @@ import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
-import com.google.zxing.client.android.Intents
-import com.journeyapps.barcodescanner.ScanContract
-import com.journeyapps.barcodescanner.ScanOptions
 import com.rayliu.commonmain.domain.model.Book
 import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.R
-import liou.rayyuan.ebooksearchtaiwan.camerapreview.CameraPreviewActivity
 import liou.rayyuan.ebooksearchtaiwan.model.DeeplinkHelper
 import liou.rayyuan.ebooksearchtaiwan.preferencesetting.PreferenceSettingsActivity
 import liou.rayyuan.ebooksearchtaiwan.simplewebview.SimpleWebViewFragment
 import liou.rayyuan.ebooksearchtaiwan.utils.CustomTabSessionManager
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
-import liou.rayyuan.ebooksearchtaiwan.utils.showToastMessage
 import liou.rayyuan.ebooksearchtaiwan.view.Router
 import org.koin.android.ext.android.inject
 
@@ -43,7 +39,6 @@ class BookSearchActivity :
     private lateinit var contentRouter: Router
     private var dualPaneSubRouter: Router? = null
 
-    private lateinit var barcodeScanningLauncher: ActivityResultLauncher<ScanOptions>
     private lateinit var changeThemeLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,20 +99,6 @@ class BookSearchActivity :
     }
 
     private fun setupLauncherCallbacks() {
-        barcodeScanningLauncher =
-            registerForActivityResult(ScanContract()) { result ->
-                if (result.contents == null) {
-                    val originalIntent = result.originalIntent
-                    if (originalIntent?.hasExtra(Intents.Scan.MISSING_CAMERA_PERMISSION) == true) {
-                        showToastMessage(R.string.permission_required_camera)
-                    }
-                } else {
-                    val resultText = result.contents
-                    val bookResultFragment = getBookResultFragment()
-                    bookResultFragment?.searchWithText(resultText)
-                }
-            }
-
         changeThemeLauncher =
             registerForActivityResult(
                 ActivityResultContracts.StartActivityForResult()
@@ -217,21 +198,16 @@ class BookSearchActivity :
         return typedValue.data
     }
 
-    internal fun openCameraPreviewActivity() {
-        val scanOptions =
-            ScanOptions()
-                .setOrientationLocked(false)
-                .setDesiredBarcodeFormats(ScanOptions.EAN_13)
-                .setCaptureActivity(CameraPreviewActivity::class.java)
-        barcodeScanningLauncher.launch(scanOptions)
+    fun openCameraPreviewActivity() {
+        Toast.makeText(this, "openCameraPreviewActivity", Toast.LENGTH_SHORT).show()
     }
 
-    internal fun openPreferenceActivity() {
+    fun openPreferenceActivity() {
         val intent = Intent(this, PreferenceSettingsActivity::class.java)
         changeThemeLauncher.launch(intent)
     }
 
-    internal fun openBookLink(book: Book) {
+    fun openBookLink(book: Book) {
         if (!quickChecker.isTabletSize() && userPreferenceManager.isPreferCustomTab()) {
             val colorParams =
                 CustomTabColorSchemeParams.Builder()

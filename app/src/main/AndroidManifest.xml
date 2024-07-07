@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
 
     <uses-feature
             android:name="android.hardware.camera"
@@ -87,13 +86,6 @@
         </activity>
 
         <!-- other components -->
-        <activity
-                android:name=".camerapreview.CameraPreviewActivity"
-                android:label="@string/barcode_scanner_title"
-                android:theme="@style/FullScreenTheme"
-                android:exported="false"
-                />
-
         <activity
                 android:name=".preferencesetting.PreferenceSettingsActivity"
                 android:label="@string/menu_setting"
