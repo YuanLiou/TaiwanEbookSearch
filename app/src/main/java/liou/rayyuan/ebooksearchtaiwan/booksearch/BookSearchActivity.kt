@@ -14,9 +14,6 @@ import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
-import com.google.zxing.client.android.Intents
-import com.journeyapps.barcodescanner.ScanContract
-import com.journeyapps.barcodescanner.ScanOptions
 import com.rayliu.commonmain.domain.model.Book
 import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
@@ -26,7 +23,6 @@ import liou.rayyuan.ebooksearchtaiwan.preferencesetting.PreferenceSettingsActivi
 import liou.rayyuan.ebooksearchtaiwan.simplewebview.SimpleWebViewFragment
 import liou.rayyuan.ebooksearchtaiwan.utils.CustomTabSessionManager
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
-import liou.rayyuan.ebooksearchtaiwan.utils.showToastMessage
 import liou.rayyuan.ebooksearchtaiwan.view.Router
 import org.koin.android.ext.android.inject
 
@@ -43,7 +39,6 @@ class BookSearchActivity :
     private lateinit var contentRouter: Router
     private var dualPaneSubRouter: Router? = null
 
-    private lateinit var barcodeScanningLauncher: ActivityResultLauncher<ScanOptions>
     private lateinit var changeThemeLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {

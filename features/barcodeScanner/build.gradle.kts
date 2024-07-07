@@ -50,6 +50,4 @@ android {
 
 dependencies {
     implementation(project(":app"))
-    // Zxing
-    implementation(libs.zxing.android)
 }

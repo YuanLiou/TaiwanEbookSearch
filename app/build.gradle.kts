@@ -191,7 +191,7 @@ dependencies {
     implementation(libs.koin.android)
 
     // Zxing
-    implementation(libs.zxing.android)
+    api(libs.zxing.android)
 
     // Coil
     implementation(libs.coil.kt)
