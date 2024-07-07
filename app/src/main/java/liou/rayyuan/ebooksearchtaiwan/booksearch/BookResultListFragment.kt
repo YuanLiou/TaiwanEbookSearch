@@ -311,8 +311,6 @@ class BookResultListFragment :
             viewBinding.searchViewBackToTopButton.updateMargins(bottom = bars.bottom)
             viewBinding.searchViewAppbar.updateMargins(top = bars.top)
             viewBinding.searchViewSearchRecordsBackground.updateMargins(top = bars.top)
-
-            viewBinding.searchViewResult.updatePadding(top = bars.top)
             viewBinding.searchViewAdviewLayout.updatePadding(top = bars.top)
         }
     }
