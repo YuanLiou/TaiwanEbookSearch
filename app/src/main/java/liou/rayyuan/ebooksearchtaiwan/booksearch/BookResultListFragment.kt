@@ -31,6 +31,7 @@ import androidx.core.os.BundleCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -111,6 +112,11 @@ class BookResultListFragment :
 
         fullBookStoreResultsAdapter = FullBookStoreResultAdapter(this, this)
         resultsRecyclerView.adapter = fullBookStoreResultsAdapter
+
+        viewBinding.searchViewAppbar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+            val alphaValue = 1f - ((verticalOffset * -1) / appBarLayout.totalScrollRange.toFloat())
+            appBarLayout.alpha = alphaValue
+        }
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
