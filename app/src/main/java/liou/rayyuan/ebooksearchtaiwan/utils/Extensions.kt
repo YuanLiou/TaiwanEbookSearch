@@ -3,8 +3,12 @@ package liou.rayyuan.ebooksearchtaiwan.utils
 import android.app.Activity
 import android.content.Context
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.IdRes
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 
 fun String?.showToastOn(
     context: Context,
@@ -16,38 +20,42 @@ fun String?.showToastOn(
 
 fun <T : View> Activity.bindView(
     @IdRes resId: Int
-): Lazy<T> = lazy { findViewById<T>(resId) }
+): Lazy<T> = lazy { findViewById(resId) }
 
-/***
- * Guard Let: Use this function to check all parameters is not null.
- *
- * If any of the passed value is null, this function will perform abortAction.
- *
- * It's recommend to use this function to do **early return**.
- */
-inline fun <T : Any> guardLet(
-    vararg elements: T?,
-    abortAction: () -> Nothing
-): List<T> {
-    val isAllElementsAvailable = elements.all { it != null }
-    return if (isAllElementsAvailable) {
-        elements.filterNotNull()
-    } else {
-        abortAction()
+fun <T : View> T.setupEdgeToEdge(customizeInsets: ((View, WindowInsetsCompat) -> Unit)? = null) {
+    ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
+        if (customizeInsets != null) {
+            customizeInsets(view, insets)
+        } else {
+            val bars =
+                insets.getInsets(
+                    WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
+                )
+
+            view.updatePadding(
+                left = bars.left,
+                top = bars.top,
+                right = bars.right,
+                bottom = bars.bottom
+            )
+        }
+
+        WindowInsetsCompat.CONSUMED
     }
 }
 
-/***
- * If Let: Use this function to guarantee all parameters aren't null and do the task.
- *
- * The passed action will be performed while all parameters are not null.
- */
-inline fun <T : Any> ifLet(
-    vararg elements: T?,
-    action: (List<T>) -> Unit
+fun <T : View> T.updateMargins(
+    start: Int = 0,
+    top: Int = 0,
+    end: Int = 0,
+    bottom: Int = 0
 ) {
-    val isAllElementsAvailable = elements.all { it != null }
-    if (isAllElementsAvailable) {
-        action(elements.filterNotNull())
-    }
+    val marginLayoutParams = layoutParams as ViewGroup.MarginLayoutParams
+    marginLayoutParams.setMargins(
+        start,
+        top,
+        end,
+        bottom
+    )
+    layoutParams = marginLayoutParams
 }

@@ -11,21 +11,21 @@ sealed class BookResultViewState : IState {
         val scrollToTop: Boolean = false
     ) : BookResultViewState()
 
-    class ShowBooks(
+    data class ShowBooks(
         val keyword: String,
         val scrollPosition: Int,
         val adapterItems: List<AdapterItem>
     ) : BookResultViewState()
 
-    object PrepareBookResultError : BookResultViewState()
+    data object PrepareBookResultError : BookResultViewState()
 
-    class ShareCurrentPageSnapshot(
+    data class ShareCurrentPageSnapshot(
         val url: String
     ) : BookResultViewState()
 
-    class ShowSearchRecordList(
+    data class ShowSearchRecordList(
         val itemCounts: Int
     ) : BookResultViewState()
 
-    object HideSearchRecordList : BookResultViewState()
+    data object HideSearchRecordList : BookResultViewState()
 }

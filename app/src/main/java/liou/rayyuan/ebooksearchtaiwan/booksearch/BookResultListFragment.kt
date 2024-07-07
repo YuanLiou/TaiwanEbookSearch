@@ -19,21 +19,18 @@ import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.os.BundleCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.withResumed
@@ -44,7 +41,6 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
-import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.rayliu.commonmain.domain.model.Book
 import com.rayliu.commonmain.domain.model.SearchRecord
@@ -61,7 +57,9 @@ import liou.rayyuan.ebooksearchtaiwan.databinding.FragmentSearchListBinding
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
+import liou.rayyuan.ebooksearchtaiwan.utils.setupEdgeToEdge
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
+import liou.rayyuan.ebooksearchtaiwan.utils.updateMargins
 import liou.rayyuan.ebooksearchtaiwan.view.ViewEffectObserver
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -84,24 +82,13 @@ class BookResultListFragment :
     private lateinit var fullBookStoreResultsAdapter: FullBookStoreResultAdapter
 
     //region View Components
-    private lateinit var appbar: AppBarLayout
-    private lateinit var adViewLayout: FrameLayout
-    private lateinit var searchButton: ImageView
-    private lateinit var cameraButton: ImageView
-    private lateinit var searchEditText: EditText
-
     private lateinit var resultsRecyclerView: RecyclerView
-    private lateinit var progressBar: ProgressBar
 
-    private lateinit var hintText: TextView
-    private lateinit var backToTopButton: ImageButton
     private lateinit var shareResultMenu: MenuItem
     private lateinit var copyUrlMenu: MenuItem
 
     private lateinit var searchRecordsRootView: FrameLayout
-    private lateinit var searchRecordsCardView: CardView
     private lateinit var searchRecordsRecyclerView: RecyclerView
-    private lateinit var searchRecordsBackground: View
     private val searchRecordsAdapter = SearchRecordAdapter(this)
     //endregion
 
@@ -118,9 +105,15 @@ class BookResultListFragment :
         bindViews(view)
         init()
         setupOptionMenu()
+        setupEdgeToEdge()
 
         fullBookStoreResultsAdapter = FullBookStoreResultAdapter(this, this)
         resultsRecyclerView.adapter = fullBookStoreResultsAdapter
+
+        viewBinding.searchViewAppbar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+            val alphaValue = 1f - ((verticalOffset * -1) / appBarLayout.totalScrollRange.toFloat())
+            appBarLayout.alpha = alphaValue
+        }
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
@@ -190,33 +183,21 @@ class BookResultListFragment :
     }
 
     private fun bindViews(view: View) {
-        appbar = view.findViewById(R.id.search_view_appbar)
-        adViewLayout = view.findViewById(R.id.search_view_adview_layout)
-        searchButton = view.findViewById(R.id.search_view_search_icon)
-        cameraButton = view.findViewById(R.id.search_view_camera_icon)
-        searchEditText = view.findViewById(R.id.search_view_edittext)
-
         resultsRecyclerView = view.findViewById(R.id.search_view_result)
-        progressBar = view.findViewById(R.id.search_view_progressbar)
-
-        hintText = view.findViewById(R.id.search_view_hint)
-        backToTopButton = view.findViewById(R.id.search_view_back_to_top_button)
 
         searchRecordsRootView = view.findViewById(R.id.layout_search_records_rootview)
-        searchRecordsCardView = view.findViewById(R.id.layout_search_records_card_view)
         searchRecordsRecyclerView = view.findViewById(R.id.layout_search_records_recycler_view)
-        searchRecordsBackground = view.findViewById(R.id.search_view_search_records_background)
     }
 
     private fun init() {
-        searchButton.setOnClickListener(this)
+        viewBinding.searchViewSearchIcon.setOnClickListener(this)
         if (isCameraAvailable()) {
-            cameraButton.setOnClickListener(this)
+            viewBinding.searchViewCameraIcon.setOnClickListener(this)
         } else {
-            cameraButton.visibility = View.GONE
+            viewBinding.searchViewCameraIcon.visibility = View.GONE
         }
 
-        searchEditText.setOnEditorActionListener { _, actionId, _ ->
+        viewBinding.searchViewEdittext.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 searchWithEditText()
                 return@setOnEditorActionListener true
@@ -224,7 +205,7 @@ class BookResultListFragment :
             false
         }
 
-        searchEditText.setOnKeyListener(
+        viewBinding.searchViewEdittext.setOnKeyListener(
             View.OnKeyListener { _, keyCode, event ->
                 if (event.action == KeyEvent.ACTION_DOWN) {
                     if (keyCode == KeyEvent.KEYCODE_ENTER) {
@@ -234,7 +215,7 @@ class BookResultListFragment :
 
                     if (keyCode == KeyEvent.KEYCODE_ESCAPE) {
                         hideVirtualKeyboard()
-                        searchEditText.clearFocus()
+                        viewBinding.searchViewEdittext.clearFocus()
                         return@OnKeyListener true
                     }
                 }
@@ -242,7 +223,7 @@ class BookResultListFragment :
             }
         )
 
-        searchEditText.onFocusChangeListener =
+        viewBinding.searchViewEdittext.onFocusChangeListener =
             View.OnFocusChangeListener { _, hasFocus ->
                 sendUserIntent(BookSearchUserIntent.FocusOnTextEditing(hasFocus))
             }
@@ -252,8 +233,8 @@ class BookResultListFragment :
             adapter = searchRecordsAdapter
         }
 
-        hintText.setOnClickListener(this)
-        hintText.compoundDrawables
+        viewBinding.searchViewHint.setOnClickListener(this)
+        viewBinding.searchViewHint.compoundDrawables
             .filterNotNull()
             .forEach {
                 DrawableCompat.setTint(
@@ -272,13 +253,13 @@ class BookResultListFragment :
                     dx: Int,
                     dy: Int
                 ) {
-                    if (searchEditText.isFocused) {
-                        searchEditText.clearFocus()
+                    if (viewBinding.searchViewEdittext.isFocused) {
+                        viewBinding.searchViewEdittext.clearFocus()
                     }
                 }
             }
         )
-        searchRecordsBackground.setOnClickListener(this)
+        viewBinding.searchViewSearchRecordsBackground.setOnClickListener(this)
 
         loadAds()
         initScrollToTopButton()
@@ -291,10 +272,29 @@ class BookResultListFragment :
         super.onDestroy()
     }
 
+    private fun setupEdgeToEdge() {
+        viewBinding.root.setupEdgeToEdge { view, insets ->
+            val bars =
+                insets.getInsets(
+                    WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
+                )
+
+            view.updatePadding(
+                left = bars.left,
+                right = bars.right
+            )
+
+            viewBinding.searchViewBackToTopButton.updateMargins(bottom = bars.bottom)
+            viewBinding.searchViewAppbar.updateMargins(top = bars.top)
+            viewBinding.searchViewSearchRecordsBackground.updateMargins(top = bars.top)
+            viewBinding.searchViewAdviewLayout.updatePadding(top = bars.top)
+        }
+    }
+
     private fun searchWithEditText() {
         hideVirtualKeyboard()
-        searchEditText.clearFocus()
-        val keyword: String = searchEditText.text.toString()
+        viewBinding.searchViewEdittext.clearFocus()
+        val keyword: String = viewBinding.searchViewEdittext.text.toString()
         sendUserIntent(BookSearchUserIntent.SearchBook(keyword))
     }
 
@@ -347,7 +347,7 @@ class BookResultListFragment :
     }
 
     private fun loadAds() {
-        val adView: AdView = adViewLayout.findViewById(R.id.admob_view_header_adview)
+        val adView: AdView = viewBinding.searchViewAdviewLayout.findViewById(R.id.admob_view_header_adview)
         val configurationBuilder = RequestConfiguration.Builder()
         if (BuildConfig.DEBUG) {
             configurationBuilder.setTestDeviceIds(Arrays.asList(BuildConfig.ADMOB_TEST_DEVICE_ID))
@@ -358,8 +358,8 @@ class BookResultListFragment :
     }
 
     private fun initScrollToTopButton() {
-        backToTopButton.setOnClickListener(this)
-        backToTopButton.setOnLongClickListener(
+        viewBinding.searchViewBackToTopButton.setOnClickListener(this)
+        viewBinding.searchViewBackToTopButton.setOnLongClickListener(
             object : View.OnLongClickListener {
                 override fun onLongClick(view: View?): Boolean {
                     focusAndCleanBookSearchEditText()
@@ -372,7 +372,7 @@ class BookResultListFragment :
             return
         }
 
-        backToTopButton.setBackgroundResource(R.drawable.material_rounded_button_green)
+        viewBinding.searchViewBackToTopButton.setBackgroundResource(R.drawable.material_rounded_button_green)
         resultsRecyclerView.addOnScrollListener(
             object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(
@@ -382,12 +382,12 @@ class BookResultListFragment :
                 ) {
                     super.onScrolled(recyclerView, dx, dy)
                     if (resultsRecyclerView.canScrollVertically(-1)) {
-                        backToTopButton.setImageResource(
+                        viewBinding.searchViewBackToTopButton.setImageResource(
                             requireContext(),
                             R.drawable.ic_keyboard_arrow_up_24dp
                         )
                     } else {
-                        backToTopButton.setImageResource(
+                        viewBinding.searchViewBackToTopButton.setImageResource(
                             requireContext(),
                             R.drawable.ic_search_white_24dp
                         )
@@ -399,12 +399,12 @@ class BookResultListFragment :
 
     private fun setupUI() {
         val hintWithAppVersion =
-            hintText.text.toString() + "\n" +
+            viewBinding.searchViewHint.text.toString() + "\n" +
                 resources.getString(
                     R.string.app_version,
                     BuildConfig.VERSION_NAME
                 )
-        hintText.text = hintWithAppVersion
+        viewBinding.searchViewHint.text = hintWithAppVersion
     }
 
     override fun render(viewState: BookResultViewState) {
@@ -414,14 +414,14 @@ class BookResultListFragment :
     private fun renderMainResultView(bookResultViewState: BookResultViewState) {
         when (bookResultViewState) {
             is BookResultViewState.PrepareBookResult -> {
-                progressBar.visibility = View.VISIBLE
+                viewBinding.searchViewProgressbar.visibility = View.VISIBLE
                 resultsRecyclerView.visibility = View.GONE
-                hintText.visibility = View.GONE
-                backToTopButton.visibility = View.GONE
-                adViewLayout.visibility = View.VISIBLE
+                viewBinding.searchViewHint.visibility = View.GONE
+                viewBinding.searchViewBackToTopButton.visibility = View.GONE
+                viewBinding.searchViewAdviewLayout.visibility = View.VISIBLE
 
-                searchButton.isEnabled = false
-                cameraButton.isEnabled = false
+                viewBinding.searchViewSearchIcon.isEnabled = false
+                viewBinding.searchViewCameraIcon.isEnabled = false
 
                 if (this::shareResultMenu.isInitialized) {
                     shareResultMenu.setVisible(false)
@@ -444,14 +444,14 @@ class BookResultListFragment :
                     }
                 }
 
-                progressBar.visibility = View.GONE
+                viewBinding.searchViewProgressbar.visibility = View.GONE
                 resultsRecyclerView.visibility = View.VISIBLE
-                hintText.visibility = View.GONE
-                backToTopButton.visibility = View.VISIBLE
-                adViewLayout.visibility = View.GONE
+                viewBinding.searchViewHint.visibility = View.GONE
+                viewBinding.searchViewBackToTopButton.visibility = View.VISIBLE
+                viewBinding.searchViewAdviewLayout.visibility = View.GONE
 
-                searchButton.isEnabled = true
-                cameraButton.isEnabled = true
+                viewBinding.searchViewSearchIcon.isEnabled = true
+                viewBinding.searchViewCameraIcon.isEnabled = true
 
                 if (bookResultViewState.keyword.isNotEmpty()) {
                     changeSearchBoxKeyword(bookResultViewState.keyword)
@@ -471,14 +471,14 @@ class BookResultListFragment :
             }
 
             BookResultViewState.PrepareBookResultError -> {
-                progressBar.visibility = View.GONE
+                viewBinding.searchViewProgressbar.visibility = View.GONE
                 resultsRecyclerView.visibility = View.GONE
-                hintText.visibility = View.VISIBLE
-                backToTopButton.visibility = View.GONE
-                adViewLayout.visibility = View.GONE
+                viewBinding.searchViewHint.visibility = View.VISIBLE
+                viewBinding.searchViewBackToTopButton.visibility = View.GONE
+                viewBinding.searchViewAdviewLayout.visibility = View.GONE
 
-                searchButton.isEnabled = true
-                cameraButton.isEnabled = true
+                viewBinding.searchViewSearchIcon.isEnabled = true
+                viewBinding.searchViewCameraIcon.isEnabled = true
 
                 if (this::shareResultMenu.isInitialized) {
                     shareResultMenu.setVisible(false)
@@ -657,24 +657,24 @@ class BookResultListFragment :
         if (isAdded) {
             val inputManager: InputMethodManager =
                 requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputManager.hideSoftInputFromWindow(searchEditText.windowToken, 0)
+            inputManager.hideSoftInputFromWindow(viewBinding.searchViewEdittext.windowToken, 0)
         }
     }
 
     private fun focusAndCleanBookSearchEditText() {
         if (isAdded) {
-            searchEditText.setText("")
+            viewBinding.searchViewEdittext.setText("")
             focusBookSearchEditText()
         }
     }
 
     private fun focusBookSearchEditText() {
         if (isAdded) {
-            appbar.setExpanded(true, true)
-            searchEditText.requestFocus()
+            viewBinding.searchViewAppbar.setExpanded(true, true)
+            viewBinding.searchViewEdittext.requestFocus()
             val inputManager: InputMethodManager =
                 requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputManager.showSoftInput(searchEditText, 0)
+            inputManager.showSoftInput(viewBinding.searchViewEdittext, 0)
         }
     }
 
@@ -712,8 +712,8 @@ class BookResultListFragment :
         when (view?.id) {
             R.id.search_view_search_icon -> {
                 hideVirtualKeyboard()
-                searchEditText.clearFocus()
-                val keyword: String = searchEditText.text.toString()
+                viewBinding.searchViewEdittext.clearFocus()
+                val keyword: String = viewBinding.searchViewEdittext.text.toString()
                 sendUserIntent(BookSearchUserIntent.SearchBook(keyword))
             }
 
@@ -788,9 +788,9 @@ class BookResultListFragment :
     }
 
     private fun changeSearchBoxKeyword(keyword: String) {
-        searchEditText.setText(keyword)
-        searchEditText.setSelection(keyword.length)
-        searchEditText.clearFocus()
+        viewBinding.searchViewEdittext.setText(keyword)
+        viewBinding.searchViewEdittext.setSelection(keyword.length)
+        viewBinding.searchViewEdittext.clearFocus()
     }
 
     fun showSearchSnapshot(searchId: String) {
@@ -799,8 +799,8 @@ class BookResultListFragment :
     }
 
     fun backPressed(): Boolean {
-        if (searchEditText.isFocused) {
-            searchEditText.clearFocus()
+        if (viewBinding.searchViewEdittext.isFocused) {
+            viewBinding.searchViewEdittext.clearFocus()
             return true
         }
 
@@ -858,17 +858,17 @@ class BookResultListFragment :
             object : AnimatorListenerAdapter() {
                 override fun onAnimationStart(animation: Animator) {
                     super.onAnimationStart(animation)
-                    val isBackgroundVisible = searchRecordsBackground.visibility == View.VISIBLE
+                    val isBackgroundVisible = viewBinding.searchViewSearchRecordsBackground.visibility == View.VISIBLE
                     val isGoingToExpand = targetHeight > 0
                     if (isBackgroundVisible && !isGoingToExpand) {
-                        searchRecordsBackground.visibility = View.GONE
-                        backToTopButton.visibility = View.VISIBLE
+                        viewBinding.searchViewSearchRecordsBackground.visibility = View.GONE
+                        viewBinding.searchViewBackToTopButton.visibility = View.VISIBLE
                         return
                     }
 
                     if (!isBackgroundVisible && isGoingToExpand) {
-                        searchRecordsBackground.visibility = View.VISIBLE
-                        backToTopButton.visibility = View.GONE
+                        viewBinding.searchViewSearchRecordsBackground.visibility = View.VISIBLE
+                        viewBinding.searchViewBackToTopButton.visibility = View.GONE
                     }
                 }
             }

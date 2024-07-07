@@ -8,6 +8,7 @@ import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.databinding.ActivityPreferenceBinding
 import liou.rayyuan.ebooksearchtaiwan.utils.ActivityViewBinding
+import liou.rayyuan.ebooksearchtaiwan.utils.setupEdgeToEdge
 
 /**
  * Created by louis383 on 2018/9/29.
@@ -39,6 +40,11 @@ class PreferenceSettingsActivity :
                 }
             )
         }
+        setupEdgeToEdge()
+    }
+
+    private fun setupEdgeToEdge() {
+        viewBinding.root.setupEdgeToEdge()
     }
 
     override fun onDestroy() {
@@ -53,6 +59,7 @@ class PreferenceSettingsActivity :
                     onBackPressedDispatcher.onBackPressed()
                     true
                 }
+
                 else -> super.onOptionsItemSelected(this)
             }
         }

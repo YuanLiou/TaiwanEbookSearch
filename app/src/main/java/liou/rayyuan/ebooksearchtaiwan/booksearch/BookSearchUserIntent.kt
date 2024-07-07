@@ -25,13 +25,13 @@ sealed class BookSearchUserIntent : IUserIntent {
         val reviewInfo: ReviewInfo
     ) : BookSearchUserIntent()
 
-    object CopySnapshotUrlToClipboard : BookSearchUserIntent()
+    data object CopySnapshotUrlToClipboard : BookSearchUserIntent()
 
-    object OnViewReadyToServe : BookSearchUserIntent()
+    data object OnViewReadyToServe : BookSearchUserIntent()
 
-    object PressHint : BookSearchUserIntent()
+    data object PressHint : BookSearchUserIntent()
 
-    object ShareSnapshot : BookSearchUserIntent()
+    data object ShareSnapshot : BookSearchUserIntent()
 
-    object RankAppWindowHasShown : BookSearchUserIntent()
+    data object RankAppWindowHasShown : BookSearchUserIntent()
 }

@@ -16,7 +16,10 @@ import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.R
 import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.arch.IView
+import liou.rayyuan.ebooksearchtaiwan.databinding.ActivityReorderStoresBinding
+import liou.rayyuan.ebooksearchtaiwan.utils.ActivityViewBinding
 import liou.rayyuan.ebooksearchtaiwan.utils.bindView
+import liou.rayyuan.ebooksearchtaiwan.utils.setupEdgeToEdge
 import liou.rayyuan.ebooksearchtaiwan.view.ListItemTouchCallback
 import liou.rayyuan.ebooksearchtaiwan.view.OnBookStoreItemChangedListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -26,6 +29,10 @@ class BookStoreReorderActivity :
     OnBookStoreItemChangedListener,
     IView<BookStoreReorderViewState> {
     private val viewModel: BookStoreReorderViewModel by viewModel()
+    private val viewBinding: ActivityReorderStoresBinding by ActivityViewBinding(
+        ActivityReorderStoresBinding::bind,
+        R.id.activity_reorder_layout_rootView
+    )
 
     private val toolbar: Toolbar by bindView(R.id.activity_reorder_layout_toolbar)
     private val recyclerView: RecyclerView by bindView(R.id.activity_reorder_recyclerview)
@@ -51,8 +58,13 @@ class BookStoreReorderActivity :
         val listItemTouchCallback = ListItemTouchCallback(adapter)
         itemTouchHelper = ItemTouchHelper(listItemTouchCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
-        viewModel.viewState.observe(this, { state -> render(state) })
+        viewModel.viewState.observe(this) { state -> render(state) }
         sendUserIntent(BookStoreReorderUserIntent.GetPreviousSavedSort)
+        setupEdgeToEdge()
+    }
+
+    private fun setupEdgeToEdge() {
+        viewBinding.root.setupEdgeToEdge()
     }
 
     private fun initToolbar() {
@@ -89,6 +101,7 @@ class BookStoreReorderActivity :
                 finish()
                 return true
             }
+
             R.id.reorder_page_menu_action_check -> {
                 val result = adapter.getStoreNames()
                 eventTracker.logTopSelectedStoreName(result)
@@ -123,6 +136,7 @@ class BookStoreReorderActivity :
             BookStoreReorderViewState.BackToPreviousPage -> {
                 finish()
             }
+
             is BookStoreReorderViewState.PrepareBookSort -> {
                 adapter.setStoreNames(viewState.bookSort)
             }
