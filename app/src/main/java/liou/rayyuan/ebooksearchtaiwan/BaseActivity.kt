@@ -1,8 +1,11 @@
 package liou.rayyuan.ebooksearchtaiwan
 
 import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.SystemBarStyle
+import androidx.activity.enableEdgeToEdge
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import com.rayliu.commonmain.domain.service.UserPreferenceManager
@@ -29,6 +32,14 @@ abstract class BaseActivity(
                 setTheme(R.style.NightTheme)
             }
         }
+        enableEdgeToEdge(
+            statusBarStyle =
+                if (isDarkTheme()) {
+                    SystemBarStyle.dark(Color.TRANSPARENT)
+                } else {
+                    SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT)
+                }
+        )
         super.onCreate(savedInstanceState)
     }
 

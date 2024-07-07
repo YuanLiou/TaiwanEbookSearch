@@ -21,6 +21,7 @@ import liou.rayyuan.ebooksearchtaiwan.uimodel.BookUiModel
 import liou.rayyuan.ebooksearchtaiwan.uimodel.asUiModel
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
+import liou.rayyuan.ebooksearchtaiwan.utils.setupEdgeToEdge
 
 class SimpleWebViewFragment :
     BaseFragment(R.layout.fragment_simple_webview),
@@ -33,12 +34,11 @@ class SimpleWebViewFragment :
         fun newInstance(
             book: Book,
             showCloseButton: Boolean
-        ): SimpleWebViewFragment {
-            return SimpleWebViewFragment().apply {
+        ): SimpleWebViewFragment =
+            SimpleWebViewFragment().apply {
                 this.book = book
                 this.showCloseButton = showCloseButton
             }
-        }
     }
 
     private val viewBinding: FragmentSimpleWebviewBinding by FragmentViewBinding(FragmentSimpleWebviewBinding::bind)
@@ -94,11 +94,16 @@ class SimpleWebViewFragment :
         } else {
             webView.loadUrl(book.link)
         }
+        setupEdgeToEdge()
     }
 
     override fun onDestroy() {
         onSimpleWebViewActionListener = null
         super.onDestroy()
+    }
+
+    private fun setupEdgeToEdge() {
+        viewBinding.root.setupEdgeToEdge()
     }
 
     private fun initWebView() {
@@ -142,14 +147,15 @@ class SimpleWebViewFragment :
         super.onDestroyView()
     }
 
-    override fun onMenuItemClick(item: MenuItem): Boolean {
-        return when (item.itemId) {
+    override fun onMenuItemClick(item: MenuItem): Boolean =
+        when (item.itemId) {
             R.id.webview_page_menu_action_open_browser -> {
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.data = Uri.parse(book.link)
                 startActivity(intent)
                 true
             }
+
             R.id.webview_page_menu_action_share -> {
                 val intent = Intent(Intent.ACTION_SEND)
                 intent.type = "text/plain"
@@ -158,9 +164,9 @@ class SimpleWebViewFragment :
                 startActivity(Intent.createChooser(intent, getString(R.string.menu_share_menu_appear)))
                 true
             }
+
             else -> false
         }
-    }
 
     private fun retrieveView(view: View) {
         webView = view.findViewById(R.id.simple_webview_content)

@@ -61,6 +61,7 @@ import liou.rayyuan.ebooksearchtaiwan.databinding.FragmentSearchListBinding
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
+import liou.rayyuan.ebooksearchtaiwan.utils.setupEdgeToEdge
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
 import liou.rayyuan.ebooksearchtaiwan.view.ViewEffectObserver
 import org.koin.android.ext.android.inject
@@ -118,6 +119,7 @@ class BookResultListFragment :
         bindViews(view)
         init()
         setupOptionMenu()
+        setupEdgeToEdge()
 
         fullBookStoreResultsAdapter = FullBookStoreResultAdapter(this, this)
         resultsRecyclerView.adapter = fullBookStoreResultsAdapter
@@ -289,6 +291,10 @@ class BookResultListFragment :
         searchRecordsAdapter.release()
         fullBookStoreResultsAdapter.release()
         super.onDestroy()
+    }
+
+    private fun setupEdgeToEdge() {
+        viewBinding.root.setupEdgeToEdge()
     }
 
     private fun searchWithEditText() {
