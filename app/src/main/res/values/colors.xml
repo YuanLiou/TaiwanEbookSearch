@@ -17,7 +17,8 @@
     <color name="pure_dark">#000000</color>
 
     <!-- alpha -->
-    <color name="light_blue_green_you_a50">#80E7F3EF</color>
+    <color name="light_blue_green_you_a95">#F2E7F3EF</color>
     <color name="blue_green_a50">#8058D5B7</color>
     <color name="darker_gray_3B_a85">#D93B3B3B</color>
+    <color name="darker_gray_28_a95">#F2282828</color>
 </resources>

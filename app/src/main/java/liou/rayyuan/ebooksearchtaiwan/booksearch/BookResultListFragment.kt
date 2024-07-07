@@ -24,14 +24,12 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.os.BundleCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -90,7 +88,6 @@ class BookResultListFragment :
     private lateinit var copyUrlMenu: MenuItem
 
     private lateinit var searchRecordsRootView: FrameLayout
-    private lateinit var searchRecordsCardView: CardView
     private lateinit var searchRecordsRecyclerView: RecyclerView
     private val searchRecordsAdapter = SearchRecordAdapter(this)
     //endregion
@@ -189,7 +186,6 @@ class BookResultListFragment :
         resultsRecyclerView = view.findViewById(R.id.search_view_result)
 
         searchRecordsRootView = view.findViewById(R.id.layout_search_records_rootview)
-        searchRecordsCardView = view.findViewById(R.id.layout_search_records_card_view)
         searchRecordsRecyclerView = view.findViewById(R.id.layout_search_records_recycler_view)
     }
 
