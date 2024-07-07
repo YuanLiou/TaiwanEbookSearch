@@ -34,6 +34,8 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.os.BundleCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.withResumed
@@ -63,6 +65,7 @@ import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
 import liou.rayyuan.ebooksearchtaiwan.utils.setupEdgeToEdge
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
+import liou.rayyuan.ebooksearchtaiwan.utils.updateMargins
 import liou.rayyuan.ebooksearchtaiwan.view.ViewEffectObserver
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -294,7 +297,24 @@ class BookResultListFragment :
     }
 
     private fun setupEdgeToEdge() {
-        viewBinding.root.setupEdgeToEdge()
+        viewBinding.root.setupEdgeToEdge { view, insets ->
+            val bars =
+                insets.getInsets(
+                    WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
+                )
+
+            view.updatePadding(
+                left = bars.left,
+                right = bars.right
+            )
+
+            viewBinding.searchViewBackToTopButton.updateMargins(bottom = bars.bottom)
+            viewBinding.searchViewAppbar.updateMargins(top = bars.top)
+            viewBinding.searchViewSearchRecordsBackground.updateMargins(top = bars.top)
+
+            viewBinding.searchViewResult.updatePadding(top = bars.top)
+            viewBinding.searchViewAdviewLayout.updatePadding(top = bars.top)
+        }
     }
 
     private fun searchWithEditText() {

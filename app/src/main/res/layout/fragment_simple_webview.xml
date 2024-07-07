@@ -2,32 +2,37 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/simple_webview_top_spacing"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="?android:attr/statusBarColor"
+        tools:layout_height="18dp" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/simple_webview_appbar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/simple_webview_top_spacing"
         >
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/simple_webview_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="?actionBarSize"
-            />
+            android:minHeight="?actionBarSize" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <WebView
         android:id="@+id/simple_webview_content"
-        android:layout_below="@id/simple_webview_appbar_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        android:layout_below="@id/simple_webview_appbar_layout" />
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/simple_webview_progress_bar"
@@ -36,8 +41,7 @@
         android:layout_below="@id/simple_webview_appbar_layout"
         android:indeterminate="true"
         android:max="100"
-        tools:visibility="visible"
         tools:progress="60"
-        />
+        tools:visibility="visible" />
 
 </RelativeLayout>

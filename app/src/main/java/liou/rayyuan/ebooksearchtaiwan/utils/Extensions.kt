@@ -3,6 +3,7 @@ package liou.rayyuan.ebooksearchtaiwan.utils
 import android.app.Activity
 import android.content.Context
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.core.view.ViewCompat
@@ -22,12 +23,12 @@ fun <T : View> Activity.bindView(
 ): Lazy<T> = lazy { findViewById(resId) }
 
 fun <T : View> T.setupEdgeToEdge(customizeInsets: ((View, WindowInsetsCompat) -> Unit)? = null) {
-    ViewCompat.setOnApplyWindowInsetsListener(this) { view, inset ->
+    ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
         if (customizeInsets != null) {
-            customizeInsets(view, inset)
+            customizeInsets(view, insets)
         } else {
             val bars =
-                inset.getInsets(
+                insets.getInsets(
                     WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
                 )
 
@@ -41,4 +42,20 @@ fun <T : View> T.setupEdgeToEdge(customizeInsets: ((View, WindowInsetsCompat) ->
 
         WindowInsetsCompat.CONSUMED
     }
+}
+
+fun <T : View> T.updateMargins(
+    start: Int = 0,
+    top: Int = 0,
+    end: Int = 0,
+    bottom: Int = 0
+) {
+    val marginLayoutParams = layoutParams as ViewGroup.MarginLayoutParams
+    marginLayoutParams.setMargins(
+        start,
+        top,
+        end,
+        bottom
+    )
+    layoutParams = marginLayoutParams
 }

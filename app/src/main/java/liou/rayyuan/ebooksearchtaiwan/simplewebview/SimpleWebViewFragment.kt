@@ -12,6 +12,8 @@ import android.webkit.WebViewClient
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.os.BundleCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.google.android.material.appbar.MaterialToolbar
 import liou.rayyuan.ebooksearchtaiwan.BaseFragment
 import liou.rayyuan.ebooksearchtaiwan.R
@@ -103,7 +105,23 @@ class SimpleWebViewFragment :
     }
 
     private fun setupEdgeToEdge() {
-        viewBinding.root.setupEdgeToEdge()
+        viewBinding.root.setupEdgeToEdge { view, insets ->
+            val bars =
+                insets.getInsets(
+                    WindowInsetsCompat.Type.systemBars() or
+                        WindowInsetsCompat.Type.displayCutout()
+                )
+
+            view.updatePadding(
+                left = bars.left,
+                right = bars.right,
+                bottom = bars.bottom
+            )
+
+            val layoutParams = viewBinding.simpleWebviewTopSpacing.layoutParams
+            layoutParams.height = bars.top
+            viewBinding.simpleWebviewTopSpacing.layoutParams = layoutParams
+        }
     }
 
     private fun initWebView() {

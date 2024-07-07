@@ -37,10 +37,12 @@ class BottomNavigationBehavior : CoordinatorLayout.Behavior<View> {
         val marginSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16f, coordinatorLayout.context.resources.displayMetrics)
         when {
             newTranslation > child.height -> child.translationY = child.height.toFloat()
+
             newTranslation <= -marginSize -> {
                 child.translationY = -marginSize
                 (child as ImageButton).isEnabled = true
             }
+
             else -> {
                 child.translationY = newTranslation
                 (child as ImageButton).isEnabled = false
