@@ -319,25 +319,27 @@ class BookResultListFragment :
                         }
                 }
 
-                override fun onMenuItemSelected(item: MenuItem): Boolean {
-                    return when (item.itemId) {
+                override fun onMenuItemSelected(item: MenuItem): Boolean =
+                    when (item.itemId) {
                         R.id.search_page_menu_action_setting -> {
                             if (isAdded) {
                                 (requireActivity() as? BookSearchActivity)?.openPreferenceActivity()
                             }
                             true
                         }
+
                         R.id.search_page_menu_action_share -> {
                             sendUserIntent(BookSearchUserIntent.ShareSnapshot)
                             true
                         }
+
                         R.id.search_page_menu_action_copy_url -> {
                             sendUserIntent(BookSearchUserIntent.CopySnapshotUrlToClipboard)
                             true
                         }
+
                         else -> true
                     }
-                }
             },
             viewLifecycleOwner,
             Lifecycle.State.RESUMED
@@ -433,6 +435,7 @@ class BookResultListFragment :
                     scrollToTop()
                 }
             }
+
             is BookResultViewState.ShowBooks -> {
                 if (bookResultViewState.adapterItems.isNotEmpty()) {
                     if (this::fullBookStoreResultsAdapter.isInitialized) {
@@ -466,6 +469,7 @@ class BookResultListFragment :
                     scrollToPosition(bookResultViewState.scrollPosition)
                 }
             }
+
             BookResultViewState.PrepareBookResultError -> {
                 progressBar.visibility = View.GONE
                 resultsRecyclerView.visibility = View.GONE
@@ -484,6 +488,7 @@ class BookResultListFragment :
                     copyUrlMenu.setVisible(false)
                 }
             }
+
             is BookResultViewState.ShowSearchRecordList -> {
                 val itemCounts = bookResultViewState.itemCounts
                 val heightPadding =
@@ -509,6 +514,7 @@ class BookResultListFragment :
                     }
                 }
             }
+
             BookResultViewState.HideSearchRecordList -> {
                 if (this::searchRecordsRootView.isInitialized) {
                     bookSearchViewModel.searchRecordLiveData.removeObservers(viewLifecycleOwner)
@@ -516,6 +522,7 @@ class BookResultListFragment :
                     (searchRecordsRecyclerView.layoutManager as? LinearLayoutManager)?.scrollToPosition(0)
                 }
             }
+
             is BookResultViewState.ShareCurrentPageSnapshot -> {
                 val intent = Intent(Intent.ACTION_SEND)
                 with(intent) {
@@ -538,18 +545,23 @@ class BookResultListFragment :
             ScreenState.EasterEgg -> {
                 showEasterEgg01()
             }
+
             ScreenState.ConnectionTimeout -> {
                 showInternetConnectionTimeout()
             }
+
             ScreenState.NetworkError -> {
                 showNetworkErrorMessage()
             }
+
             ScreenState.EmptyKeyword -> {
                 showKeywordIsEmpty()
             }
+
             ScreenState.NoInternetConnection -> {
                 showInternetRequestDialog()
             }
+
             is ScreenState.ShowToastMessage -> {
                 if (screenState.stringResId != BookSearchViewModel.NO_MESSAGE) {
                     showToast(getString(screenState.stringResId))
@@ -559,9 +571,11 @@ class BookResultListFragment :
                     showToast(screenState.message)
                 }
             }
+
             ScreenState.NoSharingContentAvailable -> {
                 showToast(getString(R.string.no_shareable_content))
             }
+
             is ScreenState.ShowUserRankingDialog -> {
                 viewLifecycleOwner.lifecycleScope.launch {
                     playStoreReviewHelper.showReviewDialog(requireActivity(), screenState.reviewInfo)
@@ -702,18 +716,22 @@ class BookResultListFragment :
                 val keyword: String = searchEditText.text.toString()
                 sendUserIntent(BookSearchUserIntent.SearchBook(keyword))
             }
+
             R.id.search_view_hint -> {
                 hintPressed()
             }
+
             R.id.search_view_camera_icon -> {
                 if (isAdded) {
                     (requireActivity() as? BookSearchActivity)?.openCameraPreviewActivity()
                 }
             }
+
             R.id.search_view_back_to_top_button -> {
                 val canListScrollVertically = resultsRecyclerView.canScrollVertically(-1)
                 backToTop(canListScrollVertically)
             }
+
             R.id.search_view_search_records_background -> {
                 toggleSearchRecordView(false)
                 hideVirtualKeyboard()
@@ -738,6 +756,10 @@ class BookResultListFragment :
     //endregion
 
     private fun isCameraAvailable(): Boolean {
+        // TODO:: remove debug limitation after development
+        if (!BuildConfig.DEBUG) {
+            return false
+        }
         if (isAdded) {
             return requireActivity().packageManager?.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
                 ?: false

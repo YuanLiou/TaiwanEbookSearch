@@ -104,20 +104,6 @@ class BookSearchActivity :
     }
 
     private fun setupLauncherCallbacks() {
-        barcodeScanningLauncher =
-            registerForActivityResult(ScanContract()) { result ->
-                if (result.contents == null) {
-                    val originalIntent = result.originalIntent
-                    if (originalIntent?.hasExtra(Intents.Scan.MISSING_CAMERA_PERMISSION) == true) {
-                        showToastMessage(R.string.permission_required_camera)
-                    }
-                } else {
-                    val resultText = result.contents
-                    val bookResultFragment = getBookResultFragment()
-                    bookResultFragment?.searchWithText(resultText)
-                }
-            }
-
         changeThemeLauncher =
             registerForActivityResult(
                 ActivityResultContracts.StartActivityForResult()
