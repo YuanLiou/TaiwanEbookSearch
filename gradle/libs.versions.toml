@@ -21,10 +21,10 @@ androidxLifecycle = "2.8.3"
 paging = "3.3.0"
 
 #  Kotlin Libraries
-kotlinxCoroutines = "1.8.0"
-kotlinxSerializationJson = "1.6.3"
-datetime = "0.6.0-RC.2"
-ktor = "2.3.10"
+kotlinxCoroutines = "1.9.0-RC"
+kotlinxSerializationJson = "1.7.1"
+datetime = "0.6.0"
+ktor = "2.3.12"
 
 #  Google Service and Firebase Libraries
 firebaseBom = "33.1.1"
@@ -40,11 +40,11 @@ androidxEspresso = "3.6.1"
 
 # plugins versions
 androidGradlePlugin = "8.3.2"
-kotlin = "1.9.24"
+kotlin = "2.0.0"
 gmsPlugin = "4.4.2"
 firebaseCrashlyticsPlugin = "3.0.2"
 detektVersion = "1.23.6"
-ksp = "1.9.24-1.0.20"
+ksp = "2.0.0-1.0.22"
 ktlintGradle = "12.1.0"
 sqldelight = "2.0.2"
 

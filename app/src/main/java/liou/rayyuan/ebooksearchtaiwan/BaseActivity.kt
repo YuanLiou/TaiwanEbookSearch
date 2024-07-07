@@ -29,7 +29,6 @@ abstract class BaseActivity(
                 setTheme(R.style.NightTheme)
             }
         }
-
         super.onCreate(savedInstanceState)
     }
 
