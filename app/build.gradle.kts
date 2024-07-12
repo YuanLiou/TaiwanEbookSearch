@@ -13,6 +13,7 @@ plugins {
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.sqldelight)
+    alias(libs.plugins.compose.compiler)
     id(libs.plugins.detekt.get().pluginId)
     id(libs.plugins.ktlintGradle.get().pluginId)
 }
@@ -47,6 +48,7 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+        compose = true
     }
 
     lint {
@@ -156,6 +158,22 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(project(":commonMain"))
+
+    // region Compose
+    val composeBom = platform(libs.compose.bom)
+    api(composeBom)
+    androidTestImplementation(composeBom)
+
+    api(libs.compose.material3)
+    api(libs.compose.material.icons.extended)
+    api(libs.compose.ui.tooling.preview)
+    api(libs.compose.activity)
+    api(libs.compose.lifecycle)
+    api(libs.compose.livedata)
+    debugApi(libs.compose.ui.tooling)
+    debugApi(libs.compose.ui.test.manifest)
+    androidTestImplementation(libs.compose.ui.test.junit4)
+    // endregion Compose
 
     // region Android X Libraries
     //  Use `api` to expose dependencies to feature module

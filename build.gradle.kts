@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.firebase.crashlytics) apply false
     alias(libs.plugins.detekt) apply false
     alias(libs.plugins.ktlintGradle) apply false
+    alias(libs.plugins.compose.compiler) apply false
 }
 
 buildscript {

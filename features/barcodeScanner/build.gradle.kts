@@ -2,6 +2,7 @@
 plugins {
     id("com.android.dynamic-feature")
     id("kotlin-android")
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -35,6 +36,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        compose = true
     }
 
     compileOptions {
