@@ -10,11 +10,13 @@ val pure_white = Color(0xFFFFFFFF)
 val white_EB = Color(0xFFEBEBEB)
 val google_app_white_color = Color(0xFFF2F2F2)
 val white_BD = Color(0xFFBDBDBD)
+val gray_d0 = Color(0xFFCAC4D0) // Dark theme of colorControlNormal
 val gray = Color(0xFF929292)
 val dark_gray = Color(0xFF646464)
 val tundora = Color(0xFF424242)
 val darker_gray_3B = Color(0xFF3B3B3B)
 val darker_gray_28 = Color(0xFF282828)
+val dark_18 = Color(0xFF141218) // Dark theme of ?android:attr/colorBackground
 val pure_dark = Color(0xFF000000)
 
 // Alphas
