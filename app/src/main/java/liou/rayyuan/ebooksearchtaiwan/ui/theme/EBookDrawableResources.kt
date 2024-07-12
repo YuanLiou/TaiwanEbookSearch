@@ -2,6 +2,7 @@ package liou.rayyuan.ebooksearchtaiwan.ui.theme
 
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.staticCompositionLocalOf
 import liou.rayyuan.ebooksearchtaiwan.R
 
 @Immutable
@@ -24,3 +25,12 @@ val DarkDrawableResources =
         reorderHandlerItemDrawable = R.drawable.ic_baseline_reorder_light_24px,
         popupBackground = R.drawable.menu_dropdown_dark_background
     )
+
+val LocalDrawableResources =
+    staticCompositionLocalOf {
+        EBookDrawableResources(
+            backToTopButtonDrawable = 0,
+            reorderHandlerItemDrawable = 0,
+            popupBackground = 0
+        )
+    }

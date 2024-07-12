@@ -15,3 +15,4 @@ ktlint_standard_trailing-comma-on-declaration-site = disabled
 ktlint_standard_chain-method-continuation = disabled
 ktlint_standard_property-naming = disabled
 ktlint_standard_backing-property-naming = disabled
+ktlint_function_naming_ignore_when_annotated_with = Composable

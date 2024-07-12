@@ -1,6 +1,7 @@
 package liou.rayyuan.ebooksearchtaiwan.ui.theme
 
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 @Immutable
@@ -77,3 +78,30 @@ val DarkColorScheme =
         reorderListBackgroundColor = darker_gray_3B,
         customTabHeaderColor = darker_gray_28
     )
+
+val LocalColorScheme =
+    staticCompositionLocalOf {
+        EBookColorScheme(
+            colorPrimary = Color.Unspecified,
+            colorPrimaryDark = Color.Unspecified,
+            colorOnPrimary = Color.Unspecified,
+            colorSurface = Color.Unspecified,
+            colorAccent = Color.Unspecified,
+            colorSecondary = Color.Unspecified,
+            colorPrimaryVariant = Color.Unspecified,
+            colorBackground = Color.Unspecified,
+            textColorTertiary = Color.Unspecified,
+            colorControlNormal = Color.Unspecified,
+            statusBarColor = Color.Unspecified,
+            headline6TextColor = Color.Unspecified,
+            subtitle1TextColor = Color.Unspecified,
+            buttonTint = Color.Unspecified,
+            cardBackgroundColor = Color.Unspecified,
+            searchBoxColor = Color.Unspecified,
+            dividerColor = Color.Unspecified,
+            editTextHintColor = Color.Unspecified,
+            editTextInputColor = Color.Unspecified,
+            reorderListBackgroundColor = Color.Unspecified,
+            customTabHeaderColor = Color.Unspecified
+        )
+    }
