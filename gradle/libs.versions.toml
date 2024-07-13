@@ -22,7 +22,7 @@ paging = "3.3.0"
 # Jetpack Compose
 composeBom = "2024.06.00"
 activityCompose = "1.9.0"
-lifecycleCompose = "2.6.1"
+lifecycleCompose = "2.8.3"
 
 #  Kotlin Libraries
 kotlinxCoroutines = "1.9.0-RC"
@@ -31,7 +31,7 @@ datetime = "0.6.0"
 ktor = "2.3.12"
 
 #  Google Service and Firebase Libraries
-firebaseBom = "33.1.1"
+firebaseBom = "33.1.2"
 admob = "23.2.0"
 inAppReview = "2.0.1"
 featureDelivery = "2.1.0"

@@ -3,7 +3,9 @@ package liou.rayyuan.ebooksearchtaiwan.simplewebview
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.MenuItem
 import android.view.View
 import android.webkit.WebChromeClient
@@ -13,6 +15,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.os.BundleCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.doOnLayout
 import androidx.core.view.updatePadding
 import com.google.android.material.appbar.MaterialToolbar
 import liou.rayyuan.ebooksearchtaiwan.BaseFragment
@@ -96,7 +99,11 @@ class SimpleWebViewFragment :
         } else {
             webView.loadUrl(book.link)
         }
-        setupEdgeToEdge()
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            setupEdgeToEdgeForLegacyVersion()
+        } else {
+            setupEdgeToEdge()
+        }
     }
 
     override fun onDestroy() {
@@ -121,6 +128,20 @@ class SimpleWebViewFragment :
             val layoutParams = viewBinding.simpleWebviewTopSpacing.layoutParams
             layoutParams.height = bars.top
             viewBinding.simpleWebviewTopSpacing.layoutParams = layoutParams
+        }
+    }
+
+    private fun setupEdgeToEdgeForLegacyVersion() {
+        viewBinding.root.doOnLayout {
+            val topPadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24f, resources.displayMetrics).toInt()
+            val layoutParams = viewBinding.simpleWebviewTopSpacing.layoutParams
+            layoutParams.height = topPadding
+            viewBinding.simpleWebviewTopSpacing.layoutParams = layoutParams
+
+            val bottomPadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48f, resources.displayMetrics).toInt()
+            val bottomParams = viewBinding.simpleWebviewBottomSpacing.layoutParams
+            bottomParams.height = bottomPadding
+            viewBinding.simpleWebviewBottomSpacing.layoutParams = bottomParams
         }
     }
 
