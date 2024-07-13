@@ -39,6 +39,12 @@ android {
         compose = true
     }
 
+    buildTypes {
+        getByName("release") {
+            proguardFiles("proguard-rules-barcode-scanner.pro")
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
