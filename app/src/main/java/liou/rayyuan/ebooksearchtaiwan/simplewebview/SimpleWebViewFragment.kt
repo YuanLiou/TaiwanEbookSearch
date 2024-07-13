@@ -99,7 +99,7 @@ class SimpleWebViewFragment :
         } else {
             webView.loadUrl(book.link)
         }
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
             setupEdgeToEdgeForLegacyVersion()
         } else {
             setupEdgeToEdge()

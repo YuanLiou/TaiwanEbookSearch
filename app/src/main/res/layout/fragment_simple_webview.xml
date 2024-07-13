@@ -49,8 +49,8 @@
         android:id="@id/simple_webview_bottom_spacing"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="?android:attr/statusBarColor"
+        android:background="?android:attr/navigationBarColor"
         android:layout_alignParentBottom="true"
-        tools:layout_height="18dp" />
+        tools:layout_height="28dp" />
 
 </RelativeLayout>
