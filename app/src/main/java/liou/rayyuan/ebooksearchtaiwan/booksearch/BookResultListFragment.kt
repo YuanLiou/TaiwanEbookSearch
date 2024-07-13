@@ -23,6 +23,7 @@ import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.annotation.DrawableRes
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -30,6 +31,7 @@ import androidx.core.os.BundleCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -80,6 +82,7 @@ class BookResultListFragment :
     private var defaultSnapshotSearchId: String by FragmentArgumentsDelegate()
     private var searchRecordAnimator: ValueAnimator? = null
     private lateinit var fullBookStoreResultsAdapter: FullBookStoreResultAdapter
+    private val clickThrottleMap = mutableMapOf<Int, Long>()
 
     //region View Components
     private lateinit var resultsRecyclerView: RecyclerView
@@ -711,10 +714,12 @@ class BookResultListFragment :
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.search_view_search_icon -> {
-                hideVirtualKeyboard()
-                viewBinding.searchViewEdittext.clearFocus()
-                val keyword: String = viewBinding.searchViewEdittext.text.toString()
-                sendUserIntent(BookSearchUserIntent.SearchBook(keyword))
+                performSafeClick(view.id) {
+                    hideVirtualKeyboard()
+                    viewBinding.searchViewEdittext.clearFocus()
+                    val keyword: String = viewBinding.searchViewEdittext.text.toString()
+                    sendUserIntent(BookSearchUserIntent.SearchBook(keyword))
+                }
             }
 
             R.id.search_view_hint -> {
@@ -722,14 +727,18 @@ class BookResultListFragment :
             }
 
             R.id.search_view_camera_icon -> {
-                if (isAdded) {
-                    (requireActivity() as? BookSearchActivity)?.openCameraPreviewActivity()
+                performSafeClick(view.id) {
+                    if (isAdded) {
+                        (requireActivity() as? BookSearchActivity)?.openCameraPreviewActivity()
+                    }
                 }
             }
 
             R.id.search_view_back_to_top_button -> {
-                val canListScrollVertically = resultsRecyclerView.canScrollVertically(-1)
-                backToTop(canListScrollVertically)
+                performSafeClick(view.id) {
+                    val canListScrollVertically = resultsRecyclerView.canScrollVertically(-1)
+                    backToTop(canListScrollVertically)
+                }
             }
 
             R.id.search_view_search_records_background -> {
@@ -753,13 +762,20 @@ class BookResultListFragment :
         sendUserIntent(BookSearchUserIntent.PressHint)
         focusBookSearchEditText()
     }
+
+    private inline fun performSafeClick(
+        @IdRes viewId: Int,
+        actions: () -> Unit
+    ) {
+        val currentClickTime = System.currentTimeMillis()
+        if (currentClickTime - clickThrottleMap.getOrDefault(viewId, 0L) > CLICK_MILLISECOND_THRESHOLD) {
+            actions()
+        }
+        clickThrottleMap[viewId] = currentClickTime
+    }
     //endregion
 
     private fun isCameraAvailable(): Boolean {
-        // TODO:: remove debug limitation after development
-        if (!BuildConfig.DEBUG) {
-            return false
-        }
         if (isAdded) {
             return requireActivity().packageManager?.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
                 ?: false
@@ -883,6 +899,15 @@ class BookResultListFragment :
         searchRecordAnimator = animation
     }
 
+    fun showModuleInstallMessage(message: String) {
+        viewBinding.messageViewFooterRootview.isVisible = true
+        viewBinding.messageViewFooterTitle.text = message
+    }
+
+    fun hideModuleInstallMessage() {
+        viewBinding.messageViewFooterRootview.isVisible = false
+    }
+
     //region BookResultClickHandler
     override fun onBookCardClicked(book: Book) {
         openBook(book)
@@ -925,6 +950,7 @@ class BookResultListFragment :
         private const val BUNDLE_RECYCLERVIEW_STATE = "BUNDLE_RECYCLERVIEW_STATE"
         private const val KEY_RECYCLERVIEW_POSITION = "KEY_RECYCLERVIEW_POSITION"
         private const val POPUP_REVIEW_WINDOW_THRESHOLD = 5
+        private const val CLICK_MILLISECOND_THRESHOLD = 2000L
 
         fun newInstance(
             defaultKeyword: String?,

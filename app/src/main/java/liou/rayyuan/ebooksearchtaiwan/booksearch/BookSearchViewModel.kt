@@ -425,9 +425,6 @@ class BookSearchViewModel(
 
     suspend fun checkUserHasSeenRankWindow(): Boolean = rankingWindowFacade.isUserSeenRankWindow().firstOrNull() ?: false
 
-    /***
-     * reduce
-     */
     private fun updateScreen(bookResultViewState: BookResultViewState) {
         _bookResultViewState.value = bookResultViewState
     }

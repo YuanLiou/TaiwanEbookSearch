@@ -12,4 +12,5 @@
     <string name="camera_permission_waiting">Waiting for camera permission</string>
     <string name="camera_permission_deny">Oh OK... Fine I\'m out.</string>
     <string name="auth_take_me_there">Take me there</string>
+    <string name="scanner_default_status">Place a barcode inside the viewfinder rectangle to scan it.</string>
 </resources>

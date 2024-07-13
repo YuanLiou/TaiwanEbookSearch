@@ -7,42 +7,34 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
-import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.journeyapps.barcodescanner.CaptureManager
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.databinding.ActivityCameraPreviewBinding
-import com.google.zxing.client.android.R as ZxingR
 import liou.rayyuan.ebooksearchtaiwan.R as AppR
 
 class CameraPreviewActivity : BaseActivity(R.layout.activity_camera_preview) {
     private var _viewBinding: ActivityCameraPreviewBinding? = null
-    private val binding = _viewBinding!!
-    private lateinit var statusText: TextView
-    private lateinit var authText: TextView
+    private val binding get() = _viewBinding!!
 
     private val cameraPermissionRequestCode = 1001
 
-    private lateinit var captureManager: CaptureManager
     private lateinit var manualEnablePermissionsLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _viewBinding = ActivityCameraPreviewBinding.bind(findViewById(R.id.activity_camera_preview_rootView))
-        retrieveViews()
-        captureManager = CaptureManager(this, binding.zxingBarcodeScanner)
 
-        authText.setOnClickListener {
+        binding.activityCameraPreviewAuthText.setOnClickListener {
             requestCameraPermission()
         }
 
         if (shouldRequestCameraPermission()) {
             requestCameraPermission()
-            statusText.text = getString(R.string.camera_permission_waiting)
+            binding.scannerStatusView.text = getString(R.string.camera_permission_waiting)
         } else {
             startDecodeBarcode(savedInstanceState)
         }
@@ -57,37 +49,12 @@ class CameraPreviewActivity : BaseActivity(R.layout.activity_camera_preview) {
             }
     }
 
-    private fun retrieveViews() {
-        statusText = binding.zxingStatusView
-        authText = binding.activityCameraPreviewAuthText
-    }
-
     private fun startDecodeBarcode(savedInstanceState: Bundle?) {
-        captureManager.initializeFromIntent(intent, savedInstanceState)
-        captureManager.decode()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        runWithCameraPermission {
-            captureManager.onResume()
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        captureManager.onPause()
     }
 
     override fun onDestroy() {
-        captureManager.onDestroy()
         _viewBinding = null
         super.onDestroy()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        captureManager.onSaveInstanceState(outState)
     }
 
     private fun requestCameraPermission() {
@@ -103,10 +70,9 @@ class CameraPreviewActivity : BaseActivity(R.layout.activity_camera_preview) {
             cameraPermissionRequestCode -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     readyToShowCameraView()
-                    captureManager.onRequestPermissionsResult(requestCode, permissions, grantResults)
                     startDecodeBarcode(null)
                 } else {
-                    authText.visibility = View.VISIBLE
+                    binding.activityCameraPreviewAuthText.visibility = View.VISIBLE
                     if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
                         MaterialAlertDialogBuilder(this)
                             .setTitle(R.string.permission_request_title)
@@ -152,7 +118,7 @@ class CameraPreviewActivity : BaseActivity(R.layout.activity_camera_preview) {
     }
 
     private fun readyToShowCameraView() {
-        statusText.text = getString(ZxingR.string.zxing_msg_default_status)
-        authText.visibility = View.INVISIBLE
+        binding.scannerStatusView.text = getString(R.string.scanner_default_status)
+        binding.activityCameraPreviewAuthText.visibility = View.INVISIBLE
     }
 }

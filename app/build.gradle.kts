@@ -178,15 +178,15 @@ dependencies {
     // region Android X Libraries
     //  Use `api` to expose dependencies to feature module
     api(libs.androidx.appcompat)
+    api(libs.androidx.activity.ktx)
     api(libs.material)
     api(libs.androidx.core.ktx)
+    api(libs.constraintlayout)
 
     implementation(libs.androidx.browser)
     implementation(libs.androidx.fragment.ktx)
-    implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.preference.ktx)
-    implementation(libs.constraintlayout)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.livedata.java8)
     implementation(libs.paging.runtime)
@@ -207,9 +207,6 @@ dependencies {
 
     // Koin
     implementation(libs.koin.android)
-
-    // Zxing
-    api(libs.zxing.android)
 
     // Coil
     implementation(libs.coil.kt)
