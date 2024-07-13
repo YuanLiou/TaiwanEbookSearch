@@ -18,11 +18,7 @@
             android:name="liou.rayyuan.ebooksearchtaiwan.camerapreview.CameraPreviewActivity"
             android:label="@string/barcode_scanner_title"
             android:theme="@style/FullScreenTheme"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-            </intent-filter>
-        </activity>
+            android:exported="false"/>
     </application>
 
 </manifest>
