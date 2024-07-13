@@ -18,7 +18,7 @@ import liou.rayyuan.ebooksearchtaiwan.R as AppR
 
 class CameraPreviewActivity : BaseActivity(R.layout.activity_camera_preview) {
     private var _viewBinding: ActivityCameraPreviewBinding? = null
-    private val binding = _viewBinding!!
+    private val binding get() = _viewBinding!!
 
     private val cameraPermissionRequestCode = 1001
 

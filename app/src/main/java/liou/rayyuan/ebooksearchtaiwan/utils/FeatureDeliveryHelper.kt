@@ -109,7 +109,9 @@ class FeatureDeliveryHelper(
     }
 
     companion object {
-        private const val PACKAGE_NAME = "liou.rayyuan.ebooksearchtaiwan.booksearch"
+        private const val PACKAGE_NAME = "liou.rayyuan.ebooksearchtaiwan"
+
+        // liou.rayyuan.ebooksearchtaiwan.camerapreview.CameraPreviewActivity
         private const val BARCODE_SCANNER_CLASSNAME = "$PACKAGE_NAME.camerapreview.CameraPreviewActivity"
     }
 }

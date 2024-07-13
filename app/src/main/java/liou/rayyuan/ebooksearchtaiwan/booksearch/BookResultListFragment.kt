@@ -30,6 +30,7 @@ import androidx.core.os.BundleCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -756,10 +757,6 @@ class BookResultListFragment :
     //endregion
 
     private fun isCameraAvailable(): Boolean {
-        // TODO:: remove debug limitation after development
-        if (!BuildConfig.DEBUG) {
-            return false
-        }
         if (isAdded) {
             return requireActivity().packageManager?.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
                 ?: false
@@ -881,6 +878,15 @@ class BookResultListFragment :
         }
         animation.start()
         searchRecordAnimator = animation
+    }
+
+    fun showModuleInstallMessage(message: String) {
+        viewBinding.messageViewFooterRootview.isVisible = true
+        viewBinding.messageViewFooterTitle.text = message
+    }
+
+    fun hideModuleInstallMessage() {
+        viewBinding.messageViewFooterRootview.isVisible = false
     }
 
     //region BookResultClickHandler
