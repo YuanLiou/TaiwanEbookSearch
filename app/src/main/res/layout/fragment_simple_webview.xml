@@ -32,7 +32,8 @@
         android:id="@+id/simple_webview_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/simple_webview_appbar_layout" />
+        android:layout_below="@id/simple_webview_appbar_layout"
+        android:layout_above="@+id/simple_webview_bottom_spacing"/>
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/simple_webview_progress_bar"
@@ -43,5 +44,13 @@
         android:max="100"
         tools:progress="60"
         tools:visibility="visible" />
+
+    <View
+        android:id="@id/simple_webview_bottom_spacing"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="?android:attr/statusBarColor"
+        android:layout_alignParentBottom="true"
+        tools:layout_height="18dp" />
 
 </RelativeLayout>
