@@ -61,4 +61,7 @@
     <string name="no_shareable_content">沒有可以分享的結果</string>
     <string name="menu_copy_snapshot">複製快照網址</string>
     <string name="add_to_clipboard_successful">已將快照網址加入剪貼簿</string>
+    <string name="error_for_installing_module">模組安裝錯誤: %1$i 於安裝模組 %2$s</string>
+    <string name="downloading_module">正在下載模組 %1$s</string>
+    <string name="installing_module">正在安裝模組 %1$s</string>
 </resources>

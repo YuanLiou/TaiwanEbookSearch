@@ -1,5 +1,6 @@
 package liou.rayyuan.ebooksearchtaiwan
 
+import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
@@ -9,6 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.google.android.play.core.splitcompat.SplitCompat
 import com.rayliu.commonmain.domain.service.UserPreferenceManager
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import org.koin.android.ext.android.inject
@@ -21,6 +23,11 @@ abstract class BaseActivity(
 
     private val isOpenWithDarkTheme = userPreferenceManager.isDarkTheme()
     private val isOpenWithFollowSystemTheme = userPreferenceManager.isFollowSystemTheme()
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(newBase)
+        SplitCompat.installActivity(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val shouldFollowSystemTheme = userPreferenceManager.isFollowSystemTheme()

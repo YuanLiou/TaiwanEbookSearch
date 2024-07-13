@@ -61,4 +61,7 @@
     <string name="no_shareable_content">没有可以分享的结果</string>
     <string name="menu_copy_snapshot">拷贝快照网址</string>
     <string name="add_to_clipboard_successful">已将快照网址加入剪贴板</string>
+    <string name="error_for_installing_module">模块安装错误: %1$i 于安装模块 %2$s</string>
+    <string name="downloading_module">正在下载模块 %1$s</string>
+    <string name="installing_module">正在安装模块 %1$s</string>
 </resources>

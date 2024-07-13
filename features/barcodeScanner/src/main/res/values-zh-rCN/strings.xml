@@ -13,4 +13,5 @@
     <string name="camera_permission_waiting">等待相机权限授权</string>
     <string name="camera_permission_deny">事到如今，我也只能通灵</string>
     <string name="auth_take_me_there">带我去</string>
+    <string name="scanner_default_status">请将条码置于取景框内扫描。  </string>
 </resources>

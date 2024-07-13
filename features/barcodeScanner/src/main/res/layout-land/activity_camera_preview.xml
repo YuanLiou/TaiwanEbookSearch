@@ -35,14 +35,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-    <com.journeyapps.barcodescanner.DecoratedBarcodeView
-            android:id="@+id/zxing_barcode_scanner"
+    <View
+            android:id="@+id/barcode_scanner_view"
             android:layout_width="0dp"
             android:layout_height="411dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:zxing_scanner_layout="@layout/component_barcode_scanner" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     <View
             android:id="@+id/activity_camera_preview_result_background"
@@ -55,13 +54,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/zxing_status_view"
+            android:id="@+id/scanner_status_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_above="@id/activity_camera_preview_auth_text"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="12dp"
-            android:text="@string/zxing_msg_default_status"
+            android:text="@string/scanner_default_status"
             android:textSize="12sp"
             android:gravity="center"
             android:paddingStart="4dp"
