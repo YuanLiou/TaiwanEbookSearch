@@ -40,6 +40,18 @@ abstract class BaseActivity(
                 setTheme(R.style.NightTheme)
             }
         }
+
+        val navigationDarkScrimColor =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                Color.TRANSPARENT
+            } else {
+                // Light Navigation button is not support light color in legacy version
+                ContextCompat.getColor(
+                    this,
+                    R.color.darker_gray_28_a95
+                )
+            }
+
         enableEdgeToEdge(
             statusBarStyle =
                 if (isDarkTheme()) {
@@ -61,7 +73,7 @@ abstract class BaseActivity(
                             this,
                             R.color.light_blue_green_you_a95
                         ),
-                        Color.TRANSPARENT
+                        navigationDarkScrimColor
                     )
                 }
         )
