@@ -3,6 +3,7 @@ plugins {
     id("com.android.dynamic-feature")
     id("kotlin-android")
     alias(libs.plugins.compose.compiler)
+    id(libs.plugins.ktlintGradle.get().pluginId)
 }
 
 android {
