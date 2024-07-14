@@ -67,4 +67,7 @@
     <string name="user_cancel_module_install">已取消安裝模組</string>
     <string name="preference_remove_all_modules">移除條碼掃瞄器模組</string>
     <string name="preference_category_modules">模組</string>
+    <string name="uninstalling_module">移除模組 %1$s</string>
+    <string name="uninstalling_module_failed">移除模組 %1$s 失敗</string>
+    <string name="dialog_uninstall_all_modules">確定要移除條碼掃瞄器模組嗎？</string>
 </resources>

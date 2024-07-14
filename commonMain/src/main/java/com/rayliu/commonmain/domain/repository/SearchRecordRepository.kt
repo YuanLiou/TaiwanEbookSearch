@@ -12,4 +12,6 @@ interface SearchRecordRepository {
     suspend fun saveKeywordToLocal(keyword: String)
 
     suspend fun deleteRecords(searchRecord: SearchRecord)
+
+    suspend fun deleteAllRecords()
 }

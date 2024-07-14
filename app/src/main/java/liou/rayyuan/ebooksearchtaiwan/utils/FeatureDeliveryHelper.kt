@@ -13,7 +13,8 @@ import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 
 class FeatureDeliveryHelper(
-    context: Context
+    context: Context,
+    private val resourceHelper: ResourceHelper
 ) {
     private val manager: SplitInstallManager = SplitInstallManagerFactory.create(context.applicationContext)
     private val moduleBarcodeScanner by lazy { context.getString(R.string.module_feature_barcode_scanner) }
@@ -30,8 +31,8 @@ class FeatureDeliveryHelper(
                 }
 
                 SplitInstallSessionStatus.REQUIRES_USER_CONFIRMATION -> {
-                    callback?.let {
-                        manager.startConfirmationDialogForResult(state, it.provideConfirmationDialogResultLauncher())
+                    callback?.provideConfirmationDialogResultLauncher()?.let { launcher ->
+                        manager.startConfirmationDialogForResult(state, launcher)
                     }
                 }
 
@@ -75,8 +76,21 @@ class FeatureDeliveryHelper(
         manager.unregisterListener(listener)
     }
 
+    fun isBarcodeScannerInstalled(): Boolean = manager.installedModules.contains(moduleBarcodeScanner)
+
     fun loadAndLaunchBarcodeScanner() {
         loadAndLaunchModule(moduleBarcodeScanner)
+    }
+
+    fun uninstallAllModules(onSuccess: (() -> Unit)? = null) {
+        val installedModules = manager.installedModules.toList()
+        manager.deferredUninstall(installedModules)
+            .addOnSuccessListener {
+                onSuccess?.invoke()
+                callback?.showMessage(resourceHelper.getString(R.string.uninstalling_module, installedModules.joinToString(",")))
+            }.addOnFailureListener {
+                callback?.showMessage(resourceHelper.getString(R.string.uninstalling_module_failed, installedModules.joinToString(",")))
+            }
     }
 
     private fun loadAndLaunchModule(moduleName: String) {
@@ -101,11 +115,21 @@ class FeatureDeliveryHelper(
     interface FeatureDeliveryCallback {
         fun launchIntent(intent: Intent)
 
-        fun provideConfirmationDialogResultLauncher(): ActivityResultLauncher<IntentSenderRequest>
+        fun provideConfirmationDialogResultLauncher(): ActivityResultLauncher<IntentSenderRequest>?
 
         fun showMessage(message: String)
 
         fun moduleInstallSuccess()
+    }
+
+    open class FeatureDeliveryCallbackAdapter : FeatureDeliveryCallback {
+        override fun launchIntent(intent: Intent) = Unit
+
+        override fun provideConfirmationDialogResultLauncher(): ActivityResultLauncher<IntentSenderRequest>? = null
+
+        override fun showMessage(message: String) = Unit
+
+        override fun moduleInstallSuccess() = Unit
     }
 
     companion object {

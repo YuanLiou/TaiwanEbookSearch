@@ -109,24 +109,31 @@ class BookSearchViewModel(
                     is BookSearchUserIntent.DeleteSearchRecord -> {
                         deleteRecords(userIntent.searchRecord)
                     }
+
                     is BookSearchUserIntent.FocusOnTextEditing -> {
                         focusOnEditText(userIntent.isFocus)
                     }
+
                     BookSearchUserIntent.OnViewReadyToServe -> {
                         ready()
                     }
+
                     BookSearchUserIntent.PressHint -> {
                         hintPressed()
                     }
+
                     is BookSearchUserIntent.SearchBook -> {
                         searchBook(userIntent.keywords)
                     }
+
                     is BookSearchUserIntent.ShowSearchSnapshot -> {
                         requestSearchSnapshot(userIntent.searchId)
                     }
+
                     BookSearchUserIntent.ShareSnapshot -> {
                         shareCurrentSnapshot()
                     }
+
                     is BookSearchUserIntent.AskUserRankApp -> {
                         val hasUserSeenRankWindow =
                             runCatching {
@@ -137,9 +144,11 @@ class BookSearchViewModel(
                             sendViewEffect(ScreenState.ShowUserRankingDialog(userIntent.reviewInfo))
                         }
                     }
+
                     BookSearchUserIntent.RankAppWindowHasShown -> {
                         rankingWindowFacade.saveUserHasSeenRankWindow()
                     }
+
                     BookSearchUserIntent.CopySnapshotUrlToClipboard -> {
                         copySnapshotToClipboard()
                     }
