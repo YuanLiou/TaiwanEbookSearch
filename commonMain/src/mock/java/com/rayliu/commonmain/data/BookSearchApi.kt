@@ -22,14 +22,14 @@ class BookSearchApi(
         stores: List<String>,
         keyword: String
     ): NetworkCrawerResult {
-        val seconds = (5..20).random()
+        val seconds = (3..6).random()
         delay(TimeUnit.SECONDS.toMillis(seconds.toLong()))
         val rawString = assetManager.loadJsonFromFile("book_result_sample01.json")
         return jsonToNetworkCrawerResult(rawString)
     }
 
     override suspend fun getSearchSnapshot(searchId: String): NetworkCrawerResult {
-        val seconds = (5..20).random()
+        val seconds = (3..6).random()
         delay(TimeUnit.SECONDS.toMillis(seconds.toLong()))
         val rawString = assetManager.loadJsonFromFile("book_result_sample02.json")
         return jsonToNetworkCrawerResult(rawString)

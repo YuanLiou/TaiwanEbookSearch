@@ -104,8 +104,7 @@ class BookResultListFragment :
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
-        val toolbar = viewBinding.searchViewToolbar
-        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
+        (requireActivity() as AppCompatActivity).setSupportActionBar(viewBinding.searchViewToolbar)
         bindViews(view)
         init()
         setupOptionMenu()

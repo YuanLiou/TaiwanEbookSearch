@@ -21,6 +21,8 @@ val pure_dark = Color(0xFF000000)
 
 // Alphas
 val light_blue_green_you_a95 = Color(0xF2E7F3EF)
+val light_blue_green_you_a85 = Color(0xD9E7F3EF)
 val blue_green_a50 = Color(0x8058D5B7)
 val darker_gray_3B_a85 = Color(0xD93B3B3B)
 val darker_gray_28_a95 = Color(0xF2282828)
+val material_dark_a85 = Color(0xD9141218)
