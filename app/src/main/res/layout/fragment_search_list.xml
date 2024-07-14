@@ -149,19 +149,19 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout
-        android:id="@+id/search_view_message_view"
+        android:id="@+id/search_view_footer_message_rootView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:paddingBottom="100dp"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:layout_marginBottom="40dp"
         android:visibility="gone"
         android:animateLayoutChanges="true"
         tools:visibility="visible">
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/message_view_footer_rootview"
+            android:id="@+id/message_view_footer_cardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="@dimen/round_corner"
