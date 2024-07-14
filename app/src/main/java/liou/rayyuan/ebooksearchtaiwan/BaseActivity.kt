@@ -48,7 +48,7 @@ abstract class BaseActivity(
                 // Light Navigation button is not support light color in legacy version
                 ContextCompat.getColor(
                     this,
-                    R.color.darker_gray_28_a95
+                    R.color.material_dark_a85
                 )
             }
 
@@ -64,7 +64,7 @@ abstract class BaseActivity(
                     SystemBarStyle.dark(
                         ContextCompat.getColor(
                             this,
-                            R.color.darker_gray_28_a95
+                            R.color.material_dark_a85
                         )
                     )
                 } else {

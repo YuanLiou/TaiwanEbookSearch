@@ -104,8 +104,7 @@ class BookResultListFragment :
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
-        val toolbar = viewBinding.searchViewToolbar
-        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
+        (requireActivity() as AppCompatActivity).setSupportActionBar(viewBinding.searchViewToolbar)
         bindViews(view)
         init()
         setupOptionMenu()
@@ -741,10 +740,8 @@ class BookResultListFragment :
             }
 
             R.id.search_view_back_to_top_button -> {
-                performSafeClick(view.id) {
-                    val canListScrollVertically = resultsRecyclerView.canScrollVertically(-1)
-                    backToTop(canListScrollVertically)
-                }
+                val canListScrollVertically = resultsRecyclerView.canScrollVertically(-1)
+                backToTop(canListScrollVertically)
             }
 
             R.id.search_view_search_records_background -> {

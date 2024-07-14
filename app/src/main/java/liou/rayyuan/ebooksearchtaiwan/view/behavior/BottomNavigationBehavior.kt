@@ -8,11 +8,10 @@ import android.widget.ImageButton
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import liou.rayyuan.ebooksearchtaiwan.R
 
-class BottomNavigationBehavior : CoordinatorLayout.Behavior<View> {
-    constructor()
-
-    constructor(context: Context, attr: AttributeSet) : super(context, attr)
-
+class BottomNavigationBehavior(
+    context: Context,
+    attr: AttributeSet
+) : CoordinatorLayout.Behavior<View>(context, attr) {
     override fun onStartNestedScroll(
         coordinatorLayout: CoordinatorLayout,
         child: View,
@@ -35,14 +34,20 @@ class BottomNavigationBehavior : CoordinatorLayout.Behavior<View> {
         val newTranslation = oldTranslation + dy
 
         val marginSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16f, coordinatorLayout.context.resources.displayMetrics)
+        val childHeight = child.height * 3
         when {
-            newTranslation > child.height -> child.translationY = child.height.toFloat()
+            // Scroll down icon stay on bottom
+            newTranslation > childHeight -> {
+                child.translationY = childHeight.toFloat()
+            }
 
+            // Scroll Up and icon stay on top
             newTranslation <= -marginSize -> {
                 child.translationY = -marginSize
                 (child as ImageButton).isEnabled = true
             }
 
+            // Scrolling
             else -> {
                 child.translationY = newTranslation
                 (child as ImageButton).isEnabled = false
