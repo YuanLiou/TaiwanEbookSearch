@@ -66,4 +66,6 @@
     <string name="downloading_module">Downloading Module %1$s</string>
     <string name="installing_module">Installing Module %1$s</string>
     <string name="user_cancel_module_install">Module installation cancelled</string>
+    <string name="preference_remove_all_modules">Remove Barcode Scanner Module</string>
+    <string name="preference_category_modules">Module</string>
 </resources>
