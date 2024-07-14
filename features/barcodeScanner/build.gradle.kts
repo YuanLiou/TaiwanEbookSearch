@@ -58,4 +58,5 @@ android {
 
 dependencies {
     implementation(project(":app"))
+    implementation(libs.viewfinder.compose)
 }

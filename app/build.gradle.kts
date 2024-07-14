@@ -170,6 +170,7 @@ dependencies {
     api(libs.compose.activity)
     api(libs.compose.lifecycle)
     api(libs.compose.livedata)
+    api(libs.constraintlayout.compose)
     debugApi(libs.compose.ui.tooling)
     debugApi(libs.compose.ui.test.manifest)
     androidTestImplementation(libs.compose.ui.test.junit4)
