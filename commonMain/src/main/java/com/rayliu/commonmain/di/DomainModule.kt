@@ -22,6 +22,7 @@ import com.rayliu.commonmain.domain.repository.BrowseHistoryRepositoryImpl
 import com.rayliu.commonmain.domain.repository.SearchRecordRepository
 import com.rayliu.commonmain.domain.repository.SearchRecordRepositoryImpl
 import com.rayliu.commonmain.domain.service.UserPreferenceManager
+import com.rayliu.commonmain.domain.usecase.DeleteAllSearchRecordUseCase
 import com.rayliu.commonmain.domain.usecase.DeleteSearchRecordUseCase
 import com.rayliu.commonmain.domain.usecase.GetBooksWithStoresUseCase
 import com.rayliu.commonmain.domain.usecase.GetDefaultBookSortUseCase
@@ -124,6 +125,10 @@ val domainModule =
 
         factory {
             DeleteSearchRecordUseCase(get<SearchRecordRepository>())
+        }
+
+        factory {
+            DeleteAllSearchRecordUseCase(get<SearchRecordRepository>())
         }
 
         factory<GetDefaultBookSortUseCase> {

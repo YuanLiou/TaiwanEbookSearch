@@ -66,4 +66,9 @@
     <string name="downloading_module">Downloading Module %1$s</string>
     <string name="installing_module">Installing Module %1$s</string>
     <string name="user_cancel_module_install">Module installation cancelled</string>
+    <string name="preference_remove_all_modules">Remove Barcode Scanner Module</string>
+    <string name="preference_category_modules">Module</string>
+    <string name="uninstalling_module">Uninstall Module %1$s</string>
+    <string name="uninstalling_module_failed">Uninstalled %1$s Module</string>
+    <string name="dialog_uninstall_all_modules">Do you want to uninstall barcode scanner module?</string>
 </resources>

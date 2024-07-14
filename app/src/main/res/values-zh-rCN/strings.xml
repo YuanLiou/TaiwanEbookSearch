@@ -65,4 +65,9 @@
     <string name="downloading_module">正在下载模块 %1$s</string>
     <string name="installing_module">正在安装模块 %1$s</string>
     <string name="user_cancel_module_install">已取消安装模块</string>
+    <string name="preference_remove_all_modules">移除条码扫瞄器模块</string>
+    <string name="preference_category_modules">模块</string>
+    <string name="uninstalling_module">移除模块 %1$s</string>
+    <string name="uninstalling_module_failed">移除模块 %1$s 失败</string>
+    <string name="dialog_uninstall_all_modules">确定要移除条码扫瞄器模块吗？</string>
 </resources>

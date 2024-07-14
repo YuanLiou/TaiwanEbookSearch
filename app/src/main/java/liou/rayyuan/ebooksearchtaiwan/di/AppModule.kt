@@ -13,6 +13,7 @@ import liou.rayyuan.ebooksearchtaiwan.booksearch.review.PlayStoreReviewHelper
 import liou.rayyuan.ebooksearchtaiwan.bookstorereorder.BookStoreReorderViewModel
 import liou.rayyuan.ebooksearchtaiwan.interactor.UserRankingWindowFacade
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
+import liou.rayyuan.ebooksearchtaiwan.preferencesetting.PreferenceSettingsViewModel
 import liou.rayyuan.ebooksearchtaiwan.utils.ClipboardHelper
 import liou.rayyuan.ebooksearchtaiwan.utils.CustomTabSessionManager
 import liou.rayyuan.ebooksearchtaiwan.utils.FeatureDeliveryHelper
@@ -57,6 +58,13 @@ val appModule =
             )
         }
 
+        viewModel {
+            PreferenceSettingsViewModel(
+                quickChecker = get(),
+                deleteAllSearchRecord = get()
+            )
+        }
+
         // Interactors
         factory {
             UserRankingWindowFacade(
@@ -86,7 +94,10 @@ val appUtilsModule =
             SystemInfoCollectorImpl()
         }
         factory {
-            FeatureDeliveryHelper(androidContext())
+            FeatureDeliveryHelper(
+                androidContext(),
+                resourceHelper = get<ResourceHelper>()
+            )
         }
     }
 

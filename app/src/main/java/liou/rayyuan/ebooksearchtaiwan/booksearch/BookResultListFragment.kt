@@ -903,12 +903,12 @@ class BookResultListFragment :
     }
 
     fun showModuleInstallMessage(message: String) {
-        viewBinding.messageViewFooterRootview.isVisible = true
+        viewBinding.searchViewFooterMessageRootView.isVisible = true
         viewBinding.messageViewFooterTitle.text = message
     }
 
     fun hideModuleInstallMessage() {
-        viewBinding.messageViewFooterRootview.isVisible = false
+        viewBinding.searchViewFooterMessageRootView.isVisible = false
     }
 
     //region BookResultClickHandler

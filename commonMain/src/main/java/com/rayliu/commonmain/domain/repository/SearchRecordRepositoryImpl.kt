@@ -9,6 +9,8 @@ import com.rayliu.commonmain.OffsetDateTimeHelper
 import com.rayliu.commonmain.data.dao.SearchRecordDao
 import com.rayliu.commonmain.data.mapper.LocalSearchRecordMapper
 import com.rayliu.commonmain.domain.model.SearchRecord
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class SearchRecordRepositoryImpl(
     private val offsetDateTimeHelper: OffsetDateTimeHelper,
@@ -60,4 +62,9 @@ class SearchRecordRepositoryImpl(
     override suspend fun deleteRecords(searchRecord: SearchRecord) {
         searchRecordDao.deleteRecord(localSearchRecordMapper.map(searchRecord))
     }
+
+    override suspend fun deleteAllRecords() =
+        withContext(Dispatchers.IO) {
+            searchRecordDao.deleteAllRecords()
+        }
 }
