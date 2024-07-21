@@ -59,5 +59,19 @@ android {
 
 dependencies {
     implementation(project(":app"))
+    implementation(libs.compose.material3)
+    implementation(libs.compose.material.icons.extended)
+    implementation(libs.compose.activity)
+    implementation(libs.compose.lifecycle)
+    implementation(libs.compose.livedata)
+    implementation(libs.constraintlayout.compose)
+    implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.compose.ui.tooling.preview)
+    debugImplementation(libs.compose.ui.tooling)
+    implementation(libs.compose.navigation)
+    implementation(libs.request.permission.compose)
+
+    // camera related libs
     implementation(libs.viewfinder.compose)
+    implementation(libs.guava.android)
 }
