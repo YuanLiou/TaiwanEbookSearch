@@ -138,6 +138,8 @@ dependencies {
     implementation(libs.androidx.dataStore.core)
 
     // Koin
+    val koinBom = platform(libs.koin.bom)
+    implementation(koinBom)
     implementation(libs.koin.android)
     testImplementation(libs.androidx.test.ext)
 

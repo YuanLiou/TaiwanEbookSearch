@@ -207,6 +207,8 @@ dependencies {
     implementation(libs.feature.delivery.ktx)
 
     // Koin
+    val koinBom = platform(libs.koin.bom)
+    implementation(koinBom)
     implementation(libs.koin.android)
 
     // Coil

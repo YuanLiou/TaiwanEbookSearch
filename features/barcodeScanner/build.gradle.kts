@@ -74,4 +74,10 @@ dependencies {
     // camera related libs
     implementation(libs.viewfinder.compose)
     implementation(libs.guava.android)
+
+    // Koin
+    val koinBom = platform(libs.koin.bom)
+    implementation(koinBom)
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
 }
