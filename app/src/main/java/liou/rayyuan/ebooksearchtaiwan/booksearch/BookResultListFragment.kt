@@ -24,7 +24,6 @@ import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.annotation.DrawableRes
-import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -48,6 +47,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.rayliu.commonmain.domain.model.Book
 import com.rayliu.commonmain.domain.model.SearchRecord
 import java.util.Arrays
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.BaseFragment
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
@@ -60,8 +61,10 @@ import liou.rayyuan.ebooksearchtaiwan.databinding.FragmentSearchListBinding
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
+import liou.rayyuan.ebooksearchtaiwan.utils.clickable
 import liou.rayyuan.ebooksearchtaiwan.utils.setupEdgeToEdge
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
+import liou.rayyuan.ebooksearchtaiwan.utils.throttleFirst
 import liou.rayyuan.ebooksearchtaiwan.utils.updateMargins
 import liou.rayyuan.ebooksearchtaiwan.view.ViewEffectObserver
 import org.koin.android.ext.android.inject
@@ -83,7 +86,6 @@ class BookResultListFragment :
     private var defaultSnapshotSearchId: String by FragmentArgumentsDelegate()
     private var searchRecordAnimator: ValueAnimator? = null
     private lateinit var fullBookStoreResultsAdapter: FullBookStoreResultAdapter
-    private val clickThrottleMap = mutableMapOf<Int, Long>()
 
     //region View Components
     private lateinit var resultsRecyclerView: RecyclerView
@@ -193,9 +195,20 @@ class BookResultListFragment :
     }
 
     private fun init() {
-        viewBinding.searchViewSearchIcon.setOnClickListener(this)
+        viewBinding.searchViewSearchIcon
+            .clickable()
+            .throttleFirst(CLICK_MILLISECOND_THRESHOLD)
+            .onEach {
+                searchBook()
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
+
         if (isCameraAvailable()) {
-            viewBinding.searchViewCameraIcon.setOnClickListener(this)
+            viewBinding.searchViewCameraIcon
+                .clickable()
+                .throttleFirst(CLICK_MILLISECOND_THRESHOLD)
+                .onEach {
+                    openCameraPreview()
+                }.launchIn(viewLifecycleOwner.lifecycleScope)
         } else {
             viewBinding.searchViewCameraIcon.visibility = View.GONE
         }
@@ -715,28 +728,24 @@ class BookResultListFragment :
         }
     }
 
+    private fun openCameraPreview() {
+        if (isAdded) {
+            (requireActivity() as? BookSearchActivity)?.openCameraPreviewActivity()
+        }
+    }
+
+    private fun searchBook() {
+        hideVirtualKeyboard()
+        viewBinding.searchViewEdittext.clearFocus()
+        val keyword = viewBinding.searchViewEdittext.text.toString()
+        sendUserIntent(BookSearchUserIntent.SearchBook(keyword))
+    }
+
     //region View.OnClickListener
     override fun onClick(view: View?) {
         when (view?.id) {
-            R.id.search_view_search_icon -> {
-                performSafeClick(view.id) {
-                    hideVirtualKeyboard()
-                    viewBinding.searchViewEdittext.clearFocus()
-                    val keyword: String = viewBinding.searchViewEdittext.text.toString()
-                    sendUserIntent(BookSearchUserIntent.SearchBook(keyword))
-                }
-            }
-
             R.id.search_view_hint -> {
                 hintPressed()
-            }
-
-            R.id.search_view_camera_icon -> {
-                performSafeClick(view.id) {
-                    if (isAdded) {
-                        (requireActivity() as? BookSearchActivity)?.openCameraPreviewActivity()
-                    }
-                }
             }
 
             R.id.search_view_back_to_top_button -> {
@@ -764,17 +773,6 @@ class BookResultListFragment :
     private fun hintPressed() {
         sendUserIntent(BookSearchUserIntent.PressHint)
         focusBookSearchEditText()
-    }
-
-    private inline fun performSafeClick(
-        @IdRes viewId: Int,
-        actions: () -> Unit
-    ) {
-        val currentClickTime = System.currentTimeMillis()
-        if (currentClickTime - clickThrottleMap.getOrDefault(viewId, 0L) > CLICK_MILLISECOND_THRESHOLD) {
-            actions()
-        }
-        clickThrottleMap[viewId] = currentClickTime
     }
     //endregion
 

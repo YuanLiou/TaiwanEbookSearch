@@ -1,10 +1,14 @@
 package liou.rayyuan.ebooksearchtaiwan.camerapreview
 
+import android.Manifest
+import android.content.pm.PackageManager
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -47,6 +51,13 @@ private fun BarcodeScannerNavHost(
             )
         }
         composable(BarcodeScannerRoute.PREVIEW_ROUTE) {
+            val context = LocalContext.current
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                navController.navigate(BarcodeScannerRoute.PERMISSIONS_ROUTE) {
+                    popUpTo(0)
+                }
+            }
+
             CameraPreviewScreen()
         }
     }

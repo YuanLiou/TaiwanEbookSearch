@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.CircularProgressIndicator
 import android.Manifest
+import android.content.pm.PackageManager
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,9 +20,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import com.msharialsayari.requestpermissionlib.component.RequestPermissions
 import com.msharialsayari.requestpermissionlib.model.DialogParams
 import java.util.concurrent.TimeUnit
@@ -36,11 +39,16 @@ fun CameraPermissionScreen(
     onNavigateToPreview: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    PermissionRequestView(
-        title = stringResource(id = R.string.permission_required_camera),
-        onGrantPermission = onNavigateToPreview,
-        modifier = modifier
-    )
+    val context = LocalContext.current
+    if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+        onNavigateToPreview()
+    } else {
+        PermissionRequestView(
+            title = stringResource(id = R.string.permission_required_camera),
+            onGrantPermission = onNavigateToPreview,
+            modifier = modifier
+        )
+    }
 }
 
 @Composable
