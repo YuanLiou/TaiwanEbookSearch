@@ -23,7 +23,7 @@ import org.koin.androidx.compose.koinViewModel
 fun CameraPreviewScreen(
     modifier: Modifier = Modifier,
     viewModel: CameraPreviewViewModel = koinViewModel(),
-    onRequestWindowColorMode: (Int) -> Unit = {}
+    onRequestWindowColorMode: (colorMode: Int) -> Unit = {}
 ) {
     val surfaceRequest by viewModel.surfaceRequest.collectAsState()
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -48,7 +48,7 @@ private fun CameraPreviewScreenContent(
     surfaceRequest: SurfaceRequest?,
     modifier: Modifier = Modifier,
     onTapToFocus: (x: Float, y: Float) -> Unit = { _, _ -> },
-    onRequestWindowColorMode: (Int) -> Unit = {},
+    onRequestWindowColorMode: (colorMode: Int) -> Unit = {},
 ) {
     Scaffold(
         modifier =
