@@ -67,12 +67,15 @@ dependencies {
     implementation(libs.constraintlayout.compose)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.androidx.lifecycle.runtime.compose.android)
     debugImplementation(libs.compose.ui.tooling)
     implementation(libs.compose.navigation)
     implementation(libs.request.permission.compose)
 
     // camera related libs
     implementation(libs.viewfinder.compose)
+    implementation(libs.camerax.camera2)
+    implementation(libs.camerax.lifecycle)
     implementation(libs.guava.android)
 
     // Koin
