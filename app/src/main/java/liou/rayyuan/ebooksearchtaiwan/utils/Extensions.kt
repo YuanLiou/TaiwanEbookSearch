@@ -9,6 +9,10 @@ import androidx.annotation.IdRes
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flow
 
 fun String?.showToastOn(
     context: Context,
@@ -59,3 +63,31 @@ fun <T : View> T.updateMargins(
     )
     layoutParams = marginLayoutParams
 }
+
+fun <T : View> T.clickable() =
+    callbackFlow<Unit> {
+        setOnClickListener {
+            trySend(Unit)
+        }
+        awaitClose { setOnClickListener(null) }
+    }
+
+fun <T> Flow<T>.throttleFirst(duration: Long): Flow<T> =
+    flow {
+        var startTime = System.currentTimeMillis()
+        var isEmitted = false
+        collect { value ->
+            val currentTime = System.currentTimeMillis()
+            val delta = currentTime - startTime
+
+            if (delta > duration) {
+                startTime += delta / duration * duration
+                isEmitted = false
+            }
+
+            if (!isEmitted) {
+                emit(value)
+                isEmitted = true
+            }
+        }
+    }

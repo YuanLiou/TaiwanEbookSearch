@@ -3,6 +3,7 @@ plugins {
     id("com.android.dynamic-feature")
     id("kotlin-android")
     alias(libs.plugins.compose.compiler)
+    id(libs.plugins.ktlintGradle.get().pluginId)
 }
 
 android {
@@ -58,4 +59,28 @@ android {
 
 dependencies {
     implementation(project(":app"))
+    implementation(libs.compose.material3)
+    implementation(libs.compose.material.icons.extended)
+    implementation(libs.compose.activity)
+    implementation(libs.compose.lifecycle)
+    implementation(libs.compose.livedata)
+    implementation(libs.constraintlayout.compose)
+    implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.androidx.lifecycle.runtime.compose.android)
+    debugImplementation(libs.compose.ui.tooling)
+    implementation(libs.compose.navigation)
+    implementation(libs.request.permission.compose)
+
+    // camera related libs
+    implementation(libs.viewfinder.compose)
+    implementation(libs.camerax.camera2)
+    implementation(libs.camerax.lifecycle)
+    implementation(libs.guava.android)
+
+    // Koin
+    val koinBom = platform(libs.koin.bom)
+    implementation(koinBom)
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
 }

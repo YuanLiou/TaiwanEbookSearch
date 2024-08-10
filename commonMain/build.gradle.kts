@@ -28,7 +28,6 @@ android {
 
     defaultConfig {
         minSdk = AppSettings.MIN_SDK_VERSION
-        targetSdk = AppSettings.TARGET_SDK_VERSION
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -139,6 +138,8 @@ dependencies {
     implementation(libs.androidx.dataStore.core)
 
     // Koin
+    val koinBom = platform(libs.koin.bom)
+    implementation(koinBom)
     implementation(libs.koin.android)
     testImplementation(libs.androidx.test.ext)
 

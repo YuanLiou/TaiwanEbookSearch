@@ -34,6 +34,7 @@ class BookStoreReorderViewModel(
                     BookStoreReorderUserIntent.GetPreviousSavedSort -> {
                         getPreviousSavedBookResultSort()
                     }
+
                     is BookStoreReorderUserIntent.UpdateSort -> {
                         updateCurrentSort(it.bookSorts)
                     }
