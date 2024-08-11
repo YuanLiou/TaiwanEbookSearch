@@ -71,6 +71,7 @@ dependencies {
     debugImplementation(libs.compose.ui.tooling)
     implementation(libs.compose.navigation)
     implementation(libs.request.permission.compose)
+    implementation(libs.barcode.scanning)
 
     // camera related libs
     implementation(libs.viewfinder.compose)

@@ -19,6 +19,8 @@ class CameraPreviewViewModel(
 
     val surfaceRequest = cameraUseCase.getSurfaceRequest()
 
+    val barcodeValue = cameraUseCase.getBarcodeValue()
+
     fun startCamera(lifecycleOwner: LifecycleOwner) {
         stopCamera()
         runningCameraJob =

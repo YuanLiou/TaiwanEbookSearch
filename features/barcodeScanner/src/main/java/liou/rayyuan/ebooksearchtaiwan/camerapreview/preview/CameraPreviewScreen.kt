@@ -1,20 +1,30 @@
 package liou.rayyuan.ebooksearchtaiwan.camerapreview.preview
 
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.material3.Text
+import androidx.compose.material3.MaterialTheme
 import android.os.Build
 import androidx.camera.core.SurfaceRequest
 import androidx.camera.viewfinder.surface.ImplementationMode
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleStartEffect
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import liou.rayyuan.ebooksearchtaiwan.camerapreview.R
 import liou.rayyuan.ebooksearchtaiwan.ui.MDPI_DEVICES
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import org.koin.androidx.compose.koinViewModel
@@ -23,9 +33,11 @@ import org.koin.androidx.compose.koinViewModel
 fun CameraPreviewScreen(
     modifier: Modifier = Modifier,
     viewModel: CameraPreviewViewModel = koinViewModel(),
-    onRequestWindowColorMode: (Int) -> Unit = {}
+    onRequestWindowColorMode: (colorMode: Int) -> Unit = {},
+    onBarcodeAvailable: (barcode: String) -> Unit = {}
 ) {
-    val surfaceRequest by viewModel.surfaceRequest.collectAsState()
+    val surfaceRequest by viewModel.surfaceRequest.collectAsStateWithLifecycle()
+    val barcodeValue by viewModel.barcodeValue.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
     LifecycleStartEffect(Unit) {
         viewModel.startCamera(lifecycleOwner)
@@ -37,18 +49,22 @@ fun CameraPreviewScreen(
 
     CameraPreviewScreenContent(
         surfaceRequest = surfaceRequest,
+        barcodeValue = barcodeValue,
         modifier = modifier,
         onTapToFocus = viewModel::tapToFocus,
-        onRequestWindowColorMode = onRequestWindowColorMode
+        onRequestWindowColorMode = onRequestWindowColorMode,
+        onBarcodeAvailable = onBarcodeAvailable
     )
 }
 
 @Composable
 private fun CameraPreviewScreenContent(
     surfaceRequest: SurfaceRequest?,
+    barcodeValue: String?,
     modifier: Modifier = Modifier,
     onTapToFocus: (x: Float, y: Float) -> Unit = { _, _ -> },
-    onRequestWindowColorMode: (Int) -> Unit = {},
+    onRequestWindowColorMode: (colorMode: Int) -> Unit = {},
+    onBarcodeAvailable: (barcode: String) -> Unit = {}
 ) {
     Scaffold(
         modifier =
@@ -66,8 +82,35 @@ private fun CameraPreviewScreenContent(
             CameraPreviewView(
                 surfaceRequest = surfaceRequest,
                 onRequestWindowColorMode = onRequestWindowColorMode,
-                onTapToFocus = onTapToFocus
+                onTapToFocus = onTapToFocus,
             )
+
+            if (!barcodeValue.isNullOrEmpty()) {
+                ElevatedCard(
+                    modifier =
+                        Modifier
+                            .align(Alignment.BottomCenter)
+                            .padding(16.dp)
+                            .clickable {
+                                onBarcodeAvailable(barcodeValue)
+                            }
+                ) {
+                    Column(
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp)
+                    ) {
+                        val title = stringResource(id = R.string.search_with_result, barcodeValue)
+                        Text(
+                            modifier = Modifier,
+                            text = title,
+                            style = MaterialTheme.typography.bodyLarge,
+                            textAlign = TextAlign.Start,
+                        )
+                    }
+                }
+            }
         }
     }
 }
@@ -106,14 +149,17 @@ private fun CameraPreviewView(
     name = "camera preview screen",
     group = "screen",
     showBackground = true,
-    showSystemUi = true,
+    showSystemUi = false,
     apiLevel = 34,
     device = MDPI_DEVICES
 )
 @Composable
 private fun CameraPreviewScreenPreview() {
     EBookTheme {
-        CameraPreviewScreenContent(null)
+        CameraPreviewScreenContent(
+            surfaceRequest = null,
+            barcodeValue = "123456789"
+        )
     }
 }
 //endregion

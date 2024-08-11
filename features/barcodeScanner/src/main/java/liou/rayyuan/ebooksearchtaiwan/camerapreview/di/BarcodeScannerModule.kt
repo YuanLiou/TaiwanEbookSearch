@@ -12,7 +12,7 @@ val barcodeScannerModule =
         viewModel {
             CameraPreviewViewModel(get())
         }
-        single<CameraUseCase> {
+        factory<CameraUseCase> {
             CameraXUseCase(
                 application = androidApplication()
             )

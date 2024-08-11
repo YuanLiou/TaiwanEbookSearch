@@ -2,6 +2,7 @@ package liou.rayyuan.ebooksearchtaiwan.utils
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import com.google.android.play.core.splitinstall.SplitInstallManager
@@ -9,6 +10,7 @@ import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
 import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener
 import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
+import java.util.concurrent.TimeUnit
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 
@@ -66,6 +68,9 @@ class FeatureDeliveryHelper(
             }
         }
 
+    private var previousLaunchModuleName: String = ""
+    private var previousLaunchTimeStamps: Long = 0
+
     fun startListeningInstallationCallback(callback: FeatureDeliveryCallback) {
         this.callback = callback
         manager.registerListener(listener)
@@ -94,6 +99,17 @@ class FeatureDeliveryHelper(
     }
 
     private fun loadAndLaunchModule(moduleName: String) {
+        // FIX: To prevent sometimes feature delivery will launch multiple instances
+        val currentTimeStamps = System.currentTimeMillis()
+        val delta = currentTimeStamps - previousLaunchTimeStamps
+        val thresholds = TimeUnit.SECONDS.toMillis(2L)
+        if (moduleName == previousLaunchModuleName && delta < thresholds) {
+            Log.w(TAG, "prevent launch duplicated module")
+            return
+        }
+        previousLaunchModuleName = moduleName
+        previousLaunchTimeStamps = currentTimeStamps
+
         val className =
             when (moduleName) {
                 moduleBarcodeScanner -> BARCODE_SCANNER_CLASSNAME
@@ -134,6 +150,7 @@ class FeatureDeliveryHelper(
 
     companion object {
         private const val PACKAGE_NAME = "liou.rayyuan.ebooksearchtaiwan"
+        private const val TAG = "FeatureDeliveryHelper"
 
         // liou.rayyuan.ebooksearchtaiwan.camerapreview.CameraPreviewActivity
         private const val BARCODE_SCANNER_CLASSNAME = "$PACKAGE_NAME.camerapreview.CameraPreviewActivity"
