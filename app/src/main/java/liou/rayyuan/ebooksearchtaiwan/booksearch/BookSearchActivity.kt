@@ -55,6 +55,20 @@ class BookSearchActivity :
             }
         }
 
+    private val barcodeScannerResultLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { activityResult ->
+            if (activityResult.resultCode == Activity.RESULT_OK) {
+                val bundle = activityResult.data?.extras
+                val resultText = bundle?.getString(KEY_BARCODE_RESULT, "").orEmpty()
+                if (resultText.isNotEmpty()) {
+                    val bookResultFragment = getBookResultFragment()
+                    bookResultFragment?.searchWithText(resultText)
+                }
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
@@ -256,7 +270,7 @@ class BookSearchActivity :
 
     //region FeatureDeliveryHelper.FeatureDeliveryCallback
     override fun launchIntent(intent: Intent) {
-        startActivity(intent)
+        barcodeScannerResultLauncher.launch(intent)
     }
 
     override fun provideConfirmationDialogResultLauncher(): ActivityResultLauncher<IntentSenderRequest> =
@@ -273,5 +287,6 @@ class BookSearchActivity :
 
     companion object {
         private const val KEY_LAST_FRAGMENT_TAG = "key-last-fragment-tag"
+        const val KEY_BARCODE_RESULT = "key-barcode-result"
     }
 }
