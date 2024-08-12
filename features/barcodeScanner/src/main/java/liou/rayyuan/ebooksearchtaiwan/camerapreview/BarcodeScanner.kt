@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
@@ -16,7 +17,6 @@ import androidx.navigation.compose.rememberNavController
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.di.barcodeScannerModules
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.permission.CameraPermissionScreen
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.preview.CameraPreviewScreen
-import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import org.koin.androidx.compose.KoinAndroidContext
 import org.koin.compose.getKoin
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -31,8 +31,8 @@ fun BarcodeScanner(
     KoinAndroidContext {
         getKoin().loadModules(barcodeScannerModules)
         Scaffold(
-            containerColor = EBookTheme.colors.colorBackground,
-            contentColor = EBookTheme.colors.colorOnPrimary,
+            containerColor = Color.Black,
+            contentColor = Color.Black,
             modifier = modifier.fillMaxSize()
         ) { paddings ->
             BarcodeScannerNavHost(
