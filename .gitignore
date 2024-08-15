@@ -1,5 +1,6 @@
 ktlint-compose-all.jar
 
+.vscode
 .project
 .settings
 app/.project
