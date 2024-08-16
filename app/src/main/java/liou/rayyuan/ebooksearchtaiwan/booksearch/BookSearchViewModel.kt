@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import com.rayliu.commonmain.BookStoresSorter
 import com.rayliu.commonmain.data.DefaultStoreNames
 import com.rayliu.commonmain.domain.model.BookResult
 import com.rayliu.commonmain.domain.model.BookStores
@@ -17,7 +18,6 @@ import com.rayliu.commonmain.domain.usecase.GetDefaultBookSortUseCase
 import com.rayliu.commonmain.domain.usecase.GetSearchRecordsCountsUseCase
 import com.rayliu.commonmain.domain.usecase.GetSearchRecordsUseCase
 import com.rayliu.commonmain.domain.usecase.GetSearchSnapshotUseCase
-import com.rayliu.commonmain.generateBookStoresResultMap
 import java.net.SocketTimeoutException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -311,7 +311,7 @@ class BookSearchViewModel(
         withContext(Dispatchers.Default) {
             val adapterItems = mutableListOf<AdapterItem>()
             val defaultSort = getDefaultBookSortUseCase().first()
-            val groupedResults = bookStores.generateBookStoresResultMap(defaultSort)
+            val groupedResults = BookStoresSorter.generateResultMap(bookStores, defaultSort)
 
             val bestItems = generateBestItems(defaultSort, groupedResults)
             adapterItems.add(

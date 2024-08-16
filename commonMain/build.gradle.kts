@@ -51,9 +51,10 @@ android {
         }
 
         getByName("release") {
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             buildConfigField("String", "HOST_URL", HOST)
             buildConfigField("int", "HOST_PORT", hostPort)
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             consumerProguardFiles("consumer-rules.pro")
         }
     }
@@ -75,7 +76,10 @@ android {
     }
 
     kotlinOptions {
-        freeCompilerArgs = listOf("-Xjvm-default=all")
+        freeCompilerArgs = listOf(
+            "-Xjvm-default=all",
+            "-Xstring-concat=inline"
+        )
         jvmTarget = "17"
     }
 
