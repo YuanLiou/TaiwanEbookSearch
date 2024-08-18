@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,6 +37,8 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.R
 import liou.rayyuan.ebooksearchtaiwan.ui.MDPI_DEVICES
+import liou.rayyuan.ebooksearchtaiwan.ui.composables.DeviceOrientation
+import liou.rayyuan.ebooksearchtaiwan.ui.composables.DeviceOrientationListener
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import org.koin.androidx.compose.koinViewModel
 
@@ -137,6 +140,12 @@ private fun CameraPreviewView(
     onRequestWindowColorMode: (colorMode: Int) -> Unit = {},
     onTapToFocus: (x: Float, y: Float) -> Unit = { _, _ -> },
 ) {
+    val context = LocalContext.current
+    var orientation by remember { mutableStateOf<DeviceOrientation>(DeviceOrientation.Portrait(0)) }
+    DeviceOrientationListener(applicationContext = context) { deviceOrientation ->
+        orientation = deviceOrientation
+    }
+
     val implementationMode =
         if (Build.VERSION.SDK_INT > 24) {
             ImplementationMode.EXTERNAL
@@ -152,7 +161,12 @@ private fun CameraPreviewView(
                     .background(Color.Black)
         ) {
             val maxAspectRatio = maxWidth / maxHeight
-            val wideAspectRatio = Rational(9, 16).toFloat()
+            val wideAspectRatio =
+                if (orientation is DeviceOrientation.Portrait) {
+                    Rational(9, 16).toFloat()
+                } else {
+                    Rational(16, 9).toFloat()
+                }
             val shouldUseMaxWidth = maxAspectRatio <= wideAspectRatio
             val width = if (shouldUseMaxWidth) maxWidth else maxHeight * wideAspectRatio
             val height = if (!shouldUseMaxWidth) maxHeight else maxWidth / wideAspectRatio
