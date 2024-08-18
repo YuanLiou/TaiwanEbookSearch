@@ -76,10 +76,11 @@ android {
     }
 
     kotlinOptions {
-        freeCompilerArgs = listOf(
-            "-Xjvm-default=all",
-            "-Xstring-concat=inline"
-        )
+        freeCompilerArgs =
+            listOf(
+                "-Xjvm-default=all",
+                "-Xstring-concat=inline"
+            )
         jvmTarget = "17"
     }
 
