@@ -1,5 +1,5 @@
 object AppSettings {
-    const val VERSION_CODE = 1922210106
+    const val VERSION_CODE = 1922210107
     const val VERSION_NAME = "2.2.0"
     const val COMPILE_SDK_VERSION = 34
     const val MIN_SDK_VERSION = 24
