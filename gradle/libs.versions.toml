@@ -19,7 +19,7 @@ constraintlayoutVersion = "2.1.4"
 androidxDataStore = "1.1.1"
 androidxLifecycle = "2.8.4"
 paging = "3.3.2"
-barcodeScanner = "17.3.0"
+barcodeScanner = "18.3.1"
 
 # Jetpack Compose
 composeBom = "2024.06.00"
@@ -89,7 +89,7 @@ androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecy
 androidx-lifecycle-livedata-java8 = { group = "androidx.lifecycle", name = "lifecycle-common-java8", version.ref = "androidxLifecycle" }
 androidx-lifecycle-runtime-compose-android = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose-android", version.ref = "lifecycleCompose" }
 paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
-barcode-scanning = { group = "com.google.mlkit", name = "barcode-scanning", version.ref = "barcodeScanner" }
+barcode-scanning = { group = "com.google.android.gms", name = "play-services-mlkit-barcode-scanning", version.ref = "barcodeScanner" }
 
 # Jetpack Compose
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
