@@ -16,7 +16,6 @@ import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.preferencesetting.PreferenceSettingsViewModel
 import liou.rayyuan.ebooksearchtaiwan.utils.ClipboardHelper
 import liou.rayyuan.ebooksearchtaiwan.utils.CustomTabSessionManager
-import liou.rayyuan.ebooksearchtaiwan.utils.FeatureDeliveryHelper
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import liou.rayyuan.ebooksearchtaiwan.utils.ResourceHelper
 import liou.rayyuan.ebooksearchtaiwan.utils.SystemInfoCollectorImpl
@@ -92,12 +91,6 @@ val appUtilsModule =
         }
         factory<SystemInfoCollector> {
             SystemInfoCollectorImpl()
-        }
-        factory {
-            FeatureDeliveryHelper(
-                androidContext(),
-                resourceHelper = get<ResourceHelper>()
-            )
         }
     }
 

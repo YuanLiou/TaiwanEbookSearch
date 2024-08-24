@@ -61,13 +61,18 @@
     <string name="no_shareable_content">沒有可以分享的結果</string>
     <string name="menu_copy_snapshot">複製快照網址</string>
     <string name="add_to_clipboard_successful">已將快照網址加入剪貼簿</string>
-    <string name="error_for_installing_module">模組安裝錯誤: %1$i 於安裝模組 %2$s</string>
-    <string name="downloading_module">正在下載模組 %1$s</string>
-    <string name="installing_module">正在安裝模組 %1$s</string>
-    <string name="user_cancel_module_install">已取消安裝模組</string>
-    <string name="preference_remove_all_modules">移除條碼掃瞄器模組</string>
-    <string name="preference_category_modules">模組</string>
-    <string name="uninstalling_module">移除模組 %1$s</string>
-    <string name="uninstalling_module_failed">移除模組 %1$s 失敗</string>
-    <string name="dialog_uninstall_all_modules">確定要移除條碼掃瞄器模組嗎？</string>
+    <string name="permission_request_title">需要權限</string>
+    <string name="dialog_auth">授權</string>
+    <string name="permission_camera_name">相機</string>
+    <string name="auth_yourself">你可以至 設定 -> 應用程式 -> %1$S -> 權限 -> %2$s 來授權</string>
+    <string name="camera_is_opening">正在啟動相機</string>
+    <string name="camera_opening_failed">相機載入失敗，請再嘗試一次</string>
+    <string name="camera_opening_timeout">相機載入逾時，請再嘗試一次</string>
+    <string name="camera_scanning_result">掃描結果</string>
+    <string name="camera_permission_waiting">等待相機權限授權</string>
+    <string name="camera_permission_deny">事到如今，我也只能通靈</string>
+    <string name="auth_take_me_there">帶我去</string>
+    <string name="scanner_default_status">將條碼置於鏡頭範圍內以進行掃描。</string>
+    <string name="start_grant_permission">授予相機權限</string>
+    <string name="search_with_result">搜尋: %1$s</string>
 </resources>

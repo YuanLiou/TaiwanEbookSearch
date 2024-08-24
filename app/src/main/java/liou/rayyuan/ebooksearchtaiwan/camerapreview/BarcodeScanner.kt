@@ -14,7 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import liou.rayyuan.ebooksearchtaiwan.camerapreview.di.barcodeScannerModules
+import liou.rayyuan.ebooksearchtaiwan.di.barcodeScannerModules
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.permission.CameraPermissionScreen
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.preview.CameraPreviewScreen
 import org.koin.androidx.compose.KoinAndroidContext

@@ -128,12 +128,6 @@ android {
         jvmTarget = "17"
     }
     namespace = "liou.rayyuan.ebooksearchtaiwan"
-
-    setDynamicFeatures(
-        setOf(
-            ":features:barcodeScanner"
-        )
-    )
 }
 
 detekt {
@@ -165,7 +159,7 @@ dependencies {
 
     // region Compose
     val composeBom = platform(libs.compose.bom)
-    api(composeBom)
+    implementation(composeBom)
     androidTestImplementation(composeBom)
 
     implementation(libs.compose.material3)
@@ -175,6 +169,10 @@ dependencies {
     implementation(libs.compose.livedata)
     implementation(libs.constraintlayout.compose)
     implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.androidx.lifecycle.runtime.compose.android)
+    implementation(libs.compose.navigation)
+    implementation(libs.viewfinder.compose)
+    implementation(libs.request.permission.compose)
     debugImplementation(libs.compose.ui.tooling)
     debugImplementation(libs.compose.ui.test.manifest)
     androidTestImplementation(libs.compose.ui.test.junit4)
@@ -182,11 +180,11 @@ dependencies {
 
     // region Android X Libraries
     //  Use `api` to expose dependencies to feature module
-    api(libs.androidx.appcompat)
-    api(libs.androidx.activity.ktx)
-    api(libs.material)
-    api(libs.androidx.core.ktx)
-    api(libs.constraintlayout)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.activity.ktx)
+    implementation(libs.material)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.constraintlayout)
 
     implementation(libs.androidx.browser)
     implementation(libs.androidx.fragment.ktx)
@@ -208,12 +206,12 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.admob)
     implementation(libs.play.review.ktx)
-    implementation(libs.feature.delivery.ktx)
 
     // Koin
     val koinBom = platform(libs.koin.bom)
     implementation(koinBom)
     implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
 
     // Coil
     implementation(libs.coil.kt)
@@ -221,6 +219,12 @@ dependencies {
     androidTestImplementation(libs.androidx.test.core)
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.androidx.test.espresso.core)
+
+    // camera related libs
+    implementation(libs.camerax.camera2)
+    implementation(libs.camerax.lifecycle)
+    implementation(libs.guava.android)
+    implementation(libs.barcode.scanning)
 
     // Detekt
     detekt(libs.detekt.cli)

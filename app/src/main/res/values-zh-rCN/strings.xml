@@ -61,13 +61,18 @@
     <string name="no_shareable_content">没有可以分享的结果</string>
     <string name="menu_copy_snapshot">拷贝快照网址</string>
     <string name="add_to_clipboard_successful">已将快照网址加入剪贴板</string>
-    <string name="error_for_installing_module">模块安装错误: %1$i 于安装模块 %2$s</string>
-    <string name="downloading_module">正在下载模块 %1$s</string>
-    <string name="installing_module">正在安装模块 %1$s</string>
-    <string name="user_cancel_module_install">已取消安装模块</string>
-    <string name="preference_remove_all_modules">移除条码扫瞄器模块</string>
-    <string name="preference_category_modules">模块</string>
-    <string name="uninstalling_module">移除模块 %1$s</string>
-    <string name="uninstalling_module_failed">移除模块 %1$s 失败</string>
-    <string name="dialog_uninstall_all_modules">确定要移除条码扫瞄器模块吗？</string>
+    <string name="permission_request_title">需要权限</string>
+    <string name="dialog_auth">授权</string>
+    <string name="permission_camera_name">相机</string>
+    <string name="auth_yourself">你可以至 设置 -> 应用 -> %1$S -> 权限 -> %2$s 来授权</string>
+    <string name="camera_is_opening">正在启动相机</string>
+    <string name="camera_opening_failed">相机加载失败，请再尝试一次</string>
+    <string name="camera_opening_timeout">相机加载逾时，请再尝试一次</string>
+    <string name="camera_scanning_result">扫描结果</string>
+    <string name="camera_permission_waiting">等待相机权限授权</string>
+    <string name="camera_permission_deny">事到如今，我也只能通灵</string>
+    <string name="auth_take_me_there">带我去</string>
+    <string name="scanner_default_status">请将条码置于取景框内扫描。</string>
+    <string name="start_grant_permission">授予相机权限</string>
+    <string name="search_with_result">搜索: %1$s</string>
 </resources>

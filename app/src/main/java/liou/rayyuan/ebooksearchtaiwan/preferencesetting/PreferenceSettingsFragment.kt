@@ -4,7 +4,6 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.ListPreference
@@ -17,8 +16,6 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.preferencesetting.widget.MaterialListPreference
-import liou.rayyuan.ebooksearchtaiwan.utils.FeatureDeliveryHelper
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -28,7 +25,6 @@ class PreferenceSettingsFragment :
     PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener {
     private val viewModel: PreferenceSettingsViewModel by viewModel()
-    private val featureDeliveryHelper: FeatureDeliveryHelper by inject()
     internal var callback: PreferencesChangeCallback? = null
 
     override fun onCreatePreferences(
@@ -77,27 +73,6 @@ class PreferenceSettingsFragment :
 
             true
         }
-
-        if (featureDeliveryHelper.isBarcodeScannerInstalled()) {
-            uninstallAllModulesPreference?.setOnPreferenceClickListener {
-                MaterialAlertDialogBuilder(requireContext())
-                    .setTitle(R.string.preference_remove_all_modules)
-                    .setMessage(R.string.dialog_uninstall_all_modules)
-                    .setPositiveButton(R.string.dialog_ok) { dialog, _ ->
-                        uninstallAllModules(uninstallAllModulesPreference)
-                        dialog.dismiss()
-                    }
-                    .setNegativeButton(R.string.dialog_cancel) { dialog, _ -> dialog.dismiss() }
-                    .create().show()
-
-                true
-            }
-        } else {
-            uninstallAllModulesPreference?.run {
-                isEnabled = false
-                shouldDisableView = true
-            }
-        }
     }
 
     private fun initiateCustomTabOption(preferCustomTabs: SwitchPreferenceCompat) {
@@ -122,15 +97,6 @@ class PreferenceSettingsFragment :
         }
     }
 
-    private fun uninstallAllModules(uninstallAllModulesPreference: Preference) {
-        featureDeliveryHelper.uninstallAllModules {
-            uninstallAllModulesPreference.run {
-                isEnabled = false
-                shouldDisableView = true
-            }
-        }
-    }
-
     private fun showDeleteSearchRecordsSuccessDialog() {
         if (isAdded && isResumed) {
             requireContext().run {
@@ -148,19 +114,11 @@ class PreferenceSettingsFragment :
     override fun onResume() {
         super.onResume()
         preferenceScreen.sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
-        featureDeliveryHelper.startListeningInstallationCallback(
-            object : FeatureDeliveryHelper.FeatureDeliveryCallbackAdapter() {
-                override fun showMessage(message: String) {
-                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-                }
-            }
-        )
     }
 
     override fun onPause() {
         super.onPause()
         preferenceScreen.sharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
-        featureDeliveryHelper.stopListeningInstallationCallback()
     }
 
     override fun onDestroy() {

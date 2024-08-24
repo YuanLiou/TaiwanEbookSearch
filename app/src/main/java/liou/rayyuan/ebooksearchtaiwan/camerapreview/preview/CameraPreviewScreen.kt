@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleStartEffect
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import liou.rayyuan.ebooksearchtaiwan.camerapreview.R
+import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.ui.MDPI_DEVICES
 import liou.rayyuan.ebooksearchtaiwan.ui.composables.DeviceOrientation
 import liou.rayyuan.ebooksearchtaiwan.ui.composables.DeviceOrientationListener

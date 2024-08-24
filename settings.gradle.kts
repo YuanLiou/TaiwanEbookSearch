@@ -8,4 +8,3 @@ pluginManagement {
 
 include(":app")
 include(":commonMain")
-include(":features:barcodeScanner")
