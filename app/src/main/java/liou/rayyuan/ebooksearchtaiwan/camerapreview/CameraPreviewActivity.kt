@@ -1,6 +1,5 @@
 package liou.rayyuan.ebooksearchtaiwan.camerapreview
 
-import android.app.Activity
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -27,7 +26,7 @@ class CameraPreviewActivity : BaseActivity() {
                         val resultIntent = intent
                         val bundle = bundleOf(BookSearchActivity.KEY_BARCODE_RESULT to barcode)
                         resultIntent.putExtras(bundle)
-                        setResult(Activity.RESULT_OK, resultIntent)
+                        setResult(RESULT_OK, resultIntent)
                         finish()
                     }
                 )

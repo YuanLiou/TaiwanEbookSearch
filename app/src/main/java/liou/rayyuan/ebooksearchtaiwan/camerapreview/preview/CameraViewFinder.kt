@@ -129,7 +129,7 @@ fun CameraViewFinder(
                         detectTapGestures {
                             with(coordinateTransformer) {
                                 val tapOffset = it.transform()
-                                Log.d(TAG, "onTap: $tapOffset")
+                                Log.i(TAG, "onTap: $tapOffset")
                                 onTap(tapOffset.x, tapOffset.y)
                             }
                         }

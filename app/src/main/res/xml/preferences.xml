@@ -70,13 +70,4 @@
             android:title="@string/preference_clean_all_records" />
 
     </PreferenceCategory>
-    <PreferenceCategory
-        android:key="app_option_preference_module"
-        android:title="@string/preference_category_modules">
-
-        <Preference
-            android:key="key-uninstall-all-modules"
-            android:title="@string/preference_remove_all_modules" />
-
-    </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

@@ -6,10 +6,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorInt
 import androidx.browser.customtabs.CustomTabColorSchemeParams
@@ -20,11 +18,11 @@ import com.rayliu.commonmain.domain.model.Book
 import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.R
+import liou.rayyuan.ebooksearchtaiwan.camerapreview.CameraPreviewActivity
 import liou.rayyuan.ebooksearchtaiwan.model.DeeplinkHelper
 import liou.rayyuan.ebooksearchtaiwan.preferencesetting.PreferenceSettingsActivity
 import liou.rayyuan.ebooksearchtaiwan.simplewebview.SimpleWebViewFragment
 import liou.rayyuan.ebooksearchtaiwan.utils.CustomTabSessionManager
-import liou.rayyuan.ebooksearchtaiwan.utils.FeatureDeliveryHelper
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import liou.rayyuan.ebooksearchtaiwan.view.Router
 import org.koin.android.ext.android.inject
@@ -34,26 +32,15 @@ import org.koin.android.ext.android.inject
  */
 class BookSearchActivity :
     BaseActivity(R.layout.activity_book_search),
-    SimpleWebViewFragment.OnSimpleWebViewActionListener,
-    FeatureDeliveryHelper.FeatureDeliveryCallback {
+    SimpleWebViewFragment.OnSimpleWebViewActionListener {
     private val quickChecker: QuickChecker by inject()
     private val customTabSessionManager: CustomTabSessionManager by inject()
-    private val featureDeliveryHelper: FeatureDeliveryHelper by inject()
     private val deeplinkHelper = DeeplinkHelper()
     private var isDualPane: Boolean = false
     private lateinit var contentRouter: Router
     private var dualPaneSubRouter: Router? = null
 
     private lateinit var changeThemeLauncher: ActivityResultLauncher<Intent>
-
-    private val featureInstallationConfirmationLauncher =
-        registerForActivityResult(
-            ActivityResultContracts.StartIntentSenderForResult()
-        ) { activityResult ->
-            if (activityResult.resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(this, getString(R.string.user_cancel_module_install), Toast.LENGTH_SHORT).show()
-            }
-        }
 
     private val barcodeScannerResultLauncher =
         registerForActivityResult(
@@ -165,7 +152,6 @@ class BookSearchActivity :
 
     override fun onResume() {
         super.onResume()
-        featureDeliveryHelper.startListeningInstallationCallback(this)
         if (userPreferenceManager.isPreferCustomTab()) {
             checkShouldAskUserRankApp()
         }
@@ -177,11 +163,6 @@ class BookSearchActivity :
         if (topFragmentTag != null) {
             outState.putString(KEY_LAST_FRAGMENT_TAG, topFragmentTag)
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        featureDeliveryHelper.stopListeningInstallationCallback()
     }
 
     private fun setupBackGesture() {
@@ -207,7 +188,7 @@ class BookSearchActivity :
     }
 
     fun openCameraPreviewActivity() {
-        featureDeliveryHelper.loadAndLaunchBarcodeScanner()
+        barcodeScannerResultLauncher.launch(Intent(this, CameraPreviewActivity::class.java))
     }
 
     fun openPreferenceActivity() {
@@ -265,23 +246,6 @@ class BookSearchActivity :
     //region SimpleWebViewFragment.OnSimpleWebviewActionListener
     override fun onSimpleWebViewClose(tag: String) {
         contentRouter.backToPreviousFragment()
-    }
-    //endregion
-
-    //region FeatureDeliveryHelper.FeatureDeliveryCallback
-    override fun launchIntent(intent: Intent) {
-        barcodeScannerResultLauncher.launch(intent)
-    }
-
-    override fun provideConfirmationDialogResultLauncher(): ActivityResultLauncher<IntentSenderRequest> =
-        featureInstallationConfirmationLauncher
-
-    override fun showMessage(message: String) {
-        getBookResultFragment()?.showModuleInstallMessage(message)
-    }
-
-    override fun moduleInstallSuccess() {
-        getBookResultFragment()?.hideModuleInstallMessage()
     }
     //endregion
 

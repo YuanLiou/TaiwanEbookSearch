@@ -29,7 +29,7 @@ import com.msharialsayari.requestpermissionlib.component.RequestPermissions
 import com.msharialsayari.requestpermissionlib.model.DialogParams
 import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.delay
-import liou.rayyuan.ebooksearchtaiwan.camerapreview.R
+import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.ui.GENERAL_BACKGROUND_COLOR
 import liou.rayyuan.ebooksearchtaiwan.ui.MDPI_DEVICES
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme

@@ -1,4 +1,4 @@
-package liou.rayyuan.ebooksearchtaiwan.camerapreview.di
+package liou.rayyuan.ebooksearchtaiwan.di
 
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.preview.CameraPreviewViewModel
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.usecase.CameraUseCase
