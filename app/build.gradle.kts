@@ -179,7 +179,6 @@ dependencies {
     // endregion Compose
 
     // region Android X Libraries
-    //  Use `api` to expose dependencies to feature module
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.material)
