@@ -2,6 +2,8 @@ package liou.rayyuan.ebooksearchtaiwan.camerapreview.usecase
 
 import android.app.Application
 import android.util.Log
+import android.view.OrientationEventListener.ORIENTATION_UNKNOWN
+import android.view.Surface
 import androidx.annotation.OptIn
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ExperimentalGetImage
@@ -29,6 +31,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import liou.rayyuan.ebooksearchtaiwan.camerapreview.model.BarcodeResult
 
 class CameraXUseCase(
     private val application: Application
@@ -37,15 +40,25 @@ class CameraXUseCase(
     private val focusMeteringEvents =
         Channel<FocusMeteringEvent>(capacity = Channel.CONFLATED)
     private val _surfaceRequest = MutableStateFlow<SurfaceRequest?>(null)
-    private val _barcodeValues = MutableStateFlow<String?>(null)
+    private val _isbn = MutableStateFlow<String?>(null)
+    private val _barcodeResult = MutableStateFlow<BarcodeResult?>(null)
+
+    private var previewUseCase: Preview? = null
+    private var analysisUseCase: ImageAnalysis? = null
 
     override suspend fun initialize() {
         cameraProvider = ProcessCameraProvider.awaitInstance(application)
     }
 
     override suspend fun runCamera(lifecycleOwner: LifecycleOwner) {
-        val previewUseCase = buildPreviewUseCase()
-        val analysisUseCase = buildAnalysisUseCase()
+        val previewUseCase =
+            buildPreviewUseCase().also {
+                this@CameraXUseCase.previewUseCase = it
+            }
+        val analysisUseCase =
+            buildAnalysisUseCase().also {
+                this@CameraXUseCase.analysisUseCase = it
+            }
         val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
         try {
             val camera = cameraProvider.bindToLifecycle(lifecycleOwner, cameraSelector, previewUseCase, analysisUseCase)
@@ -98,9 +111,22 @@ class CameraXUseCase(
             val inputImage = InputImage.fromMediaImage(currentImage, imageProxy.imageInfo.rotationDegrees)
             scanner.process(inputImage)
                 .addOnSuccessListener { barcodes ->
-                    val barcodeValue = barcodes.firstOrNull()?.rawValue
+                    val barcode = barcodes.firstOrNull()
+                    val barcodeValue = barcode?.rawValue
                     if (!barcodeValue.isNullOrEmpty()) {
-                        _barcodeValues.value = barcodeValue
+                        _isbn.value = barcodeValue
+                    }
+
+                    if (barcode != null) {
+                        _barcodeResult.value =
+                            BarcodeResult(
+                                barcodeValue = barcode.rawValue.orEmpty(),
+                                boundingBox = barcode.boundingBox,
+                                imageWidth = imageProxy.width,
+                                imageHeight = imageProxy.height
+                            )
+                    } else {
+                        _barcodeResult.value = null
                     }
                 }
                 .addOnFailureListener { exception ->
@@ -129,13 +155,35 @@ class CameraXUseCase(
     }
 
     override suspend fun releaseCamera() {
-        cameraProvider.unbindAll()
+        if (this::cameraProvider.isInitialized) {
+            cameraProvider.unbindAll()
+        }
         _surfaceRequest.value = null
+        previewUseCase = null
+        analysisUseCase = null
     }
 
     override fun getSurfaceRequest(): StateFlow<SurfaceRequest?> = _surfaceRequest.asStateFlow()
 
-    override fun getBarcodeValue(): StateFlow<String?> = _barcodeValues.asStateFlow()
+    override fun getBarcode(): StateFlow<BarcodeResult?> = _barcodeResult.asStateFlow()
+
+    override fun getIsbn(): StateFlow<String?> = _isbn.asStateFlow()
+
+    override fun updateTargetOrientation(orientation: Int) {
+        if (orientation == ORIENTATION_UNKNOWN) {
+            return
+        }
+
+        val targetOrientation =
+            when (orientation) {
+                in 45 until 135 -> Surface.ROTATION_270
+                in 135 until 225 -> Surface.ROTATION_180
+                in 225 until 315 -> Surface.ROTATION_90
+                else -> Surface.ROTATION_0
+            }
+        previewUseCase?.targetRotation = targetOrientation
+        analysisUseCase?.targetRotation = targetOrientation
+    }
 
     companion object {
         private const val TAG = "CameraUseCase"
@@ -160,5 +208,9 @@ interface CameraUseCase {
 
     fun getSurfaceRequest(): StateFlow<SurfaceRequest?>
 
-    fun getBarcodeValue(): StateFlow<String?>
+    fun getBarcode(): StateFlow<BarcodeResult?>
+
+    fun getIsbn(): StateFlow<String?>
+
+    fun updateTargetOrientation(orientation: Int)
 }

@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.LocalInspectionMode
 @Composable
 fun DeviceOrientationListener(
     applicationContext: Context,
+    onOrientationChangeRawValue: (orientationValue: Int) -> Unit = {},
     onOrientationChange: (orientation: DeviceOrientation) -> Unit
 ) {
     if (LocalInspectionMode.current) {
@@ -19,13 +20,18 @@ fun DeviceOrientationListener(
         val orientationListener =
             object : OrientationEventListener(applicationContext) {
                 override fun onOrientationChanged(orientation: Int) {
-                    if (orientation >= 350 || orientation < 10) {
-                        onOrientationChange(DeviceOrientation.Portrait(orientation))
-                    } else if (orientation in 80..159) {
-                        onOrientationChange(DeviceOrientation.ReverseLandscape(orientation))
-                    } else if (orientation in 200..289) {
-                        onOrientationChange(DeviceOrientation.Landscape(orientation))
+                    if (orientation == ORIENTATION_UNKNOWN) {
+                        return
                     }
+
+                    if (orientation >= 350 || orientation < 10) {
+                        onOrientationChange(DeviceOrientation.Portrait)
+                    } else if (orientation in 80..159) {
+                        onOrientationChange(DeviceOrientation.ReverseLandscape)
+                    } else if (orientation in 200..289) {
+                        onOrientationChange(DeviceOrientation.Landscape)
+                    }
+                    onOrientationChangeRawValue(orientation)
                 }
             }
         orientationListener.enable()

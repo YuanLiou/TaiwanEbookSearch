@@ -1,7 +1,7 @@
 [versions]
 # Library versions
 coil = "2.7.0"
-desugarLibVersion = "2.0.4"
+desugarLibVersion = "2.1.1"
 koin = "3.5.6"
 fuzzywuzzy = "1.4.0"
 guavaVersion = "31.1-android" # To prevent Guava conflict, use this old version
@@ -22,7 +22,7 @@ paging = "3.3.2"
 barcodeScanner = "17.3.0"
 
 # Jetpack Compose
-composeBom = "2024.06.00"
+composeBom = "2024.08.00"
 activityCompose = "1.9.1"
 lifecycleCompose = "2.8.4"
 navigationCompose = "2.7.7"
@@ -34,16 +34,15 @@ viewFinderCompose = "1.0.0-alpha02"
 cameraXVersion = "1.4.0-rc01"
 
 #  Kotlin Libraries
-kotlinxCoroutines = "1.9.0-RC"
-kotlinxSerializationJson = "1.7.1"
-datetime = "0.6.0"
+kotlinxCoroutines = "1.9.0-RC.2"
+kotlinxSerializationJson = "1.7.2"
+datetime = "0.6.1"
 ktor = "2.3.12"
 
 #  Google Service and Firebase Libraries
 firebaseBom = "33.1.2"
 admob = "23.2.0"
 inAppReview = "2.0.1"
-featureDelivery = "2.1.0"
 
 #  Test related
 androidxTestExt = "1.2.1"
@@ -53,7 +52,7 @@ androidxEspresso = "3.6.1"
 
 # plugins versions
 androidGradlePlugin = "8.5.2"
-kotlin = "2.0.10"
+kotlin = "2.0.20"
 gmsPlugin = "4.4.2"
 firebaseCrashlyticsPlugin = "3.0.2"
 detektVersion = "1.23.6"
