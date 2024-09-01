@@ -10,7 +10,10 @@ import org.koin.dsl.module
 val barcodeScannerModule =
     module {
         viewModel {
-            CameraPreviewViewModel(get())
+            CameraPreviewViewModel(
+                cameraUseCase = get(),
+                resourceHelper = get()
+            )
         }
         factory<CameraUseCase> {
             CameraXUseCase(

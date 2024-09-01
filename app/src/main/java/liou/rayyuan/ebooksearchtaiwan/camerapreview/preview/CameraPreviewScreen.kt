@@ -5,6 +5,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
 import android.os.Build
 import android.util.Rational
+import android.widget.Toast
 import androidx.camera.core.SurfaceRequest
 import androidx.camera.viewfinder.surface.ImplementationMode
 import androidx.compose.foundation.Canvas
@@ -21,6 +22,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,6 +44,7 @@ import androidx.compose.ui.unit.toSize
 import androidx.lifecycle.compose.LifecycleStartEffect
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.flow.collectLatest
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.model.BarcodeResult
 import liou.rayyuan.ebooksearchtaiwan.ui.MDPI_DEVICES
@@ -66,6 +69,15 @@ fun CameraPreviewScreen(
         onStopOrDispose {
             viewModel.stopCamera()
             viewModel.releaseCamera()
+        }
+    }
+
+    val context = LocalContext.current
+    LaunchedEffect(key1 = Unit) {
+        viewModel.errorMessage.collectLatest { errorMessage ->
+            if (errorMessage.isNotEmpty()) {
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
