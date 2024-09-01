@@ -129,7 +129,9 @@ class CameraXUseCase(
     }
 
     override suspend fun releaseCamera() {
-        cameraProvider.unbindAll()
+        if (this::cameraProvider.isInitialized) {
+            cameraProvider.unbindAll()
+        }
         _surfaceRequest.value = null
     }
 
