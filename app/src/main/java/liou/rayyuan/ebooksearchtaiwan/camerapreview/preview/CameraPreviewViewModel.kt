@@ -21,6 +21,8 @@ class CameraPreviewViewModel(
 
     val barcode = cameraUseCase.getBarcode()
 
+    val isbn = cameraUseCase.getIsbn()
+
     fun startCamera(lifecycleOwner: LifecycleOwner) {
         stopCamera()
         runningCameraJob =

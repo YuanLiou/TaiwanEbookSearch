@@ -7,6 +7,7 @@ import android.os.Build
 import android.util.Rational
 import androidx.camera.core.SurfaceRequest
 import androidx.camera.viewfinder.surface.ImplementationMode
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -27,10 +28,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.toComposeRect
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleStartEffect
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -52,6 +58,7 @@ fun CameraPreviewScreen(
 ) {
     val surfaceRequest by viewModel.surfaceRequest.collectAsStateWithLifecycle()
     val barcodeResult by viewModel.barcode.collectAsStateWithLifecycle()
+    val isbn by viewModel.isbn.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
     LifecycleStartEffect(Unit) {
         viewModel.startCamera(lifecycleOwner)
@@ -64,6 +71,7 @@ fun CameraPreviewScreen(
     CameraPreviewScreenContent(
         surfaceRequest = surfaceRequest,
         barcodeResult = barcodeResult,
+        isbn = isbn,
         modifier = modifier,
         onTapToFocus = viewModel::tapToFocus,
         onRequestWindowColorMode = onRequestWindowColorMode,
@@ -75,6 +83,7 @@ fun CameraPreviewScreen(
 private fun CameraPreviewScreenContent(
     surfaceRequest: SurfaceRequest?,
     barcodeResult: BarcodeResult?,
+    isbn: String?,
     modifier: Modifier = Modifier,
     onTapToFocus: (x: Float, y: Float) -> Unit = { _, _ -> },
     onRequestWindowColorMode: (colorMode: Int) -> Unit = {},
@@ -89,8 +98,34 @@ private fun CameraPreviewScreenContent(
         CameraPreviewView(
             surfaceRequest = surfaceRequest,
             onRequestWindowColorMode = onRequestWindowColorMode,
-            onTapToFocus = onTapToFocus,
-        )
+            onTapToFocus = onTapToFocus
+        ) { viewWidth, viewHeight ->
+            val boundingBox = barcodeResult?.boundingBox?.toComposeRect()
+            if (boundingBox != null && barcodeResult.isBarcodeAvailable()) {
+                val scaleFactorX = viewWidth.value / barcodeResult.imageHeight.toFloat()
+                val scaleFactorY = viewHeight.value / barcodeResult.imageWidth.toFloat()
+                val topLeft =
+                    Offset(
+                        x = boundingBox.topLeft.x * scaleFactorX,
+                        y = boundingBox.topLeft.y * scaleFactorY
+                    )
+                val size =
+                    Size(
+                        width = boundingBox.size.width * scaleFactorX,
+                        height = boundingBox.size.height * scaleFactorY
+                    )
+                Canvas(
+                    modifier = Modifier
+                ) {
+                    drawRect(
+                        color = Color.Red,
+                        topLeft = topLeft,
+                        size = size,
+                        style = Stroke(width = 10f)
+                    )
+                }
+            }
+        }
 
         ElevatedCard(
             modifier =
@@ -98,8 +133,8 @@ private fun CameraPreviewScreenContent(
                     .align(Alignment.BottomCenter)
                     .padding(16.dp)
                     .clickable {
-                        if (barcodeResult?.isBarcodeAvailable() == true) {
-                            onBarcodeAvailable(barcodeResult.barcodeValue)
+                        if (!isbn.isNullOrEmpty()) {
+                            onBarcodeAvailable(isbn)
                         }
                     }
         ) {
@@ -110,8 +145,8 @@ private fun CameraPreviewScreenContent(
                         .padding(16.dp)
             ) {
                 var isScanFirstBarcode by remember { mutableStateOf(false) }
-                if (barcodeResult?.isBarcodeAvailable() == true) {
-                    val title = stringResource(id = R.string.search_with_result, barcodeResult.barcodeValue)
+                if (!isbn.isNullOrEmpty()) {
+                    val title = stringResource(id = R.string.search_with_result, isbn)
                     Text(
                         modifier = Modifier,
                         text = title,
@@ -140,6 +175,7 @@ private fun CameraPreviewView(
     modifier: Modifier = Modifier,
     onRequestWindowColorMode: (colorMode: Int) -> Unit = {},
     onTapToFocus: (x: Float, y: Float) -> Unit = { _, _ -> },
+    overlay: @Composable (width: Dp, height: Dp) -> Unit = { _, _ -> }
 ) {
     val context = LocalContext.current
     var orientation by remember { mutableStateOf<DeviceOrientation>(DeviceOrientation.Portrait(0)) }
@@ -184,8 +220,9 @@ private fun CameraPreviewView(
                     implementationMode = implementationMode,
                     onRequestWindowColorMode = onRequestWindowColorMode,
                     onTap = { x, y -> onTapToFocus(x, y) },
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize()
                 )
+                overlay(width, height)
             }
         }
     }
@@ -211,7 +248,8 @@ private fun CameraPreviewScreenPreview() {
                     boundingBox = null,
                     imageWidth = 0,
                     imageHeight = 0
-                )
+                ),
+            isbn = "5566IloveU"
         )
     }
 }

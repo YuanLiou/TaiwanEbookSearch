@@ -38,7 +38,8 @@ class CameraXUseCase(
     private val focusMeteringEvents =
         Channel<FocusMeteringEvent>(capacity = Channel.CONFLATED)
     private val _surfaceRequest = MutableStateFlow<SurfaceRequest?>(null)
-    private val _barcodeValues = MutableStateFlow<BarcodeResult?>(null)
+    private val _isbn = MutableStateFlow<String?>(null)
+    private val _barcodeResult = MutableStateFlow<BarcodeResult?>(null)
 
     override suspend fun initialize() {
         cameraProvider = ProcessCameraProvider.awaitInstance(application)
@@ -102,13 +103,19 @@ class CameraXUseCase(
                     val barcode = barcodes.firstOrNull()
                     val barcodeValue = barcode?.rawValue
                     if (!barcodeValue.isNullOrEmpty()) {
-                        _barcodeValues.value =
+                        _isbn.value = barcodeValue
+                    }
+
+                    if (barcode != null) {
+                        _barcodeResult.value =
                             BarcodeResult(
-                                barcodeValue = barcodeValue,
+                                barcodeValue = barcode.rawValue.orEmpty(),
                                 boundingBox = barcode.boundingBox,
                                 imageWidth = imageProxy.width,
                                 imageHeight = imageProxy.height
                             )
+                    } else {
+                        _barcodeResult.value = null
                     }
                 }
                 .addOnFailureListener { exception ->
@@ -145,7 +152,9 @@ class CameraXUseCase(
 
     override fun getSurfaceRequest(): StateFlow<SurfaceRequest?> = _surfaceRequest.asStateFlow()
 
-    override fun getBarcode(): StateFlow<BarcodeResult?> = _barcodeValues.asStateFlow()
+    override fun getBarcode(): StateFlow<BarcodeResult?> = _barcodeResult.asStateFlow()
+
+    override fun getIsbn(): StateFlow<String?> = _isbn.asStateFlow()
 
     companion object {
         private const val TAG = "CameraUseCase"
@@ -171,4 +180,6 @@ interface CameraUseCase {
     fun getSurfaceRequest(): StateFlow<SurfaceRequest?>
 
     fun getBarcode(): StateFlow<BarcodeResult?>
+
+    fun getIsbn(): StateFlow<String?>
 }
