@@ -36,6 +36,7 @@ import androidx.lifecycle.compose.LifecycleStartEffect
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import liou.rayyuan.ebooksearchtaiwan.R
+import liou.rayyuan.ebooksearchtaiwan.camerapreview.model.BarcodeResult
 import liou.rayyuan.ebooksearchtaiwan.ui.MDPI_DEVICES
 import liou.rayyuan.ebooksearchtaiwan.ui.composables.DeviceOrientation
 import liou.rayyuan.ebooksearchtaiwan.ui.composables.DeviceOrientationListener
@@ -50,7 +51,7 @@ fun CameraPreviewScreen(
     onBarcodeAvailable: (barcode: String) -> Unit = {}
 ) {
     val surfaceRequest by viewModel.surfaceRequest.collectAsStateWithLifecycle()
-    val barcodeValue by viewModel.barcodeValue.collectAsStateWithLifecycle()
+    val barcodeResult by viewModel.barcode.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
     LifecycleStartEffect(Unit) {
         viewModel.startCamera(lifecycleOwner)
@@ -62,7 +63,7 @@ fun CameraPreviewScreen(
 
     CameraPreviewScreenContent(
         surfaceRequest = surfaceRequest,
-        barcodeValue = barcodeValue,
+        barcodeResult = barcodeResult,
         modifier = modifier,
         onTapToFocus = viewModel::tapToFocus,
         onRequestWindowColorMode = onRequestWindowColorMode,
@@ -73,7 +74,7 @@ fun CameraPreviewScreen(
 @Composable
 private fun CameraPreviewScreenContent(
     surfaceRequest: SurfaceRequest?,
-    barcodeValue: String?,
+    barcodeResult: BarcodeResult?,
     modifier: Modifier = Modifier,
     onTapToFocus: (x: Float, y: Float) -> Unit = { _, _ -> },
     onRequestWindowColorMode: (colorMode: Int) -> Unit = {},
@@ -97,8 +98,8 @@ private fun CameraPreviewScreenContent(
                     .align(Alignment.BottomCenter)
                     .padding(16.dp)
                     .clickable {
-                        if (!barcodeValue.isNullOrEmpty()) {
-                            onBarcodeAvailable(barcodeValue)
+                        if (barcodeResult?.isBarcodeAvailable() == true) {
+                            onBarcodeAvailable(barcodeResult.barcodeValue)
                         }
                     }
         ) {
@@ -109,8 +110,8 @@ private fun CameraPreviewScreenContent(
                         .padding(16.dp)
             ) {
                 var isScanFirstBarcode by remember { mutableStateOf(false) }
-                if (!barcodeValue.isNullOrEmpty()) {
-                    val title = stringResource(id = R.string.search_with_result, barcodeValue)
+                if (barcodeResult?.isBarcodeAvailable() == true) {
+                    val title = stringResource(id = R.string.search_with_result, barcodeResult.barcodeValue)
                     Text(
                         modifier = Modifier,
                         text = title,
@@ -204,7 +205,13 @@ private fun CameraPreviewScreenPreview() {
     EBookTheme {
         CameraPreviewScreenContent(
             surfaceRequest = null,
-            barcodeValue = "123456789"
+            barcodeResult =
+                BarcodeResult(
+                    barcodeValue = "123456789",
+                    boundingBox = null,
+                    imageWidth = 0,
+                    imageHeight = 0
+                )
         )
     }
 }

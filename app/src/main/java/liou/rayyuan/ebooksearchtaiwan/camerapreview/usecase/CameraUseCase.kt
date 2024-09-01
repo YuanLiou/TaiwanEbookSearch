@@ -29,6 +29,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import liou.rayyuan.ebooksearchtaiwan.camerapreview.model.BarcodeResult
 
 class CameraXUseCase(
     private val application: Application
@@ -37,7 +38,7 @@ class CameraXUseCase(
     private val focusMeteringEvents =
         Channel<FocusMeteringEvent>(capacity = Channel.CONFLATED)
     private val _surfaceRequest = MutableStateFlow<SurfaceRequest?>(null)
-    private val _barcodeValues = MutableStateFlow<String?>(null)
+    private val _barcodeValues = MutableStateFlow<BarcodeResult?>(null)
 
     override suspend fun initialize() {
         cameraProvider = ProcessCameraProvider.awaitInstance(application)
@@ -98,9 +99,16 @@ class CameraXUseCase(
             val inputImage = InputImage.fromMediaImage(currentImage, imageProxy.imageInfo.rotationDegrees)
             scanner.process(inputImage)
                 .addOnSuccessListener { barcodes ->
-                    val barcodeValue = barcodes.firstOrNull()?.rawValue
+                    val barcode = barcodes.firstOrNull()
+                    val barcodeValue = barcode?.rawValue
                     if (!barcodeValue.isNullOrEmpty()) {
-                        _barcodeValues.value = barcodeValue
+                        _barcodeValues.value =
+                            BarcodeResult(
+                                barcodeValue = barcodeValue,
+                                boundingBox = barcode.boundingBox,
+                                imageWidth = imageProxy.width,
+                                imageHeight = imageProxy.height
+                            )
                     }
                 }
                 .addOnFailureListener { exception ->
@@ -137,7 +145,7 @@ class CameraXUseCase(
 
     override fun getSurfaceRequest(): StateFlow<SurfaceRequest?> = _surfaceRequest.asStateFlow()
 
-    override fun getBarcodeValue(): StateFlow<String?> = _barcodeValues.asStateFlow()
+    override fun getBarcode(): StateFlow<BarcodeResult?> = _barcodeValues.asStateFlow()
 
     companion object {
         private const val TAG = "CameraUseCase"
@@ -162,5 +170,5 @@ interface CameraUseCase {
 
     fun getSurfaceRequest(): StateFlow<SurfaceRequest?>
 
-    fun getBarcodeValue(): StateFlow<String?>
+    fun getBarcode(): StateFlow<BarcodeResult?>
 }
