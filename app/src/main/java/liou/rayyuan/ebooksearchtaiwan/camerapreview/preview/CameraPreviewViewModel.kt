@@ -54,4 +54,8 @@ class CameraPreviewViewModel(
             cameraUseCase.tapToFocus(x, y)
         }
     }
+
+    fun updateTargetOrientation(orientation: Int) {
+        cameraUseCase.updateTargetOrientation(orientation)
+    }
 }

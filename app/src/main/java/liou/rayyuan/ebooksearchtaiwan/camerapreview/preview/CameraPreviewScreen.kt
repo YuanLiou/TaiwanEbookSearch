@@ -33,11 +33,12 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.toComposeRect
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.toSize
 import androidx.lifecycle.compose.LifecycleStartEffect
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -73,6 +74,9 @@ fun CameraPreviewScreen(
         barcodeResult = barcodeResult,
         isbn = isbn,
         modifier = modifier,
+        onOrientationChange = { orientationValue: Int ->
+            viewModel.updateTargetOrientation(orientationValue)
+        },
         onTapToFocus = viewModel::tapToFocus,
         onRequestWindowColorMode = onRequestWindowColorMode,
         onBarcodeAvailable = onBarcodeAvailable
@@ -85,6 +89,7 @@ private fun CameraPreviewScreenContent(
     barcodeResult: BarcodeResult?,
     isbn: String?,
     modifier: Modifier = Modifier,
+    onOrientationChange: (orientationValue: Int) -> Unit = {},
     onTapToFocus: (x: Float, y: Float) -> Unit = { _, _ -> },
     onRequestWindowColorMode: (colorMode: Int) -> Unit = {},
     onBarcodeAvailable: (barcode: String) -> Unit = {}
@@ -98,17 +103,20 @@ private fun CameraPreviewScreenContent(
         CameraPreviewView(
             surfaceRequest = surfaceRequest,
             onRequestWindowColorMode = onRequestWindowColorMode,
-            onTapToFocus = onTapToFocus
+            onTapToFocus = onTapToFocus,
+            onOrientationChange = onOrientationChange
         ) { viewWidth, viewHeight ->
             val boundingBox = barcodeResult?.boundingBox?.toComposeRect()
             if (boundingBox != null && barcodeResult.isBarcodeAvailable()) {
-                val scaleFactorX = viewWidth.value / barcodeResult.imageHeight.toFloat()
-                val scaleFactorY = viewHeight.value / barcodeResult.imageWidth.toFloat()
+                val scaleFactorX = viewWidth / barcodeResult.imageHeight.toFloat()
+                val scaleFactorY = viewHeight / barcodeResult.imageWidth.toFloat()
+
                 val topLeft =
                     Offset(
                         x = boundingBox.topLeft.x * scaleFactorX,
                         y = boundingBox.topLeft.y * scaleFactorY
                     )
+
                 val size =
                     Size(
                         width = boundingBox.size.width * scaleFactorX,
@@ -173,13 +181,17 @@ private fun CameraPreviewScreenContent(
 private fun CameraPreviewView(
     surfaceRequest: SurfaceRequest?,
     modifier: Modifier = Modifier,
+    onOrientationChange: (orientationValue: Int) -> Unit = {},
     onRequestWindowColorMode: (colorMode: Int) -> Unit = {},
     onTapToFocus: (x: Float, y: Float) -> Unit = { _, _ -> },
-    overlay: @Composable (width: Dp, height: Dp) -> Unit = { _, _ -> }
+    overlay: @Composable (width: Float, height: Float) -> Unit = { _, _ -> }
 ) {
     val context = LocalContext.current
-    var orientation by remember { mutableStateOf<DeviceOrientation>(DeviceOrientation.Portrait(0)) }
-    DeviceOrientationListener(applicationContext = context) { deviceOrientation ->
+    var orientation by remember { mutableStateOf(DeviceOrientation.Portrait) }
+    DeviceOrientationListener(
+        applicationContext = context,
+        onOrientationChangeRawValue = onOrientationChange
+    ) { deviceOrientation ->
         orientation = deviceOrientation
     }
 
@@ -199,7 +211,7 @@ private fun CameraPreviewView(
         ) {
             val maxAspectRatio = maxWidth / maxHeight
             val wideAspectRatio =
-                if (orientation is DeviceOrientation.Portrait) {
+                if (orientation == DeviceOrientation.Portrait) {
                     Rational(9, 16).toFloat()
                 } else {
                     Rational(16, 9).toFloat()
@@ -207,6 +219,7 @@ private fun CameraPreviewView(
             val shouldUseMaxWidth = maxAspectRatio <= wideAspectRatio
             val width = if (shouldUseMaxWidth) maxWidth else maxHeight * wideAspectRatio
             val height = if (!shouldUseMaxWidth) maxHeight else maxWidth / wideAspectRatio
+            var boxSize by remember { mutableStateOf(Size.Zero) }
 
             Box(
                 modifier =
@@ -214,6 +227,9 @@ private fun CameraPreviewView(
                         .width(width)
                         .height(height)
                         .clip(RoundedCornerShape(16.dp))
+                        .onGloballyPositioned { layoutCoordinates ->
+                            boxSize = layoutCoordinates.size.toSize()
+                        }
             ) {
                 CameraViewFinder(
                     surfaceRequest = it,
@@ -222,7 +238,7 @@ private fun CameraPreviewView(
                     onTap = { x, y -> onTapToFocus(x, y) },
                     modifier = Modifier.fillMaxSize()
                 )
-                overlay(width, height)
+                overlay(boxSize.width, boxSize.height)
             }
         }
     }
