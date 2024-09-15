@@ -13,6 +13,7 @@ import com.rayliu.commonmain.domain.model.BookStores
 import com.rayliu.commonmain.domain.model.SearchRecord
 import com.rayliu.commonmain.domain.service.UserPreferenceManager
 import com.rayliu.commonmain.domain.usecase.DeleteSearchRecordUseCase
+import com.rayliu.commonmain.domain.usecase.GetBookStoresDetailUseCase
 import com.rayliu.commonmain.domain.usecase.GetBooksWithStoresUseCase
 import com.rayliu.commonmain.domain.usecase.GetDefaultBookSortUseCase
 import com.rayliu.commonmain.domain.usecase.GetSearchRecordsCountsUseCase
@@ -53,6 +54,7 @@ class BookSearchViewModel(
     private val getSearchRecordsCountsUseCase: GetSearchRecordsCountsUseCase,
     private val getDefaultBookSortUseCase: GetDefaultBookSortUseCase,
     private val getSearchSnapshotUseCase: GetSearchSnapshotUseCase,
+    private val getBookStoresDetailUseCase: GetBookStoresDetailUseCase,
     private val eventTracker: EventTracker,
     private val quickChecker: QuickChecker,
     private val deleteSearchRecordUseCase: DeleteSearchRecordUseCase,

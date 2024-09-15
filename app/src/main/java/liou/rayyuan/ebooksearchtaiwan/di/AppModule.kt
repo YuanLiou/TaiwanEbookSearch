@@ -40,6 +40,7 @@ val appModule =
                 getSearchRecordsCountsUseCase = get(),
                 getDefaultBookSortUseCase = get(),
                 getSearchSnapshotUseCase = get(),
+                getBookStoresDetailUseCase = get(),
                 eventTracker = get(),
                 quickChecker = get(),
                 deleteSearchRecordUseCase = get(),

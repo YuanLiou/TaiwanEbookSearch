@@ -73,6 +73,10 @@ val domainModule =
         }
 
         factory {
+            NetworkBookStoreListToBookStoreDetailListMapper(get<BookStoreDetailsMapper>())
+        }
+
+        factory {
             BookStoresMapper(get<SearchResultMapper>())
         }
 
@@ -164,7 +168,7 @@ val domainModule =
         }
 
         factory<GetBookStoresDetailUseCase> {
-            GetBookStoresDetailUseCase(get<BookStoreDetailsRepositoryImpl>()::getBookStoresDetail)
+            GetBookStoresDetailUseCase(get<BookStoreDetailsRepository>()::getBookStoresDetail)
         }
 
         // Service (Application)
