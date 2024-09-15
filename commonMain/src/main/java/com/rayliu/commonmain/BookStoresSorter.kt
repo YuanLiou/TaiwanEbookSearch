@@ -67,6 +67,12 @@ object BookStoresSorter {
                     }
                 }
 
+                DefaultStoreNames.LIKERLAND -> {
+                    bookStores.likerLand?.let {
+                        map.put(DefaultStoreNames.LIKERLAND, it)
+                    }
+                }
+
                 else -> {}
             }
         }

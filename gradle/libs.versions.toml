@@ -46,7 +46,7 @@ inAppReview = "2.0.1"
 
 #  Test related
 androidxTestExt = "1.2.1"
-androidxTestRunner = "1.6.1"
+androidxTestRunner = "1.6.2"
 androidxTestCore = "1.6.1"
 androidxEspresso = "3.6.1"
 
@@ -55,7 +55,7 @@ androidGradlePlugin = "8.5.2"
 kotlin = "2.0.20"
 gmsPlugin = "4.4.2"
 firebaseCrashlyticsPlugin = "3.0.2"
-detektVersion = "1.23.6"
+detektVersion = "1.23.7"
 ktlintGradle = "12.1.1"
 sqldelight = "2.0.2"
 
