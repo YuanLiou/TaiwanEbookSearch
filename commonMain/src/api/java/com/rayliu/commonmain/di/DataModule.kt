@@ -5,6 +5,8 @@ import com.rayliu.commonmain.BuildConfig
 import com.rayliu.commonmain.SystemInfoCollector
 import com.rayliu.commonmain.data.api.BookSearchApi
 import com.rayliu.commonmain.data.api.BookSearchService
+import com.rayliu.commonmain.data.api.BookStoresApi
+import com.rayliu.commonmain.data.api.BookStoresService
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.engine.cio.endpoint
@@ -84,5 +86,10 @@ val dataModule =
         // Provide: BookSearchService
         factory<BookSearchService> {
             BookSearchApi(get<HttpClient>())
+        }
+
+        // Provide: BookStoresService
+        factory<BookStoresService> {
+            BookStoresApi(get<HttpClient>())
         }
     }

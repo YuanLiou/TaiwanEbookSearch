@@ -9,7 +9,7 @@ import com.rayliu.commonmain.data.database.EbookTwDatabase
 import com.rayliu.commonmain.data.mapper.BookDataMapper
 import com.rayliu.commonmain.data.mapper.BookListMapper
 import com.rayliu.commonmain.data.mapper.BookStoreDetailsMapper
-import com.rayliu.commonmain.data.mapper.BookStoreListMapper
+import com.rayliu.commonmain.data.mapper.NetworkResultToBookStoreListMapper
 import com.rayliu.commonmain.data.mapper.BookStoreMapper
 import com.rayliu.commonmain.data.mapper.BookStoresMapper
 import com.rayliu.commonmain.data.mapper.LocalSearchRecordMapper
@@ -60,11 +60,11 @@ val domainModule =
         }
 
         factory {
-            BookStoreListMapper(get<BookStoreMapper>())
+            NetworkResultToBookStoreListMapper(get<BookStoreMapper>())
         }
 
         factory {
-            SearchResultMapper(get<BookStoreListMapper>())
+            SearchResultMapper(get<NetworkResultToBookStoreListMapper>())
         }
 
         factory {

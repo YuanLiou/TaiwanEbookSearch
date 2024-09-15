@@ -1,4 +1,5 @@
 -keep class com.rayliu.commonmain.data.api.BookSearchService { *; }
+-keep class com.rayliu.commonmain.data.api.BookStoresService { *; }
 
 # Kotlin Serialization
 # Kotlin serialization looks up the generated serializer classes through a function on companion
