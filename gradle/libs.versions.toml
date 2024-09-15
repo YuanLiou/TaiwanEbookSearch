@@ -59,6 +59,7 @@ firebaseCrashlyticsPlugin = "3.0.2"
 detektVersion = "1.23.7"
 ktlintGradle = "12.1.1"
 sqldelight = "2.0.2"
+uiAndroid = "1.7.1"
 
 [libraries]
 coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
@@ -104,6 +105,7 @@ compose-activity = { group = "androidx.activity", name = "activity-compose", ver
 compose-lifecycle = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycleCompose" }
 compose-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata" }
 compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+compose-ui-android = { group = "androidx.compose.ui", name = "ui-android" }
 constraintlayout-compose = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintlayoutCompose" }
 request-permission-compose = { group = "com.github.MshariAlsayari", name = "Request-Permission-Compose", version.ref = "requestPermissionCompose" }
 

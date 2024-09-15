@@ -25,6 +25,7 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.os.BundleCompat
@@ -151,10 +152,24 @@ class BookResultListFragment :
         ) { state -> render(state) }
 
         sendUserIntent(BookSearchUserIntent.OnViewReadyToServe)
+        setupServiceStatusUi()
         handleInitialDeepLink()
 
         viewLifecycleOwner.lifecycleScope.launch {
             hasUserSeenRankWindow = bookSearchViewModel.checkUserHasSeenRankWindow()
+        }
+    }
+
+    private fun setupServiceStatusUi() {
+        viewBinding.searchViewComposeView.run {
+            setViewCompositionStrategy(
+                ViewCompositionStrategy.DisposeOnLifecycleDestroyed(
+                    lifecycleOwner = this@BookResultListFragment
+                )
+            )
+            setContent {
+                // TODO
+            }
         }
     }
 

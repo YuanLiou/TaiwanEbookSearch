@@ -168,6 +168,7 @@ dependencies {
     implementation(libs.compose.lifecycle)
     implementation(libs.compose.livedata)
     implementation(libs.constraintlayout.compose)
+    implementation(libs.compose.ui.android)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
     implementation(libs.compose.navigation)
