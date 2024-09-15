@@ -36,7 +36,6 @@ import liou.rayyuan.ebooksearchtaiwan.booksearch.list.SiteInfo
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
 import liou.rayyuan.ebooksearchtaiwan.interactor.UserRankingWindowFacade
-import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.uimodel.BookUiModel
 import liou.rayyuan.ebooksearchtaiwan.uimodel.asUiModel
 import liou.rayyuan.ebooksearchtaiwan.utils.ClipboardHelper
@@ -55,7 +54,6 @@ class BookSearchViewModel(
     private val getDefaultBookSortUseCase: GetDefaultBookSortUseCase,
     private val getSearchSnapshotUseCase: GetSearchSnapshotUseCase,
     private val getBookStoresDetailUseCase: GetBookStoresDetailUseCase,
-    private val eventTracker: EventTracker,
     private val quickChecker: QuickChecker,
     private val deleteSearchRecordUseCase: DeleteSearchRecordUseCase,
     private val resourceHelper: ResourceHelper,
@@ -84,7 +82,6 @@ class BookSearchViewModel(
 
     private var networkJob: Job? = null
     private val maxListNumber: Int = 10
-    private var eggCount: Int = 0
     private var bookStores: BookStores? = null
     private var previousKeyword: String? = null
     val hasPreviousSearch: Boolean
@@ -118,10 +115,6 @@ class BookSearchViewModel(
 
                     BookSearchUserIntent.OnViewReadyToServe -> {
                         ready()
-                    }
-
-                    BookSearchUserIntent.PressHint -> {
-                        hintPressed()
                     }
 
                     is BookSearchUserIntent.SearchBook -> {
@@ -161,7 +154,6 @@ class BookSearchViewModel(
 
     override fun onCleared() {
         forceStopRequestingBookData()
-        eggCount = 0
         super.onCleared()
     }
 
@@ -177,15 +169,6 @@ class BookSearchViewModel(
                 prepareBookSearchResult(it)
             }
         }
-    }
-
-    private fun hintPressed() {
-        eggCount++
-        if (eggCount == 10) {
-            sendViewEffect(ScreenState.EasterEgg)
-            eventTracker.logEvent(EventTracker.SHOW_EASTER_EGG_01)
-        }
-        eventTracker.logEvent(EventTracker.CLICK_INFO_BUTTON)
     }
 
     private fun focusOnEditText(isFocus: Boolean) {

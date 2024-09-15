@@ -13,8 +13,6 @@
     <string name="search_bar_hint">Search with book name or ISBN</string>
     <string name="book_walker_title">BOOKWALKER</string>
     <string name="search_keyword_empty">Keywords is empty</string>
-    <string name="welcome_words">Press search bar to get start.</string>
-    <string name="easter_egg_01">Don\'t hit the button over 100!</string>
     <string name="playbook_title">Google Play Books</string>
     <string name="pubu_title">Pubu</string>
     <string name="app_version">App Version: %1$s</string>

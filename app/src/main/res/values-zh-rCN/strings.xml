@@ -15,8 +15,6 @@
     <string name="state_timeout">连接逾时，请再试一次</string>
     <string name="search_bar_hint">搜索书名或 ISBN</string>
     <string name="search_keyword_empty">未输入任何关键词</string>
-    <string name="welcome_words">按下搜索列开始</string>
-    <string name="easter_egg_01">6 起来！</string>
     <string name="app_version">版本：%1$s</string>
     <string name="result_nothing">战队里面没人</string>
     <string name="network_error_message">连接发生错误，请稍后再尝试一次</string>

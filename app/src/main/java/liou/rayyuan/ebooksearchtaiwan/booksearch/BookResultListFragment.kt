@@ -151,7 +151,6 @@ class BookResultListFragment :
         ) { state -> render(state) }
 
         sendUserIntent(BookSearchUserIntent.OnViewReadyToServe)
-        setupUI()
         handleInitialDeepLink()
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -246,16 +245,6 @@ class BookResultListFragment :
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = searchRecordsAdapter
         }
-
-        viewBinding.searchViewHint.setOnClickListener(this)
-        viewBinding.searchViewHint.compoundDrawables
-            .filterNotNull()
-            .forEach {
-                DrawableCompat.setTint(
-                    it,
-                    ContextCompat.getColor(requireContext(), R.color.gray)
-                )
-            }
 
         val linearLayoutManager = resultsRecyclerView.layoutManager as LinearLayoutManager
         linearLayoutManager.initialPrefetchItemCount = 6
@@ -416,16 +405,6 @@ class BookResultListFragment :
         )
     }
 
-    private fun setupUI() {
-        val hintWithAppVersion =
-            viewBinding.searchViewHint.text.toString() + "\n" +
-                resources.getString(
-                    R.string.app_version,
-                    BuildConfig.VERSION_NAME
-                )
-        viewBinding.searchViewHint.text = hintWithAppVersion
-    }
-
     override fun render(viewState: BookResultViewState) {
         renderMainResultView(viewState)
     }
@@ -435,7 +414,6 @@ class BookResultListFragment :
             is BookResultViewState.PrepareBookResult -> {
                 viewBinding.searchViewProgressbar.visibility = View.VISIBLE
                 resultsRecyclerView.visibility = View.GONE
-                viewBinding.searchViewHint.visibility = View.GONE
                 viewBinding.searchViewBackToTopButton.visibility = View.GONE
                 viewBinding.searchViewAdviewLayout.visibility = View.VISIBLE
 
@@ -465,7 +443,6 @@ class BookResultListFragment :
 
                 viewBinding.searchViewProgressbar.visibility = View.GONE
                 resultsRecyclerView.visibility = View.VISIBLE
-                viewBinding.searchViewHint.visibility = View.GONE
                 viewBinding.searchViewBackToTopButton.visibility = View.VISIBLE
                 viewBinding.searchViewAdviewLayout.visibility = View.GONE
 
@@ -492,7 +469,6 @@ class BookResultListFragment :
             BookResultViewState.PrepareBookResultError -> {
                 viewBinding.searchViewProgressbar.visibility = View.GONE
                 resultsRecyclerView.visibility = View.GONE
-                viewBinding.searchViewHint.visibility = View.VISIBLE
                 viewBinding.searchViewBackToTopButton.visibility = View.GONE
                 viewBinding.searchViewAdviewLayout.visibility = View.GONE
 
@@ -561,10 +537,6 @@ class BookResultListFragment :
 
     private fun updateScreen(screenState: ScreenState) {
         when (screenState) {
-            ScreenState.EasterEgg -> {
-                showEasterEgg01()
-            }
-
             ScreenState.ConnectionTimeout -> {
                 showInternetConnectionTimeout()
             }
@@ -697,12 +669,6 @@ class BookResultListFragment :
         }
     }
 
-    private fun showEasterEgg01() {
-        if (isAdded) {
-            Toast.makeText(requireContext(), R.string.easter_egg_01, Toast.LENGTH_LONG).show()
-        }
-    }
-
     private fun showNetworkErrorMessage() {
         if (isAdded) {
             getString(R.string.network_error_message).showToastOn(requireContext())
@@ -742,10 +708,6 @@ class BookResultListFragment :
     //region View.OnClickListener
     override fun onClick(view: View?) {
         when (view?.id) {
-            R.id.search_view_hint -> {
-                hintPressed()
-            }
-
             R.id.search_view_back_to_top_button -> {
                 val canListScrollVertically = resultsRecyclerView.canScrollVertically(-1)
                 backToTop(canListScrollVertically)
@@ -766,11 +728,6 @@ class BookResultListFragment :
             focusBookSearchEditText()
             eventTracker.logEvent(EventTracker.CLICK_TO_SEARCH_BUTTON)
         }
-    }
-
-    private fun hintPressed() {
-        sendUserIntent(BookSearchUserIntent.PressHint)
-        focusBookSearchEditText()
     }
     //endregion
 
