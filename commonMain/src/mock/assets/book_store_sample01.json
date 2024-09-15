@@ -1,0 +1,72 @@
+[
+  {
+    "website": "https://readmoo.com/",
+    "displayName": "Readmoo 讀墨",
+    "id": "readmoo",
+    "status": "Active",
+    "isOnline": true
+  },
+  {
+    "website": "https://www.taaze.tw/",
+    "displayName": "Taaze 讀冊生活",
+    "id": "taaze",
+    "isOnline": true,
+    "status": "Active"
+  },
+  {
+    "website": "https://www.bookwalker.com.tw/",
+    "displayName": "BOOKWALKER",
+    "id": "bookWalker",
+    "status": "Active",
+    "isOnline": true
+  },
+  {
+    "website": "https://www.kobo.com/",
+    "displayName": "樂天 kobo",
+    "id": "kobo",
+    "status": "Active",
+    "isOnline": true
+  },
+  {
+    "website": "https://www.pubu.com.tw/",
+    "displayName": "Pubu 電子商城",
+    "id": "pubu",
+    "status": "Active",
+    "isOnline": true
+  },
+  {
+    "website": "https://ebook.hyread.com.tw/",
+    "displayName": "HyRead 電子書",
+    "id": "hyread",
+    "status": "Active",
+    "isOnline": true
+  },
+  {
+    "displayName": "Amazon Kindle",
+    "id": "kindle",
+    "website": "https://www.amazon.com/Kindle-eBooks/",
+    "status": "Active",
+    "isOnline": true
+  },
+  {
+    "website": "https://play.google.com/store/books",
+    "displayName": "Google Play 圖書",
+    "id": "playStore",
+    "status": "Active",
+    "isOnline": true
+  },
+  {
+    "id": "likerLand",
+    "isOnline": true,
+    "status": "Active",
+    "displayName": "Liker Land",
+    "website": "https://liker.land/"
+  },
+  {
+    "website": "https://www.books.com.tw/",
+    "displayName": "博客來",
+    "id": "booksCompany",
+    "isOnline": true,
+    "status": "Active"
+  }
+]

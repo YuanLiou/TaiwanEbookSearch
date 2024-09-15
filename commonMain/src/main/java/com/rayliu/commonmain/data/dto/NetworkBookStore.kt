@@ -26,4 +26,8 @@ data class NetworkBookStore(
     val status: String? = null,
     @SerialName("website")
     val website: String? = null
-)
+) {
+    companion object {
+        val NOT_FOUND = NetworkBookStore(id = "NotFound")
+    }
+}
