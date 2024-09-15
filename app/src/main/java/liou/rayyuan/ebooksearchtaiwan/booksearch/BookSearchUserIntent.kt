@@ -32,4 +32,6 @@ sealed class BookSearchUserIntent : IUserIntent {
     data object ShareSnapshot : BookSearchUserIntent()
 
     data object RankAppWindowHasShown : BookSearchUserIntent()
+
+    data object CheckServiceStatus : BookSearchUserIntent()
 }

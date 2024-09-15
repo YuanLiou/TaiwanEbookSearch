@@ -15,6 +15,7 @@ import java.io.IOException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
@@ -45,6 +46,8 @@ class BookRepositoryImpl(
 
     private suspend fun mapBookStores(input: NetworkCrawerResult): BookStores =
         withContext(Dispatchers.IO) {
+            val enableStores = getDefaultResultSort().firstOrNull().orEmpty()
+            bookStoresMapper.setEnableStores(enableStores)
             bookStoresMapper.map(input)
         }
 

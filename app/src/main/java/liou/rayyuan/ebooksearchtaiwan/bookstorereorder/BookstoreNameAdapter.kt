@@ -26,7 +26,6 @@ class BookstoreNameAdapter(
     ListItemTouchListener {
     private val bookStores = mutableListOf<SortedStore>()
     private val payloadCheckBoxStatus = "payload-check-box-status"
-    private var lastLockedPosition: Int? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -72,9 +71,9 @@ class BookstoreNameAdapter(
         toggleEdition(holder, bookStore)
 
         if (bookStore.isVisible) {
-            holder.bookstoreCheckBox.setChecked(true)
+            holder.bookstoreCheckBox.isChecked = true
         } else {
-            holder.bookstoreCheckBox.setChecked(false)
+            holder.bookstoreCheckBox.isChecked = false
         }
         holder.bookstoreCheckBox.jumpDrawablesToCurrentState()
     }
@@ -234,10 +233,10 @@ class BookstoreNameAdapter(
         itemView: View
     ) : RecyclerView.ViewHolder(itemView),
         ListDraggingViewHolderHelper {
-        val bookstoreTitle = itemView.findViewById<TextView>(R.id.adapter_bookstore_name_textview)
-        val bookstoreTouchZone = itemView.findViewById<View>(R.id.adapter_bookstore_touchzone)
-        val bookstoreReorderImage = itemView.findViewById<ImageView>(R.id.adapter_bookstore_reorder_imageview)
-        val bookstoreCheckBox = itemView.findViewById<MaterialCheckBox>(R.id.adapter_bookstore_name_checkbox)
+        val bookstoreTitle: TextView = itemView.findViewById(R.id.adapter_bookstore_name_textview)
+        val bookstoreTouchZone: View = itemView.findViewById(R.id.adapter_bookstore_touchzone)
+        val bookstoreReorderImage: ImageView = itemView.findViewById(R.id.adapter_bookstore_reorder_imageview)
+        val bookstoreCheckBox: MaterialCheckBox = itemView.findViewById(R.id.adapter_bookstore_name_checkbox)
 
         override fun onListItemSelected() {
             ViewCompat.setElevation(itemView, 8f)

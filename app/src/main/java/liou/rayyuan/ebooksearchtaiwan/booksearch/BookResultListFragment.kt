@@ -25,7 +25,10 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.os.BundleCompat
@@ -34,7 +37,9 @@ import androidx.core.view.MenuProvider
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.withResumed
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -53,11 +58,13 @@ import liou.rayyuan.ebooksearchtaiwan.BaseFragment
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.arch.IView
+import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.ServiceStatusList
 import liou.rayyuan.ebooksearchtaiwan.booksearch.review.PlayStoreReviewHelper
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
 import liou.rayyuan.ebooksearchtaiwan.databinding.FragmentSearchListBinding
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
+import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
 import liou.rayyuan.ebooksearchtaiwan.utils.clickable
@@ -157,18 +164,28 @@ class BookResultListFragment :
 
         viewLifecycleOwner.lifecycleScope.launch {
             hasUserSeenRankWindow = bookSearchViewModel.checkUserHasSeenRankWindow()
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                sendUserIntent(BookSearchUserIntent.CheckServiceStatus)
+            }
         }
     }
 
     private fun setupServiceStatusUi() {
         viewBinding.searchViewComposeView.run {
-            setViewCompositionStrategy(
-                ViewCompositionStrategy.DisposeOnLifecycleDestroyed(
-                    lifecycleOwner = this@BookResultListFragment
-                )
-            )
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnDetachedFromWindow)
             setContent {
-                // TODO
+                EBookTheme(
+                    darkTheme = isDarkTheme()
+                ) {
+                    val bookStoreDetails =
+                        bookSearchViewModel.bookStoreDetails
+                            .collectAsStateWithLifecycle()
+                            .value
+                    ServiceStatusList(
+                        storeDetails = bookStoreDetails,
+                        modifier = Modifier.padding(top = 100.dp)
+                    )
+                }
             }
         }
     }
@@ -429,6 +446,7 @@ class BookResultListFragment :
             is BookResultViewState.PrepareBookResult -> {
                 viewBinding.searchViewProgressbar.visibility = View.VISIBLE
                 resultsRecyclerView.visibility = View.GONE
+                viewBinding.searchViewComposeView.visibility = View.GONE
                 viewBinding.searchViewBackToTopButton.visibility = View.GONE
                 viewBinding.searchViewAdviewLayout.visibility = View.VISIBLE
 
@@ -458,6 +476,7 @@ class BookResultListFragment :
 
                 viewBinding.searchViewProgressbar.visibility = View.GONE
                 resultsRecyclerView.visibility = View.VISIBLE
+                viewBinding.searchViewComposeView.visibility = View.GONE
                 viewBinding.searchViewBackToTopButton.visibility = View.VISIBLE
                 viewBinding.searchViewAdviewLayout.visibility = View.GONE
 
@@ -484,6 +503,7 @@ class BookResultListFragment :
             BookResultViewState.PrepareBookResultError -> {
                 viewBinding.searchViewProgressbar.visibility = View.GONE
                 resultsRecyclerView.visibility = View.GONE
+                viewBinding.searchViewComposeView.visibility = View.VISIBLE
                 viewBinding.searchViewBackToTopButton.visibility = View.GONE
                 viewBinding.searchViewAdviewLayout.visibility = View.GONE
 

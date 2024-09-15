@@ -74,4 +74,6 @@
     <string name="scanner_default_status">请将条码置于取景框内扫描。</string>
     <string name="start_grant_permission">授予相机权限</string>
     <string name="search_with_result">搜索: %1$s</string>
+    <string name="service_online">服务正常</string>
+    <string name="service_offline">维修中</string>
 </resources>

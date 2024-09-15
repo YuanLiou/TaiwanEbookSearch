@@ -5,6 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/search_view_compose_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:background="#3332A852" />
+
     <FrameLayout
         android:id="@+id/search_view_adview_layout"
         android:layout_width="match_parent"
@@ -23,13 +30,6 @@
         android:indeterminate="true"
         android:visibility="gone"
         tools:visibility="visible" />
-
-    <androidx.compose.ui.platform.ComposeView
-        android:id="@+id/search_view_compose_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:background="#3332A852" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_view_result"

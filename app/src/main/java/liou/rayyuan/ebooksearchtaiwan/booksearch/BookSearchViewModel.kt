@@ -9,6 +9,7 @@ import androidx.paging.cachedIn
 import com.rayliu.commonmain.BookStoresSorter
 import com.rayliu.commonmain.data.DefaultStoreNames
 import com.rayliu.commonmain.domain.model.BookResult
+import com.rayliu.commonmain.domain.model.BookStoreDetails
 import com.rayliu.commonmain.domain.model.BookStores
 import com.rayliu.commonmain.domain.model.SearchRecord
 import com.rayliu.commonmain.domain.service.UserPreferenceManager
@@ -20,9 +21,13 @@ import com.rayliu.commonmain.domain.usecase.GetSearchRecordsCountsUseCase
 import com.rayliu.commonmain.domain.usecase.GetSearchRecordsUseCase
 import com.rayliu.commonmain.domain.usecase.GetSearchSnapshotUseCase
 import java.net.SocketTimeoutException
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
@@ -62,11 +67,6 @@ class BookSearchViewModel(
     private val userPreferenceManager: UserPreferenceManager
 ) : ViewModel(),
     IModel<BookResultViewState, BookSearchUserIntent> {
-    companion object {
-        const val NO_MESSAGE = -1
-        const val GENERIC_NETWORK_ISSUE = "generic-network-issue"
-    }
-
     override val userIntents: Channel<BookSearchUserIntent> = Channel(Channel.UNLIMITED)
     private val _bookResultViewState = MutableLiveData<BookResultViewState>()
     override val viewState: LiveData<BookResultViewState>
@@ -75,6 +75,10 @@ class BookSearchViewModel(
     private val _screenViewState = MutableLiveData<ViewEffect<ScreenState>>()
     val screenViewState: LiveData<ViewEffect<ScreenState>>
         get() = _screenViewState
+
+    private val _bookStoreDetails = MutableStateFlow<ImmutableList<BookStoreDetails>>(persistentListOf())
+    val bookStoreDetails
+        get() = _bookStoreDetails.asStateFlow()
 
     val searchRecordLiveData by lazy {
         getSearchRecordsUseCase().cachedIn(viewModelScope)
@@ -146,6 +150,10 @@ class BookSearchViewModel(
 
                     BookSearchUserIntent.CopySnapshotUrlToClipboard -> {
                         copySnapshotToClipboard()
+                    }
+
+                    BookSearchUserIntent.CheckServiceStatus -> {
+                        checkServiceStatus()
                     }
                 }
             }
@@ -413,6 +421,25 @@ class BookSearchViewModel(
         }
     }
 
+    private fun checkServiceStatus() {
+        if (viewState.value is BookResultViewState.PrepareBookResult || viewState.value is BookResultViewState.ShowBooks) {
+            return
+        }
+
+        Log.i(TAG, "loading service status")
+
+        viewModelScope.launch {
+            getBookStoresDetailUseCase().fold(
+                onSuccess = { bookStoreDetails ->
+                    _bookStoreDetails.value = bookStoreDetails
+                },
+                onFailure = { error ->
+                    Log.e(TAG, Log.getStackTraceString(error))
+                }
+            )
+        }
+    }
+
     private fun sendViewEffect(screenState: ScreenState) {
         _screenViewState.value = ViewEffect(screenState)
     }
@@ -421,5 +448,11 @@ class BookSearchViewModel(
 
     private fun updateScreen(bookResultViewState: BookResultViewState) {
         _bookResultViewState.value = bookResultViewState
+    }
+
+    companion object {
+        const val NO_MESSAGE = -1
+        const val GENERIC_NETWORK_ISSUE = "generic-network-issue"
+        private const val TAG = "BookSearchViewModel"
     }
 }

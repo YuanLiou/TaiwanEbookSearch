@@ -100,6 +100,7 @@ val domainModule =
         factory<BookStoreDetailsRepository> {
             BookStoreDetailsRepositoryImpl(
                 get<BookStoresService>(),
+                get<BookRepository>(),
                 get<NetworkBookStoreListToBookStoreDetailListMapper>()
             )
         }

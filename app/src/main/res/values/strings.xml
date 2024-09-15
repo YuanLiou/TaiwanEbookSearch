@@ -75,4 +75,6 @@
     <string name="scanner_default_status">Place a barcode inside the viewfinder rectangle to scan it.</string>
     <string name="start_grant_permission">Authorize Camera Permission</string>
     <string name="search_with_result">Search: %1$s</string>
+    <string name="service_online">Online</string>
+    <string name="service_offline">Offline</string>
 </resources>
