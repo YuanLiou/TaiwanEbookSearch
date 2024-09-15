@@ -1,8 +1,6 @@
 package liou.rayyuan.ebooksearchtaiwan.ui.theme
 
-import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
@@ -27,7 +25,6 @@ fun EBookTheme(
     CompositionLocalProvider(
         LocalColorScheme provides colorScheme,
         LocalDrawableResources provides drawableResources,
-        LocalIndication provides rememberRipple(),
         content = content
     )
 }
