@@ -28,6 +28,7 @@ import com.rayliu.commonmain.domain.repository.SearchRecordRepositoryImpl
 import com.rayliu.commonmain.domain.service.UserPreferenceManager
 import com.rayliu.commonmain.domain.usecase.DeleteAllSearchRecordUseCase
 import com.rayliu.commonmain.domain.usecase.DeleteSearchRecordUseCase
+import com.rayliu.commonmain.domain.usecase.GetBookStoresDetailUseCase
 import com.rayliu.commonmain.domain.usecase.GetBooksWithStoresUseCase
 import com.rayliu.commonmain.domain.usecase.GetDefaultBookSortUseCase
 import com.rayliu.commonmain.domain.usecase.GetIsUserSeenRankWindowUseCase
@@ -160,6 +161,10 @@ val domainModule =
 
         factory<SaveUserHasSeenRankWindowUseCase> {
             SaveUserHasSeenRankWindowUseCase(get<BrowseHistoryRepository>()::setUserHasSeenRankWindow)
+        }
+
+        factory<GetBookStoresDetailUseCase> {
+            GetBookStoresDetailUseCase(get<BookStoreDetailsRepositoryImpl>()::getBookStoresDetail)
         }
 
         // Service (Application)
