@@ -25,7 +25,8 @@ class BookStoresMapper(
             playStore = books[BookStoreKeys.playStore]?.createBookResult(),
             pubu = books[BookStoreKeys.pubu]?.createBookResult(),
             hyread = books[BookStoreKeys.hyread]?.createBookResult(),
-            kindle = books[BookStoreKeys.kindle]?.createBookResult()
+            kindle = books[BookStoreKeys.kindle]?.createBookResult(),
+            likerLand = books[BookStoreKeys.likerLand]?.createBookResult()
         )
     }
 

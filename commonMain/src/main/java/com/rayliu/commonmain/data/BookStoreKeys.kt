@@ -10,4 +10,5 @@ object BookStoreKeys {
     val kindle = "kindle"
     val playStore = "playStore"
     val booksCompany = "booksCompany"
+    val likerLand = "likerLand"
 }

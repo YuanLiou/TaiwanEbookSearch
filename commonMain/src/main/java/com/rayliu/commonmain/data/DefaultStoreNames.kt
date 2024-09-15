@@ -13,6 +13,7 @@ enum class DefaultStoreNames(
     PLAY_STORE(BookStoreKeys.playStore),
     PUBU(BookStoreKeys.pubu),
     HYREAD(BookStoreKeys.hyread),
+    LIKERLAND(BookStoreKeys.likerLand),
     UNKNOWN("unknown");
 
     companion object {

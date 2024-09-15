@@ -18,6 +18,7 @@ fun DefaultStoreNames.getStringResource(): Int =
         DefaultStoreNames.PLAY_STORE -> R.string.playbook_title
         DefaultStoreNames.PUBU -> R.string.pubu_title
         DefaultStoreNames.HYREAD -> R.string.hyread_title
+        DefaultStoreNames.LIKERLAND -> R.string.liker_land_title
         DefaultStoreNames.UNKNOWN -> R.string.book_source_unknown
     }
 
@@ -33,5 +34,6 @@ fun DefaultStoreNames.getLocalizedName(context: Context): String =
         DefaultStoreNames.PUBU -> context.getString(R.string.pubu_title)
         DefaultStoreNames.HYREAD -> context.getString(R.string.hyread_title)
         DefaultStoreNames.KINDLE -> context.getString(R.string.kindle_title)
+        DefaultStoreNames.LIKERLAND -> context.getString(R.string.liker_land_title)
         DefaultStoreNames.UNKNOWN -> context.getString(R.string.book_source_unknown)
     }

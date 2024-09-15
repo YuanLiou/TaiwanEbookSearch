@@ -11,5 +11,6 @@ data class BookStores(
     val playStore: BookResult?,
     val pubu: BookResult?,
     val hyread: BookResult?,
-    val kindle: BookResult?
+    val kindle: BookResult?,
+    val likerLand: BookResult?
 )

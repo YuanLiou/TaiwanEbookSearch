@@ -2703,6 +2703,105 @@
 				}
 			],
 			"quantity": 24
+		},
+		{
+			"bookstore": {
+				"id": "likerLand",
+				"isOnline": true,
+				"status": "Active",
+				"displayName": "Liker Land",
+				"website": "https://liker.land/"
+			},
+			"isOkay": true,
+			"status": "Crawler success.",
+			"processTime": 631.142328,
+			"books": [
+				{
+					"id": "iscn://likecoin-chain/6jdVWzOYbFkJ-nhHOKrH7a0RX0eeD8h1URn5P4Ctz84",
+					"thumbnail": "https://arweave.net/0ucgZCRDu7YAnfF_GVWl7oJCtX1tqOf3Xd7LFCfeS2k",
+					"title": "野鴿子的黃昏",
+					"link": "https://liker.land/nft/class/likenft12v4d30gj67l22rdakrgzq4jmfajyfcyvyxzagw85c48vx78dds4sf5pa94",
+					"priceCurrency": "USD",
+					"price": 4.99,
+					"about": "此書收錄王尚義寫的小説及散文作品，以其中一篇描述他與表妹的愛情故事為題的短篇小說《野鴿子的黃昏》為書名。\n\n王尚義是一位醫科學生，死後卻因為文學方面的成就獲得重視。他是一位鬱鬱不得志且早夭的作家，享年僅二十六歲，從他的作品中可深深感受到理想與現實間的掙扎、無奈、孤獨與妥協。作者的青年時正值台灣的白色恐怖時期，他的思想和情感堪可作為當時思想和生活受壓的青年的寫照，可能因為長期受負面情緒和生活壓力所影響，最終屈出病來，英年早逝。本書輯錄的其中一篇小說《現實的邊緣》正是描寫這種徘徊於理想與現實的狀況。\n\n「我不敢信賴將來，又抓不住現在，只好沉浸在回憶裡⋯⋯你必須孤獨，反抗那虛幻的幸福，從流俗的浮華裡掙扎出來，建立自己。」然而於物慾橫流的當代，沉醉於文藝、哲思、探尋意義的青年跟現實的嚴重不協調，又豈只是當年的事呢？\n\n1966年由水牛出版社出版的原版除了收錄王尚義的小說及散文外，還收錄了其女友寫給他的情書，及親友於他逝世後而撰的悼文。唯因未能接觸那些文章的作者商洽版權事宜，因而未包括在本書中。",
+					"authors": [
+						"風簷出版"
+					]
+				},
+				{
+					"id": "iscn://likecoin-chain/741WdKu-tJPZDlRHwqEXBTN7V6vl65wF0_wSRgDHXms",
+					"thumbnail": "https://arweave.net/ExZIl0J9JYtrmwnaEcDwl_purze2io9JzeVeAjAPZXE",
+					"title": "抑鬱自療",
+					"link": "https://liker.land/nft/class/likenft1lk8z3j7l9jarggvf0hwz7hwy3hmlk422467eqhe52v5h9h4g3qqsuue7he",
+					"priceCurrency": "USD",
+					"price": 14.11,
+					"about": "2015年香港中文大學曾進行一項調查，發現香港約有61%的人經歷較差的精神狀況，而抑鬱症和焦慮症是香港最普遍的精神疾患。治療抑鬱症，可以採用藥物、心理等治療方式，無論接受哪一種治療，都不能缺乏其中一種相當有效的治療方式——自我幫助及情緒管理，本書建基於「情緒自助人人做到」的信念而寫成。這本自助手冊，概論抑鬱症的部分特點及病者自助理論，介紹基於認知治療、行為治療、靜觀治療、接受和承諾治療、正向心理學等自助理論發展出來病者自助方法，另配合作者臨床經驗而建議的自助方法，內容簡單易明，方法具體可行，協助讀者改善抑鬱病情，獲得健康情緒。現今香港社會病患者眾多，加上社會人士對此病的關注，相信本書非常合用。此書乃配合聯合情緒健康教育中心的推廣情緒健康教育的宗旨。\n\n作者簡介：\n湯國鈞博士\n湯國鈞博士，資深臨牀心理學家，擅長治療抑鬱症、焦慮症。現職基督教聯合醫院，創辦「聯合情緒健康教育中心」，推廣情緒健康教育。著作包括《誰偷走我的快樂》(合著)、《別跟內心怪獸拔河》(合著)等。另有兩名作者：李靜慧及呂慧詩。",
+					"authors": [
+						"突破出版"
+					]
+				},
+				{
+					"id": "iscn://likecoin-chain/9Bahga4-8pHe2G0FeN7VFOLTWq1qWrbe19L5RCD2Do4",
+					"thumbnail": "https://arweave.net/LjkA--MpIH-iblYHQW7AQRAHu5QCnm-MgsecfqrLJlk",
+					"title": "留下來唱一首歌",
+					"link": "https://liker.land/nft/class/likenft14ez73czrd04wjwjjg3ynv86klxuplt2qaut0tla8zwla6zfcn39qt64fpy",
+					"priceCurrency": "USD",
+					"price": 13.9,
+					"about": "本書收錄了30個故事，內容都是圍繞疫情三年來的香港，你和我的經歷，包括疫下隔離、與親友離散、失業、開展網上事業、網課、面對社會變遷等等，故事裏有他有你也有我，有幾年來熟悉的喜怒哀樂。作者記錄這幾年來我們同感的喜怒哀樂，同時以這城巿的歌為燈，給生活一點光。\n\n「除了對地方的歸屬感，最重要的是這個地方有一些跟自己價值觀相同的人，這些人在我心裡面的分量很重，就像你，這個地方有你已經很好。」\n\n作者簡介：\n連倩妤\n專欄作者、填詞人、心理輔導員、兒童社交訓練及情緒管理導師。畢業於加拿大多倫多大學（University of Toronto）工商管理系，副修心理學，後於澳洲蒙納殊大學（Monash University）完成心理輔導碩士學位。\n熱愛文字和音樂，喜歡探索兩者之間的可能。愛吃愛睡，但經常因為文字創作而廢寢忘餐。\n著作：《如果你心累了 —— 聽動物說故事》（合著，2021）。\n\n本作入圍 第21屆香港教育城「十本好讀」中學組候選書目",
+					"authors": [
+						"突破出版"
+					]
+				},
+				{
+					"id": "iscn://likecoin-chain/gmWvImTuijIt0TcdLudnglAwQT0VyILWlKpCDdjNFjk",
+					"thumbnail": "https://arweave.net/jeyQK2YD8G1cbKtf_qDcPohP3W4baNE1arlX2eZvOd0",
+					"title": "A.I.投資 贏接未來",
+					"link": "https://liker.land/nft/class/likenft1rt0qh7mjxflm6ya500z4eputmw92nes0dn7zgqtw3zv3kdghqeks4mnzs3",
+					"priceCurrency": "USD",
+					"price": 34.36,
+					"about": "你今天還只用ChatGPT玩問答遊戲？\n真正的人工智能專家何文浩 (Percival)，20年前已開始以AI系統投資，20年來選中無數倍升股。\n哪一條路能助你「贏」接未來？拿起本書，答案就在你手！\n\nAI專家Percival於2005年已開創選股系統，很可能是「香港AI投資第一人」。他修畢人工智能碩士，更赴美跟成長型投資大師William J. O'Neil拜師學藝，創立人工智能選股系統，將尖端AI科技與投資技術結合，交出寫滿倍升股的亮麗成績表。\n\n\tAI是否萬能？當中有甚麼技術原理？\n\t如何將AI應用到投資領域？\n\t「NLP情緒分析選股法」是真是假？ \n\t如何以AI系統更正自己的認知偏見？\n\t市面眾多投資系統，我應怎樣選擇？\n\n以上問題，你當然可以問ChatGPT，只是其答案你無從fact check，代價可能是輸錢又輸時間。所以，問AI，不如問設計AI系統的專家！你心中關於AI及投資的疑問，本書都有答案，最重要是答案有理論基礎、有數據支持、有用家實證，一本真正tech-based的投資智慧結晶。",
+					"authors": [
+						"天窗"
+					]
+				},
+				{
+					"id": "iscn://likecoin-chain/QzH85hH5ghcW1j9lSKG1_ZOQ-SYeEutHmjzzqeUMqKs",
+					"thumbnail": "https://arweave.net/BQR0V6nv6mjMp-ob4Smia1uyfX0pZaZcGaqqEmojBUQ",
+					"title": "李鴻章傳-白話新編",
+					"link": "https://liker.land/nft/class/likenft1376x95vkcckcja63vy5a8wex0ulga8tvcef37urxxkeau74zhm8quhvcgt",
+					"priceCurrency": "USD",
+					"price": 6.99,
+					"about": "此書為百日維新失敗以後，梁啟超流亡日本之時寫成。當時中國處於甲午戰敗，列強瓜分，維新飲恨之際，實在是千百年華夏文化面對最嚴峻挑戰之時。作者執筆記李鴻章生平，同時也在回首過去幾十年清國所面對的前所未有的巨大挑戰與危機。作者於緒論中如此說：「讀中國近代史的人，不得不提到李鴻章，讀李鴻章傳的人，也不得不掌握中國近代史。」自道光以來幾十年的中國近代史，幾乎無一不與李鴻章相關，因此此書雖為人物傳記，但也可當成認識中國近代史重要的補充讀物。\n\n梁啟超是百日維新的重心人物，他對當時中國的命運可說心急如焚，無一刻不在想救國自強的良策。在此書中，不難見到作者流露出對國策失敗的感慨，對庸人誤國的悲憤，對愚民頑劣的哀嘆。編者讀起來，感覺不單在讀史傳敍述，更感受到作者內心的反省、悔恨和悲戚。其憂國的情緒，躍然於紙上。\n\n作者寫此書的目的，顯然是想為後世開太平奠下前車可鑑的基礎，緒論中有言：「著者於時局稍有所見，不敢隱諱，意不在古人，在來者也。」今天中、港、台及散於世界各地的華人，若想了解中華文化對自我及家鄉的影響，必須從近代中國的歷史開始研究，才能窺得全貌。此書實是欲尋根的華人讀者必讀的佳作。\n\n此書原文是文言文，編者譯作白話文讓當代讀者較容易消化。然而編者筆力有限，譯文無法完全保留梁公一代大儒筆下的文氣，因此書後附上全書原文，方便讀者參考。文中若有援引當時公文，例如皇帝詔書、外交條款等，皆保持用原文。\n\n梁啟超只用了數月成此書，緒論中有言：「遺憾的是時間太緊迫，手頭沒有一本書可以用來考證，書中記述的錯誤難免。希望日後能補充和修正。」今天有幸比當時的資源豐富多了，因此編者厚顏班門弄斧加入註釋和修正，其中一處是作者誤把英國向清庭租借香港新界寫成租借九龍，編者因身為香港人，對此段歷史特別敏感，故幫忙改正之。希望讀者諸君在閱讀時若找到別的錯處，不吝反饋，編者會持續更新版本，合力承先啟後，讓此作流傳於世。此書以分散式出版，修改記錄都會錄於區塊鏈上，無法竄改，更適合供後人查校。",
+					"authors": [
+						"風簷出版"
+					]
+				},
+				{
+					"id": "iscn://likecoin-chain/spOQZCZWYAuiSQXKCCtuo4qTBtLCPgKipRBSch0O3_w",
+					"thumbnail": "https://arweave.net/KiN1YM6McAyMiDDdWDMJepw5agnrCXTCBY2lHOT2338",
+					"title": "角醒第12期",
+					"link": "https://liker.land/nft/class/likenft140zj23fux2yt9qa3sw6z9y4j2xj326gh50xe7dy8kquez32yjpys9y5c0j",
+					"priceCurrency": "USD",
+					"price": 0,
+					"about": "2020年中，疫情嚴峻，社會氣氛極差，無力感重，大部份人的情緒經常處於低位，偶然看見獨立蝶體的一則宣傳，招募各區街坊成立區報，並有一年印刷費資助，於是，我在[我長於大角咀〕Facebook 群組尋找願意加入的街坊，組成五人小隊，符合獨立媒體最低要求，成功申請 30,000資助，作為首六期的印刷費 以及報刊註冊等開支。\n\n第一期的區報，今日回看，有點單薄，實在汗顏。但所有的最初，都是那麼原始，畢竟大家都不是專業辦報。第二期開始，有更多街坊加入，慢慢由5人團隊，發展至今日有30人，並分成7個小組，包括統籌，聯絡，記者，攝影，設計，數據分析，以及校對。當中有些成員移民後，仍會作線上支援，包括管理網上社交媒體。我們的成員中，年輕至中學生，至年近花甲都有，難得是每次開會都溝通暢順，沒什麼代溝。協助派發區報的小店，已發展至超過60間。\n\n貶眼間，角醒已運作兩年,來到第12期，感覺像剛剛才開始成形，甚至有更多可能性。今年年初，第五波疫情爆發，角醒的註冊團體 Time Capsule 想為大角咀長者作點支援，沒想到角醒一年多以來建立的關係，竟成其中一個重要支柱，小店主動提出協助，由借地方，捐物資，助宣傳，出心出力，這些都是當初攪角醒時沒有想過的。如果香港每一區都可以動員到街坊力量，效果必超出想像。",
+					"authors": [
+						"端點出版"
+					]
+				},
+				{
+					"id": "iscn://likecoin-chain/yhChD8AsKegUpDZGOogDAt04UdwoyqtjDd05OelFnzs",
+					"thumbnail": "https://arweave.net/rPANaDWD9CrySAsEHMP-xWePLBWk6VY6Cry-SlJzoJA",
+					"title": "二月",
+					"link": "https://liker.land/nft/class/likenft1xekp4fes3pra0w35t3vwpcy6p8u7cqce3h985azj8ql8nf74c2mqpjgs6p",
+					"priceCurrency": "USD",
+					"price": 4.99,
+					"about": "《二月》名列世紀百強第 66，是中國近代作家柔石創作的中篇小説，1929年首次出版。《二月》主要描述的是一個悲觀失意的青年知識分子蕭澗秋對貧困寡婦的幫助，以及他與熱情的女知識青年陶嵐的戀愛故事，表現了那個時代知識分子對純潔理想的找尋以及他們的悲觀與虛無情緒。",
+					"authors": [
+						"風簷出版"
+					]
+				}
+			],
+			"quantity": 7
 		}
 	],
 	"apiVersion": "1.1.4",
