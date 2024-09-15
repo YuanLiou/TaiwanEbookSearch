@@ -31,7 +31,6 @@ import androidx.core.os.BundleCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -46,7 +45,6 @@ import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.rayliu.commonmain.domain.model.Book
 import com.rayliu.commonmain.domain.model.SearchRecord
-import java.util.Arrays
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -371,7 +369,7 @@ class BookResultListFragment :
         val adView: AdView = viewBinding.searchViewAdviewLayout.findViewById(R.id.admob_view_header_adview)
         val configurationBuilder = RequestConfiguration.Builder()
         if (BuildConfig.DEBUG) {
-            configurationBuilder.setTestDeviceIds(Arrays.asList(BuildConfig.ADMOB_TEST_DEVICE_ID))
+            configurationBuilder.setTestDeviceIds(listOf(BuildConfig.ADMOB_TEST_DEVICE_ID))
         }
         MobileAds.setRequestConfiguration(configurationBuilder.build())
         val adRequest = AdRequest.Builder().build()
@@ -898,15 +896,6 @@ class BookResultListFragment :
         }
         animation.start()
         searchRecordAnimator = animation
-    }
-
-    fun showModuleInstallMessage(message: String) {
-        viewBinding.searchViewFooterMessageRootView.isVisible = true
-        viewBinding.messageViewFooterTitle.text = message
-    }
-
-    fun hideModuleInstallMessage() {
-        viewBinding.searchViewFooterMessageRootView.isVisible = false
     }
 
     //region BookResultClickHandler

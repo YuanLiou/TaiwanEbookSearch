@@ -4,5 +4,6 @@ data class BookStoreDetails(
     val isOnline: Boolean,
     val displayName: String,
     val status: String,
-    val id: String
+    val id: String,
+    val url: String
 )

@@ -51,6 +51,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/adapter_bookstore_result"
+        tools:alpha="0.3"
         tools:visibility="visible" />
 
     <androidx.appcompat.widget.AppCompatImageButton
@@ -147,43 +148,6 @@
             </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
-
-    <FrameLayout
-        android:id="@+id/search_view_footer_message_rootView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:paddingBottom="100dp"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:visibility="gone"
-        android:animateLayoutChanges="true"
-        tools:visibility="visible">
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/message_view_footer_cardView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="@dimen/round_corner"
-            app:cardUseCompatPadding="true"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/dark_gray"
-            >
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/message_view_footer_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:layout_gravity="center_vertical"
-                android:textColor="?android:attr/textColorPrimaryInverse"
-                android:padding="12dp"
-                tools:text="@tools:sample/cities"
-                />
-
-        </com.google.android.material.card.MaterialCardView>
-
-    </FrameLayout>
 
     <include
         layout="@layout/layout_search_records"

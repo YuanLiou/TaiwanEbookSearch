@@ -8,8 +8,9 @@ class BookStoreDetailsMapper : Mapper<NetworkBookStore, BookStoreDetails> {
     override fun map(input: NetworkBookStore): BookStoreDetails =
         BookStoreDetails(
             isOnline = input.isOnline ?: false,
-            displayName = input.displayName ?: "",
-            status = input.status ?: "",
-            id = input.id
+            displayName = input.displayName.orEmpty(),
+            status = input.status.orEmpty(),
+            id = input.id,
+            url = input.website.orEmpty()
         )
 }
