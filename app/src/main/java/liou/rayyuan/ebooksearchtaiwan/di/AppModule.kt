@@ -16,6 +16,7 @@ import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.preferencesetting.PreferenceSettingsViewModel
 import liou.rayyuan.ebooksearchtaiwan.utils.ClipboardHelper
 import liou.rayyuan.ebooksearchtaiwan.utils.CustomTabSessionManager
+import liou.rayyuan.ebooksearchtaiwan.utils.DeviceVibrateHelper
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import liou.rayyuan.ebooksearchtaiwan.utils.ResourceHelper
 import liou.rayyuan.ebooksearchtaiwan.utils.SystemInfoCollectorImpl
@@ -76,6 +77,7 @@ val appModule =
 val appUtilsModule =
     module {
         factory { ResourceHelper(androidApplication()) }
+        factory { DeviceVibrateHelper(androidApplication()) }
         factory { QuickChecker(androidApplication()) }
         single {
             PlayStoreReviewHelper(androidContext())

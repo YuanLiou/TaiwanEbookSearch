@@ -26,7 +26,8 @@ import org.koin.core.annotation.KoinExperimentalAPI
 fun BarcodeScanner(
     modifier: Modifier = Modifier,
     onRequestWindowColorMode: (colorMode: Int) -> Unit = {},
-    onBarcodeAvailable: (barcode: String) -> Unit = {}
+    onScanBarcode: (barcode: String) -> Unit = {},
+    onClickBarcodeResult: (barcode: String) -> Unit = {}
 ) {
     KoinAndroidContext {
         getKoin().loadModules(barcodeScannerModules)
@@ -38,7 +39,8 @@ fun BarcodeScanner(
             BarcodeScannerNavHost(
                 modifier = Modifier.padding(paddings),
                 onRequestWindowColorMode = onRequestWindowColorMode,
-                onBarcodeAvailable = onBarcodeAvailable
+                onScanBarcode = onScanBarcode,
+                onClickBarcodeResult = onClickBarcodeResult
             )
         }
     }
@@ -49,7 +51,8 @@ private fun BarcodeScannerNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     onRequestWindowColorMode: (colorMode: Int) -> Unit = {},
-    onBarcodeAvailable: (barcode: String) -> Unit = {}
+    onScanBarcode: (barcode: String) -> Unit = {},
+    onClickBarcodeResult: (barcode: String) -> Unit = {}
 ) {
     NavHost(
         navController = navController,
@@ -76,7 +79,8 @@ private fun BarcodeScannerNavHost(
 
             CameraPreviewScreen(
                 onRequestWindowColorMode = onRequestWindowColorMode,
-                onBarcodeAvailable = onBarcodeAvailable
+                onScanBarcode = onScanBarcode,
+                onClickBarcodeResult = onClickBarcodeResult
             )
         }
     }
