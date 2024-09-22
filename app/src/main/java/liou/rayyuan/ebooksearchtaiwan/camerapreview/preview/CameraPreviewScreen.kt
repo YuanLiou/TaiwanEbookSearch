@@ -1,5 +1,6 @@
 package liou.rayyuan.ebooksearchtaiwan.camerapreview.preview
 
+import android.content.res.Configuration
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
@@ -20,6 +21,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -58,7 +60,8 @@ fun CameraPreviewScreen(
     modifier: Modifier = Modifier,
     viewModel: CameraPreviewViewModel = koinViewModel(),
     onRequestWindowColorMode: (colorMode: Int) -> Unit = {},
-    onBarcodeAvailable: (barcode: String) -> Unit = {}
+    onScanBarcode: (barcode: String) -> Unit = {},
+    onClickBarcodeResult: (barcode: String) -> Unit = {}
 ) {
     val surfaceRequest by viewModel.surfaceRequest.collectAsStateWithLifecycle()
     val barcodeResult by viewModel.barcode.collectAsStateWithLifecycle()
@@ -91,7 +94,8 @@ fun CameraPreviewScreen(
         },
         onTapToFocus = viewModel::tapToFocus,
         onRequestWindowColorMode = onRequestWindowColorMode,
-        onBarcodeAvailable = onBarcodeAvailable
+        onScanBarcode = onScanBarcode,
+        onClickBarcodeResult = onClickBarcodeResult
     )
 }
 
@@ -104,7 +108,8 @@ private fun CameraPreviewScreenContent(
     onOrientationChange: (orientationValue: Int) -> Unit = {},
     onTapToFocus: (x: Float, y: Float) -> Unit = { _, _ -> },
     onRequestWindowColorMode: (colorMode: Int) -> Unit = {},
-    onBarcodeAvailable: (barcode: String) -> Unit = {}
+    onScanBarcode: (barcode: String) -> Unit = {},
+    onClickBarcodeResult: (barcode: String) -> Unit = {}
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -148,13 +153,19 @@ private fun CameraPreviewScreenContent(
         }
 
         ElevatedCard(
+            shape = RoundedCornerShape(8.dp),
+            colors =
+                CardDefaults.elevatedCardColors(
+                    containerColor = EBookTheme.colors.cardBackgroundColor,
+                    contentColor = EBookTheme.colors.subtitle1TextColor
+                ),
             modifier =
                 Modifier
                     .align(Alignment.BottomCenter)
                     .padding(16.dp)
                     .clickable {
                         if (!isbn.isNullOrEmpty()) {
-                            onBarcodeAvailable(isbn)
+                            onClickBarcodeResult(isbn)
                         }
                     }
         ) {
@@ -174,6 +185,7 @@ private fun CameraPreviewScreenContent(
                         textAlign = TextAlign.Start,
                     )
                     isScanFirstBarcode = true
+                    onScanBarcode(isbn)
                 }
 
                 if (!isScanFirstBarcode) {
@@ -258,7 +270,16 @@ private fun CameraPreviewView(
 
 //region Preview
 @Preview(
-    name = "camera preview screen",
+    name = "Camera Preview Screen",
+    group = "screen",
+    showBackground = true,
+    showSystemUi = false,
+    apiLevel = 34,
+    device = MDPI_DEVICES
+)
+@Preview(
+    name = "Camera Preview Screen Dark",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
     group = "screen",
     showBackground = true,
     showSystemUi = false,
