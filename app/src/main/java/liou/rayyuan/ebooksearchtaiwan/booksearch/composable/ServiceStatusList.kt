@@ -37,10 +37,14 @@ fun ServiceStatusList(
     LazyColumn(
         modifier =
             modifier
+                .padding(vertical = 8.dp)
                 .fillMaxWidth()
                 .nestedScroll(rememberNestedScrollInteropConnection()),
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
+        item {
+            AdBanner(modifier = Modifier.padding(horizontal = 12.dp))
+        }
         items(storeDetails) {
             ServiceStatusCard(
                 storeDetail = it,

@@ -42,7 +42,7 @@ immutableCollections = "0.3.8"
 
 #  Google Service and Firebase Libraries
 firebaseBom = "33.1.2"
-admob = "23.2.0"
+admob = "23.3.0"
 inAppReview = "2.0.1"
 
 #  Test related

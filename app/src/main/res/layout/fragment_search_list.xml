@@ -12,16 +12,6 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:background="#3332A852" />
 
-    <FrameLayout
-        android:id="@+id/search_view_adview_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="75dp">
-
-        <include layout="@layout/admob_view_header" />
-
-    </FrameLayout>
-
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/search_view_progressbar"
         android:layout_width="wrap_content"

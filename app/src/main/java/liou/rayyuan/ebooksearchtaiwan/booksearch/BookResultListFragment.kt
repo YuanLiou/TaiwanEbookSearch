@@ -25,10 +25,8 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ViewCompositionStrategy
-import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.os.BundleCompat
@@ -44,8 +42,6 @@ import androidx.lifecycle.withResumed
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -183,7 +179,7 @@ class BookResultListFragment :
                             .value
                     ServiceStatusList(
                         storeDetails = bookStoreDetails,
-                        modifier = Modifier.padding(top = 100.dp)
+                        modifier = Modifier
                     )
                 }
             }
@@ -296,7 +292,7 @@ class BookResultListFragment :
         )
         viewBinding.searchViewSearchRecordsBackground.setOnClickListener(this)
 
-        loadAds()
+        initAdMods()
         initScrollToTopButton()
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
@@ -327,7 +323,6 @@ class BookResultListFragment :
             viewBinding.searchViewBackToTopButton.updateMargins(bottom = bars.bottom)
             viewBinding.searchViewAppbar.updateMargins(top = bars.top)
             viewBinding.searchViewSearchRecordsBackground.updateMargins(top = bars.top)
-            viewBinding.searchViewAdviewLayout.updatePadding(top = bars.top)
         }
     }
 
@@ -386,15 +381,13 @@ class BookResultListFragment :
         )
     }
 
-    private fun loadAds() {
-        val adView: AdView = viewBinding.searchViewAdviewLayout.findViewById(R.id.admob_view_header_adview)
+    private fun initAdMods() {
+        MobileAds.initialize(requireContext())
         val configurationBuilder = RequestConfiguration.Builder()
         if (BuildConfig.DEBUG) {
             configurationBuilder.setTestDeviceIds(listOf(BuildConfig.ADMOB_TEST_DEVICE_ID))
         }
         MobileAds.setRequestConfiguration(configurationBuilder.build())
-        val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
     }
 
     private fun initScrollToTopButton() {
@@ -448,7 +441,6 @@ class BookResultListFragment :
                 resultsRecyclerView.visibility = View.GONE
                 viewBinding.searchViewComposeView.visibility = View.GONE
                 viewBinding.searchViewBackToTopButton.visibility = View.GONE
-                viewBinding.searchViewAdviewLayout.visibility = View.VISIBLE
 
                 viewBinding.searchViewSearchIcon.isEnabled = false
                 viewBinding.searchViewCameraIcon.isEnabled = false
@@ -478,7 +470,6 @@ class BookResultListFragment :
                 resultsRecyclerView.visibility = View.VISIBLE
                 viewBinding.searchViewComposeView.visibility = View.GONE
                 viewBinding.searchViewBackToTopButton.visibility = View.VISIBLE
-                viewBinding.searchViewAdviewLayout.visibility = View.GONE
 
                 viewBinding.searchViewSearchIcon.isEnabled = true
                 viewBinding.searchViewCameraIcon.isEnabled = true
@@ -505,7 +496,6 @@ class BookResultListFragment :
                 resultsRecyclerView.visibility = View.GONE
                 viewBinding.searchViewComposeView.visibility = View.VISIBLE
                 viewBinding.searchViewBackToTopButton.visibility = View.GONE
-                viewBinding.searchViewAdviewLayout.visibility = View.GONE
 
                 viewBinding.searchViewSearchIcon.isEnabled = true
                 viewBinding.searchViewCameraIcon.isEnabled = true
