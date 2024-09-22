@@ -22,11 +22,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.msharialsayari.requestpermissionlib.component.RequestPermissions
 import com.msharialsayari.requestpermissionlib.model.DialogParams
+import com.msharialsayari.requestpermissionlib.model.TextStyleParams
 import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.delay
 import liou.rayyuan.ebooksearchtaiwan.R
@@ -60,6 +62,9 @@ fun PermissionRequestView(
     var showLoading by remember { mutableStateOf(true) }
     var askCameraPermission by remember { mutableStateOf(false) }
     if (askCameraPermission) {
+        val appName = stringResource(R.string.app_name)
+        val permissionName = stringResource(R.string.permission_camera_name)
+        val authYourselfMessage = stringResource(R.string.auth_yourself, appName, permissionName)
         RequestPermissions(
             permissions = listOf(Manifest.permission.CAMERA),
             isGranted = onGrantPermission,
@@ -71,14 +76,48 @@ fun PermissionRequestView(
                     title = R.string.permission_request_title,
                     message = R.string.permission_required_camera,
                     positiveButtonText = R.string.dialog_auth,
-                    negativeButtonText = R.string.dialog_cancel
+                    negativeButtonText = R.string.dialog_cancel,
+                    backgroundColor = EBookTheme.colors.cardBackgroundColor,
+                    titleTextStyle =
+                        TextStyleParams(
+                            color = EBookTheme.colors.colorOnPrimary
+                        ),
+                    messageTextStyle =
+                        TextStyleParams(
+                            color = EBookTheme.colors.colorOnPrimary
+                        ),
+                    positiveButtonTextStyle =
+                        TextStyleParams(
+                            color = EBookTheme.colors.colorAccent
+                        ),
+                    negativeButtonTextStyle =
+                        TextStyleParams(
+                            color = EBookTheme.colors.colorAccent
+                        )
                 ),
             deniedDialogParams =
                 DialogParams(
                     title = R.string.permission_request_title,
-                    message = R.string.auth_yourself,
+                    messageStr = authYourselfMessage,
                     positiveButtonText = R.string.auth_take_me_there,
                     negativeButtonText = R.string.dialog_cancel,
+                    backgroundColor = EBookTheme.colors.cardBackgroundColor,
+                    titleTextStyle =
+                        TextStyleParams(
+                            color = EBookTheme.colors.colorOnPrimary
+                        ),
+                    messageTextStyle =
+                        TextStyleParams(
+                            color = EBookTheme.colors.colorOnPrimary
+                        ),
+                    positiveButtonTextStyle =
+                        TextStyleParams(
+                            color = EBookTheme.colors.colorAccent
+                        ),
+                    negativeButtonTextStyle =
+                        TextStyleParams(
+                            color = EBookTheme.colors.colorAccent
+                        )
                 )
         )
     }
@@ -94,7 +133,9 @@ fun PermissionRequestView(
         modifier = modifier.fillMaxSize()
     ) {
         if (showLoading) {
-            CircularProgressIndicator()
+            CircularProgressIndicator(
+                color = EBookTheme.colors.colorAccent
+            )
         } else {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -112,7 +153,13 @@ fun PermissionRequestView(
                         askCameraPermission = true
                     }
                 ) {
-                    Text(stringResource(id = R.string.start_grant_permission))
+                    Text(
+                        style =
+                            TextStyle.Default.copy(
+                                color = EBookTheme.colors.colorAccent
+                            ),
+                        text = stringResource(id = R.string.start_grant_permission)
+                    )
                 }
             }
         }
