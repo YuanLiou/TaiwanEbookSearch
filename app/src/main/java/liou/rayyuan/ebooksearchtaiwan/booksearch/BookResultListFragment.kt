@@ -25,6 +25,8 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.os.BundleCompat
@@ -33,13 +35,13 @@ import androidx.core.view.MenuProvider
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.withResumed
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -52,11 +54,13 @@ import liou.rayyuan.ebooksearchtaiwan.BaseFragment
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.arch.IView
+import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.ServiceStatusList
 import liou.rayyuan.ebooksearchtaiwan.booksearch.review.PlayStoreReviewHelper
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
 import liou.rayyuan.ebooksearchtaiwan.databinding.FragmentSearchListBinding
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
+import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
 import liou.rayyuan.ebooksearchtaiwan.utils.clickable
@@ -151,11 +155,34 @@ class BookResultListFragment :
         ) { state -> render(state) }
 
         sendUserIntent(BookSearchUserIntent.OnViewReadyToServe)
-        setupUI()
+        setupServiceStatusUi()
         handleInitialDeepLink()
 
         viewLifecycleOwner.lifecycleScope.launch {
             hasUserSeenRankWindow = bookSearchViewModel.checkUserHasSeenRankWindow()
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                sendUserIntent(BookSearchUserIntent.CheckServiceStatus)
+            }
+        }
+    }
+
+    private fun setupServiceStatusUi() {
+        viewBinding.searchViewComposeView.run {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnDetachedFromWindow)
+            setContent {
+                EBookTheme(
+                    darkTheme = isDarkTheme()
+                ) {
+                    val bookStoreDetails =
+                        bookSearchViewModel.bookStoreDetails
+                            .collectAsStateWithLifecycle()
+                            .value
+                    ServiceStatusList(
+                        storeDetails = bookStoreDetails,
+                        modifier = Modifier
+                    )
+                }
+            }
         }
     }
 
@@ -247,16 +274,6 @@ class BookResultListFragment :
             adapter = searchRecordsAdapter
         }
 
-        viewBinding.searchViewHint.setOnClickListener(this)
-        viewBinding.searchViewHint.compoundDrawables
-            .filterNotNull()
-            .forEach {
-                DrawableCompat.setTint(
-                    it,
-                    ContextCompat.getColor(requireContext(), R.color.gray)
-                )
-            }
-
         val linearLayoutManager = resultsRecyclerView.layoutManager as LinearLayoutManager
         linearLayoutManager.initialPrefetchItemCount = 6
 
@@ -275,7 +292,7 @@ class BookResultListFragment :
         )
         viewBinding.searchViewSearchRecordsBackground.setOnClickListener(this)
 
-        loadAds()
+        initAdMods()
         initScrollToTopButton()
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
@@ -306,7 +323,6 @@ class BookResultListFragment :
             viewBinding.searchViewBackToTopButton.updateMargins(bottom = bars.bottom)
             viewBinding.searchViewAppbar.updateMargins(top = bars.top)
             viewBinding.searchViewSearchRecordsBackground.updateMargins(top = bars.top)
-            viewBinding.searchViewAdviewLayout.updatePadding(top = bars.top)
         }
     }
 
@@ -365,15 +381,13 @@ class BookResultListFragment :
         )
     }
 
-    private fun loadAds() {
-        val adView: AdView = viewBinding.searchViewAdviewLayout.findViewById(R.id.admob_view_header_adview)
+    private fun initAdMods() {
+        MobileAds.initialize(requireContext())
         val configurationBuilder = RequestConfiguration.Builder()
         if (BuildConfig.DEBUG) {
             configurationBuilder.setTestDeviceIds(listOf(BuildConfig.ADMOB_TEST_DEVICE_ID))
         }
         MobileAds.setRequestConfiguration(configurationBuilder.build())
-        val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
     }
 
     private fun initScrollToTopButton() {
@@ -416,16 +430,6 @@ class BookResultListFragment :
         )
     }
 
-    private fun setupUI() {
-        val hintWithAppVersion =
-            viewBinding.searchViewHint.text.toString() + "\n" +
-                resources.getString(
-                    R.string.app_version,
-                    BuildConfig.VERSION_NAME
-                )
-        viewBinding.searchViewHint.text = hintWithAppVersion
-    }
-
     override fun render(viewState: BookResultViewState) {
         renderMainResultView(viewState)
     }
@@ -435,9 +439,8 @@ class BookResultListFragment :
             is BookResultViewState.PrepareBookResult -> {
                 viewBinding.searchViewProgressbar.visibility = View.VISIBLE
                 resultsRecyclerView.visibility = View.GONE
-                viewBinding.searchViewHint.visibility = View.GONE
+                viewBinding.searchViewComposeView.visibility = View.GONE
                 viewBinding.searchViewBackToTopButton.visibility = View.GONE
-                viewBinding.searchViewAdviewLayout.visibility = View.VISIBLE
 
                 viewBinding.searchViewSearchIcon.isEnabled = false
                 viewBinding.searchViewCameraIcon.isEnabled = false
@@ -465,9 +468,8 @@ class BookResultListFragment :
 
                 viewBinding.searchViewProgressbar.visibility = View.GONE
                 resultsRecyclerView.visibility = View.VISIBLE
-                viewBinding.searchViewHint.visibility = View.GONE
+                viewBinding.searchViewComposeView.visibility = View.GONE
                 viewBinding.searchViewBackToTopButton.visibility = View.VISIBLE
-                viewBinding.searchViewAdviewLayout.visibility = View.GONE
 
                 viewBinding.searchViewSearchIcon.isEnabled = true
                 viewBinding.searchViewCameraIcon.isEnabled = true
@@ -492,9 +494,8 @@ class BookResultListFragment :
             BookResultViewState.PrepareBookResultError -> {
                 viewBinding.searchViewProgressbar.visibility = View.GONE
                 resultsRecyclerView.visibility = View.GONE
-                viewBinding.searchViewHint.visibility = View.VISIBLE
+                viewBinding.searchViewComposeView.visibility = View.VISIBLE
                 viewBinding.searchViewBackToTopButton.visibility = View.GONE
-                viewBinding.searchViewAdviewLayout.visibility = View.GONE
 
                 viewBinding.searchViewSearchIcon.isEnabled = true
                 viewBinding.searchViewCameraIcon.isEnabled = true
@@ -561,10 +562,6 @@ class BookResultListFragment :
 
     private fun updateScreen(screenState: ScreenState) {
         when (screenState) {
-            ScreenState.EasterEgg -> {
-                showEasterEgg01()
-            }
-
             ScreenState.ConnectionTimeout -> {
                 showInternetConnectionTimeout()
             }
@@ -697,12 +694,6 @@ class BookResultListFragment :
         }
     }
 
-    private fun showEasterEgg01() {
-        if (isAdded) {
-            Toast.makeText(requireContext(), R.string.easter_egg_01, Toast.LENGTH_LONG).show()
-        }
-    }
-
     private fun showNetworkErrorMessage() {
         if (isAdded) {
             getString(R.string.network_error_message).showToastOn(requireContext())
@@ -742,10 +733,6 @@ class BookResultListFragment :
     //region View.OnClickListener
     override fun onClick(view: View?) {
         when (view?.id) {
-            R.id.search_view_hint -> {
-                hintPressed()
-            }
-
             R.id.search_view_back_to_top_button -> {
                 val canListScrollVertically = resultsRecyclerView.canScrollVertically(-1)
                 backToTop(canListScrollVertically)
@@ -766,11 +753,6 @@ class BookResultListFragment :
             focusBookSearchEditText()
             eventTracker.logEvent(EventTracker.CLICK_TO_SEARCH_BUTTON)
         }
-    }
-
-    private fun hintPressed() {
-        sendUserIntent(BookSearchUserIntent.PressHint)
-        focusBookSearchEditText()
     }
     //endregion
 

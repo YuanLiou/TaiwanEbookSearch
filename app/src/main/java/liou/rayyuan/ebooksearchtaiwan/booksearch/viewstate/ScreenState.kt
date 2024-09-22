@@ -13,8 +13,6 @@ sealed class ScreenState {
         val message: String? = null
     ) : ScreenState()
 
-    data object EasterEgg : ScreenState()
-
     data object ConnectionTimeout : ScreenState()
 
     data object NetworkError : ScreenState()

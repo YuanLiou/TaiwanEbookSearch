@@ -5,15 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/search_view_adview_layout"
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/search_view_compose_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="75dp">
-
-        <include layout="@layout/admob_view_header" />
-
-    </FrameLayout>
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:background="#3332A852" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/search_view_progressbar"
@@ -23,19 +20,6 @@
         android:indeterminate="true"
         android:visibility="gone"
         tools:visibility="visible" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/search_view_hint"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="?selectableItemBackgroundBorderless"
-        android:drawableTop="@drawable/ic_touch_app_black_24dp"
-        android:drawablePadding="8dp"
-        android:gravity="center"
-        android:text="@string/welcome_words"
-        android:textColor="?android:attr/textColorSecondary"
-        android:textSize="16sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_view_result"

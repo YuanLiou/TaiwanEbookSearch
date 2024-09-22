@@ -17,7 +17,7 @@ enum class DefaultStoreNames(
     UNKNOWN("unknown");
 
     companion object {
-        private val map = values().associateBy { it.defaultName }
+        private val map = entries.associateBy { it.defaultName }
 
         fun fromName(storeName: String): DefaultStoreNames = map[storeName] ?: UNKNOWN
     }

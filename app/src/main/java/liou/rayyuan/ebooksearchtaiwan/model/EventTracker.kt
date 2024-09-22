@@ -10,9 +10,7 @@ class EventTracker(
 ) {
     companion object {
         // value to fit Firebase Event name format: underscore
-        const val CLICK_INFO_BUTTON = "click_info_button"
         const val CLICK_BACK_TO_TOP_BUTTON = "click_back_to_top_button"
-        const val SHOW_EASTER_EGG_01 = "show_easter_egg_01"
         const val CLICK_TO_SEARCH_BUTTON = "click_to_search_button"
         const val TOP_SELECTED_STORE = "top_selected_store"
     }

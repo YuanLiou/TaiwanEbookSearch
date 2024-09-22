@@ -9,19 +9,25 @@ import androidx.paging.cachedIn
 import com.rayliu.commonmain.BookStoresSorter
 import com.rayliu.commonmain.data.DefaultStoreNames
 import com.rayliu.commonmain.domain.model.BookResult
+import com.rayliu.commonmain.domain.model.BookStoreDetails
 import com.rayliu.commonmain.domain.model.BookStores
 import com.rayliu.commonmain.domain.model.SearchRecord
 import com.rayliu.commonmain.domain.service.UserPreferenceManager
 import com.rayliu.commonmain.domain.usecase.DeleteSearchRecordUseCase
+import com.rayliu.commonmain.domain.usecase.GetBookStoresDetailUseCase
 import com.rayliu.commonmain.domain.usecase.GetBooksWithStoresUseCase
 import com.rayliu.commonmain.domain.usecase.GetDefaultBookSortUseCase
 import com.rayliu.commonmain.domain.usecase.GetSearchRecordsCountsUseCase
 import com.rayliu.commonmain.domain.usecase.GetSearchRecordsUseCase
 import com.rayliu.commonmain.domain.usecase.GetSearchSnapshotUseCase
 import java.net.SocketTimeoutException
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
@@ -35,7 +41,6 @@ import liou.rayyuan.ebooksearchtaiwan.booksearch.list.SiteInfo
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
 import liou.rayyuan.ebooksearchtaiwan.interactor.UserRankingWindowFacade
-import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.uimodel.BookUiModel
 import liou.rayyuan.ebooksearchtaiwan.uimodel.asUiModel
 import liou.rayyuan.ebooksearchtaiwan.utils.ClipboardHelper
@@ -53,7 +58,7 @@ class BookSearchViewModel(
     private val getSearchRecordsCountsUseCase: GetSearchRecordsCountsUseCase,
     private val getDefaultBookSortUseCase: GetDefaultBookSortUseCase,
     private val getSearchSnapshotUseCase: GetSearchSnapshotUseCase,
-    private val eventTracker: EventTracker,
+    private val getBookStoresDetailUseCase: GetBookStoresDetailUseCase,
     private val quickChecker: QuickChecker,
     private val deleteSearchRecordUseCase: DeleteSearchRecordUseCase,
     private val resourceHelper: ResourceHelper,
@@ -62,11 +67,6 @@ class BookSearchViewModel(
     private val userPreferenceManager: UserPreferenceManager
 ) : ViewModel(),
     IModel<BookResultViewState, BookSearchUserIntent> {
-    companion object {
-        const val NO_MESSAGE = -1
-        const val GENERIC_NETWORK_ISSUE = "generic-network-issue"
-    }
-
     override val userIntents: Channel<BookSearchUserIntent> = Channel(Channel.UNLIMITED)
     private val _bookResultViewState = MutableLiveData<BookResultViewState>()
     override val viewState: LiveData<BookResultViewState>
@@ -76,13 +76,16 @@ class BookSearchViewModel(
     val screenViewState: LiveData<ViewEffect<ScreenState>>
         get() = _screenViewState
 
+    private val _bookStoreDetails = MutableStateFlow<ImmutableList<BookStoreDetails>>(persistentListOf())
+    val bookStoreDetails
+        get() = _bookStoreDetails.asStateFlow()
+
     val searchRecordLiveData by lazy {
         getSearchRecordsUseCase().cachedIn(viewModelScope)
     }
 
     private var networkJob: Job? = null
     private val maxListNumber: Int = 10
-    private var eggCount: Int = 0
     private var bookStores: BookStores? = null
     private var previousKeyword: String? = null
     val hasPreviousSearch: Boolean
@@ -118,10 +121,6 @@ class BookSearchViewModel(
                         ready()
                     }
 
-                    BookSearchUserIntent.PressHint -> {
-                        hintPressed()
-                    }
-
                     is BookSearchUserIntent.SearchBook -> {
                         searchBook(userIntent.keywords)
                     }
@@ -152,6 +151,10 @@ class BookSearchViewModel(
                     BookSearchUserIntent.CopySnapshotUrlToClipboard -> {
                         copySnapshotToClipboard()
                     }
+
+                    BookSearchUserIntent.CheckServiceStatus -> {
+                        checkServiceStatus()
+                    }
                 }
             }
         }
@@ -159,7 +162,6 @@ class BookSearchViewModel(
 
     override fun onCleared() {
         forceStopRequestingBookData()
-        eggCount = 0
         super.onCleared()
     }
 
@@ -175,15 +177,6 @@ class BookSearchViewModel(
                 prepareBookSearchResult(it)
             }
         }
-    }
-
-    private fun hintPressed() {
-        eggCount++
-        if (eggCount == 10) {
-            sendViewEffect(ScreenState.EasterEgg)
-            eventTracker.logEvent(EventTracker.SHOW_EASTER_EGG_01)
-        }
-        eventTracker.logEvent(EventTracker.CLICK_INFO_BUTTON)
     }
 
     private fun focusOnEditText(isFocus: Boolean) {
@@ -428,6 +421,25 @@ class BookSearchViewModel(
         }
     }
 
+    private fun checkServiceStatus() {
+        if (viewState.value is BookResultViewState.PrepareBookResult || viewState.value is BookResultViewState.ShowBooks) {
+            return
+        }
+
+        Log.i(TAG, "loading service status")
+
+        viewModelScope.launch {
+            getBookStoresDetailUseCase().fold(
+                onSuccess = { bookStoreDetails ->
+                    _bookStoreDetails.value = bookStoreDetails
+                },
+                onFailure = { error ->
+                    Log.e(TAG, Log.getStackTraceString(error))
+                }
+            )
+        }
+    }
+
     private fun sendViewEffect(screenState: ScreenState) {
         _screenViewState.value = ViewEffect(screenState)
     }
@@ -436,5 +448,11 @@ class BookSearchViewModel(
 
     private fun updateScreen(bookResultViewState: BookResultViewState) {
         _bookResultViewState.value = bookResultViewState
+    }
+
+    companion object {
+        const val NO_MESSAGE = -1
+        const val GENERIC_NETWORK_ISSUE = "generic-network-issue"
+        private const val TAG = "BookSearchViewModel"
     }
 }
