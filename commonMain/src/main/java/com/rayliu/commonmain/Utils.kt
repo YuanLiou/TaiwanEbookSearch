@@ -13,6 +13,7 @@ object Utils {
             DefaultStoreNames.TAAZE,
             DefaultStoreNames.PLAY_STORE,
             DefaultStoreNames.PUBU,
-            DefaultStoreNames.HYREAD
+            DefaultStoreNames.HYREAD,
+            DefaultStoreNames.LIKERLAND
         )
 }
