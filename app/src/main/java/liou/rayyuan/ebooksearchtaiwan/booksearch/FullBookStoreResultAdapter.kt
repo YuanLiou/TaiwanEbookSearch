@@ -10,8 +10,13 @@ import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import coil.transform.RoundedCornersTransformation
+import coil3.load
+import coil3.request.allowRgb565
+import coil3.request.crossfade
+import coil3.request.lifecycle
+import coil3.request.placeholder
+import coil3.request.transformations
+import coil3.transform.RoundedCornersTransformation
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
