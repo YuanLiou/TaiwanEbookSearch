@@ -12,19 +12,17 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
 import android.util.TypedValue
-import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.DecelerateInterpolator
-import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.content.ContextCompat
@@ -47,13 +45,12 @@ import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.rayliu.commonmain.domain.model.Book
 import com.rayliu.commonmain.domain.model.SearchRecord
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.BaseFragment
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.arch.IView
+import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.SearchBox
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.ServiceStatusList
 import liou.rayyuan.ebooksearchtaiwan.booksearch.review.PlayStoreReviewHelper
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
@@ -63,10 +60,8 @@ import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
-import liou.rayyuan.ebooksearchtaiwan.utils.clickable
 import liou.rayyuan.ebooksearchtaiwan.utils.setupEdgeToEdge
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
-import liou.rayyuan.ebooksearchtaiwan.utils.throttleFirst
 import liou.rayyuan.ebooksearchtaiwan.utils.updateMargins
 import liou.rayyuan.ebooksearchtaiwan.view.ViewEffectObserver
 import org.koin.android.ext.android.inject
@@ -156,6 +151,7 @@ class BookResultListFragment :
 
         sendUserIntent(BookSearchUserIntent.OnViewReadyToServe)
         setupServiceStatusUi()
+        setupToolbar()
         handleInitialDeepLink()
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -180,6 +176,33 @@ class BookResultListFragment :
                     ServiceStatusList(
                         storeDetails = bookStoreDetails,
                         modifier = Modifier
+                    )
+                }
+            }
+        }
+    }
+
+    private fun setupToolbar() {
+        viewBinding.searchViewAppbarComposeView.run {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnDetachedFromWindow)
+            setContent {
+                EBookTheme(
+                    darkTheme = isDarkTheme()
+                ) {
+                    val searchKeywords =
+                        bookSearchViewModel.searchKeywords
+                            .collectAsStateWithLifecycle()
+                            .value
+                    SearchBox(
+                        text = searchKeywords,
+                        onTextChange = {
+                            sendUserIntent(BookSearchUserIntent.UpdateKeyword(it))
+                        },
+                        onPressSearch = {
+                            sendUserIntent(BookSearchUserIntent.SearchBook())
+                        },
+                        showCameraButton = isCameraAvailable(),
+                        modifier = Modifier.fillMaxWidth()
                     )
                 }
             }
@@ -220,55 +243,6 @@ class BookResultListFragment :
     }
 
     private fun init() {
-        viewBinding.searchViewSearchIcon
-            .clickable()
-            .throttleFirst(CLICK_MILLISECOND_THRESHOLD)
-            .onEach {
-                searchBook()
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-        if (isCameraAvailable()) {
-            viewBinding.searchViewCameraIcon
-                .clickable()
-                .throttleFirst(CLICK_MILLISECOND_THRESHOLD)
-                .onEach {
-                    openCameraPreview()
-                }.launchIn(viewLifecycleOwner.lifecycleScope)
-        } else {
-            viewBinding.searchViewCameraIcon.visibility = View.GONE
-        }
-
-        viewBinding.searchViewEdittext.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                searchWithEditText()
-                return@setOnEditorActionListener true
-            }
-            false
-        }
-
-        viewBinding.searchViewEdittext.setOnKeyListener(
-            View.OnKeyListener { _, keyCode, event ->
-                if (event.action == KeyEvent.ACTION_DOWN) {
-                    if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                        searchWithEditText()
-                        return@OnKeyListener true
-                    }
-
-                    if (keyCode == KeyEvent.KEYCODE_ESCAPE) {
-                        hideVirtualKeyboard()
-                        viewBinding.searchViewEdittext.clearFocus()
-                        return@OnKeyListener true
-                    }
-                }
-                false
-            }
-        )
-
-        viewBinding.searchViewEdittext.onFocusChangeListener =
-            View.OnFocusChangeListener { _, hasFocus ->
-                sendUserIntent(BookSearchUserIntent.FocusOnTextEditing(hasFocus))
-            }
-
         with(searchRecordsRecyclerView) {
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = searchRecordsAdapter
@@ -284,9 +258,7 @@ class BookResultListFragment :
                     dx: Int,
                     dy: Int
                 ) {
-                    if (viewBinding.searchViewEdittext.isFocused) {
-                        viewBinding.searchViewEdittext.clearFocus()
-                    }
+                    // TODO: clear focus
                 }
             }
         )
@@ -324,13 +296,6 @@ class BookResultListFragment :
             viewBinding.searchViewAppbar.updateMargins(top = bars.top)
             viewBinding.searchViewSearchRecordsBackground.updateMargins(top = bars.top)
         }
-    }
-
-    private fun searchWithEditText() {
-        hideVirtualKeyboard()
-        viewBinding.searchViewEdittext.clearFocus()
-        val keyword: String = viewBinding.searchViewEdittext.text.toString()
-        sendUserIntent(BookSearchUserIntent.SearchBook(keyword))
     }
 
     private fun setupOptionMenu() {
@@ -373,7 +338,9 @@ class BookResultListFragment :
                             true
                         }
 
-                        else -> true
+                        else -> {
+                            true
+                        }
                     }
             },
             viewLifecycleOwner,
@@ -442,8 +409,7 @@ class BookResultListFragment :
                 viewBinding.searchViewComposeView.visibility = View.GONE
                 viewBinding.searchViewBackToTopButton.visibility = View.GONE
 
-                viewBinding.searchViewSearchIcon.isEnabled = false
-                viewBinding.searchViewCameraIcon.isEnabled = false
+                // TODO: Disable search and camera icon
 
                 if (this::shareResultMenu.isInitialized) {
                     shareResultMenu.setVisible(false)
@@ -471,8 +437,7 @@ class BookResultListFragment :
                 viewBinding.searchViewComposeView.visibility = View.GONE
                 viewBinding.searchViewBackToTopButton.visibility = View.VISIBLE
 
-                viewBinding.searchViewSearchIcon.isEnabled = true
-                viewBinding.searchViewCameraIcon.isEnabled = true
+                // TODO: Enable search and camera icon
 
                 if (bookResultViewState.keyword.isNotEmpty()) {
                     changeSearchBoxKeyword(bookResultViewState.keyword)
@@ -497,8 +462,7 @@ class BookResultListFragment :
                 viewBinding.searchViewComposeView.visibility = View.VISIBLE
                 viewBinding.searchViewBackToTopButton.visibility = View.GONE
 
-                viewBinding.searchViewSearchIcon.isEnabled = true
-                viewBinding.searchViewCameraIcon.isEnabled = true
+                // TODO: Enable search and camera icon
 
                 if (this::shareResultMenu.isInitialized) {
                     shareResultMenu.setVisible(false)
@@ -670,27 +634,21 @@ class BookResultListFragment :
     }
 
     private fun hideVirtualKeyboard() {
-        if (isAdded) {
-            val inputManager: InputMethodManager =
-                requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputManager.hideSoftInputFromWindow(viewBinding.searchViewEdittext.windowToken, 0)
-        }
+        // TODO: hideVirtualKeyboard
     }
 
     private fun focusAndCleanBookSearchEditText() {
-        if (isAdded) {
-            viewBinding.searchViewEdittext.setText("")
-            focusBookSearchEditText()
-        }
+        // TODO: focusAndCleanBookSearchEditText
     }
 
     private fun focusBookSearchEditText() {
         if (isAdded) {
             viewBinding.searchViewAppbar.setExpanded(true, true)
-            viewBinding.searchViewEdittext.requestFocus()
-            val inputManager: InputMethodManager =
-                requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputManager.showSoftInput(viewBinding.searchViewEdittext, 0)
+            // TODO: focus on BookSearchEditText
+//            viewBinding.searchViewEdittext.requestFocus()
+//            val inputManager: InputMethodManager =
+//                requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//            inputManager.showSoftInput(viewBinding.searchViewEdittext, 0)
         }
     }
 
@@ -725,9 +683,8 @@ class BookResultListFragment :
 
     private fun searchBook() {
         hideVirtualKeyboard()
-        viewBinding.searchViewEdittext.clearFocus()
-        val keyword = viewBinding.searchViewEdittext.text.toString()
-        sendUserIntent(BookSearchUserIntent.SearchBook(keyword))
+        // TODO: searchBook, to get the keyword
+//        sendUserIntent(BookSearchUserIntent.SearchBook(keyword))
     }
 
     //region View.OnClickListener
@@ -785,9 +742,7 @@ class BookResultListFragment :
     }
 
     private fun changeSearchBoxKeyword(keyword: String) {
-        viewBinding.searchViewEdittext.setText(keyword)
-        viewBinding.searchViewEdittext.setSelection(keyword.length)
-        viewBinding.searchViewEdittext.clearFocus()
+        // TODO: changeSearchBoxKeyword
     }
 
     fun showSearchSnapshot(searchId: String) {
@@ -796,10 +751,11 @@ class BookResultListFragment :
     }
 
     fun backPressed(): Boolean {
-        if (viewBinding.searchViewEdittext.isFocused) {
-            viewBinding.searchViewEdittext.clearFocus()
-            return true
-        }
+        // TODO: backPressed remove focus
+//        if (viewBinding.searchViewEdittext.isFocused) {
+//            viewBinding.searchViewEdittext.clearFocus()
+//            return true
+//        }
 
         return false
     }

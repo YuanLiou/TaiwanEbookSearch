@@ -1,5 +1,6 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
+import androidx.compose.ui.text.input.TextFieldValue
 import com.google.android.play.core.review.ReviewInfo
 import com.rayliu.commonmain.domain.model.SearchRecord
 import liou.rayyuan.ebooksearchtaiwan.arch.IUserIntent
@@ -10,7 +11,7 @@ sealed class BookSearchUserIntent : IUserIntent {
     ) : BookSearchUserIntent()
 
     data class SearchBook(
-        val keywords: String
+        val keywords: String? = null
     ) : BookSearchUserIntent()
 
     data class ShowSearchSnapshot(
@@ -23,6 +24,10 @@ sealed class BookSearchUserIntent : IUserIntent {
 
     data class AskUserRankApp(
         val reviewInfo: ReviewInfo
+    ) : BookSearchUserIntent()
+
+    data class UpdateKeyword(
+        val keywords: TextFieldValue
     ) : BookSearchUserIntent()
 
     data object CopySnapshotUrlToClipboard : BookSearchUserIntent()

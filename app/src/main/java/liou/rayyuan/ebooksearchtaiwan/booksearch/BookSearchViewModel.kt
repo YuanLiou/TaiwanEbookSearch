@@ -1,6 +1,7 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import android.util.Log
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -80,6 +81,10 @@ class BookSearchViewModel(
     val bookStoreDetails
         get() = _bookStoreDetails.asStateFlow()
 
+    private val _searchKeywords = MutableStateFlow(TextFieldValue(""))
+    val searchKeywords
+        get() = _searchKeywords.asStateFlow()
+
     val searchRecordLiveData by lazy {
         getSearchRecordsUseCase().cachedIn(viewModelScope)
     }
@@ -122,7 +127,12 @@ class BookSearchViewModel(
                     }
 
                     is BookSearchUserIntent.SearchBook -> {
-                        searchBook(userIntent.keywords)
+                        val keyword = userIntent.keywords
+                        if (keyword != null) {
+                            searchBook(userIntent.keywords)
+                        } else {
+                            searchBook(searchKeywords.value.text)
+                        }
                     }
 
                     is BookSearchUserIntent.ShowSearchSnapshot -> {
@@ -154,6 +164,10 @@ class BookSearchViewModel(
 
                     BookSearchUserIntent.CheckServiceStatus -> {
                         checkServiceStatus()
+                    }
+
+                    is BookSearchUserIntent.UpdateKeyword -> {
+                        _searchKeywords.value = userIntent.keywords
                     }
                 }
             }
