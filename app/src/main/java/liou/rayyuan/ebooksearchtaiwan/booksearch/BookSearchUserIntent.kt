@@ -42,6 +42,14 @@ sealed class BookSearchUserIntent : IUserIntent {
         val show: Boolean
     ) : BookSearchUserIntent()
 
+    data class EnableCameraButtonClick(
+        val enable: Boolean
+    ) : BookSearchUserIntent()
+
+    data class EnableSearchButtonClick(
+        val enable: Boolean
+    ) : BookSearchUserIntent()
+
     data object CopySnapshotUrlToClipboard : BookSearchUserIntent()
 
     data object OnViewReadyToServe : BookSearchUserIntent()

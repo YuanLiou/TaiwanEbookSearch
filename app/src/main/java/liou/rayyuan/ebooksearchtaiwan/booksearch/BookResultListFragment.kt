@@ -206,6 +206,16 @@ class BookResultListFragment :
                             .collectAsStateWithLifecycle()
                             .value
 
+                    val enableCameraButtonClick =
+                        bookSearchViewModel.enableCameraButtonClick
+                            .collectAsStateWithLifecycle()
+                            .value
+
+                    val enableSearchButtonClick =
+                        bookSearchViewModel.enableSearchButtonClick
+                            .collectAsStateWithLifecycle()
+                            .value
+
                     SearchBox(
                         text = searchKeywords,
                         onTextChange = {
@@ -220,9 +230,18 @@ class BookResultListFragment :
                         },
                         onFocusChange = {
                             sendUserIntent(BookSearchUserIntent.UpdateTextInputFocusState(it.isFocused))
+                            sendUserIntent(BookSearchUserIntent.FocusOnTextEditing(it.isFocused))
                         },
                         virtualKeyboardAction = virtualKeyboardAction,
                         showCameraButton = isCameraAvailable(),
+                        enableCameraButtonClick = enableCameraButtonClick,
+                        enableSearchButtonClick = enableSearchButtonClick,
+                        onCameraButtonPress = {
+                            openCameraPreview()
+                        },
+                        onSearchButtonPress = {
+                            searchBook()
+                        },
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
@@ -428,7 +447,8 @@ class BookResultListFragment :
                 viewBinding.searchViewComposeView.visibility = View.GONE
                 viewBinding.searchViewBackToTopButton.visibility = View.GONE
 
-                // TODO: Disable search and camera icon
+                sendUserIntent(BookSearchUserIntent.EnableCameraButtonClick(false))
+                sendUserIntent(BookSearchUserIntent.EnableSearchButtonClick(false))
 
                 if (this::shareResultMenu.isInitialized) {
                     shareResultMenu.setVisible(false)
@@ -456,7 +476,8 @@ class BookResultListFragment :
                 viewBinding.searchViewComposeView.visibility = View.GONE
                 viewBinding.searchViewBackToTopButton.visibility = View.VISIBLE
 
-                // TODO: Enable search and camera icon
+                sendUserIntent(BookSearchUserIntent.EnableCameraButtonClick(true))
+                sendUserIntent(BookSearchUserIntent.EnableSearchButtonClick(true))
 
                 if (bookResultViewState.keyword.isNotEmpty()) {
                     changeSearchBoxKeyword(bookResultViewState.keyword)
@@ -481,7 +502,8 @@ class BookResultListFragment :
                 viewBinding.searchViewComposeView.visibility = View.VISIBLE
                 viewBinding.searchViewBackToTopButton.visibility = View.GONE
 
-                // TODO: Enable search and camera icon
+                sendUserIntent(BookSearchUserIntent.EnableCameraButtonClick(true))
+                sendUserIntent(BookSearchUserIntent.EnableSearchButtonClick(true))
 
                 if (this::shareResultMenu.isInitialized) {
                     shareResultMenu.setVisible(false)

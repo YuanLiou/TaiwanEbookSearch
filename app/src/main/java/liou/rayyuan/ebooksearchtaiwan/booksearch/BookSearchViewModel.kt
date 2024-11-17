@@ -99,6 +99,14 @@ class BookSearchViewModel(
     val showVirtualKeyboard
         get() = _showVirtualKeyboard.asStateFlow()
 
+    private val _enableCameraButtonClick = MutableStateFlow(true)
+    val enableCameraButtonClick
+        get() = _enableCameraButtonClick.asStateFlow()
+
+    private val _enableSearchButtonClick = MutableStateFlow(true)
+    val enableSearchButtonClick
+        get() = _enableSearchButtonClick.asStateFlow()
+
     val searchRecordLiveData by lazy {
         getSearchRecordsUseCase().cachedIn(viewModelScope)
     }
@@ -210,6 +218,14 @@ class BookSearchViewModel(
                         } else {
                             _showVirtualKeyboard.value = VirtualKeyboardAction.HIDE
                         }
+                    }
+
+                    is BookSearchUserIntent.EnableCameraButtonClick -> {
+                        _enableCameraButtonClick.value = userIntent.enable
+                    }
+
+                    is BookSearchUserIntent.EnableSearchButtonClick -> {
+                        _enableSearchButtonClick.value = userIntent.enable
                     }
                 }
             }
