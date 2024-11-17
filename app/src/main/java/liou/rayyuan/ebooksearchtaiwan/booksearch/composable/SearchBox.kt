@@ -34,7 +34,9 @@ fun SearchBox(
     onPressSearch: () -> Unit = {},
     focusAction: FocusAction = FocusAction.NEUTRAL_STATE,
     onFocusActionFinish: () -> Unit = {},
-    onFocusChange: (focusState: FocusState) -> Unit = {}
+    onFocusChange: (focusState: FocusState) -> Unit = {},
+    virtualKeyboardAction: VirtualKeyboardAction = VirtualKeyboardAction.NEUTRAL_STATE,
+    onKeyboardActionFinish: () -> Unit = {}
 ) {
     Row(
         modifier =
@@ -53,6 +55,8 @@ fun SearchBox(
             focusAction = focusAction,
             onFocusActionFinish = onFocusActionFinish,
             onFocusChange = onFocusChange,
+            virtualKeyboardAction = virtualKeyboardAction,
+            onKeyboardActionFinish = onKeyboardActionFinish,
             modifier = Modifier.weight(1f)
         )
         if (showCameraButton) {

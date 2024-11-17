@@ -38,6 +38,10 @@ sealed class BookSearchUserIntent : IUserIntent {
         val focus: Boolean
     ) : BookSearchUserIntent()
 
+    data class ForceShowOrHideVirtualKeyboard(
+        val show: Boolean
+    ) : BookSearchUserIntent()
+
     data object CopySnapshotUrlToClipboard : BookSearchUserIntent()
 
     data object OnViewReadyToServe : BookSearchUserIntent()
@@ -49,4 +53,6 @@ sealed class BookSearchUserIntent : IUserIntent {
     data object CheckServiceStatus : BookSearchUserIntent()
 
     data object ResetFocusAction : BookSearchUserIntent()
+
+    data object ResetVirtualKeyboardAction : BookSearchUserIntent()
 }

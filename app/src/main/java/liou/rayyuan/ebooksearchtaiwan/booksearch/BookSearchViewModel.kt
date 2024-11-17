@@ -37,6 +37,7 @@ import kotlinx.coroutines.withContext
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.arch.IModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.FocusAction
+import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.VirtualKeyboardAction
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookHeader
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.SiteInfo
@@ -93,6 +94,10 @@ class BookSearchViewModel(
     private val _focusTextInput = MutableStateFlow(FocusAction.NEUTRAL_STATE)
     val focusTextInput
         get() = _focusTextInput.asStateFlow()
+
+    private val _showVirtualKeyboard = MutableStateFlow(VirtualKeyboardAction.NEUTRAL_STATE)
+    val showVirtualKeyboard
+        get() = _showVirtualKeyboard.asStateFlow()
 
     val searchRecordLiveData by lazy {
         getSearchRecordsUseCase().cachedIn(viewModelScope)
@@ -192,6 +197,18 @@ class BookSearchViewModel(
                             _focusTextInput.value = FocusAction.FOCUS
                         } else {
                             _focusTextInput.value = FocusAction.UNFOCUS
+                        }
+                    }
+
+                    BookSearchUserIntent.ResetVirtualKeyboardAction -> {
+                        _showVirtualKeyboard.value = VirtualKeyboardAction.NEUTRAL_STATE
+                    }
+
+                    is BookSearchUserIntent.ForceShowOrHideVirtualKeyboard -> {
+                        if (userIntent.show) {
+                            _showVirtualKeyboard.value = VirtualKeyboardAction.SHOW
+                        } else {
+                            _showVirtualKeyboard.value = VirtualKeyboardAction.HIDE
                         }
                     }
                 }

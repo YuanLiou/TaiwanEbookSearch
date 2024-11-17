@@ -25,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -200,6 +201,11 @@ class BookResultListFragment :
                             .collectAsStateWithLifecycle()
                             .value
 
+                    val virtualKeyboardAction =
+                        bookSearchViewModel.showVirtualKeyboard
+                            .collectAsStateWithLifecycle()
+                            .value
+
                     SearchBox(
                         text = searchKeywords,
                         onTextChange = {
@@ -215,6 +221,7 @@ class BookResultListFragment :
                         onFocusChange = {
                             sendUserIntent(BookSearchUserIntent.UpdateTextInputFocusState(it.isFocused))
                         },
+                        virtualKeyboardAction = virtualKeyboardAction,
                         showCameraButton = isCameraAvailable(),
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -646,7 +653,7 @@ class BookResultListFragment :
     }
 
     private fun hideVirtualKeyboard() {
-        // TODO: hideVirtualKeyboard
+        sendUserIntent(BookSearchUserIntent.ForceShowOrHideVirtualKeyboard(false))
     }
 
     private fun focusAndCleanBookSearchEditText() {
@@ -658,10 +665,7 @@ class BookResultListFragment :
         if (isAdded) {
             viewBinding.searchViewAppbar.setExpanded(true, true)
             sendUserIntent(BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput(true))
-            // TODO: Show softkeyboard
-//            val inputManager: InputMethodManager =
-//                requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-//            inputManager.showSoftInput(viewBinding.searchViewEdittext, 0)
+            sendUserIntent(BookSearchUserIntent.ForceShowOrHideVirtualKeyboard(true))
         }
     }
 
@@ -755,7 +759,7 @@ class BookResultListFragment :
     }
 
     private fun changeSearchBoxKeyword(keyword: String) {
-        sendUserIntent(BookSearchUserIntent.UpdateKeyword(TextFieldValue(keyword)))
+        sendUserIntent(BookSearchUserIntent.UpdateKeyword(TextFieldValue(keyword, selection = TextRange(keyword.length))))
         sendUserIntent(BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput(false))
     }
 

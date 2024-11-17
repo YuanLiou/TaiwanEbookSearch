@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -48,11 +49,14 @@ fun BasicTextInputField(
     onPressSearch: () -> Unit = {},
     focusAction: FocusAction = FocusAction.NEUTRAL_STATE,
     onFocusActionFinish: () -> Unit = {},
-    onFocusChange: (focusState: FocusState) -> Unit = {}
+    onFocusChange: (focusState: FocusState) -> Unit = {},
+    virtualKeyboardAction: VirtualKeyboardAction = VirtualKeyboardAction.NEUTRAL_STATE,
+    onKeyboardActionFinish: () -> Unit = {}
 ) {
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
     val interactionSource = remember { MutableInteractionSource() }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     when (focusAction) {
         FocusAction.FOCUS -> {
@@ -63,6 +67,20 @@ fun BasicTextInputField(
         FocusAction.UNFOCUS -> {
             focusManager.clearFocus()
             onFocusActionFinish()
+        }
+
+        else -> {}
+    }
+
+    when (virtualKeyboardAction) {
+        VirtualKeyboardAction.SHOW -> {
+            keyboardController?.show()
+            onKeyboardActionFinish()
+        }
+
+        VirtualKeyboardAction.HIDE -> {
+            keyboardController?.hide()
+            onKeyboardActionFinish()
         }
 
         else -> {}
@@ -142,6 +160,12 @@ fun BasicTextInputField(
 enum class FocusAction {
     FOCUS,
     UNFOCUS,
+    NEUTRAL_STATE
+}
+
+enum class VirtualKeyboardAction {
+    SHOW,
+    HIDE,
     NEUTRAL_STATE
 }
 
