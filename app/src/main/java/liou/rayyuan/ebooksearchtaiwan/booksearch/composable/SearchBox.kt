@@ -1,7 +1,6 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch.composable
 
 import androidx.compose.ui.Alignment
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,6 +20,7 @@ import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import liou.rayyuan.ebooksearchtaiwan.composable.debounceClick
 import liou.rayyuan.ebooksearchtaiwan.composable.iconpack.BaselineFilterCenterFocus24Px
 import liou.rayyuan.ebooksearchtaiwan.composable.iconpack.EBookIcons
 import liou.rayyuan.ebooksearchtaiwan.composable.iconpack.SearchBlack24Dp
@@ -73,7 +73,8 @@ fun SearchBox(
                 modifier =
                     Modifier
                         .padding(8.dp)
-                        .clickable(
+                        .debounceClick(
+                            debounceInterval = CLICK_MILLISECOND_THRESHOLD,
                             enabled = enableCameraButtonClick,
                             interactionSource = remember { MutableInteractionSource() },
                             indication = ripple(bounded = false)
@@ -85,7 +86,8 @@ fun SearchBox(
             contentDescription = null,
             modifier =
                 Modifier.padding(8.dp)
-                    .clickable(
+                    .debounceClick(
+                        debounceInterval = CLICK_MILLISECOND_THRESHOLD,
                         enabled = enableSearchButtonClick,
                         interactionSource = remember { MutableInteractionSource() },
                         indication = ripple(bounded = false)
@@ -93,6 +95,8 @@ fun SearchBox(
         )
     }
 }
+
+private const val CLICK_MILLISECOND_THRESHOLD = 2000L
 
 //region Preview
 @Preview(

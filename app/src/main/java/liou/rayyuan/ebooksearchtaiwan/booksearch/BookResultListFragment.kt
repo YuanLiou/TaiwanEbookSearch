@@ -917,7 +917,6 @@ class BookResultListFragment :
         private const val BUNDLE_RECYCLERVIEW_STATE = "BUNDLE_RECYCLERVIEW_STATE"
         private const val KEY_RECYCLERVIEW_POSITION = "KEY_RECYCLERVIEW_POSITION"
         private const val POPUP_REVIEW_WINDOW_THRESHOLD = 5
-        private const val CLICK_MILLISECOND_THRESHOLD = 2000L
 
         fun newInstance(
             defaultKeyword: String?,
