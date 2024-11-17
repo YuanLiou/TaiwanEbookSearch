@@ -25,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.os.BundleCompat
@@ -193,6 +194,12 @@ class BookResultListFragment :
                         bookSearchViewModel.searchKeywords
                             .collectAsStateWithLifecycle()
                             .value
+
+                    val focusAction =
+                        bookSearchViewModel.focusTextInput
+                            .collectAsStateWithLifecycle()
+                            .value
+
                     SearchBox(
                         text = searchKeywords,
                         onTextChange = {
@@ -200,6 +207,13 @@ class BookResultListFragment :
                         },
                         onPressSearch = {
                             sendUserIntent(BookSearchUserIntent.SearchBook())
+                        },
+                        focusAction = focusAction,
+                        onFocusActionFinish = {
+                            sendUserIntent(BookSearchUserIntent.ResetFocusAction)
+                        },
+                        onFocusChange = {
+                            sendUserIntent(BookSearchUserIntent.UpdateTextInputFocusState(it.isFocused))
                         },
                         showCameraButton = isCameraAvailable(),
                         modifier = Modifier.fillMaxWidth()
@@ -258,7 +272,9 @@ class BookResultListFragment :
                     dx: Int,
                     dy: Int
                 ) {
-                    // TODO: clear focus
+                    if (bookSearchViewModel.isTextInputFocused.value) {
+                        sendUserIntent(BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput(false))
+                    }
                 }
             }
         )
@@ -359,14 +375,10 @@ class BookResultListFragment :
 
     private fun initScrollToTopButton() {
         viewBinding.searchViewBackToTopButton.setOnClickListener(this)
-        viewBinding.searchViewBackToTopButton.setOnLongClickListener(
-            object : View.OnLongClickListener {
-                override fun onLongClick(view: View?): Boolean {
-                    focusAndCleanBookSearchEditText()
-                    return true
-                }
-            }
-        )
+        viewBinding.searchViewBackToTopButton.setOnLongClickListener {
+            focusAndCleanBookSearchEditText()
+            true
+        }
 
         if (!isAdded) {
             return
@@ -638,14 +650,15 @@ class BookResultListFragment :
     }
 
     private fun focusAndCleanBookSearchEditText() {
-        // TODO: focusAndCleanBookSearchEditText
+        sendUserIntent(BookSearchUserIntent.UpdateKeyword(TextFieldValue("")))
+        focusBookSearchEditText()
     }
 
     private fun focusBookSearchEditText() {
         if (isAdded) {
             viewBinding.searchViewAppbar.setExpanded(true, true)
-            // TODO: focus on BookSearchEditText
-//            viewBinding.searchViewEdittext.requestFocus()
+            sendUserIntent(BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput(true))
+            // TODO: Show softkeyboard
 //            val inputManager: InputMethodManager =
 //                requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 //            inputManager.showSoftInput(viewBinding.searchViewEdittext, 0)
@@ -683,8 +696,8 @@ class BookResultListFragment :
 
     private fun searchBook() {
         hideVirtualKeyboard()
-        // TODO: searchBook, to get the keyword
-//        sendUserIntent(BookSearchUserIntent.SearchBook(keyword))
+        sendUserIntent(BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput(false))
+        sendUserIntent(BookSearchUserIntent.SearchBook())
     }
 
     //region View.OnClickListener
@@ -742,7 +755,8 @@ class BookResultListFragment :
     }
 
     private fun changeSearchBoxKeyword(keyword: String) {
-        // TODO: changeSearchBoxKeyword
+        sendUserIntent(BookSearchUserIntent.UpdateKeyword(TextFieldValue(keyword)))
+        sendUserIntent(BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput(false))
     }
 
     fun showSearchSnapshot(searchId: String) {
@@ -751,11 +765,10 @@ class BookResultListFragment :
     }
 
     fun backPressed(): Boolean {
-        // TODO: backPressed remove focus
-//        if (viewBinding.searchViewEdittext.isFocused) {
-//            viewBinding.searchViewEdittext.clearFocus()
-//            return true
-//        }
+        if (bookSearchViewModel.isTextInputFocused.value) {
+            sendUserIntent(BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput(false))
+            return true
+        }
 
         return false
     }

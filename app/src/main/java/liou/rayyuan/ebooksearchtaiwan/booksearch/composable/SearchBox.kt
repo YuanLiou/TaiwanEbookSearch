@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,7 +31,10 @@ fun SearchBox(
     modifier: Modifier = Modifier,
     showCameraButton: Boolean = false,
     enableTextField: Boolean = true,
-    onPressSearch: () -> Unit = {}
+    onPressSearch: () -> Unit = {},
+    focusAction: FocusAction = FocusAction.NEUTRAL_STATE,
+    onFocusActionFinish: () -> Unit = {},
+    onFocusChange: (focusState: FocusState) -> Unit = {}
 ) {
     Row(
         modifier =
@@ -46,6 +50,9 @@ fun SearchBox(
             enableTextField = enableTextField,
             onPressSearch = onPressSearch,
             shape = RoundedCornerShape(10.dp),
+            focusAction = focusAction,
+            onFocusActionFinish = onFocusActionFinish,
+            onFocusChange = onFocusChange,
             modifier = Modifier.weight(1f)
         )
         if (showCameraButton) {

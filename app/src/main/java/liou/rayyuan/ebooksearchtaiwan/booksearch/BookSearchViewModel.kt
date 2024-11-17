@@ -36,6 +36,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.arch.IModel
+import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.FocusAction
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookHeader
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.SiteInfo
@@ -84,6 +85,14 @@ class BookSearchViewModel(
     private val _searchKeywords = MutableStateFlow(TextFieldValue(""))
     val searchKeywords
         get() = _searchKeywords.asStateFlow()
+
+    private val _isTextInputFocused = MutableStateFlow(false)
+    val isTextInputFocused
+        get() = _isTextInputFocused.asStateFlow()
+
+    private val _focusTextInput = MutableStateFlow(FocusAction.NEUTRAL_STATE)
+    val focusTextInput
+        get() = _focusTextInput.asStateFlow()
 
     val searchRecordLiveData by lazy {
         getSearchRecordsUseCase().cachedIn(viewModelScope)
@@ -168,6 +177,22 @@ class BookSearchViewModel(
 
                     is BookSearchUserIntent.UpdateKeyword -> {
                         _searchKeywords.value = userIntent.keywords
+                    }
+
+                    is BookSearchUserIntent.UpdateTextInputFocusState -> {
+                        _isTextInputFocused.value = userIntent.isFocused
+                    }
+
+                    BookSearchUserIntent.ResetFocusAction -> {
+                        _focusTextInput.value = FocusAction.NEUTRAL_STATE
+                    }
+
+                    is BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput -> {
+                        if (userIntent.focus) {
+                            _focusTextInput.value = FocusAction.FOCUS
+                        } else {
+                            _focusTextInput.value = FocusAction.UNFOCUS
+                        }
                     }
                 }
             }

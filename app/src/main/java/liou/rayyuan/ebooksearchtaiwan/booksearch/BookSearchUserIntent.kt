@@ -30,6 +30,14 @@ sealed class BookSearchUserIntent : IUserIntent {
         val keywords: TextFieldValue
     ) : BookSearchUserIntent()
 
+    data class UpdateTextInputFocusState(
+        val isFocused: Boolean
+    ) : BookSearchUserIntent()
+
+    data class ForceFocusOrUnfocusKeywordTextInput(
+        val focus: Boolean
+    ) : BookSearchUserIntent()
+
     data object CopySnapshotUrlToClipboard : BookSearchUserIntent()
 
     data object OnViewReadyToServe : BookSearchUserIntent()
@@ -39,4 +47,6 @@ sealed class BookSearchUserIntent : IUserIntent {
     data object RankAppWindowHasShown : BookSearchUserIntent()
 
     data object CheckServiceStatus : BookSearchUserIntent()
+
+    data object ResetFocusAction : BookSearchUserIntent()
 }

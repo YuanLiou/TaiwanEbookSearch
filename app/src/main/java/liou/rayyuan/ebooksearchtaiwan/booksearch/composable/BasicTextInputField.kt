@@ -17,7 +17,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
@@ -43,11 +45,28 @@ fun BasicTextInputField(
     modifier: Modifier = Modifier,
     enableTextField: Boolean = true,
     shape: Shape = RectangleShape,
-    onPressSearch: () -> Unit = {}
+    onPressSearch: () -> Unit = {},
+    focusAction: FocusAction = FocusAction.NEUTRAL_STATE,
+    onFocusActionFinish: () -> Unit = {},
+    onFocusChange: (focusState: FocusState) -> Unit = {}
 ) {
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
     val interactionSource = remember { MutableInteractionSource() }
+
+    when (focusAction) {
+        FocusAction.FOCUS -> {
+            focusRequester.requestFocus()
+            onFocusActionFinish()
+        }
+
+        FocusAction.UNFOCUS -> {
+            focusManager.clearFocus()
+            onFocusActionFinish()
+        }
+
+        else -> {}
+    }
 
     BasicTextField(
         value = text,
@@ -68,9 +87,12 @@ fun BasicTextInputField(
         modifier =
             modifier
                 .focusRequester(focusRequester)
+                .onFocusChanged(onFocusChange)
                 .onKeyEvent {
                     if (it.nativeKeyEvent.keyCode == KeyEvent.KEYCODE_ENTER) {
                         onPressSearch()
+                        focusManager.clearFocus()
+                    } else if (it.nativeKeyEvent.keyCode == KeyEvent.KEYCODE_ESCAPE) {
                         focusManager.clearFocus()
                     }
                     false
@@ -90,7 +112,8 @@ fun BasicTextInputField(
                     unfocusedTextColor = EBookTheme.colors.editTextInputColor,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
-                    disabledIndicatorColor = Color.Transparent
+                    disabledIndicatorColor = Color.Transparent,
+                    cursorColor = EBookTheme.colors.colorPrimary
                 ),
             contentPadding =
                 TextFieldDefaults.contentPaddingWithoutLabel(
@@ -114,6 +137,12 @@ fun BasicTextInputField(
             }
         )
     }
+}
+
+enum class FocusAction {
+    FOCUS,
+    UNFOCUS,
+    NEUTRAL_STATE
 }
 
 //region Preview
