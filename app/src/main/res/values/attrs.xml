@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="searchBoxColor" format="color" />
     <attr name="dividerColor" format="color" />
     <attr name="editTextHintColor" format="color" />
     <attr name="editTextInputColor" format="color" />

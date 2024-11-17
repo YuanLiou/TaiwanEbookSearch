@@ -9,7 +9,6 @@
         <item name="colorSecondary">@color/blue_green_you</item>
         <item name="colorPrimaryVariant">@color/blue_green_dark_you</item>
 
-        <item name="searchBoxColor">@color/pure_white</item>
         <item name="android:textViewStyle">@style/CustomTextViewStyle</item>
         <item name="reorderListBackgroundColor">@color/pure_white</item>
         <item name="reorderHandlerItemDrawable">@drawable/ic_baseline_reorder_24px</item>
@@ -44,7 +43,6 @@
         <item name="colorPrimaryVariant">@color/blue_green_dark_you</item>
 
         <item name="android:textColorTertiary">@color/white_BD</item>
-        <item name="searchBoxColor">@color/gray</item>
         <item name="android:textViewStyle">@style/CustomTextViewStyle</item>
         <item name="reorderListBackgroundColor">@color/darker_gray_3B</item>
         <item name="reorderHandlerItemDrawable">@drawable/ic_baseline_reorder_light_24px</item>
