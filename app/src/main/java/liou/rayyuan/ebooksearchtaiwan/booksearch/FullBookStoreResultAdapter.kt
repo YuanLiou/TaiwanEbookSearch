@@ -61,7 +61,7 @@ class FullBookStoreResultAdapter(
 
             else -> {
                 // Default viewType is bookItem
-                BookCardViewComposeHolder(ComposeView(parent.context), lookupCurrentTheme)
+                BookCardViewComposeHolder(ComposeView(parent.context), clickHandler, lookupCurrentTheme)
             }
         }
 
@@ -242,14 +242,18 @@ class FullBookStoreResultAdapter(
 
     class BookCardViewComposeHolder(
         private val composeView: ComposeView,
+        private var clickHandler: BookResultClickHandler?,
         private val lookupCurrentTheme: () -> Boolean
     ) : RecyclerView.ViewHolder(composeView) {
         fun bindBook(uiModel: BookUiModel) {
             composeView.setContent {
                 EBookTheme(darkTheme = lookupCurrentTheme()) {
                     BookItem(
+                        modifier = Modifier,
                         uiModel = uiModel,
-                        modifier = Modifier
+                        onBookCardClick = {
+                            clickHandler?.onBookCardClicked(it.book)
+                        }
                     )
                 }
             }
