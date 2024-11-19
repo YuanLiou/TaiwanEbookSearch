@@ -89,7 +89,9 @@ private fun ServiceStatusCard(
                         }
                     }
 
-                    false -> stringResource(R.string.preference_generic_checkbox_switch_off)
+                    false -> {
+                        stringResource(R.string.preference_generic_checkbox_switch_off)
+                    }
                 }
             Text(
                 style =

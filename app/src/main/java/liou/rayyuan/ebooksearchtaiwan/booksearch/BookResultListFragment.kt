@@ -111,7 +111,10 @@ class BookResultListFragment :
         setupOptionMenu()
         setupEdgeToEdge()
 
-        fullBookStoreResultsAdapter = FullBookStoreResultAdapter(this, this)
+        fullBookStoreResultsAdapter =
+            FullBookStoreResultAdapter(this, this) {
+                isDarkTheme()
+            }
         resultsRecyclerView.adapter = fullBookStoreResultsAdapter
 
         viewBinding.searchViewAppbar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
