@@ -1,6 +1,5 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -26,6 +25,7 @@ import com.rayliu.commonmain.domain.model.Book
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.AdBanner
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.BookHeader
+import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.BookItem
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookHeader
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
@@ -61,13 +61,7 @@ class FullBookStoreResultAdapter(
 
             else -> {
                 // Default viewType is bookItem
-                val bookCardView: View =
-                    LayoutInflater.from(parent.context).inflate(
-                        R.layout.book_card_view,
-                        parent,
-                        false
-                    )
-                BookCardViewHolder(bookCardView)
+                BookCardViewComposeHolder(ComposeView(parent.context), lookupCurrentTheme)
             }
         }
 
@@ -88,11 +82,11 @@ class FullBookStoreResultAdapter(
                 }
             }
 
-            is BookCardViewHolder -> {
+            is BookCardViewComposeHolder -> {
                 val index: Int = (holder.absoluteAdapterPosition - 1) // minus a position for header
                 if (index < items.size && index != RecyclerView.NO_POSITION) {
                     val book = items[index] as BookUiModel
-                    bindBook(holder, book)
+                    holder.bindBook(book)
                 }
             }
         }
@@ -244,6 +238,22 @@ class FullBookStoreResultAdapter(
         val bookResultBody: View = itemView.findViewById(R.id.book_card_item_body)
 
         fun getRoundedCornerValue(): Float = itemView.context.resources.getDimension(R.dimen.image_round_corner)
+    }
+
+    class BookCardViewComposeHolder(
+        private val composeView: ComposeView,
+        private val lookupCurrentTheme: () -> Boolean
+    ) : RecyclerView.ViewHolder(composeView) {
+        fun bindBook(uiModel: BookUiModel) {
+            composeView.setContent {
+                EBookTheme(darkTheme = lookupCurrentTheme()) {
+                    // TODO: Migrate to compose view
+                    BookItem(
+                        modifier = Modifier
+                    )
+                }
+            }
+        }
     }
 
     class AdViewComposeHolder(
