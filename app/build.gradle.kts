@@ -217,6 +217,7 @@ dependencies {
     // Coil
     implementation(libs.coil.kt)
     implementation(libs.coil.network)
+    implementation(libs.coil.compose)
     testImplementation(libs.androidx.test.ext)
     androidTestImplementation(libs.androidx.test.core)
     androidTestImplementation(libs.androidx.test.runner)
