@@ -13,17 +13,11 @@ import liou.rayyuan.ebooksearchtaiwan.view.getLocalizedName
 data class BookUiModel(
     val book: Book
 ) : AdapterItem {
-    fun getTitle(): String {
-        return book.title
-    }
+    fun getTitle(): String = book.title
 
-    fun getDescription(): String {
-        return book.about
-    }
+    fun getDescription(): String = book.about
 
-    fun getImage(): String {
-        return book.thumbnail
-    }
+    fun getImage(): String = book.thumbnail
 
     fun getPrice(): String {
         if (book.priceCurrency == "TWD") {
@@ -39,7 +33,7 @@ data class BookUiModel(
 
     fun getShopName(context: Context): String =
         book.bookStore.let {
-            DefaultStoreNames.values()
+            DefaultStoreNames.entries
                 .find { enumValues -> enumValues == it }
                 ?.run { getLocalizedName(context) } ?: ""
         }
@@ -53,6 +47,26 @@ data class BookUiModel(
             }
         }
         return null
+    }
+
+    companion object {
+        internal val DUMMY_DATA
+            get() =
+                BookUiModel(
+                    Book(
+                        thumbnail = "",
+                        priceCurrency = "TWD",
+                        price = 1000.0f,
+                        link = "https://www.google.com.tw",
+                        about = "Our fraternal intuition for freedom is to forget others purely.",
+                        id = "-1",
+                        title = "Lucia Khatun",
+                        authors = listOf("Dilip Suarez"),
+                        bookStore = DefaultStoreNames.KINDLE,
+                        isFirstChoice = false,
+                        titleKeywordSimilarity = null
+                    )
+                )
     }
 }
 
