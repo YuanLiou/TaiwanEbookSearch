@@ -79,56 +79,12 @@
                 android:layout_height="wrap_content"
                 android:minHeight="?actionBarSize">
 
-                <RelativeLayout
+                <androidx.compose.ui.platform.ComposeView
+                    android:id="@+id/search_view_appbar_composeView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/search_box"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true">
+                    android:layout_marginEnd="8dp"/>
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/search_view_search_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_gravity="end|center_vertical"
-                        android:background="?selectableItemBackgroundBorderless"
-                        android:padding="8dp"
-                        android:src="@drawable/ic_search_black_24dp" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/search_view_camera_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignWithParentIfMissing="true"
-                        android:layout_gravity="end|center_vertical"
-                        android:layout_toStartOf="@id/search_view_search_icon"
-                        android:background="?selectableItemBackgroundBorderless"
-                        android:padding="8dp"
-                        android:src="@drawable/ic_baseline_filter_center_focus_24px" />
-
-                    <liou.rayyuan.ebooksearchtaiwan.view.widget.NoWrapEditText
-                        android:id="@+id/search_view_edittext"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_toStartOf="@id/search_view_camera_icon"
-                        android:background="@android:color/transparent"
-                        android:ellipsize="end"
-                        android:hint="@string/search_bar_hint"
-                        android:imeOptions="actionSearch"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:paddingStart="12dp"
-                        android:paddingTop="8dp"
-                        android:paddingEnd="8dp"
-                        android:paddingBottom="8dp"
-                        android:singleLine="true"
-                        android:textColor="?attr/editTextColor"
-                        android:textColorHint="?attr/editTextHintColor" />
-
-                </RelativeLayout>
             </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>

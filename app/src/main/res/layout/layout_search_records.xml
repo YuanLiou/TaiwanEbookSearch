@@ -11,7 +11,7 @@
     tools:layout_height="@dimen/search_records_max_height"
     >
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/layout_search_records_card_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -32,5 +32,5 @@
             tools:listitem="@layout/adapter_search_record"
             />
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </FrameLayout>

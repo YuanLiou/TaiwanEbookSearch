@@ -1,6 +1,7 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import android.util.Log
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -35,6 +36,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.arch.IModel
+import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.FocusAction
+import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.VirtualKeyboardAction
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookHeader
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.SiteInfo
@@ -80,6 +83,30 @@ class BookSearchViewModel(
     val bookStoreDetails
         get() = _bookStoreDetails.asStateFlow()
 
+    private val _searchKeywords = MutableStateFlow(TextFieldValue(""))
+    val searchKeywords
+        get() = _searchKeywords.asStateFlow()
+
+    private val _isTextInputFocused = MutableStateFlow(false)
+    val isTextInputFocused
+        get() = _isTextInputFocused.asStateFlow()
+
+    private val _focusTextInput = MutableStateFlow(FocusAction.NEUTRAL_STATE)
+    val focusTextInput
+        get() = _focusTextInput.asStateFlow()
+
+    private val _showVirtualKeyboard = MutableStateFlow(VirtualKeyboardAction.NEUTRAL_STATE)
+    val showVirtualKeyboard
+        get() = _showVirtualKeyboard.asStateFlow()
+
+    private val _enableCameraButtonClick = MutableStateFlow(true)
+    val enableCameraButtonClick
+        get() = _enableCameraButtonClick.asStateFlow()
+
+    private val _enableSearchButtonClick = MutableStateFlow(true)
+    val enableSearchButtonClick
+        get() = _enableSearchButtonClick.asStateFlow()
+
     val searchRecordLiveData by lazy {
         getSearchRecordsUseCase().cachedIn(viewModelScope)
     }
@@ -122,7 +149,12 @@ class BookSearchViewModel(
                     }
 
                     is BookSearchUserIntent.SearchBook -> {
-                        searchBook(userIntent.keywords)
+                        val keyword = userIntent.keywords
+                        if (keyword != null) {
+                            searchBook(userIntent.keywords)
+                        } else {
+                            searchBook(searchKeywords.value.text)
+                        }
                     }
 
                     is BookSearchUserIntent.ShowSearchSnapshot -> {
@@ -154,6 +186,46 @@ class BookSearchViewModel(
 
                     BookSearchUserIntent.CheckServiceStatus -> {
                         checkServiceStatus()
+                    }
+
+                    is BookSearchUserIntent.UpdateKeyword -> {
+                        _searchKeywords.value = userIntent.keywords
+                    }
+
+                    is BookSearchUserIntent.UpdateTextInputFocusState -> {
+                        _isTextInputFocused.value = userIntent.isFocused
+                    }
+
+                    BookSearchUserIntent.ResetFocusAction -> {
+                        _focusTextInput.value = FocusAction.NEUTRAL_STATE
+                    }
+
+                    is BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput -> {
+                        if (userIntent.focus) {
+                            _focusTextInput.value = FocusAction.FOCUS
+                        } else {
+                            _focusTextInput.value = FocusAction.UNFOCUS
+                        }
+                    }
+
+                    BookSearchUserIntent.ResetVirtualKeyboardAction -> {
+                        _showVirtualKeyboard.value = VirtualKeyboardAction.NEUTRAL_STATE
+                    }
+
+                    is BookSearchUserIntent.ForceShowOrHideVirtualKeyboard -> {
+                        if (userIntent.show) {
+                            _showVirtualKeyboard.value = VirtualKeyboardAction.SHOW
+                        } else {
+                            _showVirtualKeyboard.value = VirtualKeyboardAction.HIDE
+                        }
+                    }
+
+                    is BookSearchUserIntent.EnableCameraButtonClick -> {
+                        _enableCameraButtonClick.value = userIntent.enable
+                    }
+
+                    is BookSearchUserIntent.EnableSearchButtonClick -> {
+                        _enableSearchButtonClick.value = userIntent.enable
                     }
                 }
             }
