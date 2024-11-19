@@ -4,8 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 import androidx.lifecycle.LifecycleOwner
@@ -22,8 +26,10 @@ import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.rayliu.commonmain.domain.model.Book
 import liou.rayyuan.ebooksearchtaiwan.R
+import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.BookHeader
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookHeader
+import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import liou.rayyuan.ebooksearchtaiwan.uimodel.BookUiModel
 
 /**
@@ -57,13 +63,7 @@ class FullBookStoreResultAdapter(
             }
 
             storeTitle -> {
-                val storeTitleView: View =
-                    LayoutInflater.from(parent.context).inflate(
-                        R.layout.adapter_header,
-                        parent,
-                        false
-                    )
-                BookStoreTitleViewHolder(storeTitleView)
+                BookStoreTitleComposeViewHolder(ComposeView(parent.context))
             }
 
             else -> {
@@ -87,11 +87,11 @@ class FullBookStoreResultAdapter(
                 return
             }
 
-            is BookStoreTitleViewHolder -> {
+            is BookStoreTitleComposeViewHolder -> {
                 val adapterPosition = (holder.absoluteAdapterPosition - 1) // minus a position for header
                 if (adapterPosition != RecyclerView.NO_POSITION) {
                     val bookHeader = items[adapterPosition] as BookHeader
-                    bindHeader(holder, bookHeader)
+                    holder.bindHeader(bookHeader)
                 }
             }
 
@@ -102,60 +102,6 @@ class FullBookStoreResultAdapter(
                     bindBook(holder, book)
                 }
             }
-        }
-    }
-
-    private fun bindHeader(
-        holder: BookStoreTitleViewHolder,
-        bookHeader: BookHeader
-    ) {
-        holder.bookStoreTitle.text = holder.itemView.context.getText(bookHeader.stringId)
-        val siteInfo = bookHeader.siteInfo
-        if (siteInfo == null) {
-            checkIsEmptyResult(bookHeader, holder)
-            return
-        }
-
-        val isSiteOnline = siteInfo.isOnline
-        val isResultOkay = siteInfo.isResultOkay
-        val searchResultMessage = siteInfo.status
-        val isResultEmpty = bookHeader.isEmptyResult
-        if (!isResultEmpty && isSiteOnline && isResultOkay) {
-            holder.bookResultStatusText.visibility = View.GONE
-            return
-        }
-
-        if (!isSiteOnline) {
-            holder.bookResultStatusText.text =
-                holder.itemView.context.getText(
-                    R.string.error_site_is_not_online
-                )
-            holder.bookResultStatusText.visibility = View.VISIBLE
-        } else if (!isResultOkay) {
-            val failedMessage = holder.itemView.context.getText(R.string.error_result_is_failed).toString() + "\n" + searchResultMessage
-            holder.bookResultStatusText.text = failedMessage
-            holder.bookResultStatusText.visibility = View.VISIBLE
-        } else if (isResultEmpty) {
-            holder.bookResultStatusText.text =
-                holder.itemView.context.getText(
-                    R.string.result_nothing
-                )
-            holder.bookResultStatusText.visibility = View.VISIBLE
-        }
-    }
-
-    private fun checkIsEmptyResult(
-        bookHeader: BookHeader,
-        holder: BookStoreTitleViewHolder
-    ) {
-        if (bookHeader.isEmptyResult) {
-            holder.bookResultStatusText.text =
-                holder.itemView.context.getText(
-                    R.string.result_nothing
-                )
-            holder.bookResultStatusText.visibility = View.VISIBLE
-        } else {
-            holder.bookResultStatusText.visibility = View.GONE
         }
     }
 
@@ -246,11 +192,50 @@ class FullBookStoreResultAdapter(
         clickHandler = null
     }
 
-    class BookStoreTitleViewHolder(
-        itemView: View
-    ) : RecyclerView.ViewHolder(itemView) {
-        val bookStoreTitle: TextView = itemView.findViewById(R.id.search_result_subtitle_top)
-        val bookResultStatusText: TextView = itemView.findViewById(R.id.search_result_message_text)
+    class BookStoreTitleComposeViewHolder(
+        private val composeView: ComposeView
+    ) : RecyclerView.ViewHolder(composeView) {
+        fun bindHeader(bookHeader: BookHeader) {
+            composeView.setContent {
+                EBookTheme {
+                    val subTitle = stringResource(bookHeader.stringId)
+                    val siteInfo = bookHeader.siteInfo
+                    var statusText = stringResource(R.string.result_nothing)
+                    var showResultStatus =
+                        if (siteInfo == null) {
+                            bookHeader.isEmptyResult
+                        } else {
+                            false
+                        }
+
+                    val isSiteOnline = siteInfo?.isOnline
+                    val isResultOkay = siteInfo?.isResultOkay
+                    val searchResultMessage = siteInfo?.status
+                    val isResultEmpty = bookHeader.isEmptyResult
+                    if (!isResultEmpty && isSiteOnline == true && isResultOkay == true) {
+                        showResultStatus = false
+                    }
+
+                    if (isSiteOnline == false) {
+                        statusText = stringResource(R.string.error_site_is_not_online)
+                        showResultStatus = true
+                    } else if (isResultOkay == false) {
+                        statusText = stringResource(R.string.error_result_is_failed) + "\n" + searchResultMessage
+                        showResultStatus = true
+                    } else if (isResultEmpty) {
+                        statusText = stringResource(R.string.result_nothing)
+                        showResultStatus = true
+                    }
+
+                    BookHeader(
+                        subtitle = subTitle,
+                        modifier = Modifier.padding(top = 24.dp),
+                        showStatusText = showResultStatus,
+                        statusText = statusText
+                    )
+                }
+            }
+        }
     }
 
     class BookCardViewHolder(
