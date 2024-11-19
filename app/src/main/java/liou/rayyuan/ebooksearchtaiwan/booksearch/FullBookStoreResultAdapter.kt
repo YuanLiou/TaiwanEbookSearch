@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
@@ -21,11 +22,9 @@ import coil3.request.lifecycle
 import coil3.request.placeholder
 import coil3.request.transformations
 import coil3.transform.RoundedCornersTransformation
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
 import com.rayliu.commonmain.domain.model.Book
 import liou.rayyuan.ebooksearchtaiwan.R
+import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.AdBanner
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.BookHeader
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookHeader
@@ -37,7 +36,8 @@ import liou.rayyuan.ebooksearchtaiwan.uimodel.BookUiModel
  */
 class FullBookStoreResultAdapter(
     private var clickHandler: BookResultClickHandler?,
-    private val lifecycleOwner: LifecycleOwner
+    private val lifecycleOwner: LifecycleOwner,
+    private val lookupCurrentTheme: () -> Boolean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     BookResultClickHandler {
     private val header = 1001
@@ -52,18 +52,11 @@ class FullBookStoreResultAdapter(
     ): RecyclerView.ViewHolder =
         when (viewType) {
             header -> {
-                MobileAds.initialize(parent.context)
-                val headerView: View =
-                    LayoutInflater.from(parent.context).inflate(
-                        R.layout.admob_view_header,
-                        parent,
-                        false
-                    )
-                AdViewHolder(headerView)
+                AdViewComposeHolder(ComposeView(parent.context), lookupCurrentTheme)
             }
 
             storeTitle -> {
-                BookStoreTitleComposeViewHolder(ComposeView(parent.context))
+                BookStoreTitleComposeViewHolder(ComposeView(parent.context), lookupCurrentTheme)
             }
 
             else -> {
@@ -83,8 +76,8 @@ class FullBookStoreResultAdapter(
         position: Int
     ) {
         when (holder) {
-            is AdViewHolder -> {
-                return
+            is AdViewComposeHolder -> {
+                holder.loadAds()
             }
 
             is BookStoreTitleComposeViewHolder -> {
@@ -193,11 +186,12 @@ class FullBookStoreResultAdapter(
     }
 
     class BookStoreTitleComposeViewHolder(
-        private val composeView: ComposeView
+        private val composeView: ComposeView,
+        private val lookupCurrentTheme: () -> Boolean
     ) : RecyclerView.ViewHolder(composeView) {
         fun bindHeader(bookHeader: BookHeader) {
             composeView.setContent {
-                EBookTheme {
+                EBookTheme(darkTheme = lookupCurrentTheme()) {
                     val subTitle = stringResource(bookHeader.stringId)
                     val siteInfo = bookHeader.siteInfo
                     var statusText = stringResource(R.string.result_nothing)
@@ -252,15 +246,16 @@ class FullBookStoreResultAdapter(
         fun getRoundedCornerValue(): Float = itemView.context.resources.getDimension(R.dimen.image_round_corner)
     }
 
-    class AdViewHolder(
-        itemView: View
-    ) : RecyclerView.ViewHolder(itemView) {
-        private val bookResultAdView: AdView = itemView.findViewById(R.id.admob_view_header_adview)
-
-        init {
-            val adRequestBuilder = AdRequest.Builder()
-            val adRequest = adRequestBuilder.build()
-            bookResultAdView.loadAd(adRequest)
+    class AdViewComposeHolder(
+        private val composeView: ComposeView,
+        private val lookupCurrentTheme: () -> Boolean
+    ) : RecyclerView.ViewHolder(composeView) {
+        fun loadAds() {
+            composeView.setContent {
+                EBookTheme(darkTheme = lookupCurrentTheme()) {
+                    AdBanner(modifier = Modifier.fillMaxWidth())
+                }
+            }
         }
     }
 }

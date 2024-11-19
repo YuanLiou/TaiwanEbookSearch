@@ -47,7 +47,7 @@ fun BookHeader(
             text = subtitle,
             style =
                 MaterialTheme.typography.bodyMedium.copy(
-                    color = MaterialTheme.colorScheme.secondary
+                    color = EBookTheme.colors.subtitle1TextColor
                 ),
             textAlign = TextAlign.Center,
         )
@@ -58,7 +58,7 @@ fun BookHeader(
                 text = status,
                 style =
                     MaterialTheme.typography.bodyLarge.copy(
-                        color = MaterialTheme.colorScheme.tertiary,
+                        color = EBookTheme.colors.textColorTertiary,
                         fontWeight = FontWeight.Bold
                     ),
                 fontSize = 16.sp,
