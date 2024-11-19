@@ -43,8 +43,8 @@ class FullBookStoreResultAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): RecyclerView.ViewHolder {
-        return when (viewType) {
+    ): RecyclerView.ViewHolder =
+        when (viewType) {
             header -> {
                 MobileAds.initialize(parent.context)
                 val headerView: View =
@@ -55,6 +55,7 @@ class FullBookStoreResultAdapter(
                     )
                 AdViewHolder(headerView)
             }
+
             storeTitle -> {
                 val storeTitleView: View =
                     LayoutInflater.from(parent.context).inflate(
@@ -64,6 +65,7 @@ class FullBookStoreResultAdapter(
                     )
                 BookStoreTitleViewHolder(storeTitleView)
             }
+
             else -> {
                 // Default viewType is bookItem
                 val bookCardView: View =
@@ -75,14 +77,16 @@ class FullBookStoreResultAdapter(
                 BookCardViewHolder(bookCardView)
             }
         }
-    }
 
     override fun onBindViewHolder(
         holder: RecyclerView.ViewHolder,
         position: Int
     ) {
         when (holder) {
-            is AdViewHolder -> return
+            is AdViewHolder -> {
+                return
+            }
+
             is BookStoreTitleViewHolder -> {
                 val adapterPosition = (holder.absoluteAdapterPosition - 1) // minus a position for header
                 if (adapterPosition != RecyclerView.NO_POSITION) {
@@ -90,6 +94,7 @@ class FullBookStoreResultAdapter(
                     bindHeader(holder, bookHeader)
                 }
             }
+
             is BookCardViewHolder -> {
                 val index: Int = (holder.absoluteAdapterPosition - 1) // minus a position for header
                 if (index < items.size && index != RecyclerView.NO_POSITION) {
