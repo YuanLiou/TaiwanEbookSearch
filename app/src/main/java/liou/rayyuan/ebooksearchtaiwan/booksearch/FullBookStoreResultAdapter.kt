@@ -247,8 +247,8 @@ class FullBookStoreResultAdapter(
         fun bindBook(uiModel: BookUiModel) {
             composeView.setContent {
                 EBookTheme(darkTheme = lookupCurrentTheme()) {
-                    // TODO: Migrate to compose view
                     BookItem(
+                        uiModel = uiModel,
                         modifier = Modifier
                     )
                 }
