@@ -85,7 +85,8 @@ fun BookItem(
                     text = uiModel.getShopName(context),
                     style =
                         MaterialTheme.typography.bodyMedium.copy(
-                            color = EBookTheme.colors.textColorTertiary
+                            color = EBookTheme.colors.textColorTertiary,
+                            fontWeight = FontWeight.Light
                         ),
                     textAlign = TextAlign.Start,
                 )
@@ -97,7 +98,7 @@ fun BookItem(
                 )
             }
             Row(
-                modifier = Modifier.height(IntrinsicSize.Min),
+                modifier = Modifier.height(IntrinsicSize.Min).padding(top = 8.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
