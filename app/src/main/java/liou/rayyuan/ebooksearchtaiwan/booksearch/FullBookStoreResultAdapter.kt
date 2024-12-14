@@ -118,7 +118,7 @@ class FullBookStoreResultAdapter(
         clickHandler = null
     }
 
-    class BookStoreTitleComposeViewHolder(
+    private class BookStoreTitleComposeViewHolder(
         private val composeView: ComposeView,
         private val lookupCurrentTheme: () -> Boolean
     ) : RecyclerView.ViewHolder(composeView) {
@@ -165,7 +165,7 @@ class FullBookStoreResultAdapter(
         }
     }
 
-    class BookCardComposeViewHolder(
+    private class BookCardComposeViewHolder(
         private val composeView: ComposeView,
         private var clickHandler: BookResultClickHandler?,
         private val lookupCurrentTheme: () -> Boolean
@@ -185,7 +185,7 @@ class FullBookStoreResultAdapter(
         }
     }
 
-    class AdViewComposeHolder(
+    private class AdViewComposeHolder(
         private val composeView: ComposeView,
         private val lookupCurrentTheme: () -> Boolean
     ) : RecyclerView.ViewHolder(composeView) {
