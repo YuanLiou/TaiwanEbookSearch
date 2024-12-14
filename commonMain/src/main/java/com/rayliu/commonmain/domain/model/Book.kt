@@ -21,4 +21,23 @@ data class Book(
     val bookStore: DefaultStoreNames,
     var isFirstChoice: Boolean = false,
     val titleKeywordSimilarity: Int? = null
-) : Parcelable
+) : Parcelable {
+    companion object {
+        val DUMMY_BOOK =
+            Book(
+                thumbnail = "",
+                priceCurrency = "TWD",
+                price = 1020f,
+                link = "https://www.google.com.tw",
+                about = "Try boiling porridge flavored with sweet chili sauce, mashed up with basil leafs.",
+                id = "-1",
+                title = "Dummy",
+                authors =
+                    listOf(
+                        "RekhaXu"
+                    ),
+                bookStore = DefaultStoreNames.KINDLE,
+                isFirstChoice = false
+            )
+    }
+}
