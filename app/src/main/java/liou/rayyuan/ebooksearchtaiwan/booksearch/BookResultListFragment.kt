@@ -22,6 +22,7 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ViewCompositionStrategy
@@ -39,6 +40,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.withResumed
+import androidx.navigation.compose.rememberNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -53,7 +55,6 @@ import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.arch.IView
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.SearchBox
-import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.ServiceStatusList
 import liou.rayyuan.ebooksearchtaiwan.booksearch.review.PlayStoreReviewHelper
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
@@ -155,7 +156,7 @@ class BookResultListFragment :
         ) { state -> render(state) }
 
         sendUserIntent(BookSearchUserIntent.OnViewReadyToServe)
-        setupServiceStatusUi()
+        setupScreen()
         setupToolbar()
         handleInitialDeepLink()
 
@@ -167,20 +168,18 @@ class BookResultListFragment :
         }
     }
 
-    private fun setupServiceStatusUi() {
-        viewBinding.searchViewComposeView.run {
+    private fun setupScreen() {
+        viewBinding.searchListComposeView.run {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnDetachedFromWindow)
             setContent {
                 EBookTheme(
                     darkTheme = isDarkTheme()
                 ) {
-                    val bookStoreDetails =
-                        bookSearchViewModel.bookStoreDetails
-                            .collectAsStateWithLifecycle()
-                            .value
-                    ServiceStatusList(
-                        storeDetails = bookStoreDetails,
-                        modifier = Modifier
+                    val navController = rememberNavController()
+                    BookResultListScreen(
+                        viewModel = bookSearchViewModel,
+                        navHostController = navController,
+                        modifier = Modifier.fillMaxSize()
                     )
                 }
             }
@@ -447,7 +446,7 @@ class BookResultListFragment :
             is BookResultViewState.PrepareBookResult -> {
                 viewBinding.searchViewProgressbar.visibility = View.VISIBLE
                 resultsRecyclerView.visibility = View.GONE
-                viewBinding.searchViewComposeView.visibility = View.GONE
+//                viewBinding.searchListComposeView.visibility = View.GONE
                 viewBinding.searchViewBackToTopButton.visibility = View.GONE
 
                 sendUserIntent(BookSearchUserIntent.EnableCameraButtonClick(false))
@@ -476,7 +475,7 @@ class BookResultListFragment :
 
                 viewBinding.searchViewProgressbar.visibility = View.GONE
                 resultsRecyclerView.visibility = View.VISIBLE
-                viewBinding.searchViewComposeView.visibility = View.GONE
+//                viewBinding.searchListComposeView.visibility = View.GONE
                 viewBinding.searchViewBackToTopButton.visibility = View.VISIBLE
 
                 sendUserIntent(BookSearchUserIntent.EnableCameraButtonClick(true))
@@ -502,7 +501,7 @@ class BookResultListFragment :
             BookResultViewState.PrepareBookResultError -> {
                 viewBinding.searchViewProgressbar.visibility = View.GONE
                 resultsRecyclerView.visibility = View.GONE
-                viewBinding.searchViewComposeView.visibility = View.VISIBLE
+//                viewBinding.searchListComposeView.visibility = View.VISIBLE
                 viewBinding.searchViewBackToTopButton.visibility = View.GONE
 
                 sendUserIntent(BookSearchUserIntent.EnableCameraButtonClick(true))
