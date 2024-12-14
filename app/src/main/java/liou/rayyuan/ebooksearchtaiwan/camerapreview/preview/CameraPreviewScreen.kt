@@ -4,11 +4,10 @@ import android.content.res.Configuration
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
-import android.os.Build
 import android.util.Rational
 import android.widget.Toast
 import androidx.camera.core.SurfaceRequest
-import androidx.camera.viewfinder.surface.ImplementationMode
+import androidx.camera.viewfinder.core.ImplementationMode
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -219,13 +218,7 @@ private fun CameraPreviewView(
         orientation = deviceOrientation
     }
 
-    val implementationMode =
-        if (Build.VERSION.SDK_INT > 24) {
-            ImplementationMode.EXTERNAL
-        } else {
-            ImplementationMode.EMBEDDED
-        }
-
+    val implementationMode = ImplementationMode.EXTERNAL
     surfaceRequest?.let {
         BoxWithConstraints(
             modifier =

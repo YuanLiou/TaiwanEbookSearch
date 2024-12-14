@@ -1,6 +1,6 @@
 [versions]
 # Library versions
-coil = "3.0.3"
+coil = "3.0.4"
 desugarLibVersion = "2.1.3"
 koin = "4.0.0"
 fuzzywuzzy = "1.4.0"
@@ -18,20 +18,20 @@ materialDesign = "1.12.0"
 constraintlayoutVersion = "2.2.0"
 androidxDataStore = "1.1.1"
 androidxLifecycle = "2.8.7"
-paging = "3.3.4"
+paging = "3.3.5"
 barcodeScanner = "17.3.0"
 
 # Jetpack Compose
-composeBom = "2024.11.00"
+composeBom = "2024.12.01"
 activityCompose = "1.9.3"
 lifecycleCompose = "2.8.7"
-navigationCompose = "2.8.4"
+navigationCompose = "2.8.5"
 constraintlayoutCompose = "1.1.0"
 requestPermissionCompose = "1.3.2"
 
 # CameraX
-viewFinderCompose = "1.0.0-alpha02"
-cameraXVersion = "1.4.0"
+viewFinderCompose = "1.4.0-alpha11"
+cameraXVersion = "1.4.1"
 
 #  Kotlin Libraries
 kotlinxCoroutines = "1.9.0"
@@ -111,7 +111,7 @@ constraintlayout-compose = { group = "androidx.constraintlayout", name = "constr
 request-permission-compose = { group = "com.github.MshariAlsayari", name = "Request-Permission-Compose", version.ref = "requestPermissionCompose" }
 
 # CameraX
-viewfinder-compose = { group = "androidx.camera", name = "camera-viewfinder-compose", version.ref = "viewFinderCompose" }
+viewfinder-compose = { group = "androidx.camera.viewfinder", name = "viewfinder-compose", version.ref = "viewFinderCompose" }
 camerax-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "cameraXVersion" }
 camerax-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "cameraXVersion" }
 

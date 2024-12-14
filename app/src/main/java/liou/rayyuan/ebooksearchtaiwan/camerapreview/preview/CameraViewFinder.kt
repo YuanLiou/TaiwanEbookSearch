@@ -1,16 +1,15 @@
 package liou.rayyuan.ebooksearchtaiwan.camerapreview.preview
 
 import android.content.pm.ActivityInfo
-import android.os.Build
 import android.util.Log
 import androidx.camera.core.DynamicRange
 import androidx.camera.core.SurfaceRequest
 import androidx.camera.viewfinder.compose.MutableCoordinateTransformer
 import androidx.camera.viewfinder.compose.Viewfinder
+import androidx.camera.viewfinder.core.ImplementationMode
+import androidx.camera.viewfinder.core.TransformationInfo
+import androidx.camera.viewfinder.core.ViewfinderSurfaceRequest
 import androidx.camera.core.SurfaceRequest.TransformationInfo as CXTransformationInfo
-import androidx.camera.viewfinder.surface.ImplementationMode
-import androidx.camera.viewfinder.surface.TransformationInfo
-import androidx.camera.viewfinder.surface.ViewfinderSurfaceRequest
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -94,27 +93,26 @@ fun CameraViewFinder(
                                 cropRectTop = transformInfo.cropRect.top,
                                 cropRectRight = transformInfo.cropRect.right,
                                 cropRectBottom = transformInfo.cropRect.bottom,
-                                shouldMirror = transformInfo.isMirroring
+                                isSourceMirroredHorizontally = transformInfo.isMirroring,
+                                isSourceMirroredVertically = false
                             )
                     )
             }
     }
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        LaunchedEffect(key1 = Unit) {
-            snapshotFlow { viewFinderArgs }
-                .filterNotNull()
-                .map { args ->
-                    if (args.isHdrSource && args.implementationMode == ImplementationMode.EXTERNAL) {
-                        ActivityInfo.COLOR_MODE_HDR
-                    } else {
-                        ActivityInfo.COLOR_MODE_DEFAULT
-                    }
-                }.distinctUntilChanged()
-                .onEach { currentOnRequestWindowColorMode(it) }
-                .onCompletion { currentOnRequestWindowColorMode(ActivityInfo.COLOR_MODE_DEFAULT) }
-                .collect()
-        }
+    LaunchedEffect(key1 = Unit) {
+        snapshotFlow { viewFinderArgs }
+            .filterNotNull()
+            .map { args ->
+                if (args.isHdrSource && args.implementationMode == ImplementationMode.EXTERNAL) {
+                    ActivityInfo.COLOR_MODE_HDR
+                } else {
+                    ActivityInfo.COLOR_MODE_DEFAULT
+                }
+            }.distinctUntilChanged()
+            .onEach { currentOnRequestWindowColorMode(it) }
+            .onCompletion { currentOnRequestWindowColorMode(ActivityInfo.COLOR_MODE_DEFAULT) }
+            .collect()
     }
 
     val coordinateTransformer = MutableCoordinateTransformer()
