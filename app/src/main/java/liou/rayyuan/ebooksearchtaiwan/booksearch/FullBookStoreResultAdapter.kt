@@ -1,31 +1,18 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.text.PrecomputedTextCompat
-import androidx.core.widget.TextViewCompat
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
-import coil3.load
-import coil3.request.allowRgb565
-import coil3.request.crossfade
-import coil3.request.lifecycle
-import coil3.request.placeholder
-import coil3.request.transformations
-import coil3.transform.RoundedCornersTransformation
 import com.rayliu.commonmain.domain.model.Book
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.AdBanner
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.BookHeader
+import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.BookSearchItem
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookHeader
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
@@ -36,7 +23,6 @@ import liou.rayyuan.ebooksearchtaiwan.uimodel.BookUiModel
  */
 class FullBookStoreResultAdapter(
     private var clickHandler: BookResultClickHandler?,
-    private val lifecycleOwner: LifecycleOwner,
     private val lookupCurrentTheme: () -> Boolean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     BookResultClickHandler {
@@ -61,13 +47,7 @@ class FullBookStoreResultAdapter(
 
             else -> {
                 // Default viewType is bookItem
-                val bookCardView: View =
-                    LayoutInflater.from(parent.context).inflate(
-                        R.layout.book_card_view,
-                        parent,
-                        false
-                    )
-                BookCardViewHolder(bookCardView)
+                BookCardComposeViewHolder(ComposeView(parent.context), clickHandler, lookupCurrentTheme)
             }
         }
 
@@ -88,61 +68,14 @@ class FullBookStoreResultAdapter(
                 }
             }
 
-            is BookCardViewHolder -> {
+            is BookCardComposeViewHolder -> {
                 val index: Int = (holder.absoluteAdapterPosition - 1) // minus a position for header
                 if (index < items.size && index != RecyclerView.NO_POSITION) {
                     val book = items[index] as BookUiModel
-                    bindBook(holder, book)
+                    holder.bindBook(book)
                 }
             }
         }
-    }
-
-    private fun bindBook(
-        holder: BookCardViewHolder,
-        uiModel: BookUiModel
-    ) {
-        with(holder) {
-            val shopName = uiModel.getShopName(holder.itemView.context)
-            setTextOnViewHolder(bookShopName, shopName)
-            setTextOnViewHolder(bookTitle, uiModel.getTitle())
-            setTextOnViewHolder(bookDescription, uiModel.getDescription())
-            setTextOnViewHolder(bookPrice, uiModel.getPrice())
-
-            bookImage.load(uiModel.getImage()) {
-                lifecycle(lifecycleOwner)
-                crossfade(true)
-                placeholder(R.drawable.book_image_placeholder)
-                allowRgb565(true)
-                transformations(RoundedCornersTransformation(holder.getRoundedCornerValue()))
-            }
-
-            val book = uiModel.book
-            bookResultBody.setOnClickListener {
-                clickHandler?.onBookCardClicked(book)
-            }
-
-            if (book.isFirstChoice) {
-                bookShopName.visibility = View.VISIBLE
-                moreIcon.visibility = View.INVISIBLE
-            } else {
-                bookShopName.visibility = View.GONE
-                moreIcon.visibility = View.GONE
-            }
-        }
-    }
-
-    private fun setTextOnViewHolder(
-        textView: AppCompatTextView,
-        content: String
-    ) {
-        textView.setTextFuture(
-            PrecomputedTextCompat.getTextFuture(
-                content,
-                TextViewCompat.getTextMetricsParams(textView),
-                null
-            )
-        )
     }
 
     override fun getItemCount(): Int {
@@ -232,18 +165,24 @@ class FullBookStoreResultAdapter(
         }
     }
 
-    class BookCardViewHolder(
-        itemView: View
-    ) : RecyclerView.ViewHolder(itemView) {
-        val bookShopName: AppCompatTextView = itemView.findViewById(R.id.book_card_shop_name)
-        val bookTitle: AppCompatTextView = itemView.findViewById(R.id.book_card_title)
-        val bookDescription: AppCompatTextView = itemView.findViewById(R.id.book_card_description)
-        val bookPrice: AppCompatTextView = itemView.findViewById(R.id.book_card_price)
-        val moreIcon: ImageView = itemView.findViewById(R.id.book_card_more_icon)
-        val bookImage: ImageView = itemView.findViewById(R.id.book_card_image)
-        val bookResultBody: View = itemView.findViewById(R.id.book_card_item_body)
-
-        fun getRoundedCornerValue(): Float = itemView.context.resources.getDimension(R.dimen.image_round_corner)
+    class BookCardComposeViewHolder(
+        private val composeView: ComposeView,
+        private var clickHandler: BookResultClickHandler?,
+        private val lookupCurrentTheme: () -> Boolean
+    ) : RecyclerView.ViewHolder(composeView) {
+        fun bindBook(uiModel: BookUiModel) {
+            composeView.setContent {
+                EBookTheme(darkTheme = lookupCurrentTheme()) {
+                    BookSearchItem(
+                        uiModel = uiModel,
+                        modifier = Modifier.padding(vertical = 8.dp, horizontal = 4.dp),
+                        onBookSearchItemClick = { book ->
+                            clickHandler?.onBookCardClicked(book)
+                        }
+                    )
+                }
+            }
+        }
     }
 
     class AdViewComposeHolder(

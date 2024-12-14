@@ -112,7 +112,7 @@ class BookResultListFragment :
         setupEdgeToEdge()
 
         fullBookStoreResultsAdapter =
-            FullBookStoreResultAdapter(this, this) {
+            FullBookStoreResultAdapter(this) {
                 isDarkTheme()
             }
         resultsRecyclerView.adapter = fullBookStoreResultsAdapter
