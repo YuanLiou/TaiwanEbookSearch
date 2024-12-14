@@ -51,6 +51,6 @@ class BookDataMapper(
 
     private fun String.removeSpaces(): String {
         val trimmedString = this.trim()
-        return chineseCharacterPattern.matcher(trimmedString).replaceAll("$1$2")
+        return chineseCharacterPattern.matcher(trimmedString).replaceAll("$1$2").replace("\u3000", "")
     }
 }
