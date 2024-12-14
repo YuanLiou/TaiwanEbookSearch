@@ -35,9 +35,9 @@ cameraXVersion = "1.4.1"
 
 #  Kotlin Libraries
 kotlinxCoroutines = "1.9.0"
-kotlinxSerializationJson = "1.7.3"
+kotlinxSerializationJson = "1.8.0-RC"
 datetime = "0.6.1"
-ktor = "3.0.1"
+ktor = "3.0.2"
 immutableCollections = "0.3.8"
 
 #  Google Service and Firebase Libraries
@@ -53,7 +53,7 @@ androidxEspresso = "3.6.1"
 
 # plugins versions
 androidGradlePlugin = "8.6.1"
-kotlin = "2.0.21"
+kotlin = "2.1.0"
 gmsPlugin = "4.4.2"
 firebaseCrashlyticsPlugin = "3.0.2"
 detektVersion = "1.23.7"
