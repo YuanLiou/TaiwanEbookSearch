@@ -24,10 +24,13 @@ import com.rayliu.commonmain.domain.usecase.GetSearchSnapshotUseCase
 import java.net.SocketTimeoutException
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.first
@@ -44,8 +47,9 @@ import liou.rayyuan.ebooksearchtaiwan.booksearch.list.SiteInfo
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
 import liou.rayyuan.ebooksearchtaiwan.interactor.UserRankingWindowFacade
-import liou.rayyuan.ebooksearchtaiwan.uimodel.BookUiModel
-import liou.rayyuan.ebooksearchtaiwan.uimodel.asUiModel
+import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookUiModel
+import liou.rayyuan.ebooksearchtaiwan.booksearch.list.asUiModel
+import liou.rayyuan.ebooksearchtaiwan.navigation.BookResultDestinations
 import liou.rayyuan.ebooksearchtaiwan.utils.ClipboardHelper
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import liou.rayyuan.ebooksearchtaiwan.utils.ResourceHelper
@@ -82,6 +86,14 @@ class BookSearchViewModel(
     private val _bookStoreDetails = MutableStateFlow<ImmutableList<BookStoreDetails>>(persistentListOf())
     val bookStoreDetails
         get() = _bookStoreDetails.asStateFlow()
+
+    private val _bookSearchResult = MutableStateFlow<ImmutableList<AdapterItem>>(persistentListOf())
+    val bookSearchResult
+        get() = _bookSearchResult.asStateFlow()
+
+    private val _navigationEvents = MutableSharedFlow<BookResultDestinations>()
+    val navigationEvents
+        get() = _navigationEvents.asSharedFlow()
 
     private val _searchKeywords = MutableStateFlow(TextFieldValue(""))
     val searchKeywords
@@ -244,6 +256,7 @@ class BookSearchViewModel(
     private fun ready() {
         if (isRequestingBookData()) {
             updateScreen(BookResultViewState.PrepareBookResult())
+            updateBookSearchScreen(BookResultDestinations.LoadingScreen)
         } else {
             bookStores?.let {
                 prepareBookSearchResult(it)
@@ -306,6 +319,7 @@ class BookSearchViewModel(
         }
 
         updateScreen(BookResultViewState.PrepareBookResult(true))
+        updateBookSearchScreen(BookResultDestinations.LoadingScreen)
         bookStores = null // clean up
         networkJob =
             viewModelScope.launch(Dispatchers.IO) {
@@ -361,6 +375,7 @@ class BookSearchViewModel(
 
         viewModelScope.launch {
             val adapterItems = generateAdapterItems(bookStores)
+            _bookSearchResult.value = adapterItems.toImmutableList()
             updateScreen(
                 BookResultViewState.ShowBooks(
                     bookStores.searchKeyword,
@@ -368,6 +383,7 @@ class BookSearchViewModel(
                     adapterItems
                 )
             )
+            updateBookSearchScreen(BookResultDestinations.SearchResult)
             lastScrollPosition = 0
         }
     }
@@ -481,11 +497,13 @@ class BookSearchViewModel(
 
     private fun networkTimeout() {
         updateScreen(BookResultViewState.PrepareBookResultError)
+        updateBookSearchScreen(BookResultDestinations.ServiceStatus)
         sendViewEffect(ScreenState.ConnectionTimeout)
     }
 
     private fun networkExceptionOccurred(message: String) {
         updateScreen(BookResultViewState.PrepareBookResultError)
+        updateBookSearchScreen(BookResultDestinations.ServiceStatus)
         if (message == GENERIC_NETWORK_ISSUE) {
             sendViewEffect(ScreenState.NetworkError)
         } else {
@@ -520,6 +538,12 @@ class BookSearchViewModel(
 
     private fun updateScreen(bookResultViewState: BookResultViewState) {
         _bookResultViewState.value = bookResultViewState
+    }
+
+    private fun updateBookSearchScreen(bookSearchDestination: BookResultDestinations) {
+        viewModelScope.launch {
+            _navigationEvents.emit(bookSearchDestination)
+        }
     }
 
     companion object {

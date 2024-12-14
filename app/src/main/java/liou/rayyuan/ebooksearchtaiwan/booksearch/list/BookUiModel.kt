@@ -1,10 +1,9 @@
-package liou.rayyuan.ebooksearchtaiwan.uimodel
+package liou.rayyuan.ebooksearchtaiwan.booksearch.list
 
 import android.content.Context
 import com.rayliu.commonmain.data.DefaultStoreNames
 import com.rayliu.commonmain.domain.model.Book
 import liou.rayyuan.ebooksearchtaiwan.R
-import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
 import liou.rayyuan.ebooksearchtaiwan.view.getLocalizedName
 
 /**
