@@ -39,7 +39,6 @@ fun BookResultListScreen(
     ) {
         bookResultNavGraph(
             viewModel = viewModel,
-            navController = navHostController,
             modifier = modifier,
             onBookSearchItemClick = onBookSearchItemClick
         )

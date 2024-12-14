@@ -112,22 +112,6 @@ class BookResultListFragment :
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        if (savedInstanceState != null) {
-//            val recyclerViewState =
-//                BundleCompat.getParcelable(savedInstanceState, BUNDLE_RECYCLERVIEW_STATE, Parcelable::class.java)
-//            if (recyclerViewState != null) {
-//                resultsRecyclerView.layoutManager?.onRestoreInstanceState(recyclerViewState)
-//            }
-//
-//            val recyclerViewPosition = savedInstanceState.getInt(KEY_RECYCLERVIEW_POSITION, 0)
-//            (resultsRecyclerView.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(
-//                recyclerViewPosition,
-//                0
-//            )
-//            bookSearchViewModel.savePreviousScrollPosition(recyclerViewPosition)
-//            Log.i("BookResultListFragment", "restore recyclerView Position = $recyclerViewPosition")
-        }
-
         // Render View Effect
         bookSearchViewModel.screenViewState.observe(
             viewLifecycleOwner,
@@ -250,18 +234,6 @@ class BookResultListFragment :
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-//        outState.putParcelable(
-//            BUNDLE_RECYCLERVIEW_STATE,
-//            resultsRecyclerView.layoutManager?.onSaveInstanceState()
-//        )
-//        val recyclerViewPosition =
-//            (resultsRecyclerView.layoutManager as? LinearLayoutManager)?.findFirstCompletelyVisibleItemPosition()
-//        outState.putInt(KEY_RECYCLERVIEW_POSITION, recyclerViewPosition ?: 0)
-//        Log.i("BookResultListFragment", "save recyclerView Position = $recyclerViewPosition")
-    }
-
     private fun bindViews(view: View) {
         searchRecordsRootView = view.findViewById(R.id.layout_search_records_rootview)
         searchRecordsRecyclerView = view.findViewById(R.id.layout_search_records_recycler_view)
@@ -303,7 +275,6 @@ class BookResultListFragment :
     override fun onDestroy() {
         (requireActivity() as AppCompatActivity).setSupportActionBar(null)
         searchRecordsAdapter.release()
-//        fullBookStoreResultsAdapter.release()
         super.onDestroy()
     }
 
@@ -427,11 +398,6 @@ class BookResultListFragment :
     private fun renderMainResultView(bookResultViewState: BookResultViewState) {
         when (bookResultViewState) {
             is BookResultViewState.PrepareBookResult -> {
-//                viewBinding.searchViewProgressbar.visibility = View.VISIBLE
-//                resultsRecyclerView.visibility = View.GONE
-//                viewBinding.searchListComposeView.visibility = View.GONE
-//                viewBinding.searchViewBackToTopButton.visibility = View.GONE
-
                 sendUserIntent(BookSearchUserIntent.EnableCameraButtonClick(false))
                 sendUserIntent(BookSearchUserIntent.EnableSearchButtonClick(false))
 
@@ -449,18 +415,6 @@ class BookResultListFragment :
             }
 
             is BookResultViewState.ShowBooks -> {
-//                if (bookResultViewState.adapterItems.isNotEmpty()) {
-//                    if (this::fullBookStoreResultsAdapter.isInitialized) {
-//                        fullBookStoreResultsAdapter.clean()
-//                        fullBookStoreResultsAdapter.addResult(bookResultViewState.adapterItems)
-//                    }
-//                }
-
-//                viewBinding.searchViewProgressbar.visibility = View.GONE
-//                resultsRecyclerView.visibility = View.VISIBLE
-//                viewBinding.searchListComposeView.visibility = View.GONE
-//                viewBinding.searchViewBackToTopButton.visibility = View.VISIBLE
-
                 sendUserIntent(BookSearchUserIntent.EnableCameraButtonClick(true))
                 sendUserIntent(BookSearchUserIntent.EnableSearchButtonClick(true))
 
@@ -482,11 +436,6 @@ class BookResultListFragment :
             }
 
             BookResultViewState.PrepareBookResultError -> {
-//                viewBinding.searchViewProgressbar.visibility = View.GONE
-//                resultsRecyclerView.visibility = View.GONE
-//                viewBinding.searchListComposeView.visibility = View.VISIBLE
-//                viewBinding.searchViewBackToTopButton.visibility = View.GONE
-
                 sendUserIntent(BookSearchUserIntent.EnableCameraButtonClick(true))
                 sendUserIntent(BookSearchUserIntent.EnableSearchButtonClick(true))
 
@@ -830,7 +779,7 @@ class BookResultListFragment :
 
         val animation = ValueAnimator.ofInt(view.measuredHeightAndState, targetHeight)
         animation.duration = 150
-        animation.setInterpolator(DecelerateInterpolator())
+        animation.interpolator = DecelerateInterpolator()
         animation.addListener(
             object : AnimatorListenerAdapter() {
                 override fun onAnimationStart(animation: Animator) {
@@ -839,13 +788,11 @@ class BookResultListFragment :
                     val isGoingToExpand = targetHeight > 0
                     if (isBackgroundVisible && !isGoingToExpand) {
                         viewBinding.searchViewSearchRecordsBackground.visibility = View.GONE
-//                        viewBinding.searchViewBackToTopButton.visibility = View.VISIBLE
                         return
                     }
 
                     if (!isBackgroundVisible && isGoingToExpand) {
                         viewBinding.searchViewSearchRecordsBackground.visibility = View.VISIBLE
-//                        viewBinding.searchViewBackToTopButton.visibility = View.GONE
                     }
                 }
             }

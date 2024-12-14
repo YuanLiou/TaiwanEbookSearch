@@ -130,8 +130,17 @@ class BookSearchViewModel(
     val hasPreviousSearch: Boolean
         get() = bookStores != null
 
-    private var lastScrollPosition: Int = 0
-        set(value) {
+    var lastScrollPosition: Int = 0
+        private set(value) {
+            field =
+                if (!isRequestingBookData()) {
+                    value
+                } else {
+                    0
+                }
+        }
+    var lastScrollOffset: Int = 0
+        private set(value) {
             field =
                 if (!isRequestingBookData()) {
                     value
@@ -249,8 +258,12 @@ class BookSearchViewModel(
         super.onCleared()
     }
 
-    fun savePreviousScrollPosition(position: Int) {
+    fun savePreviousScrollPosition(
+        position: Int,
+        offset: Int
+    ) {
         lastScrollPosition = position
+        lastScrollOffset = offset
     }
 
     private fun ready() {
@@ -384,7 +397,6 @@ class BookSearchViewModel(
                 )
             )
             updateBookSearchScreen(BookResultDestinations.SearchResult)
-            lastScrollPosition = 0
         }
     }
 

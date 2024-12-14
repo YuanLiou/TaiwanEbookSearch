@@ -3,6 +3,7 @@ package liou.rayyuan.ebooksearchtaiwan.booksearch.composable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,10 +19,12 @@ import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookUiModel
 @Composable
 fun BookSearchList(
     bookSearchResults: ImmutableList<AdapterItem>,
+    lazyListState: LazyListState,
     modifier: Modifier = Modifier,
     onBookSearchItemClick: (Book) -> Unit = {}
 ) {
     LazyColumn(
+        state = lazyListState,
         modifier = modifier
     ) {
         item {
