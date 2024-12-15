@@ -12,21 +12,6 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:background="#3332A852" />
 
-<!--    <androidx.appcompat.widget.AppCompatImageButton-->
-<!--        android:id="@+id/search_view_back_to_top_button"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="bottom|center_horizontal"-->
-<!--        android:background="@drawable/material_rounded_button_green"-->
-<!--        android:clickable="true"-->
-<!--        android:elevation="6dp"-->
-<!--        android:padding="6dp"-->
-<!--        android:src="@drawable/ic_keyboard_arrow_up_24dp"-->
-<!--        android:translationY="40dp"-->
-<!--        android:visibility="gone"-->
-<!--        app:layout_behavior="@string/navigation_behavior"-->
-<!--        tools:visibility="visible" />-->
-
     <View
         android:id="@+id/search_view_search_records_background"
         android:layout_width="match_parent"

@@ -10,7 +10,7 @@ data class BookHeader(
     val isEmptyResult: Boolean,
     val siteInfo: SiteInfo?
 ) : Parcelable,
-    AdapterItem
+    BookSearchResultItem
 
 @Parcelize
 data class SiteInfo(

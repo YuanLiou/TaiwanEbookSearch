@@ -12,13 +12,13 @@ import androidx.compose.ui.unit.dp
 import com.rayliu.commonmain.domain.model.Book
 import kotlinx.collections.immutable.ImmutableList
 import liou.rayyuan.ebooksearchtaiwan.R
-import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
+import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookSearchResultItem
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookHeader
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookUiModel
 
 @Composable
 fun BookSearchList(
-    bookSearchResults: ImmutableList<AdapterItem>,
+    bookSearchResults: ImmutableList<BookSearchResultItem>,
     lazyListState: LazyListState,
     modifier: Modifier = Modifier,
     onBookSearchItemClick: (Book) -> Unit = {}

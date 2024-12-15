@@ -41,7 +41,7 @@ import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.arch.IModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.FocusAction
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.VirtualKeyboardAction
-import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
+import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookSearchResultItem
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookHeader
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.SiteInfo
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
@@ -87,7 +87,7 @@ class BookSearchViewModel(
     val bookStoreDetails
         get() = _bookStoreDetails.asStateFlow()
 
-    private val _bookSearchResult = MutableStateFlow<ImmutableList<AdapterItem>>(persistentListOf())
+    private val _bookSearchResult = MutableStateFlow<ImmutableList<BookSearchResultItem>>(persistentListOf())
     val bookSearchResult
         get() = _bookSearchResult.asStateFlow()
 
@@ -387,28 +387,28 @@ class BookSearchViewModel(
         this.bookStores = bookStores
 
         viewModelScope.launch {
-            val adapterItems = generateAdapterItems(bookStores)
-            _bookSearchResult.value = adapterItems.toImmutableList()
+            val bookSearchResultItems = generateBookSearchResultItems(bookStores)
+            _bookSearchResult.value = bookSearchResultItems.toImmutableList()
             updateScreen(BookResultViewState.ShowBooks(bookStores.searchKeyword))
             updateBookSearchScreen(BookResultDestinations.SearchResult)
         }
     }
 
-    private suspend fun generateAdapterItems(bookStores: BookStores) =
+    private suspend fun generateBookSearchResultItems(bookStores: BookStores) =
         withContext(Dispatchers.Default) {
-            val adapterItems = mutableListOf<AdapterItem>()
+            val bookSearchResultItems = mutableListOf<BookSearchResultItem>()
             val defaultSort = getDefaultBookSortUseCase().first()
             val groupedResults = BookStoresSorter.generateResultMap(bookStores, defaultSort)
 
             val bestItems = generateBestItems(defaultSort, groupedResults)
-            adapterItems.add(
+            bookSearchResultItems.add(
                 BookHeader(
                     DefaultStoreNames.BEST_RESULT.getStringResource(),
                     bestItems.isEmpty(),
                     siteInfo = null
                 )
             )
-            adapterItems.addAll(bestItems)
+            bookSearchResultItems.addAll(bestItems)
 
             for (storeName in defaultSort) {
                 val bookResult = groupedResults[storeName] ?: continue
@@ -425,7 +425,7 @@ class BookSearchViewModel(
                         }
                     }
 
-                adapterItems.add(
+                bookSearchResultItems.add(
                     BookHeader(
                         storeName.getStringResource(),
                         books.isEmpty(),
@@ -438,12 +438,12 @@ class BookSearchViewModel(
                     )
                 )
 
-                adapterItems.addAll(
+                bookSearchResultItems.addAll(
                     books.map { it.asUiModel() }
                 )
             }
 
-            adapterItems.toList()
+            bookSearchResultItems.toList()
         }
 
     private fun generateBestItems(

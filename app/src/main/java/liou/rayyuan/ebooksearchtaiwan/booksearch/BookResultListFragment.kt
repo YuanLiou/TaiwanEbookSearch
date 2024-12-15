@@ -408,10 +408,10 @@ class BookResultListFragment :
                         0
                     }
 
-                val adapterItemHeight =
+                val bookSearchResultItemHeight =
                     resources.getDimensionPixelSize(R.dimen.search_records_item_height)
 
-                toggleSearchRecordView(true, (adapterItemHeight + heightPadding) * itemCounts)
+                toggleSearchRecordView(true, (bookSearchResultItemHeight + heightPadding) * itemCounts)
                 bookSearchViewModel.searchRecordLiveData.observe(
                     viewLifecycleOwner
                 ) { searchRecords ->

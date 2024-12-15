@@ -11,7 +11,7 @@ import liou.rayyuan.ebooksearchtaiwan.view.getLocalizedName
  */
 data class BookUiModel(
     val book: Book
-) : AdapterItem {
+) : BookSearchResultItem {
     fun getTitle(): String {
         return book.title
     }
