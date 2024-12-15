@@ -33,7 +33,6 @@ import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
 import coil3.request.allowRgb565
 import coil3.request.crossfade
-import coil3.request.placeholder
 import coil3.request.transformations
 import coil3.transform.RoundedCornersTransformation
 import com.rayliu.commonmain.domain.model.Book
@@ -41,8 +40,8 @@ import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.utils.resolveColorAttribute
 import liou.rayyuan.ebooksearchtaiwan.ui.MDPI_DEVICES
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
-import liou.rayyuan.ebooksearchtaiwan.uimodel.BookUiModel
-import liou.rayyuan.ebooksearchtaiwan.uimodel.asUiModel
+import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookUiModel
+import liou.rayyuan.ebooksearchtaiwan.booksearch.list.asUiModel
 
 @Composable
 fun BookSearchItem(

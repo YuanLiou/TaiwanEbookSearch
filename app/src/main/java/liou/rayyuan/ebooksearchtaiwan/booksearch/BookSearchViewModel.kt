@@ -24,10 +24,13 @@ import com.rayliu.commonmain.domain.usecase.GetSearchSnapshotUseCase
 import java.net.SocketTimeoutException
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.first
@@ -38,14 +41,15 @@ import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.arch.IModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.FocusAction
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.VirtualKeyboardAction
-import liou.rayyuan.ebooksearchtaiwan.booksearch.list.AdapterItem
+import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookSearchResultItem
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookHeader
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.SiteInfo
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
 import liou.rayyuan.ebooksearchtaiwan.interactor.UserRankingWindowFacade
-import liou.rayyuan.ebooksearchtaiwan.uimodel.BookUiModel
-import liou.rayyuan.ebooksearchtaiwan.uimodel.asUiModel
+import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookUiModel
+import liou.rayyuan.ebooksearchtaiwan.booksearch.list.asUiModel
+import liou.rayyuan.ebooksearchtaiwan.navigation.BookResultDestinations
 import liou.rayyuan.ebooksearchtaiwan.utils.ClipboardHelper
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import liou.rayyuan.ebooksearchtaiwan.utils.ResourceHelper
@@ -83,6 +87,14 @@ class BookSearchViewModel(
     val bookStoreDetails
         get() = _bookStoreDetails.asStateFlow()
 
+    private val _bookSearchResult = MutableStateFlow<ImmutableList<BookSearchResultItem>>(persistentListOf())
+    val bookSearchResult
+        get() = _bookSearchResult.asStateFlow()
+
+    private val _navigationEvents = MutableSharedFlow<BookResultDestinations>()
+    val navigationEvents
+        get() = _navigationEvents.asSharedFlow()
+
     private val _searchKeywords = MutableStateFlow(TextFieldValue(""))
     val searchKeywords
         get() = _searchKeywords.asStateFlow()
@@ -118,8 +130,17 @@ class BookSearchViewModel(
     val hasPreviousSearch: Boolean
         get() = bookStores != null
 
-    private var lastScrollPosition: Int = 0
-        set(value) {
+    var lastScrollPosition: Int = 0
+        private set(value) {
+            field =
+                if (!isRequestingBookData()) {
+                    value
+                } else {
+                    0
+                }
+        }
+    var lastScrollOffset: Int = 0
+        private set(value) {
             field =
                 if (!isRequestingBookData()) {
                     value
@@ -237,13 +258,18 @@ class BookSearchViewModel(
         super.onCleared()
     }
 
-    fun savePreviousScrollPosition(position: Int) {
+    fun savePreviousScrollPosition(
+        position: Int,
+        offset: Int
+    ) {
         lastScrollPosition = position
+        lastScrollOffset = offset
     }
 
     private fun ready() {
         if (isRequestingBookData()) {
-            updateScreen(BookResultViewState.PrepareBookResult())
+            updateScreen(BookResultViewState.PrepareBookResult)
+            updateBookSearchScreen(BookResultDestinations.LoadingScreen)
         } else {
             bookStores?.let {
                 prepareBookSearchResult(it)
@@ -305,7 +331,8 @@ class BookSearchViewModel(
             forceStopRequestingBookData()
         }
 
-        updateScreen(BookResultViewState.PrepareBookResult(true))
+        updateScreen(BookResultViewState.PrepareBookResult)
+        updateBookSearchScreen(BookResultDestinations.LoadingScreen)
         bookStores = null // clean up
         networkJob =
             viewModelScope.launch(Dispatchers.IO) {
@@ -360,33 +387,28 @@ class BookSearchViewModel(
         this.bookStores = bookStores
 
         viewModelScope.launch {
-            val adapterItems = generateAdapterItems(bookStores)
-            updateScreen(
-                BookResultViewState.ShowBooks(
-                    bookStores.searchKeyword,
-                    lastScrollPosition,
-                    adapterItems
-                )
-            )
-            lastScrollPosition = 0
+            val bookSearchResultItems = generateBookSearchResultItems(bookStores)
+            _bookSearchResult.value = bookSearchResultItems.toImmutableList()
+            updateScreen(BookResultViewState.ShowBooks(bookStores.searchKeyword))
+            updateBookSearchScreen(BookResultDestinations.SearchResult)
         }
     }
 
-    private suspend fun generateAdapterItems(bookStores: BookStores) =
+    private suspend fun generateBookSearchResultItems(bookStores: BookStores) =
         withContext(Dispatchers.Default) {
-            val adapterItems = mutableListOf<AdapterItem>()
+            val bookSearchResultItems = mutableListOf<BookSearchResultItem>()
             val defaultSort = getDefaultBookSortUseCase().first()
             val groupedResults = BookStoresSorter.generateResultMap(bookStores, defaultSort)
 
             val bestItems = generateBestItems(defaultSort, groupedResults)
-            adapterItems.add(
+            bookSearchResultItems.add(
                 BookHeader(
                     DefaultStoreNames.BEST_RESULT.getStringResource(),
                     bestItems.isEmpty(),
                     siteInfo = null
                 )
             )
-            adapterItems.addAll(bestItems)
+            bookSearchResultItems.addAll(bestItems)
 
             for (storeName in defaultSort) {
                 val bookResult = groupedResults[storeName] ?: continue
@@ -403,7 +425,7 @@ class BookSearchViewModel(
                         }
                     }
 
-                adapterItems.add(
+                bookSearchResultItems.add(
                     BookHeader(
                         storeName.getStringResource(),
                         books.isEmpty(),
@@ -416,12 +438,12 @@ class BookSearchViewModel(
                     )
                 )
 
-                adapterItems.addAll(
+                bookSearchResultItems.addAll(
                     books.map { it.asUiModel() }
                 )
             }
 
-            adapterItems.toList()
+            bookSearchResultItems.toList()
         }
 
     private fun generateBestItems(
@@ -481,11 +503,13 @@ class BookSearchViewModel(
 
     private fun networkTimeout() {
         updateScreen(BookResultViewState.PrepareBookResultError)
+        updateBookSearchScreen(BookResultDestinations.ServiceStatus)
         sendViewEffect(ScreenState.ConnectionTimeout)
     }
 
     private fun networkExceptionOccurred(message: String) {
         updateScreen(BookResultViewState.PrepareBookResultError)
+        updateBookSearchScreen(BookResultDestinations.ServiceStatus)
         if (message == GENERIC_NETWORK_ISSUE) {
             sendViewEffect(ScreenState.NetworkError)
         } else {
@@ -520,6 +544,12 @@ class BookSearchViewModel(
 
     private fun updateScreen(bookResultViewState: BookResultViewState) {
         _bookResultViewState.value = bookResultViewState
+    }
+
+    private fun updateBookSearchScreen(bookSearchDestination: BookResultDestinations) {
+        viewModelScope.launch {
+            _navigationEvents.emit(bookSearchDestination)
+        }
     }
 
     companion object {

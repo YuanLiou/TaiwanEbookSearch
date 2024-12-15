@@ -110,14 +110,12 @@ private fun ServiceStatusCard(
     group = "list",
     showBackground = true,
     showSystemUi = false,
-    apiLevel = 34,
     device = MDPI_DEVICES
 )
 @Preview(
     name = "Service Status List Dark",
     group = "list",
     uiMode = Configuration.UI_MODE_NIGHT_YES,
-    apiLevel = 34,
     device = MDPI_DEVICES,
 )
 @Composable
@@ -160,14 +158,12 @@ private fun ServiceStatusListPreview() {
     group = "component",
     showBackground = true,
     showSystemUi = false,
-    apiLevel = 34,
     device = MDPI_DEVICES
 )
 @Preview(
     name = "Service Status Card Dark",
     group = "component",
     uiMode = Configuration.UI_MODE_NIGHT_YES,
-    apiLevel = 34,
     device = MDPI_DEVICES,
 )
 @Composable

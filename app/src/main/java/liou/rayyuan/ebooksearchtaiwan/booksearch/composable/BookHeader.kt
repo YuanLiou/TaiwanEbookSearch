@@ -74,14 +74,12 @@ fun BookHeader(
     group = "component",
     showBackground = true,
     showSystemUi = false,
-    apiLevel = 34,
     device = MDPI_DEVICES
 )
 @Preview(
     name = "Book Header Dark",
     group = "component",
     uiMode = Configuration.UI_MODE_NIGHT_YES,
-    apiLevel = 34,
     device = MDPI_DEVICES
 )
 @Composable

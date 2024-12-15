@@ -6,52 +6,11 @@
     android:layout_height="match_parent">
 
     <androidx.compose.ui.platform.ComposeView
-        android:id="@+id/search_view_compose_view"
+        android:id="@+id/search_list_compose_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:background="#3332A852" />
-
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/search_view_progressbar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:indeterminate="true"
-        android:visibility="gone"
-        tools:visibility="visible" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/search_view_result"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:descendantFocusability="beforeDescendants"
-        android:paddingStart="@dimen/search_list_padding_horizontal"
-        android:paddingEnd="@dimen/search_list_padding_horizontal"
-        android:paddingBottom="80dp"
-        android:visibility="invisible"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:listitem="@layout/adapter_bookstore_result"
-        tools:alpha="0.3"
-        tools:visibility="visible" />
-
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/search_view_back_to_top_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:background="@drawable/material_rounded_button_green"
-        android:clickable="true"
-        android:elevation="6dp"
-        android:padding="6dp"
-        android:src="@drawable/ic_keyboard_arrow_up_24dp"
-        android:translationY="40dp"
-        android:visibility="gone"
-        app:layout_behavior="@string/navigation_behavior"
-        tools:visibility="visible" />
 
     <View
         android:id="@+id/search_view_search_records_background"
@@ -66,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:liftOnScroll="true"
-        app:liftOnScrollTargetViewId="@id/search_view_result">
+        app:liftOnScrollTargetViewId="@id/search_list_compose_view">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"

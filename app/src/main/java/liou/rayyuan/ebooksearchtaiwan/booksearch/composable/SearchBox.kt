@@ -104,14 +104,12 @@ private const val CLICK_MILLISECOND_THRESHOLD = 2000L
     group = "component",
     showBackground = true,
     showSystemUi = false,
-    apiLevel = 34,
     device = MDPI_DEVICES
 )
 @Preview(
     name = "Search Box Dark",
     group = "component",
     uiMode = Configuration.UI_MODE_NIGHT_YES,
-    apiLevel = 34,
     device = MDPI_DEVICES
 )
 @Composable
