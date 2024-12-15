@@ -5,12 +5,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import liou.rayyuan.ebooksearchtaiwan.ui.theme.pure_dark
 
 val EBookIcons.BaselineFilterCenterFocus24Px: ImageVector by
     lazy(LazyThreadSafetyMode.NONE) {
@@ -22,7 +22,7 @@ val EBookIcons.BaselineFilterCenterFocus24Px: ImageVector by
             viewportHeight = 24f,
             autoMirror = true
         ).apply {
-            path(fill = SolidColor(Color(0xFF000000))) {
+            path(fill = SolidColor(pure_dark)) {
                 moveTo(5f, 15f)
                 lineTo(3f, 15f)
                 verticalLineToRelative(4f)
