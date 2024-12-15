@@ -3,7 +3,6 @@ package liou.rayyuan.ebooksearchtaiwan.booksearch
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -16,9 +15,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
-import android.widget.ImageButton
 import android.widget.Toast
-import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,8 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.WindowInsetsCompat
@@ -55,7 +50,6 @@ import liou.rayyuan.ebooksearchtaiwan.booksearch.review.PlayStoreReviewHelper
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
 import liou.rayyuan.ebooksearchtaiwan.databinding.FragmentSearchListBinding
-import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
@@ -264,8 +258,6 @@ class BookResultListFragment :
         viewBinding.searchViewSearchRecordsBackground.setOnClickListener(this)
 
         initAdMods()
-        initScrollToTopButton()
-
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
             // remove AppBarLayout's shadow
             viewBinding.searchViewAppbar.outlineProvider = null
@@ -290,7 +282,6 @@ class BookResultListFragment :
                 right = bars.right
             )
 
-//            viewBinding.searchViewBackToTopButton.updateMargins(bottom = bars.bottom)
             viewBinding.searchViewAppbar.updateMargins(top = bars.top)
             viewBinding.searchViewSearchRecordsBackground.updateMargins(top = bars.top)
         }
@@ -355,42 +346,6 @@ class BookResultListFragment :
         MobileAds.setRequestConfiguration(configurationBuilder.build())
     }
 
-    private fun initScrollToTopButton() {
-//        viewBinding.searchViewBackToTopButton.setOnClickListener(this)
-//        viewBinding.searchViewBackToTopButton.setOnLongClickListener {
-//            focusAndCleanBookSearchEditText()
-//            true
-//        }
-
-        if (!isAdded) {
-            return
-        }
-
-//        viewBinding.searchViewBackToTopButton.setBackgroundResource(R.drawable.material_rounded_button_green)
-//        resultsRecyclerView.addOnScrollListener(
-//            object : RecyclerView.OnScrollListener() {
-//                override fun onScrolled(
-//                    recyclerView: RecyclerView,
-//                    dx: Int,
-//                    dy: Int
-//                ) {
-//                    super.onScrolled(recyclerView, dx, dy)
-//                    if (resultsRecyclerView.canScrollVertically(-1)) {
-//                        viewBinding.searchViewBackToTopButton.setImageResource(
-//                            requireContext(),
-//                            R.drawable.ic_keyboard_arrow_up_24dp
-//                        )
-//                    } else {
-//                        viewBinding.searchViewBackToTopButton.setImageResource(
-//                            requireContext(),
-//                            R.drawable.ic_search_white_24dp
-//                        )
-//                    }
-//                }
-//            }
-//        )
-    }
-
     override fun render(viewState: BookResultViewState) {
         renderMainResultView(viewState)
     }
@@ -408,10 +363,6 @@ class BookResultListFragment :
                 if (this::copyUrlMenu.isInitialized) {
                     copyUrlMenu.setVisible(false)
                 }
-
-                if (bookResultViewState.scrollToTop) {
-                    scrollToTop()
-                }
             }
 
             is BookResultViewState.ShowBooks -> {
@@ -428,10 +379,6 @@ class BookResultListFragment :
 
                 if (this::copyUrlMenu.isInitialized) {
                     copyUrlMenu.setVisible(true)
-                }
-
-                if (bookResultViewState.scrollPosition > 0) {
-                    scrollToPosition(bookResultViewState.scrollPosition)
                 }
             }
 
@@ -542,10 +489,6 @@ class BookResultListFragment :
         }
     }
 
-    private fun scrollToTop() {
-//        resultsRecyclerView.scrollToPosition(0)
-    }
-
     private fun openBook(book: Book) {
         if (isAdded) {
             (requireActivity() as? BookSearchActivity)?.openBookLink(book)
@@ -631,17 +574,6 @@ class BookResultListFragment :
         }
     }
 
-    private fun backToListTop() {
-//        resultsRecyclerView.smoothScrollToPosition(0)
-    }
-
-    private fun scrollToPosition(position: Int) {
-//        (resultsRecyclerView.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(
-//            position,
-//            0
-//        )
-    }
-
     private fun showToast(message: String) {
         if (isAdded) {
             message.showToastOn(requireContext())
@@ -663,25 +595,10 @@ class BookResultListFragment :
     //region View.OnClickListener
     override fun onClick(view: View?) {
         when (view?.id) {
-//            R.id.search_view_back_to_top_button -> {
-//                val canListScrollVertically = resultsRecyclerView.canScrollVertically(-1)
-//                backToTop(canListScrollVertically)
-//            }
-
             R.id.search_view_search_records_background -> {
                 toggleSearchRecordView(false)
                 hideVirtualKeyboard()
             }
-        }
-    }
-
-    private fun backToTop(canResultListScrollVertically: Boolean) {
-        if (canResultListScrollVertically) {
-            backToListTop()
-            eventTracker.logEvent(EventTracker.CLICK_BACK_TO_TOP_BUTTON)
-        } else {
-            focusBookSearchEditText()
-            eventTracker.logEvent(EventTracker.CLICK_TO_SEARCH_BUTTON)
         }
     }
     //endregion
@@ -692,20 +609,6 @@ class BookResultListFragment :
                 ?: false
         }
         return false
-    }
-
-    private fun ImageButton.setImageResource(
-        context: Context,
-        @DrawableRes drawableId: Int
-    ) {
-        ContextCompat.getDrawable(context, drawableId)?.run {
-            if (isDarkTheme()) {
-                DrawableCompat.setTint(this, ContextCompat.getColor(context, R.color.pure_dark))
-            } else {
-                DrawableCompat.setTint(this, ContextCompat.getColor(context, R.color.pure_white))
-            }
-            this@setImageResource.setImageDrawable(this)
-        }
     }
 
     fun searchWithText(text: String) {

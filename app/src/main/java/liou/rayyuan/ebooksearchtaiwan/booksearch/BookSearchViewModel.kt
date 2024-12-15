@@ -268,7 +268,7 @@ class BookSearchViewModel(
 
     private fun ready() {
         if (isRequestingBookData()) {
-            updateScreen(BookResultViewState.PrepareBookResult())
+            updateScreen(BookResultViewState.PrepareBookResult)
             updateBookSearchScreen(BookResultDestinations.LoadingScreen)
         } else {
             bookStores?.let {
@@ -331,7 +331,7 @@ class BookSearchViewModel(
             forceStopRequestingBookData()
         }
 
-        updateScreen(BookResultViewState.PrepareBookResult(true))
+        updateScreen(BookResultViewState.PrepareBookResult)
         updateBookSearchScreen(BookResultDestinations.LoadingScreen)
         bookStores = null // clean up
         networkJob =
@@ -389,13 +389,7 @@ class BookSearchViewModel(
         viewModelScope.launch {
             val adapterItems = generateAdapterItems(bookStores)
             _bookSearchResult.value = adapterItems.toImmutableList()
-            updateScreen(
-                BookResultViewState.ShowBooks(
-                    bookStores.searchKeyword,
-                    lastScrollPosition,
-                    adapterItems
-                )
-            )
+            updateScreen(BookResultViewState.ShowBooks(bookStores.searchKeyword))
             updateBookSearchScreen(BookResultDestinations.SearchResult)
         }
     }
