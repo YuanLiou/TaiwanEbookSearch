@@ -1,6 +1,9 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import android.util.Log
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -120,6 +123,9 @@ class BookSearchViewModel(
     val searchRecordLiveData by lazy {
         getSearchRecordsUseCase().cachedIn(viewModelScope)
     }
+
+    var showCopyUrlOption by mutableStateOf(false)
+    var showShareSnapshotOption by mutableStateOf(false)
 
     private var networkJob: Job? = null
     private val maxListNumber: Int = 10
@@ -245,6 +251,14 @@ class BookSearchViewModel(
 
                     is BookSearchUserIntent.EnableSearchButtonClick -> {
                         _enableSearchButtonClick.value = userIntent.enable
+                    }
+
+                    is BookSearchUserIntent.ShowCopyUrlOption -> {
+                        showCopyUrlOption = userIntent.show
+                    }
+
+                    is BookSearchUserIntent.ShowShareSnapshotOption -> {
+                        showShareSnapshotOption = userIntent.show
                     }
                 }
             }

@@ -136,20 +136,26 @@ fun BookResultListScreen(
                             showOptionMenu = false
                         }
                     ) {
-                        DropdownMenuItem(
-                            text = { Text(stringResource(R.string.menu_copy_snapshot)) },
-                            onClick = {
-                                showOptionMenu = false
-                                onClickCopySnapshot()
-                            }
-                        )
-                        DropdownMenuItem(
-                            text = { Text(stringResource(R.string.menu_share_result)) },
-                            onClick = {
-                                showOptionMenu = false
-                                onShareResultClick()
-                            }
-                        )
+                        if (viewModel.showCopyUrlOption) {
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.menu_copy_snapshot)) },
+                                onClick = {
+                                    showOptionMenu = false
+                                    onClickCopySnapshot()
+                                }
+                            )
+                        }
+
+                        if (viewModel.showShareSnapshotOption) {
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.menu_share_result)) },
+                                onClick = {
+                                    showOptionMenu = false
+                                    onShareResultClick()
+                                }
+                            )
+                        }
+
                         DropdownMenuItem(
                             text = { Text(stringResource(R.string.menu_setting)) },
                             onClick = {

@@ -8,9 +8,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.TypedValue
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
@@ -21,8 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -68,9 +63,6 @@ class BookResultListFragment :
     private var searchRecordAnimator: ValueAnimator? = null
 
     //region View Components
-    private lateinit var shareResultMenu: MenuItem
-    private lateinit var copyUrlMenu: MenuItem
-
     private lateinit var searchRecordsRootView: FrameLayout
     private lateinit var searchRecordsRecyclerView: RecyclerView
     private val searchRecordsAdapter = SearchRecordAdapter(this)
@@ -86,7 +78,6 @@ class BookResultListFragment :
         super.onViewCreated(view, savedInstanceState)
         bindViews(view)
         init()
-        setupOptionMenu()
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
@@ -216,56 +207,6 @@ class BookResultListFragment :
         super.onDestroy()
     }
 
-    private fun setupOptionMenu() {
-        (activity as? MenuHost)?.addMenuProvider(
-            object : MenuProvider {
-                override fun onCreateMenu(
-                    menu: Menu,
-                    menuInflater: MenuInflater
-                ) {
-                    menuInflater.inflate(R.menu.search_page, menu)
-                }
-
-                override fun onPrepareMenu(menu: Menu) {
-                    shareResultMenu =
-                        menu.findItem(R.id.search_page_menu_action_share).also {
-                            it.isVisible = bookSearchViewModel.hasPreviousSearch
-                        }
-                    copyUrlMenu =
-                        menu.findItem(R.id.search_page_menu_action_copy_url).also {
-                            it.isVisible = bookSearchViewModel.hasPreviousSearch
-                        }
-                }
-
-                override fun onMenuItemSelected(item: MenuItem): Boolean =
-                    when (item.itemId) {
-                        R.id.search_page_menu_action_setting -> {
-                            if (isAdded) {
-                                (requireActivity() as? BookSearchActivity)?.openPreferenceActivity()
-                            }
-                            true
-                        }
-
-                        R.id.search_page_menu_action_share -> {
-                            sendUserIntent(BookSearchUserIntent.ShareSnapshot)
-                            true
-                        }
-
-                        R.id.search_page_menu_action_copy_url -> {
-                            sendUserIntent(BookSearchUserIntent.CopySnapshotUrlToClipboard)
-                            true
-                        }
-
-                        else -> {
-                            true
-                        }
-                    }
-            },
-            viewLifecycleOwner,
-            Lifecycle.State.RESUMED
-        )
-    }
-
     private fun initAdMods() {
         MobileAds.initialize(requireContext())
         val configurationBuilder = RequestConfiguration.Builder()
@@ -284,14 +225,8 @@ class BookResultListFragment :
             is BookResultViewState.PrepareBookResult -> {
                 sendUserIntent(BookSearchUserIntent.EnableCameraButtonClick(false))
                 sendUserIntent(BookSearchUserIntent.EnableSearchButtonClick(false))
-
-                if (this::shareResultMenu.isInitialized) {
-                    shareResultMenu.setVisible(false)
-                }
-
-                if (this::copyUrlMenu.isInitialized) {
-                    copyUrlMenu.setVisible(false)
-                }
+                sendUserIntent(BookSearchUserIntent.ShowCopyUrlOption(false))
+                sendUserIntent(BookSearchUserIntent.ShowShareSnapshotOption(false))
             }
 
             is BookResultViewState.ShowBooks -> {
@@ -302,26 +237,15 @@ class BookResultListFragment :
                     changeSearchBoxKeyword(bookResultViewState.keyword)
                 }
 
-                if (this::shareResultMenu.isInitialized) {
-                    shareResultMenu.setVisible(true)
-                }
-
-                if (this::copyUrlMenu.isInitialized) {
-                    copyUrlMenu.setVisible(true)
-                }
+                sendUserIntent(BookSearchUserIntent.ShowCopyUrlOption(true))
+                sendUserIntent(BookSearchUserIntent.ShowShareSnapshotOption(true))
             }
 
             BookResultViewState.PrepareBookResultError -> {
                 sendUserIntent(BookSearchUserIntent.EnableCameraButtonClick(true))
                 sendUserIntent(BookSearchUserIntent.EnableSearchButtonClick(true))
-
-                if (this::shareResultMenu.isInitialized) {
-                    shareResultMenu.setVisible(false)
-                }
-
-                if (this::copyUrlMenu.isInitialized) {
-                    copyUrlMenu.setVisible(false)
-                }
+                sendUserIntent(BookSearchUserIntent.ShowCopyUrlOption(false))
+                sendUserIntent(BookSearchUserIntent.ShowShareSnapshotOption(false))
             }
 
             is BookResultViewState.ShowSearchRecordList -> {
