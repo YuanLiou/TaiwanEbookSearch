@@ -3,14 +3,27 @@ package liou.rayyuan.ebooksearchtaiwan.booksearch
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusState
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -21,6 +34,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.lifecycle.repeatOnLifecycle
 import com.rayliu.commonmain.domain.model.Book
 import kotlinx.coroutines.flow.collectLatest
+import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.SearchBox
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.utils.navigateAndClean
 import liou.rayyuan.ebooksearchtaiwan.navigation.BookResultDestinations
@@ -31,6 +45,9 @@ import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 fun BookResultListScreen(
     viewModel: BookSearchViewModel,
     onSearchTextChange: (TextFieldValue) -> Unit,
+    onClickCopySnapshot: () -> Unit,
+    onShareResultClick: () -> Unit,
+    onMenuSettingClick: () -> Unit,
     modifier: Modifier = Modifier,
     navHostController: NavHostController = rememberNavController(),
     onBookSearchItemClick: (Book) -> Unit = {},
@@ -39,7 +56,7 @@ fun BookResultListScreen(
     onFocusChange: (focusState: FocusState) -> Unit = {},
     showAppBarCameraButton: Boolean = false,
     onAppBarCameraButtonPress: () -> Unit = {},
-    onAppBarSearchButtonPress: () -> Unit = {}
+    onAppBarSearchButtonPress: () -> Unit = {},
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     LaunchedEffect(Unit) {
@@ -75,6 +92,8 @@ fun BookResultListScreen(
             .collectAsStateWithLifecycle()
             .value
 
+    var showOptionMenu by remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -98,7 +117,48 @@ fun BookResultListScreen(
                 colors =
                     TopAppBarDefaults.topAppBarColors().copy(
                         containerColor = EBookTheme.colors.colorBackground
-                    )
+                    ),
+                actions = {
+                    IconButton(
+                        onClick = {
+                            showOptionMenu = !showOptionMenu
+                        },
+                        colors =
+                            IconButtonDefaults.iconButtonColors().copy(
+                                contentColor = EBookTheme.colors.colorOnPrimary
+                            )
+                    ) {
+                        Icon(Icons.Default.MoreVert, contentDescription = "Option Menu")
+                    }
+                    DropdownMenu(
+                        expanded = showOptionMenu,
+                        onDismissRequest = {
+                            showOptionMenu = false
+                        }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.menu_copy_snapshot)) },
+                            onClick = {
+                                showOptionMenu = false
+                                onClickCopySnapshot()
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.menu_share_result)) },
+                            onClick = {
+                                showOptionMenu = false
+                                onShareResultClick()
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.menu_setting)) },
+                            onClick = {
+                                showOptionMenu = false
+                                onMenuSettingClick()
+                            }
+                        )
+                    }
+                }
             )
         },
         containerColor = EBookTheme.colors.colorBackground,

@@ -146,7 +146,18 @@ class BookResultListFragment :
                         },
                         onAppBarSearchButtonPress = {
                             searchBook()
-                        }
+                        },
+                        onClickCopySnapshot = {
+                            sendUserIntent(BookSearchUserIntent.CopySnapshotUrlToClipboard)
+                        },
+                        onShareResultClick = {
+                            sendUserIntent(BookSearchUserIntent.ShareSnapshot)
+                        },
+                        onMenuSettingClick = {
+                            if (isAdded) {
+                                (requireActivity() as? BookSearchActivity)?.openPreferenceActivity()
+                            }
+                        },
                     )
                 }
             }
