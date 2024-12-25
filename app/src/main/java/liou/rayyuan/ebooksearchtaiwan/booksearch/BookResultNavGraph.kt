@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -36,6 +37,7 @@ import liou.rayyuan.ebooksearchtaiwan.ui.theme.blue_green_you
 fun NavGraphBuilder.bookResultNavGraph(
     viewModel: BookSearchViewModel,
     modifier: Modifier = Modifier,
+    listContentPadding: PaddingValues = PaddingValues(0.dp),
     onBookSearchItemClick: (Book) -> Unit = {}
 ) {
     composable(
@@ -48,6 +50,7 @@ fun NavGraphBuilder.bookResultNavGraph(
 
         ServiceStatusList(
             storeDetails = bookStoreDetails,
+            listContentPadding = listContentPadding,
             modifier = modifier
         )
     }
@@ -73,6 +76,7 @@ fun NavGraphBuilder.bookResultNavGraph(
             BookSearchList(
                 bookSearchResults = bookSearchResult,
                 lazyListState = lazyListState,
+                listContentPadding = listContentPadding,
                 modifier =
                     Modifier.padding(horizontal = dimensionResource(R.dimen.search_list_padding_horizontal)),
                 onBookSearchItemClick = onBookSearchItemClick

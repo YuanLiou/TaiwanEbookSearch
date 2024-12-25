@@ -1,5 +1,6 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch.composable
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,10 +22,12 @@ fun BookSearchList(
     bookSearchResults: ImmutableList<BookSearchResultItem>,
     lazyListState: LazyListState,
     modifier: Modifier = Modifier,
+    listContentPadding: PaddingValues = PaddingValues(0.dp),
     onBookSearchItemClick: (Book) -> Unit = {}
 ) {
     LazyColumn(
         state = lazyListState,
+        contentPadding = listContentPadding,
         modifier = modifier
     ) {
         item {

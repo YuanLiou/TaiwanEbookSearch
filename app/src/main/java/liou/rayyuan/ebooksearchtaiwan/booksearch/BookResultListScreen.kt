@@ -1,9 +1,11 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
@@ -178,16 +180,18 @@ fun BookResultListScreen(
                 }
             )
         },
+        contentWindowInsets = WindowInsets.safeDrawing,
         containerColor = EBookTheme.colors.colorBackground,
         modifier = modifier
     ) { paddings ->
         NavHost(
             navController = navHostController,
             startDestination = BookResultDestinations.ServiceStatus.route,
-            modifier = Modifier.fillMaxSize().padding(paddings)
+            modifier = Modifier.fillMaxSize().consumeWindowInsets(paddings)
         ) {
             bookResultNavGraph(
                 viewModel = viewModel,
+                listContentPadding = paddings,
                 modifier = Modifier.fillMaxSize(),
                 onBookSearchItemClick = onBookSearchItemClick
             )

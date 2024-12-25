@@ -2,10 +2,12 @@ package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -55,7 +57,16 @@ class BookSearchActivity :
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
+        enableEdgeToEdge(
+            navigationBarStyle =
+                SystemBarStyle.auto(
+                    lightScrim = Color.TRANSPARENT,
+                    darkScrim = Color.TRANSPARENT,
+                    detectDarkMode = {
+                        isDarkTheme()
+                    }
+                )
+        )
         super.onCreate(savedInstanceState)
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
 
