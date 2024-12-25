@@ -738,7 +738,7 @@ class BookResultListFragment :
 
     private fun sendUserIntent(userIntent: BookSearchUserIntent) {
         lifecycleScope.launch {
-            bookSearchViewModel.userIntents.send(userIntent)
+            bookSearchViewModel.userIntents.emit(userIntent)
         }
     }
 

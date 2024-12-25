@@ -1,8 +1,8 @@
 [versions]
 # Library versions
 coil = "3.0.4"
-desugarLibVersion = "2.1.3"
-koin = "4.0.0"
+desugarLibVersion = "2.1.4"
+koin = "4.0.1"
 fuzzywuzzy = "1.4.0"
 guavaVersion = "31.1-android" # To prevent Guava conflict, use this old version
 
@@ -34,10 +34,10 @@ viewFinderCompose = "1.4.0-alpha11"
 cameraXVersion = "1.4.1"
 
 #  Kotlin Libraries
-kotlinxCoroutines = "1.9.0"
+kotlinxCoroutines = "1.10.1"
 kotlinxSerializationJson = "1.8.0-RC"
 datetime = "0.6.1"
-ktor = "3.0.2"
+ktor = "3.0.3"
 immutableCollections = "0.3.8"
 
 #  Google Service and Firebase Libraries

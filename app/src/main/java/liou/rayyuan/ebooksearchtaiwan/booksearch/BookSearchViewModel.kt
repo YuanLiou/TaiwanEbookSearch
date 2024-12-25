@@ -27,12 +27,10 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
@@ -74,7 +72,7 @@ class BookSearchViewModel(
     private val userPreferenceManager: UserPreferenceManager
 ) : ViewModel(),
     IModel<BookResultViewState, BookSearchUserIntent> {
-    override val userIntents: Channel<BookSearchUserIntent> = Channel(Channel.UNLIMITED)
+    override val userIntents: MutableSharedFlow<BookSearchUserIntent> = MutableSharedFlow()
     private val _bookResultViewState = MutableLiveData<BookResultViewState>()
     override val viewState: LiveData<BookResultViewState>
         get() = _bookResultViewState
@@ -155,7 +153,7 @@ class BookSearchViewModel(
 
     private fun setupUserIntentHanding() {
         viewModelScope.launch {
-            userIntents.consumeAsFlow().collect { userIntent ->
+            userIntents.collect { userIntent ->
                 when (userIntent) {
                     is BookSearchUserIntent.DeleteSearchRecord -> {
                         deleteRecords(userIntent.searchRecord)
