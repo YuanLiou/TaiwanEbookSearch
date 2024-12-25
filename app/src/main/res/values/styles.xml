@@ -25,7 +25,6 @@
         <item name="android:statusBarColor">@color/light_blue_green_you</item>
         <item name="alertDialogTheme">@style/ThemeOverlay.MaterialAlertDialog.Rounded</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.MaterialAlertDialog.Rounded</item>
-        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle.Light</item>
         <item name="materialCardViewStyle">@style/BookCardView</item>
         <item name="customTabHeaderColor">@color/blue_green_dark_you</item>
     </style>
@@ -56,7 +55,6 @@
         <item name="android:statusBarColor">?android:attr/colorBackground</item>
         <item name="alertDialogTheme">@style/ThemeOverlay.MaterialAlertDialog.Rounded</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.MaterialAlertDialog.Rounded</item>
-        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle.Dark</item>
         <item name="materialCardViewStyle">@style/BookCardView.Dark</item>
         <item name="customTabHeaderColor">@color/darker_gray_28</item>
     </style>
@@ -123,11 +121,6 @@
         <item name="buttonTint">@color/custom_check_box</item>
     </style>
 
-    <!-- Dropdown menu -->
-    <style name="OverflowMenuStyle.Light" parent="Widget.MaterialComponents.PopupMenu.Overflow">
-        <item name="android:popupBackground">@drawable/menu_dropdown_background</item>
-    </style>
-
     <style name="BookCardView" parent="Widget.MaterialComponents.CardView">
         <item name="cardBackgroundColor">@color/pure_white</item>
     </style>
@@ -159,11 +152,6 @@
     <!-- checkbox -->
     <style name="CustomNightCheckBoxStyle" parent="Widget.Material3.CompoundButton.CheckBox">
         <item name="buttonTint">@color/custom_dark_check_box</item>
-    </style>
-
-    <!-- Dropdown menu -->
-    <style name="OverflowMenuStyle.Dark" parent="Widget.MaterialComponents.PopupMenu.Overflow">
-        <item name="android:popupBackground">@drawable/menu_dropdown_dark_background</item>
     </style>
 
     <style name="BookCardView.Dark" parent="Widget.MaterialComponents.CardView">

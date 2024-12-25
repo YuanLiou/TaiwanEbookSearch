@@ -81,7 +81,7 @@ fun BookSearchItem(
             }
 
             Row(
-                modifier = Modifier,
+                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.Top
             ) {
                 AsyncImage(

@@ -5,8 +5,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
-import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorInt
@@ -36,9 +36,7 @@ class BookSearchActivity :
     private val quickChecker: QuickChecker by inject()
     private val customTabSessionManager: CustomTabSessionManager by inject()
     private val deeplinkHelper = DeeplinkHelper()
-    private var isDualPane: Boolean = false
     private lateinit var contentRouter: Router
-    private var dualPaneSubRouter: Router? = null
 
     private lateinit var changeThemeLauncher: ActivityResultLauncher<Intent>
 
@@ -57,19 +55,11 @@ class BookSearchActivity :
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
 
-        val secondContainer: View? = findViewById(R.id.activity_book_search_content_container)
-        isDualPane = secondContainer?.visibility == View.VISIBLE
-
-        contentRouter =
-            if (isDualPane) {
-                Router(supportFragmentManager, R.id.activity_book_search_content_container)
-            } else {
-                Router(supportFragmentManager, R.id.activity_book_search_nav_host_container)
-            }
-
+        contentRouter = Router(supportFragmentManager, R.id.activity_book_search_nav_host_container)
         setupBackGesture()
         setupLauncherCallbacks()
 
@@ -81,17 +71,7 @@ class BookSearchActivity :
                     appLinkKeyword,
                     appLinkSnapshotSearchId
                 )
-            if (isDualPane) {
-                dualPaneSubRouter =
-                    Router(
-                        supportFragmentManager,
-                        R.id.activity_book_search_nav_host_container
-                    ).also {
-                        it.addView(bookResultListFragment, BookResultListFragment.TAG, false)
-                    }
-            } else {
-                contentRouter.addView(bookResultListFragment, BookResultListFragment.TAG, false)
-            }
+            contentRouter.addView(bookResultListFragment, BookResultListFragment.TAG, false)
         } else {
             if (savedInstanceState.getString(KEY_LAST_FRAGMENT_TAG) != null) {
                 val lastFragmentTag = savedInstanceState.getString(KEY_LAST_FRAGMENT_TAG) ?: return
@@ -237,11 +217,7 @@ class BookSearchActivity :
     }
 
     private fun getBookResultFragment(): BookResultListFragment? =
-        if (isDualPane) {
-            dualPaneSubRouter?.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
-        } else {
-            contentRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
-        }
+        contentRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
 
     //region SimpleWebViewFragment.OnSimpleWebviewActionListener
     override fun onSimpleWebViewClose(tag: String) {

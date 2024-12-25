@@ -74,9 +74,7 @@ fun NavGraphBuilder.bookResultNavGraph(
                 bookSearchResults = bookSearchResult,
                 lazyListState = lazyListState,
                 modifier =
-                    Modifier
-                        .padding(horizontal = dimensionResource(R.dimen.search_list_padding_horizontal))
-                        .padding(bottom = 80.dp),
+                    Modifier.padding(horizontal = dimensionResource(R.dimen.search_list_padding_horizontal)),
                 onBookSearchItemClick = onBookSearchItemClick
             )
 
@@ -85,7 +83,7 @@ fun NavGraphBuilder.bookResultNavGraph(
                 modifier =
                     Modifier
                         .align(Alignment.BottomCenter)
-                        .padding(bottom = 140.dp)
+                        .padding(bottom = 40.dp)
                         .background(blue_green_you, CircleShape)
                         .border(1.dp, blue_green_a50, CircleShape)
                         .clip(CircleShape)

@@ -7,8 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.rayliu.commonmain.data.DefaultStoreNames
 import com.rayliu.commonmain.domain.usecase.GetDefaultBookSortUseCase
 import com.rayliu.commonmain.domain.usecase.SaveDefaultBookSortUseCase
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.arch.IModel
@@ -18,7 +17,7 @@ class BookStoreReorderViewModel(
     private val saveDefaultBookBookSortUseCase: SaveDefaultBookSortUseCase
 ) : ViewModel(),
     IModel<BookStoreReorderViewState, BookStoreReorderUserIntent> {
-    override val userIntents: Channel<BookStoreReorderUserIntent> = Channel(Channel.UNLIMITED)
+    override val userIntents: MutableSharedFlow<BookStoreReorderUserIntent> = MutableSharedFlow()
     private val _bookStoreReorderViewState = MutableLiveData<BookStoreReorderViewState>()
     override val viewState: LiveData<BookStoreReorderViewState>
         get() = _bookStoreReorderViewState
@@ -29,7 +28,7 @@ class BookStoreReorderViewModel(
 
     private fun setupUserIntentHanding() {
         viewModelScope.launch {
-            userIntents.consumeAsFlow().collect {
+            userIntents.collect {
                 when (it) {
                     BookStoreReorderUserIntent.GetPreviousSavedSort -> {
                         getPreviousSavedBookResultSort()

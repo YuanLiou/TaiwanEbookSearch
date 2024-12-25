@@ -145,7 +145,7 @@ class BookStoreReorderActivity :
 
     private fun sendUserIntent(userIntent: BookStoreReorderUserIntent) {
         lifecycleScope.launch {
-            viewModel.userIntents.send(userIntent)
+            viewModel.userIntents.emit(userIntent)
         }
     }
 }

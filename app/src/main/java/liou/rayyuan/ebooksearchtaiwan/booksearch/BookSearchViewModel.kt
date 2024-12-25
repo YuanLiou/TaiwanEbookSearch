@@ -1,6 +1,9 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import android.util.Log
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -27,12 +30,11 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
@@ -53,7 +55,6 @@ import liou.rayyuan.ebooksearchtaiwan.navigation.BookResultDestinations
 import liou.rayyuan.ebooksearchtaiwan.utils.ClipboardHelper
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import liou.rayyuan.ebooksearchtaiwan.utils.ResourceHelper
-import liou.rayyuan.ebooksearchtaiwan.view.ViewEffect
 import liou.rayyuan.ebooksearchtaiwan.view.getStringResource
 
 /**
@@ -74,14 +75,14 @@ class BookSearchViewModel(
     private val userPreferenceManager: UserPreferenceManager
 ) : ViewModel(),
     IModel<BookResultViewState, BookSearchUserIntent> {
-    override val userIntents: Channel<BookSearchUserIntent> = Channel(Channel.UNLIMITED)
+    override val userIntents: MutableSharedFlow<BookSearchUserIntent> = MutableSharedFlow()
     private val _bookResultViewState = MutableLiveData<BookResultViewState>()
     override val viewState: LiveData<BookResultViewState>
         get() = _bookResultViewState
 
-    private val _screenViewState = MutableLiveData<ViewEffect<ScreenState>>()
-    val screenViewState: LiveData<ViewEffect<ScreenState>>
-        get() = _screenViewState
+    private val _screenViewState = MutableSharedFlow<ScreenState>()
+    val screenViewState: SharedFlow<ScreenState>
+        get() = _screenViewState.asSharedFlow()
 
     private val _bookStoreDetails = MutableStateFlow<ImmutableList<BookStoreDetails>>(persistentListOf())
     val bookStoreDetails
@@ -123,12 +124,13 @@ class BookSearchViewModel(
         getSearchRecordsUseCase().cachedIn(viewModelScope)
     }
 
+    var showCopyUrlOption by mutableStateOf(false)
+    var showShareSnapshotOption by mutableStateOf(false)
+
     private var networkJob: Job? = null
     private val maxListNumber: Int = 10
     private var bookStores: BookStores? = null
     private var previousKeyword: String? = null
-    val hasPreviousSearch: Boolean
-        get() = bookStores != null
 
     var lastScrollPosition: Int = 0
         private set(value) {
@@ -155,7 +157,7 @@ class BookSearchViewModel(
 
     private fun setupUserIntentHanding() {
         viewModelScope.launch {
-            userIntents.consumeAsFlow().collect { userIntent ->
+            userIntents.collect { userIntent ->
                 when (userIntent) {
                     is BookSearchUserIntent.DeleteSearchRecord -> {
                         deleteRecords(userIntent.searchRecord)
@@ -247,6 +249,14 @@ class BookSearchViewModel(
 
                     is BookSearchUserIntent.EnableSearchButtonClick -> {
                         _enableSearchButtonClick.value = userIntent.enable
+                    }
+
+                    is BookSearchUserIntent.ShowCopyUrlOption -> {
+                        showCopyUrlOption = userIntent.show
+                    }
+
+                    is BookSearchUserIntent.ShowShareSnapshotOption -> {
+                        showShareSnapshotOption = userIntent.show
                     }
                 }
             }
@@ -537,7 +547,9 @@ class BookSearchViewModel(
     }
 
     private fun sendViewEffect(screenState: ScreenState) {
-        _screenViewState.value = ViewEffect(screenState)
+        viewModelScope.launch {
+            _screenViewState.emit(screenState)
+        }
     }
 
     suspend fun checkUserHasSeenRankWindow(): Boolean = rankingWindowFacade.isUserSeenRankWindow().firstOrNull() ?: false
