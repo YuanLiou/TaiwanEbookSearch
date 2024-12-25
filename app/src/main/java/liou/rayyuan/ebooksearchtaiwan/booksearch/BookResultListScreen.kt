@@ -66,6 +66,7 @@ fun BookResultListScreen(
     showAppBarCameraButton: Boolean = false,
     onAppBarCameraButtonPress: () -> Unit = {},
     onAppBarSearchButtonPress: () -> Unit = {},
+    focusOnSearchText: () -> Unit = {}
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     LaunchedEffect(Unit) {
@@ -177,7 +178,7 @@ fun BookResultListScreen(
                             }
                         )
                     }
-                }
+                },
             )
         },
         contentWindowInsets = WindowInsets.safeDrawing,
@@ -193,7 +194,8 @@ fun BookResultListScreen(
                 viewModel = viewModel,
                 listContentPadding = paddings,
                 modifier = Modifier.fillMaxSize(),
-                onBookSearchItemClick = onBookSearchItemClick
+                onBookSearchItemClick = onBookSearchItemClick,
+                focusOnSearchText = focusOnSearchText
             )
         }
     }

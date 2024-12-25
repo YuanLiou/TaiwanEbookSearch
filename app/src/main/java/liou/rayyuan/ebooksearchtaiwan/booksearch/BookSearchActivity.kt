@@ -58,6 +58,14 @@ class BookSearchActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge(
+            statusBarStyle =
+                SystemBarStyle.auto(
+                    lightScrim = Color.TRANSPARENT,
+                    darkScrim = Color.TRANSPARENT,
+                    detectDarkMode = {
+                        isDarkTheme()
+                    }
+                ),
             navigationBarStyle =
                 SystemBarStyle.auto(
                     lightScrim = Color.TRANSPARENT,

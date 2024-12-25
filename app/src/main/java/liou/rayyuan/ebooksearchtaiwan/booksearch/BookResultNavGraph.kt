@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -29,6 +30,7 @@ import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.BookSearchList
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.ServiceStatusList
 import liou.rayyuan.ebooksearchtaiwan.composable.iconpack.EBookIcons
 import liou.rayyuan.ebooksearchtaiwan.composable.iconpack.KeyboardArrowUp24Dp
+import liou.rayyuan.ebooksearchtaiwan.composable.iconpack.SearchBlack24Dp
 import liou.rayyuan.ebooksearchtaiwan.navigation.BookResultDestinations
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.blue_green_a50
@@ -38,7 +40,8 @@ fun NavGraphBuilder.bookResultNavGraph(
     viewModel: BookSearchViewModel,
     modifier: Modifier = Modifier,
     listContentPadding: PaddingValues = PaddingValues(0.dp),
-    onBookSearchItemClick: (Book) -> Unit = {}
+    onBookSearchItemClick: (Book) -> Unit = {},
+    focusOnSearchText: () -> Unit = {}
 ) {
     composable(
         route = BookResultDestinations.ServiceStatus.route,
@@ -86,19 +89,30 @@ fun NavGraphBuilder.bookResultNavGraph(
             Box(
                 modifier =
                     Modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(bottom = 40.dp)
+                        .align(Alignment.BottomEnd)
+                        .padding(bottom = 40.dp, end = 24.dp)
                         .background(blue_green_you, CircleShape)
                         .border(1.dp, blue_green_a50, CircleShape)
                         .clip(CircleShape)
+                        .zIndex(2f)
                         .clickable {
-                            scope.launch {
-                                lazyListState.animateScrollToItem(0)
+                            if (lazyListState.canScrollBackward) {
+                                scope.launch {
+                                    lazyListState.animateScrollToItem(0)
+                                }
+                            } else {
+                                focusOnSearchText()
                             }
                         }
             ) {
+                val icon =
+                    if (lazyListState.canScrollBackward) {
+                        EBookIcons.KeyboardArrowUp24Dp
+                    } else {
+                        EBookIcons.SearchBlack24Dp
+                    }
                 Image(
-                    imageVector = EBookIcons.KeyboardArrowUp24Dp,
+                    imageVector = icon,
                     contentDescription = "bottom button",
                     colorFilter = ColorFilter.tint(EBookTheme.colors.editTextInputColor),
                     modifier =
