@@ -131,8 +131,6 @@ class BookSearchViewModel(
     private val maxListNumber: Int = 10
     private var bookStores: BookStores? = null
     private var previousKeyword: String? = null
-    val hasPreviousSearch: Boolean
-        get() = bookStores != null
 
     var lastScrollPosition: Int = 0
         private set(value) {

@@ -1,8 +1,10 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.DropdownMenu
@@ -11,6 +13,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -24,7 +27,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -134,11 +141,15 @@ fun BookResultListScreen(
                         expanded = showOptionMenu,
                         onDismissRequest = {
                             showOptionMenu = false
-                        }
+                        },
+                        shape = RoundedCornerShape(10.dp),
+                        containerColor = EBookTheme.colors.reorderListBackgroundColor,
+                        shadowElevation = 4.dp,
+                        tonalElevation = 4.dp
                     ) {
                         if (viewModel.showCopyUrlOption) {
-                            DropdownMenuItem(
-                                text = { Text(stringResource(R.string.menu_copy_snapshot)) },
+                            OptionMenuItem(
+                                title = stringResource(R.string.menu_copy_snapshot),
                                 onClick = {
                                     showOptionMenu = false
                                     onClickCopySnapshot()
@@ -147,8 +158,8 @@ fun BookResultListScreen(
                         }
 
                         if (viewModel.showShareSnapshotOption) {
-                            DropdownMenuItem(
-                                text = { Text(stringResource(R.string.menu_share_result)) },
+                            OptionMenuItem(
+                                title = stringResource(R.string.menu_share_result),
                                 onClick = {
                                     showOptionMenu = false
                                     onShareResultClick()
@@ -156,8 +167,8 @@ fun BookResultListScreen(
                             )
                         }
 
-                        DropdownMenuItem(
-                            text = { Text(stringResource(R.string.menu_setting)) },
+                        OptionMenuItem(
+                            title = stringResource(R.string.menu_setting),
                             onClick = {
                                 showOptionMenu = false
                                 onMenuSettingClick()
@@ -182,4 +193,31 @@ fun BookResultListScreen(
             )
         }
     }
+}
+
+@Composable
+private fun OptionMenuItem(
+    title: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    DropdownMenuItem(
+        text = {
+            Text(
+                text = title,
+                style =
+                    TextStyle.Default.copy(
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+            )
+        },
+        onClick = onClick,
+        contentPadding = PaddingValues(vertical = 12.dp, horizontal = 20.dp),
+        colors =
+            MenuDefaults.itemColors().copy(
+                textColor = EBookTheme.colors.colorOnPrimary
+            ),
+        modifier = modifier
+    )
 }
