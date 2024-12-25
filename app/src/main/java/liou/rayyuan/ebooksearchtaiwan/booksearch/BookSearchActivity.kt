@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorInt
@@ -54,6 +55,7 @@ class BookSearchActivity :
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
 

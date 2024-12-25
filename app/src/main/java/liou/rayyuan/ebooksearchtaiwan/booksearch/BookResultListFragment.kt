@@ -6,7 +6,6 @@ import android.animation.ValueAnimator
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.Menu
@@ -18,17 +17,13 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.withResumed
@@ -45,7 +40,6 @@ import liou.rayyuan.ebooksearchtaiwan.BaseFragment
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.arch.IView
-import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.SearchBox
 import liou.rayyuan.ebooksearchtaiwan.booksearch.review.PlayStoreReviewHelper
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
@@ -53,9 +47,7 @@ import liou.rayyuan.ebooksearchtaiwan.databinding.FragmentSearchListBinding
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
-import liou.rayyuan.ebooksearchtaiwan.utils.setupEdgeToEdge
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
-import liou.rayyuan.ebooksearchtaiwan.utils.updateMargins
 import liou.rayyuan.ebooksearchtaiwan.view.ViewEffectObserver
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -92,16 +84,9 @@ class BookResultListFragment :
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as AppCompatActivity).setSupportActionBar(viewBinding.searchViewToolbar)
         bindViews(view)
         init()
         setupOptionMenu()
-        setupEdgeToEdge()
-
-        viewBinding.searchViewAppbar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-            val alphaValue = 1f - ((verticalOffset * -1) / appBarLayout.totalScrollRange.toFloat())
-            appBarLayout.alpha = alphaValue
-        }
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
@@ -121,7 +106,6 @@ class BookResultListFragment :
 
         sendUserIntent(BookSearchUserIntent.OnViewReadyToServe)
         setupScreen()
-        setupToolbar()
         handleInitialDeepLink()
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -142,54 +126,13 @@ class BookResultListFragment :
                     BookResultListScreen(
                         viewModel = bookSearchViewModel,
                         modifier = Modifier.fillMaxSize(),
-                        onBookSearchItemClick = ::openBook
-                    )
-                }
-            }
-        }
-    }
-
-    private fun setupToolbar() {
-        viewBinding.searchViewAppbarComposeView.run {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnDetachedFromWindow)
-            setContent {
-                EBookTheme(
-                    darkTheme = isDarkTheme()
-                ) {
-                    val searchKeywords =
-                        bookSearchViewModel.searchKeywords
-                            .collectAsStateWithLifecycle()
-                            .value
-
-                    val focusAction =
-                        bookSearchViewModel.focusTextInput
-                            .collectAsStateWithLifecycle()
-                            .value
-
-                    val virtualKeyboardAction =
-                        bookSearchViewModel.showVirtualKeyboard
-                            .collectAsStateWithLifecycle()
-                            .value
-
-                    val enableCameraButtonClick =
-                        bookSearchViewModel.enableCameraButtonClick
-                            .collectAsStateWithLifecycle()
-                            .value
-
-                    val enableSearchButtonClick =
-                        bookSearchViewModel.enableSearchButtonClick
-                            .collectAsStateWithLifecycle()
-                            .value
-
-                    SearchBox(
-                        text = searchKeywords,
-                        onTextChange = {
+                        onSearchTextChange = {
                             sendUserIntent(BookSearchUserIntent.UpdateKeyword(it))
                         },
-                        onPressSearch = {
+                        onBookSearchItemClick = ::openBook,
+                        onPressSearchIcon = {
                             sendUserIntent(BookSearchUserIntent.SearchBook())
                         },
-                        focusAction = focusAction,
                         onFocusActionFinish = {
                             sendUserIntent(BookSearchUserIntent.ResetFocusAction)
                         },
@@ -197,17 +140,13 @@ class BookResultListFragment :
                             sendUserIntent(BookSearchUserIntent.UpdateTextInputFocusState(it.isFocused))
                             sendUserIntent(BookSearchUserIntent.FocusOnTextEditing(it.isFocused))
                         },
-                        virtualKeyboardAction = virtualKeyboardAction,
-                        showCameraButton = isCameraAvailable(),
-                        enableCameraButtonClick = enableCameraButtonClick,
-                        enableSearchButtonClick = enableSearchButtonClick,
-                        onCameraButtonPress = {
+                        showAppBarCameraButton = isCameraAvailable(),
+                        onAppBarCameraButtonPress = {
                             openCameraPreview()
                         },
-                        onSearchButtonPress = {
+                        onAppBarSearchButtonPress = {
                             searchBook()
-                        },
-                        modifier = Modifier.fillMaxWidth()
+                        }
                     )
                 }
             }
@@ -258,33 +197,12 @@ class BookResultListFragment :
         viewBinding.searchViewSearchRecordsBackground.setOnClickListener(this)
 
         initAdMods()
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-            // remove AppBarLayout's shadow
-            viewBinding.searchViewAppbar.outlineProvider = null
-        }
     }
 
     override fun onDestroy() {
         (requireActivity() as AppCompatActivity).setSupportActionBar(null)
         searchRecordsAdapter.release()
         super.onDestroy()
-    }
-
-    private fun setupEdgeToEdge() {
-        viewBinding.root.setupEdgeToEdge { view, insets ->
-            val bars =
-                insets.getInsets(
-                    WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
-                )
-
-            view.updatePadding(
-                left = bars.left,
-                right = bars.right
-            )
-
-            viewBinding.searchViewAppbar.updateMargins(top = bars.top)
-            viewBinding.searchViewSearchRecordsBackground.updateMargins(top = bars.top)
-        }
     }
 
     private fun setupOptionMenu() {
@@ -562,7 +480,8 @@ class BookResultListFragment :
 
     private fun focusBookSearchEditText() {
         if (isAdded) {
-            viewBinding.searchViewAppbar.setExpanded(true, true)
+            // TODO
+//            viewBinding.searchViewAppbar.setExpanded(true, true)
             sendUserIntent(BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput(true))
             sendUserIntent(BookSearchUserIntent.ForceShowOrHideVirtualKeyboard(true))
         }
