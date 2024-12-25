@@ -12,16 +12,16 @@ import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.withResumed
+import androidx.navigation.compose.rememberNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,18 +30,19 @@ import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.rayliu.commonmain.domain.model.Book
 import com.rayliu.commonmain.domain.model.SearchRecord
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.BaseFragment
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.arch.IView
+import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.utils.navigateAndClean
 import liou.rayyuan.ebooksearchtaiwan.booksearch.review.PlayStoreReviewHelper
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
 import liou.rayyuan.ebooksearchtaiwan.databinding.FragmentSearchListBinding
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
-import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -54,9 +55,9 @@ class BookResultListFragment :
     private val bookSearchViewModel: BookSearchViewModel by viewModel()
     private val playStoreReviewHelper: PlayStoreReviewHelper by inject()
 
-    private val viewBinding: FragmentSearchListBinding by FragmentViewBinding(
-        FragmentSearchListBinding::bind
-    )
+    private var _viewBinding: FragmentSearchListBinding? = null
+    private val viewBinding: FragmentSearchListBinding get() = _viewBinding!!
+
     private var defaultSearchKeyword: String by FragmentArgumentsDelegate()
     private var defaultSnapshotSearchId: String by FragmentArgumentsDelegate()
     private var searchRecordAnimator: ValueAnimator? = null
@@ -74,9 +75,12 @@ class BookResultListFragment :
         view: View,
         savedInstanceState: Bundle?
     ) {
+        _viewBinding = FragmentSearchListBinding.bind(view)
+
         super.onViewCreated(view, savedInstanceState)
         bindViews(view)
         init()
+        setupScreen()
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
@@ -94,7 +98,6 @@ class BookResultListFragment :
         ) { state -> render(state) }
 
         sendUserIntent(BookSearchUserIntent.OnViewReadyToServe)
-        setupScreen()
         handleInitialDeepLink()
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -107,14 +110,20 @@ class BookResultListFragment :
 
     private fun setupScreen() {
         viewBinding.searchListComposeView.run {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnDetachedFromWindow)
             setContent {
+                val navHostController = rememberNavController()
+                LaunchedEffect(Unit) {
+                    bookSearchViewModel.navigationEvents.collectLatest { destinations ->
+                        navHostController.navigateAndClean(destinations.route)
+                    }
+                }
                 EBookTheme(
                     darkTheme = isDarkTheme()
                 ) {
                     BookResultListScreen(
                         viewModel = bookSearchViewModel,
                         modifier = Modifier.fillMaxSize(),
+                        navHostController = navHostController,
                         onSearchTextChange = {
                             sendUserIntent(BookSearchUserIntent.UpdateKeyword(it))
                         },
@@ -202,8 +211,12 @@ class BookResultListFragment :
         initAdMods()
     }
 
+    override fun onDestroyView() {
+        _viewBinding = null
+        super.onDestroyView()
+    }
+
     override fun onDestroy() {
-        (requireActivity() as AppCompatActivity).setSupportActionBar(null)
         searchRecordsAdapter.release()
         super.onDestroy()
     }

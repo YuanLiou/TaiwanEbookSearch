@@ -35,16 +35,8 @@ class PreferenceSettingsFragment :
         val themeChooser = findPreference(UserPreferenceManager.KEY_USER_THEME) as? ListPreference
         val followSystemTheme =
             findPreference(UserPreferenceManager.KEY_USER_SYSTEM_THEME) as? SwitchPreferenceCompat
-        val preferCustomTabs =
-            findPreference(UserPreferenceManager.KEY_USE_CHROME_CUSTOM_VIEW) as? SwitchPreferenceCompat
         val cleanSearchRecord =
             findPreference(UserPreferenceManager.KEY_CLEAN_SEARCH_RECORD) as? Preference
-        val uninstallAllModulesPreference =
-            findPreference(UserPreferenceManager.KEY_UNINSTALL_ALL_MODULES) as? Preference
-
-        if (preferCustomTabs != null) {
-            initiateCustomTabOption(preferCustomTabs)
-        }
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
             followSystemTheme?.run {
@@ -72,16 +64,6 @@ class PreferenceSettingsFragment :
                 .create().show()
 
             true
-        }
-    }
-
-    private fun initiateCustomTabOption(preferCustomTabs: SwitchPreferenceCompat) {
-        if (viewModel.isTabletSize) {
-            with(preferCustomTabs) {
-                isChecked = false
-                isEnabled = false
-                shouldDisableView = true
-            }
         }
     }
 

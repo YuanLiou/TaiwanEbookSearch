@@ -1,6 +1,7 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import android.util.Log
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -126,6 +127,7 @@ class BookSearchViewModel(
 
     var showCopyUrlOption by mutableStateOf(false)
     var showShareSnapshotOption by mutableStateOf(false)
+    var windowInsetPaddings by mutableStateOf(PaddingValues())
 
     private var networkJob: Job? = null
     private val maxListNumber: Int = 10
@@ -274,6 +276,12 @@ class BookSearchViewModel(
     ) {
         lastScrollPosition = position
         lastScrollOffset = offset
+    }
+
+    fun saveWindowInsetPaddings(paddings: PaddingValues) {
+        if (windowInsetPaddings != paddings && paddings != PaddingValues()) {
+            windowInsetPaddings = paddings
+        }
     }
 
     private fun ready() {

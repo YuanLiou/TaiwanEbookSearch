@@ -57,6 +57,7 @@
             android:name=".booksearch.BookSearchActivity"
             android:windowSoftInputMode="adjustNothing"
             android:launchMode="singleTop"
+            android:configChanges="uiMode"
             android:exported="true"
             >
 

@@ -60,7 +60,6 @@ val appModule =
 
         viewModel {
             PreferenceSettingsViewModel(
-                quickChecker = get(),
                 deleteAllSearchRecord = get()
             )
         }

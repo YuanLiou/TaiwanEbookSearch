@@ -13,11 +13,16 @@ class Router(
 ) {
     fun replaceView(
         fragment: Fragment,
-        tag: String?
+        tag: String?,
+        addToBackStack: Boolean
     ) {
-        fragmentManager.beginTransaction()
-            .replace(containerId, fragment, tag)
-            .commit()
+        val transaction = fragmentManager.beginTransaction()
+        transaction.replace(containerId, fragment, tag)
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        if (addToBackStack) {
+            transaction.addToBackStack(tag)
+        }
+        transaction.commit()
     }
 
     fun addView(
@@ -81,6 +86,8 @@ class Router(
         }
 
     fun findTopFragment(): Fragment? = fragmentManager.findFragmentById(containerId)
+
+    fun startFragmentTransaction() = fragmentManager.beginTransaction()
 
     private fun Fragment.isSameFragment(): Boolean {
         val tag = this.tag ?: this.javaClass.simpleName

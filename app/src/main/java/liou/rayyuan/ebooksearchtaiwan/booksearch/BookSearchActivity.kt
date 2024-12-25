@@ -2,16 +2,14 @@ package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.SystemBarStyle
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorInt
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.lifecycleScope
@@ -25,7 +23,6 @@ import liou.rayyuan.ebooksearchtaiwan.model.DeeplinkHelper
 import liou.rayyuan.ebooksearchtaiwan.preferencesetting.PreferenceSettingsActivity
 import liou.rayyuan.ebooksearchtaiwan.simplewebview.SimpleWebViewFragment
 import liou.rayyuan.ebooksearchtaiwan.utils.CustomTabSessionManager
-import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import liou.rayyuan.ebooksearchtaiwan.view.Router
 import org.koin.android.ext.android.inject
 
@@ -35,7 +32,6 @@ import org.koin.android.ext.android.inject
 class BookSearchActivity :
     BaseActivity(R.layout.activity_book_search),
     SimpleWebViewFragment.OnSimpleWebViewActionListener {
-    private val quickChecker: QuickChecker by inject()
     private val customTabSessionManager: CustomTabSessionManager by inject()
     private val deeplinkHelper = DeeplinkHelper()
     private lateinit var contentRouter: Router
@@ -57,24 +53,6 @@ class BookSearchActivity :
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge(
-            statusBarStyle =
-                SystemBarStyle.auto(
-                    lightScrim = Color.TRANSPARENT,
-                    darkScrim = Color.TRANSPARENT,
-                    detectDarkMode = {
-                        isDarkTheme()
-                    }
-                ),
-            navigationBarStyle =
-                SystemBarStyle.auto(
-                    lightScrim = Color.TRANSPARENT,
-                    darkScrim = Color.TRANSPARENT,
-                    detectDarkMode = {
-                        isDarkTheme()
-                    }
-                )
-        )
         super.onCreate(savedInstanceState)
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
 
@@ -196,7 +174,7 @@ class BookSearchActivity :
     }
 
     fun openBookLink(book: Book) {
-        if (!quickChecker.isTabletSize() && userPreferenceManager.isPreferCustomTab()) {
+        if (userPreferenceManager.isPreferCustomTab()) {
             val colorParams =
                 CustomTabColorSchemeParams.Builder()
                     .setToolbarColor(getThemePrimaryColor())
@@ -208,8 +186,7 @@ class BookSearchActivity :
                     .build()
             intent.launchUrl(this, Uri.parse(book.link))
         } else {
-            val isTablet = quickChecker.isTabletSize()
-            val webViewFragment = SimpleWebViewFragment.newInstance(book, !isTablet)
+            val webViewFragment = SimpleWebViewFragment.newInstance(book, showCloseButton = true)
             webViewFragment.onSimpleWebViewActionListener = this
             contentRouter.addView(webViewFragment, SimpleWebViewFragment.TAG + book.id, true)
         }

@@ -83,8 +83,24 @@ fun NavGraphBuilder.bookResultNavGraph(
                 initialFirstVisibleItemScrollOffset = viewModel.lastScrollOffset
             )
 
+        var scrollToTopButtonOffset by remember { mutableStateOf(60.dp) }
+        val nestedScrollConnection =
+            remember {
+                object : NestedScrollConnection {
+                    override fun onPreScroll(
+                        available: Offset,
+                        source: NestedScrollSource
+                    ): Offset {
+                        val delta = available.y
+                        val offset = scrollToTopButtonOffset + delta.dp
+                        scrollToTopButtonOffset = offset.coerceIn((-60).dp, 60.dp)
+                        return super.onPreScroll(available, source)
+                    }
+                }
+            }
+
         Box(
-            modifier = modifier
+            modifier = modifier.nestedScroll(nestedScrollConnection)
         ) {
             BookSearchList(
                 bookSearchResults = bookSearchResult,
@@ -100,8 +116,8 @@ fun NavGraphBuilder.bookResultNavGraph(
             Box(
                 modifier =
                     Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(bottom = 60.dp, end = 30.dp)
+                        .align(Alignment.BottomCenter)
+                        .offset { IntOffset(0, (scrollToTopButtonOffset * -1f).roundToPx()) }
                         .shadow(4.dp, CircleShape, clip = true)
                         .background(blue_green_you, CircleShape)
                         .border(1.dp, blue_green_a50, CircleShape)
