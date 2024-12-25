@@ -43,7 +43,6 @@ import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
-import liou.rayyuan.ebooksearchtaiwan.view.ViewEffectObserver
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -83,12 +82,11 @@ class BookResultListFragment :
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         // Render View Effect
-        bookSearchViewModel.screenViewState.observe(
-            viewLifecycleOwner,
-            ViewEffectObserver {
+        viewLifecycleOwner.lifecycleScope.launch {
+            bookSearchViewModel.screenViewState.collect {
                 updateScreen(it)
             }
-        )
+        }
 
         // Render Book Result State
         bookSearchViewModel.viewState.observe(

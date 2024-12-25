@@ -32,6 +32,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
@@ -54,7 +55,6 @@ import liou.rayyuan.ebooksearchtaiwan.navigation.BookResultDestinations
 import liou.rayyuan.ebooksearchtaiwan.utils.ClipboardHelper
 import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import liou.rayyuan.ebooksearchtaiwan.utils.ResourceHelper
-import liou.rayyuan.ebooksearchtaiwan.view.ViewEffect
 import liou.rayyuan.ebooksearchtaiwan.view.getStringResource
 
 /**
@@ -80,9 +80,9 @@ class BookSearchViewModel(
     override val viewState: LiveData<BookResultViewState>
         get() = _bookResultViewState
 
-    private val _screenViewState = MutableLiveData<ViewEffect<ScreenState>>()
-    val screenViewState: LiveData<ViewEffect<ScreenState>>
-        get() = _screenViewState
+    private val _screenViewState = MutableSharedFlow<ScreenState>()
+    val screenViewState: SharedFlow<ScreenState>
+        get() = _screenViewState.asSharedFlow()
 
     private val _bookStoreDetails = MutableStateFlow<ImmutableList<BookStoreDetails>>(persistentListOf())
     val bookStoreDetails
@@ -549,7 +549,9 @@ class BookSearchViewModel(
     }
 
     private fun sendViewEffect(screenState: ScreenState) {
-        _screenViewState.value = ViewEffect(screenState)
+        viewModelScope.launch {
+            _screenViewState.emit(screenState)
+        }
     }
 
     suspend fun checkUserHasSeenRankWindow(): Boolean = rankingWindowFacade.isUserSeenRankWindow().firstOrNull() ?: false
