@@ -8,8 +8,6 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.text.TextRange
@@ -51,12 +49,6 @@ class BookResultListFragment :
     )
     private var defaultSearchKeyword: String by FragmentArgumentsDelegate()
     private var defaultSnapshotSearchId: String by FragmentArgumentsDelegate()
-
-    //region View Components
-//    private lateinit var searchRecordsRootView: FrameLayout
-//    private lateinit var searchRecordsRecyclerView: RecyclerView
-//    private val searchRecordsAdapter = SearchRecordAdapter(this)
-    //endregion
 
     private var hasUserSeenRankWindow = false
     private var openResultCounts = 0
@@ -146,7 +138,6 @@ class BookResultListFragment :
                         },
                         onRemoveSearchRecord = { searchRecord ->
                             sendUserIntent(BookSearchUserIntent.DeleteSearchRecord(searchRecord))
-//                            onSearchRecordCloseImageClicked(it)
                         }
                     )
                 }
@@ -224,35 +215,6 @@ class BookResultListFragment :
                 sendUserIntent(BookSearchUserIntent.EnableSearchButtonClick(true))
                 sendUserIntent(BookSearchUserIntent.ShowCopyUrlOption(false))
                 sendUserIntent(BookSearchUserIntent.ShowShareSnapshotOption(false))
-            }
-
-            is BookResultViewState.ShowSearchRecordList -> {
-                // TODO
-//                val itemCounts = bookResultViewState.itemCounts
-//                val heightPadding =
-//                    if (itemCounts < 5) {
-//                        TypedValue.applyDimension(
-//                            TypedValue.COMPLEX_UNIT_DIP,
-//                            (36f / itemCounts),
-//                            resources.displayMetrics
-//                        ).toInt()
-//                    } else {
-//                        0
-//                    }
-//
-//                val bookSearchResultItemHeight =
-//                    resources.getDimensionPixelSize(R.dimen.search_records_item_height)
-//
-//                toggleSearchRecordView(true, (bookSearchResultItemHeight + heightPadding) * itemCounts)
-            }
-
-            BookResultViewState.HideSearchRecordList -> {
-                // TODO
-//                if (this::searchRecordsRootView.isInitialized) {
-//                    bookSearchViewModel.searchRecordLiveData.removeObservers(viewLifecycleOwner)
-//                    toggleSearchRecordView(false)
-//                    (searchRecordsRecyclerView.layoutManager as? LinearLayoutManager)?.scrollToPosition(0)
-//                }
             }
 
             is BookResultViewState.ShareCurrentPageSnapshot -> {
@@ -457,20 +419,8 @@ class BookResultListFragment :
         return false
     }
 
-    fun toggleSearchRecordView(
-        show: Boolean,
-        targetHeight: Int = 0
-    ) {
-        // TODO
-//        if (!this::searchRecordsRootView.isInitialized) {
-//            return
-//        }
-//
-//        if (show) {
-//            expandSearchRecordView(searchRecordsRootView, targetHeight)
-//        } else {
-//            collapseSearchRecordView(searchRecordsRootView)
-//        }
+    fun toggleSearchRecordView(show: Boolean) {
+        sendUserIntent(BookSearchUserIntent.ShowSearchRecords(show))
     }
 
     private fun expandSearchRecordView(

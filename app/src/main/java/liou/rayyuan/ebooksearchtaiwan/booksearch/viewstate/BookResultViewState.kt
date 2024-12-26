@@ -17,10 +17,4 @@ sealed class BookResultViewState : IState {
     data class ShareCurrentPageSnapshot(
         val url: String
     ) : BookResultViewState()
-
-    data class ShowSearchRecordList(
-        val itemCounts: Int
-    ) : BookResultViewState()
-
-    data object HideSearchRecordList : BookResultViewState()
 }
