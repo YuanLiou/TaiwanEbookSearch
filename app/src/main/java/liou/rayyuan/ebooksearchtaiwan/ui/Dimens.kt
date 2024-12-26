@@ -12,5 +12,5 @@ val LIST_BOOK_COVER_HEIGHT = 133.dp
 val SEARCH_RECORDS_MAX_HEIGHT = 300.dp
 val SEARCH_RECORDS_ITEM_HEIGHT = 48.dp
 
-val round_corner = 10.dp
-val image_round_corner = 4.dp
+val ROUND_CORNER = 10.dp
+val IMAGE_ROUND_CORNER = 4.dp

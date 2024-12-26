@@ -39,7 +39,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BookResultListFragment :
     BaseFragment(R.layout.fragment_search_list),
-    View.OnClickListener,
     IView<BookResultViewState> {
     private val bookSearchViewModel: BookSearchViewModel by viewModel()
     private val playStoreReviewHelper: PlayStoreReviewHelper by inject()
@@ -138,6 +137,10 @@ class BookResultListFragment :
                         },
                         onRemoveSearchRecord = { searchRecord ->
                             sendUserIntent(BookSearchUserIntent.DeleteSearchRecord(searchRecord))
+                        },
+                        onDismissSearchRecord = {
+                            sendUserIntent(BookSearchUserIntent.ShowSearchRecords(false))
+                            hideVirtualKeyboard()
                         }
                     )
                 }
@@ -373,18 +376,6 @@ class BookResultListFragment :
         sendUserIntent(BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput(false))
         sendUserIntent(BookSearchUserIntent.SearchBook())
     }
-
-    //region View.OnClickListener
-    override fun onClick(view: View?) {
-//        when (view?.id) {
-        // TODO
-//            R.id.search_view_search_records_background -> {
-//                toggleSearchRecordView(false)
-//                hideVirtualKeyboard()
-//            }
-//        }
-    }
-    //endregion
 
     private fun isCameraAvailable(): Boolean {
         if (isAdded) {

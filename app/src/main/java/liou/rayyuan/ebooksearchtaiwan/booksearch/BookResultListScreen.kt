@@ -1,5 +1,7 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusState
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -76,7 +79,8 @@ fun BookResultListScreen(
     onAppBarSearchButtonPress: () -> Unit = {},
     focusOnSearchBox: () -> Unit = {},
     onSearchRecordClick: (record: SearchRecord) -> Unit = {},
-    onRemoveSearchRecord: (record: SearchRecord) -> Unit = {}
+    onRemoveSearchRecord: (record: SearchRecord) -> Unit = {},
+    onDismissSearchRecord: () -> Unit = {}
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     LaunchedEffect(Unit) {
@@ -221,7 +225,7 @@ fun BookResultListScreen(
             if (showSearchRecords) {
                 SearchRecords(
                     itemCounts = searchRecords.itemCount,
-                    modifier = Modifier.zIndex(2f),
+                    modifier = Modifier.zIndex(3f),
                 ) {
                     LazyColumn {
                         items(count = searchRecords.itemCount, key = searchRecords.itemKey { it.id ?: -1 }) { index ->
@@ -245,6 +249,17 @@ fun BookResultListScreen(
                         }
                     }
                 }
+
+                Box(
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .zIndex(2f)
+                            .background(Color.Black.copy(alpha = 0.5f))
+                            .clickable {
+                                onDismissSearchRecord()
+                            }
+                )
             }
 
             NavHost(
