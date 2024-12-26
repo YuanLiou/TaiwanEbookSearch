@@ -64,6 +64,7 @@ fun BookResultListScreen(
     showAppBarCameraButton: Boolean = false,
     onAppBarCameraButtonPress: () -> Unit = {},
     onAppBarSearchButtonPress: () -> Unit = {},
+    focusOnSearchBox: () -> Unit = {}
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     LaunchedEffect(Unit) {
@@ -189,7 +190,8 @@ fun BookResultListScreen(
             bookResultNavGraph(
                 viewModel = viewModel,
                 modifier = Modifier.fillMaxSize(),
-                onBookSearchItemClick = onBookSearchItemClick
+                onBookSearchItemClick = onBookSearchItemClick,
+                focusOnSearchBox = focusOnSearchBox
             )
         }
     }

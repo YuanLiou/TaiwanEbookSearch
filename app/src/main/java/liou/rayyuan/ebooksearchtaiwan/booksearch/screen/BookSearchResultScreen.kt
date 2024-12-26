@@ -25,6 +25,7 @@ import liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchViewModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.BookSearchList
 import liou.rayyuan.ebooksearchtaiwan.composable.iconpack.EBookIcons
 import liou.rayyuan.ebooksearchtaiwan.composable.iconpack.KeyboardArrowUp24Dp
+import liou.rayyuan.ebooksearchtaiwan.composable.iconpack.SearchBlack24Dp
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.blue_green_a50
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.blue_green_you
@@ -33,7 +34,8 @@ import liou.rayyuan.ebooksearchtaiwan.ui.theme.blue_green_you
 fun BookSearchResultScreen(
     viewModel: BookSearchViewModel,
     modifier: Modifier = Modifier,
-    onBookSearchItemClick: (Book) -> Unit = {}
+    onBookSearchItemClick: (Book) -> Unit = {},
+    focusOnSearchBox: () -> Unit = {}
 ) {
     val scope = rememberCoroutineScope()
 
@@ -69,13 +71,24 @@ fun BookSearchResultScreen(
                     .border(1.dp, blue_green_a50, CircleShape)
                     .clip(CircleShape)
                     .clickable {
-                        scope.launch {
-                            lazyListState.animateScrollToItem(0)
+                        if (lazyListState.canScrollBackward) {
+                            scope.launch {
+                                lazyListState.animateScrollToItem(0)
+                            }
+                        } else {
+                            focusOnSearchBox()
                         }
                     }
         ) {
+            val icon =
+                if (lazyListState.canScrollBackward) {
+                    EBookIcons.KeyboardArrowUp24Dp
+                } else {
+                    EBookIcons.SearchBlack24Dp
+                }
+
             Image(
-                imageVector = EBookIcons.KeyboardArrowUp24Dp,
+                imageVector = icon,
                 contentDescription = "bottom button",
                 colorFilter = ColorFilter.tint(EBookTheme.colors.editTextInputColor),
                 modifier =

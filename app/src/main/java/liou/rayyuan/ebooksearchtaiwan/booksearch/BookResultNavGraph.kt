@@ -16,7 +16,8 @@ import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 fun NavGraphBuilder.bookResultNavGraph(
     viewModel: BookSearchViewModel,
     modifier: Modifier = Modifier,
-    onBookSearchItemClick: (Book) -> Unit = {}
+    onBookSearchItemClick: (Book) -> Unit = {},
+    focusOnSearchBox: () -> Unit = {}
 ) {
     composable(
         route = BookResultDestinations.ServiceStatus.route,
@@ -32,7 +33,8 @@ fun NavGraphBuilder.bookResultNavGraph(
         BookSearchResultScreen(
             viewModel = viewModel,
             modifier = modifier,
-            onBookSearchItemClick = onBookSearchItemClick
+            onBookSearchItemClick = onBookSearchItemClick,
+            focusOnSearchBox = focusOnSearchBox
         )
     }
     composable(
