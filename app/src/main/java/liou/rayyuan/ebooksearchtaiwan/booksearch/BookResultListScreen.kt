@@ -67,7 +67,7 @@ fun BookResultListScreen(
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     LaunchedEffect(Unit) {
-        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
             viewModel.navigationEvents.collectLatest { destinations ->
                 navHostController.navigateAndClean(destinations.route)
             }
