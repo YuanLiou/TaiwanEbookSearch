@@ -29,12 +29,14 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rayliu.commonmain.domain.model.Book
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchViewModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.BookSearchList
+import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookSearchResultItem
 import liou.rayyuan.ebooksearchtaiwan.composable.iconpack.EBookIcons
 import liou.rayyuan.ebooksearchtaiwan.composable.iconpack.KeyboardArrowUp24Dp
 import liou.rayyuan.ebooksearchtaiwan.composable.iconpack.SearchBlack24Dp
@@ -46,20 +48,18 @@ import liou.rayyuan.ebooksearchtaiwan.ui.theme.blue_green_you
 fun BookSearchResultScreen(
     viewModel: BookSearchViewModel,
     modifier: Modifier = Modifier,
+    bookSearchResult: ImmutableList<BookSearchResultItem> = persistentListOf(),
+    lastScrollPosition: Int = 0,
+    lastScrollOffset: Int = 0,
     onBookSearchItemClick: (Book) -> Unit = {},
     focusOnSearchBox: () -> Unit = {}
 ) {
     val scope = rememberCoroutineScope()
 
-    val bookSearchResult =
-        viewModel.bookSearchResult
-            .collectAsStateWithLifecycle()
-            .value
-
     val lazyListState =
         rememberLazyListState(
-            initialFirstVisibleItemIndex = viewModel.lastScrollPosition,
-            initialFirstVisibleItemScrollOffset = viewModel.lastScrollOffset
+            initialFirstVisibleItemIndex = lastScrollPosition,
+            initialFirstVisibleItemScrollOffset = lastScrollOffset
         )
 
     val maxHeight = 40.dp

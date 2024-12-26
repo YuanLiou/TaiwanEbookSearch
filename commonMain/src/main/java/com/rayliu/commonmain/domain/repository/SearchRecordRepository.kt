@@ -1,11 +1,11 @@
 package com.rayliu.commonmain.domain.repository
 
-import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
 import com.rayliu.commonmain.domain.model.SearchRecord
+import kotlinx.coroutines.flow.Flow
 
 interface SearchRecordRepository {
-    fun getPagingSearchRecordsFactory(): LiveData<PagingData<SearchRecord>>
+    fun getPagingSearchRecordsFactory(): Flow<PagingData<SearchRecord>>
 
     suspend fun getSearchRecordsCounts(): Result<Int>
 

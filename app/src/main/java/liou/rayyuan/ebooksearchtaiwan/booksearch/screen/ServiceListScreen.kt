@@ -1,23 +1,23 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch.screen
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchViewModel
+import com.rayliu.commonmain.domain.model.BookStoreDetails
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.ServiceStatusList
 
 @Composable
 fun ServiceListScreen(
-    viewModel: BookSearchViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    bookStoreDetails: ImmutableList<BookStoreDetails> = persistentListOf()
 ) {
-    val bookStoreDetails =
-        viewModel.bookStoreDetails
-            .collectAsStateWithLifecycle()
-            .value
-
-    ServiceStatusList(
-        storeDetails = bookStoreDetails,
+    Box(
         modifier = modifier
-    )
+    ) {
+        ServiceStatusList(
+            storeDetails = bookStoreDetails,
+        )
+    }
 }

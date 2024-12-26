@@ -58,6 +58,10 @@ sealed class BookSearchUserIntent : IUserIntent {
         val show: Boolean
     ) : BookSearchUserIntent()
 
+    data class ShowSearchRecords(
+        val show: Boolean
+    ) : BookSearchUserIntent()
+
     data object CopySnapshotUrlToClipboard : BookSearchUserIntent()
 
     data object OnViewReadyToServe : BookSearchUserIntent()

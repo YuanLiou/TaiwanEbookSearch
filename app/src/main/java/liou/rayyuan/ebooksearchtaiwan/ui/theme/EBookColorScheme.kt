@@ -26,7 +26,8 @@ data class EBookColorScheme(
     val editTextHintColor: Color,
     val editTextInputColor: Color,
     val reorderListBackgroundColor: Color,
-    val customTabHeaderColor: Color
+    val customTabHeaderColor: Color,
+    val closeButtonColor: Color
 )
 
 val LightColorScheme =
@@ -51,7 +52,8 @@ val LightColorScheme =
         editTextHintColor = gray,
         editTextInputColor = pure_dark,
         reorderListBackgroundColor = pure_white,
-        customTabHeaderColor = blue_green_dark_you
+        customTabHeaderColor = blue_green_dark_you,
+        closeButtonColor = dark_gray
     )
 
 val DarkColorScheme =
@@ -76,7 +78,8 @@ val DarkColorScheme =
         editTextHintColor = white_BD,
         editTextInputColor = pure_white,
         reorderListBackgroundColor = darker_gray_3B,
-        customTabHeaderColor = darker_gray_28
+        customTabHeaderColor = darker_gray_28,
+        closeButtonColor = google_app_white_color
     )
 
 val LocalColorScheme =
@@ -102,6 +105,7 @@ val LocalColorScheme =
             editTextHintColor = Color.Unspecified,
             editTextInputColor = Color.Unspecified,
             reorderListBackgroundColor = Color.Unspecified,
-            customTabHeaderColor = Color.Unspecified
+            customTabHeaderColor = Color.Unspecified,
+            closeButtonColor = Color.Unspecified
         )
     }

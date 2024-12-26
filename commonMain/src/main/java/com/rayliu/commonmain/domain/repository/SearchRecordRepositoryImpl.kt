@@ -1,15 +1,14 @@
 package com.rayliu.commonmain.domain.repository
 
-import androidx.lifecycle.LiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.liveData
 import com.rayliu.commonmain.OffsetDateTimeHelper
 import com.rayliu.commonmain.data.dao.SearchRecordDao
 import com.rayliu.commonmain.data.mapper.LocalSearchRecordMapper
 import com.rayliu.commonmain.domain.model.SearchRecord
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 class SearchRecordRepositoryImpl(
@@ -19,7 +18,7 @@ class SearchRecordRepositoryImpl(
 ) : SearchRecordRepository {
     private val pageSize = 10
 
-    override fun getPagingSearchRecordsFactory(): LiveData<PagingData<SearchRecord>> {
+    override fun getPagingSearchRecordsFactory(): Flow<PagingData<SearchRecord>> {
         val pager =
             Pager(
                 config =
@@ -32,7 +31,7 @@ class SearchRecordRepositoryImpl(
                     searchRecordDao.getSearchRecordsPaged()
                 }
             )
-        return pager.liveData
+        return pager.flow
     }
 
     override suspend fun getSearchRecordsCounts(): Result<Int> = runCatching { searchRecordDao.getSearchRecordsCounts() }

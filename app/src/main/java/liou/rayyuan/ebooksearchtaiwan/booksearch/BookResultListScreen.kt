@@ -1,15 +1,20 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -26,12 +31,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusState
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -39,10 +46,16 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import com.rayliu.commonmain.domain.model.Book
+import com.rayliu.commonmain.domain.model.SearchRecord
 import kotlinx.coroutines.flow.collectLatest
 import liou.rayyuan.ebooksearchtaiwan.R
+import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.ConfirmRemoveRecordDialog
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.SearchBox
+import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.SearchRecordItem
+import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.SearchRecords
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.utils.navigateAndClean
 import liou.rayyuan.ebooksearchtaiwan.navigation.BookResultDestinations
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
@@ -64,7 +77,10 @@ fun BookResultListScreen(
     showAppBarCameraButton: Boolean = false,
     onAppBarCameraButtonPress: () -> Unit = {},
     onAppBarSearchButtonPress: () -> Unit = {},
-    focusOnSearchBox: () -> Unit = {}
+    focusOnSearchBox: () -> Unit = {},
+    onSearchRecordClick: (record: SearchRecord) -> Unit = {},
+    onRemoveSearchRecord: (record: SearchRecord) -> Unit = {},
+    onDismissSearchRecord: () -> Unit = {}
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     LaunchedEffect(Unit) {
@@ -100,7 +116,25 @@ fun BookResultListScreen(
             .collectAsStateWithLifecycle()
             .value
 
+    val showSearchRecords =
+        viewModel.isShowSearchRecord
+            .collectAsStateWithLifecycle()
+            .value
+    val searchRecords = viewModel.searchRecords.collectAsLazyPagingItems()
+
     var showOptionMenu by remember { mutableStateOf(false) }
+    var goingToDeleteRecords by remember { mutableStateOf<SearchRecord?>(null) }
+    goingToDeleteRecords?.run {
+        ConfirmRemoveRecordDialog(
+            searchRecord = this,
+            onDismissRequest = {
+                goingToDeleteRecords = null
+            },
+            onRemoveSearchRecord = {
+                onRemoveSearchRecord(it)
+            }
+        )
+    }
 
     Scaffold(
         topBar = {
@@ -182,17 +216,66 @@ fun BookResultListScreen(
         containerColor = EBookTheme.colors.colorBackground,
         modifier = modifier
     ) { paddings ->
-        NavHost(
-            navController = navHostController,
-            startDestination = BookResultDestinations.ServiceStatus.route,
-            modifier = Modifier.fillMaxSize().padding(paddings)
+        Box(
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddings)
         ) {
-            bookResultNavGraph(
-                viewModel = viewModel,
-                modifier = Modifier.fillMaxSize(),
-                onBookSearchItemClick = onBookSearchItemClick,
-                focusOnSearchBox = focusOnSearchBox
-            )
+            if (showSearchRecords) {
+                SearchRecords(
+                    itemCounts = searchRecords.itemCount,
+                    modifier = Modifier.zIndex(3f),
+                ) {
+                    LazyColumn {
+                        items(count = searchRecords.itemCount, key = searchRecords.itemKey { it.id ?: -1 }) { index ->
+                            searchRecords[index]?.let { searchRecord ->
+                                if (index != 0) {
+                                    HorizontalDivider(
+                                        color = EBookTheme.colors.colorControlNormal.copy(alpha = 0.3f),
+                                        thickness = 1.dp,
+                                        modifier = Modifier.padding(horizontal = 8.dp)
+                                    )
+                                }
+
+                                SearchRecordItem(
+                                    searchRecord = searchRecord,
+                                    onRecordClick = onSearchRecordClick,
+                                    onRemoveRecordClick = {
+                                        goingToDeleteRecords = it
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+
+                Box(
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .zIndex(2f)
+                            .background(Color.Black.copy(alpha = 0.5f))
+                            .clickable {
+                                onDismissSearchRecord()
+                            }
+                )
+            }
+
+            NavHost(
+                navController = navHostController,
+                startDestination = BookResultDestinations.ServiceStatus.route,
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+            ) {
+                bookResultNavGraph(
+                    viewModel = viewModel,
+                    modifier = Modifier.fillMaxSize(),
+                    onBookSearchItemClick = onBookSearchItemClick,
+                    focusOnSearchBox = focusOnSearchBox
+                )
+            }
         }
     }
 }

@@ -120,7 +120,11 @@ class BookSearchViewModel(
     val enableSearchButtonClick
         get() = _enableSearchButtonClick.asStateFlow()
 
-    val searchRecordLiveData by lazy {
+    private val _isShowSearchRecord = MutableStateFlow(false)
+    val isShowSearchRecord
+        get() = _isShowSearchRecord.asStateFlow()
+
+    val searchRecords by lazy {
         getSearchRecordsUseCase().cachedIn(viewModelScope)
     }
 
@@ -258,6 +262,10 @@ class BookSearchViewModel(
                     is BookSearchUserIntent.ShowShareSnapshotOption -> {
                         showShareSnapshotOption = userIntent.show
                     }
+
+                    is BookSearchUserIntent.ShowSearchRecords -> {
+                        _isShowSearchRecord.value = userIntent.show
+                    }
                 }
             }
         }
@@ -280,6 +288,7 @@ class BookSearchViewModel(
         if (isRequestingBookData()) {
             updateScreen(BookResultViewState.PrepareBookResult)
             updateBookSearchScreen(BookResultDestinations.LoadingScreen)
+            _isShowSearchRecord.value = false
         } else {
             bookStores?.let {
                 prepareBookSearchResult(it)
@@ -292,19 +301,15 @@ class BookSearchViewModel(
             viewModelScope.launch {
                 getSearchRecordsCountsUseCase().fold(
                     onSuccess = { recordCounts ->
-                        if (recordCounts > 0) {
-                            updateScreen(BookResultViewState.ShowSearchRecordList(recordCounts))
-                        } else {
-                            updateScreen(BookResultViewState.HideSearchRecordList)
-                        }
+                        _isShowSearchRecord.value = (recordCounts > 0)
                     },
                     onFailure = {
-                        updateScreen(BookResultViewState.HideSearchRecordList)
+                        _isShowSearchRecord.value = false
                     }
                 )
             }
         } else {
-            updateScreen(BookResultViewState.HideSearchRecordList)
+            _isShowSearchRecord.value = false
         }
     }
 
@@ -343,6 +348,7 @@ class BookSearchViewModel(
 
         updateScreen(BookResultViewState.PrepareBookResult)
         updateBookSearchScreen(BookResultDestinations.LoadingScreen)
+        _isShowSearchRecord.value = false
         bookStores = null // clean up
         networkJob =
             viewModelScope.launch(Dispatchers.IO) {
@@ -367,7 +373,7 @@ class BookSearchViewModel(
                     )
                 }
             }
-        updateScreen(BookResultViewState.HideSearchRecordList)
+        _isShowSearchRecord.value = false
     }
 
     private inner class ShowSearchSnapshotAction(

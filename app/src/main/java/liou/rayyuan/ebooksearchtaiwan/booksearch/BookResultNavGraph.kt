@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.rayliu.commonmain.domain.model.Book
@@ -22,16 +23,28 @@ fun NavGraphBuilder.bookResultNavGraph(
     composable(
         route = BookResultDestinations.ServiceStatus.route,
     ) {
+        val bookStoreDetails =
+            viewModel.bookStoreDetails
+                .collectAsStateWithLifecycle()
+                .value
         ServiceListScreen(
-            viewModel = viewModel,
-            modifier = modifier
+            bookStoreDetails = bookStoreDetails,
+            modifier = modifier,
         )
     }
     composable(
         route = BookResultDestinations.SearchResult.route,
     ) {
+        val bookSearchResult =
+            viewModel.bookSearchResult
+                .collectAsStateWithLifecycle()
+                .value
+
         BookSearchResultScreen(
             viewModel = viewModel,
+            bookSearchResult = bookSearchResult,
+            lastScrollPosition = viewModel.lastScrollPosition,
+            lastScrollOffset = viewModel.lastScrollOffset,
             modifier = modifier,
             onBookSearchItemClick = onBookSearchItemClick,
             focusOnSearchBox = focusOnSearchBox
