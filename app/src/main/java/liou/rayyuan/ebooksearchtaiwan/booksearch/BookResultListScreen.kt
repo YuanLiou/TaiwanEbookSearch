@@ -43,6 +43,7 @@ import com.rayliu.commonmain.domain.model.Book
 import com.rayliu.commonmain.domain.model.SearchRecord
 import kotlinx.coroutines.flow.collectLatest
 import liou.rayyuan.ebooksearchtaiwan.R
+import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.ConfirmRemoveRecordDialog
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.SearchBox
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.utils.navigateAndClean
 import liou.rayyuan.ebooksearchtaiwan.navigation.BookResultDestinations
@@ -104,6 +105,18 @@ fun BookResultListScreen(
             .value
 
     var showOptionMenu by remember { mutableStateOf(false) }
+    var goingToDeleteRecords by remember { mutableStateOf<SearchRecord?>(null) }
+    goingToDeleteRecords?.run {
+        ConfirmRemoveRecordDialog(
+            searchRecord = this,
+            onDismissRequest = {
+                goingToDeleteRecords = null
+            },
+            onRemoveSearchRecord = {
+                onRemoveSearchRecord(it)
+            }
+        )
+    }
 
     Scaffold(
         topBar = {
@@ -196,7 +209,10 @@ fun BookResultListScreen(
                 onBookSearchItemClick = onBookSearchItemClick,
                 focusOnSearchBox = focusOnSearchBox,
                 onSearchRecordClick = onSearchRecordClick,
-                onRemoveSearchRecord = onRemoveSearchRecord
+                onRemoveSearchRecord = {
+                    goingToDeleteRecords = it
+//                    onRemoveSearchRecord(it)
+                }
             )
         }
     }

@@ -144,8 +144,9 @@ class BookResultListFragment :
                         onSearchRecordClick = {
                             onSearchRecordClicked(it)
                         },
-                        onRemoveSearchRecord = {
-                            onSearchRecordCloseImageClicked(it)
+                        onRemoveSearchRecord = { searchRecord ->
+                            sendUserIntent(BookSearchUserIntent.DeleteSearchRecord(searchRecord))
+//                            onSearchRecordCloseImageClicked(it)
                         }
                     )
                 }
@@ -534,22 +535,6 @@ class BookResultListFragment :
 
     private fun onSearchRecordClicked(searchRecord: SearchRecord) {
         searchWithText(searchRecord.text)
-    }
-
-    private fun onSearchRecordCloseImageClicked(searchRecord: SearchRecord) {
-        requireContext().let {
-            val message =
-                getString(R.string.alert_dialog_delete_search_record_message, searchRecord.text)
-            MaterialAlertDialogBuilder(it)
-                .setTitle(R.string.alert_dialog_delete_search_records)
-                .setMessage(message)
-                .setPositiveButton(getString(R.string.dialog_ok)) { dialog, _ ->
-                    sendUserIntent(BookSearchUserIntent.DeleteSearchRecord(searchRecord))
-                    dialog.dismiss()
-                }
-                .setNegativeButton(getString(R.string.dialog_cancel)) { dialog, _ -> dialog.dismiss() }
-                .create().show()
-        }
     }
 
     private fun sendUserIntent(userIntent: BookSearchUserIntent) {
