@@ -5,17 +5,29 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rayliu.commonmain.domain.model.Book
@@ -50,8 +62,28 @@ fun BookSearchResultScreen(
             initialFirstVisibleItemScrollOffset = viewModel.lastScrollOffset
         )
 
+    val maxHeight = 40.dp
+    var backToTopButtonOffset by remember { mutableStateOf(maxHeight) }
+    var backToTopButtonAlpha by remember { mutableFloatStateOf(1f) }
+    val nestedScrollConnection =
+        remember {
+            object : NestedScrollConnection {
+                override fun onPreScroll(
+                    available: Offset,
+                    source: NestedScrollSource
+                ): Offset {
+                    val delta = available.y
+                    val newOffset = backToTopButtonOffset + delta.dp
+                    backToTopButtonOffset = newOffset.coerceIn((-maxHeight), maxHeight)
+                    val newAlpha = (backToTopButtonOffset + maxHeight) / (maxHeight * 2)
+                    backToTopButtonAlpha = newAlpha.coerceIn(0f, 1f)
+                    return super.onPreScroll(available, source)
+                }
+            }
+        }
+
     Box(
-        modifier = modifier
+        modifier = modifier.nestedScroll(nestedScrollConnection)
     ) {
         BookSearchList(
             bookSearchResults = bookSearchResult,
@@ -66,11 +98,16 @@ fun BookSearchResultScreen(
             modifier =
                 Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = 40.dp)
+                    .offset { IntOffset(0, (backToTopButtonOffset * -1f).roundToPx()) }
+                    .alpha(backToTopButtonAlpha)
                     .background(blue_green_you, CircleShape)
                     .border(1.dp, blue_green_a50, CircleShape)
                     .clip(CircleShape)
                     .clickable {
+                        if (backToTopButtonAlpha < 0.5f) {
+                            return@clickable
+                        }
+
                         if (lazyListState.canScrollBackward) {
                             scope.launch {
                                 lazyListState.animateScrollToItem(0)
