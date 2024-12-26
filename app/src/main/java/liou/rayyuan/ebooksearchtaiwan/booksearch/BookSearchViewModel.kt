@@ -288,6 +288,7 @@ class BookSearchViewModel(
         if (isRequestingBookData()) {
             updateScreen(BookResultViewState.PrepareBookResult)
             updateBookSearchScreen(BookResultDestinations.LoadingScreen)
+            _isShowSearchRecord.value = false
         } else {
             bookStores?.let {
                 prepareBookSearchResult(it)
@@ -347,6 +348,7 @@ class BookSearchViewModel(
 
         updateScreen(BookResultViewState.PrepareBookResult)
         updateBookSearchScreen(BookResultDestinations.LoadingScreen)
+        _isShowSearchRecord.value = false
         bookStores = null // clean up
         networkJob =
             viewModelScope.launch(Dispatchers.IO) {

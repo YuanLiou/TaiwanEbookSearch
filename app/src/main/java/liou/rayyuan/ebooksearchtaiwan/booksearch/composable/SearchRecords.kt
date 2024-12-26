@@ -28,15 +28,27 @@ import liou.rayyuan.ebooksearchtaiwan.composable.debounceClick
 import liou.rayyuan.ebooksearchtaiwan.composable.iconpack.BaselineClear24Px
 import liou.rayyuan.ebooksearchtaiwan.composable.iconpack.EBookIcons
 import liou.rayyuan.ebooksearchtaiwan.ui.MDPI_DEVICES
+import liou.rayyuan.ebooksearchtaiwan.ui.SEARCH_RECORDS_MAX_HEIGHT
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
-import liou.rayyuan.ebooksearchtaiwan.ui.theme.dark_gray
 
 @Composable
 fun SearchRecords(
+    itemCounts: Int,
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit = {}
 ) {
+    val maxHeight =
+        if (itemCounts > 5) {
+            Modifier.height(SEARCH_RECORDS_MAX_HEIGHT)
+        } else {
+            Modifier
+        }
+
     ElevatedCard(
+        colors =
+            CardDefaults.elevatedCardColors(
+                containerColor = EBookTheme.colors.cardBackgroundColor
+            ),
         elevation =
             CardDefaults.elevatedCardElevation(
                 defaultElevation = 8.dp,
@@ -46,6 +58,7 @@ fun SearchRecords(
             modifier
                 .padding(16.dp)
                 .fillMaxWidth()
+                .then(maxHeight)
     ) {
         content()
     }
@@ -73,6 +86,7 @@ fun SearchRecordItem(
             text = searchRecord.text,
             style =
                 TextStyle.Default.copy(
+                    color = EBookTheme.colors.textColorTertiary,
                     fontSize = 16.sp
                 ),
             modifier = Modifier.weight(1f)
@@ -80,7 +94,7 @@ fun SearchRecordItem(
         Image(
             imageVector = EBookIcons.BaselineClear24Px,
             contentDescription = "Clear Search Record",
-            colorFilter = ColorFilter.tint(dark_gray),
+            colorFilter = ColorFilter.tint(EBookTheme.colors.closeButtonColor),
             modifier =
                 Modifier.debounceClick(
                     debounceInterval = CLICK_MILLISECOND_THRESHOLD,
@@ -111,7 +125,9 @@ fun SearchRecordItem(
 @Composable
 private fun SearchBoxPreview() {
     EBookTheme {
-        SearchRecords {
+        SearchRecords(
+            itemCounts = 6,
+        ) {
             SearchRecordItem(
                 searchRecord =
                     SearchRecord(
@@ -134,6 +150,30 @@ private fun SearchBoxPreview() {
                         id = 3,
                         text = "Search Record 3",
                         times = 3
+                    )
+            )
+            SearchRecordItem(
+                searchRecord =
+                    SearchRecord(
+                        id = 4,
+                        text = "Search Record 4",
+                        times = 4
+                    )
+            )
+            SearchRecordItem(
+                searchRecord =
+                    SearchRecord(
+                        id = 5,
+                        text = "Search Record 5",
+                        times = 5
+                    )
+            )
+            SearchRecordItem(
+                searchRecord =
+                    SearchRecord(
+                        id = 6,
+                        text = "Search Record 6",
+                        times = 6
                     )
             )
         }

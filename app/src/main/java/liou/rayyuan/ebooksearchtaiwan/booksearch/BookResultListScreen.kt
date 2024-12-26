@@ -220,6 +220,7 @@ fun BookResultListScreen(
         ) {
             if (showSearchRecords) {
                 SearchRecords(
+                    itemCounts = searchRecords.itemCount,
                     modifier = Modifier.zIndex(2f),
                 ) {
                     LazyColumn {
