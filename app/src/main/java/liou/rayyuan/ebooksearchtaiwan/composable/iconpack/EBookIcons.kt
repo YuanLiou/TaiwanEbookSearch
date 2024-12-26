@@ -13,7 +13,8 @@ private val icons =
     listOf(
         EBookIcons.BaselineFilterCenterFocus24Px,
         EBookIcons.SearchBlack24Dp,
-        EBookIcons.KeyboardArrowUp24Dp
+        EBookIcons.KeyboardArrowUp24Dp,
+        EBookIcons.BaselineClear24Px
     )
 
 @Preview(showBackground = true)

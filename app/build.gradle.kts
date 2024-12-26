@@ -193,6 +193,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.livedata.java8)
     implementation(libs.paging.runtime)
+    implementation(libs.paging.compose)
     // endregion of Android X Libraries
 
     // Kotlin

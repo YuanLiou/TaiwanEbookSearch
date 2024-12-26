@@ -96,8 +96,6 @@ fun SearchBox(
     }
 }
 
-private const val CLICK_MILLISECOND_THRESHOLD = 2000L
-
 //region Preview
 @Preview(
     name = "Search Box",

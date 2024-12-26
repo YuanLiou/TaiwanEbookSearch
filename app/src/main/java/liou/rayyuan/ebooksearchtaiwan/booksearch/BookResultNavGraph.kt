@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.rayliu.commonmain.domain.model.Book
+import com.rayliu.commonmain.domain.model.SearchRecord
 import liou.rayyuan.ebooksearchtaiwan.booksearch.screen.BookSearchResultScreen
 import liou.rayyuan.ebooksearchtaiwan.booksearch.screen.ServiceListScreen
 import liou.rayyuan.ebooksearchtaiwan.navigation.BookResultDestinations
@@ -17,14 +18,18 @@ fun NavGraphBuilder.bookResultNavGraph(
     viewModel: BookSearchViewModel,
     modifier: Modifier = Modifier,
     onBookSearchItemClick: (Book) -> Unit = {},
-    focusOnSearchBox: () -> Unit = {}
+    focusOnSearchBox: () -> Unit = {},
+    onSearchRecordClick: (record: SearchRecord) -> Unit = {},
+    onRemoveSearchRecord: (record: SearchRecord) -> Unit = {}
 ) {
     composable(
         route = BookResultDestinations.ServiceStatus.route,
     ) {
         ServiceListScreen(
             viewModel = viewModel,
-            modifier = modifier
+            modifier = modifier,
+            onRecordClick = onSearchRecordClick,
+            onRemoveRecordClick = onRemoveSearchRecord
         )
     }
     composable(

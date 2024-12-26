@@ -40,6 +40,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.lifecycle.repeatOnLifecycle
 import com.rayliu.commonmain.domain.model.Book
+import com.rayliu.commonmain.domain.model.SearchRecord
 import kotlinx.coroutines.flow.collectLatest
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.SearchBox
@@ -64,7 +65,9 @@ fun BookResultListScreen(
     showAppBarCameraButton: Boolean = false,
     onAppBarCameraButtonPress: () -> Unit = {},
     onAppBarSearchButtonPress: () -> Unit = {},
-    focusOnSearchBox: () -> Unit = {}
+    focusOnSearchBox: () -> Unit = {},
+    onSearchRecordClick: (record: SearchRecord) -> Unit = {},
+    onRemoveSearchRecord: (record: SearchRecord) -> Unit = {}
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     LaunchedEffect(Unit) {
@@ -191,7 +194,9 @@ fun BookResultListScreen(
                 viewModel = viewModel,
                 modifier = Modifier.fillMaxSize(),
                 onBookSearchItemClick = onBookSearchItemClick,
-                focusOnSearchBox = focusOnSearchBox
+                focusOnSearchBox = focusOnSearchBox,
+                onSearchRecordClick = onSearchRecordClick,
+                onRemoveSearchRecord = onRemoveSearchRecord
             )
         }
     }
