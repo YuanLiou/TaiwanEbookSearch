@@ -147,6 +147,9 @@ class BookResultListFragment :
                                 (requireActivity() as? BookSearchActivity)?.openPreferenceActivity()
                             }
                         },
+                        focusOnSearchBox = {
+                            focusBookSearchEditText()
+                        }
                     )
                 }
             }
@@ -406,15 +409,8 @@ class BookResultListFragment :
         sendUserIntent(BookSearchUserIntent.ForceShowOrHideVirtualKeyboard(false))
     }
 
-    private fun focusAndCleanBookSearchEditText() {
-        sendUserIntent(BookSearchUserIntent.UpdateKeyword(TextFieldValue("")))
-        focusBookSearchEditText()
-    }
-
     private fun focusBookSearchEditText() {
         if (isAdded) {
-            // TODO
-//            viewBinding.searchViewAppbar.setExpanded(true, true)
             sendUserIntent(BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput(true))
             sendUserIntent(BookSearchUserIntent.ForceShowOrHideVirtualKeyboard(true))
         }
