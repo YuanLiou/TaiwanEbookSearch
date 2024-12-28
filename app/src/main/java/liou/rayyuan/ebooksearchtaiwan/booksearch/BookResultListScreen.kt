@@ -1,5 +1,10 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -223,10 +228,14 @@ fun BookResultListScreen(
                     .fillMaxSize()
                     .padding(paddings)
         ) {
-            if (showSearchRecords) {
+            AnimatedVisibility(
+                visible = showSearchRecords,
+                enter = expandVertically(),
+                exit = shrinkVertically(),
+                modifier = Modifier.zIndex(3f)
+            ) {
                 SearchRecords(
                     itemCounts = searchRecords.itemCount,
-                    modifier = Modifier.zIndex(3f),
                 ) {
                     LazyColumn {
                         items(count = searchRecords.itemCount, key = searchRecords.itemKey { it.id ?: -1 }) { index ->
@@ -250,12 +259,18 @@ fun BookResultListScreen(
                         }
                     }
                 }
+            }
 
+            AnimatedVisibility(
+                visible = showSearchRecords,
+                enter = fadeIn(),
+                exit = fadeOut(),
+                modifier = Modifier.zIndex(2f)
+            ) {
                 Box(
                     modifier =
                         Modifier
                             .fillMaxSize()
-                            .zIndex(2f)
                             .background(Color.Black.copy(alpha = 0.5f))
                             .clickable {
                                 onDismissSearchRecord()
