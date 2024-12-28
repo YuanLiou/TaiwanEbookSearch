@@ -151,7 +151,11 @@ fun BookResultListScreen(
     }
 
     val appBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
+    val scrollBehavior =
+        TopAppBarDefaults.enterAlwaysScrollBehavior(
+            appBarState,
+            canScroll = { !showSearchRecords }
+        )
 
     Scaffold(
         topBar = {
