@@ -7,6 +7,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,6 +29,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -37,6 +39,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -142,6 +145,9 @@ fun BookResultListScreen(
         )
     }
 
+    val appBarState = rememberTopAppBarState()
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -164,7 +170,8 @@ fun BookResultListScreen(
                 },
                 colors =
                     TopAppBarDefaults.topAppBarColors().copy(
-                        containerColor = EBookTheme.colors.colorBackground
+                        containerColor = EBookTheme.colors.colorBackground,
+                        scrolledContainerColor = EBookTheme.colors.colorBackground
                     ),
                 actions = {
                     IconButton(
@@ -216,11 +223,12 @@ fun BookResultListScreen(
                             }
                         )
                     }
-                }
+                },
+                scrollBehavior = scrollBehavior
             )
         },
         containerColor = EBookTheme.colors.colorBackground,
-        modifier = modifier
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { paddings ->
         Box(
             modifier =
@@ -272,7 +280,11 @@ fun BookResultListScreen(
                         Modifier
                             .fillMaxSize()
                             .background(Color.Black.copy(alpha = 0.5f))
-                            .clickable {
+                            .clickable(
+                                enabled = true,
+                                interactionSource = remember { MutableInteractionSource() },
+                                indication = null
+                            ) {
                                 onDismissSearchRecord()
                             }
                 )
