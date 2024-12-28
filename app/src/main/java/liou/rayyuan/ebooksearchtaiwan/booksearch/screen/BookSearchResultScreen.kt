@@ -52,7 +52,8 @@ fun BookSearchResultScreen(
     lastScrollPosition: Int = 0,
     lastScrollOffset: Int = 0,
     onBookSearchItemClick: (Book) -> Unit = {},
-    focusOnSearchBox: () -> Unit = {}
+    focusOnSearchBox: () -> Unit = {},
+    onListScroll: () -> Unit = {}
 ) {
     val scope = rememberCoroutineScope()
 
@@ -77,6 +78,7 @@ fun BookSearchResultScreen(
                     backToTopButtonOffset = newOffset.coerceIn((-maxHeight), maxHeight)
                     val newAlpha = (backToTopButtonOffset + maxHeight) / (maxHeight * 2)
                     backToTopButtonAlpha = newAlpha.coerceIn(0f, 1f)
+                    onListScroll()
                     return super.onPreScroll(available, source)
                 }
             }

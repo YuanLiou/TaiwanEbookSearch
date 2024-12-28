@@ -80,7 +80,8 @@ fun BookResultListScreen(
     focusOnSearchBox: () -> Unit = {},
     onSearchRecordClick: (record: SearchRecord) -> Unit = {},
     onRemoveSearchRecord: (record: SearchRecord) -> Unit = {},
-    onDismissSearchRecord: () -> Unit = {}
+    onDismissSearchRecord: () -> Unit = {},
+    onListScroll: () -> Unit = {}
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     LaunchedEffect(Unit) {
@@ -273,7 +274,8 @@ fun BookResultListScreen(
                     viewModel = viewModel,
                     modifier = Modifier.fillMaxSize(),
                     onBookSearchItemClick = onBookSearchItemClick,
-                    focusOnSearchBox = focusOnSearchBox
+                    focusOnSearchBox = focusOnSearchBox,
+                    onListScroll = onListScroll
                 )
             }
         }

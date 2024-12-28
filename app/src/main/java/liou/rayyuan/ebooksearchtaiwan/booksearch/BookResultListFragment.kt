@@ -57,7 +57,6 @@ class BookResultListFragment :
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
-        init()
         initAdMods()
     }
 
@@ -141,6 +140,11 @@ class BookResultListFragment :
                         onDismissSearchRecord = {
                             sendUserIntent(BookSearchUserIntent.ShowSearchRecords(false))
                             hideVirtualKeyboard()
+                        },
+                        onListScroll = {
+                            if (bookSearchViewModel.isTextInputFocused.value) {
+                                sendUserIntent(BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput(false))
+                            }
                         }
                     )
                 }
@@ -160,23 +164,6 @@ class BookResultListFragment :
                 }
             }
         }
-    }
-
-    private fun init() {
-        // TODO
-//        resultsRecyclerView.addOnScrollListener(
-//            object : RecyclerView.OnScrollListener() {
-//                override fun onScrolled(
-//                    recyclerView: RecyclerView,
-//                    dx: Int,
-//                    dy: Int
-//                ) {
-//                    if (bookSearchViewModel.isTextInputFocused.value) {
-//                        sendUserIntent(BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput(false))
-//                    }
-//                }
-//            }
-//        )
     }
 
     private fun initAdMods() {
