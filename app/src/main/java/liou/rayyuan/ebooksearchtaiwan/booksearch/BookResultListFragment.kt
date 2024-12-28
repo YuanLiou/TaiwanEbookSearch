@@ -4,11 +4,13 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.FrameLayout
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
@@ -29,28 +31,90 @@ import liou.rayyuan.ebooksearchtaiwan.arch.IView
 import liou.rayyuan.ebooksearchtaiwan.booksearch.review.PlayStoreReviewHelper
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
-import liou.rayyuan.ebooksearchtaiwan.databinding.FragmentSearchListBinding
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
-import liou.rayyuan.ebooksearchtaiwan.utils.FragmentViewBinding
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BookResultListFragment :
-    BaseFragment(R.layout.fragment_search_list),
+    BaseFragment(),
     IView<BookResultViewState> {
     private val bookSearchViewModel: BookSearchViewModel by viewModel()
     private val playStoreReviewHelper: PlayStoreReviewHelper by inject()
-
-    private val viewBinding: FragmentSearchListBinding by FragmentViewBinding(
-        FragmentSearchListBinding::bind
-    )
     private var defaultSearchKeyword: String by FragmentArgumentsDelegate()
     private var defaultSnapshotSearchId: String by FragmentArgumentsDelegate()
 
     private var hasUserSeenRankWindow = false
     private var openResultCounts = 0
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) = ComposeView(requireContext()).apply {
+        setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnDetachedFromWindow)
+        setContent {
+            EBookTheme(
+                darkTheme = isDarkTheme()
+            ) {
+                BookResultListScreen(
+                    viewModel = bookSearchViewModel,
+                    modifier = Modifier.fillMaxSize(),
+                    onSearchTextChange = {
+                        sendUserIntent(BookSearchUserIntent.UpdateKeyword(it))
+                    },
+                    onBookSearchItemClick = ::openBook,
+                    onPressSearchIcon = {
+                        sendUserIntent(BookSearchUserIntent.SearchBook())
+                    },
+                    onFocusActionFinish = {
+                        sendUserIntent(BookSearchUserIntent.ResetFocusAction)
+                    },
+                    onFocusChange = {
+                        sendUserIntent(BookSearchUserIntent.UpdateTextInputFocusState(it.isFocused))
+                        sendUserIntent(BookSearchUserIntent.FocusOnTextEditing(it.isFocused))
+                    },
+                    showAppBarCameraButton = isCameraAvailable(),
+                    onAppBarCameraButtonPress = {
+                        openCameraPreview()
+                    },
+                    onAppBarSearchButtonPress = {
+                        searchBook()
+                    },
+                    onClickCopySnapshot = {
+                        sendUserIntent(BookSearchUserIntent.CopySnapshotUrlToClipboard)
+                    },
+                    onShareResultClick = {
+                        sendUserIntent(BookSearchUserIntent.ShareSnapshot)
+                    },
+                    onMenuSettingClick = {
+                        if (isAdded) {
+                            (requireActivity() as? BookSearchActivity)?.openPreferenceActivity()
+                        }
+                    },
+                    focusOnSearchBox = {
+                        focusBookSearchEditText()
+                    },
+                    onSearchRecordClick = {
+                        onSearchRecordClicked(it)
+                    },
+                    onRemoveSearchRecord = { searchRecord ->
+                        sendUserIntent(BookSearchUserIntent.DeleteSearchRecord(searchRecord))
+                    },
+                    onDismissSearchRecord = {
+                        sendUserIntent(BookSearchUserIntent.ShowSearchRecords(false))
+                        hideVirtualKeyboard()
+                    },
+                    onListScroll = {
+                        if (bookSearchViewModel.isTextInputFocused.value) {
+                            sendUserIntent(BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput(false))
+                        }
+                    }
+                )
+            }
+        }
+    }
 
     override fun onViewCreated(
         view: View,
@@ -75,79 +139,12 @@ class BookResultListFragment :
         ) { state -> render(state) }
 
         sendUserIntent(BookSearchUserIntent.OnViewReadyToServe)
-        setupScreen()
         handleInitialDeepLink()
 
         viewLifecycleOwner.lifecycleScope.launch {
             hasUserSeenRankWindow = bookSearchViewModel.checkUserHasSeenRankWindow()
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 sendUserIntent(BookSearchUserIntent.CheckServiceStatus)
-            }
-        }
-    }
-
-    private fun setupScreen() {
-        viewBinding.searchListComposeView.run {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnDetachedFromWindow)
-            setContent {
-                EBookTheme(
-                    darkTheme = isDarkTheme()
-                ) {
-                    BookResultListScreen(
-                        viewModel = bookSearchViewModel,
-                        modifier = Modifier.fillMaxSize(),
-                        onSearchTextChange = {
-                            sendUserIntent(BookSearchUserIntent.UpdateKeyword(it))
-                        },
-                        onBookSearchItemClick = ::openBook,
-                        onPressSearchIcon = {
-                            sendUserIntent(BookSearchUserIntent.SearchBook())
-                        },
-                        onFocusActionFinish = {
-                            sendUserIntent(BookSearchUserIntent.ResetFocusAction)
-                        },
-                        onFocusChange = {
-                            sendUserIntent(BookSearchUserIntent.UpdateTextInputFocusState(it.isFocused))
-                            sendUserIntent(BookSearchUserIntent.FocusOnTextEditing(it.isFocused))
-                        },
-                        showAppBarCameraButton = isCameraAvailable(),
-                        onAppBarCameraButtonPress = {
-                            openCameraPreview()
-                        },
-                        onAppBarSearchButtonPress = {
-                            searchBook()
-                        },
-                        onClickCopySnapshot = {
-                            sendUserIntent(BookSearchUserIntent.CopySnapshotUrlToClipboard)
-                        },
-                        onShareResultClick = {
-                            sendUserIntent(BookSearchUserIntent.ShareSnapshot)
-                        },
-                        onMenuSettingClick = {
-                            if (isAdded) {
-                                (requireActivity() as? BookSearchActivity)?.openPreferenceActivity()
-                            }
-                        },
-                        focusOnSearchBox = {
-                            focusBookSearchEditText()
-                        },
-                        onSearchRecordClick = {
-                            onSearchRecordClicked(it)
-                        },
-                        onRemoveSearchRecord = { searchRecord ->
-                            sendUserIntent(BookSearchUserIntent.DeleteSearchRecord(searchRecord))
-                        },
-                        onDismissSearchRecord = {
-                            sendUserIntent(BookSearchUserIntent.ShowSearchRecords(false))
-                            hideVirtualKeyboard()
-                        },
-                        onListScroll = {
-                            if (bookSearchViewModel.isTextInputFocused.value) {
-                                sendUserIntent(BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput(false))
-                            }
-                        }
-                    )
-                }
             }
         }
     }
