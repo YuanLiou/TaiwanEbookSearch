@@ -125,6 +125,11 @@ fun BookResultListScreen(
             .collectAsStateWithLifecycle()
             .value
 
+    val isLoadingResult =
+        viewModel.isLoadingResult
+            .collectAsStateWithLifecycle()
+            .value
+
     val showSearchRecords =
         viewModel.isShowSearchRecord
             .collectAsStateWithLifecycle()
@@ -161,6 +166,7 @@ fun BookResultListScreen(
                         onFocusChange = onFocusChange,
                         virtualKeyboardAction = virtualKeyboardAction,
                         showCameraButton = showAppBarCameraButton,
+                        enableTextField = !isLoadingResult,
                         enableCameraButtonClick = enableCameraButtonClick,
                         enableSearchButtonClick = enableSearchButtonClick,
                         onCameraButtonPress = onAppBarCameraButtonPress,

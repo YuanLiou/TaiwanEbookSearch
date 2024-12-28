@@ -96,7 +96,7 @@ fun ConfirmRemoveRecordDialog(
                                 onDismissRequest()
                             }
                     )
-                    Spacer(modifier = Modifier.padding(horizontal = 28.dp))
+                    Spacer(modifier = Modifier.padding(horizontal = 24.dp))
                     Text(
                         text = stringResource(R.string.dialog_ok),
                         style =

@@ -124,6 +124,10 @@ class BookSearchViewModel(
     val isShowSearchRecord
         get() = _isShowSearchRecord.asStateFlow()
 
+    private val _isLoadingResult = MutableStateFlow(false)
+    val isLoadingResult
+        get() = _isLoadingResult.asStateFlow()
+
     val searchRecords by lazy {
         getSearchRecordsUseCase().cachedIn(viewModelScope)
     }
@@ -289,6 +293,7 @@ class BookSearchViewModel(
             updateScreen(BookResultViewState.PrepareBookResult)
             updateBookSearchScreen(BookResultDestinations.LoadingScreen)
             _isShowSearchRecord.value = false
+            _isLoadingResult.value = true
         } else {
             bookStores?.let {
                 prepareBookSearchResult(it)
@@ -349,6 +354,7 @@ class BookSearchViewModel(
         updateScreen(BookResultViewState.PrepareBookResult)
         updateBookSearchScreen(BookResultDestinations.LoadingScreen)
         _isShowSearchRecord.value = false
+        _isLoadingResult.value = true
         bookStores = null // clean up
         networkJob =
             viewModelScope.launch(Dispatchers.IO) {
@@ -407,6 +413,7 @@ class BookSearchViewModel(
             _bookSearchResult.value = bookSearchResultItems.toImmutableList()
             updateScreen(BookResultViewState.ShowBooks(bookStores.searchKeyword))
             updateBookSearchScreen(BookResultDestinations.SearchResult)
+            _isLoadingResult.value = false
         }
     }
 
@@ -521,6 +528,7 @@ class BookSearchViewModel(
         updateScreen(BookResultViewState.PrepareBookResultError)
         updateBookSearchScreen(BookResultDestinations.ServiceStatus)
         sendViewEffect(ScreenState.ConnectionTimeout)
+        _isLoadingResult.value = false
     }
 
     private fun networkExceptionOccurred(message: String) {
@@ -531,6 +539,7 @@ class BookSearchViewModel(
         } else {
             sendViewEffect(ScreenState.ShowToastMessage(-1, message))
         }
+        _isLoadingResult.value = false
     }
 
     private fun checkServiceStatus() {

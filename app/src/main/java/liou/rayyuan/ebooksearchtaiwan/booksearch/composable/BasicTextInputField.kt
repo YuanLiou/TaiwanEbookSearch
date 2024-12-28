@@ -90,6 +90,7 @@ fun BasicTextInputField(
         value = text,
         onValueChange = onTextChange,
         maxLines = 1,
+        enabled = enableTextField,
         textStyle = LocalTextStyle.current.copy(color = EBookTheme.colors.editTextInputColor),
         keyboardOptions =
             KeyboardOptions.Default.copy(
@@ -126,8 +127,10 @@ fun BasicTextInputField(
                 TextFieldDefaults.colors(
                     focusedContainerColor = EBookTheme.colors.searchBoxColor,
                     unfocusedContainerColor = EBookTheme.colors.searchBoxColor,
+                    disabledContainerColor = EBookTheme.colors.searchBoxColor,
                     focusedTextColor = EBookTheme.colors.editTextInputColor,
                     unfocusedTextColor = EBookTheme.colors.editTextInputColor,
+                    disabledTextColor = EBookTheme.colors.editTextInputColor,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
                     disabledIndicatorColor = Color.Transparent,
