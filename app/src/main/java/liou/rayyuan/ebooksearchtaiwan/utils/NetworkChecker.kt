@@ -4,14 +4,11 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import liou.rayyuan.ebooksearchtaiwan.R
 
-class QuickChecker(
+class NetworkChecker(
     context: Context
 ) {
     private val context = context.applicationContext
-
-    fun isTabletSize(): Boolean = context.resources.getBoolean(R.bool.isTabletSize)
 
     fun isInternetConnectionAvailable(): Boolean {
         val connectionManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager

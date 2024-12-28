@@ -53,7 +53,7 @@ import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookUiModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.asUiModel
 import liou.rayyuan.ebooksearchtaiwan.navigation.BookResultDestinations
 import liou.rayyuan.ebooksearchtaiwan.utils.ClipboardHelper
-import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
+import liou.rayyuan.ebooksearchtaiwan.utils.NetworkChecker
 import liou.rayyuan.ebooksearchtaiwan.utils.ResourceHelper
 import liou.rayyuan.ebooksearchtaiwan.view.getStringResource
 
@@ -67,7 +67,7 @@ class BookSearchViewModel(
     private val getDefaultBookSortUseCase: GetDefaultBookSortUseCase,
     private val getSearchSnapshotUseCase: GetSearchSnapshotUseCase,
     private val getBookStoresDetailUseCase: GetBookStoresDetailUseCase,
-    private val quickChecker: QuickChecker,
+    private val networkChecker: NetworkChecker,
     private val deleteSearchRecordUseCase: DeleteSearchRecordUseCase,
     private val resourceHelper: ResourceHelper,
     private val rankingWindowFacade: UserRankingWindowFacade,
@@ -342,7 +342,7 @@ class BookSearchViewModel(
     }
 
     private fun fetchBookResult(action: suspend () -> Result<BookStores>) {
-        if (!quickChecker.isInternetConnectionAvailable()) {
+        if (!networkChecker.isInternetConnectionAvailable()) {
             sendViewEffect(ScreenState.NoInternetConnection)
             return
         }

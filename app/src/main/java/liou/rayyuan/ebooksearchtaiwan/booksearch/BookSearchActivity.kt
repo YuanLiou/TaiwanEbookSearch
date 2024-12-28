@@ -23,7 +23,6 @@ import liou.rayyuan.ebooksearchtaiwan.model.DeeplinkHelper
 import liou.rayyuan.ebooksearchtaiwan.preferencesetting.PreferenceSettingsActivity
 import liou.rayyuan.ebooksearchtaiwan.simplewebview.SimpleWebViewFragment
 import liou.rayyuan.ebooksearchtaiwan.utils.CustomTabSessionManager
-import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
 import liou.rayyuan.ebooksearchtaiwan.view.Router
 import org.koin.android.ext.android.inject
 
@@ -33,7 +32,6 @@ import org.koin.android.ext.android.inject
 class BookSearchActivity :
     BaseActivity(R.layout.activity_book_search),
     SimpleWebViewFragment.OnSimpleWebViewActionListener {
-    private val quickChecker: QuickChecker by inject()
     private val customTabSessionManager: CustomTabSessionManager by inject()
     private val deeplinkHelper = DeeplinkHelper()
     private lateinit var contentRouter: Router
@@ -177,7 +175,7 @@ class BookSearchActivity :
     }
 
     fun openBookLink(book: Book) {
-        if (!quickChecker.isTabletSize() && userPreferenceManager.isPreferCustomTab()) {
+        if (userPreferenceManager.isPreferCustomTab()) {
             val colorParams =
                 CustomTabColorSchemeParams.Builder()
                     .setToolbarColor(getThemePrimaryColor())
@@ -189,8 +187,7 @@ class BookSearchActivity :
                     .build()
             intent.launchUrl(this, Uri.parse(book.link))
         } else {
-            val isTablet = quickChecker.isTabletSize()
-            val webViewFragment = SimpleWebViewFragment.newInstance(book, !isTablet)
+            val webViewFragment = SimpleWebViewFragment.newInstance(book, true)
             webViewFragment.onSimpleWebViewActionListener = this
             contentRouter.addView(webViewFragment, SimpleWebViewFragment.TAG + book.id, true)
         }

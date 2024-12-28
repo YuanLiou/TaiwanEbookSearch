@@ -17,7 +17,7 @@ import liou.rayyuan.ebooksearchtaiwan.preferencesetting.PreferenceSettingsViewMo
 import liou.rayyuan.ebooksearchtaiwan.utils.ClipboardHelper
 import liou.rayyuan.ebooksearchtaiwan.utils.CustomTabSessionManager
 import liou.rayyuan.ebooksearchtaiwan.utils.DeviceVibrateHelper
-import liou.rayyuan.ebooksearchtaiwan.utils.QuickChecker
+import liou.rayyuan.ebooksearchtaiwan.utils.NetworkChecker
 import liou.rayyuan.ebooksearchtaiwan.utils.ResourceHelper
 import liou.rayyuan.ebooksearchtaiwan.utils.SystemInfoCollectorImpl
 import org.koin.android.ext.koin.androidApplication
@@ -42,7 +42,7 @@ val appModule =
                 getDefaultBookSortUseCase = get(),
                 getSearchSnapshotUseCase = get(),
                 getBookStoresDetailUseCase = get(),
-                quickChecker = get(),
+                networkChecker = get(),
                 deleteSearchRecordUseCase = get(),
                 resourceHelper = get(),
                 rankingWindowFacade = get(),
@@ -60,7 +60,6 @@ val appModule =
 
         viewModel {
             PreferenceSettingsViewModel(
-                quickChecker = get(),
                 deleteAllSearchRecord = get()
             )
         }
@@ -78,7 +77,7 @@ val appUtilsModule =
     module {
         factory { ResourceHelper(androidApplication()) }
         factory { DeviceVibrateHelper(androidApplication()) }
-        factory { QuickChecker(androidApplication()) }
+        factory { NetworkChecker(androidApplication()) }
         single {
             PlayStoreReviewHelper(androidContext())
         }
