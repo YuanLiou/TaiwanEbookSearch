@@ -18,7 +18,8 @@ fun NavGraphBuilder.bookResultNavGraph(
     viewModel: BookSearchViewModel,
     modifier: Modifier = Modifier,
     onBookSearchItemClick: (Book) -> Unit = {},
-    focusOnSearchBox: () -> Unit = {}
+    focusOnSearchBox: () -> Unit = {},
+    onListScroll: () -> Unit = {}
 ) {
     composable(
         route = BookResultDestinations.ServiceStatus.route,
@@ -47,7 +48,8 @@ fun NavGraphBuilder.bookResultNavGraph(
             lastScrollOffset = viewModel.lastScrollOffset,
             modifier = modifier,
             onBookSearchItemClick = onBookSearchItemClick,
-            focusOnSearchBox = focusOnSearchBox
+            focusOnSearchBox = focusOnSearchBox,
+            onListScroll = onListScroll
         )
     }
     composable(

@@ -57,7 +57,6 @@ class BookResultListFragment :
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
-        init()
         initAdMods()
     }
 
@@ -141,6 +140,11 @@ class BookResultListFragment :
                         onDismissSearchRecord = {
                             sendUserIntent(BookSearchUserIntent.ShowSearchRecords(false))
                             hideVirtualKeyboard()
+                        },
+                        onListScroll = {
+                            if (bookSearchViewModel.isTextInputFocused.value) {
+                                sendUserIntent(BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput(false))
+                            }
                         }
                     )
                 }
@@ -160,23 +164,6 @@ class BookResultListFragment :
                 }
             }
         }
-    }
-
-    private fun init() {
-        // TODO
-//        resultsRecyclerView.addOnScrollListener(
-//            object : RecyclerView.OnScrollListener() {
-//                override fun onScrolled(
-//                    recyclerView: RecyclerView,
-//                    dx: Int,
-//                    dy: Int
-//                ) {
-//                    if (bookSearchViewModel.isTextInputFocused.value) {
-//                        sendUserIntent(BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput(false))
-//                    }
-//                }
-//            }
-//        )
     }
 
     private fun initAdMods() {
@@ -412,66 +399,6 @@ class BookResultListFragment :
 
     fun toggleSearchRecordView(show: Boolean) {
         sendUserIntent(BookSearchUserIntent.ShowSearchRecords(show))
-    }
-
-    private fun expandSearchRecordView(
-        view: FrameLayout,
-        targetHeight: Int
-    ) {
-        val maxHeight = resources.getDimensionPixelSize(R.dimen.search_records_max_height)
-        val height =
-            if (targetHeight > maxHeight) {
-                maxHeight
-            } else {
-                targetHeight
-            }
-
-        animateViewHeight(view, height)
-    }
-
-    private fun collapseSearchRecordView(view: FrameLayout) {
-        animateViewHeight(view, 0)
-    }
-
-    private fun animateViewHeight(
-        view: FrameLayout,
-        targetHeight: Int
-    ) {
-        // TODO
-//        searchRecordAnimator?.takeIf { it.isRunning }?.run {
-//            removeAllListeners()
-//            removeAllUpdateListeners()
-//            cancel()
-//        }
-//
-//        val animation = ValueAnimator.ofInt(view.measuredHeightAndState, targetHeight)
-//        animation.duration = 150
-//        animation.interpolator = DecelerateInterpolator()
-//        animation.addListener(
-//            object : AnimatorListenerAdapter() {
-//                override fun onAnimationStart(animation: Animator) {
-//                    super.onAnimationStart(animation)
-//                    val isBackgroundVisible = viewBinding.searchViewSearchRecordsBackground.visibility == View.VISIBLE
-//                    val isGoingToExpand = targetHeight > 0
-//                    if (isBackgroundVisible && !isGoingToExpand) {
-//                        viewBinding.searchViewSearchRecordsBackground.visibility = View.GONE
-//                        return
-//                    }
-//
-//                    if (!isBackgroundVisible && isGoingToExpand) {
-//                        viewBinding.searchViewSearchRecordsBackground.visibility = View.VISIBLE
-//                    }
-//                }
-//            }
-//        )
-//        animation.addUpdateListener { valueAnimator ->
-//            val value = valueAnimator.animatedValue as Int
-//            val layoutParams = view.layoutParams
-//            layoutParams.height = value
-//            view.layoutParams = layoutParams
-//        }
-//        animation.start()
-//        searchRecordAnimator = animation
     }
 
     private fun onSearchRecordClicked(searchRecord: SearchRecord) {

@@ -31,21 +31,6 @@ import liou.rayyuan.ebooksearchtaiwan.utils.setupEdgeToEdge
 class SimpleWebViewFragment :
     BaseFragment(R.layout.fragment_simple_webview),
     Toolbar.OnMenuItemClickListener {
-    companion object {
-        const val TAG = "SimpleWebViewFragment"
-        private const val KEY_BOOK = "key-book"
-        private const val KEY_SHOW_CLOSE_BUTTON = "key-show-close-button"
-
-        fun newInstance(
-            book: Book,
-            showCloseButton: Boolean
-        ): SimpleWebViewFragment =
-            SimpleWebViewFragment().apply {
-                this.book = book
-                this.showCloseButton = showCloseButton
-            }
-    }
-
     private val viewBinding: FragmentSimpleWebviewBinding by FragmentViewBinding(FragmentSimpleWebviewBinding::bind)
     private var book by FragmentArgumentsDelegate<Book>()
     private var showCloseButton by FragmentArgumentsDelegate<Boolean>()
@@ -250,5 +235,20 @@ class SimpleWebViewFragment :
 
     interface OnSimpleWebViewActionListener {
         fun onSimpleWebViewClose(tag: String)
+    }
+
+    companion object {
+        const val TAG = "SimpleWebViewFragment"
+        private const val KEY_BOOK = "key-book"
+        private const val KEY_SHOW_CLOSE_BUTTON = "key-show-close-button"
+
+        fun newInstance(
+            book: Book,
+            showCloseButton: Boolean
+        ): SimpleWebViewFragment =
+            SimpleWebViewFragment().apply {
+                this.book = book
+                this.showCloseButton = showCloseButton
+            }
     }
 }

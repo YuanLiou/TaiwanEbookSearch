@@ -1,7 +1,13 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,6 +29,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -32,6 +39,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -80,7 +88,8 @@ fun BookResultListScreen(
     focusOnSearchBox: () -> Unit = {},
     onSearchRecordClick: (record: SearchRecord) -> Unit = {},
     onRemoveSearchRecord: (record: SearchRecord) -> Unit = {},
-    onDismissSearchRecord: () -> Unit = {}
+    onDismissSearchRecord: () -> Unit = {},
+    onListScroll: () -> Unit = {}
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     LaunchedEffect(Unit) {
@@ -116,6 +125,11 @@ fun BookResultListScreen(
             .collectAsStateWithLifecycle()
             .value
 
+    val isLoadingResult =
+        viewModel.isLoadingResult
+            .collectAsStateWithLifecycle()
+            .value
+
     val showSearchRecords =
         viewModel.isShowSearchRecord
             .collectAsStateWithLifecycle()
@@ -136,6 +150,9 @@ fun BookResultListScreen(
         )
     }
 
+    val appBarState = rememberTopAppBarState()
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -149,6 +166,7 @@ fun BookResultListScreen(
                         onFocusChange = onFocusChange,
                         virtualKeyboardAction = virtualKeyboardAction,
                         showCameraButton = showAppBarCameraButton,
+                        enableTextField = !isLoadingResult,
                         enableCameraButtonClick = enableCameraButtonClick,
                         enableSearchButtonClick = enableSearchButtonClick,
                         onCameraButtonPress = onAppBarCameraButtonPress,
@@ -158,7 +176,8 @@ fun BookResultListScreen(
                 },
                 colors =
                     TopAppBarDefaults.topAppBarColors().copy(
-                        containerColor = EBookTheme.colors.colorBackground
+                        containerColor = EBookTheme.colors.colorBackground,
+                        scrolledContainerColor = EBookTheme.colors.colorBackground
                     ),
                 actions = {
                     IconButton(
@@ -210,11 +229,12 @@ fun BookResultListScreen(
                             }
                         )
                     }
-                }
+                },
+                scrollBehavior = scrollBehavior
             )
         },
         containerColor = EBookTheme.colors.colorBackground,
-        modifier = modifier
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { paddings ->
         Box(
             modifier =
@@ -222,10 +242,14 @@ fun BookResultListScreen(
                     .fillMaxSize()
                     .padding(paddings)
         ) {
-            if (showSearchRecords) {
+            AnimatedVisibility(
+                visible = showSearchRecords,
+                enter = expandVertically(),
+                exit = shrinkVertically(),
+                modifier = Modifier.zIndex(3f)
+            ) {
                 SearchRecords(
                     itemCounts = searchRecords.itemCount,
-                    modifier = Modifier.zIndex(3f),
                 ) {
                     LazyColumn {
                         items(count = searchRecords.itemCount, key = searchRecords.itemKey { it.id ?: -1 }) { index ->
@@ -249,14 +273,24 @@ fun BookResultListScreen(
                         }
                     }
                 }
+            }
 
+            AnimatedVisibility(
+                visible = showSearchRecords,
+                enter = fadeIn(),
+                exit = fadeOut(),
+                modifier = Modifier.zIndex(2f)
+            ) {
                 Box(
                     modifier =
                         Modifier
                             .fillMaxSize()
-                            .zIndex(2f)
                             .background(Color.Black.copy(alpha = 0.5f))
-                            .clickable {
+                            .clickable(
+                                enabled = true,
+                                interactionSource = remember { MutableInteractionSource() },
+                                indication = null
+                            ) {
                                 onDismissSearchRecord()
                             }
                 )
@@ -273,7 +307,8 @@ fun BookResultListScreen(
                     viewModel = viewModel,
                     modifier = Modifier.fillMaxSize(),
                     onBookSearchItemClick = onBookSearchItemClick,
-                    focusOnSearchBox = focusOnSearchBox
+                    focusOnSearchBox = focusOnSearchBox,
+                    onListScroll = onListScroll
                 )
             }
         }
