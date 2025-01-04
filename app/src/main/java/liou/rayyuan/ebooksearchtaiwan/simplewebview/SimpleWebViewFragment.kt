@@ -1,14 +1,10 @@
 package liou.rayyuan.ebooksearchtaiwan.simplewebview
 
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.os.bundleOf
@@ -20,10 +16,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SimpleWebViewFragment : BaseFragment() {
     private val viewModel: SimpleWebViewViewModel by viewModel()
-//    private val customWebViewClient = CustomWebViewClient()
-
     var onSimpleWebViewActionListener: OnSimpleWebViewActionListener? = null
-//    private lateinit var webView: WebView
 
     private var canWebViewGoBack = false
 
@@ -60,14 +53,6 @@ class SimpleWebViewFragment : BaseFragment() {
         }
     }
 
-    override fun onViewCreated(
-        view: View,
-        savedInstanceState: Bundle?
-    ) {
-        super.onViewCreated(view, savedInstanceState)
-        initWebView()
-    }
-
     override fun onDestroy() {
         onSimpleWebViewActionListener = null
         super.onDestroy()
@@ -77,47 +62,7 @@ class SimpleWebViewFragment : BaseFragment() {
         onSimpleWebViewActionListener?.onSimpleWebViewClose(tag ?: javaClass.simpleName)
     }
 
-    private fun initWebView() {
-//        webView.webChromeClient =
-//            object : WebChromeClient() {
-//                override fun onProgressChanged(
-//                    view: WebView,
-//                    newProgress: Int
-//                ) {
-//                    if (isAdded) {
-//                        val progressBarView = viewBinding.simpleWebviewProgressBar
-//                        progressBarView.isIndeterminate = false
-//                        progressBarView.setProgressCompat(newProgress, true)
-//                    }
-//                }
-//            }
-//        webView.webViewClient = customWebViewClient
-    }
-
-    override fun onDestroyView() {
-//        webView.webChromeClient = null
-        super.onDestroyView()
-    }
-
     fun goBack(): Boolean = canWebViewGoBack
-
-    inner class CustomWebViewClient : WebViewClient() {
-        override fun onPageStarted(
-            view: WebView?,
-            url: String?,
-            favicon: Bitmap?
-        ) = Unit
-
-        override fun onPageFinished(
-            view: WebView?,
-            url: String?
-        ) {
-//            if (isAdded) {
-//                val progressBarView = viewBinding.simpleWebviewProgressBar
-//                progressBarView.visibility = View.GONE
-//            }
-        }
-    }
 
     interface OnSimpleWebViewActionListener {
         fun onSimpleWebViewClose(tag: String)

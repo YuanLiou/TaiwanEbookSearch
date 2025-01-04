@@ -50,9 +50,7 @@ data class BookUiModel(
 
     fun getLink(): String = book.link
 
-    fun getShareText(): String {
-        return "${book.title} \n ${book.link}"
-    }
+    fun getShareText(): String = "${book.title} \n ${book.link}"
 }
 
 internal fun Book.asUiModel() = BookUiModel(this)
