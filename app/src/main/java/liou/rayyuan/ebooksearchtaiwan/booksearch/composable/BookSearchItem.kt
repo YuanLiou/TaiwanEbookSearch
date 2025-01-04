@@ -37,7 +37,7 @@ import coil3.request.transformations
 import coil3.transform.RoundedCornersTransformation
 import com.rayliu.commonmain.domain.model.Book
 import liou.rayyuan.ebooksearchtaiwan.R
-import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.utils.resolveColorAttribute
+import liou.rayyuan.ebooksearchtaiwan.composable.resolveColorAttribute
 import liou.rayyuan.ebooksearchtaiwan.ui.MDPI_DEVICES
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookUiModel

@@ -12,17 +12,11 @@ import liou.rayyuan.ebooksearchtaiwan.view.getLocalizedName
 data class BookUiModel(
     val book: Book
 ) : BookSearchResultItem {
-    fun getTitle(): String {
-        return book.title
-    }
+    fun getTitle(): String = book.title
 
-    fun getDescription(): String {
-        return book.about
-    }
+    fun getDescription(): String = book.about
 
-    fun getImage(): String {
-        return book.thumbnail
-    }
+    fun getImage(): String = book.thumbnail
 
     fun getPrice(): String {
         if (book.priceCurrency == "TWD") {
@@ -53,6 +47,8 @@ data class BookUiModel(
         }
         return null
     }
+
+    fun getLink(): String = book.link
 }
 
 internal fun Book.asUiModel() = BookUiModel(this)
