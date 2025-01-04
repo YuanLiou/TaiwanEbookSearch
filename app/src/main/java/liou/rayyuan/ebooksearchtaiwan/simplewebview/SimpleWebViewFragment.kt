@@ -6,12 +6,10 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.appcompat.widget.Toolbar
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.os.BundleCompat
@@ -24,9 +22,7 @@ import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SimpleWebViewFragment :
-    BaseFragment(),
-    Toolbar.OnMenuItemClickListener {
+class SimpleWebViewFragment : BaseFragment() {
     private val viewModel: SimpleWebViewViewModel by viewModel()
     private var book by FragmentArgumentsDelegate<Book>()
     private var showCloseButton by FragmentArgumentsDelegate<Boolean>()
@@ -57,8 +53,21 @@ class SimpleWebViewFragment :
             EBookTheme(isDarkTheme()) {
                 SimpleWebViewScreen(
                     book = book.asUiModel(),
+                    showCloseButton = showCloseButton,
                     onBackButtonPress = {
                         popOut()
+                    },
+                    onShareOptionClick = {
+                        val intent = Intent(Intent.ACTION_SEND)
+                        intent.type = "text/plain"
+                        intent.putExtra(Intent.EXTRA_SUBJECT, book.title)
+                        intent.putExtra(Intent.EXTRA_TEXT, "${book.title} \n ${book.link}")
+                        startActivity(Intent.createChooser(intent, getString(R.string.menu_share_menu_appear)))
+                    },
+                    onOpenInBrowserClick = {
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.data = Uri.parse(book.link)
+                        startActivity(intent)
                     }
                 )
             }
@@ -188,29 +197,6 @@ class SimpleWebViewFragment :
 //        webView.webChromeClient = null
         super.onDestroyView()
     }
-
-    override fun onMenuItemClick(item: MenuItem): Boolean =
-        when (item.itemId) {
-            R.id.webview_page_menu_action_open_browser -> {
-                val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse(book.link)
-                startActivity(intent)
-                true
-            }
-
-            R.id.webview_page_menu_action_share -> {
-                val intent = Intent(Intent.ACTION_SEND)
-                intent.type = "text/plain"
-                intent.putExtra(Intent.EXTRA_SUBJECT, book.title)
-                intent.putExtra(Intent.EXTRA_TEXT, "${book.title} \n ${book.link}")
-                startActivity(Intent.createChooser(intent, getString(R.string.menu_share_menu_appear)))
-                true
-            }
-
-            else -> {
-                false
-            }
-        }
 
     private fun retrieveView(view: View) {
 //        webView = view.findViewById(R.id.simple_webview_content)

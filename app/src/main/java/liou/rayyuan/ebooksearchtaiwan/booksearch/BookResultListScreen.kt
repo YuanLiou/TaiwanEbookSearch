@@ -9,24 +9,18 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -41,11 +35,8 @@ import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -65,6 +56,8 @@ import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.SearchBox
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.SearchRecordItem
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.SearchRecords
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.utils.navigateAndClean
+import liou.rayyuan.ebooksearchtaiwan.composable.EBookDropdownMenu
+import liou.rayyuan.ebooksearchtaiwan.composable.OptionMenuItem
 import liou.rayyuan.ebooksearchtaiwan.navigation.BookResultDestinations
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 
@@ -195,15 +188,11 @@ fun BookResultListScreen(
                     ) {
                         Icon(Icons.Default.MoreVert, contentDescription = "Option Menu")
                     }
-                    DropdownMenu(
-                        expanded = showOptionMenu,
+                    EBookDropdownMenu(
+                        showOptionMenu = showOptionMenu,
                         onDismissRequest = {
                             showOptionMenu = false
-                        },
-                        shape = RoundedCornerShape(10.dp),
-                        containerColor = EBookTheme.colors.reorderListBackgroundColor,
-                        shadowElevation = 4.dp,
-                        tonalElevation = 4.dp
+                        }
                     ) {
                         if (viewModel.showCopyUrlOption) {
                             OptionMenuItem(
@@ -317,31 +306,4 @@ fun BookResultListScreen(
             }
         }
     }
-}
-
-@Composable
-private fun OptionMenuItem(
-    title: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    DropdownMenuItem(
-        text = {
-            Text(
-                text = title,
-                style =
-                    TextStyle.Default.copy(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Medium
-                    )
-            )
-        },
-        onClick = onClick,
-        contentPadding = PaddingValues(vertical = 12.dp, horizontal = 20.dp),
-        colors =
-            MenuDefaults.itemColors().copy(
-                textColor = EBookTheme.colors.colorOnPrimary
-            ),
-        modifier = modifier
-    )
 }
