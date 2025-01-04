@@ -28,6 +28,7 @@ lifecycleCompose = "2.8.7"
 navigationCompose = "2.8.5"
 constraintlayoutCompose = "1.1.0"
 requestPermissionCompose = "1.3.2"
+webviewCompose = "0.33.6"
 
 # CameraX
 viewFinderCompose = "1.4.0-alpha11"
@@ -111,6 +112,7 @@ compose-navigation = { group = "androidx.navigation", name = "navigation-compose
 compose-ui-android = { group = "androidx.compose.ui", name = "ui-android" }
 constraintlayout-compose = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintlayoutCompose" }
 request-permission-compose = { group = "com.github.MshariAlsayari", name = "Request-Permission-Compose", version.ref = "requestPermissionCompose" }
+webview-compose = { group = "io.github.kevinnzou", name = "compose-webview", version.ref = "webviewCompose" }
 
 # CameraX
 viewfinder-compose = { group = "androidx.camera.viewfinder", name = "viewfinder-compose", version.ref = "viewFinderCompose" }

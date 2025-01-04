@@ -10,13 +10,6 @@ class DeviceVibrateHelper(
     private val context: Context
 ) {
     fun vibrate() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-            if (!vibrator.hasVibrator()) return
-            vibrator.vibrate(VIBRATE_DURATION)
-            return
-        }
-
         val vibrationEffect =
             VibrationEffect.createOneShot(
                 VIBRATE_DURATION,

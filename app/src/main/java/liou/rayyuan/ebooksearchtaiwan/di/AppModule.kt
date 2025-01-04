@@ -14,6 +14,7 @@ import liou.rayyuan.ebooksearchtaiwan.bookstorereorder.BookStoreReorderViewModel
 import liou.rayyuan.ebooksearchtaiwan.interactor.UserRankingWindowFacade
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.preferencesetting.PreferenceSettingsViewModel
+import liou.rayyuan.ebooksearchtaiwan.simplewebview.SimpleWebViewViewModel
 import liou.rayyuan.ebooksearchtaiwan.utils.ClipboardHelper
 import liou.rayyuan.ebooksearchtaiwan.utils.CustomTabSessionManager
 import liou.rayyuan.ebooksearchtaiwan.utils.DeviceVibrateHelper
@@ -62,6 +63,10 @@ val appModule =
             PreferenceSettingsViewModel(
                 deleteAllSearchRecord = get()
             )
+        }
+
+        viewModel {
+            SimpleWebViewViewModel(get())
         }
 
         // Interactors

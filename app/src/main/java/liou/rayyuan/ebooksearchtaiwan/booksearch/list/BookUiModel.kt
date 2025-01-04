@@ -12,17 +12,11 @@ import liou.rayyuan.ebooksearchtaiwan.view.getLocalizedName
 data class BookUiModel(
     val book: Book
 ) : BookSearchResultItem {
-    fun getTitle(): String {
-        return book.title
-    }
+    fun getTitle(): String = book.title
 
-    fun getDescription(): String {
-        return book.about
-    }
+    fun getDescription(): String = book.about
 
-    fun getImage(): String {
-        return book.thumbnail
-    }
+    fun getImage(): String = book.thumbnail
 
     fun getPrice(): String {
         if (book.priceCurrency == "TWD") {
@@ -38,7 +32,7 @@ data class BookUiModel(
 
     fun getShopName(context: Context): String =
         book.bookStore.let {
-            DefaultStoreNames.values()
+            DefaultStoreNames.entries
                 .find { enumValues -> enumValues == it }
                 ?.run { getLocalizedName(context) } ?: ""
         }
@@ -53,6 +47,10 @@ data class BookUiModel(
         }
         return null
     }
+
+    fun getLink(): String = book.link
+
+    fun getShareText(): String = "${book.title} \n ${book.link}"
 }
 
 internal fun Book.asUiModel() = BookUiModel(this)

@@ -174,6 +174,7 @@ dependencies {
     implementation(libs.compose.navigation)
     implementation(libs.viewfinder.compose)
     implementation(libs.request.permission.compose)
+    implementation(libs.webview.compose)
     debugImplementation(libs.compose.ui.tooling)
     debugImplementation(libs.compose.ui.test.manifest)
     androidTestImplementation(libs.compose.ui.test.junit4)

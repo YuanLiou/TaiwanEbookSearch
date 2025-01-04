@@ -1,6 +1,5 @@
 package liou.rayyuan.ebooksearchtaiwan.camerapreview
 
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.core.os.bundleOf
@@ -29,9 +28,7 @@ class CameraPreviewActivity : BaseActivity() {
                 BarcodeScanner(
                     onRequestWindowColorMode = { colorMode ->
                         // Window color mode APIs require API level 26+
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            window?.colorMode = colorMode
-                        }
+                        window?.colorMode = colorMode
                     },
                     onScanBarcode = { barcode ->
                         if (scannedBarcode != barcode) {

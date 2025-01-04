@@ -19,9 +19,7 @@ import liou.rayyuan.ebooksearchtaiwan.camerapreview.permission.CameraPermissionS
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.preview.CameraPreviewScreen
 import org.koin.androidx.compose.KoinAndroidContext
 import org.koin.compose.getKoin
-import org.koin.core.annotation.KoinExperimentalAPI
 
-@OptIn(KoinExperimentalAPI::class)
 @Composable
 fun BarcodeScanner(
     modifier: Modifier = Modifier,
