@@ -11,34 +11,19 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
-import androidx.core.os.BundleCompat
+import androidx.core.os.bundleOf
 import liou.rayyuan.ebooksearchtaiwan.BaseFragment
 import liou.rayyuan.ebooksearchtaiwan.R
 import com.rayliu.commonmain.domain.model.Book
-import liou.rayyuan.ebooksearchtaiwan.booksearch.list.asUiModel
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
-import liou.rayyuan.ebooksearchtaiwan.utils.FragmentArgumentsDelegate
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SimpleWebViewFragment : BaseFragment() {
     private val viewModel: SimpleWebViewViewModel by viewModel()
-    private var book by FragmentArgumentsDelegate<Book>()
-    private var showCloseButton by FragmentArgumentsDelegate<Boolean>()
 //    private val customWebViewClient = CustomWebViewClient()
 
     var onSimpleWebViewActionListener: OnSimpleWebViewActionListener? = null
 //    private lateinit var webView: WebView
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (savedInstanceState != null) {
-            val book = BundleCompat.getParcelable(savedInstanceState, KEY_BOOK, Book::class.java)
-            if (book != null) {
-                this.book = book
-            }
-            showCloseButton = savedInstanceState.getBoolean(KEY_SHOW_CLOSE_BUTTON, false)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,21 +34,20 @@ class SimpleWebViewFragment : BaseFragment() {
         setContent {
             EBookTheme(isDarkTheme()) {
                 SimpleWebViewScreen(
-                    book = book.asUiModel(),
-                    showCloseButton = showCloseButton,
+                    viewModel = viewModel,
                     onBackButtonPress = {
                         popOut()
                     },
-                    onShareOptionClick = {
+                    onShareOptionClick = { bookUiModel ->
                         val intent = Intent(Intent.ACTION_SEND)
                         intent.type = "text/plain"
-                        intent.putExtra(Intent.EXTRA_SUBJECT, book.title)
-                        intent.putExtra(Intent.EXTRA_TEXT, "${book.title} \n ${book.link}")
+                        intent.putExtra(Intent.EXTRA_SUBJECT, bookUiModel.getTitle())
+                        intent.putExtra(Intent.EXTRA_TEXT, bookUiModel.getShareText())
                         startActivity(Intent.createChooser(intent, getString(R.string.menu_share_menu_appear)))
                     },
-                    onOpenInBrowserClick = {
+                    onOpenInBrowserClick = { bookUiModel ->
                         val intent = Intent(Intent.ACTION_VIEW)
-                        intent.data = Uri.parse(book.link)
+                        intent.data = Uri.parse(bookUiModel.getLink())
                         startActivity(intent)
                     }
                 )
@@ -77,11 +61,6 @@ class SimpleWebViewFragment : BaseFragment() {
     ) {
         super.onViewCreated(view, savedInstanceState)
         initWebView()
-//        if (savedInstanceState != null) {
-//            webView.restoreState(savedInstanceState)
-//        } else {
-//            webView.loadUrl(book.link)
-//        }
     }
 
     override fun onDestroy() {
@@ -94,10 +73,6 @@ class SimpleWebViewFragment : BaseFragment() {
     }
 
     private fun initWebView() {
-//        with(webView.settings) {
-//            javaScriptEnabled = true
-//        }
-//
 //        webView.webChromeClient =
 //            object : WebChromeClient() {
 //                override fun onProgressChanged(
@@ -112,13 +87,6 @@ class SimpleWebViewFragment : BaseFragment() {
 //                }
 //            }
 //        webView.webViewClient = customWebViewClient
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-//        webView.saveState(outState)
-        outState.putParcelable(KEY_BOOK, book)
-        outState.putBoolean(KEY_SHOW_CLOSE_BUTTON, showCloseButton)
     }
 
     override fun onDestroyView() {
@@ -162,16 +130,21 @@ class SimpleWebViewFragment : BaseFragment() {
 
     companion object {
         const val TAG = "SimpleWebViewFragment"
-        private const val KEY_BOOK = "key-book"
-        private const val KEY_SHOW_CLOSE_BUTTON = "key-show-close-button"
+        internal const val KEY_BOOK = "key-book"
+        internal const val KEY_SHOW_CLOSE_BUTTON = "key-show-close-button"
 
         fun newInstance(
             book: Book,
             showCloseButton: Boolean
-        ): SimpleWebViewFragment =
-            SimpleWebViewFragment().apply {
-                this.book = book
-                this.showCloseButton = showCloseButton
+        ): SimpleWebViewFragment {
+            val bundle =
+                bundleOf(
+                    KEY_BOOK to book,
+                    KEY_SHOW_CLOSE_BUTTON to showCloseButton
+                )
+            return SimpleWebViewFragment().also {
+                it.arguments = bundle
             }
+        }
     }
 }

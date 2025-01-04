@@ -1,5 +1,6 @@
 package liou.rayyuan.ebooksearchtaiwan.simplewebview
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -14,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,10 +26,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kevinnzou.web.WebView
+import com.kevinnzou.web.rememberSaveableWebViewState
+import com.kevinnzou.web.rememberWebViewNavigator
 import com.kevinnzou.web.rememberWebViewState
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookUiModel
+import liou.rayyuan.ebooksearchtaiwan.booksearch.list.asUiModel
 import liou.rayyuan.ebooksearchtaiwan.composable.EBookDropdownMenu
 import liou.rayyuan.ebooksearchtaiwan.composable.OptionMenuItem
 import liou.rayyuan.ebooksearchtaiwan.composable.iconpack.BaselineClear24Px
@@ -35,24 +41,27 @@ import liou.rayyuan.ebooksearchtaiwan.composable.iconpack.EBookIcons
 import liou.rayyuan.ebooksearchtaiwan.composable.resolveColorAttribute
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 
+@SuppressLint("SetJavaScriptEnabled")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleWebViewScreen(
-    book: BookUiModel,
+    viewModel: SimpleWebViewViewModel,
     modifier: Modifier = Modifier,
-    showCloseButton: Boolean = true,
     onBackButtonPress: () -> Unit = {},
-    onShareOptionClick: () -> Unit = {},
-    onOpenInBrowserClick: () -> Unit = {}
+    onShareOptionClick: (book: BookUiModel) -> Unit = {},
+    onOpenInBrowserClick: (book: BookUiModel) -> Unit = {}
 ) {
     var showOptionMenu by remember { mutableStateOf(false) }
+
+    val book = viewModel.book.collectAsStateWithLifecycle().value?.asUiModel()
+    val showCloseButton = viewModel.showCloseButton.collectAsStateWithLifecycle().value
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Column {
-                        val title = book.getTitle()
+                        val title = book?.getTitle().orEmpty()
                         Text(
                             text = title,
                             style =
@@ -68,7 +77,7 @@ fun SimpleWebViewScreen(
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 1
                         )
-                        val authorText = book.getAuthors(LocalContext.current)
+                        val authorText = book?.getAuthors(LocalContext.current)
                         if (!authorText.isNullOrEmpty()) {
                             Text(
                                 text = authorText,
@@ -129,7 +138,9 @@ fun SimpleWebViewScreen(
                             title = stringResource(R.string.menu_share),
                             onClick = {
                                 showOptionMenu = false
-                                onShareOptionClick()
+                                if (book != null) {
+                                    onShareOptionClick(book)
+                                }
                             }
                         )
 
@@ -137,7 +148,9 @@ fun SimpleWebViewScreen(
                             title = stringResource(R.string.menu_open_in_browser),
                             onClick = {
                                 showOptionMenu = false
-                                onOpenInBrowserClick()
+                                if (book != null) {
+                                    onOpenInBrowserClick(book)
+                                }
                             }
                         )
                     }
@@ -153,10 +166,23 @@ fun SimpleWebViewScreen(
                     .fillMaxSize()
                     .padding(paddings)
         ) {
-            val webViewState = rememberWebViewState(book.getLink())
+            val webViewState = rememberSaveableWebViewState()
+            val navigator = rememberWebViewNavigator()
+
+            LaunchedEffect(Unit) {
+                val bundle = webViewState.viewState
+                if (bundle == null) {
+                    navigator.loadUrl(book?.getLink().orEmpty())
+                }
+            }
+
             WebView(
                 state = webViewState,
-                modifier = Modifier.fillMaxSize()
+                navigator = navigator,
+                modifier = Modifier.fillMaxSize(),
+                onCreated = { webView ->
+                    webView.settings.javaScriptEnabled = true
+                }
             )
         }
     }

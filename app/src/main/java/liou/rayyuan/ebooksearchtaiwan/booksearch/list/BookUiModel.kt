@@ -32,7 +32,7 @@ data class BookUiModel(
 
     fun getShopName(context: Context): String =
         book.bookStore.let {
-            DefaultStoreNames.values()
+            DefaultStoreNames.entries
                 .find { enumValues -> enumValues == it }
                 ?.run { getLocalizedName(context) } ?: ""
         }
@@ -49,6 +49,10 @@ data class BookUiModel(
     }
 
     fun getLink(): String = book.link
+
+    fun getShareText(): String {
+        return "${book.title} \n ${book.link}"
+    }
 }
 
 internal fun Book.asUiModel() = BookUiModel(this)

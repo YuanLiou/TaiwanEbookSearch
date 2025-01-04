@@ -66,7 +66,7 @@ val appModule =
         }
 
         viewModel {
-            SimpleWebViewViewModel()
+            SimpleWebViewViewModel(get())
         }
 
         // Interactors
