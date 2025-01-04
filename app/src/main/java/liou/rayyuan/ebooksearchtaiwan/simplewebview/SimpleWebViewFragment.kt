@@ -25,6 +25,8 @@ class SimpleWebViewFragment : BaseFragment() {
     var onSimpleWebViewActionListener: OnSimpleWebViewActionListener? = null
 //    private lateinit var webView: WebView
 
+    private var canWebViewGoBack = false
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,6 +51,9 @@ class SimpleWebViewFragment : BaseFragment() {
                         val intent = Intent(Intent.ACTION_VIEW)
                         intent.data = Uri.parse(bookUiModel.getLink())
                         startActivity(intent)
+                    },
+                    onCanWebViewGoBackUpdate = { canGoBack ->
+                        canWebViewGoBack = canGoBack
                     }
                 )
             }
@@ -94,17 +99,7 @@ class SimpleWebViewFragment : BaseFragment() {
         super.onDestroyView()
     }
 
-    fun goBack(): Boolean {
-//        if (!this::webView.isInitialized) {
-//            return false
-//        }
-//
-//        if (webView.canGoBack()) {
-//            webView.goBack()
-//            return true
-//        }
-        return false
-    }
+    fun goBack(): Boolean = canWebViewGoBack
 
     inner class CustomWebViewClient : WebViewClient() {
         override fun onPageStarted(

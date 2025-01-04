@@ -20,6 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -30,7 +31,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kevinnzou.web.WebView
 import com.kevinnzou.web.rememberSaveableWebViewState
 import com.kevinnzou.web.rememberWebViewNavigator
-import com.kevinnzou.web.rememberWebViewState
+import kotlinx.coroutines.flow.distinctUntilChanged
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookUiModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.asUiModel
@@ -49,7 +50,8 @@ fun SimpleWebViewScreen(
     modifier: Modifier = Modifier,
     onBackButtonPress: () -> Unit = {},
     onShareOptionClick: (book: BookUiModel) -> Unit = {},
-    onOpenInBrowserClick: (book: BookUiModel) -> Unit = {}
+    onOpenInBrowserClick: (book: BookUiModel) -> Unit = {},
+    onCanWebViewGoBackUpdate: (canGoBack: Boolean) -> Unit = {}
 ) {
     var showOptionMenu by remember { mutableStateOf(false) }
 
@@ -174,6 +176,12 @@ fun SimpleWebViewScreen(
                 if (bundle == null) {
                     navigator.loadUrl(book?.getLink().orEmpty())
                 }
+
+                snapshotFlow { navigator.canGoBack }
+                    .distinctUntilChanged()
+                    .collect {
+                        onCanWebViewGoBackUpdate(it)
+                    }
             }
 
             WebView(
