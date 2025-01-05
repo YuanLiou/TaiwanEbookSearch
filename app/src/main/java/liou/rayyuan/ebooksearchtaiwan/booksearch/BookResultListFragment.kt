@@ -62,24 +62,14 @@ class BookResultListFragment :
                     viewModel = bookSearchViewModel,
                     modifier = Modifier.fillMaxSize(),
                     onBookSearchItemClick = ::openBook,
-                    onFocusChange = {
-                        sendUserIntent(BookSearchUserIntent.UpdateTextInputFocusState(it.isFocused))
-                        sendUserIntent(BookSearchUserIntent.FocusOnTextEditing(it.isFocused))
-                    },
                     showAppBarCameraButton = isCameraAvailable(),
                     onAppBarCameraButtonPress = {
                         openCameraPreview()
-                    },
-                    onAppBarSearchButtonPress = {
-                        searchBook()
                     },
                     onMenuSettingClick = {
                         if (isAdded) {
                             (requireActivity() as? BookSearchActivity)?.openPreferenceActivity()
                         }
-                    },
-                    focusOnSearchBox = {
-                        focusBookSearchEditText()
                     },
                     onSearchRecordClick = {
                         onSearchRecordClicked(it)
@@ -90,11 +80,6 @@ class BookResultListFragment :
                     onDismissSearchRecord = {
                         sendUserIntent(BookSearchUserIntent.ShowSearchRecords(false))
                         hideVirtualKeyboard()
-                    },
-                    onListScroll = {
-                        if (bookSearchViewModel.isTextInputFocused.value) {
-                            sendUserIntent(BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput(false))
-                        }
                     }
                 )
             }
@@ -312,14 +297,7 @@ class BookResultListFragment :
     }
 
     private fun hideVirtualKeyboard() {
-        sendUserIntent(BookSearchUserIntent.ForceShowOrHideVirtualKeyboard(false))
-    }
-
-    private fun focusBookSearchEditText() {
-        if (isAdded) {
-            sendUserIntent(BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput(true))
-            sendUserIntent(BookSearchUserIntent.ForceShowOrHideVirtualKeyboard(true))
-        }
+        bookSearchViewModel.forceShowOrHideVirtualKeyboard(false)
     }
 
     private fun showNetworkErrorMessage() {
@@ -340,12 +318,6 @@ class BookResultListFragment :
         }
     }
 
-    private fun searchBook() {
-        hideVirtualKeyboard()
-        sendUserIntent(BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput(false))
-        bookSearchViewModel.searchBook()
-    }
-
     private fun isCameraAvailable(): Boolean {
         if (isAdded) {
             return requireActivity().packageManager?.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
@@ -362,7 +334,7 @@ class BookResultListFragment :
 
     private fun changeSearchBoxKeyword(keyword: String) {
         bookSearchViewModel.updateKeyword(TextFieldValue(keyword, selection = TextRange(keyword.length)))
-        sendUserIntent(BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput(false))
+        bookSearchViewModel.forceFocusOrUnfocusKeywordTextInput(false)
     }
 
     fun showSearchSnapshot(searchId: String) {
@@ -372,7 +344,7 @@ class BookResultListFragment :
 
     fun backPressed(): Boolean {
         if (bookSearchViewModel.isTextInputFocused.value) {
-            sendUserIntent(BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput(false))
+            bookSearchViewModel.forceFocusOrUnfocusKeywordTextInput(false)
             return true
         }
 

@@ -172,10 +172,6 @@ class BookSearchViewModel(
                         deleteRecords(userIntent.searchRecord)
                     }
 
-                    is BookSearchUserIntent.FocusOnTextEditing -> {
-                        focusOnEditText(userIntent.isFocus)
-                    }
-
                     BookSearchUserIntent.OnViewReadyToServe -> {
                         ready()
                     }
@@ -203,28 +199,8 @@ class BookSearchViewModel(
                         checkServiceStatus()
                     }
 
-                    is BookSearchUserIntent.UpdateTextInputFocusState -> {
-                        _isTextInputFocused.value = userIntent.isFocused
-                    }
-
-                    is BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput -> {
-                        if (userIntent.focus) {
-                            _focusTextInput.value = FocusAction.FOCUS
-                        } else {
-                            _focusTextInput.value = FocusAction.UNFOCUS
-                        }
-                    }
-
                     BookSearchUserIntent.ResetVirtualKeyboardAction -> {
                         _showVirtualKeyboard.value = VirtualKeyboardAction.NEUTRAL_STATE
-                    }
-
-                    is BookSearchUserIntent.ForceShowOrHideVirtualKeyboard -> {
-                        if (userIntent.show) {
-                            _showVirtualKeyboard.value = VirtualKeyboardAction.SHOW
-                        } else {
-                            _showVirtualKeyboard.value = VirtualKeyboardAction.HIDE
-                        }
                     }
 
                     is BookSearchUserIntent.EnableCameraButtonClick -> {
@@ -277,7 +253,7 @@ class BookSearchViewModel(
         }
     }
 
-    private fun focusOnEditText(isFocus: Boolean) {
+    fun focusOnEditText(isFocus: Boolean) {
         if (isFocus) {
             viewModelScope.launch {
                 getSearchRecordsCountsUseCase().fold(
@@ -568,6 +544,26 @@ class BookSearchViewModel(
 
     fun resetFocusAction() {
         _focusTextInput.value = FocusAction.NEUTRAL_STATE
+    }
+
+    fun updateTextInputFocusState(isFocused: Boolean) {
+        _isTextInputFocused.value = isFocused
+    }
+
+    fun forceShowOrHideVirtualKeyboard(show: Boolean) {
+        if (show) {
+            _showVirtualKeyboard.value = VirtualKeyboardAction.SHOW
+        } else {
+            _showVirtualKeyboard.value = VirtualKeyboardAction.HIDE
+        }
+    }
+
+    fun forceFocusOrUnfocusKeywordTextInput(focus: Boolean) {
+        if (focus) {
+            _focusTextInput.value = FocusAction.FOCUS
+        } else {
+            _focusTextInput.value = FocusAction.UNFOCUS
+        }
     }
 
     companion object {

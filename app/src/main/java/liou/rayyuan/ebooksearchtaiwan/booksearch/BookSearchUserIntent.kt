@@ -5,10 +5,6 @@ import com.rayliu.commonmain.domain.model.SearchRecord
 import liou.rayyuan.ebooksearchtaiwan.arch.IUserIntent
 
 sealed class BookSearchUserIntent : IUserIntent {
-    data class FocusOnTextEditing(
-        val isFocus: Boolean
-    ) : BookSearchUserIntent()
-
     data class ShowSearchSnapshot(
         val searchId: String
     ) : BookSearchUserIntent()
@@ -19,18 +15,6 @@ sealed class BookSearchUserIntent : IUserIntent {
 
     data class AskUserRankApp(
         val reviewInfo: ReviewInfo
-    ) : BookSearchUserIntent()
-
-    data class UpdateTextInputFocusState(
-        val isFocused: Boolean
-    ) : BookSearchUserIntent()
-
-    data class ForceFocusOrUnfocusKeywordTextInput(
-        val focus: Boolean
-    ) : BookSearchUserIntent()
-
-    data class ForceShowOrHideVirtualKeyboard(
-        val show: Boolean
     ) : BookSearchUserIntent()
 
     data class EnableCameraButtonClick(

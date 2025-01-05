@@ -31,7 +31,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
@@ -68,15 +67,11 @@ fun BookResultListScreen(
     modifier: Modifier = Modifier,
     navHostController: NavHostController = rememberNavController(),
     onBookSearchItemClick: (Book) -> Unit = {},
-    onFocusChange: (focusState: FocusState) -> Unit = {},
     showAppBarCameraButton: Boolean = false,
     onAppBarCameraButtonPress: () -> Unit = {},
-    onAppBarSearchButtonPress: () -> Unit = {},
-    focusOnSearchBox: () -> Unit = {},
     onSearchRecordClick: (record: SearchRecord) -> Unit = {},
     onRemoveSearchRecord: (record: SearchRecord) -> Unit = {},
-    onDismissSearchRecord: () -> Unit = {},
-    onListScroll: () -> Unit = {}
+    onDismissSearchRecord: () -> Unit = {}
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     LaunchedEffect(Unit) {
@@ -160,14 +155,21 @@ fun BookResultListScreen(
                         onFocusActionFinish = {
                             viewModel.resetFocusAction()
                         },
-                        onFocusChange = onFocusChange,
+                        onFocusChange = {
+                            viewModel.updateTextInputFocusState(it.isFocused)
+                            viewModel.focusOnEditText(it.isFocused)
+                        },
                         virtualKeyboardAction = virtualKeyboardAction,
                         showCameraButton = showAppBarCameraButton,
                         enableTextField = !isLoadingResult,
                         enableCameraButtonClick = enableCameraButtonClick,
                         enableSearchButtonClick = enableSearchButtonClick,
                         onCameraButtonPress = onAppBarCameraButtonPress,
-                        onSearchButtonPress = onAppBarSearchButtonPress,
+                        onSearchButtonPress = {
+                            viewModel.forceShowOrHideVirtualKeyboard(false)
+                            viewModel.forceFocusOrUnfocusKeywordTextInput(false)
+                            viewModel.searchBook()
+                        },
                         modifier = Modifier.fillMaxWidth()
                     )
                 },
@@ -300,8 +302,15 @@ fun BookResultListScreen(
                     viewModel = viewModel,
                     modifier = Modifier.fillMaxSize(),
                     onBookSearchItemClick = onBookSearchItemClick,
-                    focusOnSearchBox = focusOnSearchBox,
-                    onListScroll = onListScroll
+                    focusOnSearchBox = {
+                        viewModel.forceFocusOrUnfocusKeywordTextInput(true)
+                        viewModel.forceShowOrHideVirtualKeyboard(true)
+                    },
+                    onListScroll = {
+                        if (viewModel.isTextInputFocused.value) {
+                            viewModel.forceFocusOrUnfocusKeywordTextInput(false)
+                        }
+                    }
                 )
             }
         }
