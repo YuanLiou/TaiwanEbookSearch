@@ -61,16 +61,7 @@ class BookResultListFragment :
                 BookResultListScreen(
                     viewModel = bookSearchViewModel,
                     modifier = Modifier.fillMaxSize(),
-                    onSearchTextChange = {
-                        sendUserIntent(BookSearchUserIntent.UpdateKeyword(it))
-                    },
                     onBookSearchItemClick = ::openBook,
-                    onPressSearchIcon = {
-                        sendUserIntent(BookSearchUserIntent.SearchBook())
-                    },
-                    onFocusActionFinish = {
-                        sendUserIntent(BookSearchUserIntent.ResetFocusAction)
-                    },
                     onFocusChange = {
                         sendUserIntent(BookSearchUserIntent.UpdateTextInputFocusState(it.isFocused))
                         sendUserIntent(BookSearchUserIntent.FocusOnTextEditing(it.isFocused))
@@ -81,12 +72,6 @@ class BookResultListFragment :
                     },
                     onAppBarSearchButtonPress = {
                         searchBook()
-                    },
-                    onClickCopySnapshot = {
-                        sendUserIntent(BookSearchUserIntent.CopySnapshotUrlToClipboard)
-                    },
-                    onShareResultClick = {
-                        sendUserIntent(BookSearchUserIntent.ShareSnapshot)
                     },
                     onMenuSettingClick = {
                         if (isAdded) {
@@ -358,7 +343,7 @@ class BookResultListFragment :
     private fun searchBook() {
         hideVirtualKeyboard()
         sendUserIntent(BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput(false))
-        sendUserIntent(BookSearchUserIntent.SearchBook())
+        bookSearchViewModel.searchBook()
     }
 
     private fun isCameraAvailable(): Boolean {
@@ -372,11 +357,11 @@ class BookResultListFragment :
     fun searchWithText(text: String) {
         changeSearchBoxKeyword(text)
         hideVirtualKeyboard()
-        sendUserIntent(BookSearchUserIntent.SearchBook(text))
+        bookSearchViewModel.searchBook(text)
     }
 
     private fun changeSearchBoxKeyword(keyword: String) {
-        sendUserIntent(BookSearchUserIntent.UpdateKeyword(TextFieldValue(keyword, selection = TextRange(keyword.length))))
+        bookSearchViewModel.updateKeyword(TextFieldValue(keyword, selection = TextRange(keyword.length)))
         sendUserIntent(BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput(false))
     }
 

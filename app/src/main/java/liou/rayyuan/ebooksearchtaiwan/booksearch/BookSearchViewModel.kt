@@ -2,6 +2,7 @@ package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import android.util.Log
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.TextFieldValue
@@ -179,21 +180,8 @@ class BookSearchViewModel(
                         ready()
                     }
 
-                    is BookSearchUserIntent.SearchBook -> {
-                        val keyword = userIntent.keywords
-                        if (keyword != null) {
-                            searchBook(userIntent.keywords)
-                        } else {
-                            searchBook(searchKeywords.value.text)
-                        }
-                    }
-
                     is BookSearchUserIntent.ShowSearchSnapshot -> {
                         requestSearchSnapshot(userIntent.searchId)
-                    }
-
-                    BookSearchUserIntent.ShareSnapshot -> {
-                        shareCurrentSnapshot()
                     }
 
                     is BookSearchUserIntent.AskUserRankApp -> {
@@ -211,24 +199,12 @@ class BookSearchViewModel(
                         rankingWindowFacade.saveUserHasSeenRankWindow()
                     }
 
-                    BookSearchUserIntent.CopySnapshotUrlToClipboard -> {
-                        copySnapshotToClipboard()
-                    }
-
                     BookSearchUserIntent.CheckServiceStatus -> {
                         checkServiceStatus()
                     }
 
-                    is BookSearchUserIntent.UpdateKeyword -> {
-                        _searchKeywords.value = userIntent.keywords
-                    }
-
                     is BookSearchUserIntent.UpdateTextInputFocusState -> {
                         _isTextInputFocused.value = userIntent.isFocused
-                    }
-
-                    BookSearchUserIntent.ResetFocusAction -> {
-                        _focusTextInput.value = FocusAction.NEUTRAL_STATE
                     }
 
                     is BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput -> {
@@ -318,7 +294,14 @@ class BookSearchViewModel(
         }
     }
 
-    private fun searchBook(keyword: String) {
+    fun searchBook(targetKeyword: String? = null) {
+        val keyword =
+            if (!targetKeyword.isNullOrEmpty()) {
+                targetKeyword
+            } else {
+                searchKeywords.value.text
+            }
+
         if (keyword.trim().isBlank()) {
             sendViewEffect(ScreenState.EmptyKeyword)
             return
@@ -487,13 +470,13 @@ class BookSearchViewModel(
         return bestItems
     }
 
-    private fun shareCurrentSnapshot() {
+    fun shareCurrentSnapshot() {
         generateSnapshotUrl { targetUrl ->
             updateScreen(BookResultViewState.ShareCurrentPageSnapshot(targetUrl))
         }
     }
 
-    private fun copySnapshotToClipboard() {
+    fun copySnapshotToClipboard() {
         generateSnapshotUrl { targetUrl ->
             clipboardHelper.addToClipboard(targetUrl)
             sendViewEffect(ScreenState.ShowToastMessage(R.string.add_to_clipboard_successful))
@@ -577,6 +560,14 @@ class BookSearchViewModel(
         viewModelScope.launch {
             _navigationEvents.emit(bookSearchDestination)
         }
+    }
+
+    fun updateKeyword(keyword: TextFieldValue) {
+        _searchKeywords.value = keyword
+    }
+
+    fun resetFocusAction() {
+        _focusTextInput.value = FocusAction.NEUTRAL_STATE
     }
 
     companion object {

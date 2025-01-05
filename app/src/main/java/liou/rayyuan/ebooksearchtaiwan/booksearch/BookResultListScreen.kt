@@ -35,7 +35,6 @@ import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.Lifecycle
@@ -65,15 +64,10 @@ import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 @Composable
 fun BookResultListScreen(
     viewModel: BookSearchViewModel,
-    onSearchTextChange: (TextFieldValue) -> Unit,
-    onClickCopySnapshot: () -> Unit,
-    onShareResultClick: () -> Unit,
     onMenuSettingClick: () -> Unit,
     modifier: Modifier = Modifier,
     navHostController: NavHostController = rememberNavController(),
     onBookSearchItemClick: (Book) -> Unit = {},
-    onPressSearchIcon: () -> Unit = {},
-    onFocusActionFinish: () -> Unit = {},
     onFocusChange: (focusState: FocusState) -> Unit = {},
     showAppBarCameraButton: Boolean = false,
     onAppBarCameraButtonPress: () -> Unit = {},
@@ -156,10 +150,16 @@ fun BookResultListScreen(
                 title = {
                     SearchBox(
                         text = searchKeywords,
-                        onTextChange = onSearchTextChange,
-                        onPressSearch = onPressSearchIcon,
+                        onTextChange = {
+                            viewModel.updateKeyword(it)
+                        },
+                        onPressSearch = {
+                            viewModel.searchBook()
+                        },
                         focusAction = focusAction,
-                        onFocusActionFinish = onFocusActionFinish,
+                        onFocusActionFinish = {
+                            viewModel.resetFocusAction()
+                        },
                         onFocusChange = onFocusChange,
                         virtualKeyboardAction = virtualKeyboardAction,
                         showCameraButton = showAppBarCameraButton,
@@ -199,7 +199,7 @@ fun BookResultListScreen(
                                 title = stringResource(R.string.menu_copy_snapshot),
                                 onClick = {
                                     showOptionMenu = false
-                                    onClickCopySnapshot()
+                                    viewModel.copySnapshotToClipboard()
                                 }
                             )
                         }
@@ -209,7 +209,7 @@ fun BookResultListScreen(
                                 title = stringResource(R.string.menu_share_result),
                                 onClick = {
                                     showOptionMenu = false
-                                    onShareResultClick()
+                                    viewModel.shareCurrentSnapshot()
                                 }
                             )
                         }
