@@ -1,16 +1,11 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import com.google.android.play.core.review.ReviewInfo
-import com.rayliu.commonmain.domain.model.SearchRecord
 import liou.rayyuan.ebooksearchtaiwan.arch.IUserIntent
 
 sealed class BookSearchUserIntent : IUserIntent {
     data class ShowSearchSnapshot(
         val searchId: String
-    ) : BookSearchUserIntent()
-
-    data class DeleteSearchRecord(
-        val searchRecord: SearchRecord
     ) : BookSearchUserIntent()
 
     data class AskUserRankApp(
@@ -30,10 +25,6 @@ sealed class BookSearchUserIntent : IUserIntent {
     ) : BookSearchUserIntent()
 
     data class ShowShareSnapshotOption(
-        val show: Boolean
-    ) : BookSearchUserIntent()
-
-    data class ShowSearchRecords(
         val show: Boolean
     ) : BookSearchUserIntent()
 

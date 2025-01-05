@@ -34,6 +34,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.Lifecycle
@@ -68,10 +70,7 @@ fun BookResultListScreen(
     navHostController: NavHostController = rememberNavController(),
     onBookSearchItemClick: (Book) -> Unit = {},
     showAppBarCameraButton: Boolean = false,
-    onAppBarCameraButtonPress: () -> Unit = {},
-    onSearchRecordClick: (record: SearchRecord) -> Unit = {},
-    onRemoveSearchRecord: (record: SearchRecord) -> Unit = {},
-    onDismissSearchRecord: () -> Unit = {}
+    onAppBarCameraButtonPress: () -> Unit = {}
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     LaunchedEffect(Unit) {
@@ -126,8 +125,8 @@ fun BookResultListScreen(
             onDismissRequest = {
                 goingToDeleteRecords = null
             },
-            onRemoveSearchRecord = {
-                onRemoveSearchRecord(it)
+            onDeleteSearchRecord = {
+                viewModel.deleteRecords(it)
             }
         )
     }
@@ -259,7 +258,13 @@ fun BookResultListScreen(
 
                                 SearchRecordItem(
                                     searchRecord = searchRecord,
-                                    onRecordClick = onSearchRecordClick,
+                                    onRecordClick = {
+                                        val keyword = searchRecord.text
+                                        viewModel.updateKeyword(TextFieldValue(keyword, selection = TextRange(keyword.length)))
+                                        viewModel.forceFocusOrUnfocusKeywordTextInput(false)
+                                        viewModel.forceShowOrHideVirtualKeyboard(false)
+                                        viewModel.searchBook(keyword)
+                                    },
                                     onRemoveRecordClick = {
                                         goingToDeleteRecords = it
                                     }
@@ -286,7 +291,8 @@ fun BookResultListScreen(
                                 interactionSource = remember { MutableInteractionSource() },
                                 indication = null
                             ) {
-                                onDismissSearchRecord()
+                                viewModel.showSearchRecords(false)
+                                viewModel.forceShowOrHideVirtualKeyboard(false)
                             }
                 )
             }

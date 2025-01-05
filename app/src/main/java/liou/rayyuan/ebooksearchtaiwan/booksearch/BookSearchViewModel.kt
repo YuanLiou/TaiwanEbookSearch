@@ -2,7 +2,6 @@ package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import android.util.Log
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.TextFieldValue
@@ -168,10 +167,6 @@ class BookSearchViewModel(
         viewModelScope.launch {
             userIntents.collect { userIntent ->
                 when (userIntent) {
-                    is BookSearchUserIntent.DeleteSearchRecord -> {
-                        deleteRecords(userIntent.searchRecord)
-                    }
-
                     BookSearchUserIntent.OnViewReadyToServe -> {
                         ready()
                     }
@@ -217,10 +212,6 @@ class BookSearchViewModel(
 
                     is BookSearchUserIntent.ShowShareSnapshotOption -> {
                         showShareSnapshotOption = userIntent.show
-                    }
-
-                    is BookSearchUserIntent.ShowSearchRecords -> {
-                        _isShowSearchRecord.value = userIntent.show
                     }
                 }
             }
@@ -358,7 +349,7 @@ class BookSearchViewModel(
         fetchBookResult(ShowSearchSnapshotAction(searchId))
     }
 
-    private fun deleteRecords(searchRecord: SearchRecord) {
+    fun deleteRecords(searchRecord: SearchRecord) {
         viewModelScope.launch {
             deleteSearchRecordUseCase(searchRecord)
         }
@@ -564,6 +555,10 @@ class BookSearchViewModel(
         } else {
             _focusTextInput.value = FocusAction.UNFOCUS
         }
+    }
+
+    fun showSearchRecords(show: Boolean) {
+        _isShowSearchRecord.value = show
     }
 
     companion object {

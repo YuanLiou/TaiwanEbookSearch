@@ -22,7 +22,6 @@ import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.rayliu.commonmain.domain.model.Book
-import com.rayliu.commonmain.domain.model.SearchRecord
 import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.BaseFragment
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
@@ -70,16 +69,6 @@ class BookResultListFragment :
                         if (isAdded) {
                             (requireActivity() as? BookSearchActivity)?.openPreferenceActivity()
                         }
-                    },
-                    onSearchRecordClick = {
-                        onSearchRecordClicked(it)
-                    },
-                    onRemoveSearchRecord = { searchRecord ->
-                        sendUserIntent(BookSearchUserIntent.DeleteSearchRecord(searchRecord))
-                    },
-                    onDismissSearchRecord = {
-                        sendUserIntent(BookSearchUserIntent.ShowSearchRecords(false))
-                        hideVirtualKeyboard()
                     }
                 )
             }
@@ -352,11 +341,7 @@ class BookResultListFragment :
     }
 
     fun toggleSearchRecordView(show: Boolean) {
-        sendUserIntent(BookSearchUserIntent.ShowSearchRecords(show))
-    }
-
-    private fun onSearchRecordClicked(searchRecord: SearchRecord) {
-        searchWithText(searchRecord.text)
+        bookSearchViewModel.showSearchRecords(show)
     }
 
     private fun sendUserIntent(userIntent: BookSearchUserIntent) {
