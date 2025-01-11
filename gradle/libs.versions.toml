@@ -110,6 +110,9 @@ compose-lifecycle = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-
 compose-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata" }
 compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 compose-ui-android = { group = "androidx.compose.ui", name = "ui-android" }
+compose-adaptive = { group = "androidx.compose.material3.adaptive", name = "adaptive" }
+compose-adaptive-layout = { group = "androidx.compose.material3.adaptive", name = "adaptive-layout" }
+compose-adaptive-navigation = { group = "androidx.compose.material3.adaptive", name = "adaptive-navigation" }
 constraintlayout-compose = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintlayoutCompose" }
 request-permission-compose = { group = "com.github.MshariAlsayari", name = "Request-Permission-Compose", version.ref = "requestPermissionCompose" }
 webview-compose = { group = "io.github.kevinnzou", name = "compose-webview", version.ref = "webviewCompose" }
