@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
@@ -15,12 +16,23 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorInt
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.layout.AnimatedPane
+import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
+import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
+import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.withResumed
+import androidx.navigation.compose.rememberNavController
 import androidx.preference.PreferenceManager
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
@@ -31,6 +43,7 @@ import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.arch.IView
+import liou.rayyuan.ebooksearchtaiwan.booksearch.list.asUiModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.review.PlayStoreReviewHelper
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
@@ -47,6 +60,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 /**
  * Created by louis383 on 2017/12/2.
  */
+@OptIn(ExperimentalMaterial3AdaptiveApi::class)
 class BookSearchActivity :
     BaseActivity(),
     SimpleWebViewFragment.OnSimpleWebViewActionListener,
@@ -107,16 +121,60 @@ class BookSearchActivity :
             EBookTheme(
                 darkTheme = isDarkTheme()
             ) {
-                BookResultListScreen(
-                    viewModel = bookSearchViewModel,
-                    modifier = Modifier.fillMaxSize(),
-                    onBookSearchItemClick = ::openBookLink,
-                    showAppBarCameraButton = isCameraAvailable(),
-                    onAppBarCameraButtonPress = {
-                        openCameraPreviewActivity()
+                val navigator = rememberListDetailPaneScaffoldNavigator<Book>()
+                BackHandler(navigator.canNavigateBack()) {
+                    navigator.navigateBack()
+                }
+                val listNavController = rememberNavController()
+
+                ListDetailPaneScaffold(
+                    directive = navigator.scaffoldDirective,
+                    value = navigator.scaffoldValue,
+                    listPane = {
+                        AnimatedPane {
+                            BookResultListScreen(
+                                viewModel = bookSearchViewModel,
+                                navHostController = listNavController,
+                                modifier = Modifier.fillMaxSize(),
+                                onBookSearchItemClick = { book ->
+                                    if (userPreferenceManager.isPreferCustomTab()) {
+                                        openInCustomTab(book.asUiModel().getLink())
+                                    } else {
+                                        navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, book)
+                                    }
+
+                                    if (!hasUserSeenRankWindow) {
+                                        openResultCounts++
+                                    }
+                                },
+                                showAppBarCameraButton = isCameraAvailable(),
+                                onAppBarCameraButtonPress = {
+                                    openCameraPreviewActivity()
+                                },
+                                onMenuSettingClick = {
+                                    openPreferenceActivity()
+                                }
+                            )
+                        }
                     },
-                    onMenuSettingClick = {
-                        openPreferenceActivity()
+                    detailPane = {
+                        AnimatedPane {
+                            Box(
+                                contentAlignment = Alignment.Center,
+                                modifier = Modifier.fillMaxSize()
+                            ) {
+                                val book = navigator.currentDestination?.content
+                                if (book != null) {
+                                    Text(
+                                        "Book is ${book.asUiModel().getTitle()}",
+                                        style =
+                                            TextStyle.Default.copy(
+                                                fontSize = 32.sp
+                                            )
+                                    )
+                                }
+                            }
+                        }
                     }
                 )
             }
@@ -227,30 +285,6 @@ class BookSearchActivity :
     private fun openPreferenceActivity() {
         val intent = Intent(this, PreferenceSettingsActivity::class.java)
         changeThemeLauncher.launch(intent)
-    }
-
-    private fun openBookLink(book: Book) {
-        if (userPreferenceManager.isPreferCustomTab()) {
-            val colorParams =
-                CustomTabColorSchemeParams.Builder()
-                    .setToolbarColor(getThemePrimaryColor())
-                    .build()
-            val intent =
-                CustomTabsIntent.Builder(customTabSessionManager.customTabsSession)
-                    .setShowTitle(true)
-                    .setDefaultColorSchemeParams(colorParams)
-                    .build()
-            intent.launchUrl(this, Uri.parse(book.link))
-        } else {
-            val webViewFragment = SimpleWebViewFragment.newInstance(book, true)
-            webViewFragment.onSimpleWebViewActionListener = this
-            // TODO: Open book link
-//            contentRouter.addView(webViewFragment, SimpleWebViewFragment.TAG + book.id, true)
-        }
-
-        if (!hasUserSeenRankWindow) {
-            openResultCounts++
-        }
     }
 
     private fun searchWithText(text: String) {
@@ -379,6 +413,19 @@ class BookSearchActivity :
 
     private fun showNetworkErrorMessage() {
         showToast(getString(R.string.network_error_message))
+    }
+
+    private fun openInCustomTab(url: String) {
+        val colorParams =
+            CustomTabColorSchemeParams.Builder()
+                .setToolbarColor(getThemePrimaryColor())
+                .build()
+        val intent =
+            CustomTabsIntent.Builder(customTabSessionManager.customTabsSession)
+                .setShowTitle(true)
+                .setDefaultColorSchemeParams(colorParams)
+                .build()
+        intent.launchUrl(this, Uri.parse(url))
     }
 
     //region BookResultViewState

@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
  * Created by louis383 on 2017/11/29.
  * Update Entity to API version: 20180806
  */
-@Parcelize // TODO:: Remove Parcelize
+@Parcelize
 data class Book(
     val thumbnail: String,
     val priceCurrency: String,
