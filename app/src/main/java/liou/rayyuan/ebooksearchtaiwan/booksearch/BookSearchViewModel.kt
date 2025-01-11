@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import com.google.android.play.core.review.ReviewInfo
 import com.rayliu.commonmain.BookStoresSorter
 import com.rayliu.commonmain.data.DefaultStoreNames
 import com.rayliu.commonmain.domain.model.BookResult
@@ -40,7 +41,6 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import liou.rayyuan.ebooksearchtaiwan.R
-import liou.rayyuan.ebooksearchtaiwan.arch.IModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.FocusAction
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.VirtualKeyboardAction
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookSearchResultItem
@@ -73,11 +73,9 @@ class BookSearchViewModel(
     private val rankingWindowFacade: UserRankingWindowFacade,
     private val clipboardHelper: ClipboardHelper,
     private val userPreferenceManager: UserPreferenceManager
-) : ViewModel(),
-    IModel<BookResultViewState, BookSearchUserIntent> {
-    override val userIntents: MutableSharedFlow<BookSearchUserIntent> = MutableSharedFlow()
+) : ViewModel() {
     private val _bookResultViewState = MutableLiveData<BookResultViewState>()
-    override val viewState: LiveData<BookResultViewState>
+    val viewState: LiveData<BookResultViewState>
         get() = _bookResultViewState
 
     private val _screenViewState = MutableSharedFlow<ScreenState>()
@@ -159,65 +157,6 @@ class BookSearchViewModel(
                 }
         }
 
-    init {
-        setupUserIntentHanding()
-    }
-
-    private fun setupUserIntentHanding() {
-        viewModelScope.launch {
-            userIntents.collect { userIntent ->
-                when (userIntent) {
-                    BookSearchUserIntent.OnViewReadyToServe -> {
-                        ready()
-                    }
-
-                    is BookSearchUserIntent.ShowSearchSnapshot -> {
-                        requestSearchSnapshot(userIntent.searchId)
-                    }
-
-                    is BookSearchUserIntent.AskUserRankApp -> {
-                        val hasUserSeenRankWindow =
-                            runCatching {
-                                checkUserHasSeenRankWindow()
-                            }.getOrDefault(false)
-
-                        if (!hasUserSeenRankWindow) {
-                            sendViewEffect(ScreenState.ShowUserRankingDialog(userIntent.reviewInfo))
-                        }
-                    }
-
-                    BookSearchUserIntent.RankAppWindowHasShown -> {
-                        rankingWindowFacade.saveUserHasSeenRankWindow()
-                    }
-
-                    BookSearchUserIntent.CheckServiceStatus -> {
-                        checkServiceStatus()
-                    }
-
-                    BookSearchUserIntent.ResetVirtualKeyboardAction -> {
-                        _showVirtualKeyboard.value = VirtualKeyboardAction.NEUTRAL_STATE
-                    }
-
-                    is BookSearchUserIntent.EnableCameraButtonClick -> {
-                        _enableCameraButtonClick.value = userIntent.enable
-                    }
-
-                    is BookSearchUserIntent.EnableSearchButtonClick -> {
-                        _enableSearchButtonClick.value = userIntent.enable
-                    }
-
-                    is BookSearchUserIntent.ShowCopyUrlOption -> {
-                        showCopyUrlOption = userIntent.show
-                    }
-
-                    is BookSearchUserIntent.ShowShareSnapshotOption -> {
-                        showShareSnapshotOption = userIntent.show
-                    }
-                }
-            }
-        }
-    }
-
     override fun onCleared() {
         forceStopRequestingBookData()
         super.onCleared()
@@ -231,7 +170,7 @@ class BookSearchViewModel(
         lastScrollOffset = offset
     }
 
-    private fun ready() {
+    fun onViewReadyToServe() {
         if (isRequestingBookData()) {
             updateScreen(BookResultViewState.PrepareBookResult)
             updateBookSearchScreen(BookResultDestinations.LoadingScreen)
@@ -341,7 +280,7 @@ class BookSearchViewModel(
         }
     }
 
-    private fun requestSearchSnapshot(searchId: String) {
+    fun requestSearchSnapshot(searchId: String) {
         if (searchId.isEmpty()) {
             sendViewEffect(ScreenState.EmptyKeyword)
             return
@@ -492,7 +431,7 @@ class BookSearchViewModel(
         _isLoadingResult.value = false
     }
 
-    private fun checkServiceStatus() {
+    fun checkServiceStatus() {
         if (viewState.value is BookResultViewState.PrepareBookResult || viewState.value is BookResultViewState.ShowBooks) {
             return
         }
@@ -559,6 +498,37 @@ class BookSearchViewModel(
 
     fun showSearchRecords(show: Boolean) {
         _isShowSearchRecord.value = show
+    }
+
+    suspend fun askUserRankApp(reviewInfo: ReviewInfo) {
+        val hasUserSeenRankWindow =
+            runCatching {
+                checkUserHasSeenRankWindow()
+            }.getOrDefault(false)
+
+        if (!hasUserSeenRankWindow) {
+            sendViewEffect(ScreenState.ShowUserRankingDialog(reviewInfo))
+        }
+    }
+
+    fun enableCameraButtonClick(enable: Boolean) {
+        _enableCameraButtonClick.value = enable
+    }
+
+    fun enableSearchButtonClick(enable: Boolean) {
+        _enableSearchButtonClick.value = enable
+    }
+
+    fun showCopyUrlOption(show: Boolean) {
+        showCopyUrlOption = show
+    }
+
+    fun showShareSnapshotOption(show: Boolean) {
+        showShareSnapshotOption = show
+    }
+
+    suspend fun rankAppWindowHasShown() {
+        rankingWindowFacade.saveUserHasSeenRankWindow()
     }
 
     companion object {

@@ -36,7 +36,7 @@ cameraXVersion = "1.4.1"
 
 #  Kotlin Libraries
 kotlinxCoroutines = "1.10.1"
-kotlinxSerializationJson = "1.8.0-RC"
+kotlinxSerializationJson = "1.8.0"
 datetime = "0.6.1"
 ktor = "3.0.3"
 immutableCollections = "0.3.8"

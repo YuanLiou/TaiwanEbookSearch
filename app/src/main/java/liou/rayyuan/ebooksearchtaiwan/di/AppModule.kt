@@ -12,6 +12,7 @@ import liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchViewModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.review.PlayStoreReviewHelper
 import liou.rayyuan.ebooksearchtaiwan.bookstorereorder.BookStoreReorderViewModel
 import liou.rayyuan.ebooksearchtaiwan.interactor.UserRankingWindowFacade
+import liou.rayyuan.ebooksearchtaiwan.model.DeeplinkHelper
 import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
 import liou.rayyuan.ebooksearchtaiwan.preferencesetting.PreferenceSettingsViewModel
 import liou.rayyuan.ebooksearchtaiwan.simplewebview.SimpleWebViewViewModel
@@ -97,6 +98,9 @@ val appUtilsModule =
         }
         factory<SystemInfoCollector> {
             SystemInfoCollectorImpl()
+        }
+        factory {
+            DeeplinkHelper()
         }
     }
 

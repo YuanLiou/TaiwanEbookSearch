@@ -1,40 +1,66 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
-import androidx.activity.OnBackPressedCallback
+import android.widget.Toast
+import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorInt
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.withResumed
 import androidx.preference.PreferenceManager
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.rayliu.commonmain.domain.model.Book
 import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
+import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
+import liou.rayyuan.ebooksearchtaiwan.arch.IView
+import liou.rayyuan.ebooksearchtaiwan.booksearch.review.PlayStoreReviewHelper
+import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
+import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.CameraPreviewActivity
 import liou.rayyuan.ebooksearchtaiwan.model.DeeplinkHelper
 import liou.rayyuan.ebooksearchtaiwan.preferencesetting.PreferenceSettingsActivity
 import liou.rayyuan.ebooksearchtaiwan.simplewebview.SimpleWebViewFragment
+import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import liou.rayyuan.ebooksearchtaiwan.utils.CustomTabSessionManager
-import liou.rayyuan.ebooksearchtaiwan.view.Router
+import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * Created by louis383 on 2017/12/2.
  */
 class BookSearchActivity :
-    BaseActivity(R.layout.activity_book_search),
-    SimpleWebViewFragment.OnSimpleWebViewActionListener {
+    BaseActivity(),
+    SimpleWebViewFragment.OnSimpleWebViewActionListener,
+    IView<BookResultViewState> {
     private val customTabSessionManager: CustomTabSessionManager by inject()
-    private val deeplinkHelper = DeeplinkHelper()
-    private lateinit var contentRouter: Router
+    private val deeplinkHelper: DeeplinkHelper by inject()
+    private val bookSearchViewModel: BookSearchViewModel by viewModel()
+    private val playStoreReviewHelper: PlayStoreReviewHelper by inject()
+
+    private var defaultSearchKeyword: String = ""
+    private var defaultSnapshotSearchId: String = ""
+
+    private var hasUserSeenRankWindow = false
+    private var openResultCounts = 0
 
     private lateinit var changeThemeLauncher: ActivityResultLauncher<Intent>
 
@@ -46,8 +72,7 @@ class BookSearchActivity :
                 val bundle = activityResult.data?.extras
                 val resultText = bundle?.getString(KEY_BARCODE_RESULT, "").orEmpty()
                 if (resultText.isNotEmpty()) {
-                    val bookResultFragment = getBookResultFragment()
-                    bookResultFragment?.searchWithText(resultText)
+                    searchWithText(resultText)
                 }
             }
         }
@@ -57,37 +82,77 @@ class BookSearchActivity :
         super.onCreate(savedInstanceState)
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
 
-        contentRouter = Router(supportFragmentManager, R.id.activity_book_search_nav_host_container)
-        setupBackGesture()
+        initAdMods()
         setupLauncherCallbacks()
 
         if (savedInstanceState == null) {
-            val appLinkKeyword = deeplinkHelper.getSearchKeyword(intent)
-            val appLinkSnapshotSearchId = deeplinkHelper.getSearchId(intent)
-            val bookResultListFragment =
-                BookResultListFragment.newInstance(
-                    appLinkKeyword,
-                    appLinkSnapshotSearchId
-                )
-            contentRouter.addView(bookResultListFragment, BookResultListFragment.TAG, false)
-        } else {
-            if (savedInstanceState.getString(KEY_LAST_FRAGMENT_TAG) != null) {
-                val lastFragmentTag = savedInstanceState.getString(KEY_LAST_FRAGMENT_TAG) ?: return
-                val lastFragment = contentRouter.findFragmentByTag(lastFragmentTag)
-                (lastFragment as? SimpleWebViewFragment)?.onSimpleWebViewActionListener = this
-            }
+            defaultSearchKeyword = deeplinkHelper.getSearchKeyword(intent).orEmpty()
+            defaultSnapshotSearchId = deeplinkHelper.getSearchId(intent).orEmpty()
         }
 
         lifecycleScope.launch {
             if (userPreferenceManager.isPreferCustomTab()) {
                 customTabSessionManager.bindCustomTabService(this@BookSearchActivity)
             } else {
-                contentRouter.backStackCountsPublisher().collect { backStackCounts ->
-                    if (backStackCounts == 0) {
-                        checkShouldAskUserRankApp()
-                    }
-                }
+                // TODO
+//                contentRouter.backStackCountsPublisher().collect { backStackCounts ->
+//                    if (backStackCounts == 0) {
+//                        checkShouldAskUserRankApp()
+//                    }
+//                }
             }
+        }
+
+        setContent {
+            EBookTheme(
+                darkTheme = isDarkTheme()
+            ) {
+                BookResultListScreen(
+                    viewModel = bookSearchViewModel,
+                    modifier = Modifier.fillMaxSize(),
+                    onBookSearchItemClick = ::openBookLink,
+                    showAppBarCameraButton = isCameraAvailable(),
+                    onAppBarCameraButtonPress = {
+                        openCameraPreviewActivity()
+                    },
+                    onMenuSettingClick = {
+                        openPreferenceActivity()
+                    }
+                )
+            }
+        }
+        taskAfterViewCreated()
+    }
+
+    private fun taskAfterViewCreated() {
+        // Render Book Result State
+        bookSearchViewModel.viewState.observe(
+            this,
+        ) { state -> render(state) }
+
+        // Render View Effect
+        lifecycleScope.launch {
+            hasUserSeenRankWindow = bookSearchViewModel.checkUserHasSeenRankWindow()
+            bookSearchViewModel.screenViewState.collect {
+                updateScreen(it)
+            }
+        }
+
+        bookSearchViewModel.onViewReadyToServe()
+        bookSearchViewModel.checkServiceStatus()
+        handleInitialDeepLink()
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleIntent()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (userPreferenceManager.isPreferCustomTab()) {
+            checkShouldAskUserRankApp()
         }
     }
 
@@ -99,14 +164,8 @@ class BookSearchActivity :
                 if (isThemeChanged() || isStartToFollowSystemTheme()) {
                     recreate()
                 }
-                getBookResultFragment()?.toggleSearchRecordView(false)
+                bookSearchViewModel.showSearchRecords(false)
             }
-    }
-
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        setIntent(intent)
-        handleIntent()
     }
 
     private fun handleIntent() {
@@ -120,42 +179,36 @@ class BookSearchActivity :
         }
     }
 
+    private fun handleInitialDeepLink() {
+        lifecycleScope.launch {
+            withResumed {
+                if (defaultSearchKeyword.isNotBlank()) {
+                    searchWithText(defaultSearchKeyword)
+                    defaultSearchKeyword = ""
+                } else if (defaultSnapshotSearchId.isNotBlank()) {
+                    showSearchSnapshot(defaultSnapshotSearchId)
+                    defaultSnapshotSearchId = ""
+                }
+            }
+        }
+    }
+
     private fun showSearchSnapshot(searchId: String) {
-        getBookResultFragment()?.showSearchSnapshot(searchId)
+        hideVirtualKeyboard()
+        bookSearchViewModel.requestSearchSnapshot(searchId)
     }
 
     private fun searchBook(keyword: String) {
-        getBookResultFragment()?.searchWithText(keyword)
+        searchWithText(keyword)
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (userPreferenceManager.isPreferCustomTab()) {
-            checkShouldAskUserRankApp()
+    private fun initAdMods() {
+        MobileAds.initialize(this)
+        val configurationBuilder = RequestConfiguration.Builder()
+        if (BuildConfig.DEBUG) {
+            configurationBuilder.setTestDeviceIds(listOf(BuildConfig.ADMOB_TEST_DEVICE_ID))
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        val topFragmentTag = contentRouter.findTopFragment()?.tag
-        if (topFragmentTag != null) {
-            outState.putString(KEY_LAST_FRAGMENT_TAG, topFragmentTag)
-        }
-    }
-
-    private fun setupBackGesture() {
-        onBackPressedDispatcher.addCallback(
-            this,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    backPressed()
-                }
-            }
-        )
-    }
-
-    private fun checkShouldAskUserRankApp() {
-        getBookResultFragment()?.checkShouldAskUserRankApp()
+        MobileAds.setRequestConfiguration(configurationBuilder.build())
     }
 
     @ColorInt
@@ -165,16 +218,18 @@ class BookSearchActivity :
         return typedValue.data
     }
 
-    fun openCameraPreviewActivity() {
+    private fun openCameraPreviewActivity() {
         barcodeScannerResultLauncher.launch(Intent(this, CameraPreviewActivity::class.java))
     }
 
-    fun openPreferenceActivity() {
+    private fun isCameraAvailable(): Boolean = packageManager?.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY) ?: false
+
+    private fun openPreferenceActivity() {
         val intent = Intent(this, PreferenceSettingsActivity::class.java)
         changeThemeLauncher.launch(intent)
     }
 
-    fun openBookLink(book: Book) {
+    private fun openBookLink(book: Book) {
         if (userPreferenceManager.isPreferCustomTab()) {
             val colorParams =
                 CustomTabColorSchemeParams.Builder()
@@ -189,41 +244,192 @@ class BookSearchActivity :
         } else {
             val webViewFragment = SimpleWebViewFragment.newInstance(book, true)
             webViewFragment.onSimpleWebViewActionListener = this
-            contentRouter.addView(webViewFragment, SimpleWebViewFragment.TAG + book.id, true)
+            // TODO: Open book link
+//            contentRouter.addView(webViewFragment, SimpleWebViewFragment.TAG + book.id, true)
+        }
+
+        if (!hasUserSeenRankWindow) {
+            openResultCounts++
         }
     }
 
-    private fun backPressed() {
-        if (contentRouter.findTopFragment() is SimpleWebViewFragment) {
-            val canGoBack = (contentRouter.findTopFragment() as SimpleWebViewFragment).goBack()
-            if (canGoBack) {
-                return
-            }
-        }
+    private fun searchWithText(text: String) {
+        changeSearchBoxKeyword(text)
+        hideVirtualKeyboard()
+        bookSearchViewModel.searchBook(text)
+    }
 
-        getBookResultFragment()?.let {
-            val isConsumed = it.backPressed()
-            if (isConsumed) {
-                return
-            }
-        }
+    private fun changeSearchBoxKeyword(keyword: String) {
+        bookSearchViewModel.updateKeyword(TextFieldValue(keyword, selection = TextRange(keyword.length)))
+        bookSearchViewModel.forceFocusOrUnfocusKeywordTextInput(false)
+    }
 
-        if (!contentRouter.backToPreviousFragment()) {
-            finish()
+    private fun hideVirtualKeyboard() {
+        bookSearchViewModel.forceShowOrHideVirtualKeyboard(false)
+    }
+
+    private fun checkShouldAskUserRankApp() {
+        lifecycleScope.launch {
+            if (openResultCounts < POPUP_REVIEW_WINDOW_THRESHOLD) {
+                return@launch
+            }
+
+            val hasUserSeenRankWindow =
+                bookSearchViewModel.checkUserHasSeenRankWindow().also {
+                    this@BookSearchActivity.hasUserSeenRankWindow = it
+                }
+
+            if (hasUserSeenRankWindow) {
+                return@launch
+            }
+
+            if (BuildConfig.DEBUG) {
+                Toast.makeText(this@BookSearchActivity, "Rank Window Should Popup", Toast.LENGTH_SHORT).show()
+            }
+
+            val reviewInfo =
+                runCatching {
+                    playStoreReviewHelper.prepareReviewInfo()
+                }.getOrNull()
+
+            if (reviewInfo != null) {
+                bookSearchViewModel.askUserRankApp(reviewInfo)
+            }
         }
     }
 
-    private fun getBookResultFragment(): BookResultListFragment? =
-        contentRouter.findFragmentByTag(BookResultListFragment.TAG) as? BookResultListFragment
+    private fun shareCurrentPageSnapshot(url: String) {
+        val intent = Intent(Intent.ACTION_SEND)
+        with(intent) {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_SUBJECT, "From " + getString(R.string.app_name))
+            putExtra(Intent.EXTRA_TEXT, url)
+        }
+        startActivity(
+            Intent.createChooser(
+                intent,
+                getString(R.string.menu_share_menu_appear)
+            )
+        )
+    }
+
+    private fun updateScreen(screenState: ScreenState) {
+        when (screenState) {
+            ScreenState.ConnectionTimeout -> {
+                showInternetConnectionTimeout()
+            }
+
+            ScreenState.NetworkError -> {
+                showNetworkErrorMessage()
+            }
+
+            ScreenState.EmptyKeyword -> {
+                showKeywordIsEmpty()
+            }
+
+            ScreenState.NoInternetConnection -> {
+                showInternetRequestDialog()
+            }
+
+            is ScreenState.ShowToastMessage -> {
+                if (screenState.stringResId != BookSearchViewModel.NO_MESSAGE) {
+                    showToast(getString(screenState.stringResId))
+                    return
+                }
+                if (screenState.message != null) {
+                    showToast(screenState.message)
+                }
+            }
+
+            ScreenState.NoSharingContentAvailable -> {
+                showToast(getString(R.string.no_shareable_content))
+            }
+
+            is ScreenState.ShowUserRankingDialog -> {
+                lifecycleScope.launch {
+                    playStoreReviewHelper.showReviewDialog(this@BookSearchActivity, screenState.reviewInfo)
+                    // Reset counts and flags
+                    hasUserSeenRankWindow = true
+                    openResultCounts = 0
+                    bookSearchViewModel.rankAppWindowHasShown()
+                }
+            }
+        }
+    }
+
+    private fun showToast(message: String) {
+        message.showToastOn(this)
+    }
+
+    private fun showInternetRequestDialog() {
+        val dialogBuilder = MaterialAlertDialogBuilder(this)
+        dialogBuilder.setTitle(R.string.network_alert_dialog_title)
+        dialogBuilder.setMessage(R.string.network_alert_message)
+        dialogBuilder.setPositiveButton(R.string.dialog_ok) { _: DialogInterface, _: Int -> }
+        dialogBuilder.create().show()
+    }
+
+    private fun showInternetConnectionTimeout() {
+        showToast(getString(R.string.state_timeout))
+    }
+
+    private fun showKeywordIsEmpty() {
+        showToast(getString(R.string.search_keyword_empty))
+    }
+
+    private fun showNetworkErrorMessage() {
+        showToast(getString(R.string.network_error_message))
+    }
+
+    //region BookResultViewState
+    override fun render(viewState: BookResultViewState) {
+        renderMainResultView(viewState)
+    }
+
+    private fun renderMainResultView(bookResultViewState: BookResultViewState) {
+        when (bookResultViewState) {
+            is BookResultViewState.PrepareBookResult -> {
+                bookSearchViewModel.enableCameraButtonClick(false)
+                bookSearchViewModel.enableSearchButtonClick(false)
+                bookSearchViewModel.showCopyUrlOption(false)
+                bookSearchViewModel.showShareSnapshotOption(false)
+            }
+
+            is BookResultViewState.ShowBooks -> {
+                bookSearchViewModel.enableCameraButtonClick(true)
+                bookSearchViewModel.enableSearchButtonClick(true)
+
+                if (bookResultViewState.keyword.isNotEmpty()) {
+                    changeSearchBoxKeyword(bookResultViewState.keyword)
+                }
+
+                bookSearchViewModel.showCopyUrlOption(true)
+                bookSearchViewModel.showShareSnapshotOption(true)
+            }
+
+            BookResultViewState.PrepareBookResultError -> {
+                bookSearchViewModel.enableCameraButtonClick(true)
+                bookSearchViewModel.enableSearchButtonClick(true)
+                bookSearchViewModel.showCopyUrlOption(false)
+                bookSearchViewModel.showShareSnapshotOption(false)
+            }
+
+            is BookResultViewState.ShareCurrentPageSnapshot -> {
+                shareCurrentPageSnapshot(bookResultViewState.url)
+            }
+        }
+    }
+    //endregion
 
     //region SimpleWebViewFragment.OnSimpleWebviewActionListener
     override fun onSimpleWebViewClose(tag: String) {
-        contentRouter.backToPreviousFragment()
+        // TODO
+//        contentRouter.backToPreviousFragment()
     }
     //endregion
 
     companion object {
-        private const val KEY_LAST_FRAGMENT_TAG = "key-last-fragment-tag"
+        private const val POPUP_REVIEW_WINDOW_THRESHOLD = 5
         const val KEY_BARCODE_RESULT = "key-barcode-result"
     }
 }
