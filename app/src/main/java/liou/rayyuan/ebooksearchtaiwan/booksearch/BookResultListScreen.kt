@@ -25,7 +25,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,27 +37,22 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.rayliu.commonmain.domain.model.Book
 import com.rayliu.commonmain.domain.model.SearchRecord
-import kotlinx.coroutines.flow.collectLatest
+import liou.rayyuan.ebooksearchtaiwan.BookResultDestinations
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.ConfirmRemoveRecordDialog
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.SearchBox
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.SearchRecordItem
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.SearchRecords
-import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.utils.navigateAndClean
 import liou.rayyuan.ebooksearchtaiwan.composable.EBookDropdownMenu
 import liou.rayyuan.ebooksearchtaiwan.composable.OptionMenuItem
-import liou.rayyuan.ebooksearchtaiwan.navigation.BookResultDestinations
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -72,15 +66,6 @@ fun BookResultListScreen(
     showAppBarCameraButton: Boolean = false,
     onAppBarCameraButtonPress: () -> Unit = {}
 ) {
-    val lifecycleOwner = LocalLifecycleOwner.current
-    LaunchedEffect(Unit) {
-        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-            viewModel.navigationEvents.collectLatest { destinations ->
-                navHostController.navigateAndClean(destinations.route)
-            }
-        }
-    }
-
     val searchKeywords =
         viewModel.searchKeywords
             .collectAsStateWithLifecycle()

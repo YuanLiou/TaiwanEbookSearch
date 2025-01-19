@@ -24,6 +24,7 @@ import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextRange
@@ -32,14 +33,15 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.withResumed
-import androidx.navigation.compose.rememberNavController
 import androidx.preference.PreferenceManager
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.rayliu.commonmain.domain.model.Book
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
+import liou.rayyuan.ebooksearchtaiwan.BookResultDestinations
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.arch.IView
@@ -50,6 +52,7 @@ import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.CameraPreviewActivity
 import liou.rayyuan.ebooksearchtaiwan.model.DeeplinkHelper
 import liou.rayyuan.ebooksearchtaiwan.preferencesetting.PreferenceSettingsActivity
+import liou.rayyuan.ebooksearchtaiwan.rememberEBookAppState
 import liou.rayyuan.ebooksearchtaiwan.simplewebview.SimpleWebViewFragment
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import liou.rayyuan.ebooksearchtaiwan.utils.CustomTabSessionManager
@@ -121,11 +124,29 @@ class BookSearchActivity :
             EBookTheme(
                 darkTheme = isDarkTheme()
             ) {
+                val appState = rememberEBookAppState()
+                LaunchedEffect(Unit) {
+                    bookSearchViewModel.navigationEvents.distinctUntilChanged().collect { destinations ->
+                        when (destinations) {
+                            BookResultDestinations.LoadingScreen -> {
+                                appState.navigateToLoadingScreen()
+                            }
+
+                            BookResultDestinations.SearchResult -> {
+                                appState.navigateToSearchResult()
+                            }
+
+                            BookResultDestinations.ServiceStatus -> {
+                                appState.navigateToServiceStatus()
+                            }
+                        }
+                    }
+                }
+
                 val navigator = rememberListDetailPaneScaffoldNavigator<Book>()
                 BackHandler(navigator.canNavigateBack()) {
                     navigator.navigateBack()
                 }
-                val listNavController = rememberNavController()
 
                 ListDetailPaneScaffold(
                     directive = navigator.scaffoldDirective,
@@ -134,7 +155,7 @@ class BookSearchActivity :
                         AnimatedPane {
                             BookResultListScreen(
                                 viewModel = bookSearchViewModel,
-                                navHostController = listNavController,
+                                navHostController = appState.navController,
                                 modifier = Modifier.fillMaxSize(),
                                 onBookSearchItemClick = { book ->
                                     if (userPreferenceManager.isPreferCustomTab()) {
@@ -196,9 +217,13 @@ class BookSearchActivity :
             }
         }
 
-        bookSearchViewModel.onViewReadyToServe()
-        bookSearchViewModel.checkServiceStatus()
-        handleInitialDeepLink()
+        lifecycleScope.launch {
+            withResumed {
+                bookSearchViewModel.onViewReadyToServe()
+                bookSearchViewModel.checkServiceStatus()
+                handleInitialDeepLink()
+            }
+        }
     }
 
     override fun onNewIntent(intent: Intent) {

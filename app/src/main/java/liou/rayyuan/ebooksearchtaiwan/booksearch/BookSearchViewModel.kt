@@ -40,6 +40,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import liou.rayyuan.ebooksearchtaiwan.BookResultDestinations
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.FocusAction
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.VirtualKeyboardAction
@@ -51,7 +52,6 @@ import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
 import liou.rayyuan.ebooksearchtaiwan.interactor.UserRankingWindowFacade
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookUiModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.asUiModel
-import liou.rayyuan.ebooksearchtaiwan.navigation.BookResultDestinations
 import liou.rayyuan.ebooksearchtaiwan.utils.ClipboardHelper
 import liou.rayyuan.ebooksearchtaiwan.utils.NetworkChecker
 import liou.rayyuan.ebooksearchtaiwan.utils.ResourceHelper
@@ -176,10 +176,11 @@ class BookSearchViewModel(
             updateBookSearchScreen(BookResultDestinations.LoadingScreen)
             _isShowSearchRecord.value = false
             _isLoadingResult.value = true
-        } else {
-            bookStores?.let {
-                prepareBookSearchResult(it)
-            }
+            return
+        }
+
+        bookStores?.let {
+            prepareBookSearchResult(it)
         }
     }
 

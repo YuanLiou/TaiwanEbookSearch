@@ -9,9 +9,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.rayliu.commonmain.domain.model.Book
+import liou.rayyuan.ebooksearchtaiwan.BookResultDestinations
 import liou.rayyuan.ebooksearchtaiwan.booksearch.screen.BookSearchResultScreen
 import liou.rayyuan.ebooksearchtaiwan.booksearch.screen.ServiceListScreen
-import liou.rayyuan.ebooksearchtaiwan.navigation.BookResultDestinations
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 
 fun NavGraphBuilder.bookResultNavGraph(
