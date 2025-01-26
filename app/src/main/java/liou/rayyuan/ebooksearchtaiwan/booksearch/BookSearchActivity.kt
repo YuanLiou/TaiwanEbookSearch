@@ -16,21 +16,16 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorInt
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextRange
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.withResumed
 import androidx.preference.PreferenceManager
@@ -53,7 +48,7 @@ import liou.rayyuan.ebooksearchtaiwan.camerapreview.CameraPreviewActivity
 import liou.rayyuan.ebooksearchtaiwan.model.DeeplinkHelper
 import liou.rayyuan.ebooksearchtaiwan.preferencesetting.PreferenceSettingsActivity
 import liou.rayyuan.ebooksearchtaiwan.rememberEBookAppState
-import liou.rayyuan.ebooksearchtaiwan.simplewebview.SimpleWebViewFragment
+import liou.rayyuan.ebooksearchtaiwan.simplewebview.SimpleWebViewScreen
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import liou.rayyuan.ebooksearchtaiwan.utils.CustomTabSessionManager
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
@@ -66,7 +61,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 class BookSearchActivity :
     BaseActivity(),
-    SimpleWebViewFragment.OnSimpleWebViewActionListener,
     IView<BookResultViewState> {
     private val customTabSessionManager: CustomTabSessionManager by inject()
     private val deeplinkHelper: DeeplinkHelper by inject()
@@ -180,20 +174,29 @@ class BookSearchActivity :
                     },
                     detailPane = {
                         AnimatedPane {
-                            Box(
-                                contentAlignment = Alignment.Center,
-                                modifier = Modifier.fillMaxSize()
-                            ) {
-                                val book = navigator.currentDestination?.content
-                                if (book != null) {
-                                    Text(
-                                        "Book is ${book.asUiModel().getTitle()}",
-                                        style =
-                                            TextStyle.Default.copy(
-                                                fontSize = 32.sp
-                                            )
-                                    )
-                                }
+                            val book = navigator.currentDestination?.content
+                            if (book != null) {
+                                SimpleWebViewScreen(
+                                    book = book.asUiModel(),
+                                    onBackButtonPress = {
+                                        // TODO
+                                    },
+                                    onShareOptionClick = { bookUiModel ->
+                                        val intent = Intent(Intent.ACTION_SEND)
+                                        intent.type = "text/plain"
+                                        intent.putExtra(Intent.EXTRA_SUBJECT, bookUiModel.getTitle())
+                                        intent.putExtra(Intent.EXTRA_TEXT, bookUiModel.getShareText())
+                                        startActivity(Intent.createChooser(intent, getString(R.string.menu_share_menu_appear)))
+                                    },
+                                    onOpenInBrowserClick = { bookUiModel ->
+                                        val intent = Intent(Intent.ACTION_VIEW)
+                                        intent.data = Uri.parse(bookUiModel.getLink())
+                                        startActivity(intent)
+                                    },
+                                    onCanWebViewGoBackUpdate = { canGoBack ->
+                                        // TODO
+                                    }
+                                )
                             }
                         }
                     }
@@ -494,10 +497,10 @@ class BookSearchActivity :
     //endregion
 
     //region SimpleWebViewFragment.OnSimpleWebviewActionListener
-    override fun onSimpleWebViewClose(tag: String) {
-        // TODO
+//    override fun onSimpleWebViewClose(tag: String) {
+    // TODO
 //        contentRouter.backToPreviousFragment()
-    }
+//    }
     //endregion
 
     companion object {

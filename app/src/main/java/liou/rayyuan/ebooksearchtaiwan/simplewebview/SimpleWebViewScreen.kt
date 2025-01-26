@@ -34,15 +34,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kevinnzou.web.LoadingState
 import com.kevinnzou.web.WebView
+import com.kevinnzou.web.WebViewNavigator
 import com.kevinnzou.web.rememberSaveableWebViewState
 import com.kevinnzou.web.rememberWebViewNavigator
 import kotlinx.coroutines.flow.distinctUntilChanged
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookUiModel
-import liou.rayyuan.ebooksearchtaiwan.booksearch.list.asUiModel
 import liou.rayyuan.ebooksearchtaiwan.composable.EBookDropdownMenu
 import liou.rayyuan.ebooksearchtaiwan.composable.OptionMenuItem
 import liou.rayyuan.ebooksearchtaiwan.composable.iconpack.BaselineClear24Px
@@ -54,17 +53,16 @@ import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleWebViewScreen(
-    viewModel: SimpleWebViewViewModel,
+    book: BookUiModel,
     modifier: Modifier = Modifier,
+    navigator: WebViewNavigator = rememberWebViewNavigator(),
+    showCloseButton: Boolean = false,
     onBackButtonPress: () -> Unit = {},
     onShareOptionClick: (book: BookUiModel) -> Unit = {},
     onOpenInBrowserClick: (book: BookUiModel) -> Unit = {},
     onCanWebViewGoBackUpdate: (canGoBack: Boolean) -> Unit = {}
 ) {
     var showOptionMenu by remember { mutableStateOf(false) }
-
-    val book = viewModel.book.collectAsStateWithLifecycle().value?.asUiModel()
-    val showCloseButton = viewModel.showCloseButton.collectAsStateWithLifecycle().value
 
     Scaffold(
         topBar = {
@@ -148,9 +146,7 @@ fun SimpleWebViewScreen(
                             title = stringResource(R.string.menu_share),
                             onClick = {
                                 showOptionMenu = false
-                                if (book != null) {
-                                    onShareOptionClick(book)
-                                }
+                                onShareOptionClick(book)
                             }
                         )
 
@@ -158,9 +154,7 @@ fun SimpleWebViewScreen(
                             title = stringResource(R.string.menu_open_in_browser),
                             onClick = {
                                 showOptionMenu = false
-                                if (book != null) {
-                                    onOpenInBrowserClick(book)
-                                }
+                                onOpenInBrowserClick(book)
                             }
                         )
                     }
@@ -178,12 +172,10 @@ fun SimpleWebViewScreen(
                     .padding(paddings)
         ) {
             val webViewState = rememberSaveableWebViewState()
-            val navigator = rememberWebViewNavigator()
-
             LaunchedEffect(Unit) {
                 val bundle = webViewState.viewState
                 if (bundle == null) {
-                    navigator.loadUrl(book?.getLink().orEmpty())
+                    navigator.loadUrl(book.getLink())
                 }
 
                 snapshotFlow { navigator.canGoBack }
