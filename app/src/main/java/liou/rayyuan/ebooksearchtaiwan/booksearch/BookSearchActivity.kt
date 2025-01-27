@@ -29,12 +29,14 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.withResumed
+import androidx.lifecycle.withStarted
 import androidx.preference.PreferenceManager
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kevinnzou.web.rememberWebViewNavigator
 import com.rayliu.commonmain.domain.model.Book
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
@@ -211,9 +213,14 @@ class BookSearchActivity :
 
     private fun taskAfterViewCreated() {
         // Render Book Result State
-        bookSearchViewModel.viewState.observe(
-            this,
-        ) { state -> render(state) }
+        lifecycleScope.launch {
+            withStarted(block = {})
+            bookSearchViewModel.viewState.collectLatest { state ->
+                if (state != null) {
+                    render(state)
+                }
+            }
+        }
 
         // Render View Effect
         lifecycleScope.launch {
