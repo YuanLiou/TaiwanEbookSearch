@@ -9,9 +9,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
@@ -213,13 +216,12 @@ fun BookResultListScreen(
             )
         },
         containerColor = EBookTheme.colors.colorBackground,
+        contentWindowInsets = WindowInsets.safeDrawing,
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { paddings ->
         Box(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(paddings)
+                Modifier.fillMaxSize()
         ) {
             AnimatedVisibility(
                 visible = showSearchRecords,
@@ -229,6 +231,7 @@ fun BookResultListScreen(
             ) {
                 SearchRecords(
                     itemCounts = searchRecords.itemCount,
+                    modifier = Modifier.padding(top = paddings.calculateTopPadding())
                 ) {
                     LazyColumn {
                         items(count = searchRecords.itemCount, key = searchRecords.itemKey { it.id ?: -1 }) { index ->
@@ -291,7 +294,8 @@ fun BookResultListScreen(
             ) {
                 bookResultNavGraph(
                     viewModel = viewModel,
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize().consumeWindowInsets(paddings),
+                    contentPaddings = paddings,
                     onBookSearchItemClick = onBookSearchItemClick,
                     focusOnSearchBox = {
                         viewModel.forceFocusOrUnfocusKeywordTextInput(true)

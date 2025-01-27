@@ -7,6 +7,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -32,7 +33,8 @@ import liou.rayyuan.ebooksearchtaiwan.view.getLocalizedName
 @Composable
 fun ServiceStatusList(
     storeDetails: ImmutableList<BookStoreDetails>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    contentPaddings: PaddingValues = PaddingValues()
 ) {
     LazyColumn(
         modifier =
@@ -40,7 +42,8 @@ fun ServiceStatusList(
                 .padding(vertical = 8.dp)
                 .fillMaxWidth()
                 .nestedScroll(rememberNestedScrollInteropConnection()),
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        contentPadding = contentPaddings
     ) {
         item {
             AdBanner(modifier = Modifier.padding(horizontal = 12.dp))

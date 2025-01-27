@@ -1,6 +1,7 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.ui.Alignment
@@ -17,6 +18,7 @@ import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 fun NavGraphBuilder.bookResultNavGraph(
     viewModel: BookSearchViewModel,
     modifier: Modifier = Modifier,
+    contentPaddings: PaddingValues = PaddingValues(),
     onBookSearchItemClick: (Book) -> Unit = {},
     focusOnSearchBox: () -> Unit = {},
     onListScroll: () -> Unit = {}
@@ -30,7 +32,8 @@ fun NavGraphBuilder.bookResultNavGraph(
                 .value
         ServiceListScreen(
             bookStoreDetails = bookStoreDetails,
-            modifier = modifier,
+            contentPaddings = contentPaddings,
+            modifier = modifier
         )
     }
     composable(
@@ -47,6 +50,7 @@ fun NavGraphBuilder.bookResultNavGraph(
             lastScrollPosition = viewModel.lastScrollPosition,
             lastScrollOffset = viewModel.lastScrollOffset,
             modifier = modifier,
+            contentPaddings = contentPaddings,
             onBookSearchItemClick = onBookSearchItemClick,
             focusOnSearchBox = focusOnSearchBox,
             onListScroll = onListScroll
