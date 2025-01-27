@@ -21,6 +21,7 @@ import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
+import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -32,6 +33,7 @@ import androidx.preference.PreferenceManager
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.kevinnzou.web.rememberWebViewNavigator
 import com.rayliu.commonmain.domain.model.Book
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
@@ -104,13 +106,6 @@ class BookSearchActivity :
         lifecycleScope.launch {
             if (userPreferenceManager.isPreferCustomTab()) {
                 customTabSessionManager.bindCustomTabService(this@BookSearchActivity)
-            } else {
-                // TODO
-//                contentRouter.backStackCountsPublisher().collect { backStackCounts ->
-//                    if (backStackCounts == 0) {
-//                        checkShouldAskUserRankApp()
-//                    }
-//                }
             }
         }
 
@@ -137,14 +132,15 @@ class BookSearchActivity :
                     }
                 }
 
-                val navigator = rememberListDetailPaneScaffoldNavigator<Book>()
-                BackHandler(navigator.canNavigateBack()) {
-                    navigator.navigateBack()
+                val paneNavigator = rememberListDetailPaneScaffoldNavigator<Book>()
+                BackHandler(paneNavigator.canNavigateBack()) {
+                    paneNavigator.navigateBack()
                 }
+                val isDetailPaneVisible = paneNavigator.scaffoldValue.secondary == PaneAdaptedValue.Expanded
 
                 ListDetailPaneScaffold(
-                    directive = navigator.scaffoldDirective,
-                    value = navigator.scaffoldValue,
+                    directive = paneNavigator.scaffoldDirective,
+                    value = paneNavigator.scaffoldValue,
                     listPane = {
                         AnimatedPane {
                             BookResultListScreen(
@@ -155,7 +151,7 @@ class BookSearchActivity :
                                     if (userPreferenceManager.isPreferCustomTab()) {
                                         openInCustomTab(book.asUiModel().getLink())
                                     } else {
-                                        navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, book)
+                                        paneNavigator.navigateTo(ListDetailPaneScaffoldRole.Detail, book)
                                     }
 
                                     if (!hasUserSeenRankWindow) {
@@ -174,13 +170,18 @@ class BookSearchActivity :
                     },
                     detailPane = {
                         AnimatedPane {
-                            val book = navigator.currentDestination?.content
+                            val book = paneNavigator.currentDestination?.content?.asUiModel()
                             if (book != null) {
+                                val webViewNavigator = rememberWebViewNavigator()
                                 SimpleWebViewScreen(
-                                    book = book.asUiModel(),
+                                    book = book,
+                                    webViewNavigator = webViewNavigator,
                                     onBackButtonPress = {
-                                        // TODO
+                                        if (paneNavigator.canNavigateBack()) {
+                                            paneNavigator.navigateBack()
+                                        }
                                     },
+                                    showCloseButton = !isDetailPaneVisible,
                                     onShareOptionClick = { bookUiModel ->
                                         val intent = Intent(Intent.ACTION_SEND)
                                         intent.type = "text/plain"
@@ -192,11 +193,13 @@ class BookSearchActivity :
                                         val intent = Intent(Intent.ACTION_VIEW)
                                         intent.data = Uri.parse(bookUiModel.getLink())
                                         startActivity(intent)
-                                    },
-                                    onCanWebViewGoBackUpdate = { canGoBack ->
-                                        // TODO
                                     }
                                 )
+
+                                // FIXME: Logic is not same as the original one
+                                if (!webViewNavigator.canGoBack) {
+                                    checkShouldAskUserRankApp()
+                                }
                             }
                         }
                     }
@@ -494,13 +497,6 @@ class BookSearchActivity :
             }
         }
     }
-    //endregion
-
-    //region SimpleWebViewFragment.OnSimpleWebviewActionListener
-//    override fun onSimpleWebViewClose(tag: String) {
-    // TODO
-//        contentRouter.backToPreviousFragment()
-//    }
     //endregion
 
     companion object {

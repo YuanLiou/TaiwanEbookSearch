@@ -51,6 +51,10 @@ data class BookUiModel(
     fun getLink(): String = book.link
 
     fun getShareText(): String = "${book.title} \n ${book.link}"
+
+    override fun equals(other: Any?): Boolean = (other as? BookUiModel)?.book == book
+
+    override fun hashCode(): Int = book.hashCode()
 }
 
 internal fun Book.asUiModel() = BookUiModel(this)
