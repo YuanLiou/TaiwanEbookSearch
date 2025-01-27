@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import android.widget.Toast
-import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
@@ -16,15 +15,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorInt
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
-import androidx.compose.material3.adaptive.layout.AnimatedPane
-import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
-import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
-import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.lifecycleScope
@@ -34,13 +26,9 @@ import androidx.preference.PreferenceManager
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.kevinnzou.web.rememberWebViewNavigator
-import com.rayliu.commonmain.domain.model.Book
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
-import liou.rayyuan.ebooksearchtaiwan.BookResultDestinations
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.arch.IView
@@ -51,8 +39,6 @@ import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.CameraPreviewActivity
 import liou.rayyuan.ebooksearchtaiwan.model.DeeplinkHelper
 import liou.rayyuan.ebooksearchtaiwan.preferencesetting.PreferenceSettingsActivity
-import liou.rayyuan.ebooksearchtaiwan.rememberEBookAppState
-import liou.rayyuan.ebooksearchtaiwan.simplewebview.SimpleWebViewScreen
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import liou.rayyuan.ebooksearchtaiwan.utils.CustomTabSessionManager
 import liou.rayyuan.ebooksearchtaiwan.utils.showToastOn
@@ -115,95 +101,45 @@ class BookSearchActivity :
             EBookTheme(
                 darkTheme = isDarkTheme()
             ) {
-                val appState = rememberEBookAppState()
-                LaunchedEffect(Unit) {
-                    bookSearchViewModel.navigationEvents.distinctUntilChanged().collect { destinations ->
-                        when (destinations) {
-                            BookResultDestinations.LoadingScreen -> {
-                                appState.navigateToLoadingScreen()
-                            }
-
-                            BookResultDestinations.SearchResult -> {
-                                appState.navigateToSearchResult()
-                            }
-
-                            BookResultDestinations.ServiceStatus -> {
-                                appState.navigateToServiceStatus()
-                            }
+                BookSearchScreen(
+                    bookSearchViewModel = bookSearchViewModel,
+                    onBookSearchItemClick = { book, paneNavigator ->
+                        if (userPreferenceManager.isPreferCustomTab()) {
+                            openInCustomTab(book.asUiModel().getLink())
+                        } else {
+                            paneNavigator.navigateTo(ListDetailPaneScaffoldRole.Detail, book)
                         }
-                    }
-                }
 
-                val paneNavigator = rememberListDetailPaneScaffoldNavigator<Book>()
-                BackHandler(paneNavigator.canNavigateBack()) {
-                    paneNavigator.navigateBack()
-                }
-                val isDetailPaneVisible = paneNavigator.scaffoldValue.secondary == PaneAdaptedValue.Expanded
-
-                ListDetailPaneScaffold(
-                    directive = paneNavigator.scaffoldDirective,
-                    value = paneNavigator.scaffoldValue,
-                    listPane = {
-                        AnimatedPane {
-                            BookResultListScreen(
-                                viewModel = bookSearchViewModel,
-                                navHostController = appState.navController,
-                                modifier = Modifier.fillMaxSize(),
-                                onBookSearchItemClick = { book ->
-                                    if (userPreferenceManager.isPreferCustomTab()) {
-                                        openInCustomTab(book.asUiModel().getLink())
-                                    } else {
-                                        paneNavigator.navigateTo(ListDetailPaneScaffoldRole.Detail, book)
-                                    }
-
-                                    if (!hasUserSeenRankWindow) {
-                                        openResultCounts++
-                                    }
-                                },
-                                showAppBarCameraButton = isCameraAvailable(),
-                                onAppBarCameraButtonPress = {
-                                    openCameraPreviewActivity()
-                                },
-                                onMenuSettingClick = {
-                                    openPreferenceActivity()
-                                }
-                            )
+                        if (!hasUserSeenRankWindow) {
+                            openResultCounts++
                         }
                     },
-                    detailPane = {
-                        AnimatedPane {
-                            val book = paneNavigator.currentDestination?.content?.asUiModel()
-                            if (book != null) {
-                                val webViewNavigator = rememberWebViewNavigator()
-                                SimpleWebViewScreen(
-                                    book = book,
-                                    webViewNavigator = webViewNavigator,
-                                    onBackButtonPress = {
-                                        if (paneNavigator.canNavigateBack()) {
-                                            paneNavigator.navigateBack()
-                                        }
-                                    },
-                                    showCloseButton = !isDetailPaneVisible,
-                                    onShareOptionClick = { bookUiModel ->
-                                        val intent = Intent(Intent.ACTION_SEND)
-                                        intent.type = "text/plain"
-                                        intent.putExtra(Intent.EXTRA_SUBJECT, bookUiModel.getTitle())
-                                        intent.putExtra(Intent.EXTRA_TEXT, bookUiModel.getShareText())
-                                        startActivity(Intent.createChooser(intent, getString(R.string.menu_share_menu_appear)))
-                                    },
-                                    onOpenInBrowserClick = { bookUiModel ->
-                                        val intent = Intent(Intent.ACTION_VIEW)
-                                        intent.data = Uri.parse(bookUiModel.getLink())
-                                        startActivity(intent)
-                                    }
-                                )
-
-                                // FIXME: Logic is not same as the original one
-                                if (!webViewNavigator.canGoBack) {
-                                    checkShouldAskUserRankApp()
-                                }
-                            }
-                        }
+                    showAppBarCameraButton = isCameraAvailable(),
+                    onAppBarCameraButtonPress = {
+                        openCameraPreviewActivity()
+                    },
+                    onMenuSettingClick = {
+                        openPreferenceActivity()
+                    },
+                    onShareOptionClick = { bookUiModel ->
+                        val intent = Intent(Intent.ACTION_SEND)
+                        intent.type = "text/plain"
+                        intent.putExtra(Intent.EXTRA_SUBJECT, bookUiModel.getTitle())
+                        intent.putExtra(Intent.EXTRA_TEXT, bookUiModel.getShareText())
+                        startActivity(
+                            Intent.createChooser(
+                                intent,
+                                getString(R.string.menu_share_menu_appear)
+                            )
+                        )
+                    },
+                    onOpenInBrowserClick = { bookUiModel ->
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.data = Uri.parse(bookUiModel.getLink())
+                        startActivity(intent)
+                    },
+                    checkShouldAskUserRankApp = {
+                        checkShouldAskUserRankApp()
                     }
                 )
             }
@@ -332,7 +268,12 @@ class BookSearchActivity :
     }
 
     private fun changeSearchBoxKeyword(keyword: String) {
-        bookSearchViewModel.updateKeyword(TextFieldValue(keyword, selection = TextRange(keyword.length)))
+        bookSearchViewModel.updateKeyword(
+            TextFieldValue(
+                keyword,
+                selection = TextRange(keyword.length)
+            )
+        )
         bookSearchViewModel.forceFocusOrUnfocusKeywordTextInput(false)
     }
 
@@ -356,7 +297,11 @@ class BookSearchActivity :
             }
 
             if (BuildConfig.DEBUG) {
-                Toast.makeText(this@BookSearchActivity, "Rank Window Should Popup", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@BookSearchActivity,
+                    "Rank Window Should Popup",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
 
             val reviewInfo =
@@ -419,7 +364,10 @@ class BookSearchActivity :
 
             is ScreenState.ShowUserRankingDialog -> {
                 lifecycleScope.launch {
-                    playStoreReviewHelper.showReviewDialog(this@BookSearchActivity, screenState.reviewInfo)
+                    playStoreReviewHelper.showReviewDialog(
+                        this@BookSearchActivity,
+                        screenState.reviewInfo
+                    )
                     // Reset counts and flags
                     hasUserSeenRankWindow = true
                     openResultCounts = 0
