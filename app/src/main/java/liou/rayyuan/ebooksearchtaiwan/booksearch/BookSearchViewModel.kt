@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import com.google.android.play.core.review.ReviewInfo
 import com.rayliu.commonmain.BookStoresSorter
 import com.rayliu.commonmain.data.DefaultStoreNames
 import com.rayliu.commonmain.domain.model.BookResult
@@ -39,8 +40,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import liou.rayyuan.ebooksearchtaiwan.BookResultDestinations
 import liou.rayyuan.ebooksearchtaiwan.R
-import liou.rayyuan.ebooksearchtaiwan.arch.IModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.FocusAction
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.VirtualKeyboardAction
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookSearchResultItem
@@ -51,7 +52,6 @@ import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
 import liou.rayyuan.ebooksearchtaiwan.interactor.UserRankingWindowFacade
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookUiModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.asUiModel
-import liou.rayyuan.ebooksearchtaiwan.navigation.BookResultDestinations
 import liou.rayyuan.ebooksearchtaiwan.utils.ClipboardHelper
 import liou.rayyuan.ebooksearchtaiwan.utils.NetworkChecker
 import liou.rayyuan.ebooksearchtaiwan.utils.ResourceHelper
@@ -73,11 +73,9 @@ class BookSearchViewModel(
     private val rankingWindowFacade: UserRankingWindowFacade,
     private val clipboardHelper: ClipboardHelper,
     private val userPreferenceManager: UserPreferenceManager
-) : ViewModel(),
-    IModel<BookResultViewState, BookSearchUserIntent> {
-    override val userIntents: MutableSharedFlow<BookSearchUserIntent> = MutableSharedFlow()
+) : ViewModel() {
     private val _bookResultViewState = MutableLiveData<BookResultViewState>()
-    override val viewState: LiveData<BookResultViewState>
+    val viewState: LiveData<BookResultViewState>
         get() = _bookResultViewState
 
     private val _screenViewState = MutableSharedFlow<ScreenState>()
@@ -159,122 +157,6 @@ class BookSearchViewModel(
                 }
         }
 
-    init {
-        setupUserIntentHanding()
-    }
-
-    private fun setupUserIntentHanding() {
-        viewModelScope.launch {
-            userIntents.collect { userIntent ->
-                when (userIntent) {
-                    is BookSearchUserIntent.DeleteSearchRecord -> {
-                        deleteRecords(userIntent.searchRecord)
-                    }
-
-                    is BookSearchUserIntent.FocusOnTextEditing -> {
-                        focusOnEditText(userIntent.isFocus)
-                    }
-
-                    BookSearchUserIntent.OnViewReadyToServe -> {
-                        ready()
-                    }
-
-                    is BookSearchUserIntent.SearchBook -> {
-                        val keyword = userIntent.keywords
-                        if (keyword != null) {
-                            searchBook(userIntent.keywords)
-                        } else {
-                            searchBook(searchKeywords.value.text)
-                        }
-                    }
-
-                    is BookSearchUserIntent.ShowSearchSnapshot -> {
-                        requestSearchSnapshot(userIntent.searchId)
-                    }
-
-                    BookSearchUserIntent.ShareSnapshot -> {
-                        shareCurrentSnapshot()
-                    }
-
-                    is BookSearchUserIntent.AskUserRankApp -> {
-                        val hasUserSeenRankWindow =
-                            runCatching {
-                                checkUserHasSeenRankWindow()
-                            }.getOrDefault(false)
-
-                        if (!hasUserSeenRankWindow) {
-                            sendViewEffect(ScreenState.ShowUserRankingDialog(userIntent.reviewInfo))
-                        }
-                    }
-
-                    BookSearchUserIntent.RankAppWindowHasShown -> {
-                        rankingWindowFacade.saveUserHasSeenRankWindow()
-                    }
-
-                    BookSearchUserIntent.CopySnapshotUrlToClipboard -> {
-                        copySnapshotToClipboard()
-                    }
-
-                    BookSearchUserIntent.CheckServiceStatus -> {
-                        checkServiceStatus()
-                    }
-
-                    is BookSearchUserIntent.UpdateKeyword -> {
-                        _searchKeywords.value = userIntent.keywords
-                    }
-
-                    is BookSearchUserIntent.UpdateTextInputFocusState -> {
-                        _isTextInputFocused.value = userIntent.isFocused
-                    }
-
-                    BookSearchUserIntent.ResetFocusAction -> {
-                        _focusTextInput.value = FocusAction.NEUTRAL_STATE
-                    }
-
-                    is BookSearchUserIntent.ForceFocusOrUnfocusKeywordTextInput -> {
-                        if (userIntent.focus) {
-                            _focusTextInput.value = FocusAction.FOCUS
-                        } else {
-                            _focusTextInput.value = FocusAction.UNFOCUS
-                        }
-                    }
-
-                    BookSearchUserIntent.ResetVirtualKeyboardAction -> {
-                        _showVirtualKeyboard.value = VirtualKeyboardAction.NEUTRAL_STATE
-                    }
-
-                    is BookSearchUserIntent.ForceShowOrHideVirtualKeyboard -> {
-                        if (userIntent.show) {
-                            _showVirtualKeyboard.value = VirtualKeyboardAction.SHOW
-                        } else {
-                            _showVirtualKeyboard.value = VirtualKeyboardAction.HIDE
-                        }
-                    }
-
-                    is BookSearchUserIntent.EnableCameraButtonClick -> {
-                        _enableCameraButtonClick.value = userIntent.enable
-                    }
-
-                    is BookSearchUserIntent.EnableSearchButtonClick -> {
-                        _enableSearchButtonClick.value = userIntent.enable
-                    }
-
-                    is BookSearchUserIntent.ShowCopyUrlOption -> {
-                        showCopyUrlOption = userIntent.show
-                    }
-
-                    is BookSearchUserIntent.ShowShareSnapshotOption -> {
-                        showShareSnapshotOption = userIntent.show
-                    }
-
-                    is BookSearchUserIntent.ShowSearchRecords -> {
-                        _isShowSearchRecord.value = userIntent.show
-                    }
-                }
-            }
-        }
-    }
-
     override fun onCleared() {
         forceStopRequestingBookData()
         super.onCleared()
@@ -288,20 +170,21 @@ class BookSearchViewModel(
         lastScrollOffset = offset
     }
 
-    private fun ready() {
+    fun onViewReadyToServe() {
         if (isRequestingBookData()) {
             updateScreen(BookResultViewState.PrepareBookResult)
             updateBookSearchScreen(BookResultDestinations.LoadingScreen)
             _isShowSearchRecord.value = false
             _isLoadingResult.value = true
-        } else {
-            bookStores?.let {
-                prepareBookSearchResult(it)
-            }
+            return
+        }
+
+        bookStores?.let {
+            prepareBookSearchResult(it)
         }
     }
 
-    private fun focusOnEditText(isFocus: Boolean) {
+    fun focusOnEditText(isFocus: Boolean) {
         if (isFocus) {
             viewModelScope.launch {
                 getSearchRecordsCountsUseCase().fold(
@@ -318,7 +201,14 @@ class BookSearchViewModel(
         }
     }
 
-    private fun searchBook(keyword: String) {
+    fun searchBook(targetKeyword: String? = null) {
+        val keyword =
+            if (!targetKeyword.isNullOrEmpty()) {
+                targetKeyword
+            } else {
+                searchKeywords.value.text
+            }
+
         if (keyword.trim().isBlank()) {
             sendViewEffect(ScreenState.EmptyKeyword)
             return
@@ -391,7 +281,7 @@ class BookSearchViewModel(
         }
     }
 
-    private fun requestSearchSnapshot(searchId: String) {
+    fun requestSearchSnapshot(searchId: String) {
         if (searchId.isEmpty()) {
             sendViewEffect(ScreenState.EmptyKeyword)
             return
@@ -399,7 +289,7 @@ class BookSearchViewModel(
         fetchBookResult(ShowSearchSnapshotAction(searchId))
     }
 
-    private fun deleteRecords(searchRecord: SearchRecord) {
+    fun deleteRecords(searchRecord: SearchRecord) {
         viewModelScope.launch {
             deleteSearchRecordUseCase(searchRecord)
         }
@@ -487,13 +377,13 @@ class BookSearchViewModel(
         return bestItems
     }
 
-    private fun shareCurrentSnapshot() {
+    fun shareCurrentSnapshot() {
         generateSnapshotUrl { targetUrl ->
             updateScreen(BookResultViewState.ShareCurrentPageSnapshot(targetUrl))
         }
     }
 
-    private fun copySnapshotToClipboard() {
+    fun copySnapshotToClipboard() {
         generateSnapshotUrl { targetUrl ->
             clipboardHelper.addToClipboard(targetUrl)
             sendViewEffect(ScreenState.ShowToastMessage(R.string.add_to_clipboard_successful))
@@ -542,7 +432,7 @@ class BookSearchViewModel(
         _isLoadingResult.value = false
     }
 
-    private fun checkServiceStatus() {
+    fun checkServiceStatus() {
         if (viewState.value is BookResultViewState.PrepareBookResult || viewState.value is BookResultViewState.ShowBooks) {
             return
         }
@@ -577,6 +467,69 @@ class BookSearchViewModel(
         viewModelScope.launch {
             _navigationEvents.emit(bookSearchDestination)
         }
+    }
+
+    fun updateKeyword(keyword: TextFieldValue) {
+        _searchKeywords.value = keyword
+    }
+
+    fun resetFocusAction() {
+        _focusTextInput.value = FocusAction.NEUTRAL_STATE
+    }
+
+    fun updateTextInputFocusState(isFocused: Boolean) {
+        _isTextInputFocused.value = isFocused
+    }
+
+    fun forceShowOrHideVirtualKeyboard(show: Boolean) {
+        if (show) {
+            _showVirtualKeyboard.value = VirtualKeyboardAction.SHOW
+        } else {
+            _showVirtualKeyboard.value = VirtualKeyboardAction.HIDE
+        }
+    }
+
+    fun forceFocusOrUnfocusKeywordTextInput(focus: Boolean) {
+        if (focus) {
+            _focusTextInput.value = FocusAction.FOCUS
+        } else {
+            _focusTextInput.value = FocusAction.UNFOCUS
+        }
+    }
+
+    fun showSearchRecords(show: Boolean) {
+        _isShowSearchRecord.value = show
+    }
+
+    suspend fun askUserRankApp(reviewInfo: ReviewInfo) {
+        val hasUserSeenRankWindow =
+            runCatching {
+                checkUserHasSeenRankWindow()
+            }.getOrDefault(false)
+
+        if (!hasUserSeenRankWindow) {
+            sendViewEffect(ScreenState.ShowUserRankingDialog(reviewInfo))
+        }
+    }
+
+    fun enableCameraButtonClick(enable: Boolean) {
+        _enableCameraButtonClick.value = enable
+    }
+
+    fun enableSearchButtonClick(enable: Boolean) {
+        _enableSearchButtonClick.value = enable
+    }
+
+    fun showCopyUrlOption(show: Boolean) {
+        showCopyUrlOption = show
+    }
+
+    fun showShareSnapshotOption(show: Boolean) {
+        showShareSnapshotOption = show
+    }
+
+    suspend fun rankAppWindowHasShown() {
+        rankingWindowFacade.saveUserHasSeenRankWindow()
     }
 
     companion object {

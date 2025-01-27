@@ -29,9 +29,6 @@ class DeeplinkHelper {
 
     private fun canHandle(intent: Intent): Boolean {
         val action = intent.action
-        if (action == null || action != Intent.ACTION_VIEW) {
-            return false
-        }
-        return true
+        return !(action == null || action != Intent.ACTION_VIEW)
     }
 }

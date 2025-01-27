@@ -23,6 +23,40 @@ abstract class BaseActivity(
     private val isOpenWithFollowSystemTheme = userPreferenceManager.isFollowSystemTheme()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setupTheme()
+        setupEdgeToEdge()
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        setupTheme()
+        setupEdgeToEdge()
+    }
+
+    fun isDarkTheme(): Boolean {
+        val shouldFollowSystemTheme = userPreferenceManager.isFollowSystemTheme()
+        return (isSystemInNightMode() && shouldFollowSystemTheme) ||
+            (userPreferenceManager.isDarkTheme() && !shouldFollowSystemTheme)
+    }
+
+    protected fun isThemeChanged(): Boolean = isOpenWithDarkTheme != isDarkTheme()
+
+    protected fun isStartToFollowSystemTheme(): Boolean {
+        val shouldFollowSystemTheme = userPreferenceManager.isFollowSystemTheme()
+        return shouldFollowSystemTheme != isOpenWithFollowSystemTheme
+    }
+
+    private fun isSystemInNightMode(): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+            return false
+        }
+
+        return resources.configuration.uiMode and
+            Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+    }
+
+    private fun setupTheme() {
         val shouldFollowSystemTheme = userPreferenceManager.isFollowSystemTheme()
         if (shouldFollowSystemTheme) {
             if (isSystemInNightMode()) {
@@ -33,9 +67,10 @@ abstract class BaseActivity(
                 setTheme(R.style.NightTheme)
             }
         }
+    }
 
+    private fun setupEdgeToEdge() {
         val navigationDarkScrimColor = Color.TRANSPARENT
-
         enableEdgeToEdge(
             statusBarStyle =
                 if (isDarkTheme()) {
@@ -61,28 +96,5 @@ abstract class BaseActivity(
                     )
                 }
         )
-        super.onCreate(savedInstanceState)
-    }
-
-    fun isDarkTheme(): Boolean {
-        val shouldFollowSystemTheme = userPreferenceManager.isFollowSystemTheme()
-        return (isSystemInNightMode() && shouldFollowSystemTheme) ||
-            (userPreferenceManager.isDarkTheme() && !shouldFollowSystemTheme)
-    }
-
-    protected fun isThemeChanged(): Boolean = isOpenWithDarkTheme != isDarkTheme()
-
-    protected fun isStartToFollowSystemTheme(): Boolean {
-        val shouldFollowSystemTheme = userPreferenceManager.isFollowSystemTheme()
-        return shouldFollowSystemTheme != isOpenWithFollowSystemTheme
-    }
-
-    private fun isSystemInNightMode(): Boolean {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-            return false
-        }
-
-        return resources.configuration.uiMode and
-            Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
     }
 }

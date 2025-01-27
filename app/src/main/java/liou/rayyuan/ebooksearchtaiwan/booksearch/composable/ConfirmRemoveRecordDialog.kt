@@ -33,7 +33,7 @@ fun ConfirmRemoveRecordDialog(
     searchRecord: SearchRecord,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
-    onRemoveSearchRecord: (record: SearchRecord) -> Unit = {}
+    onDeleteSearchRecord: (record: SearchRecord) -> Unit = {}
 ) {
     BasicAlertDialog(
         onDismissRequest = onDismissRequest,
@@ -108,7 +108,7 @@ fun ConfirmRemoveRecordDialog(
                             Modifier
                                 .padding(end = 16.dp)
                                 .clickable {
-                                    onRemoveSearchRecord(searchRecord)
+                                    onDeleteSearchRecord(searchRecord)
                                     onDismissRequest()
                                 }
                     )
