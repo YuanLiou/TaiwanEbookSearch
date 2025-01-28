@@ -27,7 +27,9 @@ data class EBookColorScheme(
     val editTextInputColor: Color,
     val reorderListBackgroundColor: Color,
     val customTabHeaderColor: Color,
-    val closeButtonColor: Color
+    val closeButtonColor: Color,
+    val checkBoxNormalColor: Color,
+    val checkBoxCheckedColor: Color
 )
 
 val LightColorScheme =
@@ -53,7 +55,9 @@ val LightColorScheme =
         editTextInputColor = pure_dark,
         reorderListBackgroundColor = pure_white,
         customTabHeaderColor = blue_green_dark_you,
-        closeButtonColor = dark_gray
+        closeButtonColor = dark_gray,
+        checkBoxNormalColor = dark_gray,
+        checkBoxCheckedColor = blue_green_you
     )
 
 val DarkColorScheme =
@@ -79,7 +83,9 @@ val DarkColorScheme =
         editTextInputColor = pure_white,
         reorderListBackgroundColor = darker_gray_3B,
         customTabHeaderColor = darker_gray_28,
-        closeButtonColor = google_app_white_color
+        closeButtonColor = google_app_white_color,
+        checkBoxNormalColor = light_white_8a,
+        checkBoxCheckedColor = pure_white
     )
 
 val LocalColorScheme =
@@ -106,6 +112,8 @@ val LocalColorScheme =
             editTextInputColor = Color.Unspecified,
             reorderListBackgroundColor = Color.Unspecified,
             customTabHeaderColor = Color.Unspecified,
-            closeButtonColor = Color.Unspecified
+            closeButtonColor = Color.Unspecified,
+            checkBoxNormalColor = Color.Unspecified,
+            checkBoxCheckedColor = Color.Unspecified
         )
     }

@@ -85,14 +85,12 @@ private fun AdView(modifier: Modifier = Modifier) {
     name = "AdBanner Card",
     group = "component",
     showSystemUi = false,
-    apiLevel = 34,
     device = MDPI_DEVICES
 )
 @Preview(
     name = "AdBanner Dark",
     group = "component",
     uiMode = Configuration.UI_MODE_NIGHT_YES,
-    apiLevel = 34,
     device = MDPI_DEVICES,
 )
 @Composable

@@ -35,9 +35,7 @@ class BookstoreNameAdapter(
         return BookstoreViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-        return bookStores.size
-    }
+    override fun getItemCount(): Int = bookStores.size
 
     override fun onBindViewHolder(
         holder: BookstoreViewHolder,
@@ -182,13 +180,12 @@ class BookstoreNameAdapter(
         notifyDataSetChanged()
     }
 
-    fun getStoreNames(): List<DefaultStoreNames> {
-        return bookStores.filter {
+    fun getStoreNames(): List<DefaultStoreNames> =
+        bookStores.filter {
             it.isVisible
         }.map {
             it.defaultStoreName
         }
-    }
 
     private fun displayStoreFromResult(store: SortedStore) {
         if (!store.isVisible) {
@@ -248,9 +245,4 @@ class BookstoreNameAdapter(
             ViewCompat.setTranslationZ(itemView, 0f)
         }
     }
-
-    data class SortedStore(
-        val defaultStoreName: DefaultStoreNames,
-        var isVisible: Boolean
-    )
 }
