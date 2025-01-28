@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -49,6 +50,7 @@ fun BookSearchResultScreen(
     viewModel: BookSearchViewModel,
     modifier: Modifier = Modifier,
     bookSearchResult: ImmutableList<BookSearchResultItem> = persistentListOf(),
+    contentPaddings: PaddingValues = PaddingValues(),
     lastScrollPosition: Int = 0,
     lastScrollOffset: Int = 0,
     onBookSearchItemClick: (Book) -> Unit = {},
@@ -92,7 +94,8 @@ fun BookSearchResultScreen(
             lazyListState = lazyListState,
             modifier =
                 Modifier.padding(horizontal = dimensionResource(R.dimen.search_list_padding_horizontal)),
-            onBookSearchItemClick = onBookSearchItemClick
+            onBookSearchItemClick = onBookSearchItemClick,
+            contentPaddings = contentPaddings
         )
 
         // Scroll to top button

@@ -53,7 +53,7 @@ androidxEspresso = "3.6.1"
 
 # plugins versions
 androidGradlePlugin = "8.8.0"
-kotlin = "2.1.0"
+kotlin = "2.1.10"
 gmsPlugin = "4.4.2"
 firebaseCrashlyticsPlugin = "3.0.2"
 detektVersion = "1.23.7"
