@@ -15,8 +15,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorInt
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.lifecycleScope
@@ -103,6 +105,7 @@ class BookSearchActivity :
             ) {
                 BookSearchScreen(
                     bookSearchViewModel = bookSearchViewModel,
+                    modifier = Modifier.fillMaxSize(),
                     onBookSearchItemClick = { book, paneNavigator ->
                         if (userPreferenceManager.isPreferCustomTab()) {
                             openInCustomTab(book.asUiModel().getLink())

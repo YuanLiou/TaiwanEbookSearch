@@ -11,6 +11,7 @@ val white_EB = Color(0xFFEBEBEB)
 val google_app_white_color = Color(0xFFF2F2F2)
 val white_BD = Color(0xFFBDBDBD)
 val gray_d0 = Color(0xFFCAC4D0) // Dark theme of colorControlNormal
+val pale_slate = Color(0xFFBCBEC0)
 val gray = Color(0xFF929292)
 val dark_gray = Color(0xFF646464)
 val tundora = Color(0xFF424242)
