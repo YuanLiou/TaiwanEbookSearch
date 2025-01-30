@@ -2,6 +2,7 @@ package com.rayliu.commonmain.domain.repository
 
 import com.rayliu.commonmain.domain.model.BookStores
 import com.rayliu.commonmain.data.DefaultStoreNames
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.flow.Flow
 
 interface BookRepository {
@@ -12,9 +13,9 @@ interface BookRepository {
         keyword: String
     ): Result<BookStores>
 
-    fun getDefaultResultSort(): Flow<List<DefaultStoreNames>>
+    fun getDefaultResultSort(): Flow<ImmutableList<DefaultStoreNames>>
 
-    suspend fun saveDefaultResultSort(currentSortSettings: List<DefaultStoreNames>)
+    suspend fun saveDefaultResultSort(currentSortSettings: ImmutableList<DefaultStoreNames>)
 
     suspend fun getSearchSnapshot(searchId: String): Result<BookStores>
 }

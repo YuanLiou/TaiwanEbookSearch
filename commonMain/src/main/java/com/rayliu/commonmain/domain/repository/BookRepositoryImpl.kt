@@ -12,6 +12,8 @@ import com.rayliu.commonmain.data.dto.NetworkCrawerResult
 import com.rayliu.commonmain.data.mapper.BookStoresMapper
 import com.rayliu.commonmain.domain.model.BookStores
 import java.io.IOException
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -51,7 +53,7 @@ class BookRepositoryImpl(
             bookStoresMapper.map(input)
         }
 
-    override fun getDefaultResultSort(): Flow<List<DefaultStoreNames>> {
+    override fun getDefaultResultSort(): Flow<ImmutableList<DefaultStoreNames>> {
         val key = stringPreferencesKey(KEY_BOOK_STORE_SORT)
         return userPreferences.data
             .catch { exception ->
@@ -68,16 +70,16 @@ class BookRepositoryImpl(
                         userDefaultSort.split(",").map {
                             DefaultStoreNames.fromName(it)
                         }
-                    return@map result
+                    return@map result.toImmutableList()
                 }
 
-                val defaultSort = Utils.getDefaultSort()
+                val defaultSort = Utils.getDefaultSort().toImmutableList()
                 saveDefaultResultSort(defaultSort)
                 defaultSort
             }
     }
 
-    override suspend fun saveDefaultResultSort(currentSortSettings: List<DefaultStoreNames>) {
+    override suspend fun saveDefaultResultSort(currentSortSettings: ImmutableList<DefaultStoreNames>) {
         val key = stringPreferencesKey(KEY_BOOK_STORE_SORT)
         userPreferences.edit { settings ->
             val settingString = currentSortSettings.joinToString(separator = ",") { it.defaultName }

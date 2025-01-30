@@ -41,7 +41,7 @@ fun BookStoreOrderItem(
     sortedStore: SortedStore,
     modifier: Modifier = Modifier
 ) {
-    var checked by remember { mutableStateOf(false) }
+    var checked by remember { mutableStateOf(sortedStore.isVisible) }
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier =
@@ -78,7 +78,9 @@ fun BookStoreOrderItem(
             painter = painterResource(id = EBookTheme.drawables.reorderHandlerItemDrawable),
             contentDescription = null,
             contentScale = ContentScale.Fit,
-            modifier = Modifier.padding(16.dp)
+            modifier =
+                Modifier
+                    .padding(16.dp)
         )
     }
 }

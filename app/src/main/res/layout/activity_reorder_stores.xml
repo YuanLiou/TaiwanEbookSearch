@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_reorder_layout_rootView"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -9,11 +8,11 @@
     android:background="?android:attr/colorBackground"
     >
 
+<!--    app:liftOnScrollTargetViewId="@id/activity_reorder_recyclerview"-->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:liftOnScroll="true"
-        app:liftOnScrollTargetViewId="@id/activity_reorder_recyclerview"
         >
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -24,15 +23,20 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/activity_reorder_recyclerview"
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/activity_reorder_composeView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:clipChildren="false"
-        android:layout_marginTop="4dp"
-        app:layoutManager="LinearLayoutManager"
-        tools:listitem="@layout/adapter_bookstores"
-        />
+        android:layout_height="match_parent" />
+
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/activity_reorder_recyclerview"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:clipToPadding="false"-->
+<!--        android:clipChildren="false"-->
+<!--        android:layout_marginTop="4dp"-->
+<!--        app:layoutManager="LinearLayoutManager"-->
+<!--        tools:listitem="@layout/adapter_bookstores"-->
+<!--        />-->
 
 </LinearLayout>

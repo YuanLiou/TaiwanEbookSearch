@@ -4,19 +4,29 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.R
 import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.arch.IView
+import liou.rayyuan.ebooksearchtaiwan.bookstorereorder.composable.BookStoreOrderItem
+import liou.rayyuan.ebooksearchtaiwan.composable.toMutableStateList
 import liou.rayyuan.ebooksearchtaiwan.databinding.ActivityReorderStoresBinding
+import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import liou.rayyuan.ebooksearchtaiwan.utils.ActivityViewBinding
 import liou.rayyuan.ebooksearchtaiwan.utils.bindView
 import liou.rayyuan.ebooksearchtaiwan.utils.setupEdgeToEdge
@@ -35,7 +45,6 @@ class BookStoreReorderActivity :
     )
 
     private val toolbar: Toolbar by bindView(R.id.activity_reorder_layout_toolbar)
-    private val recyclerView: RecyclerView by bindView(R.id.activity_reorder_recyclerview)
     private val adapter: BookstoreNameAdapter = BookstoreNameAdapter(this)
 
     private lateinit var itemTouchHelper: ItemTouchHelper
@@ -44,23 +53,34 @@ class BookStoreReorderActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initToolbar()
-        with(recyclerView) {
-            setHasFixedSize(true)
-            addItemDecoration(
-                DividerItemDecoration(
-                    this@BookStoreReorderActivity,
-                    LinearLayoutManager.VERTICAL
-                )
-            )
-            adapter = this@BookStoreReorderActivity.adapter
-        }
 
         val listItemTouchCallback = ListItemTouchCallback(adapter)
         itemTouchHelper = ItemTouchHelper(listItemTouchCallback)
-        itemTouchHelper.attachToRecyclerView(recyclerView)
         viewModel.viewState.observe(this) { state -> render(state) }
         sendUserIntent(BookStoreReorderUserIntent.GetPreviousSavedSort)
         setupEdgeToEdge()
+
+        val composeView = findViewById<ComposeView>(R.id.activity_reorder_composeView)
+        with(composeView) {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnDetachedFromWindow)
+            setContent {
+                EBookTheme(
+                    darkTheme = isDarkTheme()
+                ) {
+                    val sortedStores = viewModel.sortedStores.collectAsStateWithLifecycle().value
+                    val bookStores = remember(sortedStores) { sortedStores.toMutableStateList() }
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(2.dp)
+                    ) {
+                        items(bookStores, key = { it.defaultStoreName }) { sortedStore ->
+                            BookStoreOrderItem(
+                                sortedStore = sortedStore
+                            )
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun setupEdgeToEdge() {
