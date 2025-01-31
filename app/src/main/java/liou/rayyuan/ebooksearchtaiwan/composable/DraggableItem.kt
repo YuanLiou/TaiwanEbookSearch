@@ -66,12 +66,12 @@ fun Modifier.dragContainer(dragDropState: DragDropState): Modifier =
 fun rememberDragDropState(
     lazyListState: LazyListState,
     onMove: (Int, Int) -> Unit,
-    draggableItemNumber: Int
+    draggableItemCounts: Int
 ): DragDropState {
     val state =
         remember(lazyListState) {
             DragDropState(
-                draggableItemNumber = draggableItemNumber,
+                draggableItemCounts = draggableItemCounts,
                 stateList = lazyListState,
                 onMove = onMove
             )
@@ -87,7 +87,7 @@ fun rememberDragDropState(
 }
 
 class DragDropState(
-    private val draggableItemNumber: Int,
+    private val draggableItemCounts: Int,
     private val stateList: LazyListState,
     private val onMove: (Int, Int) -> Unit
 ) {
@@ -100,9 +100,8 @@ class DragDropState(
 
     internal fun onDragStart(offset: Offset) {
         stateList.layoutInfo.visibleItemsInfo
-            .firstOrNull { item ->
-                offset.y.toInt() in item.offset..(item.offset + item.size)
-            }?.also {
+            .firstOrNull { item -> offset.y.toInt() in item.offset..(item.offset + item.size) }
+            ?.also {
                 (it.contentType as? DraggableItem)?.let { draggableItem ->
                     draggingItem = it
                     draggingItemIndex = draggableItem.index
@@ -150,7 +149,11 @@ class DragDropState(
                     else -> 0f
                 }
 
-            if (scroll != 0f && currentDraggingItemIndex != 0 && currentDraggingItemIndex != draggableItemNumber - 1) {
+            if (scroll != 0f &&
+                currentDraggingItemIndex != 0 &&
+                draggableItemCounts > 0 &&
+                currentDraggingItemIndex != draggableItemCounts - 1
+            ) {
                 scrollChannel.trySend(scroll)
             }
         }

@@ -60,7 +60,8 @@ fun BookStoreOrderItem(
             colors =
                 CheckboxDefaults.colors(
                     checkedColor = EBookTheme.colors.checkBoxCheckedColor,
-                    uncheckedColor = EBookTheme.colors.checkBoxNormalColor
+                    uncheckedColor = EBookTheme.colors.checkBoxNormalColor,
+                    checkmarkColor = EBookTheme.colors.checkmarkColor
                 )
         )
         val context = LocalContext.current

@@ -28,9 +28,7 @@ class BookStoreReorderViewModel(
     override val viewState: LiveData<BookStoreReorderViewState>
         get() = _bookStoreReorderViewState
     private val _sortedStores =
-        MutableStateFlow<ImmutableList<SortedStore>>(
-            persistentListOf()
-        )
+        MutableStateFlow<ImmutableList<SortedStore>>(persistentListOf())
     val sortedStores
         get() = _sortedStores.asStateFlow()
 
@@ -75,7 +73,7 @@ class BookStoreReorderViewModel(
 
     private fun convertToSortedStore(displayStores: List<DefaultStoreNames>): List<SortedStore> {
         Log.i("BookstoreNameAdapter", "display stores = $displayStores")
-        val disableStores = DefaultStoreNames.values().toMutableList()
+        val disableStores = DefaultStoreNames.entries.toMutableList()
         disableStores.remove(DefaultStoreNames.BEST_RESULT)
         disableStores.remove(DefaultStoreNames.UNKNOWN)
         disableStores.removeAll(displayStores)

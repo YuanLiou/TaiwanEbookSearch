@@ -6,9 +6,11 @@ import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.unit.dp
@@ -19,11 +21,15 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import java.util.Collections
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.R
 import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.arch.IView
 import liou.rayyuan.ebooksearchtaiwan.bookstorereorder.composable.BookStoreOrderItem
+import liou.rayyuan.ebooksearchtaiwan.composable.dragContainer
+import liou.rayyuan.ebooksearchtaiwan.composable.draggableItems
+import liou.rayyuan.ebooksearchtaiwan.composable.rememberDragDropState
 import liou.rayyuan.ebooksearchtaiwan.composable.toMutableStateList
 import liou.rayyuan.ebooksearchtaiwan.databinding.ActivityReorderStoresBinding
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
@@ -57,7 +63,6 @@ class BookStoreReorderActivity :
         val listItemTouchCallback = ListItemTouchCallback(adapter)
         itemTouchHelper = ItemTouchHelper(listItemTouchCallback)
         viewModel.viewState.observe(this) { state -> render(state) }
-        sendUserIntent(BookStoreReorderUserIntent.GetPreviousSavedSort)
         setupEdgeToEdge()
 
         val composeView = findViewById<ComposeView>(R.id.activity_reorder_composeView)
@@ -68,19 +73,40 @@ class BookStoreReorderActivity :
                     darkTheme = isDarkTheme()
                 ) {
                     val sortedStores = viewModel.sortedStores.collectAsStateWithLifecycle().value
-                    val bookStores = remember(sortedStores) { sortedStores.toMutableStateList() }
-                    LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy(2.dp)
-                    ) {
-                        items(bookStores, key = { it.defaultStoreName }) { sortedStore ->
-                            BookStoreOrderItem(
-                                sortedStore = sortedStore
+                    if (sortedStores.isNotEmpty()) {
+                        val bookStores = remember(sortedStores) { sortedStores.toMutableStateList() }
+                        val draggableItemCounts by remember(sortedStores) {
+                            derivedStateOf { bookStores.size }
+                        }
+
+                        val listState = rememberLazyListState()
+                        val dragDropState =
+                            rememberDragDropState(
+                                lazyListState = listState,
+                                onMove = { fromIndex, toIndex ->
+                                    Collections.swap(bookStores, fromIndex, toIndex)
+                                },
+                                draggableItemCounts = draggableItemCounts
                             )
+
+                        LazyColumn(
+                            verticalArrangement = Arrangement.spacedBy(2.dp),
+                            state = listState,
+                            modifier = Modifier.dragContainer(dragDropState)
+                        ) {
+                            draggableItems(bookStores, dragDropState) { modifier, sortedStore ->
+                                BookStoreOrderItem(
+                                    sortedStore = sortedStore,
+                                    modifier = modifier
+                                )
+                            }
                         }
                     }
                 }
             }
         }
+
+        sendUserIntent(BookStoreReorderUserIntent.GetPreviousSavedSort)
     }
 
     private fun setupEdgeToEdge() {
