@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.arch.IModel
+import liou.rayyuan.ebooksearchtaiwan.bookstorereorder.model.SortedStore
 
 class BookStoreReorderViewModel(
     private val getDefaultBookSortUseCase: GetDefaultBookSortUseCase,

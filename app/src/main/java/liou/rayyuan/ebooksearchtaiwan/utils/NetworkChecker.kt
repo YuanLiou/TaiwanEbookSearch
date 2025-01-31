@@ -10,6 +10,7 @@ class NetworkChecker(
 ) {
     private val context = context.applicationContext
 
+    @Suppress("DEPRECATION")
     fun isInternetConnectionAvailable(): Boolean {
         val connectionManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
         if (connectionManager != null) {

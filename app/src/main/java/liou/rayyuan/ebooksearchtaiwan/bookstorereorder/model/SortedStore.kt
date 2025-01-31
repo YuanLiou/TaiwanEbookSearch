@@ -1,4 +1,4 @@
-package liou.rayyuan.ebooksearchtaiwan.bookstorereorder
+package liou.rayyuan.ebooksearchtaiwan.bookstorereorder.model
 
 import androidx.compose.runtime.mutableStateOf
 import com.rayliu.commonmain.data.DefaultStoreNames

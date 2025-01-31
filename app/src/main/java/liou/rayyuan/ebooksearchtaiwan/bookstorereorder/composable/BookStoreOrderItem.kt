@@ -27,7 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rayliu.commonmain.data.DefaultStoreNames
-import liou.rayyuan.ebooksearchtaiwan.bookstorereorder.SortedStore
+import liou.rayyuan.ebooksearchtaiwan.bookstorereorder.model.SortedStore
 import liou.rayyuan.ebooksearchtaiwan.composable.resolveColorAttribute
 import liou.rayyuan.ebooksearchtaiwan.ui.MDPI_DEVICES
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
