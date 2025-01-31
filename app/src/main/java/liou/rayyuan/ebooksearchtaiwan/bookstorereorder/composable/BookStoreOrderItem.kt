@@ -38,6 +38,8 @@ fun BookStoreOrderItem(
     sortedStore: SortedStore,
     modifier: Modifier = Modifier,
     showCheckBox: Boolean = true,
+    enableDragging: Boolean = true,
+    disableCheckBox: Boolean = false,
     onVisibilityChange: () -> Unit = {}
 ) {
     Row(
@@ -47,13 +49,25 @@ fun BookStoreOrderItem(
                 .background(EBookTheme.colors.reorderListBackgroundColor)
                 .fillMaxWidth()
                 .height(72.dp)
-                .clickable {
+                .clickable(enabled = !disableCheckBox) {
                     sortedStore.isEnable.value = !sortedStore.isEnable.value
                     onVisibilityChange()
                 }
     ) {
         Spacer(modifier = Modifier.width(16.dp))
+        val checkBoxAlpha =
+            if (!disableCheckBox) {
+                if (showCheckBox) {
+                    1f
+                } else {
+                    0f
+                }
+            } else {
+                0.4f
+            }
+
         Checkbox(
+            enabled = !disableCheckBox,
             checked = sortedStore.isEnable.value,
             onCheckedChange = {
                 sortedStore.isEnable.value = it
@@ -65,7 +79,7 @@ fun BookStoreOrderItem(
                     uncheckedColor = EBookTheme.colors.checkBoxNormalColor,
                     checkmarkColor = EBookTheme.colors.checkmarkColor
                 ),
-            modifier = Modifier.alpha(if (showCheckBox) 1f else 0f)
+            modifier = Modifier.alpha(checkBoxAlpha)
         )
         val context = LocalContext.current
         Text(
@@ -85,6 +99,7 @@ fun BookStoreOrderItem(
             modifier =
                 Modifier
                     .padding(16.dp)
+                    .alpha(if (enableDragging) 1f else 0.4f)
         )
     }
 }

@@ -81,7 +81,8 @@ fun rememberDragDropState(
                 stateList = lazyListState,
                 onMove = onMove,
                 onMoveStart = onMoveStart,
-                onMoveInterrupted = onMoveInterrupt
+                onMoveInterrupted = onMoveInterrupt,
+                isEnable = true
             )
         }
 
@@ -99,7 +100,8 @@ class DragDropState(
     private val stateList: LazyListState,
     private val onMove: (Int, Int) -> Unit,
     private val onMoveStart: () -> Unit = {},
-    private val onMoveInterrupted: () -> Unit = {}
+    private val onMoveInterrupted: () -> Unit = {},
+    var isEnable: Boolean = true
 ) {
     var draggingItemIndex: Int? by mutableStateOf(null)
         private set
@@ -109,6 +111,10 @@ class DragDropState(
     private var draggingItem: LazyListItemInfo? = null
 
     internal fun onDragStart(offset: Offset) {
+        if (!isEnable) {
+            return
+        }
+
         stateList.layoutInfo.visibleItemsInfo
             .firstOrNull { item -> offset.y.toInt() in item.offset..(item.offset + item.size) }
             ?.also {
@@ -128,6 +134,10 @@ class DragDropState(
     }
 
     internal fun onDrag(offset: Offset) {
+        if (!isEnable) {
+            return
+        }
+
         delta += offset.y
 
         val currentDraggingItemIndex = draggingItemIndex ?: return

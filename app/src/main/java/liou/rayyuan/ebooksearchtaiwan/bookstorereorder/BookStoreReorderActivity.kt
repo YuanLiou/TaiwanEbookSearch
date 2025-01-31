@@ -12,7 +12,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
@@ -85,6 +84,7 @@ class BookStoreReorderActivity :
                         val draggableItemCounts by remember(sortedStores) {
                             derivedStateOf { bookStores.size }
                         }
+                        val enableStoreCounts = bookStores.count { it.isEnable.value }
 
                         val listState = rememberLazyListState()
                         val dragDropState =
@@ -103,6 +103,8 @@ class BookStoreReorderActivity :
                                 draggableItemCounts = draggableItemCounts
                             )
 
+                        dragDropState.isEnable = enableStoreCounts > 1
+
                         LazyColumn(
                             verticalArrangement = Arrangement.spacedBy(2.dp),
                             state = listState,
@@ -113,6 +115,8 @@ class BookStoreReorderActivity :
                                     sortedStore = sortedStore,
                                     modifier = modifier,
                                     showCheckBox = !isMovingListItem,
+                                    disableCheckBox = (enableStoreCounts < 2 && sortedStore.isEnable.value),
+                                    enableDragging = enableStoreCounts > 1,
                                     onVisibilityChange = {
                                         showSaveSettingIcon()
                                     }
