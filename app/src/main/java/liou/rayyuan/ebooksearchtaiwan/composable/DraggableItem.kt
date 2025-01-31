@@ -14,9 +14,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import kotlinx.coroutines.channels.Channel
 
@@ -27,23 +29,25 @@ data class DraggableItem(
 inline fun <T : Any> LazyListScope.draggableItems(
     items: List<T>,
     dragDropState: DragDropState,
-    crossinline content: @Composable (Modifier, T) -> Unit
+    crossinline content: @Composable (Modifier, T, isDragging: Boolean) -> Unit
 ) {
     itemsIndexed(
         items = items,
         contentType = { index, _ -> DraggableItem(index) }
     ) { index, item ->
+        val isDragging = dragDropState.draggingItemIndex == index
         val modifier =
-            if (dragDropState.draggingItemIndex == index) {
+            if (isDragging) {
                 Modifier
                     .zIndex(1f)
                     .graphicsLayer {
                         translationY = dragDropState.delta
                     }
+                    .shadow(4.dp)
             } else {
                 Modifier
             }
-        content(modifier, item)
+        content(modifier, item, isDragging)
     }
 }
 
@@ -66,14 +70,18 @@ fun Modifier.dragContainer(dragDropState: DragDropState): Modifier =
 fun rememberDragDropState(
     lazyListState: LazyListState,
     onMove: (Int, Int) -> Unit,
-    draggableItemCounts: Int
+    draggableItemCounts: Int,
+    onMoveStart: () -> Unit = {},
+    onMoveInterrupt: () -> Unit = {}
 ): DragDropState {
     val state =
         remember(lazyListState) {
             DragDropState(
                 draggableItemCounts = draggableItemCounts,
                 stateList = lazyListState,
-                onMove = onMove
+                onMove = onMove,
+                onMoveStart = onMoveStart,
+                onMoveInterrupted = onMoveInterrupt
             )
         }
 
@@ -89,7 +97,9 @@ fun rememberDragDropState(
 class DragDropState(
     private val draggableItemCounts: Int,
     private val stateList: LazyListState,
-    private val onMove: (Int, Int) -> Unit
+    private val onMove: (Int, Int) -> Unit,
+    private val onMoveStart: () -> Unit = {},
+    private val onMoveInterrupted: () -> Unit = {}
 ) {
     var draggingItemIndex: Int? by mutableStateOf(null)
         private set
@@ -105,6 +115,7 @@ class DragDropState(
                 (it.contentType as? DraggableItem)?.let { draggableItem ->
                     draggingItem = it
                     draggingItemIndex = draggableItem.index
+                    onMoveStart()
                 }
             }
     }
@@ -113,6 +124,7 @@ class DragDropState(
         draggingItem = null
         draggingItemIndex = null
         delta = 0f
+        onMoveInterrupted()
     }
 
     internal fun onDrag(offset: Offset) {

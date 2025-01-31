@@ -1,8 +1,11 @@
 package liou.rayyuan.ebooksearchtaiwan.bookstorereorder
 
+import androidx.compose.runtime.mutableStateOf
 import com.rayliu.commonmain.data.DefaultStoreNames
 
 data class SortedStore(
     val defaultStoreName: DefaultStoreNames,
-    var isVisible: Boolean
-)
+    val isVisible: Boolean
+) {
+    var isEnable = mutableStateOf(isVisible)
+}

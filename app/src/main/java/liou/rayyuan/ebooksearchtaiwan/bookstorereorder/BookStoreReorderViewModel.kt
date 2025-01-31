@@ -1,6 +1,7 @@
 package liou.rayyuan.ebooksearchtaiwan.bookstorereorder
 
 import android.util.Log
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -31,6 +32,8 @@ class BookStoreReorderViewModel(
         MutableStateFlow<ImmutableList<SortedStore>>(persistentListOf())
     val sortedStores
         get() = _sortedStores.asStateFlow()
+
+    var currentBookStoreSort: SnapshotStateList<SortedStore>? = null
 
     init {
         setupUserIntentHanding()
@@ -101,4 +104,11 @@ class BookStoreReorderViewModel(
         }
         return results.toList()
     }
+
+    fun getStoreNames(): List<DefaultStoreNames>? =
+        currentBookStoreSort?.filter {
+            it.isEnable.value
+        }?.map {
+            it.defaultStoreName
+        }
 }

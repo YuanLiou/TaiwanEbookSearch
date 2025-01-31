@@ -189,7 +189,7 @@ class BookstoreNameAdapter(
 
     private fun displayStoreFromResult(store: SortedStore) {
         if (!store.isVisible) {
-            store.isVisible = true
+//            store.isVisible = true
             notifyItemRangeChanged(0, bookStores.size, payloadCheckBoxStatus)
         }
     }
@@ -197,7 +197,7 @@ class BookstoreNameAdapter(
     private fun removeDisplayStoreFromResult(store: SortedStore): Boolean {
         val visibleCounts = bookStores.count { it.isVisible }
         if (store.isVisible && visibleCounts > 1) {
-            store.isVisible = false
+//            store.isVisible = false
             notifyItemRangeChanged(0, bookStores.size, payloadCheckBoxStatus)
             return true
         }

@@ -5,10 +5,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.foundation.Image
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.material3.Text
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.material3.Checkbox
 import android.content.res.Configuration
 import androidx.compose.foundation.background
@@ -23,6 +19,7 @@ import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -39,9 +36,10 @@ import liou.rayyuan.ebooksearchtaiwan.view.getStringResource
 @Composable
 fun BookStoreOrderItem(
     sortedStore: SortedStore,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    showCheckBox: Boolean = true,
+    onVisibilityChange: () -> Unit = {}
 ) {
-    var checked by remember { mutableStateOf(sortedStore.isVisible) }
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier =
@@ -50,19 +48,24 @@ fun BookStoreOrderItem(
                 .fillMaxWidth()
                 .height(72.dp)
                 .clickable {
-                    checked = !checked
+                    sortedStore.isEnable.value = !sortedStore.isEnable.value
+                    onVisibilityChange()
                 }
     ) {
         Spacer(modifier = Modifier.width(16.dp))
         Checkbox(
-            checked = checked,
-            onCheckedChange = { checked = it },
+            checked = sortedStore.isEnable.value,
+            onCheckedChange = {
+                sortedStore.isEnable.value = it
+                onVisibilityChange()
+            },
             colors =
                 CheckboxDefaults.colors(
                     checkedColor = EBookTheme.colors.checkBoxCheckedColor,
                     uncheckedColor = EBookTheme.colors.checkBoxNormalColor,
                     checkmarkColor = EBookTheme.colors.checkmarkColor
-                )
+                ),
+            modifier = Modifier.alpha(if (showCheckBox) 1f else 0f)
         )
         val context = LocalContext.current
         Text(

@@ -9,7 +9,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
@@ -74,7 +77,11 @@ class BookStoreReorderActivity :
                 ) {
                     val sortedStores = viewModel.sortedStores.collectAsStateWithLifecycle().value
                     if (sortedStores.isNotEmpty()) {
+                        var isMovingListItem by remember { mutableStateOf(false) }
+
                         val bookStores = remember(sortedStores) { sortedStores.toMutableStateList() }
+                        viewModel.currentBookStoreSort = bookStores
+
                         val draggableItemCounts by remember(sortedStores) {
                             derivedStateOf { bookStores.size }
                         }
@@ -85,6 +92,13 @@ class BookStoreReorderActivity :
                                 lazyListState = listState,
                                 onMove = { fromIndex, toIndex ->
                                     Collections.swap(bookStores, fromIndex, toIndex)
+                                    showSaveSettingIcon()
+                                },
+                                onMoveStart = {
+                                    isMovingListItem = true
+                                },
+                                onMoveInterrupt = {
+                                    isMovingListItem = false
                                 },
                                 draggableItemCounts = draggableItemCounts
                             )
@@ -94,10 +108,14 @@ class BookStoreReorderActivity :
                             state = listState,
                             modifier = Modifier.dragContainer(dragDropState)
                         ) {
-                            draggableItems(bookStores, dragDropState) { modifier, sortedStore ->
+                            draggableItems(bookStores, dragDropState) { modifier, sortedStore, _ ->
                                 BookStoreOrderItem(
                                     sortedStore = sortedStore,
-                                    modifier = modifier
+                                    modifier = modifier,
+                                    showCheckBox = !isMovingListItem,
+                                    onVisibilityChange = {
+                                        showSaveSettingIcon()
+                                    }
                                 )
                             }
                         }
@@ -149,9 +167,11 @@ class BookStoreReorderActivity :
             }
 
             R.id.reorder_page_menu_action_check -> {
-                val result = adapter.getStoreNames()
-                eventTracker.logTopSelectedStoreName(result)
-                sendUserIntent(BookStoreReorderUserIntent.UpdateSort(result))
+                val result = viewModel.getStoreNames()
+                if (result != null) {
+                    eventTracker.logTopSelectedStoreName(result)
+                    sendUserIntent(BookStoreReorderUserIntent.UpdateSort(result))
+                }
                 return true
             }
         }
