@@ -46,7 +46,7 @@ fun <T : View> T.setupEdgeToEdge(customizeInsets: ((View, WindowInsetsCompat) ->
 }
 
 fun <T : View> T.clickable() =
-    callbackFlow<Unit> {
+    callbackFlow {
         setOnClickListener {
             trySend(Unit)
         }

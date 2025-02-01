@@ -4,29 +4,42 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import java.util.Collections
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.R
 import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.arch.IView
+import liou.rayyuan.ebooksearchtaiwan.bookstorereorder.composable.BookStoreOrderItem
+import liou.rayyuan.ebooksearchtaiwan.composable.dragContainer
+import liou.rayyuan.ebooksearchtaiwan.composable.draggableItems
+import liou.rayyuan.ebooksearchtaiwan.composable.rememberDragDropState
+import liou.rayyuan.ebooksearchtaiwan.composable.toMutableStateList
 import liou.rayyuan.ebooksearchtaiwan.databinding.ActivityReorderStoresBinding
+import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import liou.rayyuan.ebooksearchtaiwan.utils.ActivityViewBinding
 import liou.rayyuan.ebooksearchtaiwan.utils.bindView
 import liou.rayyuan.ebooksearchtaiwan.utils.setupEdgeToEdge
-import liou.rayyuan.ebooksearchtaiwan.view.ListItemTouchCallback
-import liou.rayyuan.ebooksearchtaiwan.view.OnBookStoreItemChangedListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BookStoreReorderActivity :
     BaseActivity(R.layout.activity_reorder_stores),
-    OnBookStoreItemChangedListener,
     IView<BookStoreReorderViewState> {
     private val viewModel: BookStoreReorderViewModel by viewModel()
     private val viewBinding: ActivityReorderStoresBinding by ActivityViewBinding(
@@ -35,32 +48,78 @@ class BookStoreReorderActivity :
     )
 
     private val toolbar: Toolbar by bindView(R.id.activity_reorder_layout_toolbar)
-    private val recyclerView: RecyclerView by bindView(R.id.activity_reorder_recyclerview)
-    private val adapter: BookstoreNameAdapter = BookstoreNameAdapter(this)
 
-    private lateinit var itemTouchHelper: ItemTouchHelper
     private lateinit var checkMarkerOption: MenuItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initToolbar()
-        with(recyclerView) {
-            setHasFixedSize(true)
-            addItemDecoration(
-                DividerItemDecoration(
-                    this@BookStoreReorderActivity,
-                    LinearLayoutManager.VERTICAL
-                )
-            )
-            adapter = this@BookStoreReorderActivity.adapter
+
+        viewModel.viewState.observe(this) { state -> render(state) }
+        setupEdgeToEdge()
+
+        val composeView = findViewById<ComposeView>(R.id.activity_reorder_composeView)
+        with(composeView) {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnDetachedFromWindow)
+            setContent {
+                EBookTheme(
+                    darkTheme = isDarkTheme()
+                ) {
+                    val sortedStores = viewModel.sortedStores.collectAsStateWithLifecycle().value
+                    if (sortedStores.isNotEmpty()) {
+                        var isMovingListItem by remember { mutableStateOf(false) }
+
+                        val bookStores = remember(sortedStores) { sortedStores.toMutableStateList() }
+                        viewModel.currentBookStoreSort = bookStores
+
+                        val draggableItemCounts by remember(sortedStores) {
+                            derivedStateOf { bookStores.size }
+                        }
+                        val enableStoreCounts = bookStores.count { it.isEnable.value }
+
+                        val listState = rememberLazyListState()
+                        val dragDropState =
+                            rememberDragDropState(
+                                lazyListState = listState,
+                                onMove = { fromIndex, toIndex ->
+                                    Collections.swap(bookStores, fromIndex, toIndex)
+                                    showSaveSettingIcon()
+                                },
+                                onMoveStart = {
+                                    isMovingListItem = true
+                                },
+                                onMoveInterrupt = {
+                                    isMovingListItem = false
+                                },
+                                draggableItemCounts = draggableItemCounts
+                            )
+
+                        dragDropState.isEnable = enableStoreCounts > 1
+
+                        LazyColumn(
+                            verticalArrangement = Arrangement.spacedBy(2.dp),
+                            state = listState,
+                            modifier = Modifier.dragContainer(dragDropState)
+                        ) {
+                            draggableItems(bookStores, dragDropState) { modifier, sortedStore, _ ->
+                                BookStoreOrderItem(
+                                    sortedStore = sortedStore,
+                                    modifier = modifier,
+                                    showCheckBox = !isMovingListItem,
+                                    disableCheckBox = (enableStoreCounts < 2 && sortedStore.isEnable.value),
+                                    enableDragging = enableStoreCounts > 1,
+                                    onVisibilityChange = {
+                                        showSaveSettingIcon()
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+            }
         }
 
-        val listItemTouchCallback = ListItemTouchCallback(adapter)
-        itemTouchHelper = ItemTouchHelper(listItemTouchCallback)
-        itemTouchHelper.attachToRecyclerView(recyclerView)
-        viewModel.viewState.observe(this) { state -> render(state) }
         sendUserIntent(BookStoreReorderUserIntent.GetPreviousSavedSort)
-        setupEdgeToEdge()
     }
 
     private fun setupEdgeToEdge() {
@@ -74,11 +133,6 @@ class BookStoreReorderActivity :
             setHomeButtonEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
-    }
-
-    override fun onDestroy() {
-        adapter.release()
-        super.onDestroy()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -103,25 +157,15 @@ class BookStoreReorderActivity :
             }
 
             R.id.reorder_page_menu_action_check -> {
-                val result = adapter.getStoreNames()
-                eventTracker.logTopSelectedStoreName(result)
-                sendUserIntent(BookStoreReorderUserIntent.UpdateSort(result))
+                val result = viewModel.getStoreNames()
+                if (result != null) {
+                    eventTracker.logTopSelectedStoreName(result)
+                    sendUserIntent(BookStoreReorderUserIntent.UpdateSort(result))
+                }
                 return true
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    //region OnBookStoreItemChangedListener
-    override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
-        if (this::itemTouchHelper.isInitialized) {
-            itemTouchHelper.startDrag(viewHolder)
-        }
-        showSaveSettingIcon()
-    }
-
-    override fun onStoreVisibilityChanged() {
-        showSaveSettingIcon()
     }
 
     private fun showSaveSettingIcon() {
@@ -130,7 +174,6 @@ class BookStoreReorderActivity :
         }
     }
 
-    //endregion
     override fun render(viewState: BookStoreReorderViewState) {
         when (viewState) {
             BookStoreReorderViewState.BackToPreviousPage -> {
@@ -138,7 +181,7 @@ class BookStoreReorderActivity :
             }
 
             is BookStoreReorderViewState.PrepareBookSort -> {
-                adapter.setStoreNames(viewState.bookSort)
+                Unit
             }
         }
     }

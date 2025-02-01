@@ -4,13 +4,14 @@ import com.rayliu.commonmain.domain.model.BookStores
 import com.rayliu.commonmain.domain.repository.BookRepository
 import com.rayliu.commonmain.data.DefaultStoreNames
 import com.rayliu.commonmain.domain.repository.SearchRecordRepository
+import kotlinx.collections.immutable.ImmutableList
 
 class GetBooksWithStoresUseCase(
     private val bookRepository: BookRepository,
     private val searchRecordRepository: SearchRecordRepository
 ) {
     suspend operator fun invoke(
-        bookStores: List<DefaultStoreNames>,
+        bookStores: ImmutableList<DefaultStoreNames>,
         keyword: String
     ): Result<BookStores> {
         saveKeyword(keyword)

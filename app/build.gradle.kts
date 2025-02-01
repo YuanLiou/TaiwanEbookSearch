@@ -191,8 +191,6 @@ dependencies {
     implementation(libs.constraintlayout)
 
     implementation(libs.androidx.browser)
-    implementation(libs.androidx.fragment.ktx)
-    implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.preference.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.livedata.java8)

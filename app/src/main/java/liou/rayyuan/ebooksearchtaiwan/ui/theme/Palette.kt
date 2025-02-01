@@ -21,6 +21,7 @@ val dark_18 = Color(0xFF141218) // Dark theme of ?android:attr/colorBackground
 val pure_dark = Color(0xFF000000)
 
 // Alphas
+val light_white_8a = Color(0x8AFFFFFF)
 val light_blue_green_you_a95 = Color(0xF2E7F3EF)
 val light_blue_green_you_a85 = Color(0xD9E7F3EF)
 val blue_green_a50 = Color(0x8058D5B7)
