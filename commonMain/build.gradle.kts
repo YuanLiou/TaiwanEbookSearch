@@ -138,7 +138,6 @@ dependencies {
     implementation(libs.ktor.client.logging)
 
     // JetPacks
-    implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.preference.ktx)
     implementation(libs.paging.runtime)
     implementation(libs.androidx.dataStore.core)

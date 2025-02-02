@@ -166,7 +166,6 @@ dependencies {
     implementation(libs.compose.material.icons.extended)
     implementation(libs.compose.activity)
     implementation(libs.compose.lifecycle)
-    implementation(libs.compose.livedata)
     implementation(libs.constraintlayout.compose)
     implementation(libs.compose.ui.android)
     implementation(libs.compose.ui.tooling.preview)
@@ -192,8 +191,6 @@ dependencies {
 
     implementation(libs.androidx.browser)
     implementation(libs.androidx.preference.ktx)
-    implementation(libs.androidx.lifecycle.livedata.ktx)
-    implementation(libs.androidx.lifecycle.livedata.java8)
     implementation(libs.paging.runtime)
     implementation(libs.paging.compose)
     // endregion of Android X Libraries

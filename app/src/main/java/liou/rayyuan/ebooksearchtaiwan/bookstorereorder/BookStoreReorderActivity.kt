@@ -21,11 +21,12 @@ import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.withStarted
+import kotlinx.coroutines.flow.collectLatest
 import java.util.Collections
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.R
 import kotlinx.coroutines.launch
-import liou.rayyuan.ebooksearchtaiwan.arch.IView
 import liou.rayyuan.ebooksearchtaiwan.bookstorereorder.composable.BookStoreOrderItem
 import liou.rayyuan.ebooksearchtaiwan.composable.dragContainer
 import liou.rayyuan.ebooksearchtaiwan.composable.draggableItems
@@ -38,9 +39,7 @@ import liou.rayyuan.ebooksearchtaiwan.utils.bindView
 import liou.rayyuan.ebooksearchtaiwan.utils.setupEdgeToEdge
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class BookStoreReorderActivity :
-    BaseActivity(R.layout.activity_reorder_stores),
-    IView<BookStoreReorderViewState> {
+class BookStoreReorderActivity : BaseActivity(R.layout.activity_reorder_stores) {
     private val viewModel: BookStoreReorderViewModel by viewModel()
     private val viewBinding: ActivityReorderStoresBinding by ActivityViewBinding(
         ActivityReorderStoresBinding::bind,
@@ -53,10 +52,8 @@ class BookStoreReorderActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initToolbar()
-
-        viewModel.viewState.observe(this) { state -> render(state) }
         setupEdgeToEdge()
+        initToolbar()
 
         val composeView = findViewById<ComposeView>(R.id.activity_reorder_composeView)
         with(composeView) {
@@ -119,7 +116,16 @@ class BookStoreReorderActivity :
             }
         }
 
-        sendUserIntent(BookStoreReorderUserIntent.GetPreviousSavedSort)
+        // Render Book Result State
+        lifecycleScope.launch {
+            withStarted(block = {})
+            viewModel.viewState.collectLatest { state ->
+                if (state != null) {
+                    render(state)
+                }
+            }
+        }
+        viewModel.getPreviousSavedBookResultSort()
     }
 
     private fun setupEdgeToEdge() {
@@ -160,7 +166,7 @@ class BookStoreReorderActivity :
                 val result = viewModel.getStoreNames()
                 if (result != null) {
                     eventTracker.logTopSelectedStoreName(result)
-                    sendUserIntent(BookStoreReorderUserIntent.UpdateSort(result))
+                    viewModel.updateCurrentSort(result)
                 }
                 return true
             }
@@ -174,21 +180,11 @@ class BookStoreReorderActivity :
         }
     }
 
-    override fun render(viewState: BookStoreReorderViewState) {
+    private fun render(viewState: BookStoreReorderViewState) {
         when (viewState) {
             BookStoreReorderViewState.BackToPreviousPage -> {
                 finish()
             }
-
-            is BookStoreReorderViewState.PrepareBookSort -> {
-                Unit
-            }
-        }
-    }
-
-    private fun sendUserIntent(userIntent: BookStoreReorderUserIntent) {
-        lifecycleScope.launch {
-            viewModel.userIntents.emit(userIntent)
         }
     }
 }

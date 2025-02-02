@@ -1,11 +1,9 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate
 
-import liou.rayyuan.ebooksearchtaiwan.arch.IState
-
 /**
  * Created by louis383 on 2017/12/4.
  */
-sealed class BookResultViewState : IState {
+sealed class BookResultViewState {
     data object PrepareBookResult : BookResultViewState()
 
     data class ShowBooks(
