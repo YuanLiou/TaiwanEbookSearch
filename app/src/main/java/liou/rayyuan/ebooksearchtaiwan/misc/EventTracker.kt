@@ -1,4 +1,4 @@
-package liou.rayyuan.ebooksearchtaiwan.model
+package liou.rayyuan.ebooksearchtaiwan.misc
 
 import android.content.Context
 import android.os.Bundle

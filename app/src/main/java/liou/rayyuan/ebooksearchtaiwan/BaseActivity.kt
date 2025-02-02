@@ -10,7 +10,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.rayliu.commonmain.domain.service.UserPreferenceManager
-import liou.rayyuan.ebooksearchtaiwan.model.EventTracker
+import liou.rayyuan.ebooksearchtaiwan.misc.EventTracker
 import org.koin.android.ext.android.inject
 
 abstract class BaseActivity(

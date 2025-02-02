@@ -33,13 +33,12 @@ import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
-import liou.rayyuan.ebooksearchtaiwan.arch.IView
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.asUiModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.review.PlayStoreReviewHelper
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.CameraPreviewActivity
-import liou.rayyuan.ebooksearchtaiwan.model.DeeplinkHelper
+import liou.rayyuan.ebooksearchtaiwan.misc.DeeplinkHelper
 import liou.rayyuan.ebooksearchtaiwan.preferencesetting.PreferenceSettingsActivity
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import liou.rayyuan.ebooksearchtaiwan.utils.CustomTabSessionManager
@@ -51,9 +50,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  * Created by louis383 on 2017/12/2.
  */
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
-class BookSearchActivity :
-    BaseActivity(),
-    IView<BookResultViewState> {
+class BookSearchActivity : BaseActivity() {
     private val customTabSessionManager: CustomTabSessionManager by inject()
     private val deeplinkHelper: DeeplinkHelper by inject()
     private val bookSearchViewModel: BookSearchViewModel by viewModel()
@@ -417,8 +414,7 @@ class BookSearchActivity :
         intent.launchUrl(this, Uri.parse(url))
     }
 
-    //region BookResultViewState
-    override fun render(viewState: BookResultViewState) {
+    private fun render(viewState: BookResultViewState) {
         renderMainResultView(viewState)
     }
 
@@ -455,7 +451,6 @@ class BookSearchActivity :
             }
         }
     }
-    //endregion
 
     companion object {
         private const val POPUP_REVIEW_WINDOW_THRESHOLD = 5
