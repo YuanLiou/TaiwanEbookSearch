@@ -47,45 +47,6 @@ class BookStoreReorderActivity : BaseActivity() {
         viewModel.getPreviousSavedBookResultSort()
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        menuInflater.inflate(R.menu.reorder_page, menu)
-//        val checkMarkerOption = menu.findItem(R.id.reorder_page_menu_action_check)
-//        if (!isDarkTheme()) {
-//            checkMarkerOption.icon?.colorFilter =
-//                BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
-//                    ContextCompat.getColor(this, R.color.darker_gray_3B),
-//                    BlendModeCompat.SRC_ATOP
-//                )
-//        }
-//        this.checkMarkerOption = checkMarkerOption
-//        return true
-//    }
-
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        when (item.itemId) {
-//            android.R.id.home -> {
-//                finish()
-//                return true
-//            }
-//
-//            R.id.reorder_page_menu_action_check -> {
-//                val result = viewModel.getStoreNames()
-//                if (result != null) {
-//                    eventTracker.logTopSelectedStoreName(result)
-//                    viewModel.updateCurrentSort(result)
-//                }
-//                return true
-//            }
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
-
-//    private fun showSaveSettingIcon() {
-//        if (this::checkMarkerOption.isInitialized) {
-//            checkMarkerOption.isVisible = true
-//        }
-//    }
-
     private fun render(viewState: BookStoreReorderViewState) {
         when (viewState) {
             BookStoreReorderViewState.BackToPreviousPage -> {
