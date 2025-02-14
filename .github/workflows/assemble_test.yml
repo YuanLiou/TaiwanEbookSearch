@@ -1,0 +1,75 @@
+name: Assemble Test
+
+on:
+  push:
+  pull_request:
+    branches: [ master ]
+
+env:
+  keystorePath: ${{ secrets.KEYSTOREPATH }}
+  keystoreAlias: ${{ secrets.KEYSTOREALIAS }}
+  keyPass: ${{ secrets.KEYPASS }}
+  HOST_STAGING: ${{ secrets.HOST_STAGING }}
+  ADMOB_ID: ${{ secrets.ADMOB_ID }}
+  ADMOB_UNIT_ID: ${{ secrets.ADMOB_UNIT_ID }}
+  ADMOB_TEST_DEVICE_ID: ${{ secrets.ADMOB_TEST_DEVICE_ID }}
+
+jobs:
+  build:
+    name: Running Assemble Test
+    runs-on: ubuntu-latest
+    continue-on-error: false
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Print Java version
+        run: javac -version
+
+      - name: Change wrapper permission
+        run: chmod +x ./gradlew
+
+      - name: Restore Cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Setup Environments
+        run: |
+          source script/environmentSetup.sh && copyEnvVarsToGradleProperties
+
+      - name: Setup Google Services Settings
+        run: |
+          echo "${{ secrets.GOOGLE_SERVICE_BASE64 }}" | base64 --decode > app/google-services.json
+
+      - name: Run AssembleDebug Test
+        run: ./gradlew assembleDebug
+
+      - name: Run Lint Tests
+        run: |
+          ./gradlew lint test
+
+      - name: Upload Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports
+          path: app/build/reports
+
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: app/build/test-results
