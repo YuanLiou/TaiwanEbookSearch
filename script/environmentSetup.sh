@@ -11,6 +11,7 @@ function copyEnvVarsToGradleProperties {
         touch $LOCAL_PROPERTIES
 
         echo "Writing keystorePath to local.properties..."
+        echo "keystorePath is on $keystorePath"
         echo "keystorePath=$keystorePath" >> $LOCAL_PROPERTIES
 
         echo "Writing keystoreAlias to local.properties..."
