@@ -11,17 +11,27 @@ function copyEnvVarsToGradleProperties {
         touch $LOCAL_PROPERTIES
 
         echo "Writing keystorePath to local.properties..."
-        echo "keystorePath is on $keystorePath"
-        echo "keystorePath=$keystorePath" >> $LOCAL_PROPERTIES
+        if [[ -z "$keystorePath" ]]; then
+            echo "keystorePath is empty, forget to add to secrets?"
+        else
+            echo "keystorePath=$keystorePath" >> $LOCAL_PROPERTIES
+        fi
 
         echo "Writing keystoreAlias to local.properties..."
-        echo "keystoreAlias=$keystoreAlias" >> $LOCAL_PROPERTIES
+        if [[ -z "$keystoreAlias" ]]; then
+            echo "keystoreAlias is empty, forget to add to secrets?"
+        else
+            echo "keystoreAlias=$keystoreAlias" >> $LOCAL_PROPERTIES
+        fi
 
         echo "Writing keyPass to local.properties..."
-        echo "keyPass=$keyPass" >> $LOCAL_PROPERTIES
-
         echo "Writing storePass to local.properties..."
-        echo "storePass=$keyPass" >> $LOCAL_PROPERTIES
+        if [[ -z "$keyPass" ]]; then
+            echo "keyPass is empty, forget to add to secrets?"
+        else
+            echo "keyPass=$keyPass" >> $LOCAL_PROPERTIES
+            echo "storePass=$keyPass" >> $LOCAL_PROPERTIES
+        fi
 
         echo "Writing HOST_STAGING to local.properties..."
         echo "HOST_STAGING=\"$HOST_STAGING\"" >> $LOCAL_PROPERTIES
