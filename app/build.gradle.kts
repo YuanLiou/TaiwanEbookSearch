@@ -16,6 +16,8 @@ plugins {
     alias(libs.plugins.compose.compiler)
     id(libs.plugins.detekt.get().pluginId)
     id(libs.plugins.ktlintGradle.get().pluginId)
+    // Add the App Distribution Gradle plugin
+    id("com.google.firebase.appdistribution")
 }
 
 val localProperties =
@@ -42,7 +44,11 @@ android {
         versionCode = AppSettings.VERSION_CODE
         versionName = rootProject.extra.get("app_version").toString()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        resourceConfigurations += listOf("en", "zh-rTW", "zh-rCN")
+    }
+
+    androidResources {
+        // Keeps language resources for only the locales specified below.
+        localeFilters += listOf("en", "zh-rTW", "zh-rCN")
     }
 
     buildFeatures {
