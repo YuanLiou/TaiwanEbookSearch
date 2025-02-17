@@ -1,4 +1,4 @@
-# Taiwan ebook Search 台灣電子書搜尋
+# Taiwan ebook Search 台灣電子書搜尋 ![master branch](https://github.com/YuanLiou/TaiwanEbookSearch/actions/workflows/assemble_test.yml/badge.svg?branch=master)
 eBook search tool mainly for Taiwan.
 
 ![Imgur](https://i.imgur.com/B3vzhTQ.jpg)
