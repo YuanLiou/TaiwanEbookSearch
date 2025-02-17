@@ -100,6 +100,13 @@ android {
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             resValue("string", "package_name", "liou.rayyuan.ebooksearchtaiwan")
+
+            firebaseAppDistribution {
+                artifactType = "APK"
+                releaseNotesFile = "releasenotes.txt"
+                serviceCredentialsFile = "firebase_distribution_credential.json"
+                groups = "internal_group"
+            }
         }
     }
 
