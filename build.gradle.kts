@@ -9,6 +9,8 @@ plugins {
     alias(libs.plugins.detekt) apply false
     alias(libs.plugins.ktlintGradle) apply false
     alias(libs.plugins.compose.compiler) apply false
+    // Add the dependency for the App Distribution Gradle plugin
+    id("com.google.firebase.appdistribution") version "5.1.1" apply false
 }
 
 buildscript {
