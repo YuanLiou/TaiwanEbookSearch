@@ -1,0 +1,63 @@
+name: Push To App Distribution
+
+on:
+  workflow_dispatch:
+
+env:
+  keystorePath: ${{ secrets.KEYSTOREPATH }}
+  keystoreAlias: ${{ secrets.KEYSTOREALIAS }}
+  keyPass: ${{ secrets.KEYPASS }}
+  HOST_STAGING: ${{ secrets.HOST_STAGING }}
+  ADMOB_ID: ${{ secrets.ADMOB_ID }}
+  ADMOB_UNIT_ID: ${{ secrets.ADMOB_UNIT_ID }}
+  ADMOB_TEST_DEVICE_ID: ${{ secrets.ADMOB_TEST_DEVICE_ID }}
+
+jobs:
+  deploy-to-firebase:
+    name: Deploy To Firebase Distribution
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Print Java version
+        run: javac -version
+
+      - name: Change wrapper permission
+        run: chmod +x ./gradlew
+
+      - name: Restore Cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Setup Environments
+        run: |
+          source script/environmentSetup.sh && copyEnvVarsToGradleProperties
+
+      - name: Setup Google Services Settings
+        run: |
+          echo "${{ secrets.GOOGLE_SERVICE_BASE64 }}" | base64 --decode > app/google-services.json
+
+      - name: Setup Firebase Credentials
+        run: |
+          echo "${{ secrets.FIREBASE_CREDENTIAL_BASE64 }}" | base64 --decode > firebase_distribution_credential.json
+
+      - name: Assemble Release APK
+        run: ./gradlew assembleApiRelease
+
+      - name: Push to Firebase App Distribution
+        run: ./gradlew appDistributionUploadApiRelease
