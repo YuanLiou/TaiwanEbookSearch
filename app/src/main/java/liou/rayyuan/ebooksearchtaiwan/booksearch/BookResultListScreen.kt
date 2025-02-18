@@ -33,6 +33,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
@@ -83,7 +84,17 @@ fun BookResultListScreen(
     showSearchRecords: Boolean = false,
     showCopyUrlOption: Boolean = false,
     showShareSnapshotOption: Boolean = false,
-    isTextInputFocused: Boolean = false
+    isTextInputFocused: Boolean = false,
+    lastScrollPosition: Int = 0,
+    lastScrollOffset: Int = 0,
+    onDeleteSearchRecord: (record: SearchRecord) -> Unit = {},
+    onSearchKeywordTextChange: (TextFieldValue) -> Unit,
+    onPressSearch: () -> Unit = {},
+    onFocusActionFinish: () -> Unit = {},
+    onFocusChange: (focusState: FocusState) -> Unit = {},
+    onSearchButtonPress: () -> Unit = {},
+    onClickCopySnapshotToClipboard: () -> Unit = {},
+    onClickShareSnapshot: () -> Unit = {},
 ) {
     var showOptionMenu by remember { mutableStateOf(false) }
     var goingToDeleteRecords by remember { mutableStateOf<SearchRecord?>(null) }
@@ -93,9 +104,7 @@ fun BookResultListScreen(
             onDismissRequest = {
                 goingToDeleteRecords = null
             },
-            onDeleteSearchRecord = {
-                viewModel.deleteRecords(it)
-            }
+            onDeleteSearchRecord = onDeleteSearchRecord
         )
     }
 
@@ -112,31 +121,18 @@ fun BookResultListScreen(
                 title = {
                     SearchBox(
                         text = searchKeywords,
-                        onTextChange = {
-                            viewModel.updateKeyword(it)
-                        },
-                        onPressSearch = {
-                            viewModel.searchBook()
-                        },
+                        onTextChange = onSearchKeywordTextChange,
+                        onPressSearch = onPressSearch,
                         focusAction = focusAction,
-                        onFocusActionFinish = {
-                            viewModel.resetFocusAction()
-                        },
-                        onFocusChange = {
-                            viewModel.updateTextInputFocusState(it.isFocused)
-                            viewModel.focusOnEditText(it.isFocused)
-                        },
+                        onFocusActionFinish = onFocusActionFinish,
+                        onFocusChange = onFocusChange,
                         virtualKeyboardAction = virtualKeyboardAction,
                         showCameraButton = showAppBarCameraButton,
                         enableTextField = !isLoadingResult,
                         enableCameraButtonClick = enableCameraButtonClick,
                         enableSearchButtonClick = enableSearchButtonClick,
                         onCameraButtonPress = onAppBarCameraButtonPress,
-                        onSearchButtonPress = {
-                            viewModel.forceShowOrHideVirtualKeyboard(false)
-                            viewModel.forceFocusOrUnfocusKeywordTextInput(false)
-                            viewModel.searchBook()
-                        },
+                        onSearchButtonPress = onSearchButtonPress,
                         modifier = Modifier.fillMaxWidth()
                     )
                 },
@@ -168,7 +164,7 @@ fun BookResultListScreen(
                                 title = stringResource(R.string.menu_copy_snapshot),
                                 onClick = {
                                     showOptionMenu = false
-                                    viewModel.copySnapshotToClipboard()
+                                    onClickCopySnapshotToClipboard()
                                 }
                             )
                         }
@@ -178,7 +174,7 @@ fun BookResultListScreen(
                                 title = stringResource(R.string.menu_share_result),
                                 onClick = {
                                     showOptionMenu = false
-                                    viewModel.shareCurrentSnapshot()
+                                    onClickShareSnapshot()
                                 }
                             )
                         }
@@ -284,8 +280,8 @@ fun BookResultListScreen(
                 onSavePreviousScrollPosition = { position, offset ->
                     viewModel.savePreviousScrollPosition(position, offset)
                 },
-                lastScrollPosition = viewModel.lastScrollPosition,
-                lastScrollOffset = viewModel.lastScrollOffset
+                lastScrollPosition = lastScrollPosition,
+                lastScrollOffset = lastScrollOffset
             )
         }
     }

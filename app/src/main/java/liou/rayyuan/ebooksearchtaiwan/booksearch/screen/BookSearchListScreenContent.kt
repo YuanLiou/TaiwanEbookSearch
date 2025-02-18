@@ -27,7 +27,7 @@ fun BookSearchListScreenContent(
     onListScroll: () -> Unit = {},
     onSavePreviousScrollPosition: (position: Int, offset: Int) -> Unit = { _, _ -> },
     lastScrollPosition: Int = 0,
-    lastScrollOffset: Int = 0,
+    lastScrollOffset: Int = 0
 ) {
     Box(
         modifier = modifier

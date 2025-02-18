@@ -134,6 +134,35 @@ fun BookSearchScreen(
                     showCopyUrlOption = bookSearchViewModel.showCopyUrlOption,
                     showShareSnapshotOption = bookSearchViewModel.showShareSnapshotOption,
                     isTextInputFocused = isTextInputFocused,
+                    lastScrollPosition = bookSearchViewModel.lastScrollPosition,
+                    lastScrollOffset = bookSearchViewModel.lastScrollOffset,
+                    onDeleteSearchRecord = {
+                        bookSearchViewModel.deleteRecords(it)
+                    },
+                    onSearchKeywordTextChange = {
+                        bookSearchViewModel.updateKeyword(it)
+                    },
+                    onPressSearch = {
+                        bookSearchViewModel.searchBook()
+                    },
+                    onFocusActionFinish = {
+                        bookSearchViewModel.resetFocusAction()
+                    },
+                    onFocusChange = {
+                        bookSearchViewModel.updateTextInputFocusState(it.isFocused)
+                        bookSearchViewModel.focusOnEditText(it.isFocused)
+                    },
+                    onSearchButtonPress = {
+                        bookSearchViewModel.forceShowOrHideVirtualKeyboard(false)
+                        bookSearchViewModel.forceFocusOrUnfocusKeywordTextInput(false)
+                        bookSearchViewModel.searchBook()
+                    },
+                    onClickCopySnapshotToClipboard = {
+                        bookSearchViewModel.copySnapshotToClipboard()
+                    },
+                    onClickShareSnapshot = {
+                        bookSearchViewModel.shareCurrentSnapshot()
+                    },
                     modifier = Modifier.fillMaxSize()
                 )
             }
