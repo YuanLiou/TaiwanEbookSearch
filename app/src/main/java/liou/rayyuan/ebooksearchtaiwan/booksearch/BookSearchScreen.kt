@@ -24,6 +24,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -115,7 +117,6 @@ fun BookSearchScreen(
         listPane = {
             AnimatedPane {
                 BookResultListScreen(
-                    viewModel = bookSearchViewModel,
                     viewState = viewState,
                     searchKeywords = searchKeywords,
                     bookStoreDetails = bookStoreDetails,
@@ -133,17 +134,31 @@ fun BookSearchScreen(
                     isLoadingResult = isLoadingResult,
                     showCopyUrlOption = bookSearchViewModel.showCopyUrlOption,
                     showShareSnapshotOption = bookSearchViewModel.showShareSnapshotOption,
-                    isTextInputFocused = isTextInputFocused,
                     lastScrollPosition = bookSearchViewModel.lastScrollPosition,
                     lastScrollOffset = bookSearchViewModel.lastScrollOffset,
+                    onSearchRecordClick = { searchRecord ->
+                        val keyword = searchRecord.text
+                        bookSearchViewModel.updateKeyword(TextFieldValue(keyword, selection = TextRange(keyword.length)))
+                        bookSearchViewModel.forceFocusOrUnfocusKeywordTextInput(false)
+                        bookSearchViewModel.forceShowOrHideVirtualKeyboard(false)
+                        bookSearchViewModel.searchBook(keyword)
+                    },
                     onDeleteSearchRecord = {
                         bookSearchViewModel.deleteRecords(it)
+                    },
+                    onDismissSearchRecordCover = {
+                        bookSearchViewModel.showSearchRecords(false)
+                        bookSearchViewModel.forceShowOrHideVirtualKeyboard(false)
                     },
                     onSearchKeywordTextChange = {
                         bookSearchViewModel.updateKeyword(it)
                     },
                     onPressSearch = {
                         bookSearchViewModel.searchBook()
+                    },
+                    focusOnSearchBox = {
+                        bookSearchViewModel.forceFocusOrUnfocusKeywordTextInput(true)
+                        bookSearchViewModel.forceShowOrHideVirtualKeyboard(true)
                     },
                     onFocusActionFinish = {
                         bookSearchViewModel.resetFocusAction()
@@ -162,6 +177,14 @@ fun BookSearchScreen(
                     },
                     onClickShareSnapshot = {
                         bookSearchViewModel.shareCurrentSnapshot()
+                    },
+                    onBookResultListScroll = {
+                        if (isTextInputFocused) {
+                            bookSearchViewModel.forceFocusOrUnfocusKeywordTextInput(false)
+                        }
+                    },
+                    onSaveBookResultListPreviousScrollPosition = { position, offset ->
+                        bookSearchViewModel.savePreviousScrollPosition(position, offset)
                     },
                     modifier = Modifier.fillMaxSize()
                 )

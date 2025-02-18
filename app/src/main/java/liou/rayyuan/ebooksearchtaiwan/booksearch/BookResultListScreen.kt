@@ -37,7 +37,6 @@ import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -65,7 +64,6 @@ import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookResultListScreen(
-    viewModel: BookSearchViewModel,
     viewState: BookResultViewState?,
     onMenuSettingClick: () -> Unit,
     searchKeywords: TextFieldValue,
@@ -84,17 +82,21 @@ fun BookResultListScreen(
     showSearchRecords: Boolean = false,
     showCopyUrlOption: Boolean = false,
     showShareSnapshotOption: Boolean = false,
-    isTextInputFocused: Boolean = false,
     lastScrollPosition: Int = 0,
     lastScrollOffset: Int = 0,
+    onSearchRecordClick: (record: SearchRecord) -> Unit = {},
     onDeleteSearchRecord: (record: SearchRecord) -> Unit = {},
-    onSearchKeywordTextChange: (TextFieldValue) -> Unit,
+    onDismissSearchRecordCover: () -> Unit = {},
+    onSearchKeywordTextChange: (TextFieldValue) -> Unit = {},
     onPressSearch: () -> Unit = {},
+    focusOnSearchBox: () -> Unit = {},
     onFocusActionFinish: () -> Unit = {},
     onFocusChange: (focusState: FocusState) -> Unit = {},
     onSearchButtonPress: () -> Unit = {},
     onClickCopySnapshotToClipboard: () -> Unit = {},
     onClickShareSnapshot: () -> Unit = {},
+    onBookResultListScroll: () -> Unit = {},
+    onSaveBookResultListPreviousScrollPosition: (position: Int, offset: Int) -> Unit = { _, _ -> },
 ) {
     var showOptionMenu by remember { mutableStateOf(false) }
     var goingToDeleteRecords by remember { mutableStateOf<SearchRecord?>(null) }
@@ -222,13 +224,7 @@ fun BookResultListScreen(
 
                                 SearchRecordItem(
                                     searchRecord = searchRecord,
-                                    onRecordClick = {
-                                        val keyword = searchRecord.text
-                                        viewModel.updateKeyword(TextFieldValue(keyword, selection = TextRange(keyword.length)))
-                                        viewModel.forceFocusOrUnfocusKeywordTextInput(false)
-                                        viewModel.forceShowOrHideVirtualKeyboard(false)
-                                        viewModel.searchBook(keyword)
-                                    },
+                                    onRecordClick = onSearchRecordClick,
                                     onRemoveRecordClick = {
                                         goingToDeleteRecords = it
                                     }
@@ -253,11 +249,9 @@ fun BookResultListScreen(
                             .clickable(
                                 enabled = true,
                                 interactionSource = remember { MutableInteractionSource() },
-                                indication = null
-                            ) {
-                                viewModel.showSearchRecords(false)
-                                viewModel.forceShowOrHideVirtualKeyboard(false)
-                            }
+                                indication = null,
+                                onClick = onDismissSearchRecordCover
+                            )
                 )
             }
 
@@ -268,18 +262,9 @@ fun BookResultListScreen(
                 bookSearchResult = bookSearchResult,
                 contentPaddings = paddings,
                 onBookSearchItemClick = onBookSearchItemClick,
-                focusOnSearchBox = {
-                    viewModel.forceFocusOrUnfocusKeywordTextInput(true)
-                    viewModel.forceShowOrHideVirtualKeyboard(true)
-                },
-                onListScroll = {
-                    if (isTextInputFocused) {
-                        viewModel.forceFocusOrUnfocusKeywordTextInput(false)
-                    }
-                },
-                onSavePreviousScrollPosition = { position, offset ->
-                    viewModel.savePreviousScrollPosition(position, offset)
-                },
+                focusOnSearchBox = focusOnSearchBox,
+                onListScroll = onBookResultListScroll,
+                onSavePreviousScrollPosition = onSaveBookResultListPreviousScrollPosition,
                 lastScrollPosition = lastScrollPosition,
                 lastScrollOffset = lastScrollOffset
             )
