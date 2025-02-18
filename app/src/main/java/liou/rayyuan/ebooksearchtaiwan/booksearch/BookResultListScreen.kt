@@ -40,16 +40,21 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemKey
 import com.rayliu.commonmain.domain.model.Book
+import com.rayliu.commonmain.domain.model.BookStoreDetails
 import com.rayliu.commonmain.domain.model.SearchRecord
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.ConfirmRemoveRecordDialog
+import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.FocusAction
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.SearchBox
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.SearchRecordItem
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.SearchRecords
+import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.VirtualKeyboardAction
+import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookSearchResultItem
 import liou.rayyuan.ebooksearchtaiwan.booksearch.screen.BookSearchListScreenContent
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.composable.EBookDropdownMenu
@@ -62,57 +67,24 @@ fun BookResultListScreen(
     viewModel: BookSearchViewModel,
     viewState: BookResultViewState?,
     onMenuSettingClick: () -> Unit,
+    searchKeywords: TextFieldValue,
+    focusAction: FocusAction,
+    virtualKeyboardAction: VirtualKeyboardAction,
+    searchRecords: LazyPagingItems<SearchRecord>,
     modifier: Modifier = Modifier,
+    bookStoreDetails: ImmutableList<BookStoreDetails> = persistentListOf(),
+    bookSearchResult: ImmutableList<BookSearchResultItem> = persistentListOf(),
     onBookSearchItemClick: (Book) -> Unit = {},
     showAppBarCameraButton: Boolean = false,
-    onAppBarCameraButtonPress: () -> Unit = {}
+    onAppBarCameraButtonPress: () -> Unit = {},
+    enableCameraButtonClick: Boolean = false,
+    enableSearchButtonClick: Boolean = false,
+    isLoadingResult: Boolean = false,
+    showSearchRecords: Boolean = false,
+    showCopyUrlOption: Boolean = false,
+    showShareSnapshotOption: Boolean = false,
+    isTextInputFocused: Boolean = false
 ) {
-    val searchKeywords =
-        viewModel.searchKeywords
-            .collectAsStateWithLifecycle()
-            .value
-
-    val focusAction =
-        viewModel.focusTextInput
-            .collectAsStateWithLifecycle()
-            .value
-
-    val virtualKeyboardAction =
-        viewModel.showVirtualKeyboard
-            .collectAsStateWithLifecycle()
-            .value
-
-    val enableCameraButtonClick =
-        viewModel.enableCameraButtonClick
-            .collectAsStateWithLifecycle()
-            .value
-
-    val enableSearchButtonClick =
-        viewModel.enableSearchButtonClick
-            .collectAsStateWithLifecycle()
-            .value
-
-    val isLoadingResult =
-        viewModel.isLoadingResult
-            .collectAsStateWithLifecycle()
-            .value
-
-    val bookStoreDetails =
-        viewModel.bookStoreDetails
-            .collectAsStateWithLifecycle()
-            .value
-
-    val bookSearchResult =
-        viewModel.bookSearchResult
-            .collectAsStateWithLifecycle()
-            .value
-
-    val showSearchRecords =
-        viewModel.isShowSearchRecord
-            .collectAsStateWithLifecycle()
-            .value
-    val searchRecords = viewModel.searchRecords.collectAsLazyPagingItems()
-
     var showOptionMenu by remember { mutableStateOf(false) }
     var goingToDeleteRecords by remember { mutableStateOf<SearchRecord?>(null) }
     goingToDeleteRecords?.run {
@@ -191,7 +163,7 @@ fun BookResultListScreen(
                             showOptionMenu = false
                         }
                     ) {
-                        if (viewModel.showCopyUrlOption) {
+                        if (showCopyUrlOption) {
                             OptionMenuItem(
                                 title = stringResource(R.string.menu_copy_snapshot),
                                 onClick = {
@@ -201,7 +173,7 @@ fun BookResultListScreen(
                             )
                         }
 
-                        if (viewModel.showShareSnapshotOption) {
+                        if (showShareSnapshotOption) {
                             OptionMenuItem(
                                 title = stringResource(R.string.menu_share_result),
                                 onClick = {
@@ -305,7 +277,7 @@ fun BookResultListScreen(
                     viewModel.forceShowOrHideVirtualKeyboard(true)
                 },
                 onListScroll = {
-                    if (viewModel.isTextInputFocused.value) {
+                    if (isTextInputFocused) {
                         viewModel.forceFocusOrUnfocusKeywordTextInput(false)
                     }
                 },

@@ -369,7 +369,7 @@ class BookSearchViewModel(
 
     fun shareCurrentSnapshot() {
         generateSnapshotUrl { targetUrl ->
-            updateScreen(BookResultViewState.ShareCurrentPageSnapshot(targetUrl))
+            sendViewEffect(ScreenState.ShareCurrentPageSnapshot(targetUrl))
         }
     }
 

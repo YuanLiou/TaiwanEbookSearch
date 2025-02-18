@@ -11,8 +11,4 @@ sealed class BookResultViewState {
     ) : BookResultViewState()
 
     data object PrepareBookResultError : BookResultViewState()
-
-    data class ShareCurrentPageSnapshot(
-        val url: String
-    ) : BookResultViewState()
 }

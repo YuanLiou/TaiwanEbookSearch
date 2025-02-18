@@ -374,6 +374,10 @@ class BookSearchActivity : BaseActivity() {
                     bookSearchViewModel.rankAppWindowHasShown()
                 }
             }
+
+            is ScreenState.ShareCurrentPageSnapshot -> {
+                shareCurrentPageSnapshot(screenState.url)
+            }
         }
     }
 
@@ -444,10 +448,6 @@ class BookSearchActivity : BaseActivity() {
                 bookSearchViewModel.enableSearchButtonClick(true)
                 bookSearchViewModel.showCopyUrlOption(false)
                 bookSearchViewModel.showShareSnapshotOption(false)
-            }
-
-            is BookResultViewState.ShareCurrentPageSnapshot -> {
-                shareCurrentPageSnapshot(bookResultViewState.url)
             }
         }
     }

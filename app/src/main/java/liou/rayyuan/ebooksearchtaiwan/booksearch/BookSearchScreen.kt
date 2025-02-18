@@ -26,6 +26,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.kevinnzou.web.rememberWebViewNavigator
 import com.rayliu.commonmain.domain.model.Book
 import liou.rayyuan.ebooksearchtaiwan.R
@@ -48,6 +49,58 @@ fun BookSearchScreen(
     checkShouldAskUserRankApp: () -> Unit = {}
 ) {
     val viewState = bookSearchViewModel.viewState.collectAsStateWithLifecycle().value
+
+    val searchKeywords =
+        bookSearchViewModel.searchKeywords
+            .collectAsStateWithLifecycle()
+            .value
+
+    val focusAction =
+        bookSearchViewModel.focusTextInput
+            .collectAsStateWithLifecycle()
+            .value
+
+    val virtualKeyboardAction =
+        bookSearchViewModel.showVirtualKeyboard
+            .collectAsStateWithLifecycle()
+            .value
+
+    val enableCameraButtonClick =
+        bookSearchViewModel.enableCameraButtonClick
+            .collectAsStateWithLifecycle()
+            .value
+
+    val enableSearchButtonClick =
+        bookSearchViewModel.enableSearchButtonClick
+            .collectAsStateWithLifecycle()
+            .value
+
+    val isLoadingResult =
+        bookSearchViewModel.isLoadingResult
+            .collectAsStateWithLifecycle()
+            .value
+
+    val isTextInputFocused =
+        bookSearchViewModel.isTextInputFocused
+            .collectAsStateWithLifecycle()
+            .value
+
+    val bookStoreDetails =
+        bookSearchViewModel.bookStoreDetails
+            .collectAsStateWithLifecycle()
+            .value
+
+    val bookSearchResult =
+        bookSearchViewModel.bookSearchResult
+            .collectAsStateWithLifecycle()
+            .value
+
+    val showSearchRecords =
+        bookSearchViewModel.isShowSearchRecord
+            .collectAsStateWithLifecycle()
+            .value
+    val searchRecords = bookSearchViewModel.searchRecords.collectAsLazyPagingItems()
+
     val paneNavigator: ThreePaneScaffoldNavigator<Book> =
         rememberListDetailPaneScaffoldNavigator<Book>()
     BackHandler(paneNavigator.canNavigateBack()) {
@@ -64,11 +117,24 @@ fun BookSearchScreen(
                 BookResultListScreen(
                     viewModel = bookSearchViewModel,
                     viewState = viewState,
-                    modifier = Modifier.fillMaxSize(),
+                    searchKeywords = searchKeywords,
+                    bookStoreDetails = bookStoreDetails,
+                    bookSearchResult = bookSearchResult,
+                    showSearchRecords = showSearchRecords,
+                    searchRecords = searchRecords,
                     onBookSearchItemClick = { onBookSearchItemClick(it, paneNavigator) },
                     showAppBarCameraButton = showAppBarCameraButton,
                     onAppBarCameraButtonPress = onAppBarCameraButtonPress,
-                    onMenuSettingClick = onMenuSettingClick
+                    onMenuSettingClick = onMenuSettingClick,
+                    focusAction = focusAction,
+                    virtualKeyboardAction = virtualKeyboardAction,
+                    enableCameraButtonClick = enableCameraButtonClick,
+                    enableSearchButtonClick = enableSearchButtonClick,
+                    isLoadingResult = isLoadingResult,
+                    showCopyUrlOption = bookSearchViewModel.showCopyUrlOption,
+                    showShareSnapshotOption = bookSearchViewModel.showShareSnapshotOption,
+                    isTextInputFocused = isTextInputFocused,
+                    modifier = Modifier.fillMaxSize()
                 )
             }
         },
