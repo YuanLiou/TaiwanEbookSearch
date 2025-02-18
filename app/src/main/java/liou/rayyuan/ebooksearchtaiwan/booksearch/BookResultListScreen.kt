@@ -41,19 +41,17 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.rayliu.commonmain.domain.model.Book
 import com.rayliu.commonmain.domain.model.SearchRecord
-import liou.rayyuan.ebooksearchtaiwan.BookResultDestinations
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.ConfirmRemoveRecordDialog
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.SearchBox
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.SearchRecordItem
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.SearchRecords
+import liou.rayyuan.ebooksearchtaiwan.booksearch.screen.BookSearchListScreenContent
+import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.composable.EBookDropdownMenu
 import liou.rayyuan.ebooksearchtaiwan.composable.OptionMenuItem
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
@@ -62,9 +60,9 @@ import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 @Composable
 fun BookResultListScreen(
     viewModel: BookSearchViewModel,
+    viewState: BookResultViewState?,
     onMenuSettingClick: () -> Unit,
     modifier: Modifier = Modifier,
-    navHostController: NavHostController = rememberNavController(),
     onBookSearchItemClick: (Book) -> Unit = {},
     showAppBarCameraButton: Boolean = false,
     onAppBarCameraButtonPress: () -> Unit = {}
@@ -96,6 +94,16 @@ fun BookResultListScreen(
 
     val isLoadingResult =
         viewModel.isLoadingResult
+            .collectAsStateWithLifecycle()
+            .value
+
+    val bookStoreDetails =
+        viewModel.bookStoreDetails
+            .collectAsStateWithLifecycle()
+            .value
+
+    val bookSearchResult =
+        viewModel.bookSearchResult
             .collectAsStateWithLifecycle()
             .value
 
@@ -285,29 +293,24 @@ fun BookResultListScreen(
                 )
             }
 
-            NavHost(
-                navController = navHostController,
-                startDestination = BookResultDestinations.ServiceStatus.route,
-                modifier =
-                    Modifier
-                        .fillMaxSize()
-            ) {
-                bookResultNavGraph(
-                    viewModel = viewModel,
-                    modifier = Modifier.fillMaxSize().consumeWindowInsets(paddings),
-                    contentPaddings = paddings,
-                    onBookSearchItemClick = onBookSearchItemClick,
-                    focusOnSearchBox = {
-                        viewModel.forceFocusOrUnfocusKeywordTextInput(true)
-                        viewModel.forceShowOrHideVirtualKeyboard(true)
-                    },
-                    onListScroll = {
-                        if (viewModel.isTextInputFocused.value) {
-                            viewModel.forceFocusOrUnfocusKeywordTextInput(false)
-                        }
+            BookSearchListScreenContent(
+                viewModel = viewModel,
+                viewState = viewState,
+                modifier = Modifier.fillMaxSize().consumeWindowInsets(paddings),
+                bookStoreDetails = bookStoreDetails,
+                bookSearchResult = bookSearchResult,
+                contentPaddings = paddings,
+                onBookSearchItemClick = onBookSearchItemClick,
+                focusOnSearchBox = {
+                    viewModel.forceFocusOrUnfocusKeywordTextInput(true)
+                    viewModel.forceShowOrHideVirtualKeyboard(true)
+                },
+                onListScroll = {
+                    if (viewModel.isTextInputFocused.value) {
+                        viewModel.forceFocusOrUnfocusKeywordTextInput(false)
                     }
-                )
-            }
+                }
+            )
         }
     }
 }

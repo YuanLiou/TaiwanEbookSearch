@@ -38,7 +38,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import liou.rayyuan.ebooksearchtaiwan.BookResultDestinations
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.FocusAction
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.VirtualKeyboardAction
@@ -87,10 +86,6 @@ class BookSearchViewModel(
     private val _bookSearchResult = MutableStateFlow<ImmutableList<BookSearchResultItem>>(persistentListOf())
     val bookSearchResult
         get() = _bookSearchResult.asStateFlow()
-
-    private val _navigationEvents = MutableSharedFlow<BookResultDestinations>()
-    val navigationEvents
-        get() = _navigationEvents.asSharedFlow()
 
     private val _searchKeywords = MutableStateFlow(TextFieldValue(""))
     val searchKeywords
@@ -171,7 +166,6 @@ class BookSearchViewModel(
     fun onViewReadyToServe() {
         if (isRequestingBookData()) {
             updateScreen(BookResultViewState.PrepareBookResult)
-            updateBookSearchScreen(BookResultDestinations.LoadingScreen)
             _isShowSearchRecord.value = false
             _isLoadingResult.value = true
             return
@@ -240,7 +234,6 @@ class BookSearchViewModel(
         }
 
         updateScreen(BookResultViewState.PrepareBookResult)
-        updateBookSearchScreen(BookResultDestinations.LoadingScreen)
         _isShowSearchRecord.value = false
         _isLoadingResult.value = true
         bookStores = null // clean up
@@ -300,7 +293,6 @@ class BookSearchViewModel(
             val bookSearchResultItems = generateBookSearchResultItems(bookStores)
             _bookSearchResult.value = bookSearchResultItems.toImmutableList()
             updateScreen(BookResultViewState.ShowBooks(bookStores.searchKeyword))
-            updateBookSearchScreen(BookResultDestinations.SearchResult)
             _isLoadingResult.value = false
         }
     }
@@ -414,14 +406,12 @@ class BookSearchViewModel(
 
     private fun networkTimeout() {
         updateScreen(BookResultViewState.PrepareBookResultError)
-        updateBookSearchScreen(BookResultDestinations.ServiceStatus)
         sendViewEffect(ScreenState.ConnectionTimeout)
         _isLoadingResult.value = false
     }
 
     private fun networkExceptionOccurred(message: String) {
         updateScreen(BookResultViewState.PrepareBookResultError)
-        updateBookSearchScreen(BookResultDestinations.ServiceStatus)
         if (message == GENERIC_NETWORK_ISSUE) {
             sendViewEffect(ScreenState.NetworkError)
         } else {
@@ -459,12 +449,6 @@ class BookSearchViewModel(
 
     private fun updateScreen(bookResultViewState: BookResultViewState) {
         _bookResultViewState.value = bookResultViewState
-    }
-
-    private fun updateBookSearchScreen(bookSearchDestination: BookResultDestinations) {
-        viewModelScope.launch {
-            _navigationEvents.emit(bookSearchDestination)
-        }
     }
 
     fun updateKeyword(keyword: TextFieldValue) {

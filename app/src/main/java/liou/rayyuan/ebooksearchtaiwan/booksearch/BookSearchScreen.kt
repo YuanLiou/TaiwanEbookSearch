@@ -20,20 +20,17 @@ import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
 import androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kevinnzou.web.rememberWebViewNavigator
 import com.rayliu.commonmain.domain.model.Book
-import kotlinx.coroutines.flow.distinctUntilChanged
-import liou.rayyuan.ebooksearchtaiwan.BookResultDestinations
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookUiModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.asUiModel
-import liou.rayyuan.ebooksearchtaiwan.rememberEBookAppState
 import liou.rayyuan.ebooksearchtaiwan.simplewebview.SimpleWebViewScreen
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.pale_slate
 
@@ -50,25 +47,7 @@ fun BookSearchScreen(
     onOpenInBrowserClick: (book: BookUiModel) -> Unit = {},
     checkShouldAskUserRankApp: () -> Unit = {}
 ) {
-    val appState = rememberEBookAppState()
-    LaunchedEffect(Unit) {
-        bookSearchViewModel.navigationEvents.distinctUntilChanged().collect { destinations ->
-            when (destinations) {
-                BookResultDestinations.LoadingScreen -> {
-                    appState.navigateToLoadingScreen()
-                }
-
-                BookResultDestinations.SearchResult -> {
-                    appState.navigateToSearchResult()
-                }
-
-                BookResultDestinations.ServiceStatus -> {
-                    appState.navigateToServiceStatus()
-                }
-            }
-        }
-    }
-
+    val viewState = bookSearchViewModel.viewState.collectAsStateWithLifecycle().value
     val paneNavigator: ThreePaneScaffoldNavigator<Book> =
         rememberListDetailPaneScaffoldNavigator<Book>()
     BackHandler(paneNavigator.canNavigateBack()) {
@@ -84,7 +63,7 @@ fun BookSearchScreen(
             AnimatedPane {
                 BookResultListScreen(
                     viewModel = bookSearchViewModel,
-                    navHostController = appState.navController,
+                    viewState = viewState,
                     modifier = Modifier.fillMaxSize(),
                     onBookSearchItemClick = { onBookSearchItemClick(it, paneNavigator) },
                     showAppBarCameraButton = showAppBarCameraButton,
