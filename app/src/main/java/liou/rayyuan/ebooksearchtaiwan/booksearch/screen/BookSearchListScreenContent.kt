@@ -11,14 +11,12 @@ import com.rayliu.commonmain.domain.model.Book
 import com.rayliu.commonmain.domain.model.BookStoreDetails
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchViewModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookSearchResultItem
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 
 @Composable
 fun BookSearchListScreenContent(
-    viewModel: BookSearchViewModel,
     viewState: BookResultViewState?,
     modifier: Modifier = Modifier,
     bookStoreDetails: ImmutableList<BookStoreDetails> = persistentListOf(),
@@ -26,7 +24,10 @@ fun BookSearchListScreenContent(
     contentPaddings: PaddingValues = PaddingValues(),
     onBookSearchItemClick: (Book) -> Unit = {},
     focusOnSearchBox: () -> Unit = {},
-    onListScroll: () -> Unit = {}
+    onListScroll: () -> Unit = {},
+    onSavePreviousScrollPosition: (position: Int, offset: Int) -> Unit = { _, _ -> },
+    lastScrollPosition: Int = 0,
+    lastScrollOffset: Int = 0,
 ) {
     Box(
         modifier = modifier
@@ -45,15 +46,14 @@ fun BookSearchListScreenContent(
 
             is BookResultViewState.ShowBooks -> {
                 BookSearchResultScreen(
-                    viewModel = viewModel,
                     bookSearchResult = bookSearchResult,
-                    lastScrollPosition = viewModel.lastScrollPosition,
-                    lastScrollOffset = viewModel.lastScrollOffset,
-                    modifier = Modifier,
+                    lastScrollPosition = lastScrollPosition,
+                    lastScrollOffset = lastScrollOffset,
                     contentPaddings = contentPaddings,
                     onBookSearchItemClick = onBookSearchItemClick,
                     focusOnSearchBox = focusOnSearchBox,
-                    onListScroll = onListScroll
+                    onListScroll = onListScroll,
+                    onSavePreviousScrollPosition = onSavePreviousScrollPosition
                 )
             }
 
@@ -61,7 +61,6 @@ fun BookSearchListScreenContent(
                 ServiceListScreen(
                     bookStoreDetails = bookStoreDetails,
                     contentPaddings = contentPaddings,
-                    modifier = Modifier
                 )
             }
         }

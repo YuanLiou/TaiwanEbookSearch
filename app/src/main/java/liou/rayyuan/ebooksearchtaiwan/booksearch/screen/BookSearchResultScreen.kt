@@ -17,6 +17,7 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,7 +36,6 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.R
-import liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchViewModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.BookSearchList
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookSearchResultItem
 import liou.rayyuan.ebooksearchtaiwan.composable.iconpack.EBookIcons
@@ -47,7 +47,6 @@ import liou.rayyuan.ebooksearchtaiwan.ui.theme.blue_green_you
 
 @Composable
 fun BookSearchResultScreen(
-    viewModel: BookSearchViewModel,
     modifier: Modifier = Modifier,
     bookSearchResult: ImmutableList<BookSearchResultItem> = persistentListOf(),
     contentPaddings: PaddingValues = PaddingValues(),
@@ -55,7 +54,8 @@ fun BookSearchResultScreen(
     lastScrollOffset: Int = 0,
     onBookSearchItemClick: (Book) -> Unit = {},
     focusOnSearchBox: () -> Unit = {},
-    onListScroll: () -> Unit = {}
+    onListScroll: () -> Unit = {},
+    onSavePreviousScrollPosition: (position: Int, offset: Int) -> Unit = { _, _ -> },
 ) {
     val scope = rememberCoroutineScope()
 
@@ -139,9 +139,10 @@ fun BookSearchResultScreen(
         }
     }
 
+    val latestSaveScrollPosition by rememberUpdatedState(onSavePreviousScrollPosition)
     DisposableEffect(Unit) {
         onDispose {
-            viewModel.savePreviousScrollPosition(
+            latestSaveScrollPosition(
                 lazyListState.firstVisibleItemIndex,
                 lazyListState.firstVisibleItemScrollOffset
             )

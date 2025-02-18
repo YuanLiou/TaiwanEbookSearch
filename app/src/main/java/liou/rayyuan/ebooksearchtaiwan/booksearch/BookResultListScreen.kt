@@ -294,7 +294,6 @@ fun BookResultListScreen(
             }
 
             BookSearchListScreenContent(
-                viewModel = viewModel,
                 viewState = viewState,
                 modifier = Modifier.fillMaxSize().consumeWindowInsets(paddings),
                 bookStoreDetails = bookStoreDetails,
@@ -309,7 +308,12 @@ fun BookResultListScreen(
                     if (viewModel.isTextInputFocused.value) {
                         viewModel.forceFocusOrUnfocusKeywordTextInput(false)
                     }
-                }
+                },
+                onSavePreviousScrollPosition = { position, offset ->
+                    viewModel.savePreviousScrollPosition(position, offset)
+                },
+                lastScrollPosition = viewModel.lastScrollPosition,
+                lastScrollOffset = viewModel.lastScrollOffset
             )
         }
     }
