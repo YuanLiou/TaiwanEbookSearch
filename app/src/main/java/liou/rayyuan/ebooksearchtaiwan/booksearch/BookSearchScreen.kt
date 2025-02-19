@@ -54,51 +54,32 @@ fun BookSearchScreen(
     onOpenInBrowserClick: (book: BookUiModel) -> Unit = {},
     checkShouldAskUserRankApp: () -> Unit = {}
 ) {
-    val viewState = bookSearchViewModel.viewState.collectAsStateWithLifecycle().value
-
-    val searchKeywords =
-        bookSearchViewModel.searchKeywords
-            .collectAsStateWithLifecycle()
-            .value
-
-    val focusAction =
-        bookSearchViewModel.focusTextInput
-            .collectAsStateWithLifecycle()
-            .value
-
-    val virtualKeyboardAction =
-        bookSearchViewModel.showVirtualKeyboard
-            .collectAsStateWithLifecycle()
-            .value
-
-    val bookStoreDetails =
-        bookSearchViewModel.bookStoreDetails
-            .collectAsStateWithLifecycle()
-            .value
-
-    val bookSearchResult =
-        bookSearchViewModel.bookSearchResult
-            .collectAsStateWithLifecycle()
-            .value
-
-    val showSearchRecords =
-        bookSearchViewModel.isShowSearchRecord
-            .collectAsStateWithLifecycle()
-            .value
+    val viewState by bookSearchViewModel.viewState.collectAsStateWithLifecycle()
+    val searchKeywords by bookSearchViewModel.searchKeywords.collectAsStateWithLifecycle()
+    val focusAction by bookSearchViewModel.focusTextInput.collectAsStateWithLifecycle()
+    val virtualKeyboardAction by bookSearchViewModel.showVirtualKeyboard.collectAsStateWithLifecycle()
+    val bookStoreDetails by bookSearchViewModel.bookStoreDetails.collectAsStateWithLifecycle()
+    val bookSearchResult by bookSearchViewModel.bookSearchResult.collectAsStateWithLifecycle()
+    val showSearchRecords by bookSearchViewModel.isShowSearchRecord.collectAsStateWithLifecycle()
     val searchRecords = bookSearchViewModel.searchRecords.collectAsLazyPagingItems()
-
-    val paneNavigator: ThreePaneScaffoldNavigator<Book> =
-        rememberListDetailPaneScaffoldNavigator<Book>()
-    BackHandler(paneNavigator.canNavigateBack()) {
-        paneNavigator.navigateBack()
-    }
-    val isDetailPaneVisible = paneNavigator.scaffoldValue.secondary == PaneAdaptedValue.Expanded
 
     var isTextInputFocused by remember { mutableStateOf(false) }
     var enableCameraButtonClick by remember { mutableStateOf(false) }
     var enableSearchButtonClick by remember { mutableStateOf(false) }
     var showCopyUrlOption by remember { mutableStateOf(false) }
     var showShareSnapshotOption by remember { mutableStateOf(false) }
+
+    val paneNavigator: ThreePaneScaffoldNavigator<Book> =
+        rememberListDetailPaneScaffoldNavigator<Book>()
+    BackHandler(enabled = (paneNavigator.canNavigateBack() || isTextInputFocused)) {
+        if (isTextInputFocused) {
+            bookSearchViewModel.forceFocusOrUnfocusKeywordTextInput(false)
+            return@BackHandler
+        }
+
+        paneNavigator.navigateBack()
+    }
+    val isDetailPaneVisible = paneNavigator.scaffoldValue.secondary == PaneAdaptedValue.Expanded
 
     ListDetailPaneScaffold(
         directive = paneNavigator.scaffoldDirective,
@@ -152,6 +133,9 @@ fun BookSearchScreen(
                     onFocusActionFinish = {
                         bookSearchViewModel.resetFocusAction()
                     },
+                    onKeyboardActionFinish = {
+                        bookSearchViewModel.resetVirtualKeyboardState()
+                    },
                     onFocusChange = {
                         isTextInputFocused = it.isFocused
                         bookSearchViewModel.focusOnEditText(it.isFocused)
@@ -181,20 +165,9 @@ fun BookSearchScreen(
                         showCopyUrlOption = false
                         showShareSnapshotOption = false
                     },
-                    onShowBooksResult = { keyword ->
+                    onShowBooksResult = {
                         enableCameraButtonClick = true
                         enableSearchButtonClick = true
-
-                        if (keyword.isNotEmpty()) {
-                            bookSearchViewModel.updateKeyword(
-                                TextFieldValue(
-                                    keyword,
-                                    selection = TextRange(keyword.length)
-                                )
-                            )
-                            bookSearchViewModel.forceFocusOrUnfocusKeywordTextInput(false)
-                        }
-
                         showCopyUrlOption = true
                         showShareSnapshotOption = true
                     },

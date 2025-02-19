@@ -29,7 +29,7 @@ fun BookSearchListScreenContent(
     onListScroll: () -> Unit = {},
     onSavePreviousScrollPosition: (position: Int, offset: Int) -> Unit = { _, _ -> },
     onPrepareBookResult: () -> Unit = {},
-    onShowBooksResult: (keyword: String) -> Unit = {},
+    onShowBooksResult: () -> Unit = {},
     onShowServiceList: () -> Unit = {}
 ) {
     Box(
@@ -48,8 +48,8 @@ fun BookSearchListScreenContent(
                 }
             }
 
-            is BookResultViewState.ShowBooks -> {
-                onShowBooksResult(viewState.keyword)
+            BookResultViewState.ShowBooks -> {
+                onShowBooksResult()
                 BookSearchResultScreen(
                     bookSearchResult = bookSearchResult,
                     lastScrollPosition = lastScrollPosition,

@@ -90,6 +90,7 @@ fun BookResultListScreen(
     onPressSearch: () -> Unit = {},
     focusOnSearchBox: () -> Unit = {},
     onFocusActionFinish: () -> Unit = {},
+    onKeyboardActionFinish: () -> Unit = {},
     onFocusChange: (focusState: FocusState) -> Unit = {},
     onSearchButtonPress: () -> Unit = {},
     onClickCopySnapshotToClipboard: () -> Unit = {},
@@ -97,7 +98,7 @@ fun BookResultListScreen(
     onBookResultListScroll: () -> Unit = {},
     onSaveBookResultListPreviousScrollPosition: (position: Int, offset: Int) -> Unit = { _, _ -> },
     onPrepareBookResult: () -> Unit = {},
-    onShowBooksResult: (keyword: String) -> Unit = {},
+    onShowBooksResult: () -> Unit = {},
     onShowServiceList: () -> Unit = {}
 ) {
     var showOptionMenu by remember { mutableStateOf(false) }
@@ -131,6 +132,7 @@ fun BookResultListScreen(
                         onFocusActionFinish = onFocusActionFinish,
                         onFocusChange = onFocusChange,
                         virtualKeyboardAction = virtualKeyboardAction,
+                        onKeyboardActionFinish = onKeyboardActionFinish,
                         showCameraButton = showAppBarCameraButton,
                         enableTextField = (viewState !is BookResultViewState.PrepareBookResult),
                         enableCameraButtonClick = enableCameraButtonClick,

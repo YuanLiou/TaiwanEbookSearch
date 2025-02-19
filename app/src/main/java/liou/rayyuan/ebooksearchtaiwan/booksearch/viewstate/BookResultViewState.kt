@@ -6,9 +6,7 @@ package liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate
 sealed class BookResultViewState {
     data object PrepareBookResult : BookResultViewState()
 
-    data class ShowBooks(
-        val keyword: String
-    ) : BookResultViewState()
+    data object ShowBooks : BookResultViewState()
 
     data object PrepareBookResultError : BookResultViewState()
 }

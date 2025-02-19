@@ -1,6 +1,7 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import android.util.Log
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -268,7 +269,17 @@ class BookSearchViewModel(
         viewModelScope.launch {
             val bookSearchResultItems = generateBookSearchResultItems(bookStores)
             _bookSearchResult.value = bookSearchResultItems.toImmutableList()
-            updateScreen(BookResultViewState.ShowBooks(bookStores.searchKeyword))
+            updateScreen(BookResultViewState.ShowBooks)
+
+            if (bookStores.searchKeyword.isNotEmpty()) {
+                updateKeyword(
+                    TextFieldValue(
+                        bookStores.searchKeyword,
+                        selection = TextRange(bookStores.searchKeyword.length)
+                    )
+                )
+                forceFocusOrUnfocusKeywordTextInput(false)
+            }
         }
     }
 
@@ -430,6 +441,10 @@ class BookSearchViewModel(
 
     fun resetFocusAction() {
         _focusTextInput.value = FocusAction.NEUTRAL_STATE
+    }
+
+    fun resetVirtualKeyboardState() {
+        _showVirtualKeyboard.value = VirtualKeyboardAction.NEUTRAL_STATE
     }
 
     fun forceShowOrHideVirtualKeyboard(show: Boolean) {
