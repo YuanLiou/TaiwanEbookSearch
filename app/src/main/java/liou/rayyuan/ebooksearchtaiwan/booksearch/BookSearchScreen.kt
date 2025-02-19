@@ -20,6 +20,10 @@ import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
 import androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -67,26 +71,6 @@ fun BookSearchScreen(
             .collectAsStateWithLifecycle()
             .value
 
-    val enableCameraButtonClick =
-        bookSearchViewModel.enableCameraButtonClick
-            .collectAsStateWithLifecycle()
-            .value
-
-    val enableSearchButtonClick =
-        bookSearchViewModel.enableSearchButtonClick
-            .collectAsStateWithLifecycle()
-            .value
-
-    val isLoadingResult =
-        bookSearchViewModel.isLoadingResult
-            .collectAsStateWithLifecycle()
-            .value
-
-    val isTextInputFocused =
-        bookSearchViewModel.isTextInputFocused
-            .collectAsStateWithLifecycle()
-            .value
-
     val bookStoreDetails =
         bookSearchViewModel.bookStoreDetails
             .collectAsStateWithLifecycle()
@@ -110,6 +94,12 @@ fun BookSearchScreen(
     }
     val isDetailPaneVisible = paneNavigator.scaffoldValue.secondary == PaneAdaptedValue.Expanded
 
+    var isTextInputFocused by remember { mutableStateOf(false) }
+    var enableCameraButtonClick by remember { mutableStateOf(false) }
+    var enableSearchButtonClick by remember { mutableStateOf(false) }
+    var showCopyUrlOption by remember { mutableStateOf(false) }
+    var showShareSnapshotOption by remember { mutableStateOf(false) }
+
     ListDetailPaneScaffold(
         directive = paneNavigator.scaffoldDirective,
         value = paneNavigator.scaffoldValue,
@@ -131,9 +121,8 @@ fun BookSearchScreen(
                     virtualKeyboardAction = virtualKeyboardAction,
                     enableCameraButtonClick = enableCameraButtonClick,
                     enableSearchButtonClick = enableSearchButtonClick,
-                    isLoadingResult = isLoadingResult,
-                    showCopyUrlOption = bookSearchViewModel.showCopyUrlOption,
-                    showShareSnapshotOption = bookSearchViewModel.showShareSnapshotOption,
+                    showCopyUrlOption = showCopyUrlOption,
+                    showShareSnapshotOption = showShareSnapshotOption,
                     lastScrollPosition = bookSearchViewModel.lastScrollPosition,
                     lastScrollOffset = bookSearchViewModel.lastScrollOffset,
                     onSearchRecordClick = { searchRecord ->
@@ -164,7 +153,7 @@ fun BookSearchScreen(
                         bookSearchViewModel.resetFocusAction()
                     },
                     onFocusChange = {
-                        bookSearchViewModel.updateTextInputFocusState(it.isFocused)
+                        isTextInputFocused = it.isFocused
                         bookSearchViewModel.focusOnEditText(it.isFocused)
                     },
                     onSearchButtonPress = {
@@ -185,6 +174,35 @@ fun BookSearchScreen(
                     },
                     onSaveBookResultListPreviousScrollPosition = { position, offset ->
                         bookSearchViewModel.savePreviousScrollPosition(position, offset)
+                    },
+                    onPrepareBookResult = {
+                        enableCameraButtonClick = false
+                        enableSearchButtonClick = false
+                        showCopyUrlOption = false
+                        showShareSnapshotOption = false
+                    },
+                    onShowBooksResult = { keyword ->
+                        enableCameraButtonClick = true
+                        enableSearchButtonClick = true
+
+                        if (keyword.isNotEmpty()) {
+                            bookSearchViewModel.updateKeyword(
+                                TextFieldValue(
+                                    keyword,
+                                    selection = TextRange(keyword.length)
+                                )
+                            )
+                            bookSearchViewModel.forceFocusOrUnfocusKeywordTextInput(false)
+                        }
+
+                        showCopyUrlOption = true
+                        showShareSnapshotOption = true
+                    },
+                    onShowServiceList = {
+                        enableCameraButtonClick = true
+                        enableSearchButtonClick = true
+                        showCopyUrlOption = false
+                        showShareSnapshotOption = false
                     },
                     modifier = Modifier.fillMaxSize()
                 )

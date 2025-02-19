@@ -22,18 +22,22 @@ fun BookSearchListScreenContent(
     bookStoreDetails: ImmutableList<BookStoreDetails> = persistentListOf(),
     bookSearchResult: ImmutableList<BookSearchResultItem> = persistentListOf(),
     contentPaddings: PaddingValues = PaddingValues(),
+    lastScrollPosition: Int = 0,
+    lastScrollOffset: Int = 0,
     onBookSearchItemClick: (Book) -> Unit = {},
     focusOnSearchBox: () -> Unit = {},
     onListScroll: () -> Unit = {},
     onSavePreviousScrollPosition: (position: Int, offset: Int) -> Unit = { _, _ -> },
-    lastScrollPosition: Int = 0,
-    lastScrollOffset: Int = 0
+    onPrepareBookResult: () -> Unit = {},
+    onShowBooksResult: (keyword: String) -> Unit = {},
+    onShowServiceList: () -> Unit = {}
 ) {
     Box(
         modifier = modifier
     ) {
         when (viewState) {
             BookResultViewState.PrepareBookResult -> {
+                onPrepareBookResult()
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
@@ -45,6 +49,7 @@ fun BookSearchListScreenContent(
             }
 
             is BookResultViewState.ShowBooks -> {
+                onShowBooksResult(viewState.keyword)
                 BookSearchResultScreen(
                     bookSearchResult = bookSearchResult,
                     lastScrollPosition = lastScrollPosition,
@@ -58,6 +63,7 @@ fun BookSearchListScreenContent(
             }
 
             else -> {
+                onShowServiceList()
                 ServiceListScreen(
                     bookStoreDetails = bookStoreDetails,
                     contentPaddings = contentPaddings,

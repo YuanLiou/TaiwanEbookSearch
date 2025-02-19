@@ -78,7 +78,6 @@ fun BookResultListScreen(
     onAppBarCameraButtonPress: () -> Unit = {},
     enableCameraButtonClick: Boolean = false,
     enableSearchButtonClick: Boolean = false,
-    isLoadingResult: Boolean = false,
     showSearchRecords: Boolean = false,
     showCopyUrlOption: Boolean = false,
     showShareSnapshotOption: Boolean = false,
@@ -97,6 +96,9 @@ fun BookResultListScreen(
     onClickShareSnapshot: () -> Unit = {},
     onBookResultListScroll: () -> Unit = {},
     onSaveBookResultListPreviousScrollPosition: (position: Int, offset: Int) -> Unit = { _, _ -> },
+    onPrepareBookResult: () -> Unit = {},
+    onShowBooksResult: (keyword: String) -> Unit = {},
+    onShowServiceList: () -> Unit = {}
 ) {
     var showOptionMenu by remember { mutableStateOf(false) }
     var goingToDeleteRecords by remember { mutableStateOf<SearchRecord?>(null) }
@@ -130,7 +132,7 @@ fun BookResultListScreen(
                         onFocusChange = onFocusChange,
                         virtualKeyboardAction = virtualKeyboardAction,
                         showCameraButton = showAppBarCameraButton,
-                        enableTextField = !isLoadingResult,
+                        enableTextField = (viewState !is BookResultViewState.PrepareBookResult),
                         enableCameraButtonClick = enableCameraButtonClick,
                         enableSearchButtonClick = enableSearchButtonClick,
                         onCameraButtonPress = onAppBarCameraButtonPress,
@@ -261,12 +263,15 @@ fun BookResultListScreen(
                 bookStoreDetails = bookStoreDetails,
                 bookSearchResult = bookSearchResult,
                 contentPaddings = paddings,
+                lastScrollPosition = lastScrollPosition,
+                lastScrollOffset = lastScrollOffset,
                 onBookSearchItemClick = onBookSearchItemClick,
                 focusOnSearchBox = focusOnSearchBox,
                 onListScroll = onBookResultListScroll,
                 onSavePreviousScrollPosition = onSaveBookResultListPreviousScrollPosition,
-                lastScrollPosition = lastScrollPosition,
-                lastScrollOffset = lastScrollOffset
+                onPrepareBookResult = onPrepareBookResult,
+                onShowBooksResult = onShowBooksResult,
+                onShowServiceList = onShowServiceList
             )
         }
     }

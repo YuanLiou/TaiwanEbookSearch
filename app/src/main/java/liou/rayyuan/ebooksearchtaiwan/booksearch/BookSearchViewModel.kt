@@ -1,9 +1,6 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -91,10 +88,6 @@ class BookSearchViewModel(
     val searchKeywords
         get() = _searchKeywords.asStateFlow()
 
-    private val _isTextInputFocused = MutableStateFlow(false)
-    val isTextInputFocused
-        get() = _isTextInputFocused.asStateFlow()
-
     private val _focusTextInput = MutableStateFlow(FocusAction.NEUTRAL_STATE)
     val focusTextInput
         get() = _focusTextInput.asStateFlow()
@@ -103,28 +96,13 @@ class BookSearchViewModel(
     val showVirtualKeyboard
         get() = _showVirtualKeyboard.asStateFlow()
 
-    private val _enableCameraButtonClick = MutableStateFlow(true)
-    val enableCameraButtonClick
-        get() = _enableCameraButtonClick.asStateFlow()
-
-    private val _enableSearchButtonClick = MutableStateFlow(true)
-    val enableSearchButtonClick
-        get() = _enableSearchButtonClick.asStateFlow()
-
     private val _isShowSearchRecord = MutableStateFlow(false)
     val isShowSearchRecord
         get() = _isShowSearchRecord.asStateFlow()
 
-    private val _isLoadingResult = MutableStateFlow(false)
-    val isLoadingResult
-        get() = _isLoadingResult.asStateFlow()
-
     val searchRecords by lazy {
         getSearchRecordsUseCase().cachedIn(viewModelScope)
     }
-
-    var showCopyUrlOption by mutableStateOf(false)
-    var showShareSnapshotOption by mutableStateOf(false)
 
     private var networkJob: Job? = null
     private val maxListNumber: Int = 10
@@ -167,7 +145,6 @@ class BookSearchViewModel(
         if (isRequestingBookData()) {
             updateScreen(BookResultViewState.PrepareBookResult)
             _isShowSearchRecord.value = false
-            _isLoadingResult.value = true
             return
         }
 
@@ -235,7 +212,6 @@ class BookSearchViewModel(
 
         updateScreen(BookResultViewState.PrepareBookResult)
         _isShowSearchRecord.value = false
-        _isLoadingResult.value = true
         bookStores = null // clean up
         networkJob =
             viewModelScope.launch(Dispatchers.IO) {
@@ -293,7 +269,6 @@ class BookSearchViewModel(
             val bookSearchResultItems = generateBookSearchResultItems(bookStores)
             _bookSearchResult.value = bookSearchResultItems.toImmutableList()
             updateScreen(BookResultViewState.ShowBooks(bookStores.searchKeyword))
-            _isLoadingResult.value = false
         }
     }
 
@@ -407,7 +382,6 @@ class BookSearchViewModel(
     private fun networkTimeout() {
         updateScreen(BookResultViewState.PrepareBookResultError)
         sendViewEffect(ScreenState.ConnectionTimeout)
-        _isLoadingResult.value = false
     }
 
     private fun networkExceptionOccurred(message: String) {
@@ -417,7 +391,6 @@ class BookSearchViewModel(
         } else {
             sendViewEffect(ScreenState.ShowToastMessage(-1, message))
         }
-        _isLoadingResult.value = false
     }
 
     fun checkServiceStatus() {
@@ -459,10 +432,6 @@ class BookSearchViewModel(
         _focusTextInput.value = FocusAction.NEUTRAL_STATE
     }
 
-    fun updateTextInputFocusState(isFocused: Boolean) {
-        _isTextInputFocused.value = isFocused
-    }
-
     fun forceShowOrHideVirtualKeyboard(show: Boolean) {
         if (show) {
             _showVirtualKeyboard.value = VirtualKeyboardAction.SHOW
@@ -492,22 +461,6 @@ class BookSearchViewModel(
         if (!hasUserSeenRankWindow) {
             sendViewEffect(ScreenState.ShowUserRankingDialog(reviewInfo))
         }
-    }
-
-    fun enableCameraButtonClick(enable: Boolean) {
-        _enableCameraButtonClick.value = enable
-    }
-
-    fun enableSearchButtonClick(enable: Boolean) {
-        _enableSearchButtonClick.value = enable
-    }
-
-    fun showCopyUrlOption(show: Boolean) {
-        showCopyUrlOption = show
-    }
-
-    fun showShareSnapshotOption(show: Boolean) {
-        showShareSnapshotOption = show
     }
 
     suspend fun rankAppWindowHasShown() {
