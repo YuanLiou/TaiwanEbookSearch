@@ -9,10 +9,10 @@ import android.os.VibratorManager
 class DeviceVibrateHelper(
     private val context: Context
 ) {
-    fun vibrate() {
+    fun vibrate(duration: Long = VIBRATE_DURATION) {
         val vibrationEffect =
             VibrationEffect.createOneShot(
-                VIBRATE_DURATION,
+                duration,
                 VibrationEffect.DEFAULT_AMPLITUDE
             )
 

@@ -41,12 +41,15 @@ import liou.rayyuan.ebooksearchtaiwan.composable.rememberDragDropState
 import liou.rayyuan.ebooksearchtaiwan.composable.toMutableStateList
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import java.util.Collections
+import liou.rayyuan.ebooksearchtaiwan.utils.DeviceVibrateHelper
+import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookStoreReorderScreen(
     viewModel: BookStoreReorderViewModel,
     modifier: Modifier = Modifier,
+    deviceVibrateHelper: DeviceVibrateHelper = koinInject(),
     onNavigationBack: () -> Unit = {},
     onSaveSettings: () -> Unit = {}
 ) {
@@ -109,6 +112,9 @@ fun BookStoreReorderScreen(
                     },
                     updateBookStoreSort = { bookStores ->
                         viewModel.currentBookStoreSort = bookStores
+                    },
+                    onStartMoving = {
+                        deviceVibrateHelper.vibrate(50L)
                     }
                 )
             }
@@ -122,7 +128,8 @@ private fun BookStoreReorderContent(
     modifier: Modifier = Modifier,
     contentPaddings: PaddingValues = PaddingValues(),
     updateBookStoreSort: (bookStores: SnapshotStateList<SortedStore>) -> Unit = {},
-    onShowSaveSetting: (show: Boolean) -> Unit = {}
+    onShowSaveSetting: (show: Boolean) -> Unit = {},
+    onStartMoving: () -> Unit = {}
 ) {
     var isMovingListItem by remember { mutableStateOf(false) }
 
@@ -144,6 +151,7 @@ private fun BookStoreReorderContent(
             },
             onMoveStart = {
                 isMovingListItem = true
+                onStartMoving()
             },
             onMoveInterrupt = {
                 isMovingListItem = false
