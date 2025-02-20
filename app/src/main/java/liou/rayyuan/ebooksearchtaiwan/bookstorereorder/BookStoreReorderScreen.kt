@@ -109,6 +109,9 @@ fun BookStoreReorderScreen(
                     },
                     updateBookStoreSort = { bookStores ->
                         viewModel.currentBookStoreSort = bookStores
+                    },
+                    onStartMoving = {
+                        viewModel.vibrateDevice()
                     }
                 )
             }
@@ -122,7 +125,8 @@ private fun BookStoreReorderContent(
     modifier: Modifier = Modifier,
     contentPaddings: PaddingValues = PaddingValues(),
     updateBookStoreSort: (bookStores: SnapshotStateList<SortedStore>) -> Unit = {},
-    onShowSaveSetting: (show: Boolean) -> Unit = {}
+    onShowSaveSetting: (show: Boolean) -> Unit = {},
+    onStartMoving: () -> Unit = {}
 ) {
     var isMovingListItem by remember { mutableStateOf(false) }
 
@@ -144,6 +148,7 @@ private fun BookStoreReorderContent(
             },
             onMoveStart = {
                 isMovingListItem = true
+                onStartMoving()
             },
             onMoveInterrupt = {
                 isMovingListItem = false

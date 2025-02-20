@@ -15,10 +15,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.bookstorereorder.model.SortedStore
+import liou.rayyuan.ebooksearchtaiwan.utils.DeviceVibrateHelper
 
 class BookStoreReorderViewModel(
     private val getDefaultBookSortUseCase: GetDefaultBookSortUseCase,
-    private val saveDefaultBookBookSortUseCase: SaveDefaultBookSortUseCase
+    private val saveDefaultBookBookSortUseCase: SaveDefaultBookSortUseCase,
+    private val deviceVibrateHelper: DeviceVibrateHelper
 ) : ViewModel() {
     private val _bookStoreReorderViewState = MutableStateFlow<BookStoreReorderViewState?>(null)
     val viewState get() = _bookStoreReorderViewState.asStateFlow()
@@ -84,4 +86,8 @@ class BookStoreReorderViewModel(
         }?.map {
             it.defaultStoreName
         }
+
+    fun vibrateDevice() {
+        deviceVibrateHelper.vibrate(50L)
+    }
 }

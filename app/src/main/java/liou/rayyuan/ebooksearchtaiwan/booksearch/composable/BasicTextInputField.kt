@@ -178,14 +178,12 @@ enum class VirtualKeyboardAction {
     group = "component",
     showBackground = true,
     showSystemUi = false,
-    apiLevel = 34,
     device = MDPI_DEVICES
 )
 @Preview(
     name = "Basic Text Input Field Dark",
     group = "component",
     uiMode = Configuration.UI_MODE_NIGHT_YES,
-    apiLevel = 34,
     device = MDPI_DEVICES
 )
 @Composable

@@ -33,27 +33,30 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
-import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemKey
 import com.rayliu.commonmain.domain.model.Book
+import com.rayliu.commonmain.domain.model.BookStoreDetails
 import com.rayliu.commonmain.domain.model.SearchRecord
-import liou.rayyuan.ebooksearchtaiwan.BookResultDestinations
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.ConfirmRemoveRecordDialog
+import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.FocusAction
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.SearchBox
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.SearchRecordItem
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.SearchRecords
+import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.VirtualKeyboardAction
+import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookSearchResultItem
+import liou.rayyuan.ebooksearchtaiwan.booksearch.screen.BookSearchListScreenContent
+import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.composable.EBookDropdownMenu
 import liou.rayyuan.ebooksearchtaiwan.composable.OptionMenuItem
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
@@ -61,50 +64,43 @@ import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookResultListScreen(
-    viewModel: BookSearchViewModel,
+    viewState: BookResultViewState?,
     onMenuSettingClick: () -> Unit,
+    searchKeywords: TextFieldValue,
+    focusAction: FocusAction,
+    virtualKeyboardAction: VirtualKeyboardAction,
+    searchRecords: LazyPagingItems<SearchRecord>,
     modifier: Modifier = Modifier,
-    navHostController: NavHostController = rememberNavController(),
+    bookStoreDetails: ImmutableList<BookStoreDetails> = persistentListOf(),
+    bookSearchResult: ImmutableList<BookSearchResultItem> = persistentListOf(),
     onBookSearchItemClick: (Book) -> Unit = {},
     showAppBarCameraButton: Boolean = false,
-    onAppBarCameraButtonPress: () -> Unit = {}
+    onAppBarCameraButtonPress: () -> Unit = {},
+    enableCameraButtonClick: Boolean = false,
+    enableSearchButtonClick: Boolean = false,
+    showSearchRecords: Boolean = false,
+    showCopyUrlOption: Boolean = false,
+    showShareSnapshotOption: Boolean = false,
+    lastScrollPosition: Int = 0,
+    lastScrollOffset: Int = 0,
+    onSearchRecordClick: (record: SearchRecord) -> Unit = {},
+    onDeleteSearchRecord: (record: SearchRecord) -> Unit = {},
+    onDismissSearchRecordCover: () -> Unit = {},
+    onSearchKeywordTextChange: (TextFieldValue) -> Unit = {},
+    onPressSearch: () -> Unit = {},
+    focusOnSearchBox: () -> Unit = {},
+    onFocusActionFinish: () -> Unit = {},
+    onKeyboardActionFinish: () -> Unit = {},
+    onFocusChange: (focusState: FocusState) -> Unit = {},
+    onSearchButtonPress: () -> Unit = {},
+    onClickCopySnapshotToClipboard: () -> Unit = {},
+    onClickShareSnapshot: () -> Unit = {},
+    onBookResultListScroll: () -> Unit = {},
+    onSaveBookResultListPreviousScrollPosition: (position: Int, offset: Int) -> Unit = { _, _ -> },
+    onPrepareBookResult: () -> Unit = {},
+    onShowBooksResult: () -> Unit = {},
+    onShowServiceList: () -> Unit = {}
 ) {
-    val searchKeywords =
-        viewModel.searchKeywords
-            .collectAsStateWithLifecycle()
-            .value
-
-    val focusAction =
-        viewModel.focusTextInput
-            .collectAsStateWithLifecycle()
-            .value
-
-    val virtualKeyboardAction =
-        viewModel.showVirtualKeyboard
-            .collectAsStateWithLifecycle()
-            .value
-
-    val enableCameraButtonClick =
-        viewModel.enableCameraButtonClick
-            .collectAsStateWithLifecycle()
-            .value
-
-    val enableSearchButtonClick =
-        viewModel.enableSearchButtonClick
-            .collectAsStateWithLifecycle()
-            .value
-
-    val isLoadingResult =
-        viewModel.isLoadingResult
-            .collectAsStateWithLifecycle()
-            .value
-
-    val showSearchRecords =
-        viewModel.isShowSearchRecord
-            .collectAsStateWithLifecycle()
-            .value
-    val searchRecords = viewModel.searchRecords.collectAsLazyPagingItems()
-
     var showOptionMenu by remember { mutableStateOf(false) }
     var goingToDeleteRecords by remember { mutableStateOf<SearchRecord?>(null) }
     goingToDeleteRecords?.run {
@@ -113,9 +109,7 @@ fun BookResultListScreen(
             onDismissRequest = {
                 goingToDeleteRecords = null
             },
-            onDeleteSearchRecord = {
-                viewModel.deleteRecords(it)
-            }
+            onDeleteSearchRecord = onDeleteSearchRecord
         )
     }
 
@@ -132,31 +126,19 @@ fun BookResultListScreen(
                 title = {
                     SearchBox(
                         text = searchKeywords,
-                        onTextChange = {
-                            viewModel.updateKeyword(it)
-                        },
-                        onPressSearch = {
-                            viewModel.searchBook()
-                        },
+                        onTextChange = onSearchKeywordTextChange,
+                        onPressSearch = onPressSearch,
                         focusAction = focusAction,
-                        onFocusActionFinish = {
-                            viewModel.resetFocusAction()
-                        },
-                        onFocusChange = {
-                            viewModel.updateTextInputFocusState(it.isFocused)
-                            viewModel.focusOnEditText(it.isFocused)
-                        },
+                        onFocusActionFinish = onFocusActionFinish,
+                        onFocusChange = onFocusChange,
                         virtualKeyboardAction = virtualKeyboardAction,
+                        onKeyboardActionFinish = onKeyboardActionFinish,
                         showCameraButton = showAppBarCameraButton,
-                        enableTextField = !isLoadingResult,
+                        enableTextField = (viewState !is BookResultViewState.PrepareBookResult),
                         enableCameraButtonClick = enableCameraButtonClick,
                         enableSearchButtonClick = enableSearchButtonClick,
                         onCameraButtonPress = onAppBarCameraButtonPress,
-                        onSearchButtonPress = {
-                            viewModel.forceShowOrHideVirtualKeyboard(false)
-                            viewModel.forceFocusOrUnfocusKeywordTextInput(false)
-                            viewModel.searchBook()
-                        },
+                        onSearchButtonPress = onSearchButtonPress,
                         modifier = Modifier.fillMaxWidth()
                     )
                 },
@@ -183,22 +165,22 @@ fun BookResultListScreen(
                             showOptionMenu = false
                         }
                     ) {
-                        if (viewModel.showCopyUrlOption) {
+                        if (showCopyUrlOption) {
                             OptionMenuItem(
                                 title = stringResource(R.string.menu_copy_snapshot),
                                 onClick = {
                                     showOptionMenu = false
-                                    viewModel.copySnapshotToClipboard()
+                                    onClickCopySnapshotToClipboard()
                                 }
                             )
                         }
 
-                        if (viewModel.showShareSnapshotOption) {
+                        if (showShareSnapshotOption) {
                             OptionMenuItem(
                                 title = stringResource(R.string.menu_share_result),
                                 onClick = {
                                     showOptionMenu = false
-                                    viewModel.shareCurrentSnapshot()
+                                    onClickShareSnapshot()
                                 }
                             )
                         }
@@ -246,13 +228,7 @@ fun BookResultListScreen(
 
                                 SearchRecordItem(
                                     searchRecord = searchRecord,
-                                    onRecordClick = {
-                                        val keyword = searchRecord.text
-                                        viewModel.updateKeyword(TextFieldValue(keyword, selection = TextRange(keyword.length)))
-                                        viewModel.forceFocusOrUnfocusKeywordTextInput(false)
-                                        viewModel.forceShowOrHideVirtualKeyboard(false)
-                                        viewModel.searchBook(keyword)
-                                    },
+                                    onRecordClick = onSearchRecordClick,
                                     onRemoveRecordClick = {
                                         goingToDeleteRecords = it
                                     }
@@ -277,37 +253,28 @@ fun BookResultListScreen(
                             .clickable(
                                 enabled = true,
                                 interactionSource = remember { MutableInteractionSource() },
-                                indication = null
-                            ) {
-                                viewModel.showSearchRecords(false)
-                                viewModel.forceShowOrHideVirtualKeyboard(false)
-                            }
+                                indication = null,
+                                onClick = onDismissSearchRecordCover
+                            )
                 )
             }
 
-            NavHost(
-                navController = navHostController,
-                startDestination = BookResultDestinations.ServiceStatus.route,
-                modifier =
-                    Modifier
-                        .fillMaxSize()
-            ) {
-                bookResultNavGraph(
-                    viewModel = viewModel,
-                    modifier = Modifier.fillMaxSize().consumeWindowInsets(paddings),
-                    contentPaddings = paddings,
-                    onBookSearchItemClick = onBookSearchItemClick,
-                    focusOnSearchBox = {
-                        viewModel.forceFocusOrUnfocusKeywordTextInput(true)
-                        viewModel.forceShowOrHideVirtualKeyboard(true)
-                    },
-                    onListScroll = {
-                        if (viewModel.isTextInputFocused.value) {
-                            viewModel.forceFocusOrUnfocusKeywordTextInput(false)
-                        }
-                    }
-                )
-            }
+            BookSearchListScreenContent(
+                viewState = viewState,
+                modifier = Modifier.fillMaxSize().consumeWindowInsets(paddings),
+                bookStoreDetails = bookStoreDetails,
+                bookSearchResult = bookSearchResult,
+                contentPaddings = paddings,
+                lastScrollPosition = lastScrollPosition,
+                lastScrollOffset = lastScrollOffset,
+                onBookSearchItemClick = onBookSearchItemClick,
+                focusOnSearchBox = focusOnSearchBox,
+                onListScroll = onBookResultListScroll,
+                onSavePreviousScrollPosition = onSaveBookResultListPreviousScrollPosition,
+                onPrepareBookResult = onPrepareBookResult,
+                onShowBooksResult = onShowBooksResult,
+                onShowServiceList = onShowServiceList
+            )
         }
     }
 }

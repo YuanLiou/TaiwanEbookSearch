@@ -55,7 +55,8 @@ val appModule =
         viewModel {
             BookStoreReorderViewModel(
                 getDefaultBookSortUseCase = get(),
-                saveDefaultBookBookSortUseCase = get()
+                saveDefaultBookBookSortUseCase = get(),
+                deviceVibrateHelper = get()
             )
         }
 

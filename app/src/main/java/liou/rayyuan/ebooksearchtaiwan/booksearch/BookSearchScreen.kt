@@ -20,20 +20,24 @@ import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
 import androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.kevinnzou.web.rememberWebViewNavigator
 import com.rayliu.commonmain.domain.model.Book
-import kotlinx.coroutines.flow.distinctUntilChanged
-import liou.rayyuan.ebooksearchtaiwan.BookResultDestinations
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookUiModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.asUiModel
-import liou.rayyuan.ebooksearchtaiwan.rememberEBookAppState
 import liou.rayyuan.ebooksearchtaiwan.simplewebview.SimpleWebViewScreen
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.pale_slate
 
@@ -50,28 +54,29 @@ fun BookSearchScreen(
     onOpenInBrowserClick: (book: BookUiModel) -> Unit = {},
     checkShouldAskUserRankApp: () -> Unit = {}
 ) {
-    val appState = rememberEBookAppState()
-    LaunchedEffect(Unit) {
-        bookSearchViewModel.navigationEvents.distinctUntilChanged().collect { destinations ->
-            when (destinations) {
-                BookResultDestinations.LoadingScreen -> {
-                    appState.navigateToLoadingScreen()
-                }
+    val viewState by bookSearchViewModel.viewState.collectAsStateWithLifecycle()
+    val searchKeywords by bookSearchViewModel.searchKeywords.collectAsStateWithLifecycle()
+    val focusAction by bookSearchViewModel.focusTextInput.collectAsStateWithLifecycle()
+    val virtualKeyboardAction by bookSearchViewModel.showVirtualKeyboard.collectAsStateWithLifecycle()
+    val bookStoreDetails by bookSearchViewModel.bookStoreDetails.collectAsStateWithLifecycle()
+    val bookSearchResult by bookSearchViewModel.bookSearchResult.collectAsStateWithLifecycle()
+    val showSearchRecords by bookSearchViewModel.isShowSearchRecord.collectAsStateWithLifecycle()
+    val searchRecords = bookSearchViewModel.searchRecords.collectAsLazyPagingItems()
 
-                BookResultDestinations.SearchResult -> {
-                    appState.navigateToSearchResult()
-                }
-
-                BookResultDestinations.ServiceStatus -> {
-                    appState.navigateToServiceStatus()
-                }
-            }
-        }
-    }
+    var isTextInputFocused by remember { mutableStateOf(false) }
+    var enableCameraButtonClick by remember { mutableStateOf(false) }
+    var enableSearchButtonClick by remember { mutableStateOf(false) }
+    var showCopyUrlOption by remember { mutableStateOf(false) }
+    var showShareSnapshotOption by remember { mutableStateOf(false) }
 
     val paneNavigator: ThreePaneScaffoldNavigator<Book> =
         rememberListDetailPaneScaffoldNavigator<Book>()
-    BackHandler(paneNavigator.canNavigateBack()) {
+    BackHandler(enabled = (paneNavigator.canNavigateBack() || isTextInputFocused)) {
+        if (isTextInputFocused) {
+            bookSearchViewModel.forceFocusOrUnfocusKeywordTextInput(false)
+            return@BackHandler
+        }
+
         paneNavigator.navigateBack()
     }
     val isDetailPaneVisible = paneNavigator.scaffoldValue.secondary == PaneAdaptedValue.Expanded
@@ -83,13 +88,96 @@ fun BookSearchScreen(
         listPane = {
             AnimatedPane {
                 BookResultListScreen(
-                    viewModel = bookSearchViewModel,
-                    navHostController = appState.navController,
-                    modifier = Modifier.fillMaxSize(),
+                    viewState = viewState,
+                    searchKeywords = searchKeywords,
+                    bookStoreDetails = bookStoreDetails,
+                    bookSearchResult = bookSearchResult,
+                    showSearchRecords = showSearchRecords,
+                    searchRecords = searchRecords,
                     onBookSearchItemClick = { onBookSearchItemClick(it, paneNavigator) },
                     showAppBarCameraButton = showAppBarCameraButton,
                     onAppBarCameraButtonPress = onAppBarCameraButtonPress,
-                    onMenuSettingClick = onMenuSettingClick
+                    onMenuSettingClick = onMenuSettingClick,
+                    focusAction = focusAction,
+                    virtualKeyboardAction = virtualKeyboardAction,
+                    enableCameraButtonClick = enableCameraButtonClick,
+                    enableSearchButtonClick = enableSearchButtonClick,
+                    showCopyUrlOption = showCopyUrlOption,
+                    showShareSnapshotOption = showShareSnapshotOption,
+                    lastScrollPosition = bookSearchViewModel.lastScrollPosition,
+                    lastScrollOffset = bookSearchViewModel.lastScrollOffset,
+                    onSearchRecordClick = { searchRecord ->
+                        val keyword = searchRecord.text
+                        bookSearchViewModel.updateKeyword(TextFieldValue(keyword, selection = TextRange(keyword.length)))
+                        bookSearchViewModel.forceFocusOrUnfocusKeywordTextInput(false)
+                        bookSearchViewModel.forceShowOrHideVirtualKeyboard(false)
+                        bookSearchViewModel.searchBook(keyword)
+                    },
+                    onDeleteSearchRecord = {
+                        bookSearchViewModel.deleteRecords(it)
+                    },
+                    onDismissSearchRecordCover = {
+                        bookSearchViewModel.showSearchRecords(false)
+                        bookSearchViewModel.forceShowOrHideVirtualKeyboard(false)
+                    },
+                    onSearchKeywordTextChange = {
+                        bookSearchViewModel.updateKeyword(it)
+                    },
+                    onPressSearch = {
+                        bookSearchViewModel.searchBook()
+                    },
+                    focusOnSearchBox = {
+                        bookSearchViewModel.forceFocusOrUnfocusKeywordTextInput(true)
+                        bookSearchViewModel.forceShowOrHideVirtualKeyboard(true)
+                    },
+                    onFocusActionFinish = {
+                        bookSearchViewModel.resetFocusAction()
+                    },
+                    onKeyboardActionFinish = {
+                        bookSearchViewModel.resetVirtualKeyboardState()
+                    },
+                    onFocusChange = {
+                        isTextInputFocused = it.isFocused
+                        bookSearchViewModel.focusOnEditText(it.isFocused)
+                    },
+                    onSearchButtonPress = {
+                        bookSearchViewModel.forceShowOrHideVirtualKeyboard(false)
+                        bookSearchViewModel.forceFocusOrUnfocusKeywordTextInput(false)
+                        bookSearchViewModel.searchBook()
+                    },
+                    onClickCopySnapshotToClipboard = {
+                        bookSearchViewModel.copySnapshotToClipboard()
+                    },
+                    onClickShareSnapshot = {
+                        bookSearchViewModel.shareCurrentSnapshot()
+                    },
+                    onBookResultListScroll = {
+                        if (isTextInputFocused) {
+                            bookSearchViewModel.forceFocusOrUnfocusKeywordTextInput(false)
+                        }
+                    },
+                    onSaveBookResultListPreviousScrollPosition = { position, offset ->
+                        bookSearchViewModel.savePreviousScrollPosition(position, offset)
+                    },
+                    onPrepareBookResult = {
+                        enableCameraButtonClick = false
+                        enableSearchButtonClick = false
+                        showCopyUrlOption = false
+                        showShareSnapshotOption = false
+                    },
+                    onShowBooksResult = {
+                        enableCameraButtonClick = true
+                        enableSearchButtonClick = true
+                        showCopyUrlOption = true
+                        showShareSnapshotOption = true
+                    },
+                    onShowServiceList = {
+                        enableCameraButtonClick = true
+                        enableSearchButtonClick = true
+                        showCopyUrlOption = false
+                        showShareSnapshotOption = false
+                    },
+                    modifier = Modifier.fillMaxSize()
                 )
             }
         },

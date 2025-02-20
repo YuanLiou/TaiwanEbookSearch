@@ -23,19 +23,16 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.withResumed
-import androidx.lifecycle.withStarted
 import androidx.preference.PreferenceManager
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.BuildConfig
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.asUiModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.review.PlayStoreReviewHelper
-import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.CameraPreviewActivity
 import liou.rayyuan.ebooksearchtaiwan.misc.DeeplinkHelper
@@ -148,16 +145,6 @@ class BookSearchActivity : BaseActivity() {
     }
 
     private fun taskAfterViewCreated() {
-        // Render Book Result State
-        lifecycleScope.launch {
-            withStarted(block = {})
-            bookSearchViewModel.viewState.collectLatest { state ->
-                if (state != null) {
-                    render(state)
-                }
-            }
-        }
-
         // Render View Effect
         lifecycleScope.launch {
             hasUserSeenRankWindow = bookSearchViewModel.checkUserHasSeenRankWindow()
@@ -374,6 +361,10 @@ class BookSearchActivity : BaseActivity() {
                     bookSearchViewModel.rankAppWindowHasShown()
                 }
             }
+
+            is ScreenState.ShareCurrentPageSnapshot -> {
+                shareCurrentPageSnapshot(screenState.url)
+            }
         }
     }
 
@@ -412,44 +403,6 @@ class BookSearchActivity : BaseActivity() {
                 .setDefaultColorSchemeParams(colorParams)
                 .build()
         intent.launchUrl(this, Uri.parse(url))
-    }
-
-    private fun render(viewState: BookResultViewState) {
-        renderMainResultView(viewState)
-    }
-
-    private fun renderMainResultView(bookResultViewState: BookResultViewState) {
-        when (bookResultViewState) {
-            is BookResultViewState.PrepareBookResult -> {
-                bookSearchViewModel.enableCameraButtonClick(false)
-                bookSearchViewModel.enableSearchButtonClick(false)
-                bookSearchViewModel.showCopyUrlOption(false)
-                bookSearchViewModel.showShareSnapshotOption(false)
-            }
-
-            is BookResultViewState.ShowBooks -> {
-                bookSearchViewModel.enableCameraButtonClick(true)
-                bookSearchViewModel.enableSearchButtonClick(true)
-
-                if (bookResultViewState.keyword.isNotEmpty()) {
-                    changeSearchBoxKeyword(bookResultViewState.keyword)
-                }
-
-                bookSearchViewModel.showCopyUrlOption(true)
-                bookSearchViewModel.showShareSnapshotOption(true)
-            }
-
-            BookResultViewState.PrepareBookResultError -> {
-                bookSearchViewModel.enableCameraButtonClick(true)
-                bookSearchViewModel.enableSearchButtonClick(true)
-                bookSearchViewModel.showCopyUrlOption(false)
-                bookSearchViewModel.showShareSnapshotOption(false)
-            }
-
-            is BookResultViewState.ShareCurrentPageSnapshot -> {
-                shareCurrentPageSnapshot(bookResultViewState.url)
-            }
-        }
     }
 
     companion object {

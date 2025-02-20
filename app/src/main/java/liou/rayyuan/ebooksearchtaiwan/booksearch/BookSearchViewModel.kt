@@ -1,9 +1,7 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
 import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -38,7 +36,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import liou.rayyuan.ebooksearchtaiwan.BookResultDestinations
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.FocusAction
 import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.VirtualKeyboardAction
@@ -88,17 +85,9 @@ class BookSearchViewModel(
     val bookSearchResult
         get() = _bookSearchResult.asStateFlow()
 
-    private val _navigationEvents = MutableSharedFlow<BookResultDestinations>()
-    val navigationEvents
-        get() = _navigationEvents.asSharedFlow()
-
     private val _searchKeywords = MutableStateFlow(TextFieldValue(""))
     val searchKeywords
         get() = _searchKeywords.asStateFlow()
-
-    private val _isTextInputFocused = MutableStateFlow(false)
-    val isTextInputFocused
-        get() = _isTextInputFocused.asStateFlow()
 
     private val _focusTextInput = MutableStateFlow(FocusAction.NEUTRAL_STATE)
     val focusTextInput
@@ -108,28 +97,13 @@ class BookSearchViewModel(
     val showVirtualKeyboard
         get() = _showVirtualKeyboard.asStateFlow()
 
-    private val _enableCameraButtonClick = MutableStateFlow(true)
-    val enableCameraButtonClick
-        get() = _enableCameraButtonClick.asStateFlow()
-
-    private val _enableSearchButtonClick = MutableStateFlow(true)
-    val enableSearchButtonClick
-        get() = _enableSearchButtonClick.asStateFlow()
-
     private val _isShowSearchRecord = MutableStateFlow(false)
     val isShowSearchRecord
         get() = _isShowSearchRecord.asStateFlow()
 
-    private val _isLoadingResult = MutableStateFlow(false)
-    val isLoadingResult
-        get() = _isLoadingResult.asStateFlow()
-
     val searchRecords by lazy {
         getSearchRecordsUseCase().cachedIn(viewModelScope)
     }
-
-    var showCopyUrlOption by mutableStateOf(false)
-    var showShareSnapshotOption by mutableStateOf(false)
 
     private var networkJob: Job? = null
     private val maxListNumber: Int = 10
@@ -171,9 +145,7 @@ class BookSearchViewModel(
     fun onViewReadyToServe() {
         if (isRequestingBookData()) {
             updateScreen(BookResultViewState.PrepareBookResult)
-            updateBookSearchScreen(BookResultDestinations.LoadingScreen)
             _isShowSearchRecord.value = false
-            _isLoadingResult.value = true
             return
         }
 
@@ -240,9 +212,7 @@ class BookSearchViewModel(
         }
 
         updateScreen(BookResultViewState.PrepareBookResult)
-        updateBookSearchScreen(BookResultDestinations.LoadingScreen)
         _isShowSearchRecord.value = false
-        _isLoadingResult.value = true
         bookStores = null // clean up
         networkJob =
             viewModelScope.launch(Dispatchers.IO) {
@@ -299,9 +269,17 @@ class BookSearchViewModel(
         viewModelScope.launch {
             val bookSearchResultItems = generateBookSearchResultItems(bookStores)
             _bookSearchResult.value = bookSearchResultItems.toImmutableList()
-            updateScreen(BookResultViewState.ShowBooks(bookStores.searchKeyword))
-            updateBookSearchScreen(BookResultDestinations.SearchResult)
-            _isLoadingResult.value = false
+            updateScreen(BookResultViewState.ShowBooks)
+
+            if (bookStores.searchKeyword.isNotEmpty()) {
+                updateKeyword(
+                    TextFieldValue(
+                        bookStores.searchKeyword,
+                        selection = TextRange(bookStores.searchKeyword.length)
+                    )
+                )
+                forceFocusOrUnfocusKeywordTextInput(false)
+            }
         }
     }
 
@@ -377,7 +355,7 @@ class BookSearchViewModel(
 
     fun shareCurrentSnapshot() {
         generateSnapshotUrl { targetUrl ->
-            updateScreen(BookResultViewState.ShareCurrentPageSnapshot(targetUrl))
+            sendViewEffect(ScreenState.ShareCurrentPageSnapshot(targetUrl))
         }
     }
 
@@ -414,20 +392,16 @@ class BookSearchViewModel(
 
     private fun networkTimeout() {
         updateScreen(BookResultViewState.PrepareBookResultError)
-        updateBookSearchScreen(BookResultDestinations.ServiceStatus)
         sendViewEffect(ScreenState.ConnectionTimeout)
-        _isLoadingResult.value = false
     }
 
     private fun networkExceptionOccurred(message: String) {
         updateScreen(BookResultViewState.PrepareBookResultError)
-        updateBookSearchScreen(BookResultDestinations.ServiceStatus)
         if (message == GENERIC_NETWORK_ISSUE) {
             sendViewEffect(ScreenState.NetworkError)
         } else {
             sendViewEffect(ScreenState.ShowToastMessage(-1, message))
         }
-        _isLoadingResult.value = false
     }
 
     fun checkServiceStatus() {
@@ -461,12 +435,6 @@ class BookSearchViewModel(
         _bookResultViewState.value = bookResultViewState
     }
 
-    private fun updateBookSearchScreen(bookSearchDestination: BookResultDestinations) {
-        viewModelScope.launch {
-            _navigationEvents.emit(bookSearchDestination)
-        }
-    }
-
     fun updateKeyword(keyword: TextFieldValue) {
         _searchKeywords.value = keyword
     }
@@ -475,8 +443,8 @@ class BookSearchViewModel(
         _focusTextInput.value = FocusAction.NEUTRAL_STATE
     }
 
-    fun updateTextInputFocusState(isFocused: Boolean) {
-        _isTextInputFocused.value = isFocused
+    fun resetVirtualKeyboardState() {
+        _showVirtualKeyboard.value = VirtualKeyboardAction.NEUTRAL_STATE
     }
 
     fun forceShowOrHideVirtualKeyboard(show: Boolean) {
@@ -508,22 +476,6 @@ class BookSearchViewModel(
         if (!hasUserSeenRankWindow) {
             sendViewEffect(ScreenState.ShowUserRankingDialog(reviewInfo))
         }
-    }
-
-    fun enableCameraButtonClick(enable: Boolean) {
-        _enableCameraButtonClick.value = enable
-    }
-
-    fun enableSearchButtonClick(enable: Boolean) {
-        _enableSearchButtonClick.value = enable
-    }
-
-    fun showCopyUrlOption(show: Boolean) {
-        showCopyUrlOption = show
-    }
-
-    fun showShareSnapshotOption(show: Boolean) {
-        showShareSnapshotOption = show
     }
 
     suspend fun rankAppWindowHasShown() {

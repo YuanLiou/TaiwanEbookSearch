@@ -22,4 +22,8 @@ sealed class ScreenState {
     data object NoInternetConnection : ScreenState()
 
     data object NoSharingContentAvailable : ScreenState()
+
+    data class ShareCurrentPageSnapshot(
+        val url: String
+    ) : ScreenState()
 }
