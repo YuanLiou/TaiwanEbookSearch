@@ -100,8 +100,8 @@ class BookSearchActivity : BaseActivity() {
                 BookSearchScreen(
                     bookSearchViewModel = bookSearchViewModel,
                     modifier = Modifier.fillMaxSize(),
-                    onBookSearchItemClick = { book, paneNavigator ->
-                        if (userPreferenceManager.isPreferCustomTab()) {
+                    onBookSearchItemClick = { book, paneNavigator, isTabletSize ->
+                        if (userPreferenceManager.isPreferCustomTab() && !isTabletSize) {
                             openInCustomTab(book.asUiModel().getLink())
                         } else {
                             paneNavigator.navigateTo(ListDetailPaneScaffoldRole.Detail, book)
