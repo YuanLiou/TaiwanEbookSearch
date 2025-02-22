@@ -27,9 +27,9 @@
     <string name="preference_appearance_theme_title">主題</string>
     <string name="preference_appearance_theme_description">選擇不同的外觀樣式</string>
     <string name="preference_category_behaviours">行為</string>
-    <string name="preference_custom_tab_description">使用瀏覽器分頁</string>
-    <string name="preference_custom_tab_on_summary">現在使用瀏覽器分頁來開啟結果頁面</string>
-    <string name="preference_custom_tab_off_summary">現在在 App 內開啟結果頁面</string>
+    <string name="preference_custom_tab_description">使用瀏覽器分頁 (只在單欄模式有效)</string>
+    <string name="preference_custom_tab_on_summary">單欄模式下使用瀏覽器分頁來開啟結果頁面</string>
+    <string name="preference_custom_tab_off_summary">單欄模式下在 App 內開啟結果頁面</string>
     <string name="preference_sort_by_book_price">用價格排序結果</string>
     <string name="preference_sort_by_book_price_on_summary">下次結果將以價格排序</string>
     <string name="preference_sort_by_book_price_off_summary">下次結果將以相關性排序</string>
