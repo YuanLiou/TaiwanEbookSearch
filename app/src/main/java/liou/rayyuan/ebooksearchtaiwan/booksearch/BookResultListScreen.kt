@@ -71,6 +71,7 @@ fun BookResultListScreen(
     virtualKeyboardAction: VirtualKeyboardAction,
     searchRecords: LazyPagingItems<SearchRecord>,
     modifier: Modifier = Modifier,
+    appVersion: String = "",
     bookStoreDetails: ImmutableList<BookStoreDetails> = persistentListOf(),
     bookSearchResult: ImmutableList<BookSearchResultItem> = persistentListOf(),
     onBookSearchItemClick: (Book) -> Unit = {},
@@ -262,6 +263,7 @@ fun BookResultListScreen(
             BookSearchListScreenContent(
                 viewState = viewState,
                 modifier = Modifier.fillMaxSize().consumeWindowInsets(paddings),
+                appVersion = appVersion,
                 bookStoreDetails = bookStoreDetails,
                 bookSearchResult = bookSearchResult,
                 contentPaddings = paddings,

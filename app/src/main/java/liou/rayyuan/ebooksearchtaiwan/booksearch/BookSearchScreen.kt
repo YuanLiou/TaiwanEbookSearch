@@ -63,6 +63,7 @@ fun BookSearchScreen(
     val bookSearchResult by bookSearchViewModel.bookSearchResult.collectAsStateWithLifecycle()
     val showSearchRecords by bookSearchViewModel.isShowSearchRecord.collectAsStateWithLifecycle()
     val searchRecords = bookSearchViewModel.searchRecords.collectAsLazyPagingItems()
+    val appVersion by bookSearchViewModel.appVersion.collectAsStateWithLifecycle()
 
     var isTextInputFocused by remember { mutableStateOf(false) }
     var enableCameraButtonClick by remember { mutableStateOf(false) }
@@ -91,6 +92,7 @@ fun BookSearchScreen(
             AnimatedPane {
                 BookResultListScreen(
                     viewState = viewState,
+                    appVersion = appVersion,
                     searchKeywords = searchKeywords,
                     bookStoreDetails = bookStoreDetails,
                     bookSearchResult = bookSearchResult,

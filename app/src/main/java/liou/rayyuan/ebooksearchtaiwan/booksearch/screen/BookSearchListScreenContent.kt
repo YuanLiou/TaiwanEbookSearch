@@ -19,6 +19,7 @@ import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 fun BookSearchListScreenContent(
     viewState: BookResultViewState?,
     modifier: Modifier = Modifier,
+    appVersion: String = "",
     bookStoreDetails: ImmutableList<BookStoreDetails> = persistentListOf(),
     bookSearchResult: ImmutableList<BookSearchResultItem> = persistentListOf(),
     contentPaddings: PaddingValues = PaddingValues(),
@@ -67,6 +68,7 @@ fun BookSearchListScreenContent(
                 ServiceListScreen(
                     bookStoreDetails = bookStoreDetails,
                     contentPaddings = contentPaddings,
+                    appVersion = appVersion
                 )
             }
         }
