@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -68,17 +69,17 @@ fun BookSearchItem(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            if (!uiModel.book.isFirstChoice) {
-                Text(
-                    text = uiModel.getShopName(context),
-                    style =
-                        TextStyle.Default.copy(
-                            color = resolveColorAttribute(context, android.R.attr.textColorSecondary, EBookTheme.colors.subtitle1TextColor),
-                            fontWeight = FontWeight.Light
-                        ),
-                    textAlign = TextAlign.Start
-                )
-            }
+            val isFirstChoice = uiModel.book.isFirstChoice
+            Text(
+                text = uiModel.getShopName(context),
+                style =
+                    TextStyle.Default.copy(
+                        color = resolveColorAttribute(context, android.R.attr.textColorSecondary, EBookTheme.colors.subtitle1TextColor),
+                        fontWeight = FontWeight.Light
+                    ),
+                textAlign = TextAlign.Start,
+                modifier = Modifier.alpha(if (isFirstChoice) 1f else 0f)
+            )
 
             Row(
                 modifier = Modifier.fillMaxWidth(),

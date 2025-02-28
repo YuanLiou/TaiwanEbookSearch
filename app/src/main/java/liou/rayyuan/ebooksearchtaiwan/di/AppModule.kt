@@ -48,7 +48,8 @@ val appModule =
                 resourceHelper = get(),
                 rankingWindowFacade = get(),
                 clipboardHelper = get(),
-                userPreferenceManager = get()
+                userPreferenceManager = get(),
+                systemInfoCollector = get()
             )
         }
 

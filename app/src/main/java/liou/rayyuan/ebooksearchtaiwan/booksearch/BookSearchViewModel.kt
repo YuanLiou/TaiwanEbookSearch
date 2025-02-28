@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.google.android.play.core.review.ReviewInfo
 import com.rayliu.commonmain.BookStoresSorter
+import com.rayliu.commonmain.SystemInfoCollector
 import com.rayliu.commonmain.data.DefaultStoreNames
 import com.rayliu.commonmain.domain.model.BookResult
 import com.rayliu.commonmain.domain.model.BookStoreDetails
@@ -67,7 +68,8 @@ class BookSearchViewModel(
     private val resourceHelper: ResourceHelper,
     private val rankingWindowFacade: UserRankingWindowFacade,
     private val clipboardHelper: ClipboardHelper,
-    private val userPreferenceManager: UserPreferenceManager
+    private val userPreferenceManager: UserPreferenceManager,
+    private val systemInfoCollector: SystemInfoCollector
 ) : ViewModel() {
     private val _bookResultViewState = MutableStateFlow<BookResultViewState?>(null)
     val viewState
@@ -100,6 +102,10 @@ class BookSearchViewModel(
     private val _isShowSearchRecord = MutableStateFlow(false)
     val isShowSearchRecord
         get() = _isShowSearchRecord.asStateFlow()
+
+    private val _appVersion = MutableStateFlow("")
+    val appVersion
+        get() = _appVersion.asStateFlow()
 
     val searchRecords by lazy {
         getSearchRecordsUseCase().cachedIn(viewModelScope)
@@ -415,6 +421,7 @@ class BookSearchViewModel(
             getBookStoresDetailUseCase().fold(
                 onSuccess = { bookStoreDetails ->
                     _bookStoreDetails.value = bookStoreDetails
+                    _appVersion.value = systemInfoCollector.getApplicationVersionName()
                 },
                 onFailure = { error ->
                     Log.e(TAG, Log.getStackTraceString(error))
