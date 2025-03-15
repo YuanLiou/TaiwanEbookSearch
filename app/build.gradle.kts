@@ -14,10 +14,11 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.sqldelight)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.spotless)
     id(libs.plugins.detekt.get().pluginId)
     id(libs.plugins.ktlintGradle.get().pluginId)
     // Add the App Distribution Gradle plugin
-    id("com.google.firebase.appdistribution")
+    alias(libs.plugins.firebase.app.distribution)
 }
 
 val localProperties =
@@ -162,6 +163,23 @@ tasks.register<Detekt>("detektAll") {
         txt.required.set(true)
         sarif.required.set(true)
         md.required.set(true)
+    }
+}
+
+spotless {
+    val ktlintVersion = libs.versions.ktlintCli.get()
+
+    kotlin {
+        target("**/*.kt")
+        targetExclude("${layout.buildDirectory}/**/*.kt")
+        ktlint(ktlintVersion).setEditorConfigPath(rootProject.file(".editorconfig").path)
+        toggleOffOn()
+        trimTrailingWhitespace()
+    }
+
+    kotlinGradle {
+        target("**/*.gradle.kts")
+        ktlint(ktlintVersion)
     }
 }
 

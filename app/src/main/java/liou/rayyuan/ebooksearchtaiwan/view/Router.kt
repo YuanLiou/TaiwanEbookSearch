@@ -63,9 +63,7 @@ class Router(
         return false
     }
 
-    fun findFragmentByTag(tag: String): Fragment? {
-        return fragmentManager.findFragmentByTag(tag)
-    }
+    fun findFragmentByTag(tag: String): Fragment? = fragmentManager.findFragmentByTag(tag)
 
     fun backStackCountsPublisher() =
         callbackFlow {

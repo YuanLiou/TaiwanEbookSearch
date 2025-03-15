@@ -53,10 +53,13 @@ androidGradlePlugin = "8.8.2"
 kotlin = "2.1.10"
 gmsPlugin = "4.4.2"
 firebaseCrashlyticsPlugin = "3.0.3"
+firebaseAppDistributionPlugin = "5.1.1"
 detektVersion = "1.23.7"
 ktlintGradle = "12.1.1"
 sqldelight = "2.0.2"
 uiAndroid = "1.7.1"
+spotless = "7.0.2"
+ktlintCli = "1.1.1"
 
 [libraries]
 coil-kt = { group = "io.coil-kt.coil3", name = "coil", version.ref = "coil" }
@@ -72,6 +75,7 @@ sqldelight-android-driver = { group = "app.cash.sqldelight", name = "android-dri
 sqldelight-coroutines-extensions = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqldelight" }
 sqldelight-paging3-extensions = { group = "app.cash.sqldelight", name = "androidx-paging3-extensions", version.ref = "sqldelight" }
 guava-android = { group = "com.google.guava", name = "guava", version.ref = "guavaVersion" }
+spotless-gradle-plugin = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", version.ref = "spotless" }
 
 #  Google
 desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugarLibVersion" }
@@ -143,7 +147,9 @@ kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref =
 kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 gms = { id = "com.google.gms.google-services", version.ref = "gmsPlugin" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsPlugin" }
+firebase-app-distribution = { id = "com.google.firebase.appdistribution", version.ref = "firebaseAppDistributionPlugin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detektVersion" }
 ktlintGradle = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintGradle" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }

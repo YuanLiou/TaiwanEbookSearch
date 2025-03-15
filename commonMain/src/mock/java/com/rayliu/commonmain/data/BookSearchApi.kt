@@ -14,9 +14,7 @@ class BookSearchApi(
     private val assetManager: AssetManager,
     private val json: Json
 ) : BookSearchService {
-    override suspend fun postBooks(keyword: String): NetworkCrawerResult {
-        return NetworkCrawerResult.NOT_FOUND
-    }
+    override suspend fun postBooks(keyword: String): NetworkCrawerResult = NetworkCrawerResult.NOT_FOUND
 
     override suspend fun postBooks(
         stores: List<String>,
