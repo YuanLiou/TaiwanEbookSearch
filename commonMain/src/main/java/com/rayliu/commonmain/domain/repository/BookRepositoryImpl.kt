@@ -30,11 +30,10 @@ class BookRepositoryImpl(
         private const val KEY_BOOK_STORE_SORT = "key-book-store-sort"
     }
 
-    override suspend fun getBooks(keyword: String): Result<BookStores> {
-        return runCatching {
+    override suspend fun getBooks(keyword: String): Result<BookStores> =
+        runCatching {
             mapBookStores(bookSearchService.postBooks(keyword))
         }
-    }
 
     override suspend fun getBooksWithStores(
         stores: List<DefaultStoreNames>,

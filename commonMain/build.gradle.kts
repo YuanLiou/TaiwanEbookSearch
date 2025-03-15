@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.sqldelight)
+    alias(libs.plugins.spotless)
 }
 
 val localProperties =
@@ -105,6 +106,23 @@ detekt {
     config.setFrom(files("$project.rootDir/deteket-config.yml"))
     buildUponDefaultConfig = true
     parallel = true
+}
+
+spotless {
+    val ktlintVersion = libs.versions.ktlintCli.get()
+
+    kotlin {
+        target("**/*.kt")
+        targetExclude("${layout.buildDirectory}/**/*.kt")
+        ktlint(ktlintVersion).setEditorConfigPath(rootProject.file(".editorconfig").path)
+        toggleOffOn()
+        trimTrailingWhitespace()
+    }
+
+    kotlinGradle {
+        target("**/*.gradle.kts")
+        ktlint(ktlintVersion)
+    }
 }
 
 tasks.register<Detekt>("detektAll") {
