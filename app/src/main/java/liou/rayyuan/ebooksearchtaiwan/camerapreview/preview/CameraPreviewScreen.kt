@@ -7,10 +7,12 @@ import androidx.compose.material3.MaterialTheme
 import android.util.Rational
 import android.widget.Toast
 import androidx.camera.core.SurfaceRequest
+import androidx.camera.viewfinder.compose.MutableCoordinateTransformer
 import androidx.camera.viewfinder.core.ImplementationMode
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -32,10 +34,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.geometry.Size as ComposeSize
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.toComposeRect
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -134,7 +137,7 @@ private fun CameraPreviewScreenContent(
                     )
 
                 val size =
-                    Size(
+                    ComposeSize(
                         width = boundingBox.size.width * scaleFactorX,
                         height = boundingBox.size.height * scaleFactorY
                     )
@@ -226,6 +229,8 @@ private fun CameraPreviewView(
                     .fillMaxSize()
                     .background(Color.Black)
         ) {
+            val coordinateTransformer = remember { MutableCoordinateTransformer() }
+
             val maxAspectRatio = maxWidth / maxHeight
             val wideAspectRatio =
                 if (orientation == DeviceOrientation.Portrait) {
@@ -236,7 +241,7 @@ private fun CameraPreviewView(
             val shouldUseMaxWidth = maxAspectRatio <= wideAspectRatio
             val width = if (shouldUseMaxWidth) maxWidth else maxHeight * wideAspectRatio
             val height = if (!shouldUseMaxWidth) maxHeight else maxWidth / wideAspectRatio
-            var boxSize by remember { mutableStateOf(Size.Zero) }
+            var boxSize by remember { mutableStateOf(ComposeSize.Zero) }
 
             Box(
                 modifier =
@@ -252,8 +257,19 @@ private fun CameraPreviewView(
                     surfaceRequest = it,
                     implementationMode = implementationMode,
                     onRequestWindowColorMode = onRequestWindowColorMode,
-                    onTap = { x, y -> onTapToFocus(x, y) },
-                    modifier = Modifier.fillMaxSize()
+                    coordinateTransformer = coordinateTransformer,
+                    modifier =
+                        Modifier.pointerInput(Unit) {
+                            detectTapGestures {
+                                with(coordinateTransformer) {
+                                    val surfaceCoords = it.transform()
+                                    onTapToFocus(
+                                        surfaceCoords.x,
+                                        surfaceCoords.y
+                                    )
+                                }
+                            }
+                        }
                 )
                 overlay(boxSize.width, boxSize.height)
             }
@@ -267,7 +283,6 @@ private fun CameraPreviewView(
     group = "screen",
     showBackground = true,
     showSystemUi = false,
-    apiLevel = 34,
     device = MDPI_DEVICES
 )
 @Preview(
@@ -276,7 +291,6 @@ private fun CameraPreviewView(
     group = "screen",
     showBackground = true,
     showSystemUi = false,
-    apiLevel = 34,
     device = MDPI_DEVICES
 )
 @Composable
