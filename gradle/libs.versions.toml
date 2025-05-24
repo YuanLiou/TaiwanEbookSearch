@@ -8,13 +8,13 @@ guavaVersion = "31.1-android" # To prevent Guava conflict, use this old version
 
 #  Google Libraries
 androidxAppCompat = "1.7.0"
-androidxCore = "1.15.0"
+androidxCore = "1.16.0"
 androidxActivity = "1.10.1"
 androidxPreference = "1.2.1"
 androidxBrowser = "1.8.0"
 materialDesign = "1.12.0"
 constraintlayoutVersion = "2.2.1"
-androidxDataStore = "1.1.3"
+androidxDataStore = "1.1.7"
 paging = "3.3.6"
 barcodeScanner = "17.3.0"
 
@@ -28,7 +28,7 @@ webviewCompose = "0.33.6"
 
 # CameraX
 viewFinderCompose = "1.4.0-alpha13"
-cameraXVersion = "1.4.1"
+cameraXVersion = "1.4.2"
 
 #  Kotlin Libraries
 kotlinxCoroutines = "1.10.1"
