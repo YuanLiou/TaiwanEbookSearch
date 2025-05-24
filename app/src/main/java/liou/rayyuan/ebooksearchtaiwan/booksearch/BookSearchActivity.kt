@@ -18,6 +18,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
@@ -97,6 +98,7 @@ class BookSearchActivity : BaseActivity() {
             EBookTheme(
                 darkTheme = isDarkTheme()
             ) {
+                val scope = rememberCoroutineScope()
                 BookSearchScreen(
                     bookSearchViewModel = bookSearchViewModel,
                     modifier = Modifier.fillMaxSize(),
@@ -104,7 +106,9 @@ class BookSearchActivity : BaseActivity() {
                         if (userPreferenceManager.isPreferCustomTab() && !isTabletSize) {
                             openInCustomTab(book.asUiModel().getLink())
                         } else {
-                            paneNavigator.navigateTo(ListDetailPaneScaffoldRole.Detail, book)
+                            scope.launch {
+                                paneNavigator.navigateTo(ListDetailPaneScaffoldRole.Detail, book)
+                            }
                         }
 
                         if (!hasUserSeenRankWindow) {
