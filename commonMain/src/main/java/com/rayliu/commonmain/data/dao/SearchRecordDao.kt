@@ -25,7 +25,7 @@ interface SearchRecordDao {
         id: Long,
         counts: Long,
         timeStamp: LocalDateTime
-    )
+    ): Long
 
-    suspend fun deleteAllRecords()
+    suspend fun deleteAllRecords(): Long
 }
