@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,6 +36,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.kevinnzou.web.rememberWebViewNavigator
 import com.rayliu.commonmain.domain.model.Book
+import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookUiModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.asUiModel
@@ -71,6 +73,7 @@ fun BookSearchScreen(
     var showCopyUrlOption by remember { mutableStateOf(false) }
     var showShareSnapshotOption by remember { mutableStateOf(false) }
 
+    val scope = rememberCoroutineScope()
     val paneNavigator: ThreePaneScaffoldNavigator<Book> =
         rememberListDetailPaneScaffoldNavigator<Book>()
     BackHandler(enabled = (paneNavigator.canNavigateBack() || isTextInputFocused)) {
@@ -79,7 +82,9 @@ fun BookSearchScreen(
             return@BackHandler
         }
 
-        paneNavigator.navigateBack()
+        scope.launch {
+            paneNavigator.navigateBack()
+        }
     }
     val isDetailPaneVisible = paneNavigator.scaffoldValue.secondary == PaneAdaptedValue.Expanded
     val isTabletSize = LocalDeviceInfo.current.isTabletSize
@@ -187,15 +192,17 @@ fun BookSearchScreen(
         },
         detailPane = {
             AnimatedPane {
-                val book = paneNavigator.currentDestination?.content?.asUiModel()
+                val book = paneNavigator.currentDestination?.contentKey?.asUiModel()
                 if (book != null) {
                     val webViewNavigator = rememberWebViewNavigator()
                     SimpleWebViewScreen(
                         book = book,
                         webViewNavigator = webViewNavigator,
                         onBackButtonPress = {
-                            if (paneNavigator.canNavigateBack()) {
-                                paneNavigator.navigateBack()
+                            scope.launch {
+                                if (paneNavigator.canNavigateBack()) {
+                                    paneNavigator.navigateBack()
+                                }
                             }
                         },
                         showCloseButton = !isDetailPaneVisible,

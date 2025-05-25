@@ -123,11 +123,11 @@ class SearchRecordDaoImpl(
             id = id,
             counts = counts,
             timeStamp = offsetDateTimeHelper.provideTimeStampString(timeStamp)
-        )
+        ).await()
     }
 
     override suspend fun deleteAllRecords() =
         withContext(ioDispatcher) {
             queries.deleteAllRecords()
-        }
+        }.await()
 }
