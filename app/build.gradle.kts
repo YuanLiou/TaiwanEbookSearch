@@ -218,7 +218,6 @@ dependencies {
     implementation(libs.androidx.activity.ktx)
     implementation(libs.material)
     implementation(libs.androidx.core.ktx)
-    implementation(libs.constraintlayout)
 
     implementation(libs.androidx.browser)
     implementation(libs.androidx.preference.ktx)
