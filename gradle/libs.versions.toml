@@ -49,16 +49,16 @@ androidxTestCore = "1.6.1"
 androidxEspresso = "3.6.1"
 
 # plugins versions
-androidGradlePlugin = "8.10.0"
+androidGradlePlugin = "8.10.1"
 kotlin = "2.1.21"
 gmsPlugin = "4.4.2"
 firebaseCrashlyticsPlugin = "3.0.3"
 firebaseAppDistributionPlugin = "5.1.1"
-detektVersion = "1.23.7"
-ktlintGradle = "12.1.1"
+detektVersion = "1.23.8"
+ktlintGradle = "12.3.0"
 sqldelight = "2.1.0"
 uiAndroid = "1.7.1"
-spotless = "7.0.2"
+spotless = "7.0.4"
 ktlintCli = "1.1.1"
 
 [libraries]
