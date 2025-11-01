@@ -8,11 +8,11 @@ guavaVersion = "31.1-android" # To prevent Guava conflict, use this old version
 
 #  Google Libraries
 androidxAppCompat = "1.7.1"
-androidxCore = "1.16.0"
-androidxActivity = "1.10.1"
+androidxCore = "1.17.0"
+androidxActivity = "1.11.0"
 androidxPreference = "1.2.1"
-androidxBrowser = "1.8.0"
-materialDesign = "1.12.0"
+androidxBrowser = "1.9.0"
+materialDesign = "1.13.0"
 androidxDataStore = "1.1.7"
 paging = "3.3.6"
 barcodeScanner = "17.3.0"
