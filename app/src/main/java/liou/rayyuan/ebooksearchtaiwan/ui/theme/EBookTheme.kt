@@ -3,6 +3,7 @@ package liou.rayyuan.ebooksearchtaiwan.ui.theme
 import android.content.res.Configuration
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -33,8 +34,9 @@ fun EBookTheme(
         LocalColorScheme provides colorScheme,
         LocalDrawableResources provides drawableResources,
         LocalIndication provides ripple(),
-        content = content
-    )
+    ) {
+        MaterialTheme(content = content)
+    }
 }
 
 object EBookTheme {
