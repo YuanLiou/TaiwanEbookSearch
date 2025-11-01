@@ -176,6 +176,7 @@ fun CameraViewFinder(
                                         // invalidate it so that a new surface request will be produced
                                         incomingSurfaceRequest.invalidate()
                                     }
+
                                     else -> {
                                         // The surface is no longer in use. It can be reused for any
                                         // future requests.

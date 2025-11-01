@@ -60,7 +60,9 @@ class PreferenceSettingsActivity :
                     true
                 }
 
-                else -> super.onOptionsItemSelected(this)
+                else -> {
+                    super.onOptionsItemSelected(this)
+                }
             }
         }
     }
