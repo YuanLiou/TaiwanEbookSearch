@@ -2,7 +2,7 @@
 # Library versions
 coil = "3.3.0"
 desugarLibVersion = "2.1.5"
-koin = "4.1.0"
+koin = "4.1.1"
 fuzzywuzzy = "1.4.0"
 guavaVersion = "31.1-android" # To prevent Guava conflict, use this old version
 
