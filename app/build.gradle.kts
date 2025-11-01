@@ -7,7 +7,7 @@ import java.util.Properties
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin)
+    alias(libs.plugins.kotlin.android)
     id(libs.plugins.kotlin.parcelize.get().pluginId)
     alias(libs.plugins.gms)
     alias(libs.plugins.firebase.crashlytics)

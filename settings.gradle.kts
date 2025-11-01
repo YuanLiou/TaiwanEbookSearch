@@ -8,3 +8,4 @@ pluginManagement {
 
 include(":app")
 include(":commonMain")
+include(":desktop")

@@ -1,15 +1,16 @@
 import io.gitlab.arturbosch.detekt.Detekt
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.File
 import java.io.FileInputStream
 import java.util.Properties
 
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    id(libs.plugins.android.library.get().pluginId)
-    id(libs.plugins.kotlin.parcelize.get().pluginId)
+    alias(libs.plugins.kotlin.multiplatform)
+    id("com.android.library")
+    id("org.jetbrains.kotlin.plugin.parcelize")
     id(libs.plugins.detekt.get().pluginId)
     id(libs.plugins.ktlintGradle.get().pluginId)
-    alias(libs.plugins.kotlin)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.sqldelight)
     alias(libs.plugins.spotless)
@@ -24,72 +25,74 @@ val HOST: String by project
 val hostStaging: String = localProperties.getProperty("HOST_STAGING") ?: HOST
 val hostPort: String = localProperties.getProperty("HOST_PORT") ?: "80"
 
+kotlin {
+    androidTarget {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+            freeCompilerArgs.add("-P")
+            freeCompilerArgs.add("plugin:org.jetbrains.kotlin.parcelize:additionalAnnotation=com.rayliu.commonmain.parcelable.Parcelize")
+        }
+    }
+    
+    jvm("desktop") {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
+    }
+
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(libs.fuzzywuzzy)
+                implementation(libs.kotlinx.coroutines.core)
+                implementation(libs.kotlinx.serialization.json)
+                implementation(libs.kotlinx.datetime)
+                implementation(libs.kotlinx.collections.immutable)
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.client.contentnegotiation)
+                implementation(libs.ktor.serialization.kotlinx.json)
+                implementation(libs.ktor.client.logging)
+                implementation(project.dependencies.platform(libs.koin.bom))
+                implementation(libs.koin.core)
+                implementation(libs.sqldelight.runtime)
+                implementation(libs.sqldelight.coroutines.extensions)
+                implementation(libs.sqldelight.paging3.extensions)
+                implementation(libs.androidx.dataStore.preferences.core)
+            }
+        }
+        val androidMain by getting {
+            dependencies {
+                implementation(libs.androidx.preference.ktx)
+                implementation(libs.paging.runtime)
+                implementation(libs.androidx.dataStore.core)
+                implementation(libs.sqldelight.android.driver)
+                implementation(libs.koin.android)
+            }
+        }
+        val desktopMain by getting {
+            dependencies {
+                implementation(libs.sqldelight.sqlite.driver)
+            }
+        }
+    }
+}
+
 android {
+    namespace = "com.rayliu.commonmain"
     compileSdk = AppSettings.COMPILE_SDK_VERSION
 
     defaultConfig {
         minSdk = AppSettings.MIN_SDK_VERSION
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    flavorDimensions.add("data_source")
-    productFlavors {
-        create("api") {
-            dimension = "data_source"
-        }
-        create("mock") {
-            dimension = "data_source"
-        }
-    }
-
-    buildTypes {
-        getByName("debug") {
-            isMinifyEnabled = false
-
-            buildConfigField("String", "HOST_URL", hostStaging)
-            buildConfigField("int", "HOST_PORT", hostPort)
-        }
-
-        getByName("release") {
-            isMinifyEnabled = false
-            buildConfigField("String", "HOST_URL", HOST)
-            buildConfigField("int", "HOST_PORT", hostPort)
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            consumerProguardFiles("consumer-rules.pro")
-        }
-    }
-
-    androidComponents {
-        beforeVariants(
-            selector()
-                .withFlavor(Pair("data_source", "mock"))
-                .withBuildType("release")
-        ) { variantBuilder ->
-            variantBuilder.enable = false
-        }
     }
 
     compileOptions {
-        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-
-    kotlinOptions {
-        freeCompilerArgs =
-            listOf(
-                "-Xjvm-default=all",
-                "-Xstring-concat=inline"
-            )
-        jvmTarget = "17"
-    }
-
+    
     buildFeatures {
         buildConfig = true
     }
-
-    namespace = "com.rayliu.commonmain"
 }
 
 sqldelight {
@@ -139,39 +142,4 @@ tasks.register<Detekt>("detektAll") {
         sarif.required.set(true)
         md.required.set(true)
     }
-}
-
-dependencies {
-    coreLibraryDesugaring(libs.desugar.jdk.libs)
-    implementation(libs.fuzzywuzzy)
-
-    // Kotlin
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.kotlinx.datetime)
-    implementation(libs.kotlinx.collections.immutable)
-    implementation(libs.ktor.client)
-    implementation(libs.ktor.client.content.negotiation)
-    implementation(libs.ktor.client.serialization)
-    implementation(libs.ktor.client.logging)
-
-    // JetPacks
-    implementation(libs.androidx.preference.ktx)
-    implementation(libs.paging.runtime)
-    implementation(libs.androidx.dataStore.core)
-
-    // Koin
-    val koinBom = platform(libs.koin.bom)
-    implementation(koinBom)
-    implementation(libs.koin.android)
-    testImplementation(libs.androidx.test.ext)
-
-    // SQL Delight
-    implementation(libs.sqldelight.android.driver)
-    implementation(libs.sqldelight.coroutines.extensions)
-    implementation(libs.sqldelight.paging3.extensions)
-
-    // Detekt
-    detekt(libs.detekt.cli)
-    detektPlugins(libs.detekt.ktlint.formatting)
 }

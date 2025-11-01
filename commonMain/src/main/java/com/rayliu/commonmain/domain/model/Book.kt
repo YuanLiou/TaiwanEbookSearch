@@ -1,8 +1,8 @@
 package com.rayliu.commonmain.domain.model
 
-import android.os.Parcelable
 import com.rayliu.commonmain.data.DefaultStoreNames
-import kotlinx.parcelize.Parcelize
+import com.rayliu.commonmain.parcelable.Parcelable
+import com.rayliu.commonmain.parcelable.Parcelize
 
 /**
  * Created by louis383 on 2017/11/29.
