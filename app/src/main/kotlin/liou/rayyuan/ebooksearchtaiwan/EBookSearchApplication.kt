@@ -2,14 +2,11 @@ package liou.rayyuan.ebooksearchtaiwan
 
 import android.app.Application
 import com.google.firebase.analytics.FirebaseAnalytics
-import liou.rayyuan.ebooksearchtaiwan.di.appModules
+import com.rayliu.commonmain.di.sharedModule
+import liou.rayyuan.ebooksearchtaiwan.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.logger.AndroidLogger
 import org.koin.core.context.startKoin
-
-/**
- * Created by louis383 on 2017/12/3.
- */
 
 class EBookSearchApplication : Application() {
     override fun onCreate() {
@@ -21,7 +18,7 @@ class EBookSearchApplication : Application() {
             }
 
             androidContext(this@EBookSearchApplication)
-            modules(appModules)
+            modules(sharedModule, appModule)
         }
     }
 }

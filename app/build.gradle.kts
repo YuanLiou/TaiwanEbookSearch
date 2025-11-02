@@ -7,12 +7,11 @@ import java.util.Properties
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin)
+    alias(libs.plugins.kotlin.multiplatform) // Use KMP plugin
     id(libs.plugins.kotlin.parcelize.get().pluginId)
     alias(libs.plugins.gms)
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.sqldelight)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.spotless)
     id(libs.plugins.detekt.get().pluginId)
@@ -23,7 +22,7 @@ plugins {
 
 val localProperties =
     Properties().apply {
-        load(FileInputStream(File(rootProject.rootDir, localPropertyFileName)))
+        load(FileInputStream(File(rootProject.rootDir, "local.properties")))
     }
 
 val keystorePath: String = localProperties.getProperty("keystorePath")
@@ -35,15 +34,42 @@ val admobId: String = localProperties.getProperty("ADMOB_ID")
 val admobTestDeviceId: String = localProperties.getProperty("ADMOB_TEST_DEVICE_ID")
 val admobUnitId: String = localProperties.getProperty("ADMOB_UNIT_ID")
 
+kotlin {
+    androidTarget {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+            freeCompilerArgs.addAll("-Xjvm-default=all", "-Xstring-concat=inline")
+        }
+    }
+    sourceSets {
+        val androidMain by getting {
+            dependencies {
+                // Koin
+                implementation(project.dependencies.platform(libs.koin.bom))
+                implementation(libs.koin.android)
+                implementation(libs.koin.androidx.compose)
+            }
+        }
+    }
+}
+
 android {
-    compileSdk = AppSettings.COMPILE_SDK_VERSION
+    sourceSets {
+        getByName("main") {
+            manifest.srcFile("src/main/AndroidManifest.xml")
+            java.srcDirs("src/main/kotlin")
+            res.srcDirs("src/main/res")
+        }
+    }
+
+    compileSdk = 36
 
     defaultConfig {
-        applicationId = AppSettings.APPLICATION_ID
-        minSdk = AppSettings.MIN_SDK_VERSION
-        targetSdk = AppSettings.TARGET_SDK_VERSION
-        versionCode = AppSettings.VERSION_CODE
-        versionName = rootProject.extra.get("app_version").toString()
+        applicationId = "liou.rayyuan.ebooksearchtaiwan"
+        minSdk = 24
+        targetSdk = 36
+        versionCode = 1
+        versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -133,20 +159,12 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        freeCompilerArgs =
-            listOf(
-                "-Xjvm-default=all",
-                "-Xstring-concat=inline"
-            )
-        jvmTarget = "17"
-    }
     namespace = "liou.rayyuan.ebooksearchtaiwan"
 }
 
 detekt {
     toolVersion = libs.versions.detektVersion.toString()
-    config.setFrom(files("$project.rootDir/deteket-config.yml"))
+    config.setFrom(files(rootProject.file("deteket-config.yml")))
     buildUponDefaultConfig = true
 }
 
@@ -186,7 +204,7 @@ spotless {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     coreLibraryDesugaring(libs.desugar.jdk.libs)
-    implementation(project(":commonMain"))
+    implementation(project(":shared"))
 
     // region Compose
     val composeBom = platform(libs.compose.bom)
@@ -237,12 +255,6 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.admob)
     implementation(libs.play.review.ktx)
-
-    // Koin
-    val koinBom = platform(libs.koin.bom)
-    implementation(koinBom)
-    implementation(libs.koin.android)
-    implementation(libs.koin.androidx.compose)
 
     // Coil
     implementation(libs.coil.kt)
