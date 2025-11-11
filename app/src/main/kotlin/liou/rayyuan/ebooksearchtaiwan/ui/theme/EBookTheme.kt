@@ -35,7 +35,15 @@ fun EBookTheme(
         LocalDrawableResources provides drawableResources,
         LocalIndication provides ripple(),
     ) {
-        MaterialTheme(content = content)
+        val themeColorScheme =
+            when (darkTheme) {
+                true -> DarkThemeColors
+                false -> LightThemeColors
+            }
+        MaterialTheme(
+            colorScheme = themeColorScheme,
+            content = content
+        )
     }
 }
 

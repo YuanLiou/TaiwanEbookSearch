@@ -2,11 +2,14 @@ package liou.rayyuan.ebooksearchtaiwan.preferencesetting
 
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.activity.compose.setContent
+import androidx.compose.material3.Text
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.databinding.ActivityPreferenceBinding
+import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import liou.rayyuan.ebooksearchtaiwan.utils.ActivityViewBinding
 import liou.rayyuan.ebooksearchtaiwan.utils.setupEdgeToEdge
 
@@ -14,38 +17,49 @@ import liou.rayyuan.ebooksearchtaiwan.utils.setupEdgeToEdge
  * Created by louis383 on 2018/9/29.
  */
 class PreferenceSettingsActivity :
-    BaseActivity(R.layout.activity_preference),
+    BaseActivity(),
     PreferenceSettingsFragment.PreferencesChangeCallback {
-    private val viewBinding: ActivityPreferenceBinding by ActivityViewBinding(
-        ActivityPreferenceBinding::bind,
-        R.id.preference_layout_rootView
-    )
+//    private val viewBinding: ActivityPreferenceBinding by ActivityViewBinding(
+//        ActivityPreferenceBinding::bind,
+//        R.id.preference_layout_rootView
+//    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val toolbar = viewBinding.preferenceLayoutToolbar
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeButtonEnabled(true)
-
-        if (!isDarkTheme()) {
-            viewBinding.preferenceLayoutMainContent.setBackgroundColor(ContextCompat.getColor(this, R.color.pure_white))
+        setContent {
+            EBookTheme(
+                darkTheme = isDarkTheme()
+            ) {
+                PreferenceSettingsScreen(
+                    onBackPressed = {
+                        onBackPressedDispatcher.onBackPressed()
+                    }
+                )
+            }
         }
-
-        supportFragmentManager.commit {
-            replace(
-                R.id.preference_layout_main_content,
-                PreferenceSettingsFragment().apply {
-                    callback = this@PreferenceSettingsActivity
-                }
-            )
-        }
-        setupEdgeToEdge()
+//        val toolbar = viewBinding.preferenceLayoutToolbar
+//        setSupportActionBar(toolbar)
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        supportActionBar?.setHomeButtonEnabled(true)
+//
+//        if (!isDarkTheme()) {
+//            viewBinding.preferenceLayoutMainContent.setBackgroundColor(ContextCompat.getColor(this, R.color.pure_white))
+//        }
+//
+//        supportFragmentManager.commit {
+//            replace(
+//                R.id.preference_layout_main_content,
+//                PreferenceSettingsFragment().apply {
+//                    callback = this@PreferenceSettingsActivity
+//                }
+//            )
+//        }
+//        setupEdgeToEdge()
     }
 
-    private fun setupEdgeToEdge() {
-        viewBinding.root.setupEdgeToEdge()
-    }
+//    private fun setupEdgeToEdge() {
+//        viewBinding.root.setupEdgeToEdge()
+//    }
 
     override fun onDestroy() {
         super.onDestroy()

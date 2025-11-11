@@ -1,5 +1,7 @@
 package liou.rayyuan.ebooksearchtaiwan.ui.theme
 
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
@@ -33,6 +35,21 @@ data class EBookColorScheme(
     val checkmarkColor: Color,
 )
 
+val LightThemeColors =
+    lightColorScheme(
+        primary = blue_green_you,
+        onPrimary = darker_gray_3B,
+        primaryContainer = blue_green_dark_you,
+        onPrimaryContainer = pure_white,
+        secondary = blue_green_you,
+        onSecondary = darker_gray_3B,
+        background = light_blue_green_you,
+        onBackground = darker_gray_3B,
+        surface = light_blue_green_you,
+        onSurface = darker_gray_3B,
+        surfaceVariant = pure_white, // cardBackgroundColor
+    )
+
 val LightColorScheme =
     EBookColorScheme(
         colorPrimary = blue_green_you,
@@ -60,6 +77,21 @@ val LightColorScheme =
         checkBoxNormalColor = dark_gray,
         checkBoxCheckedColor = blue_green_you,
         checkmarkColor = pure_white
+    )
+
+val DarkThemeColors =
+    darkColorScheme(
+        primary = blue_green_you,
+        onPrimary = pure_white,
+        primaryContainer = blue_green_dark_you,
+        onPrimaryContainer = pure_white,
+        secondary = blue_green_you,
+        onSecondary = pure_white,
+        background = dark_18,
+        onBackground = pure_white,
+        surface = dark_18,
+        onSurface = pure_white,
+        surfaceVariant = tundora, // cardBackgroundColor
     )
 
 val DarkColorScheme =
