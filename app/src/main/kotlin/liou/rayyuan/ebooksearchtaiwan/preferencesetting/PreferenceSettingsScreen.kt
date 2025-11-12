@@ -91,6 +91,7 @@ fun PreferenceSettingsScreen(
             onSearchResultSortByPriceChange = { viewModel.onSearchResultSortByPriceChange(it) },
             onIsPreferCustomTabChange = { viewModel.onIsPreferCustomTabChange(it) },
             onClickReorderBookStore = onClickReorderBookStore,
+            onClearAllRecords = { viewModel.deleteAllSearchRecords() },
             modifier = Modifier.padding(scaffoldPadding)
         )
     }
@@ -107,7 +108,8 @@ private fun PreferenceSettingsScreenContent(
     onIsDarkThemeChange: (Boolean) -> Unit = {},
     onSearchResultSortByPriceChange: (Boolean) -> Unit = {},
     onIsPreferCustomTabChange: (Boolean) -> Unit = {},
-    onClickReorderBookStore: () -> Unit = {}
+    onClickReorderBookStore: () -> Unit = {},
+    onClearAllRecords: () -> Unit = {}
 ) {
     var showThemeDialog by remember { mutableStateOf(false) }
     if (showThemeDialog) {
@@ -117,6 +119,17 @@ private fun PreferenceSettingsScreenContent(
             onThemeChange = {
                 onIsDarkThemeChange(it)
                 showThemeDialog = false
+            }
+        )
+    }
+
+    var showClearHistoryDialog by remember { mutableStateOf(false) }
+    if (showClearHistoryDialog) {
+        ClearSearchHistoryDialog(
+            onDismissRequest = { showClearHistoryDialog = false },
+            onConfirm = {
+                onClearAllRecords()
+                showClearHistoryDialog = false
             }
         )
     }
@@ -251,7 +264,7 @@ private fun PreferenceSettingsScreenContent(
                         containerColor = EBookTheme.colors.cardBackgroundColor,
                         titleColor = EBookTheme.colors.headline6TextColor
                     ),
-                onClick = {}
+                onClick = { showClearHistoryDialog = true }
             )
         }
     }
@@ -320,6 +333,52 @@ private fun ThemeSettingDialogContent(
                 )
             }
         }
+    }
+}
+
+@Composable
+fun ClearSearchHistoryDialog(
+    onDismissRequest: () -> Unit,
+    onConfirm: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        title = {
+            Text(text = stringResource(id = R.string.preference_clean_all_records))
+        },
+        text = {
+            Text(text = stringResource(id = R.string.dialog_clean_all_records))
+        },
+        dismissButton = {
+            TextButton(onClick = onDismissRequest) {
+                Text(
+                    text = stringResource(id = android.R.string.cancel),
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onConfirm) {
+                Text(
+                    text = stringResource(id = android.R.string.ok),
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+        }
+    )
+}
+
+@Preview(
+    locale = "zh-rTW",
+    showBackground = true,
+)
+@Composable
+private fun ClearSearchHistoryDialogPreview() {
+    EBookTheme {
+        ClearSearchHistoryDialog(
+            onDismissRequest = {},
+            onConfirm = {}
+        )
     }
 }
 

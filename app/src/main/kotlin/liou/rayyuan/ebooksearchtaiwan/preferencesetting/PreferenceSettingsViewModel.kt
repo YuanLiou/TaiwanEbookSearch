@@ -1,5 +1,6 @@
 package liou.rayyuan.ebooksearchtaiwan.preferencesetting
 
+import androidx.core.content.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rayliu.commonmain.domain.service.UserPreferenceManager
@@ -10,13 +11,11 @@ import com.rayliu.commonmain.domain.service.UserPreferenceManager.Companion.KEY_
 import com.rayliu.commonmain.domain.service.UserPreferenceManager.Companion.VALUE_DARK_THEME
 import com.rayliu.commonmain.domain.service.UserPreferenceManager.Companion.VALUE_LIGHT_THEME
 import com.rayliu.commonmain.domain.usecase.DeleteAllSearchRecordUseCase
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.domain.UserPreferenceManagerImpl
-import androidx.core.content.edit
 
 class PreferenceSettingsViewModel(
     private val deleteAllSearchRecord: DeleteAllSearchRecordUseCase,
@@ -62,8 +61,10 @@ class PreferenceSettingsViewModel(
                 initialValue = defaultPreferences.getBoolean(KEY_SORT_BY_PRICE, true)
             )
 
-    suspend fun deleteAllSearchRecords() {
-        deleteAllSearchRecord()
+    fun deleteAllSearchRecords() {
+        viewModelScope.launch {
+            deleteAllSearchRecord()
+        }
     }
 
     fun onIsFollowSystemThemeChange(enable: Boolean) {
