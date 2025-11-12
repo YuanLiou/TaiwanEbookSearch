@@ -16,7 +16,7 @@ import com.rayliu.commonmain.domain.service.UserPreferenceManager.Companion.VALU
 class UserPreferenceManagerImpl(
     context: Context
 ) : UserPreferenceManager {
-    private val defaultPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+    val defaultPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     override fun isFollowSystemTheme(): Boolean = defaultPreferences.getBoolean(KEY_USER_SYSTEM_THEME, false)
 

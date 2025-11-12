@@ -18,3 +18,18 @@ fun SharedPreferences.booleanFlow(
     registerOnSharedPreferenceChangeListener(listener)
     awaitClose { unregisterOnSharedPreferenceChangeListener(listener) }
 }
+
+fun SharedPreferences.stringFlow(
+    key: String,
+    defaultValue: String
+) = callbackFlow {
+    trySend(getString(key, defaultValue))
+    val listener =
+        SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, changedKey ->
+            if (changedKey == key) {
+                trySend(sharedPreferences.getString(key, defaultValue))
+            }
+        }
+    registerOnSharedPreferenceChangeListener(listener)
+    awaitClose { unregisterOnSharedPreferenceChangeListener(listener) }
+}

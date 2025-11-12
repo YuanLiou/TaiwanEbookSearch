@@ -14,9 +14,11 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alorma.compose.settings.ui.SettingsGroup
 import com.alorma.compose.settings.ui.SettingsMenuLink
 import com.alorma.compose.settings.ui.SettingsSwitch
@@ -24,15 +26,22 @@ import com.alorma.compose.settings.ui.base.internal.SettingsTileDefaults
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.blue_green_you
-import liou.rayyuan.ebooksearchtaiwan.ui.theme.light_blue_green_you
+import liou.rayyuan.ebooksearchtaiwan.ui.theme.pale_slate
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.pure_white
+import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PreferenceSettingsScreen(
     modifier: Modifier = Modifier,
+    viewModel: PreferenceSettingsViewModel = koinViewModel(),
     onBackPressed: () -> Unit = {}
 ) {
+    val isFollowSystemTheme by viewModel.isFollowSystemTheme.collectAsStateWithLifecycle()
+    val isDarkTheme by viewModel.isDarkTheme.collectAsStateWithLifecycle()
+    val isPreferCustomTab by viewModel.isPreferCustomTab.collectAsStateWithLifecycle()
+    val isSearchResultSortByPrice by viewModel.isSearchResultSortByPrice.collectAsStateWithLifecycle()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -50,15 +59,31 @@ fun PreferenceSettingsScreen(
             )
         },
         modifier = modifier
-    ) {
+    ) { scaffoldPadding ->
         PreferenceSettingsScreenContent(
-            modifier = Modifier.padding(it)
+            isFollowSystemTheme = isFollowSystemTheme,
+            isDarkTheme = isDarkTheme,
+            isPreferCustomTab = isPreferCustomTab,
+            isSearchResultSortByPrice = isSearchResultSortByPrice,
+            onIsFollowSystemThemeChange = { viewModel.onIsFollowSystemThemeChange(it) },
+            onSearchResultSortByPriceChange = { viewModel.onSearchResultSortByPriceChange(it) },
+            onIsPreferCustomTabChange = { viewModel.onIsPreferCustomTabChange(it) },
+            modifier = Modifier.padding(scaffoldPadding)
         )
     }
 }
 
 @Composable
-private fun PreferenceSettingsScreenContent(modifier: Modifier = Modifier) {
+private fun PreferenceSettingsScreenContent(
+    isFollowSystemTheme: Boolean,
+    isDarkTheme: Boolean,
+    isPreferCustomTab: Boolean,
+    isSearchResultSortByPrice: Boolean,
+    modifier: Modifier = Modifier,
+    onIsFollowSystemThemeChange: (Boolean) -> Unit = {},
+    onSearchResultSortByPriceChange: (Boolean) -> Unit = {},
+    onIsPreferCustomTabChange: (Boolean) -> Unit = {}
+) {
     Column(
         modifier =
             modifier
@@ -88,8 +113,8 @@ private fun PreferenceSettingsScreenContent(modifier: Modifier = Modifier) {
                         checkedThumbColor = pure_white,
                         checkedTrackColor = blue_green_you
                     ),
-                state = true,
-                onCheckedChange = {}
+                state = isFollowSystemTheme,
+                onCheckedChange = onIsFollowSystemThemeChange
             )
             SettingsMenuLink(
                 title = {
@@ -128,8 +153,8 @@ private fun PreferenceSettingsScreenContent(modifier: Modifier = Modifier) {
                         checkedThumbColor = pure_white,
                         checkedTrackColor = blue_green_you
                     ),
-                state = true,
-                onCheckedChange = {}
+                state = isSearchResultSortByPrice,
+                onCheckedChange = onSearchResultSortByPriceChange
             )
             SettingsSwitch(
                 title = {
@@ -148,8 +173,8 @@ private fun PreferenceSettingsScreenContent(modifier: Modifier = Modifier) {
                         checkedThumbColor = pure_white,
                         checkedTrackColor = blue_green_you
                     ),
-                state = true,
-                onCheckedChange = {}
+                state = isPreferCustomTab,
+                onCheckedChange = onIsPreferCustomTabChange
             )
             SettingsMenuLink(
                 title = {
@@ -190,6 +215,10 @@ private fun PreferenceSettingsScreenPreview() {
     EBookTheme {
         Scaffold {
             PreferenceSettingsScreenContent(
+                isFollowSystemTheme = true,
+                isDarkTheme = true,
+                isPreferCustomTab = true,
+                isSearchResultSortByPrice = true,
                 modifier = Modifier.padding(it)
             )
         }

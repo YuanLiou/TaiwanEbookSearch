@@ -65,7 +65,8 @@ val appModule =
 
         viewModel {
             PreferenceSettingsViewModel(
-                deleteAllSearchRecord = get()
+                deleteAllSearchRecord = get(),
+                preferenceManager = get()
             )
         }
 
