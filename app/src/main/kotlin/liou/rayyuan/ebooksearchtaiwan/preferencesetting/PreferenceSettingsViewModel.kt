@@ -11,7 +11,9 @@ import com.rayliu.commonmain.domain.service.UserPreferenceManager.Companion.KEY_
 import com.rayliu.commonmain.domain.service.UserPreferenceManager.Companion.VALUE_DARK_THEME
 import com.rayliu.commonmain.domain.service.UserPreferenceManager.Companion.VALUE_LIGHT_THEME
 import com.rayliu.commonmain.domain.usecase.DeleteAllSearchRecordUseCase
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -21,6 +23,9 @@ class PreferenceSettingsViewModel(
     private val deleteAllSearchRecord: DeleteAllSearchRecordUseCase,
     preferenceManager: UserPreferenceManager
 ) : ViewModel() {
+    private val _showClearHistorySuccessDialog = MutableSharedFlow<Boolean>()
+    val showClearHistorySuccessDialog = _showClearHistorySuccessDialog.asSharedFlow()
+
     private val defaultPreferences =
         (preferenceManager as UserPreferenceManagerImpl).defaultPreferences
 
@@ -64,6 +69,7 @@ class PreferenceSettingsViewModel(
     fun deleteAllSearchRecords() {
         viewModelScope.launch {
             deleteAllSearchRecord()
+            _showClearHistorySuccessDialog.emit(true)
         }
     }
 

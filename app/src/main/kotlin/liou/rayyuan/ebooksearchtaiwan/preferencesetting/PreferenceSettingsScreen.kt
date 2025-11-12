@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,7 +33,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
 import com.alorma.compose.settings.ui.SettingsGroup
 import com.alorma.compose.settings.ui.SettingsMenuLink
 import com.alorma.compose.settings.ui.SettingsSwitch
@@ -57,6 +61,16 @@ fun PreferenceSettingsScreen(
     val isPreferCustomTab by viewModel.isPreferCustomTab.collectAsStateWithLifecycle()
     val isSearchResultSortByPrice by viewModel.isSearchResultSortByPrice.collectAsStateWithLifecycle()
 
+    var showDeleteRecordSuccessDialog by remember { mutableStateOf(false) }
+    val lifecycleOwner = LocalLifecycleOwner.current
+    LaunchedEffect(Unit) {
+        viewModel.showClearHistorySuccessDialog
+            .flowWithLifecycle(lifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+            .collect { show ->
+                showDeleteRecordSuccessDialog = show
+            }
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -80,6 +94,7 @@ fun PreferenceSettingsScreen(
             isDarkTheme = isDarkTheme,
             isPreferCustomTab = isPreferCustomTab,
             isSearchResultSortByPrice = isSearchResultSortByPrice,
+            showDeleteRecordSuccessDialog = showDeleteRecordSuccessDialog,
             onIsFollowSystemThemeChange = {
                 viewModel.onIsFollowSystemThemeChange(it)
                 onRecreateRequest()
@@ -92,6 +107,7 @@ fun PreferenceSettingsScreen(
             onIsPreferCustomTabChange = { viewModel.onIsPreferCustomTabChange(it) },
             onClickReorderBookStore = onClickReorderBookStore,
             onClearAllRecords = { viewModel.deleteAllSearchRecords() },
+            onDismissDeleteRecordSuccessDialog = { showDeleteRecordSuccessDialog = false },
             modifier = Modifier.padding(scaffoldPadding)
         )
     }
@@ -104,12 +120,14 @@ private fun PreferenceSettingsScreenContent(
     isPreferCustomTab: Boolean,
     isSearchResultSortByPrice: Boolean,
     modifier: Modifier = Modifier,
+    showDeleteRecordSuccessDialog: Boolean = false,
     onIsFollowSystemThemeChange: (Boolean) -> Unit = {},
     onIsDarkThemeChange: (Boolean) -> Unit = {},
     onSearchResultSortByPriceChange: (Boolean) -> Unit = {},
     onIsPreferCustomTabChange: (Boolean) -> Unit = {},
     onClickReorderBookStore: () -> Unit = {},
-    onClearAllRecords: () -> Unit = {}
+    onClearAllRecords: () -> Unit = {},
+    onDismissDeleteRecordSuccessDialog: () -> Unit = {}
 ) {
     var showThemeDialog by remember { mutableStateOf(false) }
     if (showThemeDialog) {
@@ -124,6 +142,7 @@ private fun PreferenceSettingsScreenContent(
     }
 
     var showClearHistoryDialog by remember { mutableStateOf(false) }
+
     if (showClearHistoryDialog) {
         ClearSearchHistoryDialog(
             onDismissRequest = { showClearHistoryDialog = false },
@@ -131,6 +150,12 @@ private fun PreferenceSettingsScreenContent(
                 onClearAllRecords()
                 showClearHistoryDialog = false
             }
+        )
+    }
+
+    if (showDeleteRecordSuccessDialog) {
+        ClearSearchHistorySuccessDialog(
+            onDismissRequest = onDismissDeleteRecordSuccessDialog
         )
     }
 
@@ -352,7 +377,7 @@ fun ClearSearchHistoryDialog(
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
                 Text(
-                    text = stringResource(id = android.R.string.cancel),
+                    text = stringResource(id = R.string.dialog_cancel),
                     style = MaterialTheme.typography.bodyLarge
                 )
             }
@@ -360,7 +385,28 @@ fun ClearSearchHistoryDialog(
         confirmButton = {
             TextButton(onClick = onConfirm) {
                 Text(
-                    text = stringResource(id = android.R.string.ok),
+                    text = stringResource(id = R.string.dialog_ok),
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+        }
+    )
+}
+
+@Composable
+fun ClearSearchHistorySuccessDialog(onDismissRequest: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        title = {
+            Text(text = stringResource(id = R.string.preference_clean_all_records))
+        },
+        text = {
+            Text(text = stringResource(id = R.string.dialog_clean_all_records_cleaned))
+        },
+        confirmButton = {
+            TextButton(onClick = onDismissRequest) {
+                Text(
+                    text = stringResource(id = R.string.dialog_ok),
                     style = MaterialTheme.typography.bodyLarge
                 )
             }
@@ -371,6 +417,7 @@ fun ClearSearchHistoryDialog(
 @Preview(
     locale = "zh-rTW",
     showBackground = true,
+    group = "dialog"
 )
 @Composable
 private fun ClearSearchHistoryDialogPreview() {
@@ -385,6 +432,21 @@ private fun ClearSearchHistoryDialogPreview() {
 @Preview(
     locale = "zh-rTW",
     showBackground = true,
+    group = "dialog"
+)
+@Composable
+private fun ClearSearchHistorySuccessDialogPreview() {
+    EBookTheme {
+        ClearSearchHistorySuccessDialog(
+            onDismissRequest = {}
+        )
+    }
+}
+
+@Preview(
+    locale = "zh-rTW",
+    showBackground = true,
+    group = "dialog"
 )
 @Composable
 private fun ThemeSettingDialogPreview() {
