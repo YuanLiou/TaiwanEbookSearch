@@ -26,7 +26,6 @@ import com.alorma.compose.settings.ui.base.internal.SettingsTileDefaults
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.blue_green_you
-import liou.rayyuan.ebooksearchtaiwan.ui.theme.pale_slate
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.pure_white
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -35,7 +34,9 @@ import org.koin.compose.viewmodel.koinViewModel
 fun PreferenceSettingsScreen(
     modifier: Modifier = Modifier,
     viewModel: PreferenceSettingsViewModel = koinViewModel(),
-    onBackPressed: () -> Unit = {}
+    onBackPressed: () -> Unit = {},
+    onRecreateRequest: () -> Unit = {},
+    onClickReorderBookStore: () -> Unit = {}
 ) {
     val isFollowSystemTheme by viewModel.isFollowSystemTheme.collectAsStateWithLifecycle()
     val isDarkTheme by viewModel.isDarkTheme.collectAsStateWithLifecycle()
@@ -65,9 +66,13 @@ fun PreferenceSettingsScreen(
             isDarkTheme = isDarkTheme,
             isPreferCustomTab = isPreferCustomTab,
             isSearchResultSortByPrice = isSearchResultSortByPrice,
-            onIsFollowSystemThemeChange = { viewModel.onIsFollowSystemThemeChange(it) },
+            onIsFollowSystemThemeChange = {
+                viewModel.onIsFollowSystemThemeChange(it)
+                onRecreateRequest()
+            },
             onSearchResultSortByPriceChange = { viewModel.onSearchResultSortByPriceChange(it) },
             onIsPreferCustomTabChange = { viewModel.onIsPreferCustomTabChange(it) },
+            onClickReorderBookStore = onClickReorderBookStore,
             modifier = Modifier.padding(scaffoldPadding)
         )
     }
@@ -82,7 +87,8 @@ private fun PreferenceSettingsScreenContent(
     modifier: Modifier = Modifier,
     onIsFollowSystemThemeChange: (Boolean) -> Unit = {},
     onSearchResultSortByPriceChange: (Boolean) -> Unit = {},
-    onIsPreferCustomTabChange: (Boolean) -> Unit = {}
+    onIsPreferCustomTabChange: (Boolean) -> Unit = {},
+    onClickReorderBookStore: () -> Unit = {}
 ) {
     Column(
         modifier =
@@ -101,7 +107,11 @@ private fun PreferenceSettingsScreenContent(
                     Text(stringResource(R.string.preference_follow_system_theme))
                 },
                 subtitle = {
-                    Text(stringResource(R.string.preference_generic_checkbox_switch_off))
+                    if (isFollowSystemTheme) {
+                        Text(stringResource(R.string.preference_follow_system_switch_on))
+                    } else {
+                        Text(stringResource(R.string.preference_generic_checkbox_switch_off))
+                    }
                 },
                 colors =
                     SettingsTileDefaults.colors(
@@ -128,6 +138,7 @@ private fun PreferenceSettingsScreenContent(
                         containerColor = EBookTheme.colors.cardBackgroundColor,
                         titleColor = EBookTheme.colors.headline6TextColor
                     ),
+                enabled = !isFollowSystemTheme,
                 onClick = {}
             )
         }
@@ -141,7 +152,11 @@ private fun PreferenceSettingsScreenContent(
                     Text(stringResource(R.string.preference_sort_by_book_price))
                 },
                 subtitle = {
-                    Text(stringResource(R.string.preference_sort_by_book_price_on_summary))
+                    if (isSearchResultSortByPrice) {
+                        Text(stringResource(R.string.preference_sort_by_book_price_on_summary))
+                    } else {
+                        Text(stringResource(R.string.preference_sort_by_book_price_off_summary))
+                    }
                 },
                 colors =
                     SettingsTileDefaults.colors(
@@ -161,7 +176,11 @@ private fun PreferenceSettingsScreenContent(
                     Text(stringResource(R.string.preference_custom_tab_description))
                 },
                 subtitle = {
-                    Text(stringResource(R.string.preference_custom_tab_on_summary))
+                    if (isPreferCustomTab) {
+                        Text(stringResource(R.string.preference_custom_tab_on_summary))
+                    } else {
+                        Text(stringResource(R.string.preference_custom_tab_off_summary))
+                    }
                 },
                 colors =
                     SettingsTileDefaults.colors(
@@ -188,7 +207,7 @@ private fun PreferenceSettingsScreenContent(
                         containerColor = EBookTheme.colors.cardBackgroundColor,
                         titleColor = EBookTheme.colors.headline6TextColor
                     ),
-                onClick = {}
+                onClick = onClickReorderBookStore
             )
             SettingsMenuLink(
                 title = {
