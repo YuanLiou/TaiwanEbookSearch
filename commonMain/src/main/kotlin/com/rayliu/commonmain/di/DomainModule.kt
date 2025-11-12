@@ -25,7 +25,6 @@ import com.rayliu.commonmain.domain.repository.BrowseHistoryRepository
 import com.rayliu.commonmain.domain.repository.BrowseHistoryRepositoryImpl
 import com.rayliu.commonmain.domain.repository.SearchRecordRepository
 import com.rayliu.commonmain.domain.repository.SearchRecordRepositoryImpl
-import com.rayliu.commonmain.domain.service.UserPreferenceManager
 import com.rayliu.commonmain.domain.usecase.DeleteAllSearchRecordUseCase
 import com.rayliu.commonmain.domain.usecase.DeleteSearchRecordUseCase
 import com.rayliu.commonmain.domain.usecase.GetBookStoresDetailUseCase
@@ -39,7 +38,6 @@ import com.rayliu.commonmain.domain.usecase.SaveDefaultBookSortUseCase
 import com.rayliu.commonmain.domain.usecase.SaveUserHasSeenRankWindowUseCase
 import com.rayliu.commonmain.userDataStore
 import kotlinx.coroutines.CoroutineDispatcher
-import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -183,6 +181,4 @@ val domainModule =
                 )
             EbookTwDatabase(driver)
         }
-
-        factory { UserPreferenceManager(androidApplication()) }
     }

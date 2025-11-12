@@ -1,14 +1,6 @@
 package com.rayliu.commonmain.domain.service
 
-import android.content.Context
-import androidx.preference.PreferenceManager
-
-/**
- * Created by louis383 on 2018/9/29.
- */
-class UserPreferenceManager(
-    context: Context
-) {
+interface UserPreferenceManager {
     companion object {
         const val KEY_USER_THEME = "app_option_preference_appearance_theme"
         const val KEY_USER_SYSTEM_THEME = "app_option_preference_follow_system_theme"
@@ -20,13 +12,11 @@ class UserPreferenceManager(
         const val USER_PREFERENCE_NAME = "ebook_search_settings"
     }
 
-    private val defaultPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+    fun isFollowSystemTheme(): Boolean
 
-    fun isFollowSystemTheme(): Boolean = defaultPreferences.getBoolean(KEY_USER_SYSTEM_THEME, false)
+    fun isDarkTheme(): Boolean
 
-    fun isDarkTheme(): Boolean = defaultPreferences.getString(KEY_USER_THEME, VALUE_LIGHT_THEME) == VALUE_DARK_THEME
+    fun isPreferCustomTab(): Boolean
 
-    fun isPreferCustomTab(): Boolean = defaultPreferences.getBoolean(KEY_USE_CHROME_CUSTOM_VIEW, true)
-
-    fun isSearchResultSortByPrice(): Boolean = defaultPreferences.getBoolean(KEY_SORT_BY_PRICE, true)
+    fun isSearchResultSortByPrice(): Boolean
 }
