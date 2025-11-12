@@ -312,9 +312,10 @@ private fun ThemeSettingDialogContent(
                 )
                 Text(
                     text = themeName,
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        fontSize = 18.sp
-                    ),
+                    style =
+                        MaterialTheme.typography.bodyLarge.copy(
+                            fontSize = 18.sp
+                        ),
                     modifier = Modifier.padding(start = 8.dp)
                 )
             }
