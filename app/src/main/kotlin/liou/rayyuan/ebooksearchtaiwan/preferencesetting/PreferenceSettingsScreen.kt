@@ -1,23 +1,37 @@
 package liou.rayyuan.ebooksearchtaiwan.preferencesetting
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alorma.compose.settings.ui.SettingsGroup
 import com.alorma.compose.settings.ui.SettingsMenuLink
@@ -70,6 +84,10 @@ fun PreferenceSettingsScreen(
                 viewModel.onIsFollowSystemThemeChange(it)
                 onRecreateRequest()
             },
+            onIsDarkThemeChange = {
+                viewModel.onIsDarkThemeChange(it)
+                onRecreateRequest()
+            },
             onSearchResultSortByPriceChange = { viewModel.onSearchResultSortByPriceChange(it) },
             onIsPreferCustomTabChange = { viewModel.onIsPreferCustomTabChange(it) },
             onClickReorderBookStore = onClickReorderBookStore,
@@ -86,10 +104,23 @@ private fun PreferenceSettingsScreenContent(
     isSearchResultSortByPrice: Boolean,
     modifier: Modifier = Modifier,
     onIsFollowSystemThemeChange: (Boolean) -> Unit = {},
+    onIsDarkThemeChange: (Boolean) -> Unit = {},
     onSearchResultSortByPriceChange: (Boolean) -> Unit = {},
     onIsPreferCustomTabChange: (Boolean) -> Unit = {},
     onClickReorderBookStore: () -> Unit = {}
 ) {
+    var showThemeDialog by remember { mutableStateOf(false) }
+    if (showThemeDialog) {
+        ThemeSettingDialog(
+            isDarkTheme = isDarkTheme,
+            onDismissRequest = { showThemeDialog = false },
+            onThemeChange = {
+                onIsDarkThemeChange(it)
+                showThemeDialog = false
+            }
+        )
+    }
+
     Column(
         modifier =
             modifier
@@ -139,7 +170,9 @@ private fun PreferenceSettingsScreenContent(
                         titleColor = EBookTheme.colors.headline6TextColor
                     ),
                 enabled = !isFollowSystemTheme,
-                onClick = {}
+                onClick = {
+                    showThemeDialog = true
+                }
             )
         }
         SettingsGroup(
@@ -221,6 +254,87 @@ private fun PreferenceSettingsScreenContent(
                 onClick = {}
             )
         }
+    }
+}
+
+@Composable
+fun ThemeSettingDialog(
+    isDarkTheme: Boolean,
+    onDismissRequest: () -> Unit,
+    onThemeChange: (isDark: Boolean) -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        title = {
+            Text(text = stringResource(id = R.string.preference_appearance_theme_title))
+        },
+        text = {
+            ThemeSettingDialogContent(
+                isDarkTheme = isDarkTheme,
+                onThemeChange = onThemeChange
+            )
+        },
+        dismissButton = {
+            TextButton(onClick = onDismissRequest) {
+                Text(
+                    text = stringResource(id = android.R.string.cancel),
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+        },
+        confirmButton = {}
+    )
+}
+
+@Composable
+private fun ThemeSettingDialogContent(
+    isDarkTheme: Boolean,
+    onThemeChange: (isDark: Boolean) -> Unit
+) {
+    val themeOptions = stringArrayResource(id = R.array.theme_options)
+    val themeOptionsValues = stringArrayResource(id = R.array.theme_options_values)
+
+    Column {
+        themeOptions.forEachIndexed { index, themeName ->
+            val themeValue = themeOptionsValues[index]
+            val isDark = themeValue == "dark"
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .clickable { onThemeChange(isDark) }
+                        .padding(vertical = 4.dp)
+            ) {
+                RadioButton(
+                    selected = isDarkTheme == isDark,
+                    onClick = { onThemeChange(isDark) }
+                )
+                Text(
+                    text = themeName,
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontSize = 18.sp
+                    ),
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+            }
+        }
+    }
+}
+
+@Preview(
+    locale = "zh-rTW",
+    showBackground = true,
+)
+@Composable
+private fun ThemeSettingDialogPreview() {
+    EBookTheme {
+        var isDarkTheme by remember { mutableStateOf(false) }
+        ThemeSettingDialog(
+            isDarkTheme = isDarkTheme,
+            onDismissRequest = {},
+            onThemeChange = { isDarkTheme = it }
+        )
     }
 }
 

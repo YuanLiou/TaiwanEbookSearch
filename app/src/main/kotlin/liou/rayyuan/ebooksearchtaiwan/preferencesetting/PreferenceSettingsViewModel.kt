@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.stateIn
 import liou.rayyuan.ebooksearchtaiwan.domain.UserPreferenceManagerImpl
+import androidx.core.content.edit
 
 class PreferenceSettingsViewModel(
     private val deleteAllSearchRecord: DeleteAllSearchRecordUseCase,
@@ -66,14 +67,19 @@ class PreferenceSettingsViewModel(
     }
 
     fun onIsFollowSystemThemeChange(enable: Boolean) {
-        defaultPreferences.edit().putBoolean(KEY_USER_SYSTEM_THEME, enable).apply()
+        defaultPreferences.edit { putBoolean(KEY_USER_SYSTEM_THEME, enable) }
     }
 
     fun onSearchResultSortByPriceChange(enable: Boolean) {
-        defaultPreferences.edit().putBoolean(KEY_SORT_BY_PRICE, enable).apply()
+        defaultPreferences.edit { putBoolean(KEY_SORT_BY_PRICE, enable) }
     }
 
     fun onIsPreferCustomTabChange(enable: Boolean) {
-        defaultPreferences.edit().putBoolean(KEY_USE_CHROME_CUSTOM_VIEW, enable).apply()
+        defaultPreferences.edit { putBoolean(KEY_USE_CHROME_CUSTOM_VIEW, enable) }
+    }
+
+    fun onIsDarkThemeChange(isDark: Boolean) {
+        val theme = if (isDark) VALUE_DARK_THEME else VALUE_LIGHT_THEME
+        defaultPreferences.edit { putString(KEY_USER_THEME, theme) }
     }
 }
