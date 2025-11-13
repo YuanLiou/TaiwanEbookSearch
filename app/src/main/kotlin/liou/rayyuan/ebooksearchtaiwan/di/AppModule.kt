@@ -8,9 +8,11 @@ import com.rayliu.commonmain.di.dispatcherModule
 import com.rayliu.commonmain.di.domainModule
 import com.rayliu.commonmain.di.jsonModule
 import com.rayliu.commonmain.di.miscModule
+import com.rayliu.commonmain.domain.service.UserPreferenceManager
 import liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchViewModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.review.PlayStoreReviewHelper
 import liou.rayyuan.ebooksearchtaiwan.bookstorereorder.BookStoreReorderViewModel
+import liou.rayyuan.ebooksearchtaiwan.domain.UserPreferenceManagerImpl
 import liou.rayyuan.ebooksearchtaiwan.interactor.UserRankingWindowFacade
 import liou.rayyuan.ebooksearchtaiwan.misc.DeeplinkHelper
 import liou.rayyuan.ebooksearchtaiwan.misc.EventTracker
@@ -63,7 +65,8 @@ val appModule =
 
         viewModel {
             PreferenceSettingsViewModel(
-                deleteAllSearchRecord = get()
+                deleteAllSearchRecord = get(),
+                preferenceManager = get()
             )
         }
 
@@ -74,6 +77,9 @@ val appModule =
                 saveUserHasSeenRankWindow = get()
             )
         }
+
+        // Domain (app layer)
+        factory<UserPreferenceManager> { UserPreferenceManagerImpl(androidApplication()) }
     }
 
 val appUtilsModule =
