@@ -2,21 +2,22 @@
 package liou.rayyuan.ebooksearchtaiwan.composable
 
 import android.content.res.Configuration
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -29,8 +30,11 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 
 data class SearchHistoryRecord(
@@ -48,7 +52,7 @@ fun SearchHistoryItem(
 ) {
     Surface(
         modifier = modifier.fillMaxWidth(),
-        color = EBookTheme.colors.cardBackgroundColor
+        color = MaterialTheme.colorScheme.surface
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
@@ -64,20 +68,15 @@ fun SearchHistoryItem(
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
-                    text = "次數：${record.count}",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Text(
                     text = "上次搜尋日：${record.lastSearchDate}",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
-            Column {
+            Row {
                 IconButton(onClick = onCopyClick) {
                     Icon(
-                        imageVector = Icons.Default.ContentCopy,
+                        painter = painterResource(id = R.drawable.ic_baseline_content_copy_24),
                         contentDescription = "Copy",
                         tint = MaterialTheme.colorScheme.onSurface
                     )
@@ -98,18 +97,11 @@ fun SearchHistoryItem(
 @Composable
 fun SearchHistoryTopAppBar(
     onBackClick: () -> Unit,
-    onMoreClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val containerColor = if (isSystemInDarkTheme()) {
-        EBookTheme.colors.customTabHeaderColor
-    } else {
-        EBookTheme.colors.colorPrimaryDark
-    }
-
     TopAppBar(
         modifier = modifier,
-        title = { Text("搜尋紀錄") },
+        title = { Text("我的搜尋紀錄") },
         navigationIcon = {
             IconButton(onClick = onBackClick) {
                 Icon(
@@ -118,20 +110,13 @@ fun SearchHistoryTopAppBar(
                 )
             }
         },
-        actions = {
-            IconButton(onClick = onMoreClick) {
-                Icon(
-                    imageVector = Icons.Default.MoreVert,
-                    contentDescription = "More options"
-                )
-            }
-        },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = containerColor
+            containerColor = EBookTheme.colors.customTabHeaderColor
         )
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchHistoryScreen(
     searchHistoryRecords: List<SearchHistoryRecord>,
@@ -141,14 +126,48 @@ fun SearchHistoryScreen(
         modifier = modifier,
         topBar = {
             SearchHistoryTopAppBar(
-                onBackClick = { /*TODO*/ },
-                onMoreClick = { /*TODO*/ }
+                onBackClick = { /*TODO*/ }
             )
-        }
+        },
+        floatingActionButton = {
+            ExtendedFloatingActionButton(
+                onClick = { /* Do nothing for the FAB itself */ },
+                shape = RoundedCornerShape(50),
+                containerColor = Color(0xFF4DB6AC) // Teal color from target
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .clickable { /* TODO: onDeleteAllClick */ }
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Delete All",
+                            tint = Color.White
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.clickable { /* TODO: onDownloadClick */ }.padding(horizontal = 16.dp, vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_download_24),
+                            contentDescription = "Download",
+                            tint = Color.White
+                        )
+                    }
+                }
+            }
+        },
+        floatingActionButtonPosition = FabPosition.Center
     ) { innerPadding ->
         LazyColumn(
-            modifier = Modifier.padding(innerPadding),
-            contentPadding = PaddingValues(vertical = 8.dp)
+            modifier = Modifier.padding(innerPadding)
         ) {
             items(searchHistoryRecords) { record ->
                 SearchHistoryItem(
