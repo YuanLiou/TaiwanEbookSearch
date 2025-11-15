@@ -2,6 +2,7 @@
 package liou.rayyuan.ebooksearchtaiwan.composable
 
 import android.content.res.Configuration
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,8 +16,8 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -100,6 +101,12 @@ fun SearchHistoryTopAppBar(
     onMoreClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val containerColor = if (isSystemInDarkTheme()) {
+        EBookTheme.colors.customTabHeaderColor
+    } else {
+        EBookTheme.colors.colorPrimaryDark
+    }
+
     TopAppBar(
         modifier = modifier,
         title = { Text("搜尋紀錄") },
@@ -120,7 +127,7 @@ fun SearchHistoryTopAppBar(
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = EBookTheme.colors.colorPrimaryDark
+            containerColor = containerColor
         )
     )
 }
