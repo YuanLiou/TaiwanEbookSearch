@@ -165,10 +165,16 @@ fun SearchHistoryFAB(
     onExportClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val containerColor = if (isSystemInDarkTheme()) {
+        EBookTheme.colors.customTabHeaderColor
+    } else {
+        EBookTheme.colors.colorPrimary
+    }
+
     FloatingActionButton(
         modifier = modifier,
         onClick = {},
-        containerColor = EBookTheme.colors.colorPrimary,
+        containerColor = containerColor,
         contentColor = Color.White,
     ) {
         Row(
