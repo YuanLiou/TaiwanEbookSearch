@@ -76,4 +76,6 @@
     <string name="search_with_result">點此搜尋: %1$s</string>
     <string name="service_online">服務正常</string>
     <string name="service_offline">維修中</string>
+    <string name="book_search_copy_search_record">複製搜尋結果：%1$s</string>
+    <string name="book_search_delete_search_record">刪除搜尋結果：%1$s</string>
 </resources>

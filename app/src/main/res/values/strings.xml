@@ -1,3 +1,4 @@
+
 <resources>
     <string name="navigation_behavior" translatable="false">liou.rayyuan.ebooksearchtaiwan.view.behavior.BottomNavigationBehavior</string>
     <string name="app_name">TaiwanEbookSearcher</string>
@@ -77,4 +78,6 @@
     <string name="search_with_result">Click here to search: %1$s</string>
     <string name="service_online">Online</string>
     <string name="service_offline">Offline</string>
+    <string name="book_search_copy_search_record">Copy search result: %1$s</string>
+    <string name="book_search_delete_search_record">Delete search result: %1$s</string>
 </resources>

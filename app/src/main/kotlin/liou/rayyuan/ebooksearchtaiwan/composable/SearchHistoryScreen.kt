@@ -3,9 +3,9 @@ package liou.rayyuan.ebooksearchtaiwan.composable
 
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -56,7 +56,8 @@ fun SearchHistoryItem(
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Column(
                 modifier = Modifier.weight(1f),
@@ -70,7 +71,7 @@ fun SearchHistoryItem(
                 Text(
                     text = "上次搜尋日：${record.lastSearchDate}",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
             Row {
@@ -167,7 +168,8 @@ fun SearchHistoryScreen(
         floatingActionButtonPosition = FabPosition.Center
     ) { innerPadding ->
         LazyColumn(
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.padding(innerPadding),
+            contentPadding = PaddingValues(bottom = 96.dp)
         ) {
             items(searchHistoryRecords) { record ->
                 SearchHistoryItem(
