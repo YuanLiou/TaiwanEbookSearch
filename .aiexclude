@@ -1,0 +1,3 @@
+*.properties
+*.keystore
+firebase_distribution_credential.json
