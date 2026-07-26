@@ -1,0 +1,4 @@
+interface:
+  display_name: "對焦 Code 與 Spec"
+  short_description: "檢查 TaiwanEbookSearch 程式碼與規格是否一致"
+  default_prompt: "Use $align-code-and-spec to audit the current code changes against the approved project specifications."
