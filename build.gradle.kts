@@ -2,8 +2,11 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.android.application) apply false
-    alias(libs.plugins.kotlin) apply false
+    alias(libs.plugins.android.library) apply false
+    // AGP 9 built-in Kotlin：不再套用 org.jetbrains.kotlin.android
+    // 仍宣告 Kotlin 相關 plugin 以鎖定 KGP 2.2.21（覆寫 AGP 預設 2.2.10）
     alias(libs.plugins.kotlin.serialization) apply false
+    alias(libs.plugins.kotlin.parcelize) apply false
     alias(libs.plugins.gms) apply false
     alias(libs.plugins.firebase.crashlytics) apply false
     alias(libs.plugins.detekt) apply false

@@ -2,14 +2,14 @@ import io.gitlab.arturbosch.detekt.Detekt
 import java.io.File
 import java.io.FileInputStream
 import java.util.Properties
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    id(libs.plugins.android.library.get().pluginId)
-    id(libs.plugins.kotlin.parcelize.get().pluginId)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.parcelize)
     id(libs.plugins.detekt.get().pluginId)
     id(libs.plugins.ktlintGradle.get().pluginId)
-    alias(libs.plugins.kotlin)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.sqldelight)
     alias(libs.plugins.spotless)
@@ -60,29 +60,10 @@ android {
         }
     }
 
-    androidComponents {
-        beforeVariants(
-            selector()
-                .withFlavor(Pair("data_source", "mock"))
-                .withBuildType("release")
-        ) { variantBuilder ->
-            variantBuilder.enable = false
-        }
-    }
-
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        freeCompilerArgs =
-            listOf(
-                "-Xjvm-default=all",
-                "-Xstring-concat=inline"
-            )
-        jvmTarget = "17"
     }
 
     buildFeatures {
@@ -90,6 +71,26 @@ android {
     }
 
     namespace = "com.rayliu.commonmain"
+}
+
+androidComponents {
+    beforeVariants(
+        selector()
+            .withFlavor(Pair("data_source", "mock"))
+            .withBuildType("release")
+    ) { variantBuilder ->
+        variantBuilder.enable = false
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+        freeCompilerArgs.addAll(
+            "-Xjvm-default=all",
+            "-Xstring-concat=inline"
+        )
+    }
 }
 
 sqldelight {
