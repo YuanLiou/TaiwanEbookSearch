@@ -49,14 +49,14 @@ androidxTestCore = "1.7.0"
 androidxEspresso = "3.7.0"
 
 # plugins versions
-androidGradlePlugin = "8.10.1"
+androidGradlePlugin = "9.1.1"
 kotlin = "2.2.21"
 gmsPlugin = "4.4.2"
 firebaseCrashlyticsPlugin = "3.0.4"
-firebaseAppDistributionPlugin = "5.1.1"
+firebaseAppDistributionPlugin = "5.3.0"
 detektVersion = "1.23.8"
 ktlintGradle = "12.3.0"
-sqldelight = "2.1.0"
+sqldelight = "2.3.2"
 uiAndroid = "1.7.1"
 spotless = "8.0.0"
 ktlintCli = "1.7.1"
@@ -144,7 +144,6 @@ android-application = { id = "com.android.application", version.ref = "androidGr
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 gms = { id = "com.google.gms.google-services", version.ref = "gmsPlugin" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsPlugin" }
 firebase-app-distribution = { id = "com.google.firebase.appdistribution", version.ref = "firebaseAppDistributionPlugin" }

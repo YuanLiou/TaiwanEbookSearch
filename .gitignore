@@ -213,3 +213,7 @@ Temporary Items
 .idea/
 keystore.jks
 *.Keystore
+
+# Cursor
+.cursor
+.cursor/

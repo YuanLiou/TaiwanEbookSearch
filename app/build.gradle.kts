@@ -1,14 +1,15 @@
+import com.google.firebase.appdistribution.gradle.firebaseAppDistribution
 import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
 import io.gitlab.arturbosch.detekt.Detekt
 import java.io.File
 import java.io.FileInputStream
 import java.util.Properties
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin)
-    id(libs.plugins.kotlin.parcelize.get().pluginId)
+    alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.gms)
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.kotlin.serialization)
@@ -56,6 +57,7 @@ android {
         viewBinding = true
         buildConfig = true
         compose = true
+        resValues = true
     }
 
     lint {
@@ -111,16 +113,6 @@ android {
         }
     }
 
-    androidComponents {
-        beforeVariants(
-            selector()
-                .withFlavor(Pair("data_source", "mock"))
-                .withBuildType("release")
-        ) { variantBuilder ->
-            variantBuilder.enable = false
-        }
-    }
-
     buildTypes.all {
         resValue("string", "AD_MOB_ID", admobId)
         buildConfigField("String", "ADMOB_TEST_DEVICE_ID", admobTestDeviceId)
@@ -132,16 +124,27 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-
-    kotlinOptions {
-        freeCompilerArgs =
-            listOf(
-                "-Xjvm-default=all",
-                "-Xstring-concat=inline"
-            )
-        jvmTarget = "17"
-    }
     namespace = "liou.rayyuan.ebooksearchtaiwan"
+}
+
+androidComponents {
+    beforeVariants(
+        selector()
+            .withFlavor(Pair("data_source", "mock"))
+            .withBuildType("release")
+    ) { variantBuilder ->
+        variantBuilder.enable = false
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+        freeCompilerArgs.addAll(
+            "-Xjvm-default=all",
+            "-Xstring-concat=inline"
+        )
+    }
 }
 
 detekt {

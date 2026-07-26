@@ -1,6 +1,6 @@
 package com.rayliu.commonmain.data.dao
 
-import app.cash.paging.PagingSource
+import androidx.paging.PagingSource
 import com.rayliu.commonmain.data.dto.LocalSearchRecord
 import com.rayliu.commonmain.domain.model.SearchRecord
 import kotlinx.coroutines.flow.Flow
