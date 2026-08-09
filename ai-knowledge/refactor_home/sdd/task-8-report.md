@@ -34,6 +34,8 @@ Complete. Spec patch applied per Spike §6; align audit confirms Code↔Spec con
 
 (Pending — see parent agent commit message.)
 
+`3f7eaf4` — docs(spec): align adaptive breakpoints with WindowSizeClass
+
 ## Concerns
 
 None blocking. Task 9 should cover manual Desktop / landscape 600–840dp regression per Spike §7.1.
