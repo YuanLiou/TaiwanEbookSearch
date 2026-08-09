@@ -41,3 +41,11 @@
 - **解法**：將 focus-only `BackHandler` 移到 scaffold 之後 compose，讓搜尋 unfocus 優先於 pane back。
 - **避免再犯**：App 自訂 back 與 navigable scaffold 並存時，確認 composition 順序；後 compose 的 handler 先被呼叫。
 - **相關檔案**：`app/src/main/kotlin/liou/rayyuan/ebooksearchtaiwan/booksearch/BookSearchScreen.kt`
+
+### 2026-08-09 — Task 5：搜尋紀錄 overlay 已 pane-scoped，無需程式碼變更
+
+- **症狀**：Task 5 要求確認搜尋紀錄 overlay 不會覆蓋 Medium+ detail pane，並檢查清單大螢幕間距。
+- **原因**：`BookResultListScreen` 位於 `NavigableListDetailPaneScaffold.listPane` 的 `AnimatedPane` 內；搜尋紀錄卡片與 scrim 是 content `Box` 子項，`fillMaxSize()` 只填滿 list pane 邊界。
+- **解法**：靜態檢查 Compose hierarchy 與 modifier scope 後確認 scope 正確；未修改產品 Kotlin/XML。Journey E 實機驗證延至 Task 9。
+- **避免再犯**：遷移 adaptive scaffold 後，overlay 類 UI 先確認是否已在 pane 內 compose，再決定是否需要額外 scope 限制。
+- **相關檔案**：`BookSearchScreen.kt`、`BookResultListScreen.kt`

@@ -23,3 +23,9 @@
 
 - `./gradlew :app:compileApiDebugKotlin`
 - Journey E 的實機／模擬器互動驗證留待 Task 9；本次結論來自 Compose hierarchy 與 modifier scope 靜態檢查。
+
+## Process follow-up（2026-08-09）
+
+- `ai-knowledge/refactor_home/progress.md`：Task 5 標記完成；目前 Task 指向 Task 6。
+- `ai-knowledge/refactor_home/findings.md`：已追加 pane-scoped overlay 驗證紀錄。
+- 無產品程式碼變更；Journey E 仍延至 Task 9。

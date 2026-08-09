@@ -8,7 +8,7 @@
 | --- | --- |
 | 總體狀態 | In progress |
 | 目前里程碑 | M1 |
-| 目前 Task | Task 4 |
+| 目前 Task | Task 6 |
 | 最後更新 | 2026-08-09 |
 
 ## Milestones
@@ -23,7 +23,7 @@
 - [x] Task 2: `NavigableListDetailPaneScaffold` 遷移與返回／focus
 - [x] Task 3: 移除 `isTabletSize` / `LocalDeviceInfo`（若可）
 - [x] Task 4: Detail 空狀態與關閉鈕 chrome
-- [ ] Task 5: 搜尋紀錄 overlay 與清單大螢幕小修
+- [x] Task 5: 搜尋紀錄 overlay 與清單大螢幕小修
 - [ ] Task 6: 主流程 contentDescription 字串資源化
 - [ ] Task 7: Compose UI 測試（導流分支）
 - [ ] Task 8: Spec patch 套用（需核准）
@@ -46,3 +46,4 @@
 
 - 開工前重讀 Spike 與 `design_guidelines.md`。
 - 踩坑寫入 [findings.md](./findings.md)。
+- **Task 5**：搜尋紀錄 overlay 已自然限定在 list pane（`NavigableListDetailPaneScaffold` 內 `AnimatedPane` → `BookResultListScreen` content `Box`）；無需產品程式碼變更。Journey E 實機互動驗證延至 Task 9。
