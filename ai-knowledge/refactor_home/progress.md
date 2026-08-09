@@ -8,7 +8,7 @@
 | --- | --- |
 | 總體狀態 | In progress |
 | 目前里程碑 | M1 |
-| 目前 Task | Task 3 |
+| 目前 Task | Task 4 |
 | 最後更新 | 2026-08-09 |
 
 ## Milestones
@@ -21,8 +21,8 @@
 
 - [x] Task 1: Compact 判定 helper + Activity 導流改接 `WindowSizeClass`
 - [x] Task 2: `NavigableListDetailPaneScaffold` 遷移與返回／focus
-- [ ] Task 3: 移除 `isTabletSize` / `LocalDeviceInfo`（若可）
-- [ ] Task 4: Detail 空狀態與關閉鈕 chrome
+- [x] Task 3: 移除 `isTabletSize` / `LocalDeviceInfo`（若可）
+- [x] Task 4: Detail 空狀態與關閉鈕 chrome
 - [ ] Task 5: 搜尋紀錄 overlay 與清單大螢幕小修
 - [ ] Task 6: 主流程 contentDescription 字串資源化
 - [ ] Task 7: Compose UI 測試（導流分支）
@@ -40,7 +40,7 @@
 | 日期 | 項目 | 結果 | 備註 |
 | --- | --- | --- | --- |
 | 2026-08-09 | `:app:compileApiDebugKotlin` | 通過 | JDK 17；有既有編譯警告 |
-| 2026-08-09 | Task 2 `:app:compileApiDebugKotlin` | 通過 | `NavigableListDetailPaneScaffold` 遷移後編譯成功；有既有編譯警告 |
+| 2026-08-09 | Task 4 `:app:compileApiDebugKotlin` | 通過 | `DetailPaneEmptyState` 抽出後編譯成功 |
 
 ## Notes
 

@@ -1,18 +1,7 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch
 
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.layout.ContentScale
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
@@ -25,10 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
@@ -37,12 +23,11 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.kevinnzou.web.rememberWebViewNavigator
 import com.rayliu.commonmain.domain.model.Book
 import kotlinx.coroutines.launch
-import liou.rayyuan.ebooksearchtaiwan.R
+import liou.rayyuan.ebooksearchtaiwan.booksearch.composable.DetailPaneEmptyState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookUiModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.asUiModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.util.isWindowWidthCompact
 import liou.rayyuan.ebooksearchtaiwan.simplewebview.SimpleWebViewScreen
-import liou.rayyuan.ebooksearchtaiwan.ui.theme.pale_slate
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
@@ -204,29 +189,7 @@ fun BookSearchScreen(
                         checkShouldAskUserRankApp()
                     }
                 } else {
-                    Scaffold(
-                        contentWindowInsets = WindowInsets.safeDrawing
-                    ) { paddings ->
-                        Box(
-                            contentAlignment = Alignment.Center,
-                            modifier =
-                                Modifier
-                                    .clip(RoundedCornerShape(8.dp))
-                                    .background(pale_slate)
-                                    .fillMaxSize()
-                                    .consumeWindowInsets(paddings)
-                        ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.big_icon),
-                                contentDescription = null,
-                                contentScale = ContentScale.Fit,
-                                modifier =
-                                    Modifier
-                                        .size(200.dp)
-                                        .alpha(0.3f)
-                            )
-                        }
-                    }
+                    DetailPaneEmptyState(modifier = Modifier.fillMaxSize())
                 }
             }
         }
