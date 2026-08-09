@@ -1,0 +1,72 @@
+# Review package: 37f9fa801668a990690f5acfe85fc96b8a41582e..HEAD
+
+## Commits
+a63fbcf docs: record list-pane overlay verification
+
+## Files changed
+ .superpowers/sdd/progress.md      | 24 ++++++++++++++++++++++++
+ .superpowers/sdd/task-5-report.md | 25 +++++++++++++++++++++++++
+ 2 files changed, 49 insertions(+)
+
+## Diff
+diff --git a/.superpowers/sdd/progress.md b/.superpowers/sdd/progress.md
+new file mode 100644
+index 0000000..e029bb0
+--- /dev/null
++++ b/.superpowers/sdd/progress.md
+@@ -0,0 +1,24 @@
++# SDD Progress Ledger — BookSearch Adaptive UI
++
++Plan: `ai-knowledge/refactor_home/implementation_plan.md`
++Branch: `enhancement/compose`
++Started from: `9940dbb`
++
++## Tasks
++
++| Task | Status | Commits | Notes |
++| --- | --- | --- | --- |
++| 1 Compact helper + Activity 導流 | complete | 9940dbb..a5a626c | review clean; WindowWidthSizeClass.COMPACT fallback |
++| 2 NavigableListDetailPaneScaffold | complete | a5a626c..6001eac (+docs) | review clean after BackHandler order fix |
++| 3 移除 isTabletSize | complete | 47ab695 | grep clean; compileApiDebugKotlin OK |
++| 4 Detail 空狀態 | complete | 47ab695..37f9fa8 | review clean; visual check deferred to Task 9 |
++| 5 overlay / 清單小修 | complete | pending docs commit | overlay already scoped to list pane; spacing unchanged |
++| 6 contentDescription | pending | — | — |
++| 7 Compose UI 測試 | pending | — | — |
++| 8 Spec patch | pending | — | Needs explicit user approval before apply |
++| 9 手動驗證與收尾 | pending | — | — |
++
++## Minor findings (deferred to final review)
++
++- Task 4: no device visual verification of empty detail (Task 9)
++- Task 2: manual predictive-back / focus-back paths (Task 9)
+diff --git a/.superpowers/sdd/task-5-report.md b/.superpowers/sdd/task-5-report.md
+new file mode 100644
+index 0000000..34b3a9e
+--- /dev/null
++++ b/.superpowers/sdd/task-5-report.md
+@@ -0,0 +1,25 @@
++# Task 5 Report — 搜尋紀錄 overlay 與清單大螢幕小修
++
++## 結論
++
++- 不需修改產品程式碼。
++- `BookSearchScreen` 將 `BookResultListScreen` 放在 `NavigableListDetailPaneScaffold.listPane` 的 `AnimatedPane` 內。
++- 搜尋紀錄卡片與 scrim 都是 `BookResultListScreen` 內層 `Scaffold` content `Box` 的子項；scrim 的 `fillMaxSize()` 只填滿 list pane 邊界，不會覆蓋 Medium+ 的 detail pane WebView。
++- `SearchRecords` 與 scrim 的 z-index 僅在該 list content `Box` 內排序，沒有 Activity 或 window 級 overlay。
++
++## 間距檢查
++
++- 結果清單沿用 `search_list_padding_horizontal = 8dp`。
++- 廣告卡本身另有 4dp 外距，第一個結果區段標題有 24dp 上距。
++- 未發現 wide list pane 上明顯過窄、過寬或區塊黏連問題；依 Task 限制不做推測性 spacing 修改，也未加入 grid 或 maxWidth。
++
++## Spec 對焦
++
++- 符合 `HISTORY-004` 的搜尋紀錄顯示與點擊行為。
++- 未改變 `NAV-003` 的大畫面 detail pane 內建 WebView 行為。
++- 本次只確認既有 layout scope，沒有產品行為或 Spec 變更。
++
++## 驗證
++
++- `./gradlew :app:compileApiDebugKotlin`
++- Journey E 的實機／模擬器互動驗證留待 Task 9；本次結論來自 Compose hierarchy 與 modifier scope 靜態檢查。

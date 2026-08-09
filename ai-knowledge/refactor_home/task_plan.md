@@ -61,6 +61,7 @@
 | [design_guidelines.md](./design_guidelines.md) | 實作約束與最佳實踐 |
 | [user_journey.md](./user_journey.md) | 體驗劇本／手測對照 |
 | [findings.md](./findings.md) | 實作踩坑（開發時補） |
+| [sdd/](./sdd/) | Subagent-Driven 執行產物（brief／report／ledger／review diff） |
 | [../spike/2026-08-09-compose-adaptive-ui-desktop.md](../spike/2026-08-09-compose-adaptive-ui-desktop.md) | 已核准 Spike |
 
 ## Notes for agents

@@ -1,0 +1,129 @@
+# Review package: 7a24aa69ea43657d1fa1fd04b5cad85ab0e9fedb..HEAD
+
+## Commits
+5a368be docs(sdd): close Task 7 routing coverage
+110031b test(booksearch): cover Custom Tab width gating
+
+## Files changed
+ .superpowers/sdd/progress.md                            |  4 ++--
+ ai-knowledge/refactor_home/findings.md                  |  8 ++++++++
+ .../ebooksearchtaiwan/booksearch/BookSearchActivity.kt  |  7 ++++++-
+ .../booksearch/BookSearchAdaptiveNavigationTest.kt      | 17 +++++++++++++++++
+ 4 files changed, 33 insertions(+), 3 deletions(-)
+
+## Diff
+diff --git a/.superpowers/sdd/progress.md b/.superpowers/sdd/progress.md
+index b5e4eb0..46687a8 100644
+--- a/.superpowers/sdd/progress.md
++++ b/.superpowers/sdd/progress.md
+@@ -6,19 +6,19 @@ Started from: `9940dbb`
+ 
+ ## Tasks
+ 
+ | Task | Status | Commits | Notes |
+ | --- | --- | --- | --- |
+ | 1 Compact helper + Activity 導流 | complete | 9940dbb..a5a626c | review clean; WindowWidthSizeClass.COMPACT fallback |
+ | 2 NavigableListDetailPaneScaffold | complete | a5a626c..6001eac (+docs) | review clean after BackHandler order fix |
+ | 3 移除 isTabletSize | complete | 47ab695 | grep clean; compileApiDebugKotlin OK |
+ | 4 Detail 空狀態 | complete | 47ab695..37f9fa8 | review clean; visual check deferred to Task 9 |
+ | 5 overlay / 清單小修 | complete | 37f9fa8..f1df0c8 | no-op code; overlay pane-scoped; docs synced |
+-| 6 contentDescription | complete | 7ee1702 + fix commit | FAB focus-search label added |
+-| 7 Compose UI 測試 | pending | — | — |
++| 6 contentDescription | complete | f1df0c8..7a24aa6 | review clean after FAB dual-label fix |
++| 7 Compose UI 測試 | complete | 110031b | JVM routing contract tests; device unauthorized |
+ | 8 Spec patch | pending | — | Needs explicit user approval before apply |
+ | 9 手動驗證與收尾 | pending | — | — |
+ 
+ ## Minor findings (deferred to final review)
+ 
+ - Task 4: no device visual verification of empty detail (Task 9)
+ - Task 2: manual predictive-back / focus-back paths (Task 9)
+diff --git a/ai-knowledge/refactor_home/findings.md b/ai-knowledge/refactor_home/findings.md
+index 686280e..7c7ea67 100644
+--- a/ai-knowledge/refactor_home/findings.md
++++ b/ai-knowledge/refactor_home/findings.md
+@@ -42,10 +42,18 @@
+ - **避免再犯**：App 自訂 back 與 navigable scaffold 並存時，確認 composition 順序；後 compose 的 handler 先被呼叫。
+ - **相關檔案**：`app/src/main/kotlin/liou/rayyuan/ebooksearchtaiwan/booksearch/BookSearchScreen.kt`
+ 
+ ### 2026-08-09 — Task 5：搜尋紀錄 overlay 已 pane-scoped，無需程式碼變更
+ 
+ - **症狀**：Task 5 要求確認搜尋紀錄 overlay 不會覆蓋 Medium+ detail pane，並檢查清單大螢幕間距。
+ - **原因**：`BookResultListScreen` 位於 `NavigableListDetailPaneScaffold.listPane` 的 `AnimatedPane` 內；搜尋紀錄卡片與 scrim 是 content `Box` 子項，`fillMaxSize()` 只填滿 list pane 邊界。
+ - **解法**：靜態檢查 Compose hierarchy 與 modifier scope 後確認 scope 正確；未修改產品 Kotlin/XML。Journey E 實機驗證延至 Task 9。
+ - **避免再犯**：遷移 adaptive scaffold 後，overlay 類 UI 先確認是否已在 pane 內 compose，再決定是否需要額外 scope 限制。
+ - **相關檔案**：`BookSearchScreen.kt`、`BookResultListScreen.kt`
++
++### 2026-08-09 — Task 7：以 JVM 契約測試覆蓋導流分支
++
++- **症狀**：完整 `BookSearchActivity` instrumentation 會載入廣告、網路與 Koin；本機唯一連接裝置又是 `unauthorized`，無法穩定執行。
++- **原因**：待測契約其實只由 Custom Tab 偏好與 `isWidthCompact` 兩個 Boolean 決定，不需要啟動完整 Compose Activity。
++- **解法**：抽出 Activity 實際使用的 `shouldOpenCustomTab()` 純函式，以 `testApiDebugUnitTest` 驗證 Compact 開 Custom Tab、Medium+ 固定走 detail。
++- **避免再犯**：導流條件維持單一純決策點；Activity 僅依結果執行 Custom Tab 或 pane navigation side effect。
++- **相關檔案**：`BookSearchActivity.kt`、`BookSearchAdaptiveNavigationTest.kt`
+diff --git a/app/src/main/kotlin/liou/rayyuan/ebooksearchtaiwan/booksearch/BookSearchActivity.kt b/app/src/main/kotlin/liou/rayyuan/ebooksearchtaiwan/booksearch/BookSearchActivity.kt
+index 696959b..d248864 100644
+--- a/app/src/main/kotlin/liou/rayyuan/ebooksearchtaiwan/booksearch/BookSearchActivity.kt
++++ b/app/src/main/kotlin/liou/rayyuan/ebooksearchtaiwan/booksearch/BookSearchActivity.kt
+@@ -94,21 +94,21 @@ class BookSearchActivity : BaseActivity() {
+ 
+         setContent {
+             EBookTheme(
+                 darkTheme = isDarkTheme()
+             ) {
+                 val scope = rememberCoroutineScope()
+                 BookSearchScreen(
+                     bookSearchViewModel = bookSearchViewModel,
+                     modifier = Modifier.fillMaxSize(),
+                     onBookSearchItemClick = { book, paneNavigator, isWidthCompact ->
+-                        if (userPreferenceManager.isPreferCustomTab() && isWidthCompact) {
++                        if (shouldOpenCustomTab(userPreferenceManager.isPreferCustomTab(), isWidthCompact)) {
+                             openInCustomTab(book.asUiModel().getLink())
+                         } else {
+                             scope.launch {
+                                 paneNavigator.navigateTo(ListDetailPaneScaffoldRole.Detail, book)
+                             }
+                         }
+ 
+                         if (!hasUserSeenRankWindow) {
+                             openResultCounts++
+                         }
+@@ -405,10 +405,15 @@ class BookSearchActivity : BaseActivity() {
+                 .setDefaultColorSchemeParams(colorParams)
+                 .build()
+         intent.launchUrl(this, Uri.parse(url))
+     }
+ 
+     companion object {
+         private const val POPUP_REVIEW_WINDOW_THRESHOLD = 5
+         const val KEY_BARCODE_RESULT = "key-barcode-result"
+     }
+ }
++
++internal fun shouldOpenCustomTab(
++    preferCustomTab: Boolean,
++    isWidthCompact: Boolean
++): Boolean = preferCustomTab && isWidthCompact
+diff --git a/app/src/test/kotlin/liou/rayyuan/ebooksearchtaiwan/booksearch/BookSearchAdaptiveNavigationTest.kt b/app/src/test/kotlin/liou/rayyuan/ebooksearchtaiwan/booksearch/BookSearchAdaptiveNavigationTest.kt
+new file mode 100644
+index 0000000..632e930
+--- /dev/null
++++ b/app/src/test/kotlin/liou/rayyuan/ebooksearchtaiwan/booksearch/BookSearchAdaptiveNavigationTest.kt
+@@ -0,0 +1,17 @@
++package liou.rayyuan.ebooksearchtaiwan.booksearch
++
++import org.junit.Assert.assertFalse
++import org.junit.Assert.assertTrue
++import org.junit.Test
++
++class BookSearchAdaptiveNavigationTest {
++    @Test
++    fun compact_withCustomTabPreference_opensCustomTab() {
++        assertTrue(shouldOpenCustomTab(preferCustomTab = true, isWidthCompact = true))
++    }
++
++    @Test
++    fun mediumWidth_ignoresCustomTabPreference_navigatesToDetail() {
++        assertFalse(shouldOpenCustomTab(preferCustomTab = true, isWidthCompact = false))
++    }
++}
