@@ -28,3 +28,11 @@
 - JVM 導流測試不驗證真實 Compose pane、Custom Tab、WebView、返回堆疊或 Desktop resize；Spike 明確要求人工量窗作為權威證據。
 - Lint 因 `abortOnError = false` 可在 1 error、95 warnings 下成功；本次未修正既有 `SuspiciousModifierThen`。
 - `docs/spec/README.md` 仍指向已核准基準 `fbe2a4c`。本次未猜測重設基準；建議負責人在 Journey A–F 驗收並核准 Task 8 Spec 變更後，再以當時整合 commit／日期重設現況基線。
+
+## Final whole-branch review fix — Medium 雙欄 directive
+
+- **Finding**：Adaptive 1.1.0 的 navigator 預設標準 directive 在 Medium 仍為單欄，與 `LIMIT-003`／`NAV-003` 及既有非 Compact 導流 gating 不一致。
+- **Fix**：`BookSearchScreen` 明確將 `calculatePaneScaffoldDirectiveWithTwoPanesOnMediumWidth(currentWindowAdaptiveInfo())` 傳入 `rememberListDetailPaneScaffoldNavigator`；Spec 只修正「官方預設」的錯誤技術敘述，保留 Medium+ 雙欄要求。
+- **TDD evidence**：新增 `mediumWidth_usesTwoPaneScaffoldDirective`；首次執行因 helper 尚不存在而以 `Unresolved reference 'calculateBookSearchPaneScaffoldDirective'` 失敗，實作後通過。
+- **Final verification**：`JAVA_HOME=$(/usr/libexec/java_home -v 17) ./gradlew :app:compileApiDebugKotlin :app:testApiDebugUnitTest --tests 'liou.rayyuan.ebooksearchtaiwan.booksearch.BookSearchAdaptiveNavigationTest' spotlessCheck --rerun-tasks` PASS（`BUILD SUCCESSFUL in 8s`；61 tasks executed）。測試結果：3 tests、0 skipped／failures／errors；Spotless 通過。編譯仍顯示既有 deprecated／annotation target warnings。
+- **未驗證**：未執行 Medium 裝置／Desktop resize 的人工目視；仍沿用上方 Journey C／D 待辦。

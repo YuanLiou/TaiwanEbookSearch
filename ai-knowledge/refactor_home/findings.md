@@ -18,6 +18,14 @@
 
 ## Log
 
+### 2026-08-09 — Adaptive 1.1.0 預設 directive 不會在 Medium 分欄
+
+- **症狀**：Custom Tab gating 把 Medium 視為分欄模式而改走 App 內 WebView，但 `rememberListDetailPaneScaffoldNavigator()` 預設 directive 在 Medium 只配置一個水平 pane，導致 WebView 仍以單欄顯示。
+- **原因**：Adaptive 1.1.0 的標準 `calculatePaneScaffoldDirective()` 只有 Expanded 配置兩個水平 pane；Medium 雙欄是 dense-mode opt-in，不是 navigator 預設行為。
+- **解法**：將 `calculatePaneScaffoldDirectiveWithTwoPanesOnMediumWidth(currentWindowAdaptiveInfo())` 產生的 directive 明確傳給 `rememberListDetailPaneScaffoldNavigator`，並以 JVM 測試斷言 Medium 的 `maxHorizontalPartitions == 2`。
+- **避免再犯**：產品要求 Medium+ 分欄時，不可把「Adaptive 元件」等同於「預設 Medium 雙欄」；升級版本時確認標準與 dense directive 行為，並保留 Medium 契約測試。
+- **相關檔案**：`BookSearchScreen.kt`、`BookSearchAdaptiveNavigationTest.kt`、`docs/spec/navigation-sharing-deep-links.md`、`docs/spec/known-limitations.md`
+
 ### 2026-08-09 — WindowSizeClass breakpoint API 尚未包含於目前依賴
 
 - **症狀**：brief 範例的 `WindowSizeClass.isWidthAtLeastBreakpoint()` 與 `WIDTH_DP_MEDIUM_LOWER_BOUND` 無法編譯。

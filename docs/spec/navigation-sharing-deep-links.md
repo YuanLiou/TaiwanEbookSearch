@@ -6,7 +6,7 @@
 
 `NAV-002` Compact／單欄且使用者關閉「使用瀏覽器分頁」後，商品連結改在 App 內建 WebView 顯示。
 
-`NAV-003` Medium+／分欄（官方 Adaptive 預設）固定在清單旁的詳細區域使用內建 WebView，不受 Custom Tab 偏好影響。原因是現有 Custom Tab 無法嵌入右側詳細區域。
+`NAV-003` Medium+／分欄固定在清單旁的詳細區域使用內建 WebView，不受 Custom Tab 偏好影響。Adaptive 1.1.0 必須使用 Medium 雙欄 directive；其標準 directive 在 Medium 仍為單欄。原因是現有 Custom Tab 無法嵌入右側詳細區域。
 
 `NAV-004` 內建 WebView 必須提供返回 App 清單的操作，並提供分享目前商品及改用外部瀏覽器開啟的選項。
 

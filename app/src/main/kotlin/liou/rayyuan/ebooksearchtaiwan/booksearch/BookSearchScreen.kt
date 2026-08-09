@@ -3,8 +3,12 @@ package liou.rayyuan.ebooksearchtaiwan.booksearch
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.WindowAdaptiveInfo
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
+import androidx.compose.material3.adaptive.layout.PaneScaffoldDirective
+import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirectiveWithTwoPanesOnMediumWidth
 import androidx.compose.material3.adaptive.navigation.NavigableListDetailPaneScaffold
 import androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
@@ -60,7 +64,10 @@ fun BookSearchScreen(
 
     val scope = rememberCoroutineScope()
     val paneNavigator: ThreePaneScaffoldNavigator<Book> =
-        rememberListDetailPaneScaffoldNavigator<Book>()
+        rememberListDetailPaneScaffoldNavigator<Book>(
+            scaffoldDirective =
+                calculateBookSearchPaneScaffoldDirective(currentWindowAdaptiveInfo())
+        )
     val isDetailPaneVisible = paneNavigator.scaffoldValue.secondary == PaneAdaptedValue.Expanded
     val isWidthCompact = isWindowWidthCompact()
 
@@ -198,3 +205,7 @@ fun BookSearchScreen(
         bookSearchViewModel.forceFocusOrUnfocusKeywordTextInput(false)
     }
 }
+
+@OptIn(ExperimentalMaterial3AdaptiveApi::class)
+internal fun calculateBookSearchPaneScaffoldDirective(windowAdaptiveInfo: WindowAdaptiveInfo): PaneScaffoldDirective =
+    calculatePaneScaffoldDirectiveWithTwoPanesOnMediumWidth(windowAdaptiveInfo)
