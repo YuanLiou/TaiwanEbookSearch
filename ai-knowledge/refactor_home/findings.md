@@ -33,3 +33,11 @@
 - **解法**：改由 `adaptive.navigation` 匯入，傳入 `navigator = paneNavigator`，讓 scaffold 整合 pane navigation／predictive back；App 的 `BackHandler` 僅保留搜尋框 focus 行為。
 - **避免再犯**：遷移 adaptive canonical scaffold 時，同時確認 artifact 版本、package 與參數，不要假設 navigable 版本仍屬於 layout package。
 - **相關檔案**：`app/src/main/kotlin/liou/rayyuan/ebooksearchtaiwan/booksearch/BookSearchScreen.kt`
+
+### 2026-08-09 — BackHandler 須在 scaffold 之後 compose 才優先於 pane back
+
+- **症狀**：搜尋框有 focus 且 compact 開啟 detail 時，system back 可能先觸發 pane `navigateBack` 而非取消 focus。
+- **原因**：Compose 以反向註冊順序呼叫 back callback；focus `BackHandler` 若在 `NavigableListDetailPaneScaffold` 之前 compose，scaffold 內建 handler 會先執行。
+- **解法**：將 focus-only `BackHandler` 移到 scaffold 之後 compose，讓搜尋 unfocus 優先於 pane back。
+- **避免再犯**：App 自訂 back 與 navigable scaffold 並存時，確認 composition 順序；後 compose 的 handler 先被呼叫。
+- **相關檔案**：`app/src/main/kotlin/liou/rayyuan/ebooksearchtaiwan/booksearch/BookSearchScreen.kt`
