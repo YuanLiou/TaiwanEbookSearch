@@ -15,8 +15,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
-import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
 import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
+import androidx.compose.material3.adaptive.navigation.NavigableListDetailPaneScaffold
 import androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
@@ -76,22 +76,14 @@ fun BookSearchScreen(
     val scope = rememberCoroutineScope()
     val paneNavigator: ThreePaneScaffoldNavigator<Book> =
         rememberListDetailPaneScaffoldNavigator<Book>()
-    BackHandler(enabled = (paneNavigator.canNavigateBack() || isTextInputFocused)) {
-        if (isTextInputFocused) {
-            bookSearchViewModel.forceFocusOrUnfocusKeywordTextInput(false)
-            return@BackHandler
-        }
-
-        scope.launch {
-            paneNavigator.navigateBack()
-        }
+    BackHandler(enabled = isTextInputFocused) {
+        bookSearchViewModel.forceFocusOrUnfocusKeywordTextInput(false)
     }
     val isDetailPaneVisible = paneNavigator.scaffoldValue.secondary == PaneAdaptedValue.Expanded
     val isWidthCompact = isWindowWidthCompact()
 
-    ListDetailPaneScaffold(
-        directive = paneNavigator.scaffoldDirective,
-        value = paneNavigator.scaffoldValue,
+    NavigableListDetailPaneScaffold(
+        navigator = paneNavigator,
         modifier = modifier,
         listPane = {
             AnimatedPane {
