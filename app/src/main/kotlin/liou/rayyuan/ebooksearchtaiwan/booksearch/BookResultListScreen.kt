@@ -158,7 +158,10 @@ fun BookResultListScreen(
                                 contentColor = EBookTheme.colors.colorOnPrimary
                             )
                     ) {
-                        Icon(Icons.Default.MoreVert, contentDescription = "Option Menu")
+                        Icon(
+                            Icons.Default.MoreVert,
+                            contentDescription = stringResource(R.string.content_desc_option_menu)
+                        )
                     }
                     EBookDropdownMenu(
                         showOptionMenu = showOptionMenu,

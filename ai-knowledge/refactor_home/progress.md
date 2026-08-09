@@ -8,7 +8,7 @@
 | --- | --- |
 | 總體狀態 | In progress |
 | 目前里程碑 | M1 |
-| 目前 Task | Task 6 |
+| 目前 Task | Task 7 |
 | 最後更新 | 2026-08-09 |
 
 ## Milestones
@@ -24,7 +24,7 @@
 - [x] Task 3: 移除 `isTabletSize` / `LocalDeviceInfo`（若可）
 - [x] Task 4: Detail 空狀態與關閉鈕 chrome
 - [x] Task 5: 搜尋紀錄 overlay 與清單大螢幕小修
-- [ ] Task 6: 主流程 contentDescription 字串資源化
+- [x] Task 6: 主流程 contentDescription 字串資源化
 - [ ] Task 7: Compose UI 測試（導流分支）
 - [ ] Task 8: Spec patch 套用（需核准）
 - [ ] Task 9: 手動驗證與收尾
@@ -41,6 +41,7 @@
 | --- | --- | --- | --- |
 | 2026-08-09 | `:app:compileApiDebugKotlin` | 通過 | JDK 17；有既有編譯警告 |
 | 2026-08-09 | Task 4 `:app:compileApiDebugKotlin` | 通過 | `DetailPaneEmptyState` 抽出後編譯成功 |
+| 2026-08-09 | Task 6 `:app:compileApiDebugKotlin` | 通過 | 主流程 contentDescription 字串資源化 |
 
 ## Notes
 

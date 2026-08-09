@@ -18,12 +18,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rayliu.commonmain.domain.model.SearchRecord
+import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.composable.debounceClick
 import liou.rayyuan.ebooksearchtaiwan.composable.iconpack.BaselineClear24Px
 import liou.rayyuan.ebooksearchtaiwan.composable.iconpack.EBookIcons
@@ -93,7 +95,7 @@ fun SearchRecordItem(
         )
         Image(
             imageVector = EBookIcons.BaselineClear24Px,
-            contentDescription = "Clear Search Record",
+            contentDescription = stringResource(R.string.content_desc_clear_search_record),
             colorFilter = ColorFilter.tint(EBookTheme.colors.closeButtonColor),
             modifier =
                 Modifier.debounceClick(

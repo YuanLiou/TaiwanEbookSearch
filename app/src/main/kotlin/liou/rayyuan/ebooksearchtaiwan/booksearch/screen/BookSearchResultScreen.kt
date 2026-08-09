@@ -29,6 +29,7 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.rayliu.commonmain.domain.model.Book
@@ -131,7 +132,7 @@ fun BookSearchResultScreen(
 
             Image(
                 imageVector = icon,
-                contentDescription = "bottom button",
+                contentDescription = stringResource(R.string.content_desc_scroll_to_top),
                 colorFilter = ColorFilter.tint(EBookTheme.colors.editTextInputColor),
                 modifier =
                     Modifier.padding(6.dp)

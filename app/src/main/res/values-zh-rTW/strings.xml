@@ -76,4 +76,9 @@
     <string name="search_with_result">點此搜尋: %1$s</string>
     <string name="service_online">服務正常</string>
     <string name="service_offline">維修中</string>
+    <string name="content_desc_option_menu">選項選單</string>
+    <string name="content_desc_close_detail">關閉</string>
+    <string name="content_desc_book_cover">書封</string>
+    <string name="content_desc_clear_search_record">清除搜尋紀錄</string>
+    <string name="content_desc_scroll_to_top">回到頂端</string>
 </resources>
