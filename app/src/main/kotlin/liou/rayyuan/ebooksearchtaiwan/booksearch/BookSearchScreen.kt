@@ -76,9 +76,6 @@ fun BookSearchScreen(
     val scope = rememberCoroutineScope()
     val paneNavigator: ThreePaneScaffoldNavigator<Book> =
         rememberListDetailPaneScaffoldNavigator<Book>()
-    BackHandler(enabled = isTextInputFocused) {
-        bookSearchViewModel.forceFocusOrUnfocusKeywordTextInput(false)
-    }
     val isDetailPaneVisible = paneNavigator.scaffoldValue.secondary == PaneAdaptedValue.Expanded
     val isWidthCompact = isWindowWidthCompact()
 
@@ -234,4 +231,7 @@ fun BookSearchScreen(
             }
         }
     )
+    BackHandler(enabled = isTextInputFocused) {
+        bookSearchViewModel.forceFocusOrUnfocusKeywordTextInput(false)
+    }
 }
