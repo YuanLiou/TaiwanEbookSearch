@@ -17,9 +17,11 @@ Started from: `9940dbb`
 | 6 contentDescription | complete | f1df0c8..7a24aa6 | review clean after FAB dual-label fix |
 | 7 Compose UI 測試 | complete | 110031b | JVM routing contract tests; device unauthorized |
 | 8 Spec patch | complete | 3f7eaf4 | LIMIT-003 + NAV-001–003; align audit OK |
-| 9 手動驗證與收尾 | pending | — | — |
+| 9 手動驗證與收尾 | complete-with-human-follow-up | wrap-up commit | JDK 17 baseline + focused 2-test suite pass; Spotless debt fixed; Journey A–F unchecked for device verification |
 
 ## Minor findings (deferred to final review)
 
 - Task 4: no device visual verification of empty detail (Task 9)
 - Task 2: manual predictive-back / focus-back paths (Task 9)
+- Task 9: Journey A–F, Desktop resize, phone portrait, and TalkBack sampling still require a human-controlled device or emulator.
+- Task 9: `lint` completed with the existing non-blocking baseline still present (1 error, 95 warnings); do not report Lint clean.

@@ -473,15 +473,16 @@ Expected: 建置成功；記錄已知 Lint 不阻擋（勿宣稱零問題）
 
 ## Manual verification checklist（彙整）
 
-- [ ] Compact + Custom Tab 開 → 外開，不進 detail
-- [ ] Compact + Custom Tab 關 → 單欄 WebView，返回回清單
-- [ ] Medium／Expanded → 分欄；點書右側 WebView；偏好不影響
-- [ ] Desktop 可調視窗跨 Compact↔Medium↔Expanded
-- [ ] 已選書縮窄 → 仍顯示該書；返回回清單
-- [ ] 未選書分欄 → 右側空狀態
-- [ ] 搜尋紀錄 overlay 不擋 detail
-- [ ] 手機直向回歸
-- [ ] contentDescription 已資源化（抽樣）
+- [ ] Compact + Custom Tab 開 → 外開，不進 detail（待人工裝置驗證）
+- [ ] Compact + Custom Tab 關 → 單欄 WebView，返回回清單（待人工裝置驗證）
+- [ ] Medium／Expanded → 分欄；點書右側 WebView；偏好不影響（待人工裝置驗證）
+- [ ] Desktop 可調視窗跨 Compact↔Medium↔Expanded（待人工 Desktop Mode 驗證）
+- [ ] 已選書縮窄 → 仍顯示該書；返回回清單（待人工 Desktop Mode 驗證）
+- [ ] 未選書分欄 → 右側空狀態（待人工裝置驗證）
+- [ ] 搜尋紀錄 overlay 不擋 detail（待人工裝置驗證）
+- [ ] 手機直向回歸（待人工裝置驗證）
+- [x] contentDescription 三語系資源與呼叫可編譯
+- [ ] TalkBack contentDescription 抽樣（待人工裝置驗證）
 
 ## Self-review（寫 plan 時已對 Spike）
 

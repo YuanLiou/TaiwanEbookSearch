@@ -22,9 +22,7 @@ import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.pale_slate
 
 @Composable
-fun DetailPaneEmptyState(
-    modifier: Modifier = Modifier,
-) {
+fun DetailPaneEmptyState(modifier: Modifier = Modifier,) {
     Scaffold(
         contentWindowInsets = WindowInsets.safeDrawing,
         modifier = modifier,

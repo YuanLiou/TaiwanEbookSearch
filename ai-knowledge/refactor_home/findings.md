@@ -57,3 +57,11 @@
 - **解法**：抽出 Activity 實際使用的 `shouldOpenCustomTab()` 純函式，以 `testApiDebugUnitTest` 驗證 Compact 開 Custom Tab、Medium+ 固定走 detail。
 - **避免再犯**：導流條件維持單一純決策點；Activity 僅依結果執行 Custom Tab 或 pane navigation side effect。
 - **相關檔案**：`BookSearchActivity.kt`、`BookSearchAdaptiveNavigationTest.kt`
+
+### 2026-08-09 — Task 9：Detail 空狀態有既存 Spotless 違規
+
+- **症狀**：CI-like 基準成功，但額外執行 `spotlessCheck` 時在 `DetailPaneEmptyState.kt` 失敗。
+- **原因**：Composable 函式參數換行不符合專案目前 KtLint／Spotless 的格式輸出。
+- **解法**：執行 `:app:spotlessKotlinApply`；實際 diff 只格式化該函式宣告。
+- **避免再犯**：新增 Kotlin 檔案後，在收尾基準之外一併執行 `spotlessCheck`。
+- **相關檔案**：`app/src/main/kotlin/liou/rayyuan/ebooksearchtaiwan/booksearch/composable/DetailPaneEmptyState.kt`
