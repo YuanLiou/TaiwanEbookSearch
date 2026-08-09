@@ -13,7 +13,7 @@ Started from: `9940dbb`
 | 3 移除 isTabletSize | complete | 47ab695 | grep clean; compileApiDebugKotlin OK |
 | 4 Detail 空狀態 | complete | 47ab695..37f9fa8 | review clean; visual check deferred to Task 9 |
 | 5 overlay / 清單小修 | complete | 37f9fa8..f1df0c8 | no-op code; overlay pane-scoped; docs synced |
-| 6 contentDescription | in_progress | — | — |
+| 6 contentDescription | complete | 7ee1702 + fix commit | FAB focus-search label added |
 | 7 Compose UI 測試 | pending | — | — |
 | 8 Spec patch | pending | — | Needs explicit user approval before apply |
 | 9 手動驗證與收尾 | pending | — | — |
