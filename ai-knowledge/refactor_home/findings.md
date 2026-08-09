@@ -49,3 +49,11 @@
 - **解法**：靜態檢查 Compose hierarchy 與 modifier scope 後確認 scope 正確；未修改產品 Kotlin/XML。Journey E 實機驗證延至 Task 9。
 - **避免再犯**：遷移 adaptive scaffold 後，overlay 類 UI 先確認是否已在 pane 內 compose，再決定是否需要額外 scope 限制。
 - **相關檔案**：`BookSearchScreen.kt`、`BookResultListScreen.kt`
+
+### 2026-08-09 — Task 7：以 JVM 契約測試覆蓋導流分支
+
+- **症狀**：完整 `BookSearchActivity` instrumentation 會載入廣告、網路與 Koin；本機唯一連接裝置又是 `unauthorized`，無法穩定執行。
+- **原因**：待測契約其實只由 Custom Tab 偏好與 `isWidthCompact` 兩個 Boolean 決定，不需要啟動完整 Compose Activity。
+- **解法**：抽出 Activity 實際使用的 `shouldOpenCustomTab()` 純函式，以 `testApiDebugUnitTest` 驗證 Compact 開 Custom Tab、Medium+ 固定走 detail。
+- **避免再犯**：導流條件維持單一純決策點；Activity 僅依結果執行 Custom Tab 或 pane navigation side effect。
+- **相關檔案**：`BookSearchActivity.kt`、`BookSearchAdaptiveNavigationTest.kt`
