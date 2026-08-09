@@ -2,17 +2,17 @@
 
 ## 商品頁導流
 
-`NAV-001` 手機單欄模式預設以瀏覽器 Custom Tab 開啟商品連結。
+`NAV-001` Compact／單欄模式預設以瀏覽器 Custom Tab 開啟商品連結。
 
-`NAV-002` 手機使用者關閉「使用瀏覽器分頁」後，商品連結改在 App 內建 WebView 顯示。
+`NAV-002` Compact／單欄且使用者關閉「使用瀏覽器分頁」後，商品連結改在 App 內建 WebView 顯示。
 
-`NAV-003` 大畫面分欄模式固定在清單旁的詳細區域使用內建 WebView，不受 Custom Tab 偏好影響。原因是現有 Custom Tab 無法嵌入右側詳細區域。
+`NAV-003` Medium+／分欄（官方 Adaptive 預設）固定在清單旁的詳細區域使用內建 WebView，不受 Custom Tab 偏好影響。原因是現有 Custom Tab 無法嵌入右側詳細區域。
 
 `NAV-004` 內建 WebView 必須提供返回 App 清單的操作，並提供分享目前商品及改用外部瀏覽器開啟的選項。
 
 `NAV-005` 商品分享內容至少包含商品書名與 API 提供的商品連結。實際分享目的地由 Android Sharesheet 與使用者決定。
 
-目前大畫面判定方式是實作現況，不是永久產品契約，詳見 [known-limitations.md](known-limitations.md)。
+分欄判定以 Material 3 `WindowSizeClass` 為準，詳見 [known-limitations.md](known-limitations.md) 的 `LIMIT-003`。
 
 ## 搜尋快照
 

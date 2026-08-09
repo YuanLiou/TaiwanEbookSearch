@@ -8,7 +8,7 @@
 | --- | --- |
 | 總體狀態 | In progress |
 | 目前里程碑 | M1 |
-| 目前 Task | Task 7 |
+| 目前 Task | Task 9 |
 | 最後更新 | 2026-08-09 |
 
 ## Milestones
@@ -26,7 +26,7 @@
 - [x] Task 5: 搜尋紀錄 overlay 與清單大螢幕小修
 - [x] Task 6: 主流程 contentDescription 字串資源化
 - [ ] Task 7: Compose UI 測試（導流分支）
-- [ ] Task 8: Spec patch 套用（需核准）
+- [x] Task 8: Spec patch 套用（需核准）
 - [ ] Task 9: 手動驗證與收尾
 
 ## Blockers

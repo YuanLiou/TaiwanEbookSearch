@@ -136,9 +136,9 @@ BookSearchActivity
 - `NAV-001`–`NAV-004` 產品語意（只改判定來源）。
 - pane 內 `fillMaxWidth()`（不做 maxWidth）。
 
-## 6. Spec patch 草稿（尚未套用）
+## 6. Spec patch（已套用 2026-08-09）
 
-> 實作或核准同步時再改 `docs/spec`；以下為建議文案方向。
+> 以下文案已同步至 `docs/spec`（Task 8）。
 
 ### 6.1 `docs/spec/known-limitations.md` — `LIMIT-003`
 
@@ -266,5 +266,5 @@ Compact 為單欄，Medium 及以上為分欄。
 - [x] 方案 2 採用  
 - [x] 設計 §1–§4 核准  
 - [ ] 本 Spike 文件審閱（待負責人）  
-- [ ] Spec patch 套用（另指令）  
+- [x] Spec patch 套用（2026-08-09 Task 8）  
 - [ ] 實作 plan／開工（另指令）

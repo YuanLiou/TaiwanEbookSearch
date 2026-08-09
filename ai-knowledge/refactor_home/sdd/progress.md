@@ -16,7 +16,7 @@ Started from: `9940dbb`
 | 5 overlay / 清單小修 | complete | 37f9fa8..f1df0c8 | no-op code; overlay pane-scoped; docs synced |
 | 6 contentDescription | complete | f1df0c8..7a24aa6 | review clean after FAB dual-label fix |
 | 7 Compose UI 測試 | complete | 110031b | JVM routing contract tests; device unauthorized |
-| 8 Spec patch | blocked | — | Awaiting explicit user approval |
+| 8 Spec patch | complete | (pending commit) | LIMIT-003 + NAV-001–003; align audit OK |
 | 9 手動驗證與收尾 | pending | — | — |
 
 ## Minor findings (deferred to final review)
