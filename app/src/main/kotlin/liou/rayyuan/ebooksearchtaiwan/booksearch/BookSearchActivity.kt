@@ -101,7 +101,7 @@ class BookSearchActivity : BaseActivity() {
                     bookSearchViewModel = bookSearchViewModel,
                     modifier = Modifier.fillMaxSize(),
                     onBookSearchItemClick = { book, paneNavigator, isWidthCompact ->
-                        if (userPreferenceManager.isPreferCustomTab() && isWidthCompact) {
+                        if (shouldOpenCustomTab(userPreferenceManager.isPreferCustomTab(), isWidthCompact)) {
                             openInCustomTab(book.asUiModel().getLink())
                         } else {
                             scope.launch {
@@ -412,3 +412,8 @@ class BookSearchActivity : BaseActivity() {
         const val KEY_BARCODE_RESULT = "key-barcode-result"
     }
 }
+
+internal fun shouldOpenCustomTab(
+    preferCustomTab: Boolean,
+    isWidthCompact: Boolean
+): Boolean = preferCustomTab && isWidthCompact
