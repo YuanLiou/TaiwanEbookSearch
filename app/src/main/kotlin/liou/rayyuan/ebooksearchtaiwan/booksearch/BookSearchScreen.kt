@@ -40,8 +40,8 @@ import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookUiModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.asUiModel
+import liou.rayyuan.ebooksearchtaiwan.booksearch.util.isWindowWidthCompact
 import liou.rayyuan.ebooksearchtaiwan.simplewebview.SimpleWebViewScreen
-import liou.rayyuan.ebooksearchtaiwan.ui.theme.LocalDeviceInfo
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.pale_slate
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
@@ -49,7 +49,7 @@ import liou.rayyuan.ebooksearchtaiwan.ui.theme.pale_slate
 fun BookSearchScreen(
     bookSearchViewModel: BookSearchViewModel,
     modifier: Modifier = Modifier,
-    onBookSearchItemClick: (book: Book, paneNavigator: ThreePaneScaffoldNavigator<Book>, isTabletSize: Boolean) -> Unit = { _, _, _ -> },
+    onBookSearchItemClick: (book: Book, paneNavigator: ThreePaneScaffoldNavigator<Book>, isWidthCompact: Boolean) -> Unit = { _, _, _ -> },
     showAppBarCameraButton: Boolean = false,
     onAppBarCameraButtonPress: () -> Unit = {},
     onMenuSettingClick: () -> Unit = {},
@@ -87,7 +87,7 @@ fun BookSearchScreen(
         }
     }
     val isDetailPaneVisible = paneNavigator.scaffoldValue.secondary == PaneAdaptedValue.Expanded
-    val isTabletSize = LocalDeviceInfo.current.isTabletSize
+    val isWidthCompact = isWindowWidthCompact()
 
     ListDetailPaneScaffold(
         directive = paneNavigator.scaffoldDirective,
@@ -103,7 +103,7 @@ fun BookSearchScreen(
                     bookSearchResult = bookSearchResult,
                     showSearchRecords = showSearchRecords,
                     searchRecords = searchRecords,
-                    onBookSearchItemClick = { onBookSearchItemClick(it, paneNavigator, isTabletSize) },
+                    onBookSearchItemClick = { onBookSearchItemClick(it, paneNavigator, isWidthCompact) },
                     showAppBarCameraButton = showAppBarCameraButton,
                     onAppBarCameraButtonPress = onAppBarCameraButtonPress,
                     onMenuSettingClick = onMenuSettingClick,

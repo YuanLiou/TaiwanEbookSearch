@@ -100,8 +100,8 @@ class BookSearchActivity : BaseActivity() {
                 BookSearchScreen(
                     bookSearchViewModel = bookSearchViewModel,
                     modifier = Modifier.fillMaxSize(),
-                    onBookSearchItemClick = { book, paneNavigator, isTabletSize ->
-                        if (userPreferenceManager.isPreferCustomTab() && !isTabletSize) {
+                    onBookSearchItemClick = { book, paneNavigator, isWidthCompact ->
+                        if (userPreferenceManager.isPreferCustomTab() && isWidthCompact) {
                             openInCustomTab(book.asUiModel().getLink())
                         } else {
                             scope.launch {
