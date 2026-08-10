@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -95,7 +96,7 @@ fun BookSearchItem(
                                 RoundedCornersTransformation(LocalContext.current.resources.getDimension(R.dimen.image_round_corner))
                             )
                             .build(),
-                    contentDescription = "book cover image",
+                    contentDescription = stringResource(R.string.content_desc_book_cover),
                     placeholder = placeholder,
                     contentScale = ContentScale.Fit,
                     modifier =

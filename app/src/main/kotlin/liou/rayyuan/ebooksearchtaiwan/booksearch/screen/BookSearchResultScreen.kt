@@ -29,6 +29,7 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.rayliu.commonmain.domain.model.Book
@@ -122,16 +123,23 @@ fun BookSearchResultScreen(
                         }
                     }
         ) {
+            val canScrollBackward = lazyListState.canScrollBackward
             val icon =
-                if (lazyListState.canScrollBackward) {
+                if (canScrollBackward) {
                     EBookIcons.KeyboardArrowUp24Dp
                 } else {
                     EBookIcons.SearchBlack24Dp
                 }
+            val contentDescriptionRes =
+                if (canScrollBackward) {
+                    R.string.content_desc_scroll_to_top
+                } else {
+                    R.string.content_desc_focus_search
+                }
 
             Image(
                 imageVector = icon,
-                contentDescription = "bottom button",
+                contentDescription = stringResource(contentDescriptionRes),
                 colorFilter = ColorFilter.tint(EBookTheme.colors.editTextInputColor),
                 modifier =
                     Modifier.padding(6.dp)

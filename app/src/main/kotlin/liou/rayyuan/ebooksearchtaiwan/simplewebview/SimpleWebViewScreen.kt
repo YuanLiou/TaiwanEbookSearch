@@ -115,7 +115,7 @@ fun SimpleWebViewScreen(
                         ) {
                             Icon(
                                 imageVector = EBookIcons.BaselineClear24Px,
-                                contentDescription = "back button",
+                                contentDescription = stringResource(R.string.content_desc_close_detail),
                                 tint = EBookTheme.colors.colorOnPrimary
                             )
                         }
@@ -131,7 +131,10 @@ fun SimpleWebViewScreen(
                                 contentColor = EBookTheme.colors.colorOnPrimary
                             )
                     ) {
-                        Icon(Icons.Default.MoreVert, contentDescription = "Option Menu")
+                        Icon(
+                            Icons.Default.MoreVert,
+                            contentDescription = stringResource(R.string.content_desc_option_menu)
+                        )
                     }
 
                     EBookDropdownMenu(

@@ -10,9 +10,11 @@
 
 ## Adaptive UI
 
-`LIMIT-003` 現有大畫面判定使用螢幕方向與寬度門檻：直向大於 600dp，橫向大於 840dp。這只是目前實作，不是永久產品契約。
+`LIMIT-003` 大畫面／分欄判定以 Material 3 Adaptive 的 `WindowSizeClass` 為準：Compact 為單欄，Medium 及以上為分欄。Adaptive 1.1.0 的標準 directive 在 Medium 仍為單欄，因此 App 必須明確使用 `calculatePaneScaffoldDirectiveWithTwoPanesOnMediumWidth`（或維持相同分欄語意的後續 API），不可依賴 navigator 預設值。
 
-未來可以改用較新的 Android Adaptive API 判斷分欄，但必須維持 `NAV-001` 至 `NAV-004` 的使用者行為：單欄可用 Custom Tab 偏好，分欄則在右側顯示 App 內商品頁。
+此判定來源可隨官方 Adaptive API 演進而調整，但必須維持 `NAV-001` 至 `NAV-004`：單欄可用 Custom Tab 偏好，分欄則在詳細區域顯示 App 內商品頁。
+
+相較於舊版以螢幕方向與 600／840dp 門檻判定，寬度約 600–840dp 的橫向手機、小視窗 Desktop 或部分平板姿態，現改為 Medium+ 分欄（右側 WebView，不受 Custom Tab 偏好影響）。此為採用 Adaptive Medium 雙欄模式的刻意變更。
 
 ## 資料相關性
 
