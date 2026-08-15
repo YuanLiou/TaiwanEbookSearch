@@ -83,4 +83,5 @@
     <string name="content_desc_clear_search_record">Clear search record</string>
     <string name="content_desc_scroll_to_top">Scroll to top</string>
     <string name="content_desc_focus_search">Focus search</string>
+    <string name="appfunctions_display_description">Search Taiwan ebook stores by book title or ISBN and compare prices.</string>
 </resources>

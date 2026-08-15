@@ -13,6 +13,7 @@ plugins {
     alias(libs.plugins.ktlintGradle) apply false
     alias(libs.plugins.spotless) apply false
     alias(libs.plugins.compose.compiler) apply false
+    alias(libs.plugins.ksp) apply false
     // Add the dependency for the App Distribution Gradle plugin
     alias(libs.plugins.firebase.app.distribution) apply false
 }

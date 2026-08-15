@@ -15,6 +15,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.sqldelight)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.spotless)
     id(libs.plugins.detekt.get().pluginId)
     id(libs.plugins.ktlintGradle.get().pluginId)
@@ -147,6 +148,10 @@ kotlin {
     }
 }
 
+ksp {
+    arg("appfunctions:aggregateAppFunctions", "true")
+}
+
 detekt {
     toolVersion = libs.versions.detektVersion.toString()
     config.setFrom(files("$project.rootDir/deteket-config.yml"))
@@ -224,6 +229,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
 
     implementation(libs.androidx.browser)
+    implementation(libs.androidx.appfunctions)
     implementation(libs.androidx.preference.ktx)
     implementation(libs.paging.runtime)
     implementation(libs.paging.compose)
@@ -241,6 +247,7 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.admob)
     implementation(libs.play.review.ktx)
+    ksp(libs.androidx.appfunctions.compiler)
 
     // Koin
     val koinBom = platform(libs.koin.bom)
