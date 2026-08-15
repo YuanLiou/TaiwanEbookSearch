@@ -220,3 +220,7 @@ keystore.jks
 
 # Local agent knowledge (keep on disk, do not version)
 ai-knowledge/
+
+# Devin Desktop (Windsurf)
+.devin
+.devin/
