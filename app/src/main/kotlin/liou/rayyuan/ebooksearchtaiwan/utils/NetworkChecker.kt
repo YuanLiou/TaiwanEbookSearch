@@ -4,14 +4,15 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import com.rayliu.commonmain.domain.service.NetworkAvailability
 
 class NetworkChecker(
     context: Context
-) {
+) : NetworkAvailability {
     private val context = context.applicationContext
 
     @Suppress("DEPRECATION")
-    fun isInternetConnectionAvailable(): Boolean {
+    override fun isAvailable(): Boolean {
         val connectionManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
         if (connectionManager != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -30,4 +31,6 @@ class NetworkChecker(
         }
         return false
     }
+
+    fun isInternetConnectionAvailable(): Boolean = isAvailable()
 }

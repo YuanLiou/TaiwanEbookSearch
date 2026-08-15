@@ -35,6 +35,7 @@ import com.rayliu.commonmain.domain.usecase.GetSearchRecordsCountsUseCase
 import com.rayliu.commonmain.domain.usecase.GetSearchRecordsUseCase
 import com.rayliu.commonmain.domain.usecase.GetSearchSnapshotUseCase
 import com.rayliu.commonmain.domain.usecase.SaveDefaultBookSortUseCase
+import com.rayliu.commonmain.domain.usecase.SearchBooksUseCase
 import com.rayliu.commonmain.domain.usecase.SaveUserHasSeenRankWindowUseCase
 import com.rayliu.commonmain.userDataStore
 import kotlinx.coroutines.CoroutineDispatcher
@@ -128,6 +129,15 @@ val domainModule =
         // UseCases
         factory {
             GetBooksWithStoresUseCase(get<BookRepository>(), get<SearchRecordRepository>())
+        }
+
+        factory {
+            SearchBooksUseCase(
+                getDefaultBookSortUseCase = get(),
+                getBooksWithStoresUseCase = get(),
+                networkAvailability = get(),
+                userPreferenceManager = get()
+            )
         }
 
         factory<GetSearchRecordsUseCase> {

@@ -7,13 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.google.android.play.core.review.ReviewInfo
-import com.rayliu.commonmain.BookStoresSorter
 import com.rayliu.commonmain.SystemInfoCollector
 import com.rayliu.commonmain.data.DefaultStoreNames
-import com.rayliu.commonmain.domain.model.BookResult
 import com.rayliu.commonmain.domain.model.BookStoreDetails
 import com.rayliu.commonmain.domain.model.BookStores
 import com.rayliu.commonmain.domain.model.SearchRecord
+import com.rayliu.commonmain.domain.search.BookStoresResultSlicer
 import com.rayliu.commonmain.domain.service.UserPreferenceManager
 import com.rayliu.commonmain.domain.usecase.DeleteSearchRecordUseCase
 import com.rayliu.commonmain.domain.usecase.GetBookStoresDetailUseCase
@@ -46,7 +45,6 @@ import liou.rayyuan.ebooksearchtaiwan.booksearch.list.SiteInfo
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.ScreenState
 import liou.rayyuan.ebooksearchtaiwan.interactor.UserRankingWindowFacade
-import liou.rayyuan.ebooksearchtaiwan.booksearch.list.BookUiModel
 import liou.rayyuan.ebooksearchtaiwan.booksearch.list.asUiModel
 import liou.rayyuan.ebooksearchtaiwan.utils.ClipboardHelper
 import liou.rayyuan.ebooksearchtaiwan.utils.NetworkChecker
@@ -112,7 +110,6 @@ class BookSearchViewModel(
     }
 
     private var networkJob: Job? = null
-    private val maxListNumber: Int = 10
     private var bookStores: BookStores? = null
     private var previousKeyword: String? = null
 
@@ -291,11 +288,16 @@ class BookSearchViewModel(
 
     private suspend fun generateBookSearchResultItems(bookStores: BookStores) =
         withContext(Dispatchers.Default) {
-            val bookSearchResultItems = mutableListOf<BookSearchResultItem>()
             val defaultSort = getDefaultBookSortUseCase().first()
-            val groupedResults = BookStoresSorter.generateResultMap(bookStores, defaultSort)
+            val slice =
+                BookStoresResultSlicer.slice(
+                    bookStores = bookStores,
+                    enabledStores = defaultSort,
+                    sortStoreBooksByPrice = userPreferenceManager.isSearchResultSortByPrice()
+                )
+            val bookSearchResultItems = mutableListOf<BookSearchResultItem>()
+            val bestItems = slice.bestResults.map { it.asUiModel() }
 
-            val bestItems = generateBestItems(defaultSort, groupedResults)
             bookSearchResultItems.add(
                 BookHeader(
                     DefaultStoreNames.BEST_RESULT.getStringResource(),
@@ -305,59 +307,26 @@ class BookSearchViewModel(
             )
             bookSearchResultItems.addAll(bestItems)
 
-            for (storeName in defaultSort) {
-                val bookResult = groupedResults[storeName] ?: continue
-                val books =
-                    bookResult.books.run {
-                        drop(1)
-                    }.run {
-                        take(maxListNumber)
-                    }.run {
-                        if (userPreferenceManager.isSearchResultSortByPrice()) {
-                            sortedBy { it.price }
-                        } else {
-                            sortedByDescending { it.titleKeywordSimilarity }
-                        }
-                    }
-
+            for (section in slice.storeSections) {
                 bookSearchResultItems.add(
                     BookHeader(
-                        storeName.getStringResource(),
-                        books.isEmpty(),
+                        section.store.getStringResource(),
+                        section.books.isEmpty(),
                         siteInfo =
                             SiteInfo(
-                                isOnline = bookResult.isOnline,
-                                isResultOkay = bookResult.isOkay,
-                                status = bookResult.status
+                                isOnline = section.isOnline,
+                                isResultOkay = section.isOkay,
+                                status = section.status
                             )
                     )
                 )
-
                 bookSearchResultItems.addAll(
-                    books.map { it.asUiModel() }
+                    section.books.map { it.asUiModel() }
                 )
             }
 
             bookSearchResultItems.toList()
         }
-
-    private fun generateBestItems(
-        defaultSort: List<DefaultStoreNames>,
-        bookItems: Map<DefaultStoreNames, BookResult>
-    ): List<BookUiModel> {
-        val bestItems = mutableListOf<BookUiModel>()
-        bookItems.forEach { (key, value) ->
-            if (defaultSort.contains(key)) {
-                val book = value.books.firstOrNull()
-                book?.let { currentBook ->
-                    currentBook.isFirstChoice = true
-                    bestItems.add(currentBook.asUiModel())
-                }
-            }
-        }
-        bestItems.sortWith(compareBy { it.book.price })
-        return bestItems
-    }
 
     fun shareCurrentSnapshot() {
         generateSnapshotUrl { targetUrl ->
