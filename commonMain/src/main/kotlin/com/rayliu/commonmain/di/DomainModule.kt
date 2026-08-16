@@ -31,6 +31,7 @@ import com.rayliu.commonmain.domain.usecase.GetBookStoresDetailUseCase
 import com.rayliu.commonmain.domain.usecase.GetBooksWithStoresUseCase
 import com.rayliu.commonmain.domain.usecase.GetDefaultBookSortUseCase
 import com.rayliu.commonmain.domain.usecase.GetIsUserSeenRankWindowUseCase
+import com.rayliu.commonmain.domain.usecase.GetRecentSearchRecordsUseCase
 import com.rayliu.commonmain.domain.usecase.GetSearchRecordsCountsUseCase
 import com.rayliu.commonmain.domain.usecase.GetSearchRecordsUseCase
 import com.rayliu.commonmain.domain.usecase.GetSearchSnapshotUseCase
@@ -147,6 +148,10 @@ val domainModule =
 
         factory<GetSearchRecordsCountsUseCase> {
             GetSearchRecordsCountsUseCase(get<SearchRecordRepository>()::getSearchRecordsCounts)
+        }
+
+        factory {
+            GetRecentSearchRecordsUseCase(get<SearchRecordRepository>())
         }
 
         factory {

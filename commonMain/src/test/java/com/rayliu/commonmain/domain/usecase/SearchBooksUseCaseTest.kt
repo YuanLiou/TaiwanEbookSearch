@@ -5,6 +5,7 @@ import com.rayliu.commonmain.data.DefaultStoreNames
 import com.rayliu.commonmain.domain.model.Book
 import com.rayliu.commonmain.domain.model.BookResult
 import com.rayliu.commonmain.domain.model.BookStores
+import com.rayliu.commonmain.domain.model.RecentSearchRecord
 import com.rayliu.commonmain.domain.model.SearchRecord
 import com.rayliu.commonmain.domain.repository.BookRepository
 import com.rayliu.commonmain.domain.repository.SearchRecordRepository
@@ -197,6 +198,8 @@ class SearchBooksUseCaseTest {
         override suspend fun saveKeywordToLocal(keyword: String) {
             savedKeywords += keyword
         }
+
+        override suspend fun getRecentSearchRecords(limit: Int): List<RecentSearchRecord> = emptyList()
 
         override suspend fun deleteRecords(searchRecord: SearchRecord) = Unit
 

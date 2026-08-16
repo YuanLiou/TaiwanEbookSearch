@@ -55,3 +55,10 @@ WHERE id = :id;
 deleteAllRecords:
 DELETE FROM search_records;
 
+getRecentSearchRecords:
+SELECT *
+FROM search_records
+WHERE time_stamp IS NOT NULL
+ORDER BY datetime(time_stamp) DESC
+LIMIT :limit;
+

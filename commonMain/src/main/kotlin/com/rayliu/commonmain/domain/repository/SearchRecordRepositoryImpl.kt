@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import com.rayliu.commonmain.OffsetDateTimeHelper
 import com.rayliu.commonmain.data.dao.SearchRecordDao
 import com.rayliu.commonmain.data.mapper.LocalSearchRecordMapper
+import com.rayliu.commonmain.domain.model.RecentSearchRecord
 import com.rayliu.commonmain.domain.model.SearchRecord
 import kotlinx.coroutines.flow.Flow
 
@@ -55,6 +56,17 @@ class SearchRecordRepositoryImpl(
             )
         )
     }
+
+    override suspend fun getRecentSearchRecords(limit: Int): List<RecentSearchRecord> =
+        searchRecordDao.getRecentSearchRecords(limit).mapNotNull { record ->
+            record.timeStamps?.let { timeStamp ->
+                RecentSearchRecord(
+                    query = record.resultText,
+                    lastSearchedAt = timeStamp,
+                    times = record.counts.toInt()
+                )
+            }
+        }
 
     override suspend fun deleteRecords(searchRecord: SearchRecord) {
         searchRecordDao.deleteRecord(localSearchRecordMapper.map(searchRecord))
