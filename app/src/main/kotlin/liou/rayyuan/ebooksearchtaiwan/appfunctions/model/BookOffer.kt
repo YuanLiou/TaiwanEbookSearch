@@ -19,7 +19,7 @@ data class BookOffer(
     val price: Double?,
     /** ISO-like currency code from the API, for example TWD. Null if missing. */
     val currency: String?,
-    /** HTTPS product URL. Opening it is not a purchase. */
+    /** Product URL returned by the API. Opening it is not a purchase. */
     val url: String,
     /** True when this offer is that store's first, highest-relevance candidate. */
     val isBestCandidate: Boolean

@@ -13,6 +13,7 @@ import com.rayliu.commonmain.domain.search.NetworkUnavailableException
 import com.rayliu.commonmain.domain.service.NetworkAvailability
 import com.rayliu.commonmain.domain.service.UserPreferenceManager
 import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.atomic.AtomicInteger
 import junit.framework.TestCase.assertEquals
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -86,6 +87,17 @@ class SearchBooksUseCaseTest {
             assertTrue(result.storeSections.single().isOkay)
         }
 
+    @Test
+    fun repeatedQuery_callsRepositoryForEachRequest() =
+        runBlocking {
+            val fixture = fixture()
+
+            fixture.useCase("query").getOrThrow()
+            fixture.useCase("query").getOrThrow()
+
+            assertEquals(2, fixture.bookRepository.calls.get())
+        }
+
     private fun fixture(
         networkAvailable: Boolean = true,
         sortByPrice: Boolean = true
@@ -150,6 +162,7 @@ class SearchBooksUseCaseTest {
 
     private inner class FakeBookRepository : BookRepository {
         val called = AtomicBoolean(false)
+        val calls = AtomicInteger(0)
         var lastStores: List<DefaultStoreNames> = emptyList()
         var lastKeyword: String? = null
         var result: Result<BookStores> = Result.success(bookStores())
@@ -161,6 +174,7 @@ class SearchBooksUseCaseTest {
             keyword: String
         ): Result<BookStores> {
             called.set(true)
+            calls.incrementAndGet()
             lastStores = stores
             lastKeyword = keyword
             return result

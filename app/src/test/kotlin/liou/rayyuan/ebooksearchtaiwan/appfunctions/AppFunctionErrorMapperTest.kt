@@ -3,6 +3,7 @@ package liou.rayyuan.ebooksearchtaiwan.appfunctions
 import com.rayliu.commonmain.domain.search.BlankSearchIdException
 import com.rayliu.commonmain.domain.search.BlankSearchQueryException
 import com.rayliu.commonmain.domain.search.NetworkUnavailableException
+import com.rayliu.commonmain.domain.search.SearchSnapshotNotFoundException
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -40,9 +41,17 @@ class AppFunctionErrorMapperTest {
     }
 
     @Test
-    fun snapshotOtherFailure_mapsToNotFound() {
+    fun snapshotNotFound_mapsToNotFound() {
         assertEquals(
             SnapshotFailureKind.NOT_FOUND,
+            AppFunctionErrorMapper.classifySnapshotFailure(SearchSnapshotNotFoundException())
+        )
+    }
+
+    @Test
+    fun snapshotOtherFailure_mapsToUnknown() {
+        assertEquals(
+            SnapshotFailureKind.UNKNOWN,
             AppFunctionErrorMapper.classifySnapshotFailure(IllegalStateException("failed"))
         )
     }

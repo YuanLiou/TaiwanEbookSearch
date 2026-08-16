@@ -109,6 +109,19 @@ class GetSlicedSearchSnapshotUseCaseTest {
         }
 
     @Test
+    fun snapshotWithoutId_failsAsNotFound_withoutSavingHistory() =
+        runBlocking {
+            val fixture = fixture()
+            fixture.bookRepository.snapshotResult =
+                Result.success(bookStores(searchId = "", searchKeyword = "query"))
+
+            val result = fixture.useCase("search-id")
+
+            assertTrue(result.exceptionOrNull() is SearchSnapshotNotFoundException)
+            assertTrue(fixture.searchRecordRepository.savedKeywords.isEmpty())
+        }
+
+    @Test
     fun success_savesSnapshotKeywordThroughExistingUseCase() =
         runBlocking {
             val fixture = fixture()

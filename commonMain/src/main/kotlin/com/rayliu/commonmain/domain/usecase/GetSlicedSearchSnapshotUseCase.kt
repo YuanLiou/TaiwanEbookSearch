@@ -4,7 +4,6 @@ import com.rayliu.commonmain.domain.model.BookSearchSlice
 import com.rayliu.commonmain.domain.search.BlankSearchIdException
 import com.rayliu.commonmain.domain.search.BookStoresResultSlicer
 import com.rayliu.commonmain.domain.search.NetworkUnavailableException
-import com.rayliu.commonmain.domain.search.SearchSnapshotNotFoundException
 import com.rayliu.commonmain.domain.service.NetworkAvailability
 import com.rayliu.commonmain.domain.service.UserPreferenceManager
 import kotlinx.coroutines.flow.first
@@ -28,9 +27,6 @@ class GetSlicedSearchSnapshotUseCase(
             getSearchSnapshotUseCase(searchId).getOrElse {
                 return Result.failure(it)
             }
-        if (bookStores.searchId.isBlank() || bookStores.searchKeyword.isBlank()) {
-            return Result.failure(SearchSnapshotNotFoundException())
-        }
         val enabledStores = getDefaultBookSortUseCase().first()
 
         return Result.success(

@@ -8,6 +8,7 @@ import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.rayliu.commonmain.domain.search.BlankSearchIdException
 import com.rayliu.commonmain.domain.search.BlankSearchQueryException
 import com.rayliu.commonmain.domain.search.NetworkUnavailableException
+import com.rayliu.commonmain.domain.search.SearchSnapshotNotFoundException
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertSame
 import org.junit.Assert.assertTrue
@@ -35,11 +36,11 @@ class AppFunctionErrorMapperInstrumentedTest {
     }
 
     @Test
-    fun otherFailure_mapsToAppUnknown() {
+    fun otherFailure_mapsToAppUnknown_withFixedMessage() {
         val mapped = AppFunctionErrorMapper.mapSearchFailure(IllegalStateException("failed"))
 
         assertTrue(mapped is AppFunctionAppUnknownException)
-        assertEquals("failed", mapped.errorMessage)
+        assertEquals(AppFunctionErrorMapper.REQUEST_FAILED_MESSAGE, mapped.errorMessage)
     }
 
     @Test
@@ -61,11 +62,19 @@ class AppFunctionErrorMapperInstrumentedTest {
     }
 
     @Test
-    fun snapshotOtherFailure_mapsToElementNotFound() {
-        val mapped = AppFunctionErrorMapper.mapSnapshotFailure(IllegalStateException("failed"))
+    fun snapshotNotFound_mapsToElementNotFound_withFixedMessage() {
+        val mapped = AppFunctionErrorMapper.mapSnapshotFailure(SearchSnapshotNotFoundException())
 
         assertTrue(mapped is AppFunctionElementNotFoundException)
-        assertEquals("failed", mapped.errorMessage)
+        assertEquals(AppFunctionErrorMapper.SNAPSHOT_NOT_FOUND_MESSAGE, mapped.errorMessage)
+    }
+
+    @Test
+    fun snapshotOtherFailure_mapsToAppUnknown_withFixedMessage() {
+        val mapped = AppFunctionErrorMapper.mapSnapshotFailure(IllegalStateException("failed"))
+
+        assertTrue(mapped is AppFunctionAppUnknownException)
+        assertEquals(AppFunctionErrorMapper.REQUEST_FAILED_MESSAGE, mapped.errorMessage)
     }
 
     @Test

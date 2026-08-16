@@ -7,6 +7,7 @@ import androidx.appfunctions.AppFunctionInvalidArgumentException
 import com.rayliu.commonmain.domain.search.BlankSearchIdException
 import com.rayliu.commonmain.domain.search.BlankSearchQueryException
 import com.rayliu.commonmain.domain.search.NetworkUnavailableException
+import com.rayliu.commonmain.domain.search.SearchSnapshotNotFoundException
 
 internal enum class SearchFailureKind {
     ALREADY_MAPPED,
@@ -19,12 +20,16 @@ internal enum class SnapshotFailureKind {
     ALREADY_MAPPED,
     INVALID_ARGUMENT,
     NETWORK_UNAVAILABLE,
-    NOT_FOUND
+    NOT_FOUND,
+    UNKNOWN
 }
 
 object AppFunctionErrorMapper {
     const val NETWORK_UNAVAILABLE_MESSAGE =
         "Network is unavailable. Check the connection and retry."
+    const val REQUEST_FAILED_MESSAGE =
+        "Request failed. Check the connection and retry."
+    const val SNAPSHOT_NOT_FOUND_MESSAGE = "Search snapshot was not found."
 
     internal fun classifySearchFailure(error: Throwable): SearchFailureKind =
         when (error) {
@@ -51,7 +56,7 @@ object AppFunctionErrorMapper {
             }
 
             SearchFailureKind.UNKNOWN -> {
-                AppFunctionAppUnknownException(error.message ?: "Book search failed.")
+                AppFunctionAppUnknownException(REQUEST_FAILED_MESSAGE)
             }
         }
 
@@ -60,7 +65,8 @@ object AppFunctionErrorMapper {
             is AppFunctionException -> SnapshotFailureKind.ALREADY_MAPPED
             is BlankSearchIdException -> SnapshotFailureKind.INVALID_ARGUMENT
             is NetworkUnavailableException -> SnapshotFailureKind.NETWORK_UNAVAILABLE
-            else -> SnapshotFailureKind.NOT_FOUND
+            is SearchSnapshotNotFoundException -> SnapshotFailureKind.NOT_FOUND
+            else -> SnapshotFailureKind.UNKNOWN
         }
 
     fun mapSnapshotFailure(error: Throwable): AppFunctionException =
@@ -80,9 +86,11 @@ object AppFunctionErrorMapper {
             }
 
             SnapshotFailureKind.NOT_FOUND -> {
-                AppFunctionElementNotFoundException(
-                    error.message ?: "Search snapshot was not found."
-                )
+                AppFunctionElementNotFoundException(SNAPSHOT_NOT_FOUND_MESSAGE)
+            }
+
+            SnapshotFailureKind.UNKNOWN -> {
+                AppFunctionAppUnknownException(REQUEST_FAILED_MESSAGE)
             }
         }
 }
