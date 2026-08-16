@@ -34,6 +34,7 @@ import com.rayliu.commonmain.domain.usecase.GetIsUserSeenRankWindowUseCase
 import com.rayliu.commonmain.domain.usecase.GetSearchRecordsCountsUseCase
 import com.rayliu.commonmain.domain.usecase.GetSearchRecordsUseCase
 import com.rayliu.commonmain.domain.usecase.GetSearchSnapshotUseCase
+import com.rayliu.commonmain.domain.usecase.GetSlicedSearchSnapshotUseCase
 import com.rayliu.commonmain.domain.usecase.SaveDefaultBookSortUseCase
 import com.rayliu.commonmain.domain.usecase.SearchBooksUseCase
 import com.rayliu.commonmain.domain.usecase.SaveUserHasSeenRankWindowUseCase
@@ -166,6 +167,15 @@ val domainModule =
 
         factory {
             GetSearchSnapshotUseCase(get<BookRepository>(), get<SearchRecordRepository>())
+        }
+
+        factory {
+            GetSlicedSearchSnapshotUseCase(
+                getSearchSnapshotUseCase = get(),
+                getDefaultBookSortUseCase = get(),
+                networkAvailability = get(),
+                userPreferenceManager = get()
+            )
         }
 
         factory<GetIsUserSeenRankWindowUseCase> {

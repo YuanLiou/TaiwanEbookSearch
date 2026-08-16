@@ -1,9 +1,11 @@
 package liou.rayyuan.ebooksearchtaiwan.appfunctions
 
 import androidx.appfunctions.AppFunctionAppUnknownException
+import androidx.appfunctions.AppFunctionElementNotFoundException
 import androidx.appfunctions.AppFunctionException
 import androidx.appfunctions.AppFunctionInvalidArgumentException
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
+import com.rayliu.commonmain.domain.search.BlankSearchIdException
 import com.rayliu.commonmain.domain.search.BlankSearchQueryException
 import com.rayliu.commonmain.domain.search.NetworkUnavailableException
 import org.junit.Assert.assertEquals
@@ -41,9 +43,36 @@ class AppFunctionErrorMapperInstrumentedTest {
     }
 
     @Test
+    fun blankSearchId_mapsToInvalidArgument() {
+        val mapped = AppFunctionErrorMapper.mapSnapshotFailure(BlankSearchIdException())
+
+        assertTrue(mapped is AppFunctionInvalidArgumentException)
+    }
+
+    @Test
+    fun snapshotNetworkFailure_mapsToAppUnknown_withFixedMessage() {
+        val mapped = AppFunctionErrorMapper.mapSnapshotFailure(NetworkUnavailableException())
+
+        assertTrue(mapped is AppFunctionAppUnknownException)
+        assertEquals(
+            AppFunctionErrorMapper.NETWORK_UNAVAILABLE_MESSAGE,
+            mapped.errorMessage
+        )
+    }
+
+    @Test
+    fun snapshotOtherFailure_mapsToElementNotFound() {
+        val mapped = AppFunctionErrorMapper.mapSnapshotFailure(IllegalStateException("failed"))
+
+        assertTrue(mapped is AppFunctionElementNotFoundException)
+        assertEquals("failed", mapped.errorMessage)
+    }
+
+    @Test
     fun alreadyAppFunctionException_isUnchanged() {
         val exception: AppFunctionException = AppFunctionInvalidArgumentException("already")
 
         assertSame(exception, AppFunctionErrorMapper.mapSearchFailure(exception))
+        assertSame(exception, AppFunctionErrorMapper.mapSnapshotFailure(exception))
     }
 }

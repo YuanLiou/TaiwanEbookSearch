@@ -55,6 +55,13 @@ class BookSearchResultMapperTest {
     }
 
     @Test
+    fun snapshot_setsIsSnapshotTrue() {
+        val result = mapperResult(isSnapshot = true)
+
+        assertTrue(result.isSnapshot)
+    }
+
+    @Test
     fun storeSection_mapsStatusAndRemainingBooks() {
         val result =
             BookSearchResultMapper.map(
