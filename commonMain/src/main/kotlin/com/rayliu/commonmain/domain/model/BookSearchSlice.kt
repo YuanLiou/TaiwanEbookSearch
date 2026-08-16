@@ -3,6 +3,8 @@ package com.rayliu.commonmain.domain.model
 import com.rayliu.commonmain.data.DefaultStoreNames
 
 data class BookSearchSlice(
+    val searchId: String,
+    val searchKeyword: String,
     val bestResults: List<Book>,
     val storeSections: List<StoreResultSection>
 )

@@ -50,6 +50,8 @@ object BookStoresResultSlicer {
             }
 
         return BookSearchSlice(
+            searchId = bookStores.searchId,
+            searchKeyword = bookStores.searchKeyword,
             bestResults = bestResults,
             storeSections = storeSections
         )

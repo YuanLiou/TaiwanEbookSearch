@@ -56,9 +56,12 @@ class SearchBooksUseCaseTest {
             val result = fixture.useCase("9789861755267")
 
             assertTrue(result.isSuccess)
+            val slice = result.getOrThrow()
             assertEquals(listOf(DefaultStoreNames.READMOO), fixture.bookRepository.lastStores)
             assertEquals("9789861755267", fixture.bookRepository.lastKeyword)
             assertEquals(listOf("9789861755267"), fixture.searchRecordRepository.savedKeywords)
+            assertEquals("search-id", slice.searchId)
+            assertEquals("query", slice.searchKeyword)
         }
 
     @Test
