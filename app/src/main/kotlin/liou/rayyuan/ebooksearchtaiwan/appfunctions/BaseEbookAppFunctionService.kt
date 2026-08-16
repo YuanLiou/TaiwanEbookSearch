@@ -15,6 +15,7 @@ import com.rayliu.commonmain.domain.usecase.SearchBooksUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import liou.rayyuan.ebooksearchtaiwan.appfunctions.model.BookSearchResult
+import liou.rayyuan.ebooksearchtaiwan.appfunctions.model.OpenProductResult
 import liou.rayyuan.ebooksearchtaiwan.appfunctions.model.SearchRecordItem
 import org.koin.android.ext.android.inject
 
@@ -61,6 +62,31 @@ abstract class BaseEbookAppFunctionService : AppFunctionService() {
             getRecentSearchRecordsUseCase(limit).map { record ->
                 RecentSearchRecordMapper.map(record, offsetDateTimeHelper)
             }
+        }
+
+    /**
+     * Open or share an already resolved bookstore product URL.
+     *
+     * Use this after searchBooks or getSearchSnapshot returns a product
+     * url. This hands the link to the system browser or another app. It
+     * does not buy the book, log in, or parse the store page.
+     *
+     * @param url http or https product URL from a search result.
+     * @param title Optional book title for the share text.
+     * @return System view and share intents. This is not checkout.
+     * @throws AppFunctionInvalidArgumentException If url is blank or not
+     *     an http(s) URL with a host.
+     */
+    @AppFunction(isDescribedByKDoc = true)
+    internal suspend fun openBookProduct(
+        url: String,
+        title: String? = null
+    ): OpenProductResult =
+        withContext(Dispatchers.IO) {
+            ProductLinkIntents.create(this@BaseEbookAppFunctionService, url, title)
+                ?: throw AppFunctionInvalidArgumentException(
+                    "url must be an http or https bookstore product link."
+                )
         }
 
     /**
