@@ -4,10 +4,12 @@
 Operational Patterns:
 - Use searchBooks for a live title or ISBN comparison.
 - Use getSearchSnapshot only with a searchId returned by searchBooks. That reloads the saved result and does not search again.
+- Use getRecentSearchRecords to read the newest local search strings on this device. This is personal history, not a bookshelf.
 - Use pingAppFunctions only to verify the integration is registered.
 Constraints:
 - Supported queries are book title or ISBN only.
 - This app does not purchase, log in, delete history, scan barcodes, or manage a bookshelf.
 - Prices are not currency-converted. Unknown prices are not free.
-- Opening a product URL is not checkout."
+- Opening a product URL is not checkout.
+- getRecentSearchRecords returns at most 20 local records."
     appfn:displayDescription="@string/appfunctions_display_description" />

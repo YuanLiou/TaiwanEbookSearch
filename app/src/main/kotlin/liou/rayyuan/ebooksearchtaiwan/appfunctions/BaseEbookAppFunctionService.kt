@@ -7,12 +7,15 @@ import androidx.appfunctions.AppFunctionElementNotFoundException
 import androidx.appfunctions.AppFunctionInvalidArgumentException
 import androidx.appfunctions.AppFunctionService
 import androidx.appfunctions.AppFunctionServiceEntryPoint
+import com.rayliu.commonmain.OffsetDateTimeHelper
+import com.rayliu.commonmain.domain.usecase.GetRecentSearchRecordsUseCase
 import com.rayliu.commonmain.domain.usecase.GetSearchRecordsCountsUseCase
 import com.rayliu.commonmain.domain.usecase.GetSlicedSearchSnapshotUseCase
 import com.rayliu.commonmain.domain.usecase.SearchBooksUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import liou.rayyuan.ebooksearchtaiwan.appfunctions.model.BookSearchResult
+import liou.rayyuan.ebooksearchtaiwan.appfunctions.model.SearchRecordItem
 import org.koin.android.ext.android.inject
 
 @RequiresApi(36)
@@ -22,6 +25,8 @@ import org.koin.android.ext.android.inject
 )
 abstract class BaseEbookAppFunctionService : AppFunctionService() {
     private val getSearchRecordsCountsUseCase: GetSearchRecordsCountsUseCase by inject()
+    private val getRecentSearchRecordsUseCase: GetRecentSearchRecordsUseCase by inject()
+    private val offsetDateTimeHelper: OffsetDateTimeHelper by inject()
     private val searchBooksUseCase: SearchBooksUseCase by inject()
     private val getSlicedSearchSnapshotUseCase: GetSlicedSearchSnapshotUseCase by inject()
 
@@ -36,6 +41,26 @@ abstract class BaseEbookAppFunctionService : AppFunctionService() {
         withContext(Dispatchers.IO) {
             val recordCount = getSearchRecordsCountsUseCase().getOrDefault(0)
             "Taiwan Ebook Search AppFunctions ready. localRecordCount=$recordCount"
+        }
+
+    /**
+     * Read the newest local search strings from this device.
+     *
+     * Use this to resolve "the last book I searched" or similar follow-up.
+     * These are personal search strings stored on the phone. This is not a
+     * bookshelf and not a store catalog. The list is never the full history.
+     *
+     * @param limit Maximum number of records to return. Values of 0 or less
+     *     become 10. Values above 20 become 20.
+     * @return Newest first. Empty when this device has no usable history.
+     *     lastSearchedAt is ISO-8601. SQL ids are not included.
+     */
+    @AppFunction(isDescribedByKDoc = true)
+    internal suspend fun getRecentSearchRecords(limit: Int = 10): List<SearchRecordItem> =
+        withContext(Dispatchers.IO) {
+            getRecentSearchRecordsUseCase(limit).map { record ->
+                RecentSearchRecordMapper.map(record, offsetDateTimeHelper)
+            }
         }
 
     /**
