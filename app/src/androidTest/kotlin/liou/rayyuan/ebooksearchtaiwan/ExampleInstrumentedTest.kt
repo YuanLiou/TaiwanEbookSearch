@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = ApplicationProvider.getApplicationContext<Context>()
-        assertEquals("liou.rayyuan.ebooksearchtaiwan", appContext.packageName)
+        assertEquals(BuildConfig.APPLICATION_ID, appContext.packageName)
     }
 }
