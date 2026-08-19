@@ -24,6 +24,7 @@
 | --- | --- |
 | 產品目的、使用者、範圍、營運功能 | [product-overview.md](product-overview.md) |
 | 關鍵字搜尋、結果整合、排序、部分成功 | [search-and-comparison.md](search-and-comparison.md) |
+| AppFunctions、系統 agent、裝置端工具 | [app-functions.md](app-functions.md) |
 | 相機、EAN-13、掃描後搜尋 | [barcode-scanning.md](barcode-scanning.md) |
 | 商品頁、Custom Tab、WebView、分享、Deep Link、快照 | [navigation-sharing-deep-links.md](navigation-sharing-deep-links.md) |
 | 搜尋紀錄、外觀、書店排序與行為設定 | [history-and-settings.md](history-and-settings.md) |
@@ -36,7 +37,7 @@
 
 ## Requirement ID
 
-Requirement ID 是穩定引用，不代表執行順序。重要規則使用領域前綴，例如 `SEARCH-001`、`HISTORY-002`、`DEEPLINK-001`。純實作細節與可自由調整的視覺細節不編號。
+Requirement ID 是穩定引用，不代表執行順序。重要規則使用領域前綴，例如 `SEARCH-001`、`HISTORY-002`、`DEEPLINK-001`、`APPFN-001`。純實作細節與可自由調整的視覺細節不編號。
 
 ## 證據優先順序
 

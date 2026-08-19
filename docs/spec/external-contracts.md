@@ -40,6 +40,10 @@
 
 `EXT-004` 商品頁、Android Custom Tabs、WebView、Sharesheet 與系統相機權限屬於 Android 平台整合。行為規格分別見導流與掃描文件，不要求固定使用目前的 Library。
 
+`EXT-005` Android AppFunctions 是系統 agent 的裝置端整合。App 負責
+登錄與執行四個已公開 function。系統或 Gemini 是否實際呼叫本 App
+由平台決定，不是本產品可保證的契約。
+
 ## 主要實作入口
 
-目前 API 介面與 DTO 主要位於 `commonMain/src/api` 及 `commonMain/src/main/kotlin/com/rayliu/commonmain/data`。第三方平台整合主要位於 `app/build.gradle.kts`、`EBookSearchApplication`、`AdBanner` 與 `PlayStoreReviewHelper`。這些是追查入口，不是永久檔案契約。
+目前 API 介面與 DTO 主要位於 `commonMain/src/api` 及 `commonMain/src/main/kotlin/com/rayliu/commonmain/data`。第三方平台整合主要位於 `app/build.gradle.kts`、`EBookSearchApplication`、`AdBanner`、`PlayStoreReviewHelper` 與 AppFunctions Service。這些是追查入口，不是永久檔案契約。

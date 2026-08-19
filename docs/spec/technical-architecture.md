@@ -2,7 +2,7 @@
 
 ## 穩定責任方向
 
-`ARCH-001` `app` 負責 Android UI、Activity 與 Compose 畫面、平台生命週期、權限、相機、Custom Tab、WebView、分享、廣告、評分及使用者操作協調。
+`ARCH-001` `app` 負責 Android UI、Activity 與 Compose 畫面、平台生命週期、權限、相機、Custom Tab、WebView、分享、廣告、評分及使用者操作協調，也負責 AppFunctions Service、AppFunction DTO 與 PendingIntent 建立。
 
 `ARCH-002` `commonMain` 負責搜尋與書店 API、網路 DTO 映射、領域模型、Repository、Use Case、結果排序語意及可跨畫面共用的持久化存取。
 
@@ -25,6 +25,12 @@
 ```
 
 快照讀取沿用相同的映射與顯示流程，但入口是 `GetSearchSnapshotUseCase`，且語意遵循 `SNAPSHOT-003`，不得重新送出關鍵字搜尋。
+
+系統 agent
+  → EbookAppFunctionService
+  → SearchBooksUseCase / GetSlicedSearchSnapshotUseCase /
+    GetRecentSearchRecordsUseCase
+  → 既有 Repository 與結果切片
 
 `ARCH-004` ViewModel 必須以最新請求為畫面狀態來源，管理載入、成功、部分成功及錯誤狀態，並防止已取消請求覆蓋新結果。
 

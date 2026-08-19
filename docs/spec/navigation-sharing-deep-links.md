@@ -12,6 +12,8 @@
 
 `NAV-005` 商品分享內容至少包含商品書名與 API 提供的商品連結。實際分享目的地由 Android Sharesheet 與使用者決定。
 
+`openBookProduct` 是系統 agent 入口，不受 `NAV-001` 至 `NAV-004` 的畫面開啟偏好影響；它固定建立系統 VIEW／SEND intent，見 `APPFN-008`。
+
 分欄判定以 Material 3 `WindowSizeClass` 為準，詳見 [known-limitations.md](known-limitations.md) 的 `LIMIT-003`。
 
 ## 搜尋快照
@@ -38,7 +40,7 @@ https://taiwan-ebook-lover.github.io/searches/{searchId}
 https://taiwan-ebook-lover.github.io/search?q={keyword}
 ```
 
-`DEEPLINK-002` 關鍵字 Deep Link 代表一次新的即時搜尋，必須套用目前啟用來源、搜尋紀錄、防重複請求與錯誤規則；它不同於保存結果的快照。
+`DEEPLINK-002` 關鍵字 Deep Link 代表一次新的即時搜尋，必須套用目前啟用來源、搜尋紀錄、防重複請求與錯誤規則；它不同於保存結果的快照。關鍵字 Deep Link 仍打開 App UI。結構化比價改走 AppFunctions，見 `APPFN-003` 與 `APPFN-005`。
 
 `DEEPLINK-003` App 目前接受 `http` 與 `https`，host 限定 `taiwan-ebook-lover.github.io`，路徑限定 `/search` 與 `/searches/*`。
 

@@ -54,3 +54,5 @@ Google Play 是否實際顯示評分 UI 仍由平台 API 決定；App 只負責�
 ## 非目標
 
 Web 版、搜尋後端、快照保存後端、各書店網站與 F-Droid 發行不在本 repository 的正式規格範圍內。App 只記錄對它們的必要外部契約。
+
+AppFunctions 是 Android 16+ 的可選系統入口，不擴大 `PROD-002`。它不新增購買、登入、書庫或閱讀能力。
