@@ -18,7 +18,6 @@
     <string name="app_version">App Version: %1$s</string>
     <string name="result_nothing">Nothing found!</string>
     <string name="network_error_message">A network error happened. Please try again later.</string>
-    <string name="advertisement_title">Advertisement</string>
     <string name="permission_required_camera">Camera permission is required to capture barcode image.</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="hyread_title">HyRead</string>

@@ -45,9 +45,6 @@ fun ServiceStatusList(
         verticalArrangement = Arrangement.spacedBy(4.dp),
         contentPadding = contentPaddings
     ) {
-        item {
-            AdBanner(modifier = Modifier.padding(horizontal = 12.dp))
-        }
         items(storeDetails) {
             ServiceStatusCard(
                 storeDetail = it,

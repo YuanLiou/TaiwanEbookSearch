@@ -18,7 +18,6 @@
     <string name="app_version">版本：%1$s</string>
     <string name="result_nothing">战队里面没人</string>
     <string name="network_error_message">连接发生错误，请稍后再尝试一次</string>
-    <string name="advertisement_title">广告内容</string>
     <string name="permission_required_camera">需要相机权限来辨识条码</string>
     <string name="dialog_cancel">取消</string>
     <string name="hyread_title">HyRead 电子书</string>

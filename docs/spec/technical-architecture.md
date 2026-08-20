@@ -2,7 +2,7 @@
 
 ## 穩定責任方向
 
-`ARCH-001` `app` 負責 Android UI、Activity 與 Compose 畫面、平台生命週期、權限、相機、Custom Tab、WebView、分享、廣告、評分及使用者操作協調，也負責 AppFunctions Service、AppFunction DTO 與 PendingIntent 建立。
+`ARCH-001` `app` 負責 Android UI、Activity 與 Compose 畫面、平台生命週期、權限、相機、Custom Tab、WebView、分享、評分及使用者操作協調，也負責 AppFunctions Service、AppFunction DTO 與 PendingIntent 建立。
 
 `ARCH-002` `commonMain` 負責搜尋與書店 API、網路 DTO 映射、領域模型、Repository、Use Case、結果排序語意及可跨畫面共用的持久化存取。
 
