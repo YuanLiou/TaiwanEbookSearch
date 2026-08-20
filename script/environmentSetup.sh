@@ -36,15 +36,6 @@ function copyEnvVarsToGradleProperties {
         echo "Writing HOST_STAGING to local.properties..."
         echo "HOST_STAGING=\"$HOST_STAGING\"" >> $LOCAL_PROPERTIES
 
-        echo "Writing ADMOB_ID to local.properties..."
-        echo "ADMOB_ID=\"$ADMOB_ID\"" >> $LOCAL_PROPERTIES
-
-        echo "Writing ADMOB_UNIT_ID to local.properties..."
-        echo "ADMOB_UNIT_ID=\"$ADMOB_UNIT_ID\"" >> $LOCAL_PROPERTIES
-
-        echo "Writing ADMOB_TEST_DEVICE_ID to local.properties..."
-        echo "ADMOB_TEST_DEVICE_ID=\"$ADMOB_TEST_DEVICE_ID\"" >> $LOCAL_PROPERTIES
-
         echo "done"
     fi
 }

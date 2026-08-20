@@ -40,7 +40,6 @@ immutableCollections = "0.4.0"
 
 #  Google Service and Firebase Libraries
 firebaseBom = "33.15.0"
-admob = "24.3.0"
 inAppReview = "2.0.2"
 
 #  Test related
@@ -134,7 +133,6 @@ kotlinx-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotli
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
-admob = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "admob" }
 play-review-ktx = { group = "com.google.android.play", name = "review-ktx", version.ref = "inAppReview" }
 
 #  Test related

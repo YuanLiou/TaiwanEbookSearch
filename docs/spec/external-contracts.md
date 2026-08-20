@@ -32,8 +32,6 @@
 
 ## 第三方平台
 
-`EXT-001` Google Mobile Ads 提供首頁與結果頁橫幅廣告。廣告載入失敗不得阻斷搜尋或結果瀏覽。
-
 `EXT-002` Google Play In-App Review 只接受 App 在符合 `PROD-011` 時提出邀請。是否顯示及其介面由 Google Play 決定。
 
 `EXT-003` Firebase Analytics 與 Crashlytics 是正式版本的遙測及錯誤診斷整合。Debug 版本停用 Analytics 收集；遙測失敗不得阻斷核心搜尋流程。
@@ -46,4 +44,4 @@
 
 ## 主要實作入口
 
-目前 API 介面與 DTO 主要位於 `commonMain/src/api` 及 `commonMain/src/main/kotlin/com/rayliu/commonmain/data`。第三方平台整合主要位於 `app/build.gradle.kts`、`EBookSearchApplication`、`AdBanner`、`PlayStoreReviewHelper` 與 AppFunctions Service。這些是追查入口，不是永久檔案契約。
+目前 API 介面與 DTO 主要位於 `commonMain/src/api` 及 `commonMain/src/main/kotlin/com/rayliu/commonmain/data`。第三方平台整合主要位於 `app/build.gradle.kts`、`EBookSearchApplication`、`PlayStoreReviewHelper` 與 AppFunctions Service。這些是追查入口，不是永久檔案契約。

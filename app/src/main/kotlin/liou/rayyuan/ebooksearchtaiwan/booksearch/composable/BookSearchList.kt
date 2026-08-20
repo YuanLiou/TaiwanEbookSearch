@@ -1,7 +1,6 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch.composable
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -30,9 +29,6 @@ fun BookSearchList(
         modifier = modifier,
         contentPadding = contentPaddings
     ) {
-        item {
-            AdBanner(modifier = Modifier.fillMaxWidth())
-        }
         items(bookSearchResults) { item ->
             when (item) {
                 is BookHeader -> {

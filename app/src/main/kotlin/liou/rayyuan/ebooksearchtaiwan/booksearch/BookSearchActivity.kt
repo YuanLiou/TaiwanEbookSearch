@@ -24,8 +24,6 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.withResumed
-import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 import liou.rayyuan.ebooksearchtaiwan.BaseActivity
@@ -78,7 +76,6 @@ class BookSearchActivity : BaseActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
-        initAdMods()
         setupLauncherCallbacks()
 
         if (savedInstanceState == null) {
@@ -221,15 +218,6 @@ class BookSearchActivity : BaseActivity() {
 
     private fun searchBook(keyword: String) {
         searchWithText(keyword)
-    }
-
-    private fun initAdMods() {
-        MobileAds.initialize(this)
-        val configurationBuilder = RequestConfiguration.Builder()
-        if (BuildConfig.DEBUG) {
-            configurationBuilder.setTestDeviceIds(listOf(BuildConfig.ADMOB_TEST_DEVICE_ID))
-        }
-        MobileAds.setRequestConfiguration(configurationBuilder.build())
     }
 
     @ColorInt

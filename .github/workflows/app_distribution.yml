@@ -8,9 +8,6 @@ env:
   keystoreAlias: ${{ secrets.KEYSTOREALIAS }}
   keyPass: ${{ secrets.KEYPASS }}
   HOST_STAGING: ${{ secrets.HOST_STAGING }}
-  ADMOB_ID: ${{ secrets.ADMOB_ID }}
-  ADMOB_UNIT_ID: ${{ secrets.ADMOB_UNIT_ID }}
-  ADMOB_TEST_DEVICE_ID: ${{ secrets.ADMOB_TEST_DEVICE_ID }}
 
 jobs:
   deploy-to-firebase:

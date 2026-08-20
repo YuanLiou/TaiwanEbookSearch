@@ -33,10 +33,6 @@ val keystoreAlias: String = localProperties.getProperty("keystoreAlias")
 val storePass: String = localProperties.getProperty("storePass")
 val keyPass: String = localProperties.getProperty("keyPass")
 
-val admobId: String = localProperties.getProperty("ADMOB_ID")
-val admobTestDeviceId: String = localProperties.getProperty("ADMOB_TEST_DEVICE_ID")
-val admobUnitId: String = localProperties.getProperty("ADMOB_UNIT_ID")
-
 android {
     compileSdk = AppSettings.COMPILE_SDK_VERSION
 
@@ -112,12 +108,6 @@ android {
                 groups = "internal_group"
             }
         }
-    }
-
-    buildTypes.all {
-        resValue("string", "AD_MOB_ID", admobId)
-        buildConfigField("String", "ADMOB_TEST_DEVICE_ID", admobTestDeviceId)
-        resValue("string", "AD_MOB_UNIT_ID", admobUnitId)
     }
 
     compileOptions {
@@ -245,7 +235,6 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
-    implementation(libs.admob)
     implementation(libs.play.review.ktx)
     ksp(libs.androidx.appfunctions.compiler)
 
