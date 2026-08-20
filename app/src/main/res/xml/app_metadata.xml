@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AppFunctionAppMetadata xmlns:appfn="http://schemas.android.com/apk/androidx.appfunctions"
+    appfn:description="Taiwan Ebook Search compares ebook prices across Taiwan stores by book title or ISBN.
+Operational Patterns:
+- Use searchBooks for a live title or ISBN comparison.
+- Use getSearchSnapshot only with a searchId returned by searchBooks. That reloads the saved result and does not search again.
+- Use getRecentSearchRecords to read the newest local search strings on this device. This is personal history, not a bookshelf.
+- Use openBookProduct only with a product URL already returned by this app. That opens or shares the link. It is not checkout.
+Constraints:
+- Supported queries are book title or ISBN only.
+- This app does not purchase, log in, delete history, scan barcodes, or manage a bookshelf.
+- Prices are not currency-converted. Unknown prices are not free.
+- Opening a product URL is not checkout.
+- getRecentSearchRecords returns at most 20 local records.
+- There is no ping or health-check function."
+    appfn:displayDescription="@string/appfunctions_display_description" />

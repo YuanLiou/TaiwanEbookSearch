@@ -60,6 +60,17 @@ class SearchRecordDaoImpl(
             },
         )
 
+    override suspend fun getRecentSearchRecords(limit: Int): List<LocalSearchRecord> =
+        withContext(ioDispatcher) {
+            queries.getRecentSearchRecords(limit.toLong()).executeAsList().mapNotNull { record ->
+                val timeStamp =
+                    runCatching {
+                        offsetDateTimeHelper.convertToLocalDateTime(record.time_stamp)
+                    }.getOrNull() ?: return@mapNotNull null
+                LocalSearchRecord(record.result_text, record.counts, timeStamp)
+            }
+        }
+
     override suspend fun getSearchRecordWithTitle(passedRecord: String): LocalSearchRecord? =
         withContext(ioDispatcher) {
             queries.getSearchRecordWithTitle(passedRecord).executeAsOneOrNull()?.run {

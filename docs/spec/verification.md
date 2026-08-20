@@ -56,3 +56,13 @@ Lint task 完成，但報告存在 2 個 error 與 77 個 warning。兩個既有
 ## Agent 驗證要求
 
 規格或程式碼變更後，先從 Requirement ID 判斷受影響流程。至少執行相關 unit test、`lint` 與可建置 Variant；核心使用者行為需補做 Emulator 或實機操作。回報時必須分開說明已通過、因既有基線仍存在及未驗證的項目。
+
+## AppFunctions 基線後驗證
+
+2026-08-19 使用 API 37 模擬器驗證 `APPFN-001` 與 `APPFN-002` 的正式包裝。執行 `./gradlew :app:assembleApiRelease`，其中包含 `:app:minifyApiReleaseWithR8`，結果為 `BUILD SUCCESSFUL`。隨後以 `adb install -r` 安裝 `apiRelease` APK。
+
+`adb shell cmd app_function list-app-functions --package liou.rayyuan.ebooksearchtaiwan` 成功列出四個正式 function：`searchBooks`、`getSearchSnapshot`、`getRecentSearchRecords` 與 `openBookProduct`。對四個 function 查詢執行階段狀態均回傳 `isEnabled: true`。執行唯讀的 `getRecentSearchRecords(limit = 1)` 成功回傳空清單，證明 release R8 後仍可由系統啟動 AppFunctions Service、執行 KSP dispatch，並序列化回傳 DTO。
+
+此證據支持 `apiRelease` 的 AppFunctions R8 相容性。AppFunctions library 的 consumer ProGuard rules 已隨 release build 合併，因此沒有在專案 `proguard-rules.pro` 新增廣泛的 AppFunctions keep rule。
+
+尚未在本次 release APK 驗證 `searchBooks`、`getSearchSnapshot` 或 `openBookProduct`：前兩者會改寫搜尋紀錄或依賴遠端服務，後者需要先取得商品 URL。此結果不構成 Gemini 發現或端到端使用四個 function 的保證。

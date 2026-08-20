@@ -35,3 +35,11 @@
 `LIMIT-009` 基準版本的自動化測試主要是範例測試，尚未覆蓋核心產品規則。Gradle 測試成功只代表既有測試通過。
 
 `LIMIT-010` Lint 設定目前為 `abortOnError = false`，所以 `lint` task 成功不代表沒有錯誤。現況證據見 [verification.md](verification.md)。
+
+## AppFunctions 限制
+
+- Gemini 或其他模型不一定會發現本 App；系統是否實際呼叫由平台決定。
+- `androidx.appfunctions` 仍是 alpha 版本。
+- 跨幣別排序仍受 `LIMIT-001` 限制。
+- 各書店第一筆不保證是同一本書，仍受 `LIMIT-004` 限制。
+- Instant packaging 目前與 exported Service 共用 application manifest；此處只記錄現況，不新增功能。

@@ -31,10 +31,13 @@ import com.rayliu.commonmain.domain.usecase.GetBookStoresDetailUseCase
 import com.rayliu.commonmain.domain.usecase.GetBooksWithStoresUseCase
 import com.rayliu.commonmain.domain.usecase.GetDefaultBookSortUseCase
 import com.rayliu.commonmain.domain.usecase.GetIsUserSeenRankWindowUseCase
+import com.rayliu.commonmain.domain.usecase.GetRecentSearchRecordsUseCase
 import com.rayliu.commonmain.domain.usecase.GetSearchRecordsCountsUseCase
 import com.rayliu.commonmain.domain.usecase.GetSearchRecordsUseCase
 import com.rayliu.commonmain.domain.usecase.GetSearchSnapshotUseCase
+import com.rayliu.commonmain.domain.usecase.GetSlicedSearchSnapshotUseCase
 import com.rayliu.commonmain.domain.usecase.SaveDefaultBookSortUseCase
+import com.rayliu.commonmain.domain.usecase.SearchBooksUseCase
 import com.rayliu.commonmain.domain.usecase.SaveUserHasSeenRankWindowUseCase
 import com.rayliu.commonmain.userDataStore
 import kotlinx.coroutines.CoroutineDispatcher
@@ -130,12 +133,25 @@ val domainModule =
             GetBooksWithStoresUseCase(get<BookRepository>(), get<SearchRecordRepository>())
         }
 
+        factory {
+            SearchBooksUseCase(
+                getDefaultBookSortUseCase = get(),
+                getBooksWithStoresUseCase = get(),
+                networkAvailability = get(),
+                userPreferenceManager = get()
+            )
+        }
+
         factory<GetSearchRecordsUseCase> {
             GetSearchRecordsUseCase(get<SearchRecordRepository>()::getPagingSearchRecordsFactory)
         }
 
         factory<GetSearchRecordsCountsUseCase> {
             GetSearchRecordsCountsUseCase(get<SearchRecordRepository>()::getSearchRecordsCounts)
+        }
+
+        factory {
+            GetRecentSearchRecordsUseCase(get<SearchRecordRepository>())
         }
 
         factory {
@@ -156,6 +172,15 @@ val domainModule =
 
         factory {
             GetSearchSnapshotUseCase(get<BookRepository>(), get<SearchRecordRepository>())
+        }
+
+        factory {
+            GetSlicedSearchSnapshotUseCase(
+                getSearchSnapshotUseCase = get(),
+                getDefaultBookSortUseCase = get(),
+                networkAvailability = get(),
+                userPreferenceManager = get()
+            )
         }
 
         factory<GetIsUserSeenRankWindowUseCase> {

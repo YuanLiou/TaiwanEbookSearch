@@ -16,6 +16,7 @@ materialDesign = "1.13.0"
 androidxDataStore = "1.1.7"
 paging = "3.3.6"
 barcodeScanner = "17.3.0"
+appfunctions = "1.0.0-alpha10"
 
 # Jetpack Compose
 composeBom = "2025.10.00" # TODO: check the TextInput focus issue in newer version
@@ -60,6 +61,7 @@ sqldelight = "2.3.2"
 uiAndroid = "1.7.1"
 spotless = "8.0.0"
 ktlintCli = "1.7.1"
+ksp = "2.3.6"
 
 [libraries]
 coil-kt = { group = "io.coil-kt.coil3", name = "coil", version.ref = "coil" }
@@ -91,6 +93,8 @@ androidx-lifecycle-runtime-compose-android = { group = "androidx.lifecycle", nam
 paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
 paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
 barcode-scanning = { group = "com.google.mlkit", name = "barcode-scanning", version.ref = "barcodeScanner" }
+androidx-appfunctions = { group = "androidx.appfunctions", name = "appfunctions", version.ref = "appfunctions" }
+androidx-appfunctions-compiler = { group = "androidx.appfunctions", name = "appfunctions-compiler", version.ref = "appfunctions" }
 
 # Jetpack Compose
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
@@ -151,4 +155,5 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detektVersion" }
 ktlintGradle = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintGradle" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }

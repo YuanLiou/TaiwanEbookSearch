@@ -11,6 +11,8 @@ interface SearchRecordDao {
 
     fun getSearchRecordsPaged(): PagingSource<Int, SearchRecord>
 
+    suspend fun getRecentSearchRecords(limit: Int): List<LocalSearchRecord>
+
     suspend fun getSearchRecordWithTitle(passedRecord: String): LocalSearchRecord?
 
     suspend fun insertRecords(searchRecords: List<LocalSearchRecord>)
