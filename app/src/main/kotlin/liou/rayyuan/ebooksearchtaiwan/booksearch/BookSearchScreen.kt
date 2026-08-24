@@ -208,5 +208,16 @@ fun BookSearchScreen(
 }
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
-internal fun calculateBookSearchPaneScaffoldDirective(windowAdaptiveInfo: WindowAdaptiveInfo): PaneScaffoldDirective =
-    calculatePaneScaffoldDirectiveWithTwoPanesOnMediumWidth(windowAdaptiveInfo)
+internal fun calculateBookSearchPaneScaffoldDirective(windowAdaptiveInfo: WindowAdaptiveInfo): PaneScaffoldDirective {
+    val directive = calculatePaneScaffoldDirectiveWithTwoPanesOnMediumWidth(windowAdaptiveInfo)
+    return PaneScaffoldDirective(
+        maxHorizontalPartitions = directive.maxHorizontalPartitions,
+        horizontalPartitionSpacerSize = directive.horizontalPartitionSpacerSize,
+        maxVerticalPartitions = directive.maxVerticalPartitions,
+        verticalPartitionSpacerSize = directive.verticalPartitionSpacerSize,
+        defaultPanePreferredWidth = directive.defaultPanePreferredWidth,
+        defaultPanePreferredHeight = directive.defaultPanePreferredHeight,
+        excludedBounds = directive.excludedBounds,
+        shouldAutoFocusCurrentDestination = false
+    )
+}

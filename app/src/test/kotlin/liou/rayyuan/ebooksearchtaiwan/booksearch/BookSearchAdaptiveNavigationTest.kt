@@ -42,6 +42,13 @@ class BookSearchAdaptiveNavigationTest {
         }
     }
 
+    @Test
+    fun paneDirective_doesNotAutoFocusDestination() {
+        val directive = calculateBookSearchPaneScaffoldDirective(windowAdaptiveInfo(widthDp = 599f))
+
+        assertFalse(directive.shouldAutoFocusCurrentDestination)
+    }
+
     private fun windowAdaptiveInfo(widthDp: Float): WindowAdaptiveInfo =
         WindowAdaptiveInfo(
             windowSizeClass = WindowSizeClass(widthDp = widthDp, heightDp = 800f),
