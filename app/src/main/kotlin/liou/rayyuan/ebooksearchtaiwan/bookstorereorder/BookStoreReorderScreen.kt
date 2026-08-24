@@ -40,6 +40,8 @@ import liou.rayyuan.ebooksearchtaiwan.composable.iconpack.EBookIcons
 import liou.rayyuan.ebooksearchtaiwan.composable.rememberDragDropState
 import liou.rayyuan.ebooksearchtaiwan.composable.toMutableStateList
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
+import liou.rayyuan.ebooksearchtaiwan.ui.theme.compatibleScaffoldWindowInsets
+import liou.rayyuan.ebooksearchtaiwan.ui.theme.compatibleTopAppBarWindowInsets
 import java.util.Collections
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -90,10 +92,12 @@ fun BookStoreReorderScreen(
                             Icon(EBookIcons.BaselineCheck24Px, contentDescription = "Send Result Button")
                         }
                     }
-                }
+                },
+                windowInsets = compatibleTopAppBarWindowInsets()
             )
         },
         containerColor = EBookTheme.colors.colorBackground,
+        contentWindowInsets = compatibleScaffoldWindowInsets(),
         modifier = modifier,
     ) { innerPaddings ->
         val sortedStores = viewModel.sortedStores.collectAsStateWithLifecycle().value

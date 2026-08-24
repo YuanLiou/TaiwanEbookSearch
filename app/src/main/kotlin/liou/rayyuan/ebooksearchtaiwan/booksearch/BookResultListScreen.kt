@@ -9,12 +9,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
@@ -60,6 +58,8 @@ import liou.rayyuan.ebooksearchtaiwan.booksearch.viewstate.BookResultViewState
 import liou.rayyuan.ebooksearchtaiwan.composable.EBookDropdownMenu
 import liou.rayyuan.ebooksearchtaiwan.composable.OptionMenuItem
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
+import liou.rayyuan.ebooksearchtaiwan.ui.theme.compatibleSafeDrawingWindowInsets
+import liou.rayyuan.ebooksearchtaiwan.ui.theme.compatibleTopAppBarWindowInsets
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -198,11 +198,12 @@ fun BookResultListScreen(
                         )
                     }
                 },
-                scrollBehavior = scrollBehavior
+                scrollBehavior = scrollBehavior,
+                windowInsets = compatibleTopAppBarWindowInsets()
             )
         },
         containerColor = EBookTheme.colors.colorBackground,
-        contentWindowInsets = WindowInsets.safeDrawing,
+        contentWindowInsets = compatibleSafeDrawingWindowInsets(),
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { paddings ->
         Box(

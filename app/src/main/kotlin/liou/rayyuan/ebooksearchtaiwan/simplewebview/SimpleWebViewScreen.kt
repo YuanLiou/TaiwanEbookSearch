@@ -45,6 +45,8 @@ import liou.rayyuan.ebooksearchtaiwan.composable.iconpack.BaselineClear24Px
 import liou.rayyuan.ebooksearchtaiwan.composable.iconpack.EBookIcons
 import liou.rayyuan.ebooksearchtaiwan.composable.resolveColorAttribute
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
+import liou.rayyuan.ebooksearchtaiwan.ui.theme.compatibleScaffoldWindowInsets
+import liou.rayyuan.ebooksearchtaiwan.ui.theme.compatibleTopAppBarWindowInsets
 
 @SuppressLint("SetJavaScriptEnabled")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -159,10 +161,12 @@ fun SimpleWebViewScreen(
                             }
                         )
                     }
-                }
+                },
+                windowInsets = compatibleTopAppBarWindowInsets()
             )
         },
         containerColor = EBookTheme.colors.colorBackground,
+        contentWindowInsets = compatibleScaffoldWindowInsets(),
         modifier = modifier
     ) { paddings ->
         Box(

@@ -8,10 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
+import liou.rayyuan.ebooksearchtaiwan.utils.WindowApiCompatibility
 
 @Composable
 fun EBookTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    hasCompatibleWindowInsetsRuntime: Boolean = WindowApiCompatibility.hasCompatibleWindowInsetsRuntime,
     content: @Composable () -> Unit
 ) {
     val colorScheme =
@@ -29,6 +31,7 @@ fun EBookTheme(
     CompositionLocalProvider(
         LocalColorScheme provides colorScheme,
         LocalDrawableResources provides drawableResources,
+        LocalHasCompatibleWindowInsetsRuntime provides hasCompatibleWindowInsetsRuntime,
         LocalIndication provides ripple(),
     ) {
         val themeColorScheme =

@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.rayliu.commonmain.domain.service.UserPreferenceManager
 import liou.rayyuan.ebooksearchtaiwan.misc.EventTracker
+import liou.rayyuan.ebooksearchtaiwan.utils.WindowApiCompatibility
 import org.koin.android.ext.android.inject
 
 abstract class BaseActivity(
@@ -70,6 +71,10 @@ abstract class BaseActivity(
     }
 
     private fun setupEdgeToEdge() {
+        if (!WindowApiCompatibility.hasCompatibleWindowInsetsRuntime) {
+            return
+        }
+
         val navigationDarkScrimColor = Color.TRANSPARENT
         enableEdgeToEdge(
             statusBarStyle =

@@ -4,7 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.WindowAdaptiveInfo
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
 import androidx.compose.material3.adaptive.layout.PaneScaffoldDirective
@@ -63,13 +63,14 @@ fun BookSearchScreen(
     var showShareSnapshotOption by remember { mutableStateOf(false) }
 
     val scope = rememberCoroutineScope()
+    val windowAdaptiveInfo = currentWindowAdaptiveInfoV2()
     val paneNavigator: ThreePaneScaffoldNavigator<Book> =
         rememberListDetailPaneScaffoldNavigator<Book>(
             scaffoldDirective =
-                calculateBookSearchPaneScaffoldDirective(currentWindowAdaptiveInfo())
+                calculateBookSearchPaneScaffoldDirective(windowAdaptiveInfo)
         )
     val isDetailPaneVisible = paneNavigator.scaffoldValue.secondary == PaneAdaptedValue.Expanded
-    val isWidthCompact = isWindowWidthCompact()
+    val isWidthCompact = isWindowWidthCompact(windowAdaptiveInfo)
 
     NavigableListDetailPaneScaffold(
         navigator = paneNavigator,

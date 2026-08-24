@@ -8,8 +8,9 @@ guavaVersion = "31.1-android" # To prevent Guava conflict, use this old version
 
 #  Google Libraries
 androidxAppCompat = "1.7.1"
-androidxCore = "1.17.0"
+androidxCore = "1.19.0"
 androidxActivity = "1.11.0"
+androidxWindow = "1.5.1"
 androidxPreference = "1.2.1"
 androidxBrowser = "1.9.0"
 materialDesign = "1.13.0"
@@ -19,7 +20,7 @@ barcodeScanner = "17.3.0"
 appfunctions = "1.0.0-alpha10"
 
 # Jetpack Compose
-composeBom = "2025.10.00" # TODO: check the TextInput focus issue in newer version
+composeBom = "2026.08.00" # TODO: check the TextInput focus issue in newer version
 lifecycleCompose = "2.9.4"
 navigationCompose = "2.9.5"
 constraintlayoutCompose = "1.1.1"
@@ -84,6 +85,7 @@ desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", ver
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 androidx-activity-ktx = { group = "androidx.activity", name = "activity", version.ref = "androidxActivity" }
+androidx-window = { group = "androidx.window", name = "window", version.ref = "androidxWindow" }
 androidx-preference-ktx = { group = "androidx.preference", name = "preference-ktx", version.ref = "androidxPreference" }
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "androidxBrowser" }
 material = { group = "com.google.android.material", name = "material", version.ref = "materialDesign" }

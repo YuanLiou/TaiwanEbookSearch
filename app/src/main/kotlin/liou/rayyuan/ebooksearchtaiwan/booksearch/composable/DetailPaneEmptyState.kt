@@ -3,10 +3,8 @@ package liou.rayyuan.ebooksearchtaiwan.booksearch.composable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
@@ -19,12 +17,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import liou.rayyuan.ebooksearchtaiwan.R
+import liou.rayyuan.ebooksearchtaiwan.ui.theme.compatibleSafeDrawingWindowInsets
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.pale_slate
 
 @Composable
 fun DetailPaneEmptyState(modifier: Modifier = Modifier,) {
     Scaffold(
-        contentWindowInsets = WindowInsets.safeDrawing,
+        contentWindowInsets = compatibleSafeDrawingWindowInsets(),
         modifier = modifier,
     ) { paddings ->
         Box(
