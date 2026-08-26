@@ -4,7 +4,7 @@ import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.Posture
 import androidx.compose.material3.adaptive.WindowAdaptiveInfo
 import androidx.window.core.layout.WindowSizeClass
-import org.junit.Assert.assertEquals
+import liou.rayyuan.ebooksearchtaiwan.booksearch.util.isWindowWidthCompact
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -22,15 +22,36 @@ class BookSearchAdaptiveNavigationTest {
     }
 
     @Test
-    fun mediumWidth_usesTwoPaneScaffoldDirective() {
-        val mediumWindowInfo =
-            WindowAdaptiveInfo(
-                windowSizeClass = WindowSizeClass.compute(dpWidth = 700f, dpHeight = 800f),
-                windowPosture = Posture()
-            )
-
-        val directive = calculateBookSearchPaneScaffoldDirective(mediumWindowInfo)
-
-        assertEquals(2, directive.maxHorizontalPartitions)
+    fun compactWidth_isCompact() {
+        assertTrue(isWindowWidthCompact(windowAdaptiveInfo(widthDp = 599f)))
     }
+
+    @Test
+    fun mediumAndLargerWidths_areNotCompact() {
+        listOf(600f, 840f, 1200f, 1600f).forEach { widthDp ->
+            assertFalse(isWindowWidthCompact(windowAdaptiveInfo(widthDp)))
+        }
+    }
+
+    @Test
+    fun mediumAndLargerWidths_useTwoPaneScaffoldDirective() {
+        listOf(600f, 840f, 1200f, 1600f).forEach { widthDp ->
+            val directive = calculateBookSearchPaneScaffoldDirective(windowAdaptiveInfo(widthDp))
+
+            assertTrue(directive.maxHorizontalPartitions >= 2)
+        }
+    }
+
+    @Test
+    fun paneDirective_doesNotAutoFocusDestination() {
+        val directive = calculateBookSearchPaneScaffoldDirective(windowAdaptiveInfo(widthDp = 599f))
+
+        assertFalse(directive.shouldAutoFocusCurrentDestination)
+    }
+
+    private fun windowAdaptiveInfo(widthDp: Float): WindowAdaptiveInfo =
+        WindowAdaptiveInfo(
+            windowSizeClass = WindowSizeClass(widthDp = widthDp, heightDp = 800f),
+            windowPosture = Posture()
+        )
 }

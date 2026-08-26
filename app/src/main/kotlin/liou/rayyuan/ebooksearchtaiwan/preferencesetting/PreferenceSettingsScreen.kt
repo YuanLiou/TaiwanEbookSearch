@@ -44,6 +44,8 @@ import com.alorma.compose.settings.ui.base.internal.SettingsTileDefaults
 import liou.rayyuan.ebooksearchtaiwan.R
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.EBookTheme
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.blue_green_you
+import liou.rayyuan.ebooksearchtaiwan.ui.theme.compatibleScaffoldWindowInsets
+import liou.rayyuan.ebooksearchtaiwan.ui.theme.compatibleTopAppBarWindowInsets
 import liou.rayyuan.ebooksearchtaiwan.ui.theme.pure_white
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -84,9 +86,11 @@ fun PreferenceSettingsScreen(
                             contentDescription = stringResource(id = R.string.menu_setting)
                         )
                     }
-                }
+                },
+                windowInsets = compatibleTopAppBarWindowInsets()
             )
         },
+        contentWindowInsets = compatibleScaffoldWindowInsets(),
         modifier = modifier
     ) { scaffoldPadding ->
         PreferenceSettingsScreenContent(

@@ -1,11 +1,7 @@
 package liou.rayyuan.ebooksearchtaiwan.booksearch.util
 
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
-import androidx.compose.runtime.Composable
-import androidx.window.core.layout.WindowWidthSizeClass
+import androidx.compose.material3.adaptive.WindowAdaptiveInfo
+import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_MEDIUM_LOWER_BOUND
 
-@Composable
-fun isWindowWidthCompact(): Boolean {
-    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
-    return windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT
-}
+fun isWindowWidthCompact(windowAdaptiveInfo: WindowAdaptiveInfo): Boolean =
+    !windowAdaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(WIDTH_DP_MEDIUM_LOWER_BOUND)

@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import liou.rayyuan.ebooksearchtaiwan.di.barcodeScannerModules
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.permission.CameraPermissionScreen
 import liou.rayyuan.ebooksearchtaiwan.camerapreview.preview.CameraPreviewScreen
+import liou.rayyuan.ebooksearchtaiwan.ui.theme.compatibleScaffoldWindowInsets
 import org.koin.androidx.compose.KoinAndroidContext
 import org.koin.compose.getKoin
 
@@ -32,6 +33,7 @@ fun BarcodeScanner(
         Scaffold(
             containerColor = Color.Black,
             contentColor = Color.Black,
+            contentWindowInsets = compatibleScaffoldWindowInsets(),
             modifier = modifier.fillMaxSize()
         ) { paddings ->
             BarcodeScannerNavHost(

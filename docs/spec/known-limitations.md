@@ -10,7 +10,7 @@
 
 ## Adaptive UI
 
-`LIMIT-003` 大畫面／分欄判定以 Material 3 Adaptive 的 `WindowSizeClass` 為準：Compact 為單欄，Medium 及以上為分欄。Adaptive 1.1.0 的標準 directive 在 Medium 仍為單欄，因此 App 必須明確使用 `calculatePaneScaffoldDirectiveWithTwoPanesOnMediumWidth`（或維持相同分欄語意的後續 API），不可依賴 navigator 預設值。
+`LIMIT-003` 大畫面／分欄判定以 Material 3 Adaptive 的 `WindowSizeClass` 為準：Compact 為單欄，Medium 及以上為分欄。App 必須明確使用 `calculatePaneScaffoldDirectiveWithTwoPanesOnMediumWidth`（或維持相同分欄語意的後續 API），不可依賴 navigator 預設值。
 
 此判定來源可隨官方 Adaptive API 演進而調整，但必須維持 `NAV-001` 至 `NAV-004`：單欄可用 Custom Tab 偏好，分欄則在詳細區域顯示 App 內商品頁。
 
