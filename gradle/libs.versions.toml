@@ -17,7 +17,7 @@ materialDesign = "1.13.0"
 androidxDataStore = "1.1.7"
 paging = "3.3.6"
 barcodeScanner = "17.3.0"
-appfunctions = "1.0.0-alpha10"
+appfunctions = "1.0.0-alpha11"
 
 # Jetpack Compose
 composeBom = "2026.08.00" # TODO: check the TextInput focus issue in newer version
@@ -51,7 +51,7 @@ androidxEspresso = "3.7.0"
 
 # plugins versions
 androidGradlePlugin = "9.1.1"
-kotlin = "2.2.21"
+kotlin = "2.4.10"
 gmsPlugin = "4.4.2"
 firebaseCrashlyticsPlugin = "3.0.4"
 firebaseAppDistributionPlugin = "5.3.0"
