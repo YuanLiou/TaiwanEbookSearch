@@ -50,7 +50,7 @@ androidxTestCore = "1.7.0"
 androidxEspresso = "3.7.0"
 
 # plugins versions
-androidGradlePlugin = "9.1.1"
+androidGradlePlugin = "9.4.0"
 kotlin = "2.4.10"
 gmsPlugin = "4.4.2"
 firebaseCrashlyticsPlugin = "3.0.4"
