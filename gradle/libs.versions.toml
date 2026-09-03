@@ -33,11 +33,11 @@ viewFinderCompose = "1.5.1"
 cameraXVersion = "1.5.1"
 
 #  Kotlin Libraries
-kotlinxCoroutines = "1.10.2"
-kotlinxSerializationJson = "1.9.0"
-datetime = "0.7.1"
-ktor = "3.3.1"
-immutableCollections = "0.4.0"
+kotlinxCoroutines = "1.11.0"
+kotlinxSerializationJson = "1.11.0"
+datetime = "0.8.0"
+ktor = "3.5.2"
+immutableCollections = "0.5.2"
 
 #  Google Service and Firebase Libraries
 firebaseBom = "33.15.0"
