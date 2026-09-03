@@ -1,6 +1,6 @@
 [versions]
 # Library versions
-coil = "3.3.0"
+coil = "3.5.0"
 desugarLibVersion = "2.1.5"
 koin = "4.2.2"
 fuzzywuzzy = "1.4.0"
