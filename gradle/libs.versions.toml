@@ -7,9 +7,9 @@ fuzzywuzzy = "1.4.0"
 guavaVersion = "31.1-android" # To prevent Guava conflict, use this old version
 
 #  Google Libraries
-androidxAppCompat = "1.7.1"
+androidxAppCompat = "1.8.0"
 androidxCore = "1.19.0"
-androidxActivity = "1.11.0"
+androidxActivity = "1.13.0"
 androidxWindow = "1.5.1"
 androidxPreference = "1.2.1"
 androidxBrowser = "1.9.0"
