@@ -25,7 +25,7 @@ val hostStaging: String = localProperties.getProperty("HOST_STAGING") ?: HOST
 val hostPort: String = localProperties.getProperty("HOST_PORT") ?: "80"
 
 android {
-    compileSdk = AppSettings.COMPILE_SDK_VERSION
+    compileSdk { version = release(AppSettings.COMPILE_SDK_VERSION) { minorApiLevel = 0 } }
 
     defaultConfig {
         minSdk = AppSettings.MIN_SDK_VERSION
