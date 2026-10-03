@@ -34,7 +34,7 @@ val storePass: String = localProperties.getProperty("storePass")
 val keyPass: String = localProperties.getProperty("keyPass")
 
 android {
-    compileSdk = AppSettings.COMPILE_SDK_VERSION
+    compileSdk { version = release(AppSettings.COMPILE_SDK_VERSION) { minorApiLevel = 0 } }
 
     defaultConfig {
         applicationId = AppSettings.APPLICATION_ID
